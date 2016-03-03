@@ -1,0 +1,35 @@
+package com.pie.tlatoani.Socket;
+
+import javax.annotation.Nullable;
+
+import org.bukkit.event.Event;
+
+import ch.njol.skript.lang.Effect;
+import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.SkriptParser.ParseResult;
+import ch.njol.util.Kleenean;
+
+public class EffCloseFunctionSocket extends Effect{
+	private Expression<Integer> port;
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean init(Expression<?>[] expr, int matchedPattern,
+			Kleenean paramKleenean, ParseResult paramParseResult) {
+		port = (Expression<Integer>) expr[0];
+		return true;
+	}
+
+	@Override
+	public String toString(@Nullable Event paramEvent, boolean paramBoolean) {
+		// TODO Auto-generated method stub
+		return " set world border of world";
+	}
+
+	@Override
+	protected void execute(Event arg0) {
+		UtilFunctionSocket.closeFunctionSocket(port.getSingle(arg0));
+	}
+	
+
+}
