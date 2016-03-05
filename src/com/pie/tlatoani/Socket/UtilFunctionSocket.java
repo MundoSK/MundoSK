@@ -2,18 +2,18 @@ package com.pie.tlatoani.Socket;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+
+import com.pie.tlatoani.Mundo;
 
 import ch.njol.skript.lang.function.Functions;
 
@@ -34,26 +34,27 @@ public class UtilFunctionSocket implements Runnable {
 
 	@Override
 	public void run() {
-		if (status) {} else {
-		status = true;
-		Socket socket = null;
-		try {
-			sock = new ServerSocket(port);
+		if (!status) {
+			status = true;
+			Socket socket = null;
+			try {
+				sock = new ServerSocket(port);
+			} catch (Exception e) {
+				Mundo.reportException(this, e);
+			}
 			while(status) {
-				socket = sock.accept();
-				if (status) {
+				try {
+					socket = sock.accept();
 					BufferedReader bread = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 					List<String> list = new LinkedList<String>();
 					String line;
-					String passmsg = null;
-					if (password != null) passmsg = bread.readLine();
-					String funcmsg = null;
-					if (handler != null) funcmsg = handler;
-					else funcmsg = bread.readLine();
-					while ((line = bread.readLine()) != null && line.length() != 0) {
-						list.add(line);
-					}
-					if (password == null || passmsg.equals(password)) {
+					if (password == null || bread.readLine().equals(password)) {
+						String funcmsg = null;
+						if (handler != null) funcmsg = handler;
+						else funcmsg = bread.readLine();
+						while ((line = bread.readLine()) != null) {
+							list.add(line);
+						}
 						Object[][] args = new Object[2][1];
 						args[0] = list.toArray();
 						Object[] argsinfo = new Object[3];
@@ -76,19 +77,14 @@ public class UtilFunctionSocket implements Runnable {
 						}
 						
 					}
+				} catch(Exception e) {}
+				finally {
+					try {
+						socket.close();
+					} catch(Exception e) {}
 				}
 			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				socket.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-		}
-		
+		}	
 	}
 	
 	public static void openFunctionSocket(int portarg, String passarg, String handlerarg) {
@@ -108,13 +104,10 @@ public class UtilFunctionSocket implements Runnable {
 	private void closeFunctionSocket() {
 		status = false;
 		try {
-			Socket closesocket = new Socket("127.0.0.1", port);
-			closesocket.close();
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+			sock.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 	
 	public static Boolean getStatusOfFunctionSocket(int portarg) {

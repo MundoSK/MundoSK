@@ -133,14 +133,14 @@ public class Mundo extends JavaPlugin{
 		Skript.registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");
 		Skript.registerEffect(EffAwardAch.class, "award achieve[ment] %string% to %player%");
 		Skript.registerEffect(EffRemoveAch.class, "remove achieve[ment] %string% from %player%");
-		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %integer% [with response handled through function %-string% with id %-string%]");
+		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %integer% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
 		Skript.registerEffect(EffOpenFunctionSocket.class, "open function socket at port %integer% [with password %-string%] [through function %-string%]");
 		Skript.registerEffect(EffCloseFunctionSocket.class, "close function socket at port %integer%");
 		Skript.registerCondition((Class)CondHasAch.class, (String[])new String[]{"%player% has achieve[ment] %string%"});
 		Skript.registerCondition((Class)CondBeyondBorder.class, (String[])new String[]{"%location% is beyond border"});
 		Skript.registerCondition((Class)CondWithinBorder.class, (String[])new String[]{"%location% is within border"});
 		Skript.registerCondition((Class)CondFunctionSocketIsOpen.class, (String[])new String[]{"function socket is open at port %integer%"});
-		Skript.registerCondition((Class)CondServerSocketIsOpen.class, (String[])new String[]{"server socket is open at host %string% port %integer%"});
+		Skript.registerCondition((Class)CondServerSocketIsOpen.class, (String[])new String[]{"server socket is open at host %string% port %integer% [with timeout of %-timespan%]"});
 		if (Bukkit.getServer().getPluginManager().getPlugin("TerrainControl") != null) {
 			this.getLogger().info("You uncovered the secret TerrainControl syntaxes!");
 			Skript.registerExpression(ExprBiomeAt.class,String.class,ExpressionType.PROPERTY,"(tc|terrain control) biome at %location%");
@@ -152,8 +152,13 @@ public class Mundo extends JavaPlugin{
 	        Metrics metrics = new Metrics(this);
 	        metrics.start();
 	    } catch (IOException e) {
-	        e.printStackTrace();
+	        Mundo.reportException(this, e);
 	    }
+	}
+	
+	public static void reportException(Object o, Exception e) {
+		instance.getLogger().info("Exception at " + o.getClass());
+		e.printStackTrace();
 	}
 	
 }
