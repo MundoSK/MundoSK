@@ -58,6 +58,7 @@ public class ExprSizeOfBorder extends SimpleExpression<Double>{
 	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
 			if (seconds != null) {
+				UtilBorderManager.changeSize(border.getSingle(arg0), ((Number)delta[0]).doubleValue(), new Long(seconds.getSingle(arg0).getMilliSeconds()/1000).doubleValue());
 				border.getSingle(arg0).getWorldBorder().setSize(((Number)delta[0]).doubleValue(), seconds.getSingle(arg0).getMilliSeconds()/1000);
 			} else {
 				border.getSingle(arg0).getWorldBorder().setSize(((Number)delta[0]).doubleValue());
@@ -65,6 +66,7 @@ public class ExprSizeOfBorder extends SimpleExpression<Double>{
 		}
 		if (mode == ChangeMode.ADD) {
 			if (seconds != null) {
+				UtilBorderManager.changeSize(border.getSingle(arg0), ((Number)delta[0]).doubleValue() + border.getSingle(arg0).getWorldBorder().getSize(), new Long(seconds.getSingle(arg0).getMilliSeconds()/1000).doubleValue());
 				border.getSingle(arg0).getWorldBorder().setSize(((Number)delta[0]).doubleValue() + border.getSingle(arg0).getWorldBorder().getSize(), seconds.getSingle(arg0).getMilliSeconds()/1000);
 			} else {
 				border.getSingle(arg0).getWorldBorder().setSize(((Number)delta[0]).doubleValue() + border.getSingle(arg0).getWorldBorder().getSize());
@@ -72,6 +74,7 @@ public class ExprSizeOfBorder extends SimpleExpression<Double>{
 		}
 		if (mode == ChangeMode.REMOVE) {
 			if (seconds != null) {
+				UtilBorderManager.changeSize(border.getSingle(arg0), border.getSingle(arg0).getWorldBorder().getSize() - ((Number)delta[0]).doubleValue(), new Long(seconds.getSingle(arg0).getMilliSeconds()/1000).doubleValue());
 				border.getSingle(arg0).getWorldBorder().setSize(border.getSingle(arg0).getWorldBorder().getSize() - ((Number)delta[0]).doubleValue(), seconds.getSingle(arg0).getMilliSeconds()/1000);
 			} else {
 				border.getSingle(arg0).getWorldBorder().setSize(border.getSingle(arg0).getWorldBorder().getSize() - ((Number)delta[0]).doubleValue());

@@ -40,12 +40,16 @@ import com.pie.tlatoani.TerrainControl.ExprBiomeAt;
 import com.pie.tlatoani.WorldBorder.CondBeyondBorder;
 import com.pie.tlatoani.WorldBorder.CondWithinBorder;
 import com.pie.tlatoani.WorldBorder.EffResetBorder;
+import com.pie.tlatoani.WorldBorder.EvtBorderStabilize;
 import com.pie.tlatoani.WorldBorder.ExprCenterOfBorder;
 import com.pie.tlatoani.WorldBorder.ExprDamageAmountOfBorder;
 import com.pie.tlatoani.WorldBorder.ExprDamageBufferOfBorder;
+import com.pie.tlatoani.WorldBorder.ExprFinalSizeOfBorder;
 import com.pie.tlatoani.WorldBorder.ExprSizeOfBorder;
+import com.pie.tlatoani.WorldBorder.ExprTimeRemainingUntilBorderStabilize;
 import com.pie.tlatoani.WorldBorder.ExprWarningDistanceOfBorder;
 import com.pie.tlatoani.WorldBorder.ExprWarningTimeOfBorder;
+import com.pie.tlatoani.WorldBorder.UtilBorderStabilize;
 import com.pie.tlatoani.WorldCreator.ExprCreatorNamed;
 import com.pie.tlatoani.WorldCreator.ExprCreatorOf;
 import com.pie.tlatoani.WorldCreator.ExprCreatorOfWith;
@@ -67,7 +71,10 @@ import ch.njol.skript.classes.Parser;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.registrations.Classes;
+import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.EnchantmentType;
+import ch.njol.skript.util.Getter;
+import ch.njol.skript.util.Timespan;
 
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
@@ -101,6 +108,8 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprDamageBufferOfBorder.class,Double.class,ExpressionType.PROPERTY,"damage buffer of %world%");
 		Skript.registerExpression(ExprWarningDistanceOfBorder.class,Integer.class,ExpressionType.PROPERTY,"warning distance of %world%");
 		Skript.registerExpression(ExprWarningTimeOfBorder.class,Integer.class,ExpressionType.PROPERTY,"warning time of %world%");
+		Skript.registerExpression(ExprFinalSizeOfBorder.class,Double.class,ExpressionType.PROPERTY,"final size of %world%");
+		Skript.registerExpression(ExprTimeRemainingUntilBorderStabilize.class,Timespan.class,ExpressionType.PROPERTY,"time remaining until border stabilize in %world%");
 		Skript.registerExpression(ExprCreatorNamed.class,WorldCreator.class,ExpressionType.PROPERTY,"creator (with name|named) %string%");
 		Skript.registerExpression(ExprCreatorOfWith.class,WorldCreator.class,ExpressionType.PROPERTY,"%creator%[ modified],[ name %-string%][,][ env[ironment] %-string%][,][ seed %-string%][,][ type %-string%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
 		Skript.registerExpression(ExprCreatorOf.class,WorldCreator.class,ExpressionType.PROPERTY,"creator of %world%");
@@ -141,6 +150,13 @@ public class Mundo extends JavaPlugin{
 		Skript.registerCondition((Class)CondWithinBorder.class, (String[])new String[]{"%location% is within border"});
 		Skript.registerCondition((Class)CondFunctionSocketIsOpen.class, (String[])new String[]{"function socket is open at port %integer%"});
 		Skript.registerCondition((Class)CondServerSocketIsOpen.class, (String[])new String[]{"server socket is open at host %string% port %integer% [with timeout of %-timespan%]"});
+		Skript.registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilize.class, "border stabilize [in %world%]");
+		EventValues.registerEventValue(UtilBorderStabilize.class, World.class, new Getter<World, UtilBorderStabilize>() {
+			@Override
+			public World get(UtilBorderStabilize e) {
+				return e.getWorld();
+			}
+		}, 0);
 		if (Bukkit.getServer().getPluginManager().getPlugin("TerrainControl") != null) {
 			this.getLogger().info("You uncovered the secret TerrainControl syntaxes!");
 			Skript.registerExpression(ExprBiomeAt.class,String.class,ExpressionType.PROPERTY,"(tc|terrain control) biome at %location%");
