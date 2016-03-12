@@ -10,13 +10,13 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 
 public class EffCloseFunctionSocket extends Effect{
-	private Expression<Integer> port;
+	private Expression<Number> port;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern,
 			Kleenean paramKleenean, ParseResult paramParseResult) {
-		port = (Expression<Integer>) expr[0];
+		port = (Expression<Number>) expr[0];
 		return true;
 	}
 
@@ -28,7 +28,7 @@ public class EffCloseFunctionSocket extends Effect{
 
 	@Override
 	protected void execute(Event arg0) {
-		UtilFunctionSocket.closeFunctionSocket(port.getSingle(arg0));
+		UtilFunctionSocket.closeFunctionSocket(port.getSingle(arg0).intValue());
 	}
 	
 

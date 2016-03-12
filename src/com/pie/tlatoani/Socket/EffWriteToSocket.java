@@ -14,7 +14,7 @@ import ch.njol.util.Kleenean;
 public class EffWriteToSocket extends Effect{
 	private Expression<String> msgs;
 	private Expression<String> ip;
-	private Expression<Integer> port;
+	private Expression<Number> port;
 	private Expression<Timespan> timeout;
 	private Expression<String> redirect;
 	private Expression<String> report;
@@ -25,7 +25,7 @@ public class EffWriteToSocket extends Effect{
 			Kleenean paramKleenean, ParseResult paramParseResult) {
 		msgs = (Expression<String>) expr[0];
 		ip = (Expression<String>) expr[1];
-		port = (Expression<Integer>) expr[2];
+		port = (Expression<Number>) expr[2];
 		timeout = (Expression<Timespan>) expr[3];
 		redirect = (Expression<String>) expr[4];
 		report = (Expression<String>) expr[5];
@@ -48,7 +48,7 @@ public class EffWriteToSocket extends Effect{
 			reportarg = report.getSingle(arg0);
 		}
 		if (timeout != null && timeout.getSingle(arg0).getMilliSeconds() < Integer.MAX_VALUE) timeoutarg = (int) timeout.getSingle(arg0).getMilliSeconds();
-		UtilWriterSocket exec = new UtilWriterSocket(msgs.getAll(arg0), ip.getSingle(arg0), port.getSingle(arg0), redirectarg, reportarg, timeoutarg);
+		UtilWriterSocket exec = new UtilWriterSocket(msgs.getAll(arg0), ip.getSingle(arg0), port.getSingle(arg0).intValue(), redirectarg, reportarg, timeoutarg);
 		Bukkit.getServer().getScheduler().runTaskAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("MundoSK"), exec);
 	}
 	

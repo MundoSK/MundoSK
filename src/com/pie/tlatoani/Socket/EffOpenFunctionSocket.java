@@ -10,7 +10,7 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 
 public class EffOpenFunctionSocket extends Effect{
-	private Expression<Integer> port;
+	private Expression<Number> port;
 	private Expression<String> pass;
 	private Expression<String> handler;
 
@@ -18,7 +18,7 @@ public class EffOpenFunctionSocket extends Effect{
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern,
 			Kleenean paramKleenean, ParseResult paramParseResult) {
-		port = (Expression<Integer>) expr[0];
+		port = (Expression<Number>) expr[0];
 		pass = (Expression<String>) expr[1];
 		handler = (Expression<String>) expr[2];
 		return true;
@@ -36,7 +36,7 @@ public class EffOpenFunctionSocket extends Effect{
 		if (pass != null) passarg = pass.getSingle(arg0);
 		String handlerarg = null;
 		if (handler != null) handlerarg = handler.getSingle(arg0);
-		UtilFunctionSocket.openFunctionSocket(port.getSingle(arg0), passarg, handlerarg);
+		UtilFunctionSocket.openFunctionSocket(port.getSingle(arg0).intValue(), passarg, handlerarg);
 		
 	}
 	

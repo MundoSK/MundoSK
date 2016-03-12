@@ -10,7 +10,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
 public class ExprPassOfFunctionSocket extends SimpleExpression<String>{
-	private Expression<Integer> port;
+	private Expression<Number> port;
 
 	@Override
 	public Class<? extends String> getReturnType() {
@@ -28,7 +28,7 @@ public class ExprPassOfFunctionSocket extends SimpleExpression<String>{
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
 		// TODO Auto-generated method stub
-		port = (Expression<Integer>) expr[0];
+		port = (Expression<Number>) expr[0];
 		return true;
 	}
 
@@ -41,7 +41,7 @@ public class ExprPassOfFunctionSocket extends SimpleExpression<String>{
 	@Override
 	@Nullable
 	protected String[] get(Event arg0) {
-		return new String[]{UtilFunctionSocket.getPassOfFunctionSocket(port.getSingle(arg0))};
+		return new String[]{UtilFunctionSocket.getPassOfFunctionSocket(port.getSingle(arg0).intValue())};
 	}
 
 }

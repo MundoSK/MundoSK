@@ -10,13 +10,13 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 
 public class CondFunctionSocketIsOpen extends Condition {
-	private Expression<Integer> port;
+	private Expression<Number> port;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
 		// TODO Auto-generated method stub
-		port = (Expression<Integer>) expr[0];
+		port = (Expression<Number>) expr[0];
 		return true;
 	}
 
@@ -28,7 +28,7 @@ public class CondFunctionSocketIsOpen extends Condition {
 
 	@Override
 	public boolean check(Event arg0) {
-		return UtilFunctionSocket.getStatusOfFunctionSocket(port.getSingle(arg0));
+		return UtilFunctionSocket.getStatusOfFunctionSocket(port.getSingle(arg0).intValue());
 	}
 
 

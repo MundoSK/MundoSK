@@ -15,14 +15,14 @@ import ch.njol.util.Kleenean;
 
 public class CondServerSocketIsOpen extends Condition {
 	private Expression<String> host;
-	private Expression<Integer> port;
+	private Expression<Number> port;
 	private Expression<Timespan> timeout;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
 		host = (Expression<String>) expr[0];
-		port = (Expression<Integer>) expr[1];
+		port = (Expression<Number>) expr[1];
 		timeout = (Expression<Timespan>) expr[2];
 		return true;
 	}
@@ -39,7 +39,7 @@ public class CondServerSocketIsOpen extends Condition {
 			Socket attempt = new Socket();
 			Integer timeoutarg = 0;
 			if (timeout != null && timeout.getSingle(arg0).getMilliSeconds() <= Integer.MAX_VALUE) timeoutarg = (int) timeout.getSingle(arg0).getMilliSeconds();
-			attempt.connect(new InetSocketAddress(host.getSingle(arg0), port.getSingle(arg0)), timeoutarg);
+			attempt.connect(new InetSocketAddress(host.getSingle(arg0), port.getSingle(arg0).intValue()), timeoutarg);
 			attempt.close();
 			return true;
 		} catch (Exception e) {

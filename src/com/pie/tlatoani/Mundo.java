@@ -133,8 +133,8 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprEnchantsInEnchBook.class,EnchantmentType.class,ExpressionType.PROPERTY,"enchants within %itemstack%");
 		Skript.registerExpression(ExprDifficulty.class,String.class,ExpressionType.PROPERTY,"difficulty of %world%");
 		Skript.registerExpression(ExprParentAch.class,String.class,ExpressionType.PROPERTY,"parent of achieve[ment] %string%");
-		Skript.registerExpression(ExprPassOfFunctionSocket.class,String.class,ExpressionType.PROPERTY,"pass[word] of function socket at port %integer%");
-		Skript.registerExpression(ExprHandlerOfFunctionSocket.class,String.class,ExpressionType.PROPERTY,"handler [function] of function socket at port %integer%");
+		Skript.registerExpression(ExprPassOfFunctionSocket.class,String.class,ExpressionType.PROPERTY,"pass[word] of function socket at port %number%");
+		Skript.registerExpression(ExprHandlerOfFunctionSocket.class,String.class,ExpressionType.PROPERTY,"handler [function] of function socket at port %number%");
 		Skript.registerEffect(EffResetBorder.class, "reset %world%");
 		Skript.registerEffect(EffCreateWorld.class, "create world using %creator%");
 		Skript.registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
@@ -142,14 +142,14 @@ public class Mundo extends JavaPlugin{
 		Skript.registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");
 		Skript.registerEffect(EffAwardAch.class, "award achieve[ment] %string% to %player%");
 		Skript.registerEffect(EffRemoveAch.class, "remove achieve[ment] %string% from %player%");
-		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %integer% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
-		Skript.registerEffect(EffOpenFunctionSocket.class, "open function socket at port %integer% [with password %-string%] [through function %-string%]");
-		Skript.registerEffect(EffCloseFunctionSocket.class, "close function socket at port %integer%");
+		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
+		Skript.registerEffect(EffOpenFunctionSocket.class, "open function socket at port %number% [with password %-string%] [through function %-string%]");
+		Skript.registerEffect(EffCloseFunctionSocket.class, "close function socket at port %number%");
 		Skript.registerCondition((Class)CondHasAch.class, (String[])new String[]{"%player% has achieve[ment] %string%"});
 		Skript.registerCondition((Class)CondBeyondBorder.class, (String[])new String[]{"%location% is beyond border"});
 		Skript.registerCondition((Class)CondWithinBorder.class, (String[])new String[]{"%location% is within border"});
-		Skript.registerCondition((Class)CondFunctionSocketIsOpen.class, (String[])new String[]{"function socket is open at port %integer%"});
-		Skript.registerCondition((Class)CondServerSocketIsOpen.class, (String[])new String[]{"server socket is open at host %string% port %integer% [with timeout of %-timespan%]"});
+		Skript.registerCondition((Class)CondFunctionSocketIsOpen.class, (String[])new String[]{"function socket is open at port %number%"});
+		Skript.registerCondition((Class)CondServerSocketIsOpen.class, (String[])new String[]{"server socket is open at host %string% port %number% [with timeout of %-timespan%]"});
 		Skript.registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilize.class, "border stabilize [in %world%]");
 		EventValues.registerEventValue(UtilBorderStabilize.class, World.class, new Getter<World, UtilBorderStabilize>() {
 			@Override
