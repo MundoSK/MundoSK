@@ -82,6 +82,15 @@ public class Mundo extends JavaPlugin{
 	public void onEnable(){
 		instance = this;
 		Skript.registerAddon(this);
+		//Achievement
+		//Book
+		//EnchantedBook
+		//Misc
+		//Socket
+		//TerrainControl
+		//WorldBorder
+		//WorldCreator
+		//WorldManagement
 		this.getLogger().info("Pie is awesome :D");
 		Classes.registerClass(new ClassInfo<WorldCreator>(WorldCreator.class, "creator").user(new String[]{"creator"}).name("creator").parser(new Parser<WorldCreator>(){
 
