@@ -9,13 +9,25 @@ import javax.annotation.Nullable;
 
 import org.bukkit.event.Event;
 
-import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
+import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-public class CondWorld extends Condition {
+public class ExprTCEnabled extends SimpleExpression<Boolean>{
 	private Expression<World> world;
+
+	@Override
+	public Class<? extends Boolean> getReturnType() {
+		// TODO Auto-generated method stub
+		return Boolean.class;
+	}
+
+	@Override
+	public boolean isSingle() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -32,13 +44,13 @@ public class CondWorld extends Condition {
 	}
 
 	@Override
-	public boolean check(Event arg0) {
+	protected Boolean[] get(Event arg0) {
 		LocalWorld w = TerrainControl.getWorld(world.getSingle(arg0).getName());
+		Boolean result = true;
 		if (w == null) {
-			return false;
-		} else {
-			return true;
+			result = false;
 		}
+		return new Boolean[]{result};
 	}
 
 

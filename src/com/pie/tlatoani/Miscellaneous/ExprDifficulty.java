@@ -1,5 +1,6 @@
-package com.pie.tlatoani.Misc;
+package com.pie.tlatoani.Miscellaneous;
 
+import org.bukkit.Difficulty;
 import org.bukkit.World;
 
 import javax.annotation.Nullable;
@@ -14,9 +15,8 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 
-public class ExprGameRule extends SimpleExpression<String>{
+public class ExprDifficulty extends SimpleExpression<String>{
 	private Expression<World> world;
-	private Expression<String> rule;
 
 	@Override
 	public Class<? extends String> getReturnType() {
@@ -34,8 +34,7 @@ public class ExprGameRule extends SimpleExpression<String>{
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
 		// TODO Auto-generated method stub
-		rule = (Expression<String>) expr[0];
-		world = (Expression<World>) expr[1];
+		world = (Expression<World>) expr[0];
 		return true;
 	}
 
@@ -48,13 +47,36 @@ public class ExprGameRule extends SimpleExpression<String>{
 	@Override
 	@Nullable
 	protected String[] get(Event arg0) {
-		// TODO Auto-generated method stub
-		return new String[]{world.getSingle(arg0).getGameRuleValue(rule.getSingle(arg0))};
+		String result = null;
+		if (world.getSingle(arg0).getDifficulty() == Difficulty.PEACEFUL) {
+			result = "peaceful";
+		}
+		if (world.getSingle(arg0).getDifficulty() == Difficulty.EASY) {
+			result = "easy";
+		}
+		if (world.getSingle(arg0).getDifficulty() == Difficulty.NORMAL) {
+			result = "normal";
+		}
+		if (world.getSingle(arg0).getDifficulty() == Difficulty.HARD) {
+			result = "hard";
+		}
+		return new String[]{result};
 	}
 	
 	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			world.getSingle(arg0).setGameRuleValue(rule.getSingle(arg0), (String)delta[0]);
+			if (((String) delta[0]).equalsIgnoreCase("PEACEFUL")) {
+				world.getSingle(arg0).setDifficulty(Difficulty.PEACEFUL);
+			}
+			if (((String) delta[0]).equalsIgnoreCase("EASY")) {
+				world.getSingle(arg0).setDifficulty(Difficulty.EASY);
+			}
+			if (((String) delta[0]).equalsIgnoreCase("NORMAL")) {
+				world.getSingle(arg0).setDifficulty(Difficulty.NORMAL);
+			}
+			if (((String) delta[0]).equalsIgnoreCase("HARD")) {
+				world.getSingle(arg0).setDifficulty(Difficulty.HARD);
+			}
 		}
 	}
 	

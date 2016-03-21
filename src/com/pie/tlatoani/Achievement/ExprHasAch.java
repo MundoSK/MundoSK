@@ -7,14 +7,26 @@ import javax.annotation.Nullable;
 
 import org.bukkit.event.Event;
 
-import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
+import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-public class CondHasAch extends Condition {
+public class ExprHasAch extends SimpleExpression<Boolean>{
 	private Expression<Player> player;
 	private Expression<String> ach;
+
+	@Override
+	public Class<? extends Boolean> getReturnType() {
+		// TODO Auto-generated method stub
+		return Boolean.class;
+	}
+
+	@Override
+	public boolean isSingle() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -32,8 +44,8 @@ public class CondHasAch extends Condition {
 	}
 
 	@Override
-	public boolean check(Event arg0) {
-		return player.getSingle(arg0).hasAchievement(Achievement.valueOf(ach.getSingle(arg0)));
+	protected Boolean[] get(Event arg0) {
+		return new Boolean[]{player.getSingle(arg0).hasAchievement(Achievement.valueOf(ach.getSingle(arg0)))};
 	}
 
 

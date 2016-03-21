@@ -32,7 +32,7 @@ public class ExprPagesOfBook extends SimpleExpression<String>{
 	@Override
 	public boolean isSingle() {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 
 	@SuppressWarnings("unchecked")

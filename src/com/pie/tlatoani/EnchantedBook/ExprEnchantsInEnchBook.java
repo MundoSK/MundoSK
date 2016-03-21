@@ -33,7 +33,7 @@ public class ExprEnchantsInEnchBook extends SimpleExpression<EnchantmentType>{
 	@Override
 	public boolean isSingle() {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 
 	@SuppressWarnings("unchecked")
