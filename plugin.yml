@@ -1,7 +1,7 @@
 name: MundoSK
 author: Tlatoani
 description: World Borders, World Management, Books, Enchanted Books, Sockets, and optional TerrainControl hook for Skript!
-version: 1.4.9
+version: 1.4.10
 main: com.pie.tlatoani.Mundo
 depend: [Skript]
 soft-depend: [TerrainControl]

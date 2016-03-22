@@ -13,7 +13,7 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 
 public class EffAwardAch extends Effect{
-	private Expression<String> ach;
+	private Expression<Achievement> ach;
 	private Expression<Player> player;
 
 	@SuppressWarnings("unchecked")
@@ -21,7 +21,7 @@ public class EffAwardAch extends Effect{
 	public boolean init(Expression<?>[] expr, int matchedPattern,
 			Kleenean paramKleenean, ParseResult paramParseResult) {
 		// TODO Auto-generated method stub
-		ach = (Expression<String>) expr[0];
+		ach = (Expression<Achievement>) expr[0];
 		player = (Expression<Player>) expr[1];
 		return true;
 	}
@@ -34,7 +34,7 @@ public class EffAwardAch extends Effect{
 
 	@Override
 	protected void execute(Event arg0) {
-		player.getSingle(arg0).awardAchievement(Achievement.valueOf(ach.getSingle(arg0)));
+		player.getSingle(arg0).awardAchievement(ach.getSingle(arg0));
 		
 		
 	}

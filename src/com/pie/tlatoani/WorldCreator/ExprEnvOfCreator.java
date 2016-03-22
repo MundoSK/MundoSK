@@ -1,6 +1,6 @@
 package com.pie.tlatoani.WorldCreator;
 
-import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 
 import javax.annotation.Nullable;
@@ -15,13 +15,13 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 
-public class ExprEnvOfCreator extends SimpleExpression<String>{
+public class ExprEnvOfCreator extends SimpleExpression<Environment>{
 	private Expression<WorldCreator> creator;
 
 	@Override
-	public Class<? extends String> getReturnType() {
+	public Class<? extends Environment> getReturnType() {
 		// TODO Auto-generated method stub
-		return String.class;
+		return Environment.class;
 	}
 
 	@Override
@@ -46,38 +46,20 @@ public class ExprEnvOfCreator extends SimpleExpression<String>{
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
-		String result = null;
-		if (creator.getSingle(arg0).environment() == World.Environment.NORMAL) {
-			result = "normal";
-		}
-		if (creator.getSingle(arg0).environment() == World.Environment.NETHER) {
-			result = "nether";
-		}
-		if (creator.getSingle(arg0).environment() == World.Environment.THE_END) {
-			result = "end";
-		}
-		return new String[]{result};
+	protected Environment[] get(Event arg0) {
+		return new Environment[]{creator.getSingle(arg0).environment()};
 	}
 	
 	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			if (((String)delta[0]).equalsIgnoreCase("NORMAL")) {
-				creator.getSingle(arg0).environment(World.Environment.NORMAL);
-			}
-			if (((String)delta[0]).equalsIgnoreCase("NETHER")) {
-				creator.getSingle(arg0).environment(World.Environment.NETHER);
-			}
-			if (((String)delta[0]).equalsIgnoreCase("END")) {
-				creator.getSingle(arg0).environment(World.Environment.THE_END);
-			}
+			creator.getSingle(arg0).environment((Environment)delta[0]);
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
 		if (mode == ChangeMode.SET) {
-			return CollectionUtils.array(String.class);
+			return CollectionUtils.array(Environment.class);
 		}
 		return null;
 	}

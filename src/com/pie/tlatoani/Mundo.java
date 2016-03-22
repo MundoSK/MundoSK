@@ -2,16 +2,22 @@ package com.pie.tlatoani;
 
 import java.io.IOException;
 
+import org.bukkit.Achievement;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.pie.tlatoani.Achievement.EffAwardAch;
 import com.pie.tlatoani.Achievement.EffRemoveAch;
+import com.pie.tlatoani.Achievement.EvtAchAward;
 import com.pie.tlatoani.Achievement.ExprAllAch;
 import com.pie.tlatoani.Achievement.ExprHasAch;
 import com.pie.tlatoani.Achievement.ExprParentAch;
@@ -52,7 +58,7 @@ import com.pie.tlatoani.WorldBorder.ExprWarningTimeOfBorder;
 import com.pie.tlatoani.WorldBorder.UtilBorderStabilize;
 import com.pie.tlatoani.WorldCreator.ExprCreatorNamed;
 import com.pie.tlatoani.WorldCreator.ExprCreatorOf;
-import com.pie.tlatoani.WorldCreator.ExprCreatorOfWith;
+import com.pie.tlatoani.WorldCreator.ExprCreatorWith;
 import com.pie.tlatoani.WorldCreator.ExprEnvOfCreator;
 import com.pie.tlatoani.WorldCreator.ExprGenOfCreator;
 import com.pie.tlatoani.WorldCreator.ExprGenSettingsOfCreator;
@@ -83,11 +89,44 @@ public class Mundo extends JavaPlugin{
 		Skript.registerAddon(this);
 		this.getLogger().info("Pie is awesome :D");
 		//Achievement
-		Skript.registerEffect(EffAwardAch.class, "award achieve[ment] %string% to %player%");
-		Skript.registerEffect(EffRemoveAch.class, "remove achieve[ment] %string% from %player%");
-		Skript.registerExpression(ExprParentAch.class,String.class,ExpressionType.PROPERTY,"parent of achieve[ment] %string%");
-		Skript.registerExpression(ExprAllAch.class,String.class,ExpressionType.PROPERTY,"[all] achieve[ment]s [of %player%]", "%player%'s achieve[ment]s");
-		Skript.registerExpression(ExprHasAch.class,Boolean.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %string%");
+		Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
+
+            public Achievement parse(String s, ParseContext context) {
+            	try {
+            		return Achievement.valueOf(s.toUpperCase());
+            	} catch (IllegalArgumentException e) {
+            		return null;
+            	}
+            }
+
+            public String toString(Achievement ach, int flags) {
+        		return ach.toString();
+            }
+
+            public String toVariableNameString(Achievement ach) {
+        		return ach.toString();
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
+		Skript.registerEffect(EffAwardAch.class, "award achieve[ment] %achievement% to %player%");
+		Skript.registerEffect(EffRemoveAch.class, "remove achieve[ment] %achievement% from %player%");
+		Skript.registerEvent("Border Stabilize", EvtAchAward.class, PlayerAchievementAwardedEvent.class, "achieve[ment] [%-achievement%] award", "award of achieve[ment] [%-achievement%]");
+		EventValues.registerEventValue(PlayerAchievementAwardedEvent.class, Player.class, new Getter<Player, PlayerAchievementAwardedEvent>() {
+			public Player get(PlayerAchievementAwardedEvent e) {
+				return e.getPlayer();
+			}
+		}, 0);
+		EventValues.registerEventValue(PlayerAchievementAwardedEvent.class, Achievement.class, new Getter<Achievement, PlayerAchievementAwardedEvent>() {
+			public Achievement get(PlayerAchievementAwardedEvent e) {
+				return e.getAchievement();
+			}
+		}, 0);
+		Skript.registerExpression(ExprParentAch.class,Achievement.class,ExpressionType.PROPERTY,"parent of achieve[ment] %achievement%");
+		Skript.registerExpression(ExprAllAch.class,Achievement.class,ExpressionType.PROPERTY,"[all] achieve[ment]s [of %-player%]", "%player%'s achieve[ment]s");
+		Skript.registerExpression(ExprHasAch.class,Boolean.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %achievement%");
 		//Book
 		Skript.registerExpression(ExprBook.class,ItemStack.class,ExpressionType.COMBINED,"%itemstack% titled %-string%, [written] by %-string%, [with] %number% page[s] [%-strings%]");
 		Skript.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
@@ -121,7 +160,7 @@ public class Mundo extends JavaPlugin{
 		}
 		//WorldBorder
 		Skript.registerEffect(EffResetBorder.class, "reset %world%");
-		Skript.registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilize.class, "border stabilize [in %world%]");
+		Skript.registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilize.class, "border stabilize [in %-world%]");
 		EventValues.registerEventValue(UtilBorderStabilize.class, World.class, new Getter<World, UtilBorderStabilize>() {
 			@Override
 			public World get(UtilBorderStabilize e) {
@@ -156,15 +195,80 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
+		if (Bukkit.getServer().getPluginManager().getPlugin("RandomSK") == null) {
+			Classes.registerClass(new ClassInfo<Environment>(Environment.class, "environment").user(new String[]{"environment"}).name("environment").parser(new Parser<Environment>(){
+
+	            public Environment parse(String s, ParseContext context) {
+	            	if (s.equalsIgnoreCase("NORMAL")) return (World.Environment.NORMAL);
+	    			if (s.equalsIgnoreCase("NETHER")) return (World.Environment.NETHER);
+	    			if (s.equalsIgnoreCase("END") || s.equalsIgnoreCase("THE_END")) return (World.Environment.THE_END);
+	                return null;
+	            }
+
+	            public String toString(Environment env, int flags) {
+	        		if (env == World.Environment.NORMAL) return "normal";
+	        		if (env == World.Environment.NETHER) return "nether";
+	        		if (env == World.Environment.THE_END) return "end";
+	        		return null;
+	            }
+
+	            public String toVariableNameString(Environment env) {
+	            	if (env == World.Environment.NORMAL) return "normal";
+	        		if (env == World.Environment.NETHER) return "nether";
+	        		if (env == World.Environment.THE_END) return "end";
+	        		return null;
+	            }
+
+	            public String getVariableNamePattern() {
+	                return ".+";
+	            }
+	        }));
+		}
+		Classes.registerClass(new ClassInfo<WorldType>(WorldType.class, "worldtype").user(new String[]{"worldtype"}).name("worldtype").parser(new Parser<WorldType>(){
+
+            public WorldType parse(String s, ParseContext context) {
+            	if (s.equalsIgnoreCase("normal")) return (WorldType.NORMAL);
+    			if (s.equalsIgnoreCase("flat") || s.equalsIgnoreCase("superflat")) return (WorldType.FLAT);
+    			if (s.equalsIgnoreCase("large biomes") || s.equalsIgnoreCase("large_biomes")) return (WorldType.LARGE_BIOMES);
+    			if (s.equalsIgnoreCase("amplified")) return (WorldType.AMPLIFIED);
+    			if (s.equalsIgnoreCase("version 1.1") || s.equalsIgnoreCase("version_1_1")) return (WorldType.VERSION_1_1);
+    			if (s.equalsIgnoreCase("customized")) return (WorldType.CUSTOMIZED);
+                return null;
+            }
+
+            public String toString(WorldType type, int flags) {
+            	if (type == WorldType.NORMAL) return "normal";
+        		if (type == WorldType.AMPLIFIED) return "amplified";
+        		if (type == WorldType.FLAT) return "flat";
+        		if (type == WorldType.LARGE_BIOMES) return "large biomes";
+        		if (type == WorldType.VERSION_1_1) return "version 1.1";
+        		if (type == WorldType.CUSTOMIZED) return "customized";
+        		return null;
+            }
+
+            public String toVariableNameString(WorldType type) {
+            	if (type == WorldType.NORMAL) return "normal";
+        		if (type == WorldType.AMPLIFIED) return "amplified";
+        		if (type == WorldType.FLAT) return "flat";
+        		if (type == WorldType.LARGE_BIOMES) return "large biomes";
+        		if (type == WorldType.VERSION_1_1) return "version 1.1";
+        		if (type == WorldType.CUSTOMIZED) return "customized";
+        		return null;
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
 		Skript.registerExpression(ExprCreatorNamed.class,WorldCreator.class,ExpressionType.PROPERTY,"creator (with name|named) %string%");
-		Skript.registerExpression(ExprCreatorOfWith.class,WorldCreator.class,ExpressionType.PROPERTY,"%creator%[ modified],[ name %-string%][,][ env[ironment] %-string%][,][ seed %-string%][,][ type %-string%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
+		Skript.registerExpression(ExprCreatorWith.class,WorldCreator.class,ExpressionType.PROPERTY,"%creator%[ modified],[ name %-string%][,][ env[ironment] %-environment%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
 		Skript.registerExpression(ExprCreatorOf.class,WorldCreator.class,ExpressionType.PROPERTY,"creator of %world%");
 		Skript.registerExpression(ExprNameOfCreator.class,String.class,ExpressionType.PROPERTY,"worldname of %creator%");
-		Skript.registerExpression(ExprEnvOfCreator.class,String.class,ExpressionType.PROPERTY,"env[ironment] of %creator%");
+		Skript.registerExpression(ExprEnvOfCreator.class,Environment.class,ExpressionType.PROPERTY,"env[ironment] of %creator%");
 		Skript.registerExpression(ExprSeedOfCreator.class,String.class,ExpressionType.PROPERTY,"seed of %creator%");
 		Skript.registerExpression(ExprGenOfCreator.class,String.class,ExpressionType.PROPERTY,"gen[erator] of %creator%");
 		Skript.registerExpression(ExprGenSettingsOfCreator.class,String.class,ExpressionType.PROPERTY,"gen[erator] set[tings] of %creator%");
-		Skript.registerExpression(ExprTypeOfCreator.class,String.class,ExpressionType.PROPERTY,"type of %creator%");
+		Skript.registerExpression(ExprTypeOfCreator.class,WorldType.class,ExpressionType.PROPERTY,"[world]type of %creator%");
 		Skript.registerExpression(ExprStructOfCreator.class,Boolean.class,ExpressionType.PROPERTY,"struct[ure(s| settings)] of %creator%");
 		//WorldManagement
 		Skript.registerEffect(EffCreateWorld.class, "create world using %creator%");

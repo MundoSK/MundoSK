@@ -10,13 +10,13 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-public class ExprParentAch extends SimpleExpression<String>{
-	private Expression<String> ach;
+public class ExprParentAch extends SimpleExpression<Achievement>{
+	private Expression<Achievement> ach;
 
 	@Override
-	public Class<? extends String> getReturnType() {
+	public Class<? extends Achievement> getReturnType() {
 		// TODO Auto-generated method stub
-		return String.class;
+		return Achievement.class;
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class ExprParentAch extends SimpleExpression<String>{
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
 		// TODO Auto-generated method stub
-		ach = (Expression<String>) expr[0];
+		ach = (Expression<Achievement>) expr[0];
 		return true;
 	}
 
@@ -41,8 +41,8 @@ public class ExprParentAch extends SimpleExpression<String>{
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
-		return new String[]{Achievement.valueOf(ach.getSingle(arg0)).getParent().toString()};
+	protected Achievement[] get(Event arg0) {
+		return new Achievement[]{ach.getSingle(arg0).getParent()};
 	}
 
 }

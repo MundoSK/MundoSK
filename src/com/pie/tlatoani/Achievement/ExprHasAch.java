@@ -14,7 +14,7 @@ import ch.njol.util.Kleenean;
 
 public class ExprHasAch extends SimpleExpression<Boolean>{
 	private Expression<Player> player;
-	private Expression<String> ach;
+	private Expression<Achievement> ach;
 
 	@Override
 	public Class<? extends Boolean> getReturnType() {
@@ -33,7 +33,7 @@ public class ExprHasAch extends SimpleExpression<Boolean>{
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
 		// TODO Auto-generated method stub
 		player = (Expression<Player>) expr[0];
-		ach = (Expression<String>) expr[1];
+		ach = (Expression<Achievement>) expr[1];
 		return true;
 	}
 
@@ -45,7 +45,7 @@ public class ExprHasAch extends SimpleExpression<Boolean>{
 
 	@Override
 	protected Boolean[] get(Event arg0) {
-		return new Boolean[]{player.getSingle(arg0).hasAchievement(Achievement.valueOf(ach.getSingle(arg0)))};
+		return new Boolean[]{player.getSingle(arg0).hasAchievement(ach.getSingle(arg0))};
 	}
 
 
