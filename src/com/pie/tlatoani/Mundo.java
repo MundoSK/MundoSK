@@ -87,7 +87,7 @@ public class Mundo extends JavaPlugin{
 	public void onEnable(){
 		instance = this;
 		Skript.registerAddon(this);
-		this.getLogger().info("Pie is awesome :D");
+		info("Pie is awesome :D");
 		//Achievement
 		Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
 
@@ -132,7 +132,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
 		Skript.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
 		Skript.registerExpression(ExprPageOfBook.class,String.class,ExpressionType.PROPERTY,"(page|pg) %number% of %itemstack%");
-		Skript.registerExpression(ExprPagesOfBook.class,String.class,ExpressionType.PROPERTY,"(pages|pgs) [from %-number%] [to %-number%] of %itemstack%");
+		Skript.registerExpression(ExprPagesOfBook.class,String.class,ExpressionType.PROPERTY,"(pages|pgs) [[from] %-number%] [to %-number%] of %itemstack%");
 		Skript.registerExpression(ExprPageCountOfBook.class,Integer.class,ExpressionType.PROPERTY,"page count of %itemstack%");
 		//EnchantedBook
 		Skript.registerExpression(ExprEnchBookWithEnch.class,ItemStack.class,ExpressionType.PROPERTY,"%itemstack% containing %enchantmenttypes%");
@@ -275,20 +275,24 @@ public class Mundo extends JavaPlugin{
 		Skript.registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
 		Skript.registerEffect(EffDeleteWorld.class, "delete %world%");
 		Skript.registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");
-		this.getLogger().info("Awesome syntaxes have been registered!");
+		info("Awesome syntaxes have been registered!");
 		try {
 	        Metrics metrics = new Metrics(this);
 	        metrics.start();
-	        this.getLogger().info("Metrics have been enabled!");
+	        info("Metrics have been enabled!");
 	    } catch (IOException e) {
-	    	this.getLogger().info("Metrics failed to enable");
+	    	info("Metrics failed to enable");
 	        Mundo.reportException(this, e);
 	    }
 	}
 	
 	public static void reportException(Object o, Exception e) {
-		instance.getLogger().info("Exception at " + o.getClass());
+		info("Exception at " + o.getClass());
 		e.printStackTrace();
+	}
+	
+	public static void info(String s) {
+		instance.getLogger().info(s);
 	}
 	
 }

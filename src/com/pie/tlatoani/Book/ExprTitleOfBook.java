@@ -51,26 +51,19 @@ public class ExprTitleOfBook extends SimpleExpression<String>{
 	}
 	
 	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+		BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
 		if (mode == ChangeMode.SET){
-			BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
 			meta.setTitle((String)delta[0]);
-			book.getSingle(arg0).setItemMeta(meta);
 		}
 		if (mode == ChangeMode.ADD) {
-			BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
 			meta.setTitle(meta.getTitle() + (String)delta[0]);
-			book.getSingle(arg0).setItemMeta(meta);
 		}
+		book.getSingle(arg0).setItemMeta(meta);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-		if (mode == ChangeMode.SET) {
-			return CollectionUtils.array(String.class);
-		}
-		if (mode == ChangeMode.ADD) {
-			return CollectionUtils.array(String.class);
-		}
+		if (mode == ChangeMode.SET || mode == ChangeMode.ADD) return CollectionUtils.array(String.class);
 		return null;
 	}
 

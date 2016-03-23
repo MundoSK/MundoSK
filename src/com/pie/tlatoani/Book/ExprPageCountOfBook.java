@@ -54,10 +54,9 @@ public class ExprPageCountOfBook extends SimpleExpression<Integer>{
 	}
 	
 	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+		BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
 		if (mode == ChangeMode.SET){
-			BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
-			book.getSingle(arg0).setItemMeta(meta);
-			Integer pageamount = ((Long)delta[0]).intValue();
+			Integer pageamount = ((Number)delta[0]).intValue();
 			if (pageamount != meta.getPageCount()) {
 				if (pageamount > meta.getPageCount()) {
 					Integer n = (pageamount - meta.getPageCount());
@@ -76,20 +75,16 @@ public class ExprPageCountOfBook extends SimpleExpression<Integer>{
 					meta.setPages(l);
 				}
 			}
-			book.getSingle(arg0).setItemMeta(meta);
 		}
 		if (mode == ChangeMode.ADD) {
-			BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
-			Integer n = ((Long)delta[0]).intValue();
+			Integer n = ((Number)delta[0]).intValue();
 			int i;
 			for (i = 0; i < n; i++) {
 				meta.addPage("");
 			}
-			book.getSingle(arg0).setItemMeta(meta);
 		}
 		if (mode == ChangeMode.REMOVE) {
-			BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
-			Integer n = ((Long)delta[0]).intValue();
+			Integer n = ((Number)delta[0]).intValue();
 			int i;
 			List<String> list = meta.getPages();
 			List<String> l = new LinkedList<String>(list);
@@ -97,21 +92,13 @@ public class ExprPageCountOfBook extends SimpleExpression<Integer>{
 				l.remove(l.size() - 1);
 			}
 			meta.setPages(l);
-			book.getSingle(arg0).setItemMeta(meta);
 		}
+		book.getSingle(arg0).setItemMeta(meta);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-		if (mode == ChangeMode.SET) {
-			return CollectionUtils.array(Long.class);
-		}
-		if (mode == ChangeMode.ADD) {
-			return CollectionUtils.array(Long.class);
-		}
-		if (mode == ChangeMode.REMOVE) {
-			return CollectionUtils.array(Long.class);
-		}
+		if (mode == ChangeMode.SET || mode == ChangeMode.ADD || mode == ChangeMode.REMOVE) return CollectionUtils.array(Number.class);
 		return null;
 	}
 

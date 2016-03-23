@@ -19,8 +19,8 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 
 public class ExprPagesOfBook extends SimpleExpression<String>{
-	private Expression<Long> pgnum1;
-	private Expression<Long> pgnum2;
+	private Expression<Number> pgnum1;
+	private Expression<Number> pgnum2;
 	private Expression<ItemStack> book;
 
 	@Override
@@ -38,8 +38,8 @@ public class ExprPagesOfBook extends SimpleExpression<String>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		pgnum1 = (Expression<Long>) expr[0];
-		pgnum2 = (Expression<Long>) expr[1];
+		pgnum1 = (Expression<Number>) expr[0];
+		pgnum2 = (Expression<Number>) expr[1];
 		book = (Expression<ItemStack>) expr[2];
 		return true;
 	}
@@ -121,81 +121,51 @@ public class ExprPagesOfBook extends SimpleExpression<String>{
 	}
 	
 	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
-		if (mode == ChangeMode.ADD) {
-			BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
-			Integer to = null;
-			if (pgnum2 != null) {
-				to = pgnum2.getSingle(arg0).intValue();
-			} else {
-				to = meta.getPageCount();
-			}
-			List<String> list = meta.getPages();
-			List<String> li = new LinkedList<String>(list);
-			li.add(to, (String)delta[0]);
+		BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
+		Integer from = null;
+		if (pgnum1 != null) {
+			from = pgnum1.getSingle(arg0).intValue();
+		} else {
+			from = 1;
+		}
+		List<String> li = new LinkedList<String>(meta.getPages());
+		Integer to = null;
+		if (pgnum2 != null) {
+			to = pgnum2.getSingle(arg0).intValue();
+		} else {
+			to = meta.getPageCount();
+		}
+		if (mode == ChangeMode.SET) {
+			Integer delamount = (to - from) + 1;
+			for (int j = 0; j < delamount; j++) li.remove(from - 1);
+			for (int k = 0; k < delta.length; k++) li.add(from - 1, (String)delta[k]);
 			meta.setPages(li);
-			book.getSingle(arg0).setItemMeta(meta);
+		}
+		if (mode == ChangeMode.ADD) {
+			for (int k = 0; k < delta.length; k++) li.add(to + k, (String)delta[k]);
+			meta.setPages(li);
 		}
 		if (mode == ChangeMode.RESET) {
-			BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
-			Integer from = null;
-			if (pgnum1 != null) {
-				from = pgnum1.getSingle(arg0).intValue();
-			} else {
-				from = 1;
-			}
-			Integer to = null;
-			if (pgnum2 != null) {
-				to = pgnum2.getSingle(arg0).intValue();
-			} else {
-				to = meta.getPageCount();
-			}
-			Integer delamount = (to - from);
-			delamount++;
-			int j;
-			for (j = 0; j < delamount; j++) {
-				meta.setPage(from, "");
-				from++;
-			}
-			book.getSingle(arg0).setItemMeta(meta);
+			Integer delamount = (to - from) + 1;
+			for (int j = 0; j < delamount; j++) meta.setPage(j + from, "");
 		}
 		if (mode == ChangeMode.DELETE) {
-			BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
-			Integer from = null;
-			if (pgnum1 != null) {
-				from = pgnum1.getSingle(arg0).intValue();
-			} else {
-				from = 1;
-			}
-			Integer to = null;
-			if (pgnum2 != null) {
-				to = pgnum2.getSingle(arg0).intValue();
-			} else {
-				to = meta.getPageCount();
-			}
-			List<String> list = meta.getPages();
-			List<String> li = new LinkedList<String>(list);
-			Integer delamount = (to - from);
-			delamount++;
-			int j;
-			for (j = 0; j < delamount; j++) {
-				li.remove(from - 1);
-			}
+			Integer delamount = (to - from) + 1;
+			for (int j = 0; j < delamount; j++) li.remove(from - 1);
 			meta.setPages(li);
-			book.getSingle(arg0).setItemMeta(meta);
 		}
+		if (mode == ChangeMode.REMOVE) {
+			for (int j = 0; j < ((Number) delta[0]).intValue(); j++) li.remove(to - ((Number) delta[0]).intValue());
+			meta.setPages(li);
+		}
+		book.getSingle(arg0).setItemMeta(meta);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-		if (mode == ChangeMode.ADD) {
-			return CollectionUtils.array(String.class);
-		}
-		if (mode == ChangeMode.RESET) {
-			return CollectionUtils.array(String.class);
-		}
-		if (mode == ChangeMode.DELETE) {
-			return CollectionUtils.array(String.class);
-		}
+		if (mode == ChangeMode.SET || mode == ChangeMode.ADD) return CollectionUtils.array(String[].class);
+		if (mode == ChangeMode.RESET || mode == ChangeMode.DELETE) return CollectionUtils.array(String.class);
+		if (mode == ChangeMode.REMOVE) return CollectionUtils.array(Number.class);
 		return null;
 	}
 
