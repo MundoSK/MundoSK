@@ -15,13 +15,13 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 
-public class ExprDifficulty extends SimpleExpression<String>{
+public class ExprDifficulty extends SimpleExpression<Difficulty>{
 	private Expression<World> world;
 
 	@Override
-	public Class<? extends String> getReturnType() {
+	public Class<? extends Difficulty> getReturnType() {
 		// TODO Auto-generated method stub
-		return String.class;
+		return Difficulty.class;
 	}
 
 	@Override
@@ -46,44 +46,20 @@ public class ExprDifficulty extends SimpleExpression<String>{
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
-		String result = null;
-		if (world.getSingle(arg0).getDifficulty() == Difficulty.PEACEFUL) {
-			result = "peaceful";
-		}
-		if (world.getSingle(arg0).getDifficulty() == Difficulty.EASY) {
-			result = "easy";
-		}
-		if (world.getSingle(arg0).getDifficulty() == Difficulty.NORMAL) {
-			result = "normal";
-		}
-		if (world.getSingle(arg0).getDifficulty() == Difficulty.HARD) {
-			result = "hard";
-		}
-		return new String[]{result};
+	protected Difficulty[] get(Event arg0) {
+		return new Difficulty[]{world.getSingle(arg0).getDifficulty()};
 	}
 	
 	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			if (((String) delta[0]).equalsIgnoreCase("PEACEFUL")) {
-				world.getSingle(arg0).setDifficulty(Difficulty.PEACEFUL);
-			}
-			if (((String) delta[0]).equalsIgnoreCase("EASY")) {
-				world.getSingle(arg0).setDifficulty(Difficulty.EASY);
-			}
-			if (((String) delta[0]).equalsIgnoreCase("NORMAL")) {
-				world.getSingle(arg0).setDifficulty(Difficulty.NORMAL);
-			}
-			if (((String) delta[0]).equalsIgnoreCase("HARD")) {
-				world.getSingle(arg0).setDifficulty(Difficulty.HARD);
-			}
+			world.getSingle(arg0).setDifficulty((Difficulty) delta[0]);
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
 		if (mode == ChangeMode.SET) {
-			return CollectionUtils.array(String.class);
+			return CollectionUtils.array(Difficulty.class);
 		}
 		return null;
 	}

@@ -1,9 +1,8 @@
 package com.pie.tlatoani;
 
-import java.io.IOException;
-
 import org.bukkit.Achievement;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -15,12 +14,14 @@ import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.pie.tlatoani.Metrics.Graph;
 import com.pie.tlatoani.Achievement.EffAwardAch;
 import com.pie.tlatoani.Achievement.EffRemoveAch;
 import com.pie.tlatoani.Achievement.EvtAchAward;
 import com.pie.tlatoani.Achievement.ExprAllAch;
 import com.pie.tlatoani.Achievement.ExprHasAch;
 import com.pie.tlatoani.Achievement.ExprParentAch;
+import com.pie.tlatoani.Book.EffAddPage;
 import com.pie.tlatoani.Book.ExprAuthorOfBook;
 import com.pie.tlatoani.Book.ExprBook;
 import com.pie.tlatoani.Book.ExprPageCountOfBook;
@@ -44,6 +45,11 @@ import com.pie.tlatoani.Socket.ExprServerSocketIsOpen;
 import com.pie.tlatoani.TerrainControl.EffSpawnObject;
 import com.pie.tlatoani.TerrainControl.ExprBiomeAt;
 import com.pie.tlatoani.TerrainControl.ExprTCEnabled;
+import com.pie.tlatoani.Throwable.EffPrintStackTrace;
+import com.pie.tlatoani.Throwable.EffTry;
+import com.pie.tlatoani.Throwable.ExprCatch;
+import com.pie.tlatoani.Throwable.ExprCause;
+import com.pie.tlatoani.Throwable.ExprDetails;
 import com.pie.tlatoani.WorldBorder.EffResetBorder;
 import com.pie.tlatoani.WorldBorder.EvtBorderStabilize;
 import com.pie.tlatoani.WorldBorder.ExprBeyondBorder;
@@ -72,6 +78,7 @@ import com.pie.tlatoani.WorldManagement.EffDuplicateWorld;
 import com.pie.tlatoani.WorldManagement.EffUnloadWorld;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.SkriptAddon;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Parser;
 import ch.njol.skript.lang.ExpressionType;
@@ -113,7 +120,7 @@ public class Mundo extends JavaPlugin{
         }));
 		Skript.registerEffect(EffAwardAch.class, "award achieve[ment] %achievement% to %player%");
 		Skript.registerEffect(EffRemoveAch.class, "remove achieve[ment] %achievement% from %player%");
-		Skript.registerEvent("Border Stabilize", EvtAchAward.class, PlayerAchievementAwardedEvent.class, "achieve[ment] [%-achievement%] award", "award of achieve[ment] [%-achievement%]");
+		Skript.registerEvent("Achievement Award", EvtAchAward.class, PlayerAchievementAwardedEvent.class, "achieve[ment] [%-achievement%] award", "award of achieve[ment] [%-achievement%]");
 		EventValues.registerEventValue(PlayerAchievementAwardedEvent.class, Player.class, new Getter<Player, PlayerAchievementAwardedEvent>() {
 			public Player get(PlayerAchievementAwardedEvent e) {
 				return e.getPlayer();
@@ -128,20 +135,43 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprAllAch.class,Achievement.class,ExpressionType.PROPERTY,"[all] achieve[ment]s [of %-player%]", "%player%'s achieve[ment]s");
 		Skript.registerExpression(ExprHasAch.class,Boolean.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %achievement%");
 		//Book
-		Skript.registerExpression(ExprBook.class,ItemStack.class,ExpressionType.COMBINED,"%itemstack% titled %-string%, [written] by %-string%, [with] %number% page[s] [%-strings%]");
+		Skript.registerEffect(EffAddPage.class, "(add|insert|write) %strings% (1¦before|0¦after) (page %-number%|last page) (of|in) %itemstack%");
+		Skript.registerExpression(ExprBook.class,ItemStack.class,ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] %number% page[s] [%-strings%]");
 		Skript.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
 		Skript.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
 		Skript.registerExpression(ExprPageOfBook.class,String.class,ExpressionType.PROPERTY,"(page|pg) %number% of %itemstack%");
-		Skript.registerExpression(ExprPagesOfBook.class,String.class,ExpressionType.PROPERTY,"(pages|pgs) [[from] %-number%] [to %-number%] of %itemstack%");
+		Skript.registerExpression(ExprPagesOfBook.class,String.class,ExpressionType.PROPERTY,"(pages|pgs) [%-number% to %-number%] of %itemstack%");
 		Skript.registerExpression(ExprPageCountOfBook.class,Integer.class,ExpressionType.PROPERTY,"page count of %itemstack%");
 		//EnchantedBook
 		Skript.registerExpression(ExprEnchBookWithEnch.class,ItemStack.class,ExpressionType.PROPERTY,"%itemstack% containing %enchantmenttypes%");
 		Skript.registerExpression(ExprEnchantLevelInEnchBook.class,Integer.class,ExpressionType.PROPERTY,"level of %enchantmenttype% within %itemstack%");
 		Skript.registerExpression(ExprEnchantsInEnchBook.class,EnchantmentType.class,ExpressionType.PROPERTY,"enchants within %itemstack%");
 		//Miscellaneous
+		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
+
+            public Difficulty parse(String s, ParseContext context) {
+            	try {
+            		return Difficulty.valueOf(s.toUpperCase());
+            	} catch (IllegalArgumentException e) {
+            		return null;
+            	}
+            }
+
+            public String toString(Difficulty diff, int flags) {
+        		return diff.toString().toLowerCase();
+            }
+
+            public String toVariableNameString(Difficulty diff) {
+        		return diff.toString().toLowerCase();
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
 		Skript.registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
 		Skript.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
-		Skript.registerExpression(ExprDifficulty.class,String.class,ExpressionType.PROPERTY,"difficulty of %world%");
+		Skript.registerExpression(ExprDifficulty.class,Difficulty.class,ExpressionType.PROPERTY,"difficulty of %world%");
 		Skript.registerExpression(ExprGameRule.class,String.class,ExpressionType.PROPERTY,"value of [game]rule %string% in %world%");
 		//Socket
 		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
@@ -158,6 +188,33 @@ public class Mundo extends JavaPlugin{
 			Skript.registerExpression(ExprBiomeAt.class,String.class,ExpressionType.PROPERTY,"(tc|terrain control) biome at %location%");
 			Skript.registerExpression(ExprTCEnabled.class,Boolean.class,ExpressionType.PROPERTY,"(tc|terrain control) is enabled for %world%");
 		}
+		//Throwable
+		Classes.registerClass(new ClassInfo<Throwable>(Throwable.class, "throwable").user(new String[]{"creator"}).name("throwable").parser(new Parser<Throwable>(){
+
+            public Throwable parse(String s, ParseContext context) {
+                return null;
+            }
+
+            public String toString(Throwable exc, int flags) {
+                return null;
+            }
+
+            public String toVariableNameString(Throwable exc) {
+                return null;
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
+		Skript.registerEffect(EffTry.class, "try");
+		Skript.registerEffect(EffPrintStackTrace.class, "print stack trace of %throwable%");
+		if (Bukkit.getServer().getPluginManager().getPlugin("RandomSK") == null)
+		Skript.registerExpression(ExprCatch.class,Throwable.class,ExpressionType.SIMPLE,"(catch|caught exception)");
+		else
+		Skript.registerExpression(ExprCatch.class,Throwable.class,ExpressionType.SIMPLE,"caught exception");
+		Skript.registerExpression(ExprCause.class,Throwable.class,ExpressionType.PROPERTY,"throwable cause of %throwable%", "%throwable%'s throwable cause");
+		Skript.registerExpression(ExprDetails.class,String.class,ExpressionType.PROPERTY,"details of %throwable%", "%throwable%'s details");
 		//WorldBorder
 		Skript.registerEffect(EffResetBorder.class, "reset %world%");
 		Skript.registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilize.class, "border stabilize [in %-world%]");
@@ -275,12 +332,32 @@ public class Mundo extends JavaPlugin{
 		Skript.registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
 		Skript.registerEffect(EffDeleteWorld.class, "delete %world%");
 		Skript.registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");
+		//TestSyntaxes
+		//
 		info("Awesome syntaxes have been registered!");
 		try {
 	        Metrics metrics = new Metrics(this);
+	        Graph skriptv = metrics.createGraph("Skript Version");
+	        skriptv.addPlotter(new Metrics.Plotter(Bukkit.getServer().getPluginManager().getPlugin("Skript").getDescription().getVersion()){
+	        	@Override
+	        	public int getValue() {
+	        		return 1;
+	        	}
+	        });
+	        Graph addons = metrics.createGraph("Skript Addons");
+	        Object[] addonlist = Skript.getAddons().toArray();
+	        for (int i = 0; i < addonlist.length; i++) {
+	        	addons.addPlotter(new Metrics.Plotter(((SkriptAddon) addonlist[i]).getName()) {
+					
+					@Override
+					public int getValue() {
+						return 1;
+					}
+				});
+	        }
 	        metrics.start();
 	        info("Metrics have been enabled!");
-	    } catch (IOException e) {
+	    } catch (Exception e) {
 	    	info("Metrics failed to enable");
 	        Mundo.reportException(this, e);
 	    }

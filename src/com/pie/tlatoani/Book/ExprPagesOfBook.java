@@ -141,10 +141,6 @@ public class ExprPagesOfBook extends SimpleExpression<String>{
 			for (int k = 0; k < delta.length; k++) li.add(from - 1, (String)delta[k]);
 			meta.setPages(li);
 		}
-		if (mode == ChangeMode.ADD) {
-			for (int k = 0; k < delta.length; k++) li.add(to + k, (String)delta[k]);
-			meta.setPages(li);
-		}
 		if (mode == ChangeMode.RESET) {
 			Integer delamount = (to - from) + 1;
 			for (int j = 0; j < delamount; j++) meta.setPage(j + from, "");
@@ -154,18 +150,12 @@ public class ExprPagesOfBook extends SimpleExpression<String>{
 			for (int j = 0; j < delamount; j++) li.remove(from - 1);
 			meta.setPages(li);
 		}
-		if (mode == ChangeMode.REMOVE) {
-			for (int j = 0; j < ((Number) delta[0]).intValue(); j++) li.remove(to - ((Number) delta[0]).intValue());
-			meta.setPages(li);
-		}
 		book.getSingle(arg0).setItemMeta(meta);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-		if (mode == ChangeMode.SET || mode == ChangeMode.ADD) return CollectionUtils.array(String[].class);
-		if (mode == ChangeMode.RESET || mode == ChangeMode.DELETE) return CollectionUtils.array(String.class);
-		if (mode == ChangeMode.REMOVE) return CollectionUtils.array(Number.class);
+		if (mode == ChangeMode.SET || mode == ChangeMode.RESET || mode == ChangeMode.DELETE) return CollectionUtils.array(String[].class);
 		return null;
 	}
 
