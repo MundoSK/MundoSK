@@ -9,12 +9,13 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-public class ExprCause extends SimpleExpression<Throwable>{
-	private Expression<Throwable> thr;
+public class ExprPropertyNameOfSTE extends SimpleExpression<String>{
+	private Expression<StackTraceElement> ste;
+	private Integer mark;
 
 	@Override
-	public Class<? extends Throwable> getReturnType() {
-		return Throwable.class;
+	public Class<? extends String> getReturnType() {
+		return String.class;
 	}
 
 	@Override
@@ -25,19 +26,25 @@ public class ExprCause extends SimpleExpression<Throwable>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		thr = (Expression<Throwable>) expr[0];
+		ste = (Expression<StackTraceElement>) expr[0];
+		mark = arg3.mark;
 		return true;
 	}
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		return "cause";
+		return "(class|file|method) name";
 	}
 
 	@Override
 	@Nullable
-	protected Throwable[] get(Event arg0) {
-		return new Throwable[]{thr.getSingle(arg0).getCause()};
+	protected String[] get(Event arg0) {
+		String result = null;
+		StackTraceElement elem = ste.getSingle(arg0);
+		if (mark == 0) result = elem.getClassName();
+		if (mark == 1) result = elem.getFileName();
+		if (mark == 2) result = elem.getMethodName();
+		return new String[]{result};
 	}
 
 }

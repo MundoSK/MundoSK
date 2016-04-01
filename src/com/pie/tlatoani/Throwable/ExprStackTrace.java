@@ -1,5 +1,7 @@
 package com.pie.tlatoani.Throwable;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import javax.annotation.Nullable;
 
 import org.bukkit.event.Event;
@@ -9,17 +11,17 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-public class ExprCause extends SimpleExpression<Throwable>{
+public class ExprStackTrace extends SimpleExpression<StackTraceElement>{
 	private Expression<Throwable> thr;
 
 	@Override
-	public Class<? extends Throwable> getReturnType() {
-		return Throwable.class;
+	public Class<? extends StackTraceElement> getReturnType() {
+		return StackTraceElement.class;
 	}
 
 	@Override
 	public boolean isSingle() {
-		return true;
+		return false;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -31,13 +33,17 @@ public class ExprCause extends SimpleExpression<Throwable>{
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		return "cause";
+		return "stack trace";
 	}
 
 	@Override
 	@Nullable
-	protected Throwable[] get(Event arg0) {
-		return new Throwable[]{thr.getSingle(arg0).getCause()};
+	protected StackTraceElement[] get(Event arg0) {
+		return thr.getSingle(arg0).getStackTrace();
+	}
+	
+	public Iterator<StackTraceElement> iterator(Event arg0) {
+		return Arrays.asList(thr.getSingle(arg0).getStackTrace()).iterator();
 	}
 
 }

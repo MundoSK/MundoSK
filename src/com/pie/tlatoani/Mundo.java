@@ -46,10 +46,14 @@ import com.pie.tlatoani.TerrainControl.EffSpawnObject;
 import com.pie.tlatoani.TerrainControl.ExprBiomeAt;
 import com.pie.tlatoani.TerrainControl.ExprTCEnabled;
 import com.pie.tlatoani.Throwable.EffPrintStackTrace;
-import com.pie.tlatoani.Throwable.EffTry;
 import com.pie.tlatoani.Throwable.ExprCatch;
 import com.pie.tlatoani.Throwable.ExprCause;
 import com.pie.tlatoani.Throwable.ExprDetails;
+import com.pie.tlatoani.Throwable.ExprLineNumberOfSTE;
+import com.pie.tlatoani.Throwable.ExprPropertyNameOfSTE;
+import com.pie.tlatoani.Throwable.ExprStackTrace;
+import com.pie.tlatoani.Throwable.ScopeTry;
+import com.pie.tlatoani.Util.EffScope;
 import com.pie.tlatoani.WorldBorder.EffResetBorder;
 import com.pie.tlatoani.WorldBorder.EvtBorderStabilize;
 import com.pie.tlatoani.WorldBorder.ExprBeyondBorder;
@@ -189,25 +193,43 @@ public class Mundo extends JavaPlugin{
 			Skript.registerExpression(ExprTCEnabled.class,Boolean.class,ExpressionType.PROPERTY,"(tc|terrain control) is enabled for %world%");
 		}
 		//Throwable
-		Classes.registerClass(new ClassInfo<Throwable>(Throwable.class, "throwable").user(new String[]{"creator"}).name("throwable").parser(new Parser<Throwable>(){
+		Classes.registerClass(new ClassInfo<Throwable>(Throwable.class, "throwable").user(new String[]{"throwable"}).name("throwable").parser(new Parser<Throwable>(){
 
             public Throwable parse(String s, ParseContext context) {
                 return null;
             }
 
             public String toString(Throwable exc, int flags) {
-                return null;
+                return exc.toString();
             }
 
             public String toVariableNameString(Throwable exc) {
-                return null;
+                return exc.toString();
             }
 
             public String getVariableNamePattern() {
                 return ".+";
             }
         }));
-		Skript.registerEffect(EffTry.class, "try");
+		Classes.registerClass(new ClassInfo<StackTraceElement>(StackTraceElement.class, "stacktraceelement").user(new String[]{"stacktraceelement"}).name("stacktraceelement").parser(new Parser<StackTraceElement>(){
+
+            public StackTraceElement parse(String s, ParseContext context) {
+                return null;
+            }
+
+            public String toString(StackTraceElement elem, int flags) {
+                return elem.toString();
+            }
+
+            public String toVariableNameString(StackTraceElement elem) {
+                return elem.toString();
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
+		Skript.registerCondition(ScopeTry.class, "try");
 		Skript.registerEffect(EffPrintStackTrace.class, "print stack trace of %throwable%");
 		if (Bukkit.getServer().getPluginManager().getPlugin("RandomSK") == null)
 		Skript.registerExpression(ExprCatch.class,Throwable.class,ExpressionType.SIMPLE,"(catch|caught exception)");
@@ -215,6 +237,11 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprCatch.class,Throwable.class,ExpressionType.SIMPLE,"caught exception");
 		Skript.registerExpression(ExprCause.class,Throwable.class,ExpressionType.PROPERTY,"throwable cause of %throwable%", "%throwable%'s throwable cause");
 		Skript.registerExpression(ExprDetails.class,String.class,ExpressionType.PROPERTY,"details of %throwable%", "%throwable%'s details");
+		Skript.registerExpression(ExprStackTrace.class,StackTraceElement.class,ExpressionType.PROPERTY,"stack trace of %throwable%", "%throwable%'s stack trace");
+		Skript.registerExpression(ExprPropertyNameOfSTE.class,String.class,ExpressionType.PROPERTY,"(0¦class|1¦file|2¦method) name of %stacktraceelement%", "%stacktraceelement%'s (0¦class|1¦file|2¦method) name");
+		Skript.registerExpression(ExprLineNumberOfSTE.class,Integer.class,ExpressionType.PROPERTY,"line number of %stacktraceelement%", "%stacktraceelement%'s line number");
+		//Util
+		Skript.registerEffect(EffScope.class, "$ scope");
 		//WorldBorder
 		Skript.registerEffect(EffResetBorder.class, "reset %world%");
 		Skript.registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilize.class, "border stabilize [in %-world%]");
@@ -241,11 +268,11 @@ public class Mundo extends JavaPlugin{
             }
 
             public String toString(WorldCreator creator, int flags) {
-                return null;
+                return creator.toString();
             }
 
             public String toVariableNameString(WorldCreator creator) {
-                return null;
+                return creator.toString();
             }
 
             public String getVariableNamePattern() {

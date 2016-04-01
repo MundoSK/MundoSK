@@ -1,5 +1,4 @@
 package com.pie.tlatoani.Throwable;
-import java.util.WeakHashMap;
 
 import javax.annotation.Nullable;
 
@@ -10,12 +9,12 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-public class ExprCatch extends SimpleExpression<Throwable>{
-	static WeakHashMap<Event, Throwable> catches = new WeakHashMap<Event, Throwable>();
+public class ExprLineNumberOfSTE extends SimpleExpression<Integer>{
+	private Expression<StackTraceElement> ste;
 
 	@Override
-	public Class<? extends Throwable> getReturnType() {
-		return Throwable.class;
+	public Class<? extends Integer> getReturnType() {
+		return Integer.class;
 	}
 
 	@Override
@@ -23,22 +22,22 @@ public class ExprCatch extends SimpleExpression<Throwable>{
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
+		ste = (Expression<StackTraceElement>) expr[0];
 		return true;
 	}
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		return "catch";
+		return "line number";
 	}
 
 	@Override
 	@Nullable
-	protected Throwable[] get(Event arg0) {
-		Throwable result = null;
-		if (catches.containsKey(arg0)) result = catches.get(arg0);
-		return new Throwable[]{(result != null) ? result.getCause() : null};
+	protected Integer[] get(Event arg0) {
+		return new Integer[]{ste.getSingle(arg0).getLineNumber()};
 	}
 
 }
