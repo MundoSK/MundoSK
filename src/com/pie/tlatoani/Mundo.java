@@ -31,10 +31,12 @@ import com.pie.tlatoani.Book.ExprTitleOfBook;
 import com.pie.tlatoani.EnchantedBook.ExprEnchBookWithEnch;
 import com.pie.tlatoani.EnchantedBook.ExprEnchantLevelInEnchBook;
 import com.pie.tlatoani.EnchantedBook.ExprEnchantsInEnchBook;
+import com.pie.tlatoani.Miscellaneous.CondProbability;
 import com.pie.tlatoani.Miscellaneous.ExprDifficulty;
 import com.pie.tlatoani.Miscellaneous.ExprGameRule;
 import com.pie.tlatoani.Miscellaneous.ExprHighestSolidBlock;
 import com.pie.tlatoani.Miscellaneous.ExprWorldString;
+import com.pie.tlatoani.Miscellaneous.ScopeProbability;
 import com.pie.tlatoani.Socket.EffCloseFunctionSocket;
 import com.pie.tlatoani.Socket.EffOpenFunctionSocket;
 import com.pie.tlatoani.Socket.EffWriteToSocket;
@@ -173,6 +175,8 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
+		Skript.registerCondition(ScopeProbability.class, "prob[ability]", "random chance");
+		Skript.registerCondition(CondProbability.class, "%number%[1¦\\%] prob[ability]");
 		Skript.registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
 		Skript.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
 		Skript.registerExpression(ExprDifficulty.class,Difficulty.class,ExpressionType.PROPERTY,"difficulty of %world%");
@@ -391,6 +395,8 @@ public class Mundo extends JavaPlugin{
 	}
 	
 	public static void reportException(Object o, Exception e) {
+		info("An exception has occured within MundoSK");
+		info("Please report this to the MundoSK thread on forums.skunity.com");
 		info("Exception at " + o.getClass());
 		e.printStackTrace();
 	}

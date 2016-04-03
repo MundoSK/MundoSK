@@ -1,7 +1,5 @@
 package com.pie.tlatoani.Throwable;
 
-import java.lang.reflect.Method;
-
 import org.bukkit.event.Event;
 
 import com.pie.tlatoani.Util.CustomScope;
@@ -9,16 +7,6 @@ import com.pie.tlatoani.Util.CustomScope;
 import ch.njol.skript.lang.TriggerItem;
 
 public class ScopeTry extends CustomScope {
-	private static Method walkmethod;
-	
-	static {
-		try {
-			walkmethod = TriggerItem.class.getDeclaredMethod("walk", Event.class);
-			walkmethod.setAccessible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Override
 	public String toString(Event e, boolean debug) {
@@ -26,9 +14,9 @@ public class ScopeTry extends CustomScope {
 	}
 
 	@Override
-	public void go(Event e, TriggerItem next, Integer indent) {
+	public void go(Event e) {
 		Boolean within = true;
-		TriggerItem going = next;
+		TriggerItem going = first;
 		Exception caught = null;
 		while (within) {
 			try {
