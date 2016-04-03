@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Miscellaneous;
+package com.pie.tlatoani.Probability;
 
 import org.bukkit.event.Event;
 

@@ -74,45 +74,52 @@ public class ExprEnchantsInEnchBook extends SimpleExpression<EnchantmentType>{
 	}
 	
 	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
-		if (mode == ChangeMode.ADD) {
-			EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getSingle(arg0).getItemMeta();
-			Enchantment adde = ((EnchantmentType)delta[0]).getType();
-			Integer addi = ((EnchantmentType)delta[0]).getLevel();
-			if (meta.hasStoredEnchant(adde)) {
-				meta.removeStoredEnchant(adde);
-			}
-			meta.addStoredEnchant(adde, addi, true);
-			book.getSingle(arg0).setItemMeta(meta);
-		}
-		if (mode == ChangeMode.DELETE) {
-			EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getSingle(arg0).getItemMeta();
+		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getSingle(arg0).getItemMeta();
+		if (mode == ChangeMode.SET) {
 			Map<Enchantment, Integer> map = meta.getStoredEnchants();
 			for (Map.Entry<Enchantment, Integer> ansh : map.entrySet()) {
 				meta.removeStoredEnchant(ansh.getKey());
 			}
-			book.getSingle(arg0).setItemMeta(meta);
+			for (int i = 0; i < delta.length; i++) {
+				Enchantment adde = ((EnchantmentType)delta[i]).getType();
+				Integer addi = ((EnchantmentType)delta[i]).getLevel();
+				if (meta.hasStoredEnchant(adde)) {
+					meta.removeStoredEnchant(adde);
+				}
+				meta.addStoredEnchant(adde, addi, true);
+			}
+		}
+		if (mode == ChangeMode.ADD) {
+			for (int i = 0; i < delta.length; i++) {
+				Enchantment adde = ((EnchantmentType)delta[i]).getType();
+				Integer addi = ((EnchantmentType)delta[i]).getLevel();
+				if (meta.hasStoredEnchant(adde)) {
+					meta.removeStoredEnchant(adde);
+				}
+				meta.addStoredEnchant(adde, addi, true);
+			}
+			
+		}
+		if (mode == ChangeMode.DELETE) {
+			Map<Enchantment, Integer> map = meta.getStoredEnchants();
+			for (Map.Entry<Enchantment, Integer> ansh : map.entrySet()) {
+				meta.removeStoredEnchant(ansh.getKey());
+			}
 		}
 		if (mode == ChangeMode.REMOVE) {
-			EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getSingle(arg0).getItemMeta();
-			Enchantment adde = ((EnchantmentType)delta[0]).getType();
-			if (meta.hasStoredEnchant(adde)) {
-				meta.removeStoredEnchant(adde);
+			for (int i = 0; i < delta.length; i++) {
+				Enchantment adde = ((EnchantmentType)delta[i]).getType();
+				if (meta.hasStoredEnchant(adde)) {
+					meta.removeStoredEnchant(adde);
+				}
 			}
-			book.getSingle(arg0).setItemMeta(meta);
 		}
+		book.getSingle(arg0).setItemMeta(meta);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-		if (mode == ChangeMode.ADD) {
-			return CollectionUtils.array(EnchantmentType.class);
-		}
-		if (mode == ChangeMode.REMOVE) {
-			return CollectionUtils.array(EnchantmentType.class);
-		}
-		if (mode == ChangeMode.DELETE) {
-			return CollectionUtils.array(EnchantmentType.class);
-		}
+		if (mode == ChangeMode.ADD || mode == ChangeMode.REMOVE || mode == ChangeMode.DELETE || mode == ChangeMode.SET) return CollectionUtils.array(EnchantmentType[].class);
 		return null;
 	}
 
