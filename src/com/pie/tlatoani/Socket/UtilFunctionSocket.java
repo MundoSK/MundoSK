@@ -76,7 +76,7 @@ public class UtilFunctionSocket implements Runnable {
 					args[1] = argsinfo;
 					Object[] result = null;
 					if (Functions.getFunction(funcmsg) != null) {
-						result = Functions.getFunction(handler).execute(args);
+						result = Functions.getFunction(funcmsg).execute(args);
 					}
 					if (result != null) {
 						BufferedWriter bright = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));

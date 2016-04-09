@@ -65,7 +65,7 @@ public final class UtilBorderManager implements Listener, Runnable {
 				stablesizes.remove(borderevent);
 				stabletimes.remove(borderevent);
 				origsizes.remove(borderevent);
-				UtilBorderStabilize event = new UtilBorderStabilize(borderevent);
+				UtilBorderStabilizeEvent event = new UtilBorderStabilizeEvent(borderevent);
 				Bukkit.getServer().getPluginManager().callEvent(event);
 			}
 		}

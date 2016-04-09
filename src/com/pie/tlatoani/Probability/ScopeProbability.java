@@ -7,12 +7,15 @@ import org.bukkit.event.Event;
 
 import com.pie.tlatoani.Util.CustomScope;
 
+import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Conditional;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.lang.TriggerSection;
 
 public class ScopeProbability extends CustomScope {
 	private List<CondProbability> probs = new ArrayList<CondProbability>();
+	private List<TriggerItem> triggeritems = new ArrayList<TriggerItem>();
+	private List<Integer> indeces = new ArrayList<Integer>();
 
 	@Override
 	public String toString(Event e, boolean debug) {
@@ -34,15 +37,50 @@ public class ScopeProbability extends CustomScope {
 			if (random.doubleValue() <= nums.get(j).doubleValue()) searching = false;
 			else j++;
 		}
-		TriggerItem going = probs.get(j).getTriggerItem();
+		CondProbability start = probs.get(j);
+		if (!start.ret) {
+			TriggerItem uniquegoing = start.first;
+			Boolean uniquewithin = true;
+			while (uniquewithin) {
+				try {
+					uniquegoing = (TriggerItem) walkmethod.invoke(uniquegoing, e);
+					if (uniquegoing == null || uniquegoing.getIndentation().length() <= start.section.getIndentation().length()) uniquewithin = false;
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
 		Boolean within = true;
-
-		while (within) {
-			try {
-				going = (TriggerItem) walkmethod.invoke(going, e);
-				if (going == null || going.getIndentation().length() <= indent) within = false;
-			} catch (Exception e1) {
-				e1.printStackTrace();
+		if (triggeritems.size() > 0) {
+			int k = indeces.get(j);
+			while (within) {
+				TriggerItem going = triggeritems.get(k);
+				if (going instanceof Condition) {
+					try {
+						within = (Boolean) runmethod.invoke(going, e);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				} else if (going instanceof TriggerSection) {
+					TriggerItem uniquegoing = going;
+					Boolean uniquewithin = true;
+					while (uniquewithin) {
+						try {
+							uniquegoing = (TriggerItem) walkmethod.invoke(uniquegoing, e);
+							if (uniquegoing == null || uniquegoing.getIndentation().length() <= going.getIndentation().length()) uniquewithin = false;
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
+				} else {
+					try {
+						walkmethod.invoke(going, e);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+				k++;
+				within = within && k < triggeritems.size();
 			}
 		}
 	}
@@ -51,18 +89,28 @@ public class ScopeProbability extends CustomScope {
 	public void afterSetNext() {
 		Boolean within = true;
 		TriggerItem going = first;
+		Integer i = 0;
 		while (within) {
-			if (going instanceof CondProbability) probs.add((CondProbability) going);
-			else if (going instanceof Conditional) {
+			if (going instanceof CondProbability) {
+				probs.add((CondProbability) going);
+				indeces.add(i);
+			} else if (going instanceof Conditional) {
 				try {
 					Object goingcond = condition.get((TriggerSection) going);
 					if (goingcond instanceof CondProbability) {
 						probs.add((CondProbability) goingcond);
-						((CondProbability) goingcond).setTriggerSection((TriggerSection) going); 
+						((CondProbability) goingcond).setTriggerSection((TriggerSection) going);
+						indeces.add(i);
+					} else {
+						triggeritems.add(going);
+						i++;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			} else {
+				triggeritems.add(going);
+				i++;
 			}
 			going = going.getNext();
 			if (going == null || going.getIndentation().length() <= indent) within = false;

@@ -6,7 +6,9 @@ import com.pie.tlatoani.Util.CustomScope;
 
 import javax.annotation.Nullable;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Condition;
+import ch.njol.skript.lang.Conditional;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.TriggerItem;
@@ -18,6 +20,7 @@ public class CondProbability extends Condition {
 	private Expression<Number> num;
 	public TriggerSection section;
 	private Boolean percent;
+	public TriggerItem first;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -37,9 +40,23 @@ public class CondProbability extends Condition {
 		return ret;
 	}
 	
+	@Override
+	public TriggerItem setParent(final @Nullable TriggerSection parent) {
+		super.parent = parent;
+		if (!(parent instanceof Conditional)) {
+			Skript.error("'%number% prob' must be placed within a probability scope!");
+		}
+		return this;
+	}
+	
 	public void setTriggerSection(TriggerSection section) {
 		this.ret = false;
 		this.section = section;
+		try {
+			this.first = (TriggerItem) CustomScope.firstitem.get(section);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public TriggerItem getTriggerItem() {

@@ -125,6 +125,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
 		Skript.registerExpression(ExprDifficulty.class,Difficulty.class,ExpressionType.PROPERTY,"difficulty of %world%");
 		Skript.registerExpression(ExprGameRule.class,String.class,ExpressionType.PROPERTY,"value of [game]rule %string% in %world%");
+		Skript.registerExpression(ExprReturnTypeOfFunction.class,ClassInfo.class,ExpressionType.PROPERTY,"return type of function %string%");
 		//Probability
 		Skript.registerCondition(ScopeProbability.class, "prob[ability]", "random chance");
 		Skript.registerCondition(CondProbability.class, "%number%[1¦\\%] prob[ability]");
@@ -195,12 +196,34 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprLineNumberOfSTE.class,Integer.class,ExpressionType.PROPERTY,"line number of %stacktraceelement%", "%stacktraceelement%'s line number");
 		//Util
 		Skript.registerEffect(EffScope.class, "$ scope");
+		Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to [num[ber] %-number%] [str[ing] %-string%] [boo[lean] %-boolean%] [arg[ument]s %-objects%]]");
+		Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "custom event [%-string%]");
+		EventValues.registerEventValue(UtilCustomEvent.class, Number.class, new Getter<Number, UtilCustomEvent>() {
+			@Override
+			public Number get(UtilCustomEvent e) {
+				return e.getNum();
+			}
+		}, 0);
+		EventValues.registerEventValue(UtilCustomEvent.class, String.class, new Getter<String, UtilCustomEvent>() {
+			@Override
+			public String get(UtilCustomEvent e) {
+				return e.getStr();
+			}
+		}, 0);
+		EventValues.registerEventValue(UtilCustomEvent.class, Boolean.class, new Getter<Boolean, UtilCustomEvent>() {
+			@Override
+			public Boolean get(UtilCustomEvent e) {
+				return e.getBoo();
+			}
+		}, 0);
+		Skript.registerExpression(ExprIDOfCustomEvent.class,String.class,ExpressionType.PROPERTY,"id of custom event", "custom event's id");
+		Skript.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
 		//WorldBorder
 		Skript.registerEffect(EffResetBorder.class, "reset %world%");
-		Skript.registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilize.class, "border stabilize [in %-world%]");
-		EventValues.registerEventValue(UtilBorderStabilize.class, World.class, new Getter<World, UtilBorderStabilize>() {
+		Skript.registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilizeEvent.class, "border stabilize [in %-world%]");
+		EventValues.registerEventValue(UtilBorderStabilizeEvent.class, World.class, new Getter<World, UtilBorderStabilizeEvent>() {
 			@Override
-			public World get(UtilBorderStabilize e) {
+			public World get(UtilBorderStabilizeEvent e) {
 				return e.getWorld();
 			}
 		}, 0);
@@ -305,7 +328,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprSeedOfCreator.class,String.class,ExpressionType.PROPERTY,"seed of %creator%");
 		Skript.registerExpression(ExprGenOfCreator.class,String.class,ExpressionType.PROPERTY,"gen[erator] of %creator%");
 		Skript.registerExpression(ExprGenSettingsOfCreator.class,String.class,ExpressionType.PROPERTY,"gen[erator] set[tings] of %creator%");
-		Skript.registerExpression(ExprTypeOfCreator.class,WorldType.class,ExpressionType.PROPERTY,"[world]type of %creator%");
+		Skript.registerExpression(ExprTypeOfCreator.class,WorldType.class,ExpressionType.PROPERTY,"worldtype of %creator%");
 		Skript.registerExpression(ExprStructOfCreator.class,Boolean.class,ExpressionType.PROPERTY,"struct[ure(s| settings)] of %creator%");
 		//WorldManagement
 		Skript.registerEffect(EffCreateWorld.class, "create world using %creator%");

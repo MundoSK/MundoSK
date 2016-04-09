@@ -19,6 +19,7 @@ public abstract class CustomScope extends Condition {
 	public static Field firstitem;
 	public static Field condition;
 	public static Method walkmethod;
+	public static Method runmethod;
 	protected TriggerItem section;
 	protected TriggerItem first;
 	protected Boolean scope;
@@ -36,6 +37,8 @@ public abstract class CustomScope extends Condition {
 			condition.setAccessible(true);
 			walkmethod = TriggerItem.class.getDeclaredMethod("walk", Event.class);
 			walkmethod.setAccessible(true);
+			runmethod = TriggerItem.class.getDeclaredMethod("run", Event.class);
+			runmethod.setAccessible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

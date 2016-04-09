@@ -4,22 +4,20 @@ import org.bukkit.World;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class UtilBorderStabilize extends Event{
+public class UtilBorderStabilizeEvent extends Event{
 	private static final HandlerList handlers = new HandlerList();
 	private World border;
 	
-	public UtilBorderStabilize(World borderarg) {
+	public UtilBorderStabilizeEvent(World borderarg) {
 		border = borderarg;
 	}
 
 	@Override
 	public HandlerList getHandlers() {
-		// TODO Auto-generated method stub
 		return handlers;
 	}
 	
 	public static HandlerList getHandlerList() {
-		// TODO Auto-generated method stub
 		return handlers;
 	}
 	

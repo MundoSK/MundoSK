@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import org.bukkit.event.Event;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Conditional;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
@@ -46,21 +47,18 @@ public class EffScope extends Effect{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else
-			try {
-				throw new Exception("You must put '$ scope' before a custom scope!");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		} else Skript.error("You must put '$ scope' before a custom scope!");
 		return this;
 	}
 	
 	@Override
 	public TriggerItem setParent(final @Nullable TriggerSection parent) {
 		try {
-			if (CustomScope.condition.get(section) instanceof CustomScope) scope = (CustomScope) CustomScope.condition.get(section);
-			else throw new Exception("You must put '$ scope' before a custom scope!");
-			scope.setScopeNext(section);
+			if (CustomScope.condition.get(section) instanceof CustomScope) {
+				scope = (CustomScope) CustomScope.condition.get(section);
+				scope.setScopeNext(section);
+			}
+			else Skript.error("You must put '$ scope' before a custom scope! **The following line isn't actually the wrong line, the wrong line is within the scope of the following line");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
