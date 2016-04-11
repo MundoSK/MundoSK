@@ -81,11 +81,12 @@ public class UtilFunctionSocket implements Runnable {
 					if (result != null) {
 						BufferedWriter bright = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 						for (int b = 0; b < result.length; b++) {
+							Mundo.info("FunctionSocket: Line to be sent - " + result[b].toString());
 							bright.write(result[b].toString());
 							bright.newLine();
 						}
 						bright.flush();
-						bright.close();
+						socket.close();
 					}
 					
 				}

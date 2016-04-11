@@ -1,5 +1,8 @@
 package com.pie.tlatoani;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
 import org.bukkit.Achievement;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -91,8 +94,8 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprBook.class,ItemStack.class,ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] %number% page[s] [%-strings%]");
 		Skript.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
 		Skript.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
-		Skript.registerExpression(ExprPageOfBook.class,String.class,ExpressionType.PROPERTY,"(page|pg) %number% of %itemstack%");
-		Skript.registerExpression(ExprPagesOfBook.class,String.class,ExpressionType.PROPERTY,"(pages|pgs) [%-number% to %-number%] of %itemstack%");
+		Skript.registerExpression(ExprPageOfBook.class,String.class,ExpressionType.PROPERTY,"(page %number%|last page) of %itemstack%");
+		Skript.registerExpression(ExprPagesOfBook.class,String.class,ExpressionType.PROPERTY,"pages [%-number% to (%-number%|last)] of %itemstack%");
 		Skript.registerExpression(ExprPageCountOfBook.class,Integer.class,ExpressionType.PROPERTY,"page count of %itemstack%");
 		//EnchantedBook
 		Skript.registerExpression(ExprEnchBookWithEnch.class,ItemStack.class,ExpressionType.PROPERTY,"%itemstack% containing %enchantmenttypes%");
@@ -196,26 +199,8 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprLineNumberOfSTE.class,Integer.class,ExpressionType.PROPERTY,"line number of %stacktraceelement%", "%stacktraceelement%'s line number");
 		//Util
 		Skript.registerEffect(EffScope.class, "$ scope");
-		Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to [num[ber] %-number%] [str[ing] %-string%] [boo[lean] %-boolean%] [arg[ument]s %-objects%]]");
-		Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "custom event [%-string%]");
-		EventValues.registerEventValue(UtilCustomEvent.class, Number.class, new Getter<Number, UtilCustomEvent>() {
-			@Override
-			public Number get(UtilCustomEvent e) {
-				return e.getNum();
-			}
-		}, 0);
-		EventValues.registerEventValue(UtilCustomEvent.class, String.class, new Getter<String, UtilCustomEvent>() {
-			@Override
-			public String get(UtilCustomEvent e) {
-				return e.getStr();
-			}
-		}, 0);
-		EventValues.registerEventValue(UtilCustomEvent.class, Boolean.class, new Getter<Boolean, UtilCustomEvent>() {
-			@Override
-			public Boolean get(UtilCustomEvent e) {
-				return e.getBoo();
-			}
-		}, 0);
+		Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
+		Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "[custom] (event|evt) [%-string%]");
 		Skript.registerExpression(ExprIDOfCustomEvent.class,String.class,ExpressionType.PROPERTY,"id of custom event", "custom event's id");
 		Skript.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
 		//WorldBorder
@@ -337,6 +322,16 @@ public class Mundo extends JavaPlugin{
 		Skript.registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");
 		//TestSyntaxes
 		//
+		try {
+			Field classinfos = Classes.class.getDeclaredField("tempClassInfos");
+			classinfos.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			List<ClassInfo<?>> classes = (List<ClassInfo<?>>) classinfos.get(null);
+			for (int i = 0; i < classes.size(); i++)
+				registerCustomEventValue(classes.get(i));
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		info("Awesome syntaxes have been registered!");
 		try {
 	        Metrics metrics = new Metrics(this);
@@ -375,6 +370,16 @@ public class Mundo extends JavaPlugin{
 	
 	public static void info(String s) {
 		instance.getLogger().info(s);
+	}
+	
+	public static <T> void registerCustomEventValue(ClassInfo<T> type) {
+		EventValues.registerEventValue(UtilCustomEvent.class, type.getC(), new Getter<T, UtilCustomEvent>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public T get(UtilCustomEvent e) {
+				return (T) e.getDetail(type);
+			}
+		}, 0);
 	}
 	
 }

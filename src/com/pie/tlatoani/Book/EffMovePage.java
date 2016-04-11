@@ -36,8 +36,7 @@ public class EffMovePage extends Effect{
 
 	@Override
 	public String toString(@Nullable Event paramEvent, boolean paramBoolean) {
-		// TODO Auto-generated method stub
-		return " set world border of world";
+		return "move pages of book";
 	}
 
 	@Override
@@ -55,13 +54,23 @@ public class EffMovePage extends Effect{
 			page1 = meta.getPageCount() - pgnum3.getSingle(arg0).intValue();
 			page2 = meta.getPageCount() - 1;
 		}
+		if (page2 < page1) {
+			int tempto = page2;
+			page2 = page1;
+			page1 = tempto;
+		}
+		if (page1 >= meta.getPageCount()) return;
+		if (page2 >= meta.getPageCount()) page2 = meta.getPageCount() - 1;
+		Integer velo = move.getSingle(arg0).intValue() * direc;
+		while (meta.getPageCount() < (page2 + 1 + velo)) meta.addPage("");
+		if (page1 + velo < 0) velo += (page1 + velo) * -1;
 		List<String> list = new LinkedList<String>(meta.getPages());
 		List<String> pages = new LinkedList<String>();
 		for (int i = page1; i <= page2; i++) {
 			pages.add(list.get(page1));
 			list.remove(page1.intValue());
 		}
-		for (int i = 0; i < pages.size(); i++) list.add(page1 + i + (move.getSingle(arg0).intValue() * direc), pages.get(i));
+		for (int i = 0; i < pages.size(); i++) list.add(page1 + i + velo, pages.get(i));
 		meta.setPages(list);
 		book.getSingle(arg0).setItemMeta(meta);
 	}

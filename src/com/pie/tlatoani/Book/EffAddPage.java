@@ -32,7 +32,6 @@ public class EffAddPage extends Effect{
 
 	@Override
 	public String toString(@Nullable Event paramEvent, boolean paramBoolean) {
-		// TODO Auto-generated method stub
 		return " set world border of world";
 	}
 
@@ -43,6 +42,7 @@ public class EffAddPage extends Effect{
 		BookMeta meta = (BookMeta) input.getItemMeta();
 		if (pgnum == null) page = meta.getPageCount() - after;
 		else page = pgnum.getSingle(arg0).intValue() - after;
+		while (meta.getPageCount() < page) meta.addPage("");
 		List<String> list = new LinkedList<String>(meta.getPages());
 		String[] strings = text.getAll(arg0);
 		for (int i = 0; i < strings.length; i++) list.add(page + i, strings[i]);

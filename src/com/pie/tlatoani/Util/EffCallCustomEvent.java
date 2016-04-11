@@ -11,21 +11,17 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 
 public class EffCallCustomEvent extends Effect{
+	private Expression<Object> details;
 	private Expression<String> id;
-	private Expression<Number> num;
-	private Expression<String> str;
-	private Expression<Boolean> boo;
 	private Expression<Object> args;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern,
 			Kleenean paramKleenean, ParseResult paramParseResult) {
+		details = (Expression<Object>) expr[1];
 		id = (Expression<String>) expr[0];
-		num = (Expression<Number>) expr[1];
-		str = (Expression<String>) expr[2];
-		boo = (Expression<Boolean>) expr[3];
-		args = (Expression<Object>) expr[4];
+		args = (Expression<Object>) expr[2];
 		return true;
 	}
 
@@ -36,7 +32,10 @@ public class EffCallCustomEvent extends Effect{
 
 	@Override
 	protected void execute(Event arg0) {
-		UtilCustomEvent event = new UtilCustomEvent(id.getSingle(arg0), (num != null ? num.getSingle(arg0) : null), (str!= null ? str.getSingle(arg0) : null), (boo != null ? boo.getSingle(arg0) : null), (args != null ? args.getAll(arg0) : null));
+		String id = this.id.getSingle(arg0);
+		Object[] details = this.details != null ? this.details.getAll(arg0) : null;
+		Object[] args = this.args != null ? this.args.getAll(arg0) : null;
+		UtilCustomEvent event = new UtilCustomEvent(id, details, args);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 

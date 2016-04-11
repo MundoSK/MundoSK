@@ -1,22 +1,30 @@
 package com.pie.tlatoani.Util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import ch.njol.skript.classes.ClassInfo;
+import ch.njol.skript.registrations.Classes;
 
 public class UtilCustomEvent extends Event{
 	private static final HandlerList handlers = new HandlerList();
 	private String id;
 	private Object[] args;
-	private Number num;
-	private String str;
-	private Boolean boo;
+	@SuppressWarnings("rawtypes")
+	private Map<ClassInfo, Object> details = new HashMap<ClassInfo, Object>();
 	
-	public UtilCustomEvent(String id, Number num, String str, Boolean boo, Object[] args) {
+	public UtilCustomEvent(String id, Object[] details, Object[] args) {
 		this.id = id;
-		this.num = num;
-		this.str = str;
+		for (int i = 0; i < details.length; i++) 
+			this.details.put(Classes.getSuperClassInfo(details[i].getClass()), details[i]);
 		this.args = args;
-		this.boo = boo;
+	}
+	
+	public Object getDetail(ClassInfo<?> type) {
+		return details.containsKey(type) ? details.get(type) : null ;
 	}
 
 	@Override
@@ -34,18 +42,6 @@ public class UtilCustomEvent extends Event{
 	
 	public Object[] getArgs() {
 		return args;
-	}
-	
-	public Number getNum() {
-		return num;
-	}
-	
-	public String getStr() {
-		return str;
-	}
-	
-	public Boolean getBoo() {
-		return boo;
 	}
 
 }

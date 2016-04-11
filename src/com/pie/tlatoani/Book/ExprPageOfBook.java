@@ -23,13 +23,11 @@ public class ExprPageOfBook extends SimpleExpression<String>{
 
 	@Override
 	public Class<? extends String> getReturnType() {
-		// TODO Auto-generated method stub
 		return String.class;
 	}
 
 	@Override
 	public boolean isSingle() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -43,8 +41,7 @@ public class ExprPageOfBook extends SimpleExpression<String>{
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		// TODO Auto-generated method stub
-		return "border length of world";
+		return "page of book";
 	}
 
 	@Override
@@ -52,25 +49,27 @@ public class ExprPageOfBook extends SimpleExpression<String>{
 	protected String[] get(Event arg0) {
 		ItemStack input = book.getSingle(arg0);
 		BookMeta meta = (BookMeta) input.getItemMeta();
-		return new String[]{meta.getPage(pgnum.getSingle(arg0).intValue())};
+		Integer index = pgnum != null ? pgnum.getSingle(arg0).intValue() : meta.getPageCount();
+		return new String[]{meta.getPageCount() >= index ? meta.getPage(index) : null};
 	}
 	
 	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
 		BookMeta meta = (BookMeta) book.getSingle(arg0).getItemMeta();
-		if (mode == ChangeMode.SET){
-			meta.setPage(pgnum.getSingle(arg0).intValue(), (String)delta[0]);
-		}
-		if (mode == ChangeMode.ADD) {
-			meta.setPage(pgnum.getSingle(arg0).intValue(), meta.getPage(pgnum.getSingle(arg0).intValue()) + (String)delta[0]);
-		}
-		if (mode == ChangeMode.RESET) {
-			meta.setPage(pgnum.getSingle(arg0).intValue(), "");
-		}
-		if (mode == ChangeMode.DELETE) {
-			List<String> list = meta.getPages();
-			List<String> li = new LinkedList<String>(list);
-			li.remove(pgnum.getSingle(arg0).intValue() - 1);
-			meta.setPages(li);
+		Integer index = pgnum != null ? pgnum.getSingle(arg0).intValue() : meta.getPageCount();
+		if (mode == ChangeMode.SET || mode == ChangeMode.ADD || mode == ChangeMode.RESET) {
+			while (meta.getPageCount() < index)  meta.addPage(""); 
+			String text = null;
+			if (mode == ChangeMode.SET) text = (String)delta[0];
+			else if (mode == ChangeMode.ADD) text = meta.getPage(index) + (String)delta[0];
+			else if (mode == ChangeMode.RESET) text = "";
+			meta.setPage(index, text);
+		} else if (mode == ChangeMode.DELETE) {
+			if (meta.getPageCount() >= index) {
+				List<String> list = meta.getPages();
+				List<String> li = new LinkedList<String>(list);
+				li.remove(index - 1);
+				meta.setPages(li);
+			}
 		}
 		book.getSingle(arg0).setItemMeta(meta);
 	}

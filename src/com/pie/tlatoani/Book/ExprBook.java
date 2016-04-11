@@ -40,7 +40,7 @@ public class ExprBook extends SimpleExpression<ItemStack>{
 		title = (Expression<String>) expr[1];
 		author = (Expression<String>) expr[2];
 		pgcount = (Expression<Long>) expr[3];
-		texts = (Expression<String>) expr[5];
+		texts = (Expression<String>) expr[4];
 		return true;
 	}
 
