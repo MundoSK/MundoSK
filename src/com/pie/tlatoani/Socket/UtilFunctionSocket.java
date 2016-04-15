@@ -30,6 +30,7 @@ public class UtilFunctionSocket implements Runnable {
 		port = portarg;
 		password = passarg;
 		handler = handlerarg;
+		debug("Function Socket on port " + port + " successfully created");
 	}
 	
 	private Boolean init() {
@@ -38,6 +39,7 @@ public class UtilFunctionSocket implements Runnable {
 			sock = new ServerSocket(port);
 			sock.setReuseAddress(true);
 			Bukkit.getServer().getScheduler().runTaskAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("MundoSK"), this);
+			debug("Function Socket on port " + port + " successfully initialized");
 			return true;
 		} catch (Exception e) {
 			Mundo.reportException(this, e);
@@ -50,22 +52,29 @@ public class UtilFunctionSocket implements Runnable {
 		if (status) {
 			Socket socket = null;
 			try {
+				debug("Waiting for connection on Function Socket on port " + port);
 				socket = sock.accept();
+				debug("New connection accepted on Function Socket on port " + port);
 			} catch (IOException e) {
 				if (status) Mundo.reportException(this, e);
 			} finally {
-				Bukkit.getServer().getScheduler().runTaskAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("MundoSK"), this);
+				if (status) {
+					Bukkit.getServer().getScheduler().runTaskAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("MundoSK"), this);
+					debug("At Function Socket on port " + port + ", running task to accept new connections");
+				}
 			}
 			try {
+				debug("At Function Socket on port " + port + ", about to read message");
 				BufferedReader bread = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				List<String> list = new LinkedList<String>();
-				String line;
 				if (password == null || bread.readLine().equals(password)) {
 					String funcmsg = null;
 					if (handler != null) funcmsg = handler;
 					else funcmsg = bread.readLine();
+					String line;
 					while ((line = bread.readLine()) != null) {
 						list.add(line);
+						debug("At Function Socket on port " + port + ", line " + list.size() + "of an incoming message is " + line);
 					}
 					Object[][] args = new Object[2][1];
 					args[0] = list.toArray();
@@ -77,20 +86,23 @@ public class UtilFunctionSocket implements Runnable {
 					Object[] result = null;
 					if (Functions.getFunction(funcmsg) != null) {
 						result = Functions.getFunction(funcmsg).execute(args);
-					}
+						debug("At Function Socket on port " + port + ", the function " + funcmsg + "was successfully found");
+					} else debug("At Function Socket on port " + port + ", the function " + funcmsg + "was not found");
 					if (result != null) {
+						debug("At Function Socket on port " + port + ", the function " + funcmsg + "returned a value");
 						BufferedWriter bright = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 						for (int b = 0; b < result.length; b++) {
-							Mundo.info("FunctionSocket: Line to be sent - " + result[b].toString());
 							bright.write(result[b].toString());
 							bright.newLine();
+							debug("At Function Socket on port " + port + ", line " + (b + 1) + "of an outgoing message is " + result[b].toString());
 						}
 						bright.flush();
 						socket.close();
-					}
+						debug("At Function Socket on port " + port + ", a connection was successfully closed");
+					} else debug("At Function Socket on port " + port + ", the function " + funcmsg + "did not return a value or was not found");
 					
 				}
-			} catch(Exception e) {} finally {
+			} catch(Exception e) {e.printStackTrace();} finally {
 				try {
 					socket.close();
 				} catch(Exception e) {}
@@ -101,6 +113,7 @@ public class UtilFunctionSocket implements Runnable {
 	
 	public static void openFunctionSocket(int portarg, String passarg, String handlerarg) {
 		if (sockets.containsKey(portarg) == false) {
+			debug("Function Socket on port " + portarg + " being created");
 			UtilFunctionSocket socket = new UtilFunctionSocket(portarg, passarg, handlerarg);
 			if (socket.init()) sockets.put(portarg, socket);
 		}
@@ -108,6 +121,7 @@ public class UtilFunctionSocket implements Runnable {
 	
 	public static void closeFunctionSocket(int portarg) {
 		if (sockets.containsKey(portarg) == true) {
+			debug("Function Socket on port " + portarg + " being closed");
 			sockets.get(portarg).closeFunctionSocket();
 			sockets.remove(portarg);
 		}
@@ -117,6 +131,7 @@ public class UtilFunctionSocket implements Runnable {
 		status = false;
 		try {
 			sock.close();
+			debug("Function Socket on port " + port + " successfully closed");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -142,6 +157,10 @@ public class UtilFunctionSocket implements Runnable {
 	
 	private String getHandler() {
 		return handler;
+	}
+	
+	private static void debug(String msg) {
+		Mundo.classDebug(UtilFunctionSocket.class, msg);
 	}
 
 }

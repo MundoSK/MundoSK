@@ -12,6 +12,7 @@ import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.inventory.ItemStack;
@@ -45,8 +46,14 @@ import ch.njol.skript.util.Timespan;
 
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
+	public static FileConfiguration config;
+	
 	public void onEnable(){
 		instance = this;
+		config = getConfig();
+		config.addDefault("debug_mode", false);
+		config.options().copyDefaults(true);
+		saveConfig();
 		Skript.registerAddon(this);
 		info("Pie is awesome :D");
 		//Achievement
@@ -370,6 +377,18 @@ public class Mundo extends JavaPlugin{
 	
 	public static void info(String s) {
 		instance.getLogger().info(s);
+	}
+	
+	public static void debug(Object obj, String msg) {
+		if (config.getBoolean("debug_mode")) {
+			info(obj.getClass() + ": " + msg);
+		}
+	}
+	
+	public static void classDebug(Class<?> cla, String msg) {
+		if (config.getBoolean("debug_mode")) {
+			info(cla + ": " + msg);
+		}
 	}
 	
 	public static <T> void registerCustomEventValue(ClassInfo<T> type) {

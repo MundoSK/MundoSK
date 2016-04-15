@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.pie.tlatoani.Mundo;
+
 import ch.njol.skript.lang.function.Functions;
 
 public class UtilWriterSocket implements Runnable{
@@ -27,6 +29,7 @@ public class UtilWriterSocket implements Runnable{
 		report = reportarg;
 		if(timeoutarg == null) timeout = 0;
 		else timeout = timeoutarg;
+		debug("Writer Socket with host" + host + ", port" + port + " successfully created");
 	}
 
 	@Override
@@ -35,19 +38,23 @@ public class UtilWriterSocket implements Runnable{
 		try {
 			socket = new Socket();
 			socket.connect(new InetSocketAddress(host, port), timeout);
+			debug("Writer Socket with host" + host + ", port" + port + "successfully connected");
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			for (int b = 0; b < msgs.length; b++) {
 				writer.write(msgs[b]);
 				writer.newLine();
+				debug("Writer Socket with host" + host + ", port" + port + ", line " + (b + 1) + " of an outgoing message is " + msgs[b].toString());
 			}
 			writer.flush();
 			socket.shutdownOutput();
 			if (redirect != null) {
+				debug("Writer Socket with host" + host + ", port" + port + " reading incoming messages");
 				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				List<String> list = new LinkedList<String>();
 				String line;
 				while ((line = reader.readLine()) != null) {
 					list.add(line);
+					debug("Writer Socket with host" + host + ", port" + port + ", line " + list.size() + "of an incoming message is " + line);
 				}
 				Object[][] args = new Object[2][1];
 				Object[] argslist = new Object[list.size()];
@@ -61,15 +68,23 @@ public class UtilWriterSocket implements Runnable{
 				argsinfo[2] = port;
 				args[1] = argsinfo;
 				Functions.getFunction(redirect).execute(args);
+				if (Functions.getFunction(redirect) != null) {
+					Functions.getFunction(redirect).execute(args);
+					debug("Writer Socket with host" + host + ", port" + port + " successfully found function " + redirect);
+				} else debug("Writer Socket with host" + host + ", port" + port + " didn't find function " + redirect);
 			}
 		} catch (Exception e) {}
 		finally {
 			try {
-				if (socket != null) socket.close();	
-				
+				if (socket != null) socket.close();
+				debug("Writer Socket with host" + host + ", port" + port + " successfully closed connection");
 			} catch (Exception e) {}
 		}
 		
+	}
+	
+	private static void debug(String msg) {
+		Mundo.classDebug(UtilWriterSocket.class, msg);
 	}
 
 }
