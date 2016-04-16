@@ -67,7 +67,13 @@ public class UtilFunctionSocket implements Runnable {
 				debug("At Function Socket on port " + port + ", about to read message");
 				BufferedReader bread = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				List<String> list = new LinkedList<String>();
-				if (password == null || bread.readLine().equals(password)) {
+				Boolean continu = false;
+				if (password == null) continu = true;
+				else {
+					String firstline = bread.readLine();
+					continu = (firstline != null || password.equals(firstline));
+				}
+				if (continu) {
 					String funcmsg = null;
 					if (handler != null) funcmsg = handler;
 					else funcmsg = bread.readLine();
@@ -101,7 +107,7 @@ public class UtilFunctionSocket implements Runnable {
 						debug("At Function Socket on port " + port + ", a connection was successfully closed");
 					} else debug("At Function Socket on port " + port + ", the function " + funcmsg + "did not return a value or was not found");
 					
-				}
+				} else debug("At Function Socket on port " + port + ", the password was incorrect, or the socket closed early.");
 			} catch(Exception e) {e.printStackTrace();} finally {
 				try {
 					socket.close();
