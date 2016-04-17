@@ -67,7 +67,6 @@ public class UtilWriterSocket implements Runnable{
 				argsinfo[1] = host;
 				argsinfo[2] = port;
 				args[1] = argsinfo;
-				Functions.getFunction(redirect).execute(args);
 				if (Functions.getFunction(redirect) != null) {
 					Functions.getFunction(redirect).execute(args);
 					debug("Writer Socket with host" + host + ", port" + port + " successfully found function " + redirect);
