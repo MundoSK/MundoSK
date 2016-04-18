@@ -27,7 +27,7 @@ public class UtilWriterSocket implements Runnable{
 		port = portarg;
 		redirect = redirectarg;
 		report = reportarg;
-		if(timeoutarg == null) timeout = 0;
+		if (timeoutarg == null) timeout = 0;
 		else timeout = timeoutarg;
 		debug("Writer Socket with host" + host + ", port" + port + " successfully created");
 	}
@@ -43,7 +43,7 @@ public class UtilWriterSocket implements Runnable{
 			for (int b = 0; b < msgs.length; b++) {
 				writer.write(msgs[b]);
 				writer.newLine();
-				debug("Writer Socket with host" + host + ", port" + port + ", line " + (b + 1) + " of an outgoing message is " + msgs[b].toString());
+				debug("Writer Socket with host" + host + ", port" + port + ", line " + (b + 1) + " of an outgoing message is " + msgs[b]);
 			}
 			writer.flush();
 			socket.shutdownOutput();
@@ -79,7 +79,6 @@ public class UtilWriterSocket implements Runnable{
 				debug("Writer Socket with host" + host + ", port" + port + " successfully closed connection");
 			} catch (Exception e) {}
 		}
-		
 	}
 	
 	private static void debug(String msg) {

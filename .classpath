@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="C:/Users/Danny/Importance/Java/Dependencies/Skript.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Danny/Importance/Java/Dependencies/spigot-1.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Danny/Importance/Java/Dependencies/TerrainControl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Danny/Importance/Java/Dependencies/ProtocolLib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

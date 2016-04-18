@@ -80,7 +80,7 @@ public class UtilFunctionSocket implements Runnable {
 					String line;
 					while ((line = bread.readLine()) != null) {
 						list.add(line);
-						debug("At Function Socket on port " + port + ", line " + list.size() + "of an incoming message is " + line);
+						debug("At Function Socket on port " + port + ", line " + list.size() + " of an incoming message is " + line);
 					}
 					Object[][] args = new Object[2][1];
 					args[0] = list.toArray();
