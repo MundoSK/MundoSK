@@ -20,6 +20,7 @@ import javax.annotation.Nullable;
  */
 public class ExprRemainingAir extends SimpleExpression<Timespan> {
     private Expression<LivingEntity> entity;
+    private Boolean max = false;
 
     @Override
     public Class<? extends Timespan> getReturnType() {
@@ -38,6 +39,7 @@ public class ExprRemainingAir extends SimpleExpression<Timespan> {
     public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, SkriptParser.ParseResult arg3) {
         // TODO Auto-generated method stub
         entity = (Expression<LivingEntity>) expr[0];
+        if (matchedPattern > 1) max = true;
         return true;
     }
 
@@ -50,20 +52,32 @@ public class ExprRemainingAir extends SimpleExpression<Timespan> {
     @Override
     @Nullable
     protected Timespan[] get(Event arg0) {
-        return new Timespan[]{new Timespan(entity.getSingle(arg0).getRemainingAir() * 50)};
+        return new Timespan[]{!max ? new Timespan(entity.getSingle(arg0).getRemainingAir() * 50) : new Timespan(entity.getSingle(arg0).getMaximumAir() * 50)};
     }
 
     public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
         LivingEntity living = entity.getSingle(arg0);
         Integer time = (new Long(((Timespan)delta[0]).getMilliSeconds())).intValue() / 50;
-        if (mode == Changer.ChangeMode.SET){
-            living.setRemainingAir(time);
-        }
-        else if (mode == Changer.ChangeMode.ADD) {
-            living.setRemainingAir(living.getRemainingAir() + time);
-        }
-        else if (mode == Changer.ChangeMode.REMOVE) {
-            living.setRemainingAir(living.getRemainingAir() - time);
+        if (!max) {
+            if (mode == Changer.ChangeMode.SET){
+                living.setRemainingAir(time);
+            }
+            else if (mode == Changer.ChangeMode.ADD) {
+                living.setRemainingAir(living.getRemainingAir() + time);
+            }
+            else if (mode == Changer.ChangeMode.REMOVE) {
+                living.setRemainingAir(living.getRemainingAir() - time);
+            }
+        } else {
+            if (mode == Changer.ChangeMode.SET){
+                living.setMaximumAir(time);
+            }
+            else if (mode == Changer.ChangeMode.ADD) {
+                living.setMaximumAir(living.getMaximumAir() + time);
+            }
+            else if (mode == Changer.ChangeMode.REMOVE) {
+                living.setMaximumAir(living.getMaximumAir() - time);
+            }
         }
     }
 
