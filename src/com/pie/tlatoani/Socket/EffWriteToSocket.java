@@ -24,11 +24,11 @@ public class EffWriteToSocket extends Effect{
 	public boolean init(Expression<?>[] expr, int matchedPattern,
 			Kleenean paramKleenean, ParseResult paramParseResult) {
 		msgs = (Expression<String>) expr[0];
-		ip = (Expression<String>) expr[2];
-		port = (Expression<Number>) expr[3];
-		timeout = (Expression<Timespan>) expr[4];
-		redirect = (Expression<String>) expr[5];
-		report = (Expression<String>) expr[6];
+		ip = (Expression<String>) expr[1];
+		port = (Expression<Number>) expr[2];
+		timeout = (Expression<Timespan>) expr[3];
+		redirect = (Expression<String>) expr[4];
+		report = (Expression<String>) expr[5];
 		return true;
 	}
 
