@@ -161,6 +161,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprServerSocketIsOpen.class,Boolean.class,ExpressionType.COMBINED,"server socket is open at host %string% port %number% [with timeout of %-timespan%]");
 		Skript.registerExpression(ExprMotdOfServer.class,String.class,ExpressionType.COMBINED,"motd of server with host %string% [port %-number%]");
 		Skript.registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1¦player count|0¦max player count) of server with host %string% [port %-number%]");
+		Skript.registerExpression(ExprMotdOfModernServer.class,String.class,ExpressionType.COMBINED,"motd of modern server with host %string% [port %-number%] [timeout %-timespan%]");
 		//TerrainControl
 		if (Bukkit.getServer().getPluginManager().getPlugin("TerrainControl") != null) {
 			this.getLogger().info("You uncovered the secret TerrainControl syntaxes!");
