@@ -63,12 +63,8 @@ public class Mundo extends JavaPlugin{
 		//	}
 		//});
 
-		byte bite = 254 - 128;
-		String stringy = "";
-		stringy += (char) bite;
 		Skript.registerAddon(this);
 		info("Pie is awesome :D");
-		info("254 is " + stringy + "!");
 		//Achievement
 		Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
 
@@ -109,8 +105,8 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprAllAch.class,Achievement.class,ExpressionType.PROPERTY,"[all] achieve[ment]s [of %-player%]", "%player%'s achieve[ment]s");
 		Skript.registerExpression(ExprHasAch.class,Boolean.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %achievement%");
 		//Book
-		Skript.registerEffect(EffAddPage.class, "(add|insert|write) %strings% (1¦before|0¦after) (page %-number%|last page) (of|in) %itemstack%");
-		Skript.registerEffect(EffMovePage.class, "move (page[s] %-number% [to %-number%]|last [%-number%] page[s]) (of|in) %itemstack% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
+		Skript.registerEffect(EffAddPage.class, "(add|insert|write) %strings% (1ï¿½before|0ï¿½after) (page %-number%|last page) (of|in) %itemstack%");
+		Skript.registerEffect(EffMovePage.class, "move (page[s] %-number% [to %-number%]|last [%-number%] page[s]) (of|in) %itemstack% (-1ï¿½front|-1ï¿½forward[s]|1ï¿½back[ward[s]]) %number%");
 		Skript.registerExpression(ExprBook.class,ItemStack.class,ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] %number% page[s] [%-strings%]");
 		Skript.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
 		Skript.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
@@ -149,13 +145,14 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprDifficulty.class,Difficulty.class,ExpressionType.PROPERTY,"difficulty of %world%");
 		Skript.registerExpression(ExprGameRule.class,String.class,ExpressionType.PROPERTY,"value of [game]rule %string% in %world%");
 		Skript.registerExpression(ExprReturnTypeOfFunction.class,ClassInfo.class,ExpressionType.PROPERTY,"return type of function %string%");
+        Skript.registerExpression(ExprRemainingAir.class,Timespan.class,ExpressionType.PROPERTY,"breath of %livingentity%", "%livingentity%'s breath");
 		//Probability
 		Skript.registerCondition(ScopeProbability.class, "prob[ability]", "random chance");
-		Skript.registerCondition(CondProbability.class, "%number%[1¦\\%] prob[ability]");
+		Skript.registerCondition(CondProbability.class, "%number%[1ï¿½\\%] prob[ability]");
 		Skript.registerExpression(ExprRandomIndex.class,String.class,ExpressionType.PROPERTY,"random from %numbers% prob[abilitie]s");
 		Skript.registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
 		//Socket
-		Skript.registerEffect(EffWriteToSocket.class, "write (0¦%-strings%|1¦bytes %-numbers%) to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
+		Skript.registerEffect(EffWriteToSocket.class, "write (0ï¿½%-strings%|1ï¿½bytes %-numbers%) to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
 		Skript.registerEffect(EffOpenFunctionSocket.class, "open function socket at port %number% [with password %-string%] [through function %-string%]");
 		Skript.registerEffect(EffCloseFunctionSocket.class, "close function socket at port %number%");
 		Skript.registerExpression(ExprPassOfFunctionSocket.class,String.class,ExpressionType.PROPERTY,"pass[word] of function socket at port %number%");
@@ -163,7 +160,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprFunctionSocketIsOpen.class,Boolean.class,ExpressionType.PROPERTY,"function socket is open at port %number%");
 		Skript.registerExpression(ExprServerSocketIsOpen.class,Boolean.class,ExpressionType.COMBINED,"server socket is open at host %string% port %number% [with timeout of %-timespan%]");
 		Skript.registerExpression(ExprMotdOfServer.class,String.class,ExpressionType.COMBINED,"motd of server with host %string% [port %-number%]");
-		Skript.registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1¦player count|0¦max player count) of server with host %string% [port %-number%]");
+		Skript.registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1ï¿½player count|0ï¿½max player count) of server with host %string% [port %-number%]");
 		//TerrainControl
 		if (Bukkit.getServer().getPluginManager().getPlugin("TerrainControl") != null) {
 			this.getLogger().info("You uncovered the secret TerrainControl syntaxes!");
@@ -217,7 +214,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprCause.class,Throwable.class,ExpressionType.PROPERTY,"throwable cause of %throwable%", "%throwable%'s throwable cause");
 		Skript.registerExpression(ExprDetails.class,String.class,ExpressionType.PROPERTY,"details of %throwable%", "%throwable%'s details");
 		Skript.registerExpression(ExprStackTrace.class,StackTraceElement.class,ExpressionType.PROPERTY,"stack trace of %throwable%", "%throwable%'s stack trace");
-		Skript.registerExpression(ExprPropertyNameOfSTE.class,String.class,ExpressionType.PROPERTY,"(0¦class|1¦file|2¦method) name of %stacktraceelement%", "%stacktraceelement%'s (0¦class|1¦file|2¦method) name");
+		Skript.registerExpression(ExprPropertyNameOfSTE.class,String.class,ExpressionType.PROPERTY,"(0ï¿½class|1ï¿½file|2ï¿½method) name of %stacktraceelement%", "%stacktraceelement%'s (0ï¿½class|1ï¿½file|2ï¿½method) name");
 		Skript.registerExpression(ExprLineNumberOfSTE.class,Integer.class,ExpressionType.PROPERTY,"line number of %stacktraceelement%", "%stacktraceelement%'s line number");
 		//Util
 		Skript.registerEffect(EffScope.class, "$ scope");
@@ -242,7 +239,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprWarningTimeOfBorder.class,Integer.class,ExpressionType.PROPERTY,"warning time of %world%");
 		Skript.registerExpression(ExprFinalSizeOfBorder.class,Double.class,ExpressionType.PROPERTY,"final size of %world%");
 		Skript.registerExpression(ExprTimeRemainingUntilBorderStabilize.class,Timespan.class,ExpressionType.PROPERTY,"time remaining until border stabilize in %world%");
-		Skript.registerExpression(ExprBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%location% is (1¦within|0¦beyond) border");
+		Skript.registerExpression(ExprBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%location% is (1ï¿½within|0ï¿½beyond) border");
 		//WorldCreator
 		Classes.registerClass(new ClassInfo<WorldCreator>(WorldCreator.class, "creator").user(new String[]{"creator"}).name("creator").parser(new Parser<WorldCreator>(){
 
