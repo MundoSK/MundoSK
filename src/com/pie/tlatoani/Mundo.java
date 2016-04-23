@@ -403,6 +403,12 @@ public class Mundo extends JavaPlugin{
 			info(cla + ": " + msg);
 		}
 	}
+
+	public static void debug(Object obj, Exception e) {
+		if (config.getBoolean("debug_mode")) {
+			reportException(obj, e);
+		}
+	}
 	
 	public static <T> void registerCustomEventValue(ClassInfo<T> type) {
 		EventValues.registerEventValue(UtilCustomEvent.class, type.getC(), new Getter<T, UtilCustomEvent>() {

@@ -54,7 +54,9 @@ public class ExprMotdOfModernServer extends SimpleExpression<String>{
         String result = null;
         try {
             result = ping.fetchData();
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            Mundo.debug(this, e);
+        }
         Mundo.debug(this, result);
         return new String[]{result};
     }
