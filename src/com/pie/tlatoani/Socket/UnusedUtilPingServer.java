@@ -15,7 +15,7 @@ import java.net.Socket;
  * Originally coded by zh32
  */
 
-public class UtilPingServer {
+public class UnusedUtilPingServer {
 
     private InetSocketAddress host;
     private int timeout = 7000;

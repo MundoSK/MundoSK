@@ -25,7 +25,10 @@ public class ExprArgsOfCustomEvent extends SimpleExpression<Object>{
 
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(UtilCustomEvent.class)) Skript.error("Cannot use 'custom event's args' outside of custom events");
+		if (!ScriptLoader.isCurrentEvent(UtilCustomEvent.class))  {
+			Skript.error("Cannot use 'custom event's args' outside of custom events");
+			return false;
+		}
 		return true;
 	}
 

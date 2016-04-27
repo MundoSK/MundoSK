@@ -3,6 +3,8 @@ package com.pie.tlatoani;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import ch.njol.skript.lang.util.SimpleEvent;
+import com.pie.tlatoani.ProtocolLib.UtilPlayerLoginPacketEvent;
 import org.bukkit.Achievement;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -151,6 +153,8 @@ public class Mundo extends JavaPlugin{
 		Skript.registerCondition(CondProbability.class, "%number%[1¦\\%] prob[ability]");
 		Skript.registerExpression(ExprRandomIndex.class,String.class,ExpressionType.PROPERTY,"random from %numbers% prob[abilitie]s");
 		Skript.registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
+		//ProtocolLib
+		Skript.registerEvent("Player Login Packet", SimpleEvent.class, UtilPlayerLoginPacketEvent.class, "player login packet");
 		//Socket
 		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
 		Skript.registerEffect(EffOpenFunctionSocket.class, "open function socket at port %number% [with password %-string%] [through function %-string%]");
@@ -161,7 +165,6 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprServerSocketIsOpen.class,Boolean.class,ExpressionType.COMBINED,"server socket is open at host %string% port %number% [with timeout of %-timespan%]");
 		Skript.registerExpression(ExprMotdOfServer.class,String.class,ExpressionType.COMBINED,"motd of server with host %string% [port %-number%]");
 		Skript.registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1¦player count|0¦max player count) of server with host %string% [port %-number%]");
-		Skript.registerExpression(ExprMotdOfModernServer.class,String.class,ExpressionType.COMBINED,"motd of modern server with host %string% [port %-number%] [timeout %-timespan%]");
 		//TerrainControl
 		if (Bukkit.getServer().getPluginManager().getPlugin("TerrainControl") != null) {
 			this.getLogger().info("You uncovered the secret TerrainControl syntaxes!");
