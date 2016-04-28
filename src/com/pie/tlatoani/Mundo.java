@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import ch.njol.skript.lang.util.SimpleEvent;
+import com.pie.tlatoani.ProtocolLib.EffSetPlayerHeartsHardcore;
 import com.pie.tlatoani.ProtocolLib.UtilPlayerLoginPacketEvent;
 import org.bukkit.Achievement;
 import org.bukkit.Bukkit;
@@ -155,6 +156,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
 		//ProtocolLib
 		Skript.registerEvent("Player Login Packet", SimpleEvent.class, UtilPlayerLoginPacketEvent.class, "player login packet");
+		Skript.registerEffect(EffSetPlayerHeartsHardcore.class, "make player's hearts hardcore style");
 		//Socket
 		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
 		Skript.registerEffect(EffOpenFunctionSocket.class, "open function socket at port %number% [with password %-string%] [through function %-string%]");
