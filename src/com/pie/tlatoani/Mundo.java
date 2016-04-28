@@ -155,8 +155,10 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprRandomIndex.class,String.class,ExpressionType.PROPERTY,"random from %numbers% prob[abilitie]s");
 		Skript.registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
 		//ProtocolLib
-		Skript.registerEvent("Player Login Packet", SimpleEvent.class, UtilPlayerLoginPacketEvent.class, "player login packet");
-		Skript.registerEffect(EffSetPlayerHeartsHardcore.class, "make player's hearts hardcore style");
+		if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
+			Skript.registerEvent("Player Login Packet", SimpleEvent.class, UtilPlayerLoginPacketEvent.class, "player login packet");
+			Skript.registerEffect(EffSetPlayerHeartsHardcore.class, "make player's hearts hardcore style");
+		}
 		//Socket
 		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
 		Skript.registerEffect(EffOpenFunctionSocket.class, "open function socket at port %number% [with password %-string%] [through function %-string%]");
