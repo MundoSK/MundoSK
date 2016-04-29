@@ -33,14 +33,16 @@ public class UtilPacketSendingEvent extends Event{
                 cleanlist.add(packettypes[i]);
             }
         }
-        PacketType[] packettypearray = cleanlist.toArray(new PacketType[0]);
-        protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, ListenerPriority.NORMAL, packettypearray) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                UtilPacketArriveEvent evt = new UtilPacketArriveEvent(event);
-                Bukkit.getServer().getPluginManager().callEvent(evt);
-            }
-        });
+        if (!cleanlist.isEmpty()) {
+            PacketType[] packettypearray = cleanlist.toArray(new PacketType[0]);
+            protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, ListenerPriority.NORMAL, packettypearray) {
+                @Override
+                public void onPacketSending(PacketEvent event) {
+                    UtilPacketArriveEvent evt = new UtilPacketArriveEvent(event);
+                    Bukkit.getServer().getPluginManager().callEvent(evt);
+                }
+            });
+        }
     }
 
     public UtilPacketSendingEvent(PacketEvent packet) {
