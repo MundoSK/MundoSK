@@ -6,6 +6,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.pie.tlatoani.Mundo;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.Bukkit;
@@ -36,6 +37,10 @@ public class UtilPlayerLoginPacketEvent extends Event {
 
     public void setHardCoreStyle() {
         packet.getPacket().getBooleans().write(0, true);
+    }
+
+    public Player getPlayer() {
+        return packet.getPlayer();
     }
 
     @Override

@@ -1,11 +1,12 @@
 package com.pie.tlatoani;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.List;
 
 import ch.njol.skript.lang.util.SimpleEvent;
-import com.pie.tlatoani.ProtocolLib.EffSetPlayerHeartsHardcore;
-import com.pie.tlatoani.ProtocolLib.UtilPlayerLoginPacketEvent;
+import com.comphenix.protocol.PacketType;
+import com.pie.tlatoani.ProtocolLib.*;
 import org.bukkit.Achievement;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -57,15 +58,6 @@ public class Mundo extends JavaPlugin{
 		config.addDefault("debug_mode", false);
 		config.options().copyDefaults(true);
 		saveConfig();
-		
-		//if (Bukkit.getServer().getPluginManager().)
-		//ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.values()) {
-		//	@Override
-		//	public void onPacketSending(PacketEvent event) {
-		//		
-		//	}
-		//});
-
 		Skript.registerAddon(this);
 		info("Pie is awesome :D");
 		//Achievement
@@ -156,9 +148,39 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
 		//ProtocolLib
 		if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
+			Classes.registerClass(new ClassInfo<PacketType>(PacketType.class, "packettype").user(new String[]{"packettype"}).name("packettype").parser(new Parser<PacketType>(){
+
+				public PacketType parse(String s, ParseContext context) {
+					Collection<PacketType> parseresult = PacketType.fromName(s);
+					if (parseresult.isEmpty()) {
+						return null;
+					}
+					return parseresult.iterator().next();
+				}
+
+				public String toString(PacketType packetType, int flags) {
+					return packetType.toString().toLowerCase();
+				}
+
+				public String toVariableNameString(PacketType packetType) {
+					return packetType.toString().toLowerCase();
+				}
+
+				public String getVariableNamePattern() {
+					return ".+";
+				}
+			}));
 			Skript.registerEvent("Player Login Packet", SimpleEvent.class, UtilPlayerLoginPacketEvent.class, "player login packet");
-			Skript.registerEffect(EffSetPlayerHeartsHardcore.class, "make player's hearts hardcore style");
+			EventValues.registerEventValue(UtilPlayerLoginPacketEvent.class, Player.class, new Getter<Player, UtilPlayerLoginPacketEvent>() {
+				@Override
+				public Player get(UtilPlayerLoginPacketEvent e) {
+					return e.getPlayer();
+				}
+			}, 0);
 		}
+		Skript.registerEffect(EffSetPlayerHeartsHardcore.class, "make player's hearts hardcore style");
+		Skript.registerEvent("Packet Arrive", EvtPacketArrive.class, UtilPacketArriveEvent.class, "packet arrive of %packettypes%");
+		Skript.registerEvent("Packet Sending", EvtPacketSending.class, UtilPacketSendingEvent.class, "packet sending of %packettypes%");
 		//Socket
 		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
 		Skript.registerEffect(EffOpenFunctionSocket.class, "open function socket at port %number% [with password %-string%] [through function %-string%]");
