@@ -159,11 +159,11 @@ public class Mundo extends JavaPlugin{
 				}
 
 				public String toString(PacketType packetType, int flags) {
-					return packetType.toString().toLowerCase();
+					return packetType.name().toLowerCase();
 				}
 
 				public String toVariableNameString(PacketType packetType) {
-					return packetType.toString().toLowerCase();
+					return packetType.name().toLowerCase();
 				}
 
 				public String getVariableNamePattern() {
