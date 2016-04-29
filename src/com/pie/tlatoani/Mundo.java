@@ -151,7 +151,7 @@ public class Mundo extends JavaPlugin{
 			Classes.registerClass(new ClassInfo<PacketType>(PacketType.class, "packettype").user(new String[]{"packettype"}).name("packettype").parser(new Parser<PacketType>(){
 
 				public PacketType parse(String s, ParseContext context) {
-					Collection<PacketType> parseresult = PacketType.fromName(s);
+					Collection<PacketType> parseresult = PacketType.fromName(s.toUpperCase());
 					if (parseresult.isEmpty()) {
 						return null;
 					}
@@ -177,10 +177,11 @@ public class Mundo extends JavaPlugin{
 					return e.getPlayer();
 				}
 			}, 0);
+			Skript.registerEffect(EffSetPlayerHeartsHardcore.class, "make player's hearts hardcore style");
+			Skript.registerEvent("Packet Arrive", EvtPacketArrive.class, UtilPacketArriveEvent.class, "packet arrive of %packettypes%");
+			Skript.registerEvent("Packet Sending", EvtPacketSending.class, UtilPacketSendingEvent.class, "packet sending of %packettypes%");
+			Skript.registerExpression(ExprAllPacketTypes.class, PacketType.class, ExpressionType.SIMPLE, "all packettypes");
 		}
-		Skript.registerEffect(EffSetPlayerHeartsHardcore.class, "make player's hearts hardcore style");
-		Skript.registerEvent("Packet Arrive", EvtPacketArrive.class, UtilPacketArriveEvent.class, "packet arrive of %packettypes%");
-		Skript.registerEvent("Packet Sending", EvtPacketSending.class, UtilPacketSendingEvent.class, "packet sending of %packettypes%");
 		//Socket
 		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
 		Skript.registerEffect(EffOpenFunctionSocket.class, "open function socket at port %number% [with password %-string%] [through function %-string%]");
