@@ -16,7 +16,7 @@ public class ExprNewPacket extends SimpleExpression<PacketContainer> {
 
     @Override
     protected PacketContainer[] get(Event event) {
-        return new PacketContainer[]{new PacketContainer(packetTypeExpression.getSingle(event))};
+        return new PacketContainer[]{UtilPacketEvent.protocolManager.createPacket(packetTypeExpression.getSingle(event))};
     }
 
     @Override
