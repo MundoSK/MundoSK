@@ -40,7 +40,7 @@ public class ExprAllPacketTypes extends SimpleExpression<PacketType> {
         while (packetTypeIterator.hasNext()) {
             PacketType current = packetTypeIterator.next();
             listToConvert.add(current);
-            String fullname = "packet_" + prefix + "_" + current.name().toLowerCase();
+            String fullname = prefix + "_" + current.name().toLowerCase();
             nametoptype.put(fullname, current);
             ptypetoname.put(current, fullname);
         }

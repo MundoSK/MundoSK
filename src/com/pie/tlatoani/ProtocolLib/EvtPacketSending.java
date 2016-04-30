@@ -18,7 +18,7 @@ public class EvtPacketSending extends SkriptEvent{
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
         PacketType[] packetTypeArray = ((Literal<PacketType>) literals[0]).getAll();
-        UtilPacketArriveEvent.addListener(packetTypeArray);
+        UtilPacketSendingEvent.addListener(packetTypeArray);
         packetTypes = Arrays.asList(packetTypeArray);
         return true;
     }
