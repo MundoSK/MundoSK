@@ -32,9 +32,9 @@ public class ScopeTry extends CustomScope {
 			}
 		}
 		if (condCatch != null) {
-			condCatch.putCatch(e, caught);
+			condCatch.putCatch(e, ((caught != null) ? caught.getCause() : null));
 		}
-		ExprCatch.catches.put(e, caught);
+		ExprCatch.catches.put(e, ((caught != null) ? caught.getCause() : null));
 	}
 
 	@Override

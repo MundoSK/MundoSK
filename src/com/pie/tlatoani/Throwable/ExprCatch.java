@@ -38,7 +38,7 @@ public class ExprCatch extends SimpleExpression<Throwable>{
 	protected Throwable[] get(Event arg0) {
 		Throwable result = null;
 		if (catches.containsKey(arg0)) result = catches.get(arg0);
-		return new Throwable[]{(result != null) ? result.getCause() : null};
+		return new Throwable[]{result};
 	}
 
 }

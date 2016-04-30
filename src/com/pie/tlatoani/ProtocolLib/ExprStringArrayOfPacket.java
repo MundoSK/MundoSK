@@ -8,36 +8,32 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
 import org.bukkit.event.Event;
-import org.bukkit.inventory.meta.BookMeta;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Tlatoani on 4/30/16.
  */
-public class ExprBooleanOfPacket extends SimpleExpression<Boolean> {
+public class ExprStringArrayOfPacket extends SimpleExpression<String> {
     private Expression<Number> index;
     private Expression<PacketContainer> packetContainerExpression;
 
     @Override
-    protected Boolean[] get(Event event) {
-        return new Boolean[]{packetContainerExpression.getSingle(event).getBooleans().read(index.getSingle(event).intValue())};
+    protected String[] get(Event event) {
+        return packetContainerExpression.getSingle(event).getStringArrays().read(index.getSingle(event).intValue());
     }
 
     @Override
     public boolean isSingle() {
-        return true;
+        return false;
     }
 
     @Override
-    public Class<? extends Boolean> getReturnType() {
-        return Boolean.class;
+    public Class<? extends String> getReturnType() {
+        return String.class;
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "boolean %number% of %packet%";
+        return "strings %number% of %packet%";
     }
 
     @Override
@@ -48,11 +44,11 @@ public class ExprBooleanOfPacket extends SimpleExpression<Boolean> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
-        packetContainerExpression.getSingle(event).getBooleans().write(index.getSingle(event).intValue(), (Boolean) delta[0]);
+        packetContainerExpression.getSingle(event).getStringArrays().write(index.getSingle(event).intValue(), (String[]) delta);
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-        if (mode == Changer.ChangeMode.SET) return CollectionUtils.array(Boolean.class);
+        if (mode == Changer.ChangeMode.SET) return CollectionUtils.array(String[].class);
         return null;
     }
 }

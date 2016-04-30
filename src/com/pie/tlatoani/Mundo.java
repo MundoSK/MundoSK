@@ -216,7 +216,11 @@ public class Mundo extends JavaPlugin{
 			}, 0);
 			Skript.registerExpression(ExprAllPacketTypes.class, PacketType.class, ExpressionType.SIMPLE, "all packettypes");
 			Skript.registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.SIMPLE, "new %packettype% packet");
-			Skript.registerExpression(ExprBooleanOfPacket.class, Boolean.class, ExpressionType.PROPERTY, "boolean %number% of %packet%");
+			Skript.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "%type% %number% of %packet%");
+            //Skript.registerExpression(ExprStringOfPacket.class, String.class, ExpressionType.PROPERTY, "string %number% of %packet%");
+            //Skript.registerExpression(ExprStringArrayOfPacket.class, String.class, ExpressionType.PROPERTY, "strings %number% of %packet%");
+            Skript.registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int[eger]|3¦long|4¦float|5¦double) %number% of %packet%");
+            Skript.registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int[eger]|1¦byte)s %number% of %packet%");
 		}
 		//Socket
 		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
