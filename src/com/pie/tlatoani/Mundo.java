@@ -215,7 +215,7 @@ public class Mundo extends JavaPlugin{
 				}
 			}, 0);
 			Skript.registerExpression(ExprAllPacketTypes.class, PacketType.class, ExpressionType.SIMPLE, "all packettypes");
-			Skript.registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "packet of %packettype%");
+			Skript.registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype%");
 			Skript.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "object %number% of %packet%");
             Skript.registerExpression(ExprBooleanOfPacket.class, Boolean.class, ExpressionType.PROPERTY, "boolean %number% of %packet%");
             Skript.registerExpression(ExprStringOfPacket.class, String.class, ExpressionType.PROPERTY, "string %number% of %packet%");
