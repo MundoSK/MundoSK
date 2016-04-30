@@ -9,6 +9,7 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.reflect.StructureModifier;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Field;
@@ -32,6 +33,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
     @Override
     protected Object[] get(Event event) {
+        Mundo.debug(this, "The class the expression refers to: " + classinfo.getSingle(event).getC());
         Object result = null;
         try {
             StructureModifier structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));
