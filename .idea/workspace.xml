@@ -7,7 +7,108 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Achievement/EffAwardAch.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Achievement/EffRemoveAch.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Achievement/EvtAchAward.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Achievement/ExprAllAch.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Achievement/ExprHasAch.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Achievement/ExprParentAch.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Book/EffAddPage.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Book/EffMovePage.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Book/ExprAuthorOfBook.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Book/ExprBook.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Book/ExprPageCountOfBook.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Book/ExprPageOfBook.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Book/ExprPagesOfBook.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Book/ExprTitleOfBook.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/EnchantedBook/ExprEnchBookWithEnch.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/EnchantedBook/ExprEnchantLevelInEnchBook.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/EnchantedBook/ExprEnchantsInEnchBook.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Metrics$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Metrics$Graph.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Metrics$Plotter.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Metrics.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Miscellaneous/ExprDifficulty.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Miscellaneous/ExprGameRule.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Miscellaneous/ExprHighestSolidBlock.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Miscellaneous/ExprReturnTypeOfFunction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Miscellaneous/ExprWorldString.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$10.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$11.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$12.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$13.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$4.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$6.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$7.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$8.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo$9.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Mundo.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Probability/CondProbability.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Probability/ExprRandomIndex.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Probability/ExprRandomNumberIndex.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Probability/ScopeProbability.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Socket/EffCloseFunctionSocket.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Socket/EffOpenFunctionSocket.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Socket/EffWriteToSocket.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Socket/ExprFunctionSocketIsOpen.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Socket/ExprHandlerOfFunctionSocket.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Socket/ExprMotdOfServer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Socket/ExprPassOfFunctionSocket.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Socket/ExprPlayerCountOfServer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Socket/ExprServerSocketIsOpen.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Socket/UtilFunctionSocket.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Socket/UtilWriterSocket.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/TerrainControl/EffSpawnObject.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/TerrainControl/ExprBiomeAt.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/TerrainControl/ExprTCEnabled.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Throwable/EffPrintStackTrace.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Throwable/ExprCatch.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Throwable/ExprCause.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Throwable/ExprDetails.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Throwable/ExprLineNumberOfSTE.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Throwable/ExprPropertyNameOfSTE.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Throwable/ExprStackTrace.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Throwable/ScopeTry.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Util/CustomScope.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Util/EffCallCustomEvent.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Util/EffScope.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Util/EvtCustomEvent.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Util/ExprArgsOfCustomEvent.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Util/ExprIDOfCustomEvent.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/Util/UtilCustomEvent.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/EffResetBorder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/EvtBorderStabilize.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/ExprBeyondBorder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/ExprCenterOfBorder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/ExprDamageAmountOfBorder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/ExprDamageBufferOfBorder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/ExprFinalSizeOfBorder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/ExprSizeOfBorder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/ExprTimeRemainingUntilBorderStabilize.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/ExprWarningDistanceOfBorder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/ExprWarningTimeOfBorder.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/UtilBorderManager.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldBorder/UtilBorderStabilizeEvent.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldCreator/ExprCreatorNamed.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldCreator/ExprCreatorOf.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldCreator/ExprCreatorWith.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldCreator/ExprEnvOfCreator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldCreator/ExprGenOfCreator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldCreator/ExprGenSettingsOfCreator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldCreator/ExprNameOfCreator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldCreator/ExprSeedOfCreator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldCreator/ExprStructOfCreator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldCreator/ExprTypeOfCreator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldManagement/EffCreateWorld.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldManagement/EffDeleteWorld.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldManagement/EffDuplicateWorld.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/pie/tlatoani/WorldManagement/EffUnloadWorld.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,8 +133,8 @@
       <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="218" column="12" selection-start-line="218" selection-start-column="12" selection-end-line="218" selection-end-column="12" />
+            <state relative-caret-position="647">
+              <caret line="303" column="100" selection-start-line="303" selection-start-column="100" selection-end-line="303" selection-end-column="100" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#8743#8744#0" expanded="true" />
@@ -47,11 +148,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScopeTry.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CondCatch.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="44" column="165" selection-start-line="44" selection-start-column="165" selection-end-line="44" selection-end-column="165" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#562#569#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScopeTry.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+            <state relative-caret-position="162">
+              <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -154,10 +268,10 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EffSendPacket.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprBooleanOfPacket.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java" />
       </list>
     </option>
   </component>
@@ -994,21 +1108,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="19" column="36" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#562#569#0" expanded="true" />
-            <element signature="e#848#849#0" expanded="true" />
-            <element signature="e#893#894#0" expanded="true" />
-            <element signature="e#961#962#0" expanded="true" />
-            <element signature="e#1003#1004#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ExprCatch.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -1045,10 +1144,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprPageOfBook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="53" column="5" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="218" column="12" selection-start-line="218" selection-start-column="12" selection-end-line="218" selection-end-column="12" />
+        <state relative-caret-position="647">
+          <caret line="303" column="100" selection-start-line="303" selection-start-column="100" selection-end-line="303" selection-end-column="100" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#8743#8744#0" expanded="true" />
@@ -1061,19 +1176,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprPageOfBook.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="53" column="5" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
-          <folding />
+        <state relative-caret-position="544">
+          <caret line="44" column="165" selection-start-line="44" selection-start-column="165" selection-end-line="44" selection-end-column="165" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#562#569#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

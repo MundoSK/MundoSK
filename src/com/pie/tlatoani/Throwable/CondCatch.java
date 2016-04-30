@@ -41,8 +41,8 @@ public class CondCatch extends Condition {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         container = expressions[0];
         Class[] classes = container.acceptChange(Changer.ChangeMode.SET);
-        if (!Arrays.asList(classes).contains(Throwable.class)) {
-            Skript.error("The expression " + container + "cannot be set to an exception!");
+        if (!(Arrays.asList(classes).contains(Throwable.class) || Arrays.asList(classes).contains(Object.class))) {
+            Skript.error("The expression " + container + " cannot be set to an exception! The expression of a catch statement needs to be able to catch an exception.");
             return false;
         }
         return true;
