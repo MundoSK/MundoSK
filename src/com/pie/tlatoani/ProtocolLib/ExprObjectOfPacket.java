@@ -26,6 +26,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     static {
         try {
             structureModifier = PacketContainer.class.getDeclaredField("structureModifier");
+            structureModifier.setAccessible(true);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
