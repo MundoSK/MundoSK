@@ -38,7 +38,7 @@ public class UtilPacketSendingEvent extends Event{
             protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, ListenerPriority.NORMAL, packettypearray) {
                 @Override
                 public void onPacketSending(PacketEvent event) {
-                    UtilPacketArriveEvent evt = new UtilPacketArriveEvent(event);
+                    UtilPacketSendingEvent evt = new UtilPacketSendingEvent(event);
                     Bukkit.getServer().getPluginManager().callEvent(evt);
                 }
             });

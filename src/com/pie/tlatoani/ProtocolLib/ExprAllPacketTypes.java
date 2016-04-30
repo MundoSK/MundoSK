@@ -22,27 +22,29 @@ public class ExprAllPacketTypes extends SimpleExpression<PacketType> {
     private static PacketType[] returnArray;
     private static Map<String, PacketType> nametoptype = new HashMap<String, PacketType>();
     private static Map<PacketType, String> ptypetoname = new HashMap<PacketType, String>();
+    private static Map<PacketType, Boolean> ptypetoboolean = new HashMap<PacketType, Boolean>();
 
     static {
-        addPacketTypes(PacketType.Play.Server.getInstance(), "play_server");
-        addPacketTypes(PacketType.Play.Client.getInstance(), "play_client");
-        addPacketTypes(PacketType.Handshake.Server.getInstance(), "handshake_server");
-        addPacketTypes(PacketType.Handshake.Client.getInstance(), "handshake_client");
-        addPacketTypes(PacketType.Login.Server.getInstance(), "login_server");
-        addPacketTypes(PacketType.Login.Client.getInstance(), "login_client");
-        addPacketTypes(PacketType.Status.Server.getInstance(), "status_server");
-        addPacketTypes(PacketType.Status.Client.getInstance(), "status_client");
+        addPacketTypes(PacketType.Play.Server.getInstance(), "play", true);
+        addPacketTypes(PacketType.Play.Client.getInstance(), "play", false);
+        addPacketTypes(PacketType.Handshake.Server.getInstance(), "handshake", true);
+        addPacketTypes(PacketType.Handshake.Client.getInstance(), "handshake", false);
+        addPacketTypes(PacketType.Login.Server.getInstance(), "login", true);
+        addPacketTypes(PacketType.Login.Client.getInstance(), "login", false);
+        addPacketTypes(PacketType.Status.Server.getInstance(), "status", true);
+        addPacketTypes(PacketType.Status.Client.getInstance(), "status", false);
         returnArray = listToConvert.toArray(new PacketType[0]);
     }
 
-    private static void addPacketTypes(ObjectEnum<PacketType> packetTypes, String prefix) {
+    private static void addPacketTypes(ObjectEnum<PacketType> packetTypes, String prefix, Boolean isServer) {
         Iterator<PacketType> packetTypeIterator = packetTypes.iterator();
         while (packetTypeIterator.hasNext()) {
             PacketType current = packetTypeIterator.next();
             listToConvert.add(current);
-            String fullname = prefix + "_" + current.name().toLowerCase();
+            String fullname = prefix + "_" + (isServer ? "server" : "client") + "_" + current.name().toLowerCase();
             nametoptype.put(fullname, current);
             ptypetoname.put(current, fullname);
+            ptypetoboolean.put(current, isServer);
         }
     }
 
@@ -52,6 +54,10 @@ public class ExprAllPacketTypes extends SimpleExpression<PacketType> {
 
     public static String PacketTypeToString(PacketType ptype) {
         return ptypetoname.get(ptype);
+    }
+
+    public static Boolean isServer(PacketType packetType) {
+        return ptypetoboolean.get(packetType);
     }
 
     @Override

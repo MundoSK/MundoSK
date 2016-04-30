@@ -1,5 +1,6 @@
 package com.pie.tlatoani.ProtocolLib;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser;
@@ -18,6 +19,16 @@ public class EvtPacketSending extends SkriptEvent{
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
         PacketType[] packetTypeArray = ((Literal<PacketType>) literals[0]).getAll();
+        Boolean ok = true;
+        for (int j = 0; j < packetTypeArray.length; j++) {
+            if (!ExprAllPacketTypes.isServer(packetTypeArray[j])) {
+                Skript.error("The packettype " + ExprAllPacketTypes.PacketTypeToString(packetTypeArray[j]) + " is not a server side packettype!");
+                ok = false;
+            }
+        }
+        if (!ok) {
+            return false;
+        }
         UtilPacketSendingEvent.addListener(packetTypeArray);
         packetTypes = Arrays.asList(packetTypeArray);
         return true;
