@@ -34,7 +34,6 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
     @Override
     protected Object[] get(Event event) {
-        Mundo.debug(this, "The class the expression refers to: " + classinfo.getSingle(event).getC());
         Object result = null;
         try {
             StructureModifier structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));
