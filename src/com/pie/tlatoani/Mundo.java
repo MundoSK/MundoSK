@@ -1,7 +1,6 @@
 package com.pie.tlatoani;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.List;
 
 import ch.njol.skript.lang.util.SimpleEvent;
@@ -151,19 +150,15 @@ public class Mundo extends JavaPlugin{
 			Classes.registerClass(new ClassInfo<PacketType>(PacketType.class, "packettype").user(new String[]{"packettype"}).name("packettype").parser(new Parser<PacketType>(){
 
 				public PacketType parse(String s, ParseContext context) {
-					Collection<PacketType> parseresult = PacketType.fromName(s.toUpperCase());
-					if (parseresult.isEmpty()) {
-						return null;
-					}
-					return parseresult.iterator().next();
+					return ExprAllPacketTypes.fromString(s.toLowerCase());
 				}
 
 				public String toString(PacketType packetType, int flags) {
-					return packetType.name().toLowerCase();
+					return ExprAllPacketTypes.PacketTypeToString(packetType);
 				}
 
 				public String toVariableNameString(PacketType packetType) {
-					return packetType.name().toLowerCase();
+					return ExprAllPacketTypes.PacketTypeToString(packetType);
 				}
 
 				public String getVariableNamePattern() {
