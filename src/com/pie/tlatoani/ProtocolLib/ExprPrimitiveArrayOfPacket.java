@@ -20,14 +20,14 @@ public class ExprPrimitiveArrayOfPacket extends SimpleExpression<Number> {
     @Override
     protected Number[] get(Event event) {
         if (ifint) {
-            int[] ints = packetContainerExpression.getSingle(event).getIntegerArrays().read(index.getSingle(event).intValue());
+            int[] ints = packetContainerExpression.getSingle(event).getIntegerArrays().readSafely(index.getSingle(event).intValue());
             Number[] result = new Number[ints.length];
             for (int i = 0; i < ints.length; i++) {
                 result[i] = new Integer(ints[i]);
             }
             return result;
         } else {
-            byte[] bytes = packetContainerExpression.getSingle(event).getByteArrays().read(index.getSingle(event).intValue());
+            byte[] bytes = packetContainerExpression.getSingle(event).getByteArrays().readSafely(index.getSingle(event).intValue());
             Number[] result = new Number[bytes.length];
             for (int i = 0; i < bytes.length; i++) {
                 result[i] = new Byte(bytes[i]);
@@ -66,13 +66,13 @@ public class ExprPrimitiveArrayOfPacket extends SimpleExpression<Number> {
             for (int i = 0; i < ints.length; i++) {
                 ints[i] = ((Number) delta[i]).byteValue();
             }
-            packetContainerExpression.getSingle(event).getIntegerArrays().write(index.getSingle(event).intValue(), ints);
+            packetContainerExpression.getSingle(event).getIntegerArrays().writeSafely(index.getSingle(event).intValue(), ints);
         } else {
             byte[] bytes = new byte[delta.length];
             for (int i = 0; i < bytes.length; i++) {
                 bytes[i] = ((Number) delta[i]).byteValue();
             }
-            packetContainerExpression.getSingle(event).getByteArrays().write(index.getSingle(event).intValue(), bytes);
+            packetContainerExpression.getSingle(event).getByteArrays().writeSafely(index.getSingle(event).intValue(), bytes);
         }
 
     }

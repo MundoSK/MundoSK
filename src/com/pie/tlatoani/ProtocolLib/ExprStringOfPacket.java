@@ -18,7 +18,7 @@ public class ExprStringOfPacket extends SimpleExpression<String> {
 
     @Override
     protected String[] get(Event event) {
-        return new String[]{packetContainerExpression.getSingle(event).getStrings().read(index.getSingle(event).intValue())};
+        return new String[]{packetContainerExpression.getSingle(event).getStrings().readSafely(index.getSingle(event).intValue())};
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ExprStringOfPacket extends SimpleExpression<String> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
-        packetContainerExpression.getSingle(event).getStrings().write(index.getSingle(event).intValue(), (String) delta[0]);
+        packetContainerExpression.getSingle(event).getStrings().writeSafely(index.getSingle(event).intValue(), (String) delta[0]);
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

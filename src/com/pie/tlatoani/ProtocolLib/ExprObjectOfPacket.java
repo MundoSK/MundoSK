@@ -38,8 +38,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         Object result = null;
         try {
             StructureModifier structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));
-            StructureModifier specificStructureModifier = structureModifier.withType(classinfo.getSingle(event).getC());
-            result = specificStructureModifier.readSafely(index.getSingle(event).intValue());
+            result = structureModifier.readSafely(index.getSingle(event).intValue());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -72,8 +71,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         try {
             StructureModifier structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));
-            StructureModifier specificStructureModifier = structureModifier.withType(classinfo.getSingle(event).getC());
-            specificStructureModifier.writeSafely(index.getSingle(event).intValue(), delta[0]);
+            structureModifier.writeSafely(index.getSingle(event).intValue(), delta[0]);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

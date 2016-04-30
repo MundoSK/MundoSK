@@ -12,28 +12,28 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 4/30/16.
  */
-public class ExprStringArrayOfPacket extends SimpleExpression<String> {
+public class ExprBooleanOfPacket extends SimpleExpression<Boolean> {
     private Expression<Number> index;
     private Expression<PacketContainer> packetContainerExpression;
 
     @Override
-    protected String[] get(Event event) {
-        return packetContainerExpression.getSingle(event).getStringArrays().readSafely(index.getSingle(event).intValue());
+    protected Boolean[] get(Event event) {
+        return new Boolean[]{packetContainerExpression.getSingle(event).getBooleans().readSafely(index.getSingle(event).intValue())};
     }
 
     @Override
     public boolean isSingle() {
-        return false;
+        return true;
     }
 
     @Override
-    public Class<? extends String> getReturnType() {
-        return String.class;
+    public Class<? extends Boolean> getReturnType() {
+        return Boolean.class;
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "strings %number% of %packet%";
+        return "boolean %number% of %packet%";
     }
 
     @Override
@@ -44,11 +44,11 @@ public class ExprStringArrayOfPacket extends SimpleExpression<String> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
-        packetContainerExpression.getSingle(event).getStringArrays().writeSafely(index.getSingle(event).intValue(), (String[]) delta);
+        packetContainerExpression.getSingle(event).getBooleans().writeSafely(index.getSingle(event).intValue(), (Boolean) delta[0]);
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-        if (mode == Changer.ChangeMode.SET) return CollectionUtils.array(String[].class);
+        if (mode == Changer.ChangeMode.SET) return CollectionUtils.array(Boolean.class);
         return null;
     }
 }

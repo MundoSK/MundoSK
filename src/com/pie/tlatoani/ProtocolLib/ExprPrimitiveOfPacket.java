@@ -21,17 +21,17 @@ public class ExprPrimitiveOfPacket extends SimpleExpression<Number> {
     protected Number[] get(Event event) {
         Number result = null;
         if (mark == 0) {
-            result = packetContainerExpression.getSingle(event).getBytes().read(index.getSingle(event).intValue());
+            result = packetContainerExpression.getSingle(event).getBytes().readSafely(index.getSingle(event).intValue());
         } else if (mark == 1) {
-            result = packetContainerExpression.getSingle(event).getShorts().read(index.getSingle(event).intValue());
+            result = packetContainerExpression.getSingle(event).getShorts().readSafely(index.getSingle(event).intValue());
         } else if (mark == 2) {
-            result = packetContainerExpression.getSingle(event).getIntegers().read(index.getSingle(event).intValue());
+            result = packetContainerExpression.getSingle(event).getIntegers().readSafely(index.getSingle(event).intValue());
         } else if (mark == 3) {
-            result = packetContainerExpression.getSingle(event).getLongs().read(index.getSingle(event).intValue());
+            result = packetContainerExpression.getSingle(event).getLongs().readSafely(index.getSingle(event).intValue());
         } else if (mark == 4) {
-            result = packetContainerExpression.getSingle(event).getFloat().read(index.getSingle(event).intValue());
+            result = packetContainerExpression.getSingle(event).getFloat().readSafely(index.getSingle(event).intValue());
         } else if (mark == 5) {
-            result = packetContainerExpression.getSingle(event).getDoubles().read(index.getSingle(event).intValue());
+            result = packetContainerExpression.getSingle(event).getDoubles().readSafely(index.getSingle(event).intValue());
         }
         return new Number[]{result};
     }
@@ -61,17 +61,17 @@ public class ExprPrimitiveOfPacket extends SimpleExpression<Number> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         if (mark == 0) {
-            packetContainerExpression.getSingle(event).getBytes().write(index.getSingle(event).intValue(), ((Number) delta[0]).byteValue());
+            packetContainerExpression.getSingle(event).getBytes().writeSafely(index.getSingle(event).intValue(), ((Number) delta[0]).byteValue());
         } else if (mark == 1) {
-            packetContainerExpression.getSingle(event).getShorts().write(index.getSingle(event).intValue(), ((Number) delta[0]).shortValue());
+            packetContainerExpression.getSingle(event).getShorts().writeSafely(index.getSingle(event).intValue(), ((Number) delta[0]).shortValue());
         } else if (mark == 2) {
-            packetContainerExpression.getSingle(event).getIntegers().write(index.getSingle(event).intValue(), ((Number) delta[0]).intValue());
+            packetContainerExpression.getSingle(event).getIntegers().writeSafely(index.getSingle(event).intValue(), ((Number) delta[0]).intValue());
         } else if (mark == 3) {
-            packetContainerExpression.getSingle(event).getLongs().write(index.getSingle(event).intValue(), ((Number) delta[0]).longValue());
+            packetContainerExpression.getSingle(event).getLongs().writeSafely(index.getSingle(event).intValue(), ((Number) delta[0]).longValue());
         } else if (mark == 4) {
-            packetContainerExpression.getSingle(event).getFloat().write(index.getSingle(event).intValue(), ((Number) delta[0]).floatValue());
+            packetContainerExpression.getSingle(event).getFloat().writeSafely(index.getSingle(event).intValue(), ((Number) delta[0]).floatValue());
         } else if (mark == 5) {
-            packetContainerExpression.getSingle(event).getDoubles().write(index.getSingle(event).intValue(), ((Number) delta[0]).doubleValue());
+            packetContainerExpression.getSingle(event).getDoubles().writeSafely(index.getSingle(event).intValue(), ((Number) delta[0]).doubleValue());
         }
     }
 
