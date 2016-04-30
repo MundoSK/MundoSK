@@ -5,6 +5,7 @@ import java.util.List;
 
 import ch.njol.skript.lang.util.SimpleEvent;
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketContainer;
 import com.pie.tlatoani.ProtocolLib.*;
 import org.bukkit.Achievement;
 import org.bukkit.Bukkit;
@@ -165,6 +166,25 @@ public class Mundo extends JavaPlugin{
 					return ".+";
 				}
 			}));
+			Classes.registerClass(new ClassInfo<PacketContainer>(PacketContainer.class, "packet").user(new String[]{"packet"}).name("packet").parser(new Parser<PacketContainer>(){
+
+				public PacketContainer parse(String s, ParseContext context) {
+					return null;
+				}
+
+				public String toString(PacketContainer packet, int flags) {
+					return null;
+				}
+
+				public String toVariableNameString(PacketContainer packet) {
+					return null;
+				}
+
+				public String getVariableNamePattern() {
+					return ".+";
+				}
+			}));
+
 			Skript.registerEvent("Player Login Packet", SimpleEvent.class, UtilPlayerLoginPacketEvent.class, "player login packet");
 			EventValues.registerEventValue(UtilPlayerLoginPacketEvent.class, Player.class, new Getter<Player, UtilPlayerLoginPacketEvent>() {
 				@Override
@@ -173,9 +193,30 @@ public class Mundo extends JavaPlugin{
 				}
 			}, 0);
 			Skript.registerEffect(EffSetPlayerHeartsHardcore.class, "make player's hearts hardcore style");
-			Skript.registerEvent("Packet Arrive", EvtPacketArrive.class, UtilPacketArriveEvent.class, "packet arrive of %packettypes%");
-			Skript.registerEvent("Packet Sending", EvtPacketSending.class, UtilPacketSendingEvent.class, "packet sending of %packettypes%");
+
+			Skript.registerEffect(EffSendPacket.class, "send packet %packet% to %player%", "send %player% packet %packet%");
+			Skript.registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%");
+			EventValues.registerEventValue(UtilPacketEvent.class, PacketContainer.class, new Getter<PacketContainer, UtilPacketEvent>() {
+				@Override
+				public PacketContainer get(UtilPacketEvent e) {
+					return e.getPacket();
+				}
+			}, 0);
+			EventValues.registerEventValue(UtilPacketEvent.class, PacketType.class, new Getter<PacketType, UtilPacketEvent>() {
+				@Override
+				public PacketType get(UtilPacketEvent e) {
+					return e.getPacketType();
+				}
+			}, 0);
+			EventValues.registerEventValue(UtilPacketEvent.class, Player.class, new Getter<Player, UtilPacketEvent>() {
+				@Override
+				public Player get(UtilPacketEvent e) {
+					return e.getPlayer();
+				}
+			}, 0);
 			Skript.registerExpression(ExprAllPacketTypes.class, PacketType.class, ExpressionType.SIMPLE, "all packettypes");
+			Skript.registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.SIMPLE, "new %packettype% packet");
+			Skript.registerExpression(ExprBooleanOfPacket.class, Boolean.class, ExpressionType.PROPERTY, "boolean %number% of %packet%");
 		}
 		//Socket
 		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
@@ -232,6 +273,7 @@ public class Mundo extends JavaPlugin{
             }
         }));
 		Skript.registerCondition(ScopeTry.class, "try");
+		Skript.registerCondition(CondCatch.class, "catch in %object%");
 		Skript.registerEffect(EffPrintStackTrace.class, "print stack trace of %throwable%");
 		if (Bukkit.getServer().getPluginManager().getPlugin("RandomSK") == null)
 		Skript.registerExpression(ExprCatch.class,Throwable.class,ExpressionType.SIMPLE,"(catch|caught exception)");

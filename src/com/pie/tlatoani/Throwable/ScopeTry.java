@@ -1,5 +1,8 @@
 package com.pie.tlatoani.Throwable;
 
+import ch.njol.skript.Skript;
+import ch.njol.skript.lang.Condition;
+import ch.njol.skript.lang.Conditional;
 import org.bukkit.event.Event;
 
 import com.pie.tlatoani.Util.CustomScope;
@@ -7,6 +10,7 @@ import com.pie.tlatoani.Util.CustomScope;
 import ch.njol.skript.lang.TriggerItem;
 
 public class ScopeTry extends CustomScope {
+	private CondCatch condCatch = null;
 
 	@Override
 	public String toString(Event e, boolean debug) {
@@ -27,7 +31,27 @@ public class ScopeTry extends CustomScope {
 				caught = e1;
 			}
 		}
+		condCatch.putCatch(e, caught);
 		ExprCatch.catches.put(e, caught);
+	}
+
+	@Override
+	public void afterSetNext() {
+		TriggerItem possibleCatch = section.getNext();
+		if (possibleCatch instanceof Conditional) {
+			try {
+				Condition catchCond = (Condition) CustomScope.condition.get(possibleCatch);
+				if (catchCond instanceof CondCatch) {
+					this.condCatch = (CondCatch) catchCond;
+				} else {
+					Skript.warning("It is recommended to use a catch statement after a try statement");
+				}
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		} else {
+			Skript.warning("It is recommended to use a catch statement after a try statement");
+		}
 	}
 
 }
