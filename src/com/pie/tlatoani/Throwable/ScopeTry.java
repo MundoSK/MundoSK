@@ -31,7 +31,9 @@ public class ScopeTry extends CustomScope {
 				caught = e1;
 			}
 		}
-		condCatch.putCatch(e, caught);
+		if (condCatch != null) {
+			condCatch.putCatch(e, caught);
+		}
 		ExprCatch.catches.put(e, caught);
 	}
 
