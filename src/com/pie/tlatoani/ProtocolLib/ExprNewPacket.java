@@ -37,6 +37,6 @@ public class ExprNewPacket extends SimpleExpression<PacketContainer> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         packetTypeExpression = (Expression<PacketType>) expressions[0];
-        return false;
+        return true;
     }
 }
