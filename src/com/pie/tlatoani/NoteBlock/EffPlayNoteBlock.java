@@ -27,6 +27,8 @@ public class EffPlayNoteBlock extends Effect {
         if (instrumentExpression == null) {
             noteBlock.play();
         } else {
+            Mundo.debug(this, "Instrument: " + instrumentExpression.getSingle(event));
+            Mundo.debug(this, "Note: " + (noteExpression == null ? noteBlock.getNote() : noteExpression.getSingle(event)));
             noteBlock.play(instrumentExpression.getSingle(event), (noteExpression == null ? noteBlock.getNote() : noteExpression.getSingle(event)));
         }
     }
