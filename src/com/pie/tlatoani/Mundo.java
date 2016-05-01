@@ -146,7 +146,7 @@ public class Mundo extends JavaPlugin{
                     return null;
                 }
                 try {
-                    Note.Tone tone = Note.Tone.valueOf(s.substring(0, 1));
+                    Note.Tone tone = Note.Tone.valueOf(s.substring(0, 1).toUpperCase());
                     s = s.substring(1);
                     Boolean sharp = null;
                     Integer octave = 0;
