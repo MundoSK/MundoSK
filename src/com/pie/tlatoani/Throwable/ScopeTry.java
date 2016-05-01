@@ -25,11 +25,12 @@ public class ScopeTry extends CustomScope {
 		Exception caught = null;
 		while (within) {
 			try {
-				going = (TriggerItem) walkmethod.invoke(going, e);
-				Mundo.debug(this, "TOString of going: " + going);
-				if (going == null || going.getIndentation().length() <= indent) within = false;
+				Mundo.debug(this, "TOString of section: " + section);
 				Mundo.debug(this, "Indent: " + section.getIndentation() + "MARK");
+				Mundo.debug(this, "TOString of going: " + going);
 				Mundo.debug(this, "Indent: " + going.getIndentation() + "MARK");
+				going = (TriggerItem) walkmethod.invoke(going, e);
+				if (going == null || going.getIndentation().length() <= indent) within = false;
 			} catch (Exception e1) {
 				within = false;
 				caught = e1;
