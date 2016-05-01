@@ -34,6 +34,8 @@ public class ScopeTry extends CustomScope {
 			} catch (Exception e1) {
 				within = false;
 				caught = e1;
+				Mundo.debug(this, "Exception caught");
+				Mundo.debug(this, e1);
 			}
 		}
 		if (condCatch != null) {
