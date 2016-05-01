@@ -233,7 +233,7 @@ public class Mundo extends JavaPlugin{
             }
         }));
         Skript.registerExpression(ExprNoteOfBlock.class, Note.class, ExpressionType.PROPERTY, "note of %block%", "%block%'s note");
-        Skript.registerEffect(EffPlayNoteBlock.class, "play [[%-note% with] %-instrument% on] noteblock %block%", "play [%-note% with] %instrument% on noteblock %block% for %player%");
+        Skript.registerEffect(EffPlayNoteBlock.class, "play [[%-note% with] %-instrument% on] noteblock %block%");
         Skript.registerEvent("Note Play", SimpleEvent.class, NotePlayEvent.class, "note play");
         EventValues.registerEventValue(NotePlayEvent.class, Note.class, new Getter<Note, NotePlayEvent>(){
 
