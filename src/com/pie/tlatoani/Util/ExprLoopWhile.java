@@ -26,9 +26,9 @@ public class ExprLoopWhile extends SimpleExpression<Object> {
     @Override
     public Iterator<?> iterator(Event event) {
         if (ifBooleanExpression) {
-            return new UtilWhileClock(Arrays.asList(objects.getSingle(event)), event, booleanExpression);
+            return new UtilWhileClock(Arrays.asList(objects.getAll(event)), event, booleanExpression);
         } else {
-            return new UtilWhileClockPredicate(Arrays.asList(objects.getSingle(event)), event, booleanExpression);
+            return new UtilWhileClockPredicate(Arrays.asList(objects.getAll(event)), event, booleanExpression);
         }
     }
 
