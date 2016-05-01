@@ -9,7 +9,6 @@ import org.bukkit.Instrument;
 import org.bukkit.Note;
 import org.bukkit.block.Block;
 import org.bukkit.block.NoteBlock;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 /**

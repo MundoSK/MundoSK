@@ -82,7 +82,8 @@ public class ExprPagesOfBook extends SimpleExpression<String>{
 		}
 		return l.toArray((String[])new String[l.size()]);
 	}
-	
+
+	@Override
 	public Iterator<String> iterator(Event arg0) {
 		ItemStack input = book.getSingle(arg0);
 		BookMeta meta = (BookMeta) input.getItemMeta();
