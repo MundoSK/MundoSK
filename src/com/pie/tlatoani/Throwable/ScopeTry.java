@@ -3,6 +3,7 @@ package com.pie.tlatoani.Throwable;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Conditional;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import com.pie.tlatoani.Util.CustomScope;
@@ -25,6 +26,7 @@ public class ScopeTry extends CustomScope {
 		while (within) {
 			try {
 				going = (TriggerItem) walkmethod.invoke(going, e);
+				Mundo.debug(this, "TOString of going: " + going);
 				if (going == null || going.getIndentation().length() <= indent) within = false;
 			} catch (Exception e1) {
 				within = false;
