@@ -28,6 +28,8 @@ public class ScopeTry extends CustomScope {
 				going = (TriggerItem) walkmethod.invoke(going, e);
 				Mundo.debug(this, "TOString of going: " + going);
 				if (going == null || going.getIndentation().length() <= indent) within = false;
+				Mundo.debug(this, "Indent: " + section.getIndentation() + "MARK");
+				Mundo.debug(this, "Indent: " + going.getIndentation() + "MARK");
 			} catch (Exception e1) {
 				within = false;
 				caught = e1;
