@@ -7,7 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprLoopWhile.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprLoopWhile.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClockPredicate.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClockPredicate.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -130,14 +130,14 @@
       <file leaf-file-name="UtilWhileClockPredicate.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClockPredicate.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="74" selection-start-line="18" selection-start-column="74" selection-end-line="18" selection-end-column="74" />
+            <state relative-caret-position="360">
+              <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#748#749#0" expanded="true" />
-                <element signature="e#793#794#0" expanded="true" />
-                <element signature="e#835#836#0" expanded="true" />
-                <element signature="e#881#882#0" expanded="true" />
+                <element signature="e#765#766#0" expanded="true" />
+                <element signature="e#810#811#0" expanded="true" />
+                <element signature="e#852#853#0" expanded="true" />
+                <element signature="e#898#899#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -146,8 +146,8 @@
       <file leaf-file-name="ExprLoopWhile.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprLoopWhile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="29" column="16" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+            <state relative-caret-position="304">
+              <caret line="30" column="109" selection-start-line="30" selection-start-column="109" selection-end-line="30" selection-end-column="109" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1094#1095#0" expanded="true" />
@@ -224,8 +224,8 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilInfiniteIterator.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClock.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClockPredicate.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClockPredicate.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprLoopWhile.java" />
       </list>
     </option>
@@ -1106,18 +1106,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilInfiniteIterator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#398#399#0" expanded="true" />
-            <element signature="e#425#426#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/NoteBlock/EffPlayNoteBlock.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="469">
@@ -1151,34 +1139,6 @@
         <state relative-caret-position="90">
           <caret line="6" column="50" selection-start-line="6" selection-start-column="50" selection-end-line="6" selection-end-column="50" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#724#725#0" expanded="true" />
-            <element signature="e#781#782#0" expanded="true" />
-            <element signature="e#823#824#0" expanded="true" />
-            <element signature="e#869#870#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClockPredicate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="74" selection-start-line="18" selection-start-column="74" selection-end-line="18" selection-end-column="74" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#748#749#0" expanded="true" />
-            <element signature="e#793#794#0" expanded="true" />
-            <element signature="e#835#836#0" expanded="true" />
-            <element signature="e#881#882#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1238,10 +1198,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilInfiniteIterator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#398#399#0" expanded="true" />
+            <element signature="e#425#426#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClockPredicate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#765#766#0" expanded="true" />
+            <element signature="e#810#811#0" expanded="true" />
+            <element signature="e#852#853#0" expanded="true" />
+            <element signature="e#898#899#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#724#725#0" expanded="true" />
+            <element signature="e#781#782#0" expanded="true" />
+            <element signature="e#823#824#0" expanded="true" />
+            <element signature="e#869#870#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprLoopWhile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="29" column="16" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+        <state relative-caret-position="304">
+          <caret line="30" column="109" selection-start-line="30" selection-start-column="109" selection-end-line="30" selection-end-column="109" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1094#1095#0" expanded="true" />

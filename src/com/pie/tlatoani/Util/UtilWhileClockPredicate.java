@@ -19,7 +19,7 @@ public class UtilWhileClockPredicate implements Iterator{
     public UtilWhileClockPredicate(List<?> list, Event event, Expression<?> condition) {
         this.infiniteIterator = new UtilInfiniteIterator(list);
         this.event = event;
-        this.condition = (LambdaCondition) condition;
+        this.condition = (LambdaCondition) condition.getSingle(event);
     }
 
     @Override
