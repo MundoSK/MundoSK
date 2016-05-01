@@ -6,9 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/NoteBlock/EffPlayNoteBlock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/NoteBlock/EffPlayNoteBlock.java" />
-    </list>
+    <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="" />
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -108,11 +106,9 @@
       <file leaf-file-name="EffPlayNoteBlock.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/NoteBlock/EffPlayNoteBlock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="35" column="45" selection-start-line="35" selection-start-column="45" selection-end-line="35" selection-end-column="45" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="4">
+              <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1162,11 +1158,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/NoteBlock/EffPlayNoteBlock.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="35" column="45" selection-start-line="35" selection-start-column="45" selection-end-line="35" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="4">
+          <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+          <folding />
         </state>
       </provider>
     </entry>
