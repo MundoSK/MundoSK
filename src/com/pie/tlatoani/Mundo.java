@@ -6,18 +6,15 @@ import java.util.List;
 import ch.njol.skript.lang.util.SimpleEvent;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.pie.tlatoani.NoteBlock.EffPlayNoteBlock;
+import com.pie.tlatoani.NoteBlock.ExprNoteOfBlock;
 import com.pie.tlatoani.ProtocolLib.*;
-import org.bukkit.Achievement;
-import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.World.Environment;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.NotePlayEvent;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -141,7 +138,118 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprGameRule.class,String.class,ExpressionType.PROPERTY,"value of [game]rule %string% in %world%");
 		Skript.registerExpression(ExprReturnTypeOfFunction.class,ClassInfo.class,ExpressionType.PROPERTY,"return type of function %string%");
         Skript.registerExpression(ExprRemainingAir.class,Timespan.class,ExpressionType.PROPERTY,"breath of %livingentity%", "%livingentity%'s breath", "max breath of %livingentity%", "%livingentity%'s max breath");
-		//Probability
+		//NoteBlock
+        Classes.registerClass(new ClassInfo<Note>(Note.class, "note").user(new String[]{"note"}).name("note").parser(new Parser<Note>(){
+
+            public Note parse(String s, ParseContext context) {
+                if (s.length() > 3) {
+                    return null;
+                }
+                try {
+                    Note.Tone tone = Note.Tone.valueOf(s.substring(0, 1));
+                    s = s.substring(1);
+                    Boolean sharp = null;
+                    Integer octave = 0;
+                    if (s.length() > 0) {
+                        if (s.substring(0, 1).equals("+")) {
+                            sharp = true;
+                            s = s.substring(1);
+                        } else if (s.substring(0, 1).equals("-")) {
+                            sharp = false;
+                            s = s.substring(1);
+                        } else if (s.length() > 1) {
+                            return null;
+                        }
+                    }
+                    if (s.length() > 0) {
+                        if (s.equals("1")) {
+                            octave = 1;
+                        } else if (s.equals("2")) {
+                            octave = 2;
+                        } else if (s.equals("0")) {
+                            octave = 0;
+                        } else {
+                            return null;
+                        }
+                    }
+                    if (sharp == null) {
+                        return Note.natural(octave, tone);
+                    } else if (sharp) {
+                        return Note.sharp(octave, tone);
+                    } else {
+                        return Note.flat(octave, tone);
+                    }
+                } catch (IllegalArgumentException e) {
+                    return null;
+                }
+            }
+
+            public String toString(Note note, int flags) {
+                String result = note.getTone().toString();
+                if (note.isSharped()) {
+                    result += '+';
+                }
+                if (note.getOctave() > 0) {
+                    result = result + Integer.toString(note.getOctave());
+                }
+                return result;
+            }
+
+            public String toVariableNameString(Note note) {
+                String result = note.getTone().toString();
+                if (note.isSharped()) {
+                    result += '+';
+                }
+                if (note.getOctave() > 0) {
+                    result = result + Integer.toString(note.getOctave());
+                }
+                return result;
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
+        Classes.registerClass(new ClassInfo<Instrument>(Instrument.class, "instrument").user(new String[]{"instrument"}).name("instrument").parser(new Parser<Instrument>(){
+
+            public Instrument parse(String s, ParseContext context) {
+                try {
+                    return Instrument.valueOf(s.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    return null;
+                }
+            }
+
+            public String toString(Instrument instrument, int flags) {
+                return instrument.toString().toLowerCase();
+            }
+
+            public String toVariableNameString(Instrument instrument) {
+                return instrument.toString().toLowerCase();
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
+        Skript.registerExpression(ExprNoteOfBlock.class, Note.class, ExpressionType.PROPERTY, "note of %block%", "%block%'s note");
+        Skript.registerEffect(EffPlayNoteBlock.class, "play [[%note% with] %instrument% on] noteblock %block%", "play [%note% with] %instrument% on noteblock %block% for %player%");
+        Skript.registerEvent("Note Play", SimpleEvent.class, NotePlayEvent.class, "note play");
+        EventValues.registerEventValue(NotePlayEvent.class, Note.class, new Getter<Note, NotePlayEvent>(){
+
+            @Override
+            public Note get(NotePlayEvent notePlayEvent) {
+                return notePlayEvent.getNote();
+            }
+        }, 0);
+        EventValues.registerEventValue(NotePlayEvent.class, Instrument.class, new Getter<Instrument, NotePlayEvent>(){
+
+            @Override
+            public Instrument get(NotePlayEvent notePlayEvent) {
+                return notePlayEvent.getInstrument();
+            }
+        }, 0);
+        //Probability
 		Skript.registerCondition(ScopeProbability.class, "prob[ability]", "random chance");
 		Skript.registerCondition(CondProbability.class, "%number%[1¦\\%] prob[ability]");
 		Skript.registerExpression(ExprRandomIndex.class,String.class,ExpressionType.PROPERTY,"random from %numbers% prob[abilitie]s");
@@ -184,16 +292,6 @@ public class Mundo extends JavaPlugin{
 					return ".+";
 				}
 			}));
-
-			Skript.registerEvent("Player Login Packet", SimpleEvent.class, UtilPlayerLoginPacketEvent.class, "player login packet");
-			EventValues.registerEventValue(UtilPlayerLoginPacketEvent.class, Player.class, new Getter<Player, UtilPlayerLoginPacketEvent>() {
-				@Override
-				public Player get(UtilPlayerLoginPacketEvent e) {
-					return e.getPlayer();
-				}
-			}, 0);
-			Skript.registerEffect(EffSetPlayerHeartsHardcore.class, "make player's hearts hardcore style");
-
 			Skript.registerEffect(EffSendPacket.class, "send packet %packet% to %player%", "send %player% packet %packet%");
 			Skript.registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%");
 			EventValues.registerEventValue(UtilPacketEvent.class, PacketContainer.class, new Getter<PacketContainer, UtilPacketEvent>() {
