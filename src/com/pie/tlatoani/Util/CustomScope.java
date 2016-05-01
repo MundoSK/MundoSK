@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Util;
 
+import ch.njol.skript.lang.*;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Field;
@@ -7,17 +8,13 @@ import java.lang.reflect.Method;
 
 import javax.annotation.Nullable;
 
-import ch.njol.skript.lang.Condition;
-import ch.njol.skript.lang.Conditional;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.TriggerItem;
-import ch.njol.skript.lang.TriggerSection;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 
 public abstract class CustomScope extends Condition {
 	public static Field firstitem;
 	public static Field condition;
+	public static Field whilecondition;
 	public static Method walkmethod;
 	public static Method runmethod;
 	protected TriggerItem section;
@@ -35,6 +32,8 @@ public abstract class CustomScope extends Condition {
 			firstitem.setAccessible(true);
 			condition = Conditional.class.getDeclaredField("cond");
 			condition.setAccessible(true);
+			whilecondition = While.class.getDeclaredField("c");
+			whilecondition.setAccessible(true);
 			walkmethod = TriggerItem.class.getDeclaredMethod("walk", Event.class);
 			walkmethod.setAccessible(true);
 			runmethod = TriggerItem.class.getDeclaredMethod("run", Event.class);

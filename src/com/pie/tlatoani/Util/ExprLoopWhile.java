@@ -15,8 +15,7 @@ import java.util.Iterator;
  */
 public class ExprLoopWhile extends SimpleExpression<Object> {
     private Expression<?> objects;
-    private Expression<?> booleanExpression;
-    private Boolean ifBooleanExpression;
+    private Expression<Boolean> booleanExpression;
 
     @Override
     protected Object[] get(Event event) {
@@ -25,11 +24,7 @@ public class ExprLoopWhile extends SimpleExpression<Object> {
 
     @Override
     public Iterator<?> iterator(Event event) {
-        if (ifBooleanExpression) {
-            return new UtilWhileClock(Arrays.asList(objects.getAll(event)), event, booleanExpression);
-        } else {
-            return new UtilWhileClockPredicate(Arrays.asList(objects.getAll(event)), event, booleanExpression);
-        }
+        return new UtilWhileClock(Arrays.asList(objects.getAll(event)), event, booleanExpression);
     }
 
     @Override
@@ -50,8 +45,7 @@ public class ExprLoopWhile extends SimpleExpression<Object> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         objects = expressions[0];
-        booleanExpression = expressions[1];
-        ifBooleanExpression = booleanExpression.getReturnType() == Boolean.class;
+        booleanExpression = (Expression<Boolean>) expressions[1];
         return true;
     }
 }

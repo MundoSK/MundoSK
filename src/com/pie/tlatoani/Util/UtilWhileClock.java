@@ -15,10 +15,10 @@ public class UtilWhileClock implements Iterator {
     private Event event;
     private Expression<Boolean> booleanExpression = null;
 
-    public UtilWhileClock(List<?> list, Event event, Expression<?> booleanExpression) {
+    public UtilWhileClock(List<?> list, Event event, Expression<Boolean> booleanExpression) {
         this.infiniteIterator = new UtilInfiniteIterator(list);
         this.event = event;
-        this.booleanExpression = (Expression<Boolean>) booleanExpression;
+        this.booleanExpression = booleanExpression;
     }
 
     @Override
