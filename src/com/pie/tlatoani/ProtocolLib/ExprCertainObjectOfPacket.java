@@ -94,6 +94,8 @@ public class ExprCertainObjectOfPacket extends SimpleExpression<Object> {
             e.printStackTrace();
             return false;
         }
+        index = (Expression<Number>) expressions[1];
+        packetContainerExpression = (Expression<PacketContainer>) expressions[2];
         return true;
     }
 
