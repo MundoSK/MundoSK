@@ -1,7 +1,10 @@
 package com.pie.tlatoani;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 import ch.njol.skript.lang.util.SimpleEvent;
 import com.comphenix.protocol.PacketType;
@@ -48,6 +51,7 @@ import ch.njol.skript.util.Timespan;
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
 	public static FileConfiguration config;
+    public static Boolean RandomSK;
 	
 	public void onEnable(){
 		instance = this;
@@ -55,9 +59,23 @@ public class Mundo extends JavaPlugin{
 		config.addDefault("debug_mode", false);
 		config.options().copyDefaults(true);
 		saveConfig();
+        RandomSK = Bukkit.getPluginManager().getPlugin("RandomSK") != null;
 		Skript.registerAddon(this);
 		info("Pie is awesome :D");
-		//Achievement
+        try {
+            Field test = PacketContainer.class.getDeclaredField("readMethods");
+            test.setAccessible(true);
+            ConcurrentMap<Class<?>, Method> readMethods = (ConcurrentMap<Class<?>, Method>) test.get(null);
+            Iterator<Method> values = readMethods.values().iterator();
+            while (values.hasNext()) {
+                debug(this, "Method: " + values.next().toString());
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        //Achievement
 		Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
 
             public Achievement parse(String s, ParseContext context) {
@@ -142,6 +160,13 @@ public class Mundo extends JavaPlugin{
         Classes.registerClass(new ClassInfo<Note>(Note.class, "note").user(new String[]{"note"}).name("note").parser(new Parser<Note>(){
 
             public Note parse(String s, ParseContext context) {
+                if (s.substring(0, 1).toUpperCase().equals("N")) {
+                    s = s.substring(1);
+                } else {
+                    if (RandomSK) {
+                        return null;
+                    }
+                }
                 if (s.length() > 3) {
                     return null;
                 }
@@ -232,7 +257,6 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
-        Skript.registerExpression(ExprNoteOfBlock.class, Note.class, ExpressionType.PROPERTY, "note of %block%", "%block%'s note");
         Skript.registerEffect(EffPlayNoteBlock.class, "play [[%-note% with] %-instrument% on] noteblock %block%");
         Skript.registerEvent("Note Play", SimpleEvent.class, NotePlayEvent.class, "note play");
         EventValues.registerEventValue(NotePlayEvent.class, Note.class, new Getter<Note, NotePlayEvent>(){
@@ -249,6 +273,14 @@ public class Mundo extends JavaPlugin{
                 return notePlayEvent.getInstrument();
             }
         }, 0);
+        EventValues.registerEventValue(NotePlayEvent.class, Block.class, new Getter<Block, NotePlayEvent>(){
+
+            @Override
+            public Block get(NotePlayEvent notePlayEvent) {
+                return notePlayEvent.getBlock();
+            }
+        }, 0);
+        Skript.registerExpression(ExprNoteOfBlock.class, Note.class, ExpressionType.PROPERTY, "note of %block%", "%block%'s note");
         //Probability
 		Skript.registerCondition(ScopeProbability.class, "prob[ability]", "random chance");
 		Skript.registerCondition(CondProbability.class, "%number%[1¦\\%] prob[ability]");
@@ -256,6 +288,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
 		//ProtocolLib
 		if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
+            Mundo.info("You've discovered the amazing realm of ProtocolLib packet syntaxes!");
 			Classes.registerClass(new ClassInfo<PacketType>(PacketType.class, "packettype").user(new String[]{"packettype"}).name("packettype").parser(new Parser<PacketType>(){
 
 				public PacketType parse(String s, ParseContext context) {
@@ -388,7 +421,6 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprPropertyNameOfSTE.class,String.class,ExpressionType.PROPERTY,"(0¦class|1¦file|2¦method) name of %stacktraceelement%", "%stacktraceelement%'s (0¦class|1¦file|2¦method) name");
 		Skript.registerExpression(ExprLineNumberOfSTE.class,Integer.class,ExpressionType.PROPERTY,"line number of %stacktraceelement%", "%stacktraceelement%'s line number");
 		//Util
-        Skript.registerCondition(CondRecheck.class, "recheck");
 		Skript.registerEffect(EffScope.class, "$ scope");
 		Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
 		Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "[custom] (event|evt) [%-string%]");
