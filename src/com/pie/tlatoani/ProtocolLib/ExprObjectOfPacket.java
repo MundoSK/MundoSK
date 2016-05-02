@@ -82,12 +82,11 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             return true;
         }
         Mundo.debug(this, "Class simple name: " + classname);
-        if (i == 1) {
-            classname = classname + "Array";
-            isSingle = false;
-        }
         String pluralclassname;
-        if (classname.substring(classname.length() - 1).equals("y")) {
+        if (i == 1) {
+            pluralclassname = classname + "Arrays";
+            isSingle = false;
+        } else if (classname.substring(classname.length() - 1).equals("y")) {
             pluralclassname = classname.substring(0, classname.length() - 1) + "ies";
         } else {
             pluralclassname = classname + "s";
