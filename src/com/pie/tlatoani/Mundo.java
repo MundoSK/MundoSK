@@ -1,10 +1,7 @@
 package com.pie.tlatoani;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
 
 import ch.njol.skript.lang.util.SimpleEvent;
 import com.comphenix.protocol.PacketType;
@@ -334,13 +331,9 @@ public class Mundo extends JavaPlugin{
 			}, 0);
 			Skript.registerExpression(ExprAllPacketTypes.class, PacketType.class, ExpressionType.SIMPLE, "all packettypes");
 			Skript.registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
-            Skript.registerExpression(ExprCertainObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "%*classinfo% %number% of %packet%");
-			//Skript.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "object %number% of %packet%");
-            //Skript.registerExpression(ExprBooleanOfPacket.class, Boolean.class, ExpressionType.PROPERTY, "boolean %number% of %packet%");
-            //Skript.registerExpression(ExprStringOfPacket.class, String.class, ExpressionType.PROPERTY, "string %number% of %packet%");
-            //Skript.registerExpression(ExprStringArrayOfPacket.class, String.class, ExpressionType.PROPERTY, "strings %number% of %packet%");
+            Skript.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "%*classinfo% %number% of %packet%", "%*classinfo% array %number% of %packet%");
             Skript.registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int[eger]|3¦long|4¦float|5¦double) %number% of %packet%");
-            Skript.registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int[eger]|1¦byte)s %number% of %packet%");
+            Skript.registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int[eger]|1¦byte) array %number% of %packet%");
 		}
 		//Socket
 		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
