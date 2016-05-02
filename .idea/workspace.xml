@@ -7,14 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CondRecheck.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClockPredicate.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprLoopWhile.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprLoopWhile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClock.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CondRecheck.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CondRecheck.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,11 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2494">
-              <caret line="388" column="41" selection-start-line="388" selection-start-column="41" selection-end-line="388" selection-end-column="41" />
+            <state relative-caret-position="3105">
+              <caret line="207" column="0" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2515#2516#0" expanded="true" />
@@ -94,15 +87,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CondRecheck.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CondRecheck.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/CondRecheck.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
+            <state relative-caret-position="15">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#604#605#0" expanded="true" />
-                <element signature="e#636#637#0" expanded="true" />
+                <element signature="e#635#636#0" expanded="true" />
+                <element signature="e#667#668#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1089,22 +1082,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/CondRecheck.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#604#605#0" expanded="true" />
-            <element signature="e#636#637#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2494">
-          <caret line="388" column="41" selection-start-line="388" selection-start-column="41" selection-end-line="388" selection-end-column="41" />
+        <state relative-caret-position="3105">
+          <caret line="207" column="0" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2515#2516#0" expanded="true" />
@@ -1153,6 +1134,18 @@
             <element signature="e#14223#14224#0" expanded="true" />
             <element signature="e#14401#14402#0" expanded="true" />
             <element signature="e#14434#14435#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/CondRecheck.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#635#636#0" expanded="true" />
+            <element signature="e#667#668#0" expanded="true" />
           </folding>
         </state>
       </provider>

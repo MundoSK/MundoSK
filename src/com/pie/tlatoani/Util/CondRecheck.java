@@ -3,6 +3,7 @@ package com.pie.tlatoani.Util;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.*;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import javax.annotation.Nullable;
@@ -39,6 +40,7 @@ public class CondRecheck extends Condition {
         TriggerSection currentParent = parent;
         Boolean cont = true;
         while (cont) {
+            Mundo.debug(this, "currentParent: " + currentParent);
             if (currentParent instanceof While) {
                 cont = false;
                 try {
