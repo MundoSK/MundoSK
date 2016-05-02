@@ -62,20 +62,6 @@ public class Mundo extends JavaPlugin{
         RandomSK = Bukkit.getPluginManager().getPlugin("RandomSK") != null;
 		Skript.registerAddon(this);
 		info("Pie is awesome :D");
-        try {
-            Field test = PacketContainer.class.getDeclaredField("readMethods");
-            test.setAccessible(true);
-            ConcurrentMap<Class<?>, Method> readMethods = (ConcurrentMap<Class<?>, Method>) test.get(null);
-            info("readMethods: " + readMethods.toString());
-            Iterator<Method> values = readMethods.values().iterator();
-            while (values.hasNext()) {
-                info("Method: " + values.next().toString());
-            }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
         //Achievement
 		Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
 
@@ -348,10 +334,11 @@ public class Mundo extends JavaPlugin{
 			}, 0);
 			Skript.registerExpression(ExprAllPacketTypes.class, PacketType.class, ExpressionType.SIMPLE, "all packettypes");
 			Skript.registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
-			Skript.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "object %number% of %packet%");
-            Skript.registerExpression(ExprBooleanOfPacket.class, Boolean.class, ExpressionType.PROPERTY, "boolean %number% of %packet%");
-            Skript.registerExpression(ExprStringOfPacket.class, String.class, ExpressionType.PROPERTY, "string %number% of %packet%");
-            Skript.registerExpression(ExprStringArrayOfPacket.class, String.class, ExpressionType.PROPERTY, "strings %number% of %packet%");
+            Skript.registerExpression(ExprCertainObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "%*classinfo% %number% of %packet%");
+			//Skript.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "object %number% of %packet%");
+            //Skript.registerExpression(ExprBooleanOfPacket.class, Boolean.class, ExpressionType.PROPERTY, "boolean %number% of %packet%");
+            //Skript.registerExpression(ExprStringOfPacket.class, String.class, ExpressionType.PROPERTY, "string %number% of %packet%");
+            //Skript.registerExpression(ExprStringArrayOfPacket.class, String.class, ExpressionType.PROPERTY, "strings %number% of %packet%");
             Skript.registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int[eger]|3¦long|4¦float|5¦double) %number% of %packet%");
             Skript.registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int[eger]|1¦byte)s %number% of %packet%");
 		}
@@ -589,7 +576,7 @@ public class Mundo extends JavaPlugin{
 	public static void reportException(Object o, Exception e) {
 		info("An exception has occured within MundoSK");
 		info("Please report this to the MundoSK thread on forums.skunity.com");
-		info("Exception at " + o.getClass());
+		info("Exception at " + o.getClass().getSimpleName());
 		e.printStackTrace();
 	}
 	
@@ -599,13 +586,13 @@ public class Mundo extends JavaPlugin{
 	
 	public static void debug(Object obj, String msg) {
 		if (config.getBoolean("debug_mode")) {
-			info(obj.getClass() + ": " + msg);
+			info(obj.getClass().getSimpleName() + ": " + msg);
 		}
 	}
 	
 	public static void classDebug(Class<?> cla, String msg) {
 		if (config.getBoolean("debug_mode")) {
-			info(cla + ": " + msg);
+			info(cla.getSimpleName() + ": " + msg);
 		}
 	}
 
