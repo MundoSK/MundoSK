@@ -83,7 +83,7 @@ public class ExprCertainObjectOfPacket extends SimpleExpression<Object> {
         if (classname.substring(classname.length() - 1).equals("y")) {
             pluralclassname = classname.substring(0, classname.length() - 1) + "ies";
         } else {
-            pluralclassname = classname = "s";
+            pluralclassname = classname + "s";
         }
         Mundo.debug(this, "Class plural name: " + pluralclassname);
         try {
