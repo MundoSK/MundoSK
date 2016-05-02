@@ -37,23 +37,22 @@ public class CondRecheck extends Condition {
     @Override
     public TriggerItem setParent(final @Nullable TriggerSection parent) {
         super.parent = parent;
-        TriggerSection currentParent = parent;
-        Boolean cont = true;
-        while (cont) {
-            Mundo.debug(this, "currentParent: " + currentParent);
-            if (currentParent instanceof While) {
-                cont = false;
-                try {
-                    condition = (Condition) CustomScope.whilecondition.get(currentParent);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else if (currentParent instanceof Trigger) {
-                cont = false;
-                Skript.error("'recheck' needs to be written within a while loop!");
-            } else {
-                currentParent = currentParent.getParent();
+        if (parent instanceof While) {
+            try {
+                condition = (Condition) CustomScope.whilecondition.get(parent);
+                Mundo.debug(this, "Condition: " + condition);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
+        } else if (parent instanceof Conditional) {
+            try {
+                condition = (Condition) CustomScope.condition.get(parent);
+                Mundo.debug(this, "Condition: " + condition);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Skript.error("'recheck' needs to be written within a while loop!");
         }
         return this;
     }
