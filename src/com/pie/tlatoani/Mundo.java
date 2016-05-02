@@ -66,9 +66,10 @@ public class Mundo extends JavaPlugin{
             Field test = PacketContainer.class.getDeclaredField("readMethods");
             test.setAccessible(true);
             ConcurrentMap<Class<?>, Method> readMethods = (ConcurrentMap<Class<?>, Method>) test.get(null);
+            info("readMethods: " + readMethods.toString());
             Iterator<Method> values = readMethods.values().iterator();
             while (values.hasNext()) {
-                debug(this, "Method: " + values.next().toString());
+                info("Method: " + values.next().toString());
             }
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
