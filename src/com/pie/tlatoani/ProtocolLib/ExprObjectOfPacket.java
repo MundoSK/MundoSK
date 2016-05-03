@@ -17,6 +17,8 @@ import org.bukkit.event.Event;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Created by Tlatoani on 5/2/16.
@@ -61,6 +63,30 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         } else {
             return (Object[]) structureModifier.readSafely(index.getSingle(event).intValue());
         }
+    }
+
+    @Override
+    public Iterator<Object> iterator(Event event) {
+        if (isSingle) {
+            throw new UnsupportedOperationException("This is not an array!");
+        }
+        StructureModifier structureModifier = null;
+        if (getObjects != null) {
+            try {
+                structureModifier = (StructureModifier) getObjects.invoke(packetContainerExpression.getSingle(event));
+            } catch (IllegalAccessException e) {
+                Mundo.debug(this, e);
+            } catch (InvocationTargetException e) {
+                Mundo.debug(this, e);
+            }
+        } else {
+            try {
+                structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return Arrays.asList((Object[]) structureModifier.readSafely(index.getSingle(event).intValue())).iterator();
     }
 
     @Override

@@ -9,6 +9,9 @@ import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
 import org.bukkit.event.Event;
 
+import java.util.Arrays;
+import java.util.Iterator;
+
 /**
  * Created by Tlatoani on 4/30/16.
  */
@@ -35,6 +38,25 @@ public class ExprPrimitiveArrayOfPacket extends SimpleExpression<Number> {
             return result;
         }
 
+    }
+
+    @Override
+    public Iterator<Number> iterator(Event event) {
+        if (ifint) {
+            int[] ints = packetContainerExpression.getSingle(event).getIntegerArrays().readSafely(index.getSingle(event).intValue());
+            Number[] result = new Number[ints.length];
+            for (int i = 0; i < ints.length; i++) {
+                result[i] = new Integer(ints[i]);
+            }
+            return Arrays.asList(result).iterator();
+        } else {
+            byte[] bytes = packetContainerExpression.getSingle(event).getByteArrays().readSafely(index.getSingle(event).intValue());
+            Number[] result = new Number[bytes.length];
+            for (int i = 0; i < bytes.length; i++) {
+                result[i] = new Byte(bytes[i]);
+            }
+            return Arrays.asList(result).iterator();
+        }
     }
 
     @Override
