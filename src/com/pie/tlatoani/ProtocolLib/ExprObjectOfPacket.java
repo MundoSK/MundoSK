@@ -62,11 +62,15 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             return new Object[] {structureModifier.readSafely(index.getSingle(event).intValue())};
         } else {
             Object[] oldarray = (Object[]) structureModifier.readSafely(index.getSingle(event).intValue());
-            Object[] newarray = new Object[oldarray.length];
-            for (int i = 0; i < oldarray.length; i++) {
-                newarray[i] = oldarray[i];
+            if (oldarray != null) {
+                Object[] newarray = new Object[oldarray.length];
+                for (int i = 0; i < oldarray.length; i++) {
+                    newarray[i] = oldarray[i];
+                }
+                return newarray;
+            } else {
+                return null;
             }
-            return newarray;
         }
     }
 
@@ -101,11 +105,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
     @Override
     public Class<?> getReturnType() {
-        if (isSingle) {
-            return aClass;
-        } else {
-            return Object[].class;
-        }
+        return aClass;
     }
 
     @Override
