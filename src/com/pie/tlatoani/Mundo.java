@@ -331,9 +331,9 @@ public class Mundo extends JavaPlugin{
 			}, 0);
 			Skript.registerExpression(ExprAllPacketTypes.class, PacketType.class, ExpressionType.SIMPLE, "all packettypes");
 			Skript.registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
-            Skript.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "%*classinfo% %number% of %packet%", "%*classinfo% array %number% of %packet%");
-            Skript.registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int[eger]|3¦long|4¦float|5¦double) %number% of %packet%");
-            Skript.registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int[eger]|1¦byte) array %number% of %packet%");
+            Skript.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "%*classinfo% packetinfo %number% of %packet%", "%*classinfo% array packetinfo %number% of %packet%");
+            Skript.registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) packetinfo %number% of %packet%");
+            Skript.registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array packetinfo %number% of %packet%");
 		}
 		//Socket
 		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
