@@ -61,7 +61,12 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         if (isSingle) {
             return new Object[] {structureModifier.readSafely(index.getSingle(event).intValue())};
         } else {
-            return (Object[]) structureModifier.readSafely(index.getSingle(event).intValue());
+            Object[] oldarray = (Object[]) structureModifier.readSafely(index.getSingle(event).intValue());
+            Object[] newarray = new Object[oldarray.length];
+            for (int i = 0; i < oldarray.length; i++) {
+                newarray[i] = oldarray[i];
+            }
+            return newarray;
         }
     }
 
