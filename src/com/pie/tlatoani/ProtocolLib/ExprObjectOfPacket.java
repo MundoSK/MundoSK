@@ -107,6 +107,8 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         Literal<ClassInfo<?>> literal = (Literal<ClassInfo<?>>) expressions[0];
+        index = (Expression<Number>) expressions[1];
+        packetContainerExpression = (Expression<PacketContainer>) expressions[2];
         aClass = literal.getSingle().getC();
         String classname = aClass.getSimpleName();
         if (aClass == Object.class) {
@@ -132,8 +134,6 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             Skript.error("The type " + literal + " is not applicable for the '%type% %number% of %packet%' expression.");
             return false;
         }
-        index = (Expression<Number>) expressions[1];
-        packetContainerExpression = (Expression<PacketContainer>) expressions[2];
         return true;
     }
 
