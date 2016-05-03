@@ -3,6 +3,7 @@ import java.util.WeakHashMap;
 
 import javax.annotation.Nullable;
 
+import ch.njol.skript.Skript;
 import org.bukkit.event.Event;
 
 import ch.njol.skript.lang.Expression;
@@ -25,6 +26,7 @@ public class ExprCatch extends SimpleExpression<Throwable>{
 
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
+		Skript.warning("The catch expression will be removed in a future version, we recommend switching to the catch statement.");
 		return true;
 	}
 

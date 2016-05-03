@@ -1,5 +1,6 @@
 package com.pie.tlatoani.ProtocolLib;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.lang.Expression;
@@ -55,7 +56,11 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 e.printStackTrace();
             }
         }
-        return new Object[] {structureModifier.readSafely(index.getSingle(event).intValue())};
+        if (isSingle) {
+            return new Object[] {structureModifier.readSafely(index.getSingle(event).intValue())};
+        } else {
+            return (Object[]) structureModifier.readSafely(index.getSingle(event).intValue());
+        }
     }
 
     @Override
@@ -65,7 +70,11 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
     @Override
     public Class<?> getReturnType() {
-        return Object.class;
+        if (isSingle) {
+            return aClass;
+        } else {
+            return Object[].class;
+        }
     }
 
     @Override
@@ -98,6 +107,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             getObjects = method;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
+            Skript.error("The type " + literal + " is not applicable for the '%type% %number% of %packet%' expression.");
             return false;
         }
         index = (Expression<Number>) expressions[1];
