@@ -8,8 +8,12 @@ import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class EvtCustomEvent extends SkriptEvent {
-	private Literal<String> id;
+	private List<String> ids = new ArrayList<String>();
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
@@ -19,18 +23,19 @@ public class EvtCustomEvent extends SkriptEvent {
 	@Override
 	public boolean check(Event arg0) {
 		if (arg0 instanceof UtilCustomEvent) {
-			if (id != null) {
-				if (((UtilCustomEvent) arg0).getID().equalsIgnoreCase(id.getSingle())) return true;
-				else return false;
-			} else 
-			return true;
-		} else return false;
+			if (ids.contains(((UtilCustomEvent) arg0).getID().toLowerCase())) {
+				return true;
+			} return false;
+		} return false;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Literal<?>[] lit, int arg1, ParseResult arg2) {
-		id = (Literal<String>) lit[0];
+		String[] strings = ((Literal<String>) lit[0]).getAll();
+		for (int i = 0; i < strings.length; i ++) {
+			ids.add(strings[i].toLowerCase());
+		}
 		return true;
 	}
 

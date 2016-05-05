@@ -130,7 +130,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             Mundo.debug(this, "Method: " + method.toString());
             getObjects = method;
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            Mundo.debug(this, e);
             Skript.error("The type " + literal + " is not applicable for the '%type% %number% of %packet%' expression.");
             return false;
         }

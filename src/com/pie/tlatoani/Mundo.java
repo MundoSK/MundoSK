@@ -6,9 +6,6 @@ import java.util.List;
 import ch.njol.skript.lang.util.SimpleEvent;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
-import com.pie.tlatoani.NoteBlock.EffPlayNoteBlock;
-import com.pie.tlatoani.NoteBlock.ExprNoteOfBlock;
-import com.pie.tlatoani.ProtocolLib.*;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
@@ -22,8 +19,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.EnchantedBook.*;
+import com.pie.tlatoani.JSON.*;
 import com.pie.tlatoani.Miscellaneous.*;
+import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
+import com.pie.tlatoani.ProtocolLib.*;
 import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.TerrainControl.*;
 import com.pie.tlatoani.Throwable.*;
@@ -111,7 +111,26 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprEnchBookWithEnch.class,ItemStack.class,ExpressionType.PROPERTY,"%itemstack% containing %enchantmenttypes%");
 		Skript.registerExpression(ExprEnchantLevelInEnchBook.class,Integer.class,ExpressionType.PROPERTY,"level of %enchantmenttype% within %itemstack%");
 		Skript.registerExpression(ExprEnchantsInEnchBook.class,EnchantmentType.class,ExpressionType.PROPERTY,"enchants within %itemstack%");
-		//Miscellaneous
+		//JSON
+        Classes.registerClass(new ClassInfo<JSONObject>(JSONObject.class, "jsonobject").user(new String[]{"packet"}).name("packet").parser(new Parser<JSONObject>(){
+
+            public JSONObject parse(String s, ParseContext context) {
+                return null;
+            }
+
+            public String toString(JSONObject jsonObject, int flags) {
+                return jsonObject.toString();
+            }
+
+            public String toVariableNameString(JSONObject jsonObject) {
+                return jsonObject.toString();
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
+        //Miscellaneous
 		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
 
             public Difficulty parse(String s, ParseContext context) {
@@ -404,7 +423,7 @@ public class Mundo extends JavaPlugin{
 		//Util
 		Skript.registerEffect(EffScope.class, "$ scope");
 		Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
-		Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "[custom] (event|evt) [%-string%]");
+		Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "evt %strings%");
 		Skript.registerExpression(ExprIDOfCustomEvent.class,String.class,ExpressionType.PROPERTY,"id of custom event", "custom event's id");
 		Skript.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
         Skript.registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% while %boolean%");
