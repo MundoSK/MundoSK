@@ -5,6 +5,7 @@ import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.lang.VariableString;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
@@ -88,7 +89,15 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        String string = ((Literal<String>) expressions[0]).getSingle();
+        String string;
+        if (expressions[0] instanceof Literal<?>) {
+            string = ((Literal<String>) expressions[0]).getSingle();
+        } else if (expressions[0] instanceof VariableString) {
+            string = ((VariableString) expressions[0]).toString();
+        } else {
+            Skript.error("The string " + expressions[0] + " is not a literal string! Only literal strings can be used in the pjson expression!");
+            return false;
+        }
         index = (Expression<Number>) expressions[1];
         packetContainerExpression = (Expression<PacketContainer>) expressions[2];
         if (getFunctionMap.containsKey(string.toLowerCase())) {
