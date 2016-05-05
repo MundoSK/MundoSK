@@ -93,9 +93,10 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
         if (expressions[0] instanceof Literal<?>) {
             string = ((Literal<String>) expressions[0]).getSingle();
         } else if (expressions[0] instanceof VariableString) {
-            string = ((VariableString) expressions[0]).toString();
+            String fullstring = ((VariableString) expressions[0]).toString();
+            string = fullstring.substring(1, fullstring.length() - 1);
         } else {
-            Skript.error("The string " + expressions[0] + " is not a literal string! Only literal strings can be used in the pjson expression!");
+            Skript.error("The string '" + expressions[0] + "' is not a literal string! Only literal strings can be used in the pjson expression!");
             return false;
         }
         index = (Expression<Number>) expressions[1];
