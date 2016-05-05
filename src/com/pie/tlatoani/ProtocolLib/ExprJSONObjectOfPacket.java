@@ -83,7 +83,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "%type% %number% of %packet%";
+        return "%string% packetinfo %number% of %packet%";
     }
 
     @Override

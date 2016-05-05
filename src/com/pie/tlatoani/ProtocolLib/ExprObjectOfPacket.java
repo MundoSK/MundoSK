@@ -101,7 +101,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "%type% %number% of %packet%";
+        return "%type% packetinfo %number% of %packet%";
     }
 
     @Override
