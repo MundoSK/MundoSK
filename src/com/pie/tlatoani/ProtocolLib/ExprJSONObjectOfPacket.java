@@ -71,6 +71,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
     @Override
     protected JSONObject[] get(Event event) {
         PacketContainer packet = packetContainerExpression.getSingle(event);
+        Mundo.debug(this, "Packet before calling function :" + packet);
         JSONObject result = getFunction.apply(packet, index.getSingle(event).intValue());
         return new JSONObject[]{result};
     }
@@ -116,6 +117,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         PacketContainer packet = packetContainerExpression.getSingle(event);
+        Mundo.debug(this, "Packet before calling function :" + packet);
         setFunction.apply(packet, index.getSingle(event).intValue(), ((JSONObject) delta[0]));
     }
 
