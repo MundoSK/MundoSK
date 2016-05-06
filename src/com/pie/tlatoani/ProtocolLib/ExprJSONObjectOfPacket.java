@@ -41,7 +41,9 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 Mundo.debug(this, "ChatComponents :" + packet.getChatComponents());
                 WrappedChatComponent chatComponent = packet.getChatComponents().readSafely(index);
                 String fromjson = chatComponent.getJson();
+                Mundo.debug(this, "Fromjson: " + fromjson);
                 JSONObject tojson = new JSONObject(fromjson);
+                Mundo.debug(this, "Tojson " + tojson);
                 return tojson;
             }
         });
