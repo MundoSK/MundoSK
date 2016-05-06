@@ -99,12 +99,12 @@
       <file leaf-file-name="ExprJSONObjectOfPacket.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="98" column="61" selection-start-line="98" selection-start-column="61" selection-end-line="98" selection-end-column="61" />
+            <state relative-caret-position="585">
+              <caret line="40" column="81" selection-start-line="40" selection-start-column="81" selection-end-line="40" selection-end-column="81" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1078#1104#0" expanded="true" />
-                <element signature="e#1184#1210#0" expanded="true" />
+                <element signature="e#1109#1135#0" expanded="true" />
+                <element signature="e#1215#1241#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1225,12 +1225,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="98" column="61" selection-start-line="98" selection-start-column="61" selection-end-line="98" selection-end-column="61" />
+        <state relative-caret-position="585">
+          <caret line="40" column="81" selection-start-line="40" selection-start-column="81" selection-end-line="40" selection-end-column="81" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1078#1104#0" expanded="true" />
-            <element signature="e#1184#1210#0" expanded="true" />
+            <element signature="e#1109#1135#0" expanded="true" />
+            <element signature="e#1215#1241#0" expanded="true" />
           </folding>
         </state>
       </provider>

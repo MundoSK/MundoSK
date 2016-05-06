@@ -12,6 +12,7 @@ import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.pie.tlatoani.JSON.JSONObject;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Method;
@@ -36,6 +37,8 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
         getFunctionMap.put("chatcomponent", new PacketInfoGetter() {
             @Override
             public JSONObject apply(PacketContainer packet, Integer index) {
+                Mundo.debug(this, "Packet :" + packet);
+                Mundo.debug(this, "ChatComponents :" + packet.getChatComponents());
                 WrappedChatComponent chatComponent = packet.getChatComponents().readSafely(index);
                 String fromjson = chatComponent.getJson();
                 JSONObject tojson = new JSONObject(fromjson);
