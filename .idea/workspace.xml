@@ -7,7 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Json/EffPutJsonInListVariable.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Json/EffPutJsonInListVariable.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Json/ExprListVariableAsJson.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ExprRandomIndex.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ExprRandomIndex.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,8 +35,8 @@
       <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-5516">
-              <caret line="133" column="110" selection-start-line="133" selection-start-column="110" selection-end-line="133" selection-end-column="110" />
+            <state relative-caret-position="229">
+              <caret line="116" column="103" selection-start-line="116" selection-start-column="103" selection-end-line="116" selection-end-column="103" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -41,16 +44,44 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EffPutJsonInListVariable.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EffPutJsonInListVariable.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/EffPutJsonInListVariable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="110" column="197" selection-start-line="110" selection-start-column="197" selection-end-line="110" selection-end-column="197" />
+            <state relative-caret-position="1200">
+              <caret line="91" column="92" selection-start-line="91" selection-start-column="92" selection-end-line="91" selection-end-column="92" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#6874#6875#0" expanded="true" />
                 <element signature="e#6947#6948#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExprListVariableAsJson.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/ExprListVariableAsJson.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="559">
+              <caret line="113" column="11" selection-start-line="113" selection-start-column="11" selection-end-line="113" selection-end-column="11" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#5645#5646#0" expanded="true" />
+                <element signature="e#5672#5673#0" expanded="true" />
+                <element signature="e#5744#5745#0" expanded="true" />
+                <element signature="e#5783#5784#0" expanded="true" />
+                <element signature="e#5851#5852#0" expanded="true" />
+                <element signature="e#5907#5908#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExprRandomIndex.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ExprRandomIndex.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="54" column="53" selection-start-line="54" selection-start-column="53" selection-end-line="54" selection-end-column="53" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -75,7 +106,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/JsonArray.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/JsonArrayBuilder.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/JsonBuilderFactory.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/JsonException.java" />
@@ -123,9 +153,10 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/API/Json.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldCreator/ExprCreatorWith.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffCreateWorld.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ExprRandomIndex.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/EffPutJsonInListVariable.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ExprRandomIndex.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/ExprListVariableAsJson.java" />
       </list>
     </option>
   </component>
@@ -305,32 +336,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tlatoani" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Json" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="API" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -342,6 +347,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/Tlatoani/Documents/MundoSK/src/com/pie/tlatoani/Json/EffPutJsonInListVariable.java" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -660,14 +666,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/API/stream/JsonParserFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="43" column="28" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/API/stream/JsonParser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -1095,16 +1093,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5516">
-          <caret line="133" column="110" selection-start-line="133" selection-start-column="110" selection-end-line="133" selection-end-column="110" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/API/JsonArray.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
@@ -1123,20 +1111,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ExprRandomIndex.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        <state relative-caret-position="450">
+          <caret line="54" column="53" selection-start-line="54" selection-start-column="53" selection-end-line="54" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/EffPutJsonInListVariable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="110" column="197" selection-start-line="110" selection-start-column="197" selection-end-line="110" selection-end-column="197" />
+        <state relative-caret-position="1200">
+          <caret line="91" column="92" selection-start-line="91" selection-start-column="92" selection-end-line="91" selection-end-column="92" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#6874#6875#0" expanded="true" />
             <element signature="e#6947#6948#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="116" column="103" selection-start-line="116" selection-start-column="103" selection-end-line="116" selection-end-column="103" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/ExprListVariableAsJson.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="559">
+          <caret line="113" column="11" selection-start-line="113" selection-start-column="11" selection-end-line="113" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5645#5646#0" expanded="true" />
+            <element signature="e#5672#5673#0" expanded="true" />
+            <element signature="e#5744#5745#0" expanded="true" />
+            <element signature="e#5783#5784#0" expanded="true" />
+            <element signature="e#5851#5852#0" expanded="true" />
+            <element signature="e#5907#5908#0" expanded="true" />
           </folding>
         </state>
       </provider>

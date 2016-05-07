@@ -52,7 +52,7 @@ public class ExprRandomIndex extends SimpleExpression<String> {
 	@Override
 	@Nullable
 	protected String[] get(Event e) {
-		Iterator<Pair<String, Object>> iter = ((Variable<?>) numbers).variablesIterator(e);
+		Iterator<Pair<String, Object>> iter = numbers.variablesIterator(e);
 		List<Number> probs = new ArrayList<Number>();
 		List<String> indeces = new ArrayList<String>();
 		Number sum = 0;
