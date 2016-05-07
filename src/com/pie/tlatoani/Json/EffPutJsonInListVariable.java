@@ -97,8 +97,6 @@ public class EffPutJsonInListVariable extends Effect {
         jsonObjectExpression = (Expression<JsonObject>) exprs[0];
         Mundo.debug(this, "Return type: " + exprs[1].getReturnType());
         if (exprs[1] instanceof Variable && ((Variable) exprs[1]).isList()) {
-            Container.ContainerType type = exprs[1].getReturnType().getAnnotation(Container.ContainerType.class);
-            if (type == null) throw new SkriptAPIException(exprs[1].getReturnType().getName() + " implements Container but is missing the required @ContainerType annotation");
             listVariable = (Variable) exprs[1];
             return true;
         }

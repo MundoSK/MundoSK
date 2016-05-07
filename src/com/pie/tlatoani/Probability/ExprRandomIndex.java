@@ -37,8 +37,6 @@ public class ExprRandomIndex extends SimpleExpression<String> {
 	@Override
 	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parseResult) {
 		if (exprs[0] instanceof Variable && ((Variable) exprs[0]).isList()) {
-			Container.ContainerType type = exprs[0].getReturnType().getAnnotation(Container.ContainerType.class);
-			if (type == null) throw new SkriptAPIException(exprs[0].getReturnType().getName() + " implements Container but is missing the required @ContainerType annotation");
 			numbers = (Variable) exprs[0];
 			return true;
 		}
