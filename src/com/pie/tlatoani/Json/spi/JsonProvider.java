@@ -66,7 +66,7 @@ public abstract class JsonProvider {
      * {@code JsonProvider} implementation class.
      */
     private static final String DEFAULT_PROVIDER
-            = "org.glassfish.json.JsonProviderImpl";
+            = "com.pie.tlatoani.Json.glassfish.JsonProviderImpl";
 
     protected JsonProvider() {
     }
