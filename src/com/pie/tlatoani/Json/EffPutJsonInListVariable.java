@@ -93,6 +93,7 @@ public class EffPutJsonInListVariable extends Effect {
 
     @Override
     public boolean init(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+        Mundo.debug(this, "Expression class: " + exprs[1].getClass());
         jsonObjectExpression = (Expression<JsonObject>) exprs[0];
         Mundo.debug(this, "Return type: " + exprs[1].getReturnType());
         if (Container.class.isAssignableFrom(exprs[1].getReturnType())) {
