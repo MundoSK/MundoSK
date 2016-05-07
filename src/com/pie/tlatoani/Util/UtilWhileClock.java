@@ -1,22 +1,21 @@
 package com.pie.tlatoani.Util;
 
-import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;
 import org.bukkit.event.Event;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by Tlatoani on 5/1/16.
  */
 public class UtilWhileClock implements Iterator {
-    private UtilInfiniteIterator  infiniteIterator;
+    private CircularIterator infiniteIterator;
     private Event event;
     private Expression<Boolean> booleanExpression = null;
 
-    public UtilWhileClock(List<?> list, Event event, Expression<Boolean> booleanExpression) {
-        this.infiniteIterator = new UtilInfiniteIterator(list);
+    public UtilWhileClock(ArrayList<?> list, Event event, Expression<Boolean> booleanExpression) {
+        this.infiniteIterator = new CircularIterator(list);
         this.event = event;
         this.booleanExpression = booleanExpression;
     }

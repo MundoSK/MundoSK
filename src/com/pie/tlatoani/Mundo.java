@@ -19,7 +19,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.EnchantedBook.*;
-import com.pie.tlatoani.JSON.*;
 import com.pie.tlatoani.Miscellaneous.*;
 import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
@@ -44,6 +43,8 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.EnchantmentType;
 import ch.njol.skript.util.Getter;
 import ch.njol.skript.util.Timespan;
+
+import javax.json.JsonObject;
 
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
@@ -111,18 +112,18 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprEnchBookWithEnch.class,ItemStack.class,ExpressionType.PROPERTY,"%itemstack% containing %enchantmenttypes%");
 		Skript.registerExpression(ExprEnchantLevelInEnchBook.class,Integer.class,ExpressionType.PROPERTY,"level of %enchantmenttype% within %itemstack%");
 		Skript.registerExpression(ExprEnchantsInEnchBook.class,EnchantmentType.class,ExpressionType.PROPERTY,"enchants within %itemstack%");
-		//JSON
-        Classes.registerClass(new ClassInfo<JSONObject>(JSONObject.class, "jsonobject").user(new String[]{"jsonobject"}).name("jsonobject").parser(new Parser<JSONObject>(){
+		//Json
+        Classes.registerClass(new ClassInfo<JsonObject>(JsonObject.class, "jsonobject").user(new String[]{"jsonobject"}).name("jsonobject").parser(new Parser<JsonObject>(){
 
-            public JSONObject parse(String s, ParseContext context) {
+            public JsonObject parse(String s, ParseContext context) {
                 return null;
             }
 
-            public String toString(JSONObject jsonObject, int flags) {
+            public String toString(JsonObject jsonObject, int flags) {
                 return jsonObject.toString();
             }
 
-            public String toVariableNameString(JSONObject jsonObject) {
+            public String toVariableNameString(JsonObject jsonObject) {
                 return jsonObject.toString();
             }
 
@@ -350,7 +351,7 @@ public class Mundo extends JavaPlugin{
 			}, 0);
 			Skript.registerExpression(ExprAllPacketTypes.class, PacketType.class, ExpressionType.SIMPLE, "all packettypes");
 			Skript.registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
-            Skript.registerExpression(ExprJSONObjectOfPacket.class, JSONObject.class, ExpressionType.PROPERTY, "%string% pjson %number% of %packet%");
+            Skript.registerExpression(ExprJsonObjectOfPacket.class, JsonObject.class, ExpressionType.PROPERTY, "%string% pjson %number% of %packet%");
             Skript.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "%*classinfo% pinfo %number% of %packet%", "%*classinfo% array pinfo %number% of %packet%");
             Skript.registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%");
             Skript.registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array pnum %number% of %packet%");
