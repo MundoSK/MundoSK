@@ -27,7 +27,7 @@ import java.util.function.Consumer;
  */
 public class EffPutJsonInListVariable extends Effect {
     private Expression<JsonObject> jsonObjectExpression;
-    private Expression<Object> listVariable;
+    private Variable listVariable;
 
     private static void setToJsonObject(String variableName, Map<String, JsonValue> jsonObject, Boolean isLocal, Event event) {
         jsonObject.forEach(new BiConsumer<String, JsonValue>() {
@@ -96,10 +96,10 @@ public class EffPutJsonInListVariable extends Effect {
         Mundo.debug(this, "Expression class: " + exprs[1].getClass());
         jsonObjectExpression = (Expression<JsonObject>) exprs[0];
         Mundo.debug(this, "Return type: " + exprs[1].getReturnType());
-        if (Container.class.isAssignableFrom(exprs[1].getReturnType())) {
+        if (exprs[1] instanceof Variable && ((Variable) exprs[1]).isList()) {
             Container.ContainerType type = exprs[1].getReturnType().getAnnotation(Container.ContainerType.class);
             if (type == null) throw new SkriptAPIException(exprs[1].getReturnType().getName() + " implements Container but is missing the required @ContainerType annotation");
-            listVariable = new ContainerExpression((Expression<? extends Container<?>>) exprs[1], type.value());
+            listVariable = (Variable) exprs[1];
             return true;
         }
         Skript.error("'put json %jsonobject% in list variable %objects%' must be used with a list variable!");;

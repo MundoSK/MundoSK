@@ -21,7 +21,7 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.Pair;
 
 public class ExprRandomIndex extends SimpleExpression<String> {
-	private Expression<?> numbers;
+	private Variable<?> numbers;
 
 	@Override
 	public boolean isSingle() {
@@ -36,12 +36,13 @@ public class ExprRandomIndex extends SimpleExpression<String> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parseResult) {
-		if (Container.class.isAssignableFrom(exprs[0].getReturnType())) {
-			ContainerType type = exprs[0].getReturnType().getAnnotation(ContainerType.class);
+		if (exprs[0] instanceof Variable && ((Variable) exprs[0]).isList()) {
+			Container.ContainerType type = exprs[0].getReturnType().getAnnotation(Container.ContainerType.class);
 			if (type == null) throw new SkriptAPIException(exprs[0].getReturnType().getName() + " implements Container but is missing the required @ContainerType annotation");
-			numbers = new ContainerExpression((Expression<? extends Container<?>>) exprs[0], type.value());
+			numbers = (Variable) exprs[0];
 			return true;
-		} else Skript.error("'random from %number% probs' must be used with a list variable!");;
+		}
+		Skript.error("'random from %number% probs' must be used with a list variable!");;
 		return false;
 	}
 
