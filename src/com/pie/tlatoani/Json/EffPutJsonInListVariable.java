@@ -115,7 +115,7 @@ public class EffPutJsonInListVariable extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "put json %jsonobject% in list variable %objects%";
+        return "put json %jsonobject% in listvar %objects%";
     }
 
     @Override
@@ -127,7 +127,7 @@ public class EffPutJsonInListVariable extends Effect {
             listVariable = (Variable) exprs[1];
             return true;
         }
-        Skript.error("'put json %jsonobject% in list variable %objects%' must be used with a list variable!");;
+        Skript.error("'put json %jsonobject% in listvar %objects%' must be used with a list variable!");;
         return false;
     }
 }

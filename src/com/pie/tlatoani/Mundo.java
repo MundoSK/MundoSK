@@ -132,8 +132,8 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
-        Skript.registerEffect(EffPutJsonInListVariable.class, "put json %jsonobject% in list variable %objects%");
-        Skript.registerExpression(ExprListVariableAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of list variable %objects%");
+        Skript.registerEffect(EffPutJsonInListVariable.class, "put json %jsonobject% in listvar %objects%");
+        Skript.registerExpression(ExprListVariableAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of listvar %objects%");
         //Miscellaneous
 		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
 

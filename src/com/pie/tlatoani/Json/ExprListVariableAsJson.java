@@ -112,18 +112,18 @@ public class ExprListVariableAsJson extends SimpleExpression<JsonObject> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "list variable %objects% as json";
+        return "listvar %objects% as json";
     }
 
     @Override
     public boolean init(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         Mundo.debug(this, "Expression class: " + exprs[0].getClass());
         Mundo.debug(this, "Return type: " + exprs[0].getReturnType());
-        if (exprs[1] instanceof Variable && ((Variable) exprs[0]).isList()) {
+        if (exprs[0] instanceof Variable && ((Variable) exprs[0]).isList()) {
             listVariable = (Variable) exprs[0];
             return true;
         }
-        Skript.error("'list variable %objects% as json' must be used with a list variable!");;
+        Skript.error("'listvar %objects% as json' must be used with a list variable!");;
         return false;
     }
 }
