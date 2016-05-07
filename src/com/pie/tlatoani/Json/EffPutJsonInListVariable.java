@@ -30,24 +30,38 @@ public class EffPutJsonInListVariable extends Effect {
     private Variable listVariable;
 
     private static void setToJsonObject(String variableName, Map<String, JsonValue> jsonObject, Boolean isLocal, Event event) {
+        Mundo.classDebug(EffPutJsonInListVariable.class, "Variable name: " + variableName);
+        Mundo.classDebug(EffPutJsonInListVariable.class, "Is local: " + isLocal);
         jsonObject.forEach(new BiConsumer<String, JsonValue>() {
             @Override
             public void accept(String s, JsonValue jsonValue) {
                 if (jsonValue instanceof JsonString) {
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Jsonstring");
                     String indexname = variableName.substring(0, variableName.length() - 1) + s;
                     String result = ((JsonString) jsonValue).getString();
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Indexname: " + indexname);
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Result: " + result);
                     Variables.setVariable(indexname, result, event, isLocal);
                 } else if (jsonValue instanceof JsonNumber) {
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Jsonnumber");
                     String indexname = variableName.substring(0, variableName.length() - 1) + s;
                     Number result = ((JsonNumber) jsonValue).doubleValue();
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Indexname: " + indexname);
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Result: " + result);
                     Variables.setVariable(indexname, result, event, isLocal);
                 } else if (jsonValue instanceof JsonArray) {
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Jsonarray");
                     String indexname = variableName.substring(0, variableName.length() - 1) + s + "::*";
                     JsonArray result = (JsonArray) jsonValue;
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Indexname: " + indexname);
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Result: " + result);
                     setToJsonArray(indexname, result, isLocal, event);
                 } else if (jsonValue instanceof JsonObject) {
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Jsonobject");
                     String indexname = variableName.substring(0, variableName.length() - 1) + s + "::*";
                     JsonObject result = (JsonObject) jsonValue;
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Indexname: " + indexname);
+                    Mundo.classDebug(EffPutJsonInListVariable.class, "Result: " + result);
                     setToJsonObject(indexname, result, isLocal, event);
                 }
             }
@@ -58,20 +72,32 @@ public class EffPutJsonInListVariable extends Effect {
         for (int i = 1; i <= jsonArray.size(); i++) {
             JsonValue jsonValue = jsonArray.get(i - 1);
             if (jsonValue instanceof JsonString) {
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Jsonstring");
                 String indexname = variableName.substring(0, variableName.length() - 1) + i;
                 String result = ((JsonString) jsonValue).getString();
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Indexname: " + indexname);
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Result: " + result);
                 Variables.setVariable(indexname, result, event, isLocal);
             } else if (jsonValue instanceof JsonNumber) {
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Jsonnumber");
                 String indexname = variableName.substring(0, variableName.length() - 1) + i;
                 Number result = ((JsonNumber) jsonValue).doubleValue();
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Indexname: " + indexname);
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Result: " + result);
                 Variables.setVariable(indexname, result, event, isLocal);
             } else if (jsonValue instanceof JsonArray) {
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Jsonarray");
                 String indexname = variableName.substring(0, variableName.length() - 1) + i + "::*";
                 JsonArray result = (JsonArray) jsonValue;
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Indexname: " + indexname);
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Result: " + result);
                 setToJsonArray(indexname, result, isLocal, event);
             } else if (jsonValue instanceof JsonObject) {
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Jsonobject");
                 String indexname = variableName.substring(0, variableName.length() - 1) + i + "::*";
                 JsonObject result = (JsonObject) jsonValue;
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Indexname: " + indexname);
+                Mundo.classDebug(EffPutJsonInListVariable.class, "Result: " + result);
                 setToJsonObject(indexname, result, isLocal, event);
             }
         }
@@ -83,6 +109,7 @@ public class EffPutJsonInListVariable extends Effect {
         listVariable.change(event, null, Changer.ChangeMode.DELETE);
         Map<String, JsonValue> jsonObject = jsonObjectExpression.getSingle(event);
         String name = listVariable.isLocal() ? listVariable.toString().substring(2) : listVariable.toString().substring(1);
+        Mundo.debug(this, "Variable name try it: " + name);
         setToJsonObject(name, jsonObject, listVariable.isLocal(), event);
     }
 
