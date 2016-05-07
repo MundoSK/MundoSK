@@ -44,12 +44,12 @@
       <file leaf-file-name="EffPutJsonInListVariable.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/EffPutJsonInListVariable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="111" column="57" selection-start-line="111" selection-start-column="57" selection-end-line="111" selection-end-column="57" />
+            <state relative-caret-position="469">
+              <caret line="110" column="197" selection-start-line="110" selection-start-column="197" selection-end-line="110" selection-end-column="197" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#6798#6799#0" expanded="true" />
-                <element signature="e#6871#6872#0" expanded="true" />
+                <element signature="e#6874#6875#0" expanded="true" />
+                <element signature="e#6947#6948#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1131,12 +1131,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/EffPutJsonInListVariable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="111" column="57" selection-start-line="111" selection-start-column="57" selection-end-line="111" selection-end-column="57" />
+        <state relative-caret-position="469">
+          <caret line="110" column="197" selection-start-line="110" selection-start-column="197" selection-end-line="110" selection-end-column="197" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6798#6799#0" expanded="true" />
-            <element signature="e#6871#6872#0" expanded="true" />
+            <element signature="e#6874#6875#0" expanded="true" />
+            <element signature="e#6947#6948#0" expanded="true" />
           </folding>
         </state>
       </provider>
