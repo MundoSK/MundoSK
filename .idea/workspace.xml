@@ -7,27 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/UtilInfiniteIterator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/JSON/JSONArray.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/JSON/JSONException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/JSON/JSONObject.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/JSON/JSONString.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/JSON/JSONStringer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/JSON/JSONTokener.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/JSON/JSONWriter.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilInfiniteIterator.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CircularIterator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" afterPath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/JSON/JSONTokener.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/JSON/JSONTokener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$22.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$22.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$23.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$23.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/ExprLoopWhile.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/ExprLoopWhile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/UtilWhileClock.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/UtilWhileClock.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/MundoSK.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/MundoSK.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.iml" afterPath="$PROJECT_DIR$/MundoSK.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprLoopWhile.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprLoopWhile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilWhileClock.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -120,8 +102,8 @@
       <file leaf-file-name="ExprJsonObjectOfPacket.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJsonObjectOfPacket.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-150">
-              <caret line="24" column="57" selection-start-line="24" selection-start-column="57" selection-end-line="24" selection-end-column="57" />
+            <state relative-caret-position="720">
+              <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1118#1144#0" expanded="true" />
@@ -346,6 +328,20 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="tlatoani" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -405,9 +401,17 @@
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Dependencies/javax.json-api-1.0.jar!/" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.pie.tlatoani.ProtocolLib" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -711,22 +715,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EvtPacketArrive.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="24" column="126" selection-start-line="24" selection-start-column="126" selection-end-line="24" selection-end-column="126" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketSendingEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="16" column="76" selection-start-line="16" selection-start-column="76" selection-end-line="16" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketArriveEvent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -1224,10 +1212,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$PROJECT_DIR$/../Dependencies/javax.json-api-1.0.jar!/javax/json/Json.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ideaLibSources/javax.json-api-1.0-sources.jar!/javax/json/Json.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="131" column="59" selection-start-line="131" selection-start-column="59" selection-end-line="131" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJsonObjectOfPacket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-150">
-          <caret line="24" column="57" selection-start-line="24" selection-start-column="57" selection-end-line="24" selection-end-column="57" />
+        <state relative-caret-position="720">
+          <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1118#1144#0" expanded="true" />
