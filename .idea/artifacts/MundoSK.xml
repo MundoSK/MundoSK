@@ -6,7 +6,6 @@
       <element id="file-copy" path="$PROJECT_DIR$/config.yml" />
       <element id="file-copy" path="$PROJECT_DIR$/license.yml" />
       <element id="file-copy" path="$PROJECT_DIR$/plugin.yml" />
-      <element id="file-copy" path="$PROJECT_DIR$/../Dependencies/javax.json-api-1.0.jar" />
     </root>
   </artifact>
 </component>

@@ -14,7 +14,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
-import javax.json.*;
+import com.pie.tlatoani.Json.*;
 import java.io.StringReader;
 import java.lang.reflect.Method;
 import java.util.*;
