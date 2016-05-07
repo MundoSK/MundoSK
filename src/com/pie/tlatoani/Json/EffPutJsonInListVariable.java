@@ -12,6 +12,7 @@ import ch.njol.skript.util.Container;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Json.API.*;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Method;
@@ -87,18 +88,20 @@ public class EffPutJsonInListVariable extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "put json %jsonobject% in list variable %object%";
+        return "put json %jsonobject% in list variable %objects%";
     }
 
     @Override
     public boolean init(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         jsonObjectExpression = (Expression<JsonObject>) exprs[0];
+        Mundo.debug(this, "Return type: " + exprs[1].getReturnType());
         if (Container.class.isAssignableFrom(exprs[1].getReturnType())) {
             Container.ContainerType type = exprs[1].getReturnType().getAnnotation(Container.ContainerType.class);
             if (type == null) throw new SkriptAPIException(exprs[1].getReturnType().getName() + " implements Container but is missing the required @ContainerType annotation");
             listVariable = new ContainerExpression((Expression<? extends Container<?>>) exprs[1], type.value());
             return true;
-        } else Skript.error("'put json %jsonobject% in list variable %object%' must be used with a list variable!");;
+        }
+        Skript.error("'put json %jsonobject% in list variable %objects%' must be used with a list variable!");;
         return false;
     }
 }
