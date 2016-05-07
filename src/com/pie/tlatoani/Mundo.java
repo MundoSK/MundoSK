@@ -6,6 +6,8 @@ import java.util.List;
 import ch.njol.skript.lang.util.SimpleEvent;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.pie.tlatoani.Json.API.JsonObject;
+import com.pie.tlatoani.Json.EffPutJsonInListVariable;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
@@ -19,7 +21,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.EnchantedBook.*;
-import com.pie.tlatoani.Json.*;
 import com.pie.tlatoani.Miscellaneous.*;
 import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
@@ -130,6 +131,7 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
+        Skript.registerEffect(EffPutJsonInListVariable.class, "put json %jsonobject% in list variable %object%");
         //Miscellaneous
 		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
 
@@ -541,7 +543,8 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprTypeOfCreator.class,WorldType.class,ExpressionType.PROPERTY,"worldtype of %creator%");
 		Skript.registerExpression(ExprStructOfCreator.class,Boolean.class,ExpressionType.PROPERTY,"struct[ure(s| settings)] of %creator%");
 		//WorldManagement
-		Skript.registerEffect(EffCreateWorld.class, "create world using %creator%");
+        Skript.registerEffect(EffCreateWorld.class, "create world named %string%[,][ env[ironment] %-environment%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
+		Skript.registerEffect(EffCreateWorldCreator.class, "create world using %creator%");
 		Skript.registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
 		Skript.registerEffect(EffDeleteWorld.class, "delete %world%");
 		Skript.registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");

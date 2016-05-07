@@ -25,20 +25,17 @@ public class ExprCreatorWith extends SimpleExpression<WorldCreator>{
 
 	@Override
 	public Class<? extends WorldCreator> getReturnType() {
-		// TODO Auto-generated method stub
 		return WorldCreator.class;
 	}
 
 	@Override
 	public boolean isSingle() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		// TODO Auto-generated method stub
 		creator = (Expression<WorldCreator>) expr[0];
 		name = (Expression<String>) expr[1];
 		env = (Expression<Environment>) expr[2];

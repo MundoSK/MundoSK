@@ -40,8 +40,9 @@ public class ExprRandomIndex extends SimpleExpression<String> {
 			ContainerType type = exprs[0].getReturnType().getAnnotation(ContainerType.class);
 			if (type == null) throw new SkriptAPIException(exprs[0].getReturnType().getName() + " implements Container but is missing the required @ContainerType annotation");
 			numbers = new ContainerExpression((Expression<? extends Container<?>>) exprs[0], type.value());
+			return true;
 		} else Skript.error("'random from %number% probs' must be used with a list variable!");;
-		return true;
+		return false;
 	}
 
 	@Override
