@@ -108,10 +108,14 @@ public class EffPutJsonInListVariable extends Effect {
         listVariable.change(event, null, Changer.ChangeMode.DELETE);
         String name = listVariable.isLocal() ? listVariable.toString().substring(2, listVariable.toString().length() - 1) : listVariable.toString().substring(1, listVariable.toString().length() - 1);
         if (isArray) {
-            List<JsonValue> jsonObjects = Arrays.asList(jsonObjectExpression.getAll(event));
-            Mundo.debug(this, "List size: " + jsonObjects.size());
+            JsonObject[] jsonObjects = jsonObjectExpression.getAll(event);
+            Mundo.debug(this, "Expression: " + jsonObjectExpression);
+            Mundo.debug(this, "Array size: " + jsonObjects.length);
+            Mundo.debug(this, "Actual array: " + jsonObjects);
+            List<JsonValue> jsonObjectList = Arrays.asList(jsonObjects);
+            Mundo.debug(this, "List size: " + jsonObjectList.size());
             Mundo.debug(this, "Actual list: " + jsonObjects);
-            setToJsonArray(name, jsonObjects, listVariable.isLocal(), event);
+            setToJsonArray(name, jsonObjectList, listVariable.isLocal(), event);
         } else {
             Map<String, JsonValue> jsonObject = jsonObjectExpression.getSingle(event);
             setToJsonObject(name, jsonObject, listVariable.isLocal(), event);
