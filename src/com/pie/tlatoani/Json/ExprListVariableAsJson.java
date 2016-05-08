@@ -11,6 +11,7 @@ import com.pie.tlatoani.Json.API.*;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
+import java.util.List;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
 
@@ -19,6 +20,7 @@ import java.util.function.BiConsumer;
  */
 public class ExprListVariableAsJson extends SimpleExpression<JsonObject> {
     private Variable<?> listVariable;
+    private Boolean isArray;
 
     private static JsonObject getJsonObject(TreeMap<String, Object> treeMap) {
         JsonObjectBuilder builder = Json.createObjectBuilder();
@@ -95,14 +97,20 @@ public class ExprListVariableAsJson extends SimpleExpression<JsonObject> {
     @Override
     protected JsonObject[] get(Event event) {
         TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(listVariable.isLocal() ? listVariable.toString().substring(2, listVariable.toString().length() - 1) : listVariable.toString().substring(1, listVariable.toString().length() - 1), event, listVariable.isLocal());
-        JsonObject result = getJsonObject(treeMap);
-        Mundo.debug(this, "Final Json: " + result);
-        return new JsonObject[] {result};
+        if (isArray) {
+            List<JsonValue> result = getJsonArray(treeMap);
+            return result.toArray(new JsonObject[0]);
+        } else {
+            JsonObject result = getJsonObject(treeMap);
+            Mundo.debug(this, "Final Json: " + result);
+            return new JsonObject[] {result};
+        }
+
     }
 
     @Override
     public boolean isSingle() {
-        return true;
+        return !isArray;
     }
 
     @Override
@@ -117,8 +125,7 @@ public class ExprListVariableAsJson extends SimpleExpression<JsonObject> {
 
     @Override
     public boolean init(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        Mundo.debug(this, "Expression class: " + exprs[0].getClass());
-        Mundo.debug(this, "Return type: " + exprs[0].getReturnType());
+        isArray = i == 1;
         if (exprs[0] instanceof Variable && ((Variable) exprs[0]).isList()) {
             listVariable = (Variable) exprs[0];
             return true;

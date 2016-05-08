@@ -15,6 +15,7 @@ import com.pie.tlatoani.Json.API.*;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -25,6 +26,7 @@ import java.util.function.BiConsumer;
 public class EffPutJsonInListVariable extends Effect {
     private Expression<JsonObject> jsonObjectExpression;
     private Variable listVariable;
+    private Boolean isArray;
 
     private static void setToJsonObject(String variableName, Map<String, JsonValue> jsonObject, Boolean isLocal, Event event) {
         Mundo.classDebug(EffPutJsonInListVariable.class, "Variable name: " + variableName);
@@ -104,10 +106,14 @@ public class EffPutJsonInListVariable extends Effect {
     protected void execute(Event event) {
         Variable<?> listVariable = (Variable<?>) this.listVariable;
         listVariable.change(event, null, Changer.ChangeMode.DELETE);
-        Map<String, JsonValue> jsonObject = jsonObjectExpression.getSingle(event);
         String name = listVariable.isLocal() ? listVariable.toString().substring(2, listVariable.toString().length() - 1) : listVariable.toString().substring(1, listVariable.toString().length() - 1);
-        Mundo.debug(this, "Variable name try it: " + name);
-        setToJsonObject(name, jsonObject, listVariable.isLocal(), event);
+        if (isArray) {
+            List<JsonValue> jsonObjects = Arrays.asList(jsonObjectExpression.getAll(event));
+            setToJsonArray(name, jsonObjects, listVariable.isLocal(), event);
+        } else {
+            Map<String, JsonValue> jsonObject = jsonObjectExpression.getSingle(event);
+            setToJsonObject(name, jsonObject, listVariable.isLocal(), event);
+        }
     }
 
     @Override
@@ -119,6 +125,7 @@ public class EffPutJsonInListVariable extends Effect {
     public boolean init(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         Mundo.debug(this, "Expression class: " + exprs[1].getClass());
         jsonObjectExpression = (Expression<JsonObject>) exprs[0];
+        isArray = i == 1;
         Mundo.debug(this, "Return type: " + exprs[1].getReturnType());
         if (exprs[1] instanceof Variable && ((Variable) exprs[1]).isList()) {
             listVariable = (Variable) exprs[1];
