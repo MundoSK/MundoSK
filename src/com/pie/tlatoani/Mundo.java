@@ -432,6 +432,8 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprIDOfCustomEvent.class,String.class,ExpressionType.PROPERTY,"id of custom event", "custom event's id");
 		Skript.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
         Skript.registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% while %boolean%");
+        Skript.registerExpression(ExprTreeOfListVariable.class, Object.class, ExpressionType.PROPERTY, "tree of %objects%");
+        Skript.registerExpression(ExprBranch.class, String.class, ExpressionType.PROPERTY, "branch");
 		//WorldBorder
 		Skript.registerEffect(EffResetBorder.class, "reset %world%");
 		Skript.registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilizeEvent.class, "border stabilize [in %-world%]");
