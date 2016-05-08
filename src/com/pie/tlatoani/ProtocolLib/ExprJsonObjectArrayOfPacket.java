@@ -57,14 +57,12 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
                     builder.add("gamemode", playerInfoData.getGameMode().toBukkit().name());
                     Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "PlayerInfoData: " + playerInfoData);
                     Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "Displayname: " + playerInfoData.getDisplayName());
-                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "Json: " + playerInfoData.getDisplayName().getJson());
-                    StringReader stringReader = new StringReader(playerInfoData.getDisplayName().getJson());
-                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "Stringreader: " + stringReader);
-                    JsonReader jsonReader = Json.createReader(stringReader);
-                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "Jsonreader: " + jsonReader);
-                    JsonObject jsonObject = jsonReader.readObject();
-                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "Jsonobject: " + jsonObject);
-                    builder.add("displayname", jsonObject);
+                    if (playerInfoData.getDisplayName() != null) {
+                        StringReader stringReader = new StringReader(playerInfoData.getDisplayName().getJson());
+                        JsonReader jsonReader = Json.createReader(stringReader);
+                        JsonObject jsonObject = jsonReader.readObject();
+                        builder.add("displayname", jsonObject);
+                    }
                     result[i] = builder.build();
                 }
                 return result;
@@ -87,7 +85,10 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
                     try {
                         nativeGameMode = EnumWrappers.NativeGameMode.fromBukkit(GameMode.valueOf(jsonObject.getString("gamemode")));
                     } catch (IllegalArgumentException e) {}
-                    WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(jsonObject.getJsonObject("displayname").toString());
+                    WrappedChatComponent chatComponent = null;
+                    if (jsonObject.containsKey("displayname")) {
+                        chatComponent = WrappedChatComponent.fromJson(jsonObject.getJsonObject("displayname").toString());
+                    }
                     result.add(new PlayerInfoData(wrappedGameProfile, latency, nativeGameMode, chatComponent));
                 }
                 packet.getPlayerInfoDataLists().writeSafely(index, result);

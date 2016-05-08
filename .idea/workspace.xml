@@ -44,13 +44,13 @@
       <file leaf-file-name="ExprJsonObjectArrayOfPacket.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJsonObjectArrayOfPacket.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="559">
-              <caret line="65" column="99" selection-start-line="65" selection-start-column="99" selection-end-line="65" selection-end-column="99" />
+            <state relative-caret-position="529">
+              <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1540#1566#0" expanded="true" />
                 <element signature="e#1646#1672#0" expanded="true" />
-                <element signature="e#3910#3926#0" expanded="true" />
+                <element signature="e#3578#3594#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1172,13 +1172,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJsonObjectArrayOfPacket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="559">
-          <caret line="65" column="99" selection-start-line="65" selection-start-column="99" selection-end-line="65" selection-end-column="99" />
+        <state relative-caret-position="529">
+          <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1540#1566#0" expanded="true" />
             <element signature="e#1646#1672#0" expanded="true" />
-            <element signature="e#3910#3926#0" expanded="true" />
+            <element signature="e#3578#3594#0" expanded="true" />
           </folding>
         </state>
       </provider>
