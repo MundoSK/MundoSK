@@ -28,9 +28,23 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     @Override
     public Iterator<?> iterator(Event event) {
         TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(listVariable.isLocal() ? listVariable.toString().substring(2, listVariable.toString().length() - 1) : listVariable.toString().substring(1, listVariable.toString().length() - 1), event, listVariable.isLocal());
-        TreeIterator result = new TreeIterator(treeMap);
-        iteratorWeakHashMap.put(event, result);
-        return result;
+        if (treeMap != null) {
+            TreeIterator result = new TreeIterator(treeMap);
+            iteratorWeakHashMap.put(event, result);
+            return result;
+        }
+        return new Iterator<Object>() {
+
+            @Override
+            public boolean hasNext() {
+                return false;
+            }
+
+            @Override
+            public Object next() {
+                return null;
+            }
+        };
     }
 
     public String getBranch(Event event) {

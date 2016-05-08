@@ -71,7 +71,8 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
         setFunctionMap.put("playerinfodata", new PacketInfoSetter() {
             @Override
             public void apply(PacketContainer packet, Integer index, JsonObject[] value) {
-                List<PlayerInfoData> result = new ArrayList<PlayerInfoData>();
+                List<PlayerInfoData> playerInfoDatas = packet.getPlayerInfoDataLists().readSafely(index);
+                playerInfoDatas.clear();
                 for (int i = 0; i < value.length; i++) {
                     JsonObject jsonObject = value[i];
                     WrappedGameProfile wrappedGameProfile = null;
@@ -87,9 +88,8 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
                     if (jsonObject.containsKey("displayname")) {
                         chatComponent = WrappedChatComponent.fromJson(jsonObject.getJsonObject("displayname").toString());
                     }
-                    result.add(new PlayerInfoData(wrappedGameProfile, latency, nativeGameMode, chatComponent));
+                    playerInfoDatas.add(new PlayerInfoData(wrappedGameProfile, latency, nativeGameMode, chatComponent));
                 }
-                packet.getPlayerInfoDataLists().writeSafely(index, result);
             }
         });
     }
