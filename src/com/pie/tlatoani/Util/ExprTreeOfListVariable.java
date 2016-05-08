@@ -18,7 +18,7 @@ import java.util.WeakHashMap;
  */
 public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     private Variable listVariable;
-    private WeakHashMap<Event, TreeIterator> iteratorWeakHashMap;
+    private WeakHashMap<Event, TreeIterator> iteratorWeakHashMap = new WeakHashMap<Event, TreeIterator>();
 
     @Override
     protected Object[] get(Event event) {
