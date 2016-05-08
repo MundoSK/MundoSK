@@ -55,8 +55,6 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
                     builder.add("profile", playerInfoData.getProfile().getUUID().toString());
                     builder.add("latency", playerInfoData.getPing());
                     builder.add("gamemode", playerInfoData.getGameMode().toBukkit().name());
-                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "PlayerInfoData: " + playerInfoData);
-                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "Displayname: " + playerInfoData.getDisplayName());
                     if (playerInfoData.getDisplayName() != null) {
                         StringReader stringReader = new StringReader(playerInfoData.getDisplayName().getJson());
                         JsonReader jsonReader = Json.createReader(stringReader);
@@ -83,7 +81,7 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
                     int latency = jsonObject.getInt("latency");
                     EnumWrappers.NativeGameMode nativeGameMode = null;
                     try {
-                        nativeGameMode = EnumWrappers.NativeGameMode.fromBukkit(GameMode.valueOf(jsonObject.getString("gamemode")));
+                        nativeGameMode = EnumWrappers.NativeGameMode.fromBukkit(GameMode.valueOf(jsonObject.getString("gamemode").toUpperCase()));
                     } catch (IllegalArgumentException e) {}
                     WrappedChatComponent chatComponent = null;
                     if (jsonObject.containsKey("displayname")) {
