@@ -1,7 +1,10 @@
 package com.pie.tlatoani.Util;
 
+import com.pie.tlatoani.Mundo;
+
 import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
 /**
@@ -22,12 +25,14 @@ public class TreeIterator implements Iterator {
     @Override
     public boolean hasNext() {
         if (next != null) {
+            Mundo.debug(this, "Next was not null");
             return true;
         }
         if (subIterator != null) {
             if (subIterator.hasNext()) {
                 next = subIterator.next;
                 nextIndex = currentPrefix + "::" + subIterator.currentIndex();
+                Mundo.debug(this, "The sub iterator had another one!");
                 return true;
             }
             subIterator = null;
@@ -38,10 +43,12 @@ public class TreeIterator implements Iterator {
             if (entry.getValue() instanceof TreeMap) {
                 currentPrefix = entry.getKey();
                 subIterator = new TreeIterator((TreeMap<String, Object>) entry.getValue());
+                Mundo.debug(this, "Found a new sub iterator!");
                 return hasNext();
             }
             nextIndex = entry.getKey();
             next = entry.getValue();
+            Mundo.debug(this, "Found a non-iterator value");
             return true;
         }
         return false;
@@ -49,11 +56,14 @@ public class TreeIterator implements Iterator {
 
     @Override
     public Object next() {
-        Object tempcurrent = next;
-        currentIndex = nextIndex;
-        next = null;
-        nextIndex = null;
-        return tempcurrent;
+        if (hasNext()) {
+            Object tempcurrent = next;
+            currentIndex = nextIndex;
+            next = null;
+            nextIndex = null;
+            return tempcurrent;
+        }
+        throw new NoSuchElementException("Called next() on a TreeIterator without a next element");
     }
 
     public String currentIndex() {
