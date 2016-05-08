@@ -9,6 +9,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.pie.tlatoani.Json.API.JsonObject;
 import com.pie.tlatoani.Json.EffPutJsonInListVariable;
 import com.pie.tlatoani.Json.ExprListVariableAsJson;
+import com.pie.tlatoani.Json.ExprStringAsJson;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
@@ -134,6 +135,7 @@ public class Mundo extends JavaPlugin{
         }));
         Skript.registerEffect(EffPutJsonInListVariable.class, "put json %jsonobject% in listvar %objects%");
         Skript.registerExpression(ExprListVariableAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of listvar %objects%");
+        Skript.registerExpression(ExprStringAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of string %string%");
         //Miscellaneous
 		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
 
