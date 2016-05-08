@@ -31,7 +31,7 @@ public class TreeIterator implements Iterator {
         }
         if (subIterator != null) {
             if (subIterator.hasNext()) {
-                next = subIterator.next;
+                next = subIterator.next();
                 nextIndex = currentPrefix + "::" + subIterator.currentIndex();
                 Mundo.debug(this, "The sub iterator had another one!");
                 Mundo.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
@@ -39,6 +39,7 @@ public class TreeIterator implements Iterator {
             }
             subIterator = null;
             currentPrefix = null;
+            Mundo.debug(this, "End of sub iterator");
         }
         if (baseIterator.hasNext()) {
             Map.Entry<String, Object> entry = baseIterator.next();
