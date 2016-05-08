@@ -71,6 +71,8 @@ public class TreeIterator implements Iterator {
     }
 
     public String currentIndex() {
+        Mundo.debug(this, "Current index: " + currentIndex);
+        Mundo.debug(this, "Next index: " + nextIndex);
         return currentIndex;
     }
 }
