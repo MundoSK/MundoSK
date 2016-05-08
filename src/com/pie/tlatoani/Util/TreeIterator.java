@@ -26,6 +26,7 @@ public class TreeIterator implements Iterator {
     public boolean hasNext() {
         if (next != null) {
             Mundo.debug(this, "Next was not null");
+            Mundo.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
             return true;
         }
         if (subIterator != null) {
@@ -33,6 +34,7 @@ public class TreeIterator implements Iterator {
                 next = subIterator.next;
                 nextIndex = currentPrefix + "::" + subIterator.currentIndex();
                 Mundo.debug(this, "The sub iterator had another one!");
+                Mundo.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
                 return true;
             }
             subIterator = null;
@@ -44,11 +46,13 @@ public class TreeIterator implements Iterator {
                 currentPrefix = entry.getKey();
                 subIterator = new TreeIterator((TreeMap<String, Object>) entry.getValue());
                 Mundo.debug(this, "Found a new sub iterator!");
+                Mundo.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
                 return hasNext();
             }
             nextIndex = entry.getKey();
             next = entry.getValue();
             Mundo.debug(this, "Found a non-iterator value");
+            Mundo.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
             return true;
         }
         return false;
