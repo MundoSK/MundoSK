@@ -55,7 +55,16 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
                     builder.add("profile", playerInfoData.getProfile().getUUID().toString());
                     builder.add("latency", playerInfoData.getPing());
                     builder.add("gamemode", playerInfoData.getGameMode().toBukkit().name());
-                    builder.add("displayname", Json.createReader(new StringReader(playerInfoData.getDisplayName().getJson())).readObject());
+                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "PlayerInfoData: " + playerInfoData);
+                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "Displayname: " + playerInfoData.getDisplayName());
+                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "Json: " + playerInfoData.getDisplayName().getJson());
+                    StringReader stringReader = new StringReader(playerInfoData.getDisplayName().getJson());
+                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "Stringreader: " + stringReader);
+                    JsonReader jsonReader = Json.createReader(stringReader);
+                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "Jsonreader: " + jsonReader);
+                    JsonObject jsonObject = jsonReader.readObject();
+                    Mundo.classDebug(ExprJsonObjectArrayOfPacket.class, "Jsonobject: " + jsonObject);
+                    builder.add("displayname", jsonObject);
                     result[i] = builder.build();
                 }
                 return result;
