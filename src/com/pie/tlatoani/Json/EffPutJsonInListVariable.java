@@ -15,12 +15,9 @@ import com.pie.tlatoani.Json.API.*;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
-import java.lang.reflect.Method;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * Created by Tlatoani on 5/7/16.
