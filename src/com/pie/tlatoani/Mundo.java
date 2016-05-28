@@ -167,6 +167,7 @@ public class Mundo extends JavaPlugin{
 		EventValues.registerEventValue(HangingEvent.class, Entity.class, new Getter<Entity, HangingEvent>() {
 			@Override
 			public Entity get(HangingEvent hangingEvent) {
+                debug(this, "Hanging: " + hangingEvent.getEntity());
 				return hangingEvent.getEntity();
 			}
 		}, 0);
