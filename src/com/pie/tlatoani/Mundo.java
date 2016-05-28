@@ -14,8 +14,12 @@ import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.NotePlayEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
+import org.bukkit.event.hanging.HangingEvent;
+import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -159,6 +163,26 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
+		Skript.registerEvent("Hang Event", EvtHang.class, HangingPlaceEvent.class, "hang");
+		EventValues.registerEventValue(HangingEvent.class, Entity.class, new Getter<Entity, HangingEvent>() {
+			@Override
+			public Entity get(HangingEvent hangingEvent) {
+				return hangingEvent.getEntity();
+			}
+		}, 0);
+		EventValues.registerEventValue(HangingPlaceEvent.class, Player.class, new Getter<Player, HangingPlaceEvent>() {
+			@Override
+			public Player get(HangingPlaceEvent hangingPlaceEvent) {
+				return hangingPlaceEvent.getPlayer();
+			}
+		}, 0);
+		EventValues.registerEventValue(HangingPlaceEvent.class, Block.class, new Getter<Block, HangingPlaceEvent>() {
+			@Override
+			public Block get(HangingPlaceEvent hangingPlaceEvent) {
+				return hangingPlaceEvent.getBlock();
+			}
+		}, 0);
+		Skript.registerEvent("Unhang Event", EvtUnHang.class, HangingBreakEvent.class, "unhang");
 		Skript.registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
 		Skript.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
 		Skript.registerExpression(ExprDifficulty.class,Difficulty.class,ExpressionType.PROPERTY,"difficulty of %world%");
@@ -595,6 +619,11 @@ public class Mundo extends JavaPlugin{
 	        Mundo.reportException(this, e);
 	    }
 	}
+
+    @Override
+    public void onDisable() {
+
+    }
 	
 	public static void reportException(Object o, Exception e) {
 		info("An exception has occured within MundoSK");

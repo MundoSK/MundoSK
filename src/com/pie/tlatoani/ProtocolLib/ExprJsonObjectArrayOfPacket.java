@@ -10,23 +10,13 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.comphenix.protocol.wrappers.PlayerInfoData;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.pie.tlatoani.Json.API.Json;
 import com.pie.tlatoani.Json.API.JsonObject;
-import com.pie.tlatoani.Json.API.JsonObjectBuilder;
-import com.pie.tlatoani.Json.API.JsonReader;
 import com.pie.tlatoani.Mundo;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.event.Event;
 
-import java.io.StringReader;
 import java.lang.reflect.Method;
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Tlatoani on 5/8/16.
@@ -44,6 +34,7 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
 
     static {
         //Getters
+        /*
         getFunctionMap.put("playerinfodata", new PacketInfoGetter() {
             @Override
             public JsonObject[] apply(PacketContainer packet, Integer index) {
@@ -66,8 +57,10 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
                 return result;
             }
         });
+        */
 
         //Setters
+        /*
         setFunctionMap.put("playerinfodata", new PacketInfoSetter() {
             @Override
             public void apply(PacketContainer packet, Integer index, JsonObject[] value) {
@@ -92,6 +85,7 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
                 }
             }
         });
+        */
     }
 
     @FunctionalInterface

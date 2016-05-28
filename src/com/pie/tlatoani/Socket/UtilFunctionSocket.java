@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import org.bukkit.Bukkit;
 
@@ -167,6 +168,15 @@ public class UtilFunctionSocket implements Runnable {
 	
 	private static void debug(String msg) {
 		Mundo.classDebug(UtilFunctionSocket.class, msg);
+	}
+
+	public static void onDisable() {
+		sockets.forEach(new BiConsumer<Integer, UtilFunctionSocket>() {
+			@Override
+			public void accept(Integer integer, UtilFunctionSocket utilFunctionSocket) {
+				closeFunctionSocket(integer);
+			}
+		});
 	}
 
 }
