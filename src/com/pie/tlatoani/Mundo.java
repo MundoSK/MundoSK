@@ -170,12 +170,6 @@ public class Mundo extends JavaPlugin{
 				return hangingEvent.getEntity();
 			}
 		}, 0);
-		EventValues.registerEventValue(HangingPlaceEvent.class, Player.class, new Getter<Player, HangingPlaceEvent>() {
-			@Override
-			public Player get(HangingPlaceEvent hangingPlaceEvent) {
-				return hangingPlaceEvent.getPlayer();
-			}
-		}, 0);
 		EventValues.registerEventValue(HangingPlaceEvent.class, Block.class, new Getter<Block, HangingPlaceEvent>() {
 			@Override
 			public Block get(HangingPlaceEvent hangingPlaceEvent) {
@@ -183,6 +177,7 @@ public class Mundo extends JavaPlugin{
 			}
 		}, 0);
 		Skript.registerEvent("Unhang Event", EvtUnHang.class, HangingBreakEvent.class, "unhang");
+        Skript.registerExpression(ExprHanger.class,Entity.class,ExpressionType.SIMPLE,"hanger");
 		Skript.registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
 		Skript.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
 		Skript.registerExpression(ExprDifficulty.class,Difficulty.class,ExpressionType.PROPERTY,"difficulty of %world%");
