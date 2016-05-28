@@ -17,8 +17,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.NotePlayEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
-import org.bukkit.event.hanging.HangingEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.inventory.ItemStack;
@@ -164,11 +164,10 @@ public class Mundo extends JavaPlugin{
             }
         }));
 		Skript.registerEvent("Hang Event", EvtHang.class, HangingPlaceEvent.class, "hang");
-		EventValues.registerEventValue(HangingEvent.class, Entity.class, new Getter<Entity, HangingEvent>() {
+		EventValues.registerEventValue(HangingBreakEvent.class, Entity.class, new Getter<Entity, HangingBreakEvent>() {
 			@Override
-			public Entity get(HangingEvent hangingEvent) {
-                debug(this, "Hanging: " + hangingEvent.getEntity());
-				return hangingEvent.getEntity();
+			public Entity get(HangingBreakEvent hangingEvent) {
+				return hangingEvent instanceof HangingBreakByEntityEvent ? ((HangingBreakByEntityEvent) hangingEvent).getRemover() : null;
 			}
 		}, 0);
 		EventValues.registerEventValue(HangingPlaceEvent.class, Block.class, new Getter<Block, HangingPlaceEvent>() {
@@ -178,7 +177,7 @@ public class Mundo extends JavaPlugin{
 			}
 		}, 0);
 		Skript.registerEvent("Unhang Event", EvtUnHang.class, HangingBreakEvent.class, "unhang");
-        Skript.registerExpression(ExprHanger.class,Entity.class,ExpressionType.SIMPLE,"hanger");
+        Skript.registerExpression(ExprHangedEntity.class,Entity.class,ExpressionType.SIMPLE,"hanged entity");
 		Skript.registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
 		Skript.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
 		Skript.registerExpression(ExprDifficulty.class,Difficulty.class,ExpressionType.PROPERTY,"difficulty of %world%");

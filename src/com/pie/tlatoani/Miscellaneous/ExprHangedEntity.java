@@ -11,23 +11,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
+import org.bukkit.event.hanging.HangingEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 
 /**
  * Created by Tlatoani on 5/27/16.
  */
-public class ExprHanger extends SimpleExpression<Entity> {
-    Class<? extends Entity> returnType;
+public class ExprHangedEntity extends SimpleExpression<Entity> {
 
     @Override
     protected Entity[] get(Event event) {
-        Entity result = null;
-        if (event instanceof HangingPlaceEvent) {
-            result = ((HangingPlaceEvent) event).getPlayer();
-        } else if (event instanceof HangingBreakByEntityEvent) {
-            result = ((HangingBreakByEntityEvent) event).getRemover();
-        }
-        return new Entity[]{result};
+        return new Entity[]{((HangingEvent) event).getEntity()};
     }
 
     @Override
@@ -37,25 +31,20 @@ public class ExprHanger extends SimpleExpression<Entity> {
 
     @Override
     public Class<? extends Entity> getReturnType() {
-        return returnType;
+        return Entity.class;
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "hanger";
+        return "hanged entity";
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        if (ScriptLoader.isCurrentEvent(HangingPlaceEvent.class)) {
-            returnType = Player.class;
+        if (ScriptLoader.isCurrentEvent(HangingPlaceEvent.class) || ScriptLoader.isCurrentEvent(HangingBreakEvent.class)) {
             return true;
         }
-        if (ScriptLoader.isCurrentEvent(HangingBreakEvent.class)) {
-            returnType = Entity.class;
-            return true;
-        }
-        Skript.error("'hanger' can only be used in hang and unhang events!");
+        Skript.error("'hanged entity' can only be used in hang and unhang events!");
         return false;
     }
 }
