@@ -4,7 +4,9 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Variable;
+import ch.njol.skript.lang.VariableString;
 import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 import org.bukkit.event.Event;
@@ -18,6 +20,7 @@ import java.util.WeakHashMap;
  */
 public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     private Variable listVariable;
+    private VariableString variableString;
     private WeakHashMap<Event, TreeIterator> iteratorWeakHashMap = new WeakHashMap<Event, TreeIterator>();
 
     @Override
@@ -27,7 +30,7 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
 
     @Override
     public Iterator<?> iterator(Event event) {
-        TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(listVariable.isLocal() ? listVariable.toString().substring(2, listVariable.toString().length() - 1) : listVariable.toString().substring(1, listVariable.toString().length() - 1), event, listVariable.isLocal());
+        TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(variableString.toString(event), event, listVariable.isLocal());
         if (treeMap != null) {
             TreeIterator result = new TreeIterator(treeMap);
             iteratorWeakHashMap.put(event, result);
@@ -70,6 +73,8 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     public boolean init(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         if (exprs[0] instanceof Variable && ((Variable) exprs[0]).isList()) {
             listVariable = (Variable) exprs[0];
+            String origstring = listVariable.isLocal() ? listVariable.toString().substring(2, listVariable.toString().length() - 1) : listVariable.toString().substring(1, listVariable.toString().length() - 1);
+            variableString = VariableString.newInstance(origstring, StringMode.VARIABLE_NAME);
             return true;
         }
         Skript.error("'tree of %objects%' must be used with a list variable!");

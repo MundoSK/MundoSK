@@ -3,7 +3,9 @@ package com.pie.tlatoani;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleEvent;
+import ch.njol.util.Kleenean;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.pie.tlatoani.Json.API.JsonObject;
@@ -16,6 +18,7 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.block.NotePlayEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
@@ -44,8 +47,6 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Parser;
-import ch.njol.skript.lang.ExpressionType;
-import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.EnchantmentType;
@@ -67,28 +68,30 @@ public class Mundo extends JavaPlugin{
 		Skript.registerAddon(this);
 		info("Pie is awesome :D");
         //Achievement
-		Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
+        if (classInfoSafe(Achievement.class, "achievement")){
+            Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
 
-            public Achievement parse(String s, ParseContext context) {
-            	try {
-            		return Achievement.valueOf(s.toUpperCase());
-            	} catch (IllegalArgumentException e) {
-            		return null;
-            	}
-            }
+                public Achievement parse(String s, ParseContext context) {
+                	try {
+                		return Achievement.valueOf(s.toUpperCase());
+                	} catch (IllegalArgumentException e) {
+                		return null;
+                	}
+                }
 
-            public String toString(Achievement ach, int flags) {
+                public String toString(Achievement ach, int flags) {
         		return ach.toString();
             }
 
-            public String toVariableNameString(Achievement ach) {
+                public String toVariableNameString(Achievement ach) {
         		return ach.toString();
             }
 
-            public String getVariableNamePattern() {
+                public String getVariableNamePattern() {
                 return ".+";
             }
-        }));
+            }));
+        }
 		Skript.registerEffect(EffAwardAch.class, "award achieve[ment] %achievement% to %player%");
 		Skript.registerEffect(EffRemoveAch.class, "remove achieve[ment] %achievement% from %player%");
 		Skript.registerEvent("Achievement Award", EvtAchAward.class, PlayerAchievementAwardedEvent.class, "achieve[ment] [%-achievement%] award", "award of achieve[ment] [%-achievement%]");
@@ -448,8 +451,28 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprPropertyNameOfSTE.class,String.class,ExpressionType.PROPERTY,"(0¦class|1¦file|2¦method) name of %stacktraceelement%", "%stacktraceelement%'s (0¦class|1¦file|2¦method) name");
 		Skript.registerExpression(ExprLineNumberOfSTE.class,Integer.class,ExpressionType.PROPERTY,"line number of %stacktraceelement%", "%stacktraceelement%'s line number");
 		//Util
+        Classes.registerClass(new ClassInfo<SkriptCodeBlock>(SkriptCodeBlock.class, "codeblock").user(new String[]{"codeblock"}).name("codeblock").parser(new Parser<SkriptCodeBlock>(){
+
+            public SkriptCodeBlock parse(String s, ParseContext context) {
+                return null;
+            }
+
+            public String toString(SkriptCodeBlock codeBlock, int flags) {
+                return null;
+            }
+
+            public String toVariableNameString(SkriptCodeBlock codeBlock) {
+                return null;
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
+        Skript.registerCondition(ScopeSaveCodeBlock.class, "save codeblock in %variable%");
 		Skript.registerEffect(EffScope.class, "$ scope");
 		Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
+        Skript.registerEffect(EffRunCodeBlock.class, "run codeblock %codeblock% [(1¦here|2¦with %objects%)]");
 		Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "evt %strings%");
 		Skript.registerExpression(ExprIDOfCustomEvent.class,String.class,ExpressionType.PROPERTY,"id of custom event", "custom event's id");
 		Skript.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
@@ -658,5 +681,15 @@ public class Mundo extends JavaPlugin{
 			}
 		}, 0);
 	}
+
+    public static Boolean classInfoSafe(Class c, String name) {
+        if (Classes.getExactClassInfo(c) != null) {
+            return false;
+        }
+        if (Classes.getClassInfoNoError(name) != null) {
+            return false;
+        }
+        return true;
+    }
 	
 }
