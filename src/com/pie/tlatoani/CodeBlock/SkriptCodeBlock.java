@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Util;
+package com.pie.tlatoani.CodeBlock;
 
 import ch.njol.skript.lang.TriggerItem;
 import com.pie.tlatoani.Mundo;

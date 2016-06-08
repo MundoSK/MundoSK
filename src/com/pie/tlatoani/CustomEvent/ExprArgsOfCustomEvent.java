@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Util;
+package com.pie.tlatoani.CustomEvent;
 
 import javax.annotation.Nullable;
 
@@ -11,22 +11,22 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-public class ExprIDOfCustomEvent extends SimpleExpression<String>{
+public class ExprArgsOfCustomEvent extends SimpleExpression<Object>{
 
 	@Override
-	public Class<? extends String> getReturnType() {
-		return String.class;
+	public Class<? extends Object> getReturnType() {
+		return Object.class;
 	}
 
 	@Override
 	public boolean isSingle() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(UtilCustomEvent.class)) {
-			Skript.error("Cannot use 'custom event's id' outside of custom events");
+		if (!ScriptLoader.isCurrentEvent(UtilCustomEvent.class))  {
+			Skript.error("Cannot use 'custom event's args' outside of custom events");
 			return false;
 		}
 		return true;
@@ -34,13 +34,13 @@ public class ExprIDOfCustomEvent extends SimpleExpression<String>{
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		return "custom event's id";
+		return "custom event's args";
 	}
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
-		return new String[]{arg0 instanceof UtilCustomEvent ? ((UtilCustomEvent) arg0).getID() : null};
+	protected Object[] get(Event arg0) {
+		return arg0 instanceof UtilCustomEvent ? ((UtilCustomEvent) arg0).getArgs() : null;
 	}
 
 }

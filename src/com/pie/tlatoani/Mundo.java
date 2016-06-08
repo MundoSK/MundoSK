@@ -7,6 +7,10 @@ import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleEvent;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.pie.tlatoani.CodeBlock.EffRunCodeBlock;
+import com.pie.tlatoani.CodeBlock.ScopeSaveCodeBlock;
+import com.pie.tlatoani.CodeBlock.SkriptCodeBlock;
+import com.pie.tlatoani.CustomEvent.*;
 import com.pie.tlatoani.Json.API.JsonObject;
 import com.pie.tlatoani.Json.EffPutJsonInListVariable;
 import com.pie.tlatoani.Json.ExprListVariableAsJson;
@@ -115,7 +119,33 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprPageOfBook.class,String.class,ExpressionType.PROPERTY,"(page %number%|last page) of %itemstack%");
 		Skript.registerExpression(ExprPagesOfBook.class,String.class,ExpressionType.PROPERTY,"pages [%-number% to (%-number%|last)] of %itemstack%");
 		Skript.registerExpression(ExprPageCountOfBook.class,Integer.class,ExpressionType.PROPERTY,"page count of %itemstack%");
-		//EnchantedBook
+		//CodeBlock
+        Classes.registerClass(new ClassInfo<SkriptCodeBlock>(SkriptCodeBlock.class, "codeblock").user(new String[]{"codeblock"}).name("codeblock").parser(new Parser<SkriptCodeBlock>(){
+
+            public SkriptCodeBlock parse(String s, ParseContext context) {
+                return null;
+            }
+
+            public String toString(SkriptCodeBlock codeBlock, int flags) {
+                return null;
+            }
+
+            public String toVariableNameString(SkriptCodeBlock codeBlock) {
+                return null;
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
+        Skript.registerCondition(ScopeSaveCodeBlock.class, "save codeblock in %object%");
+        Skript.registerEffect(EffRunCodeBlock.class, "run codeblock %codeblock% [(1¦here|2¦with %-objects%)]");
+        //CustomEvent
+        Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
+        Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "evt %strings%");
+        Skript.registerExpression(ExprIDOfCustomEvent.class,String.class,ExpressionType.PROPERTY,"id of custom event", "custom event's id");
+        Skript.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
+        //EnchantedBook
 		Skript.registerExpression(ExprEnchBookWithEnch.class,ItemStack.class,ExpressionType.PROPERTY,"%itemstack% containing %enchantmenttypes%");
 		Skript.registerExpression(ExprEnchantLevelInEnchBook.class,Integer.class,ExpressionType.PROPERTY,"level of %enchantmenttype% within %itemstack%");
 		Skript.registerExpression(ExprEnchantsInEnchBook.class,EnchantmentType.class,ExpressionType.PROPERTY,"enchants within %itemstack%");
@@ -449,31 +479,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprPropertyNameOfSTE.class,String.class,ExpressionType.PROPERTY,"(0¦class|1¦file|2¦method) name of %stacktraceelement%", "%stacktraceelement%'s (0¦class|1¦file|2¦method) name");
 		Skript.registerExpression(ExprLineNumberOfSTE.class,Integer.class,ExpressionType.PROPERTY,"line number of %stacktraceelement%", "%stacktraceelement%'s line number");
 		//Util
-        Classes.registerClass(new ClassInfo<SkriptCodeBlock>(SkriptCodeBlock.class, "codeblock").user(new String[]{"codeblock"}).name("codeblock").parser(new Parser<SkriptCodeBlock>(){
-
-            public SkriptCodeBlock parse(String s, ParseContext context) {
-                return null;
-            }
-
-            public String toString(SkriptCodeBlock codeBlock, int flags) {
-                return null;
-            }
-
-            public String toVariableNameString(SkriptCodeBlock codeBlock) {
-                return null;
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));
-        Skript.registerCondition(ScopeSaveCodeBlock.class, "save codeblock in %object%");
-		Skript.registerEffect(EffScope.class, "$ scope");
-		Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
-        Skript.registerEffect(EffRunCodeBlock.class, "run codeblock %codeblock% [(1¦here|2¦with %-objects%)]");
-		Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "evt %strings%");
-		Skript.registerExpression(ExprIDOfCustomEvent.class,String.class,ExpressionType.PROPERTY,"id of custom event", "custom event's id");
-		Skript.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
+        Skript.registerEffect(EffScope.class, "$ scope");
         Skript.registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% while %boolean%");
         Skript.registerExpression(ExprTreeOfListVariable.class, Object.class, ExpressionType.PROPERTY, "tree of %objects%");
         Skript.registerExpression(ExprBranch.class, String.class, ExpressionType.PROPERTY, "branch");

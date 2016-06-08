@@ -1,7 +1,6 @@
-package com.pie.tlatoani.Util;
+package com.pie.tlatoani.CodeBlock;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Variable;
@@ -10,6 +9,7 @@ import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.CustomScope;
 import org.bukkit.event.Event;
 
 import javax.annotation.Nullable;

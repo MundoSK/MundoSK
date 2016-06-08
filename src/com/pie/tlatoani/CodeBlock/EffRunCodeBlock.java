@@ -1,6 +1,5 @@
-package com.pie.tlatoani.Util;
+package com.pie.tlatoani.CodeBlock;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
@@ -10,7 +9,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import java.util.TreeMap;
-import java.util.function.BiConsumer;
 
 /**
  * Created by Tlatoani on 6/5/16.
