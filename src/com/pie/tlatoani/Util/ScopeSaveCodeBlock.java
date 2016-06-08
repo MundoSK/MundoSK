@@ -29,6 +29,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
             String origstring = variable.isLocal() ? variable.toString().substring(2, variable.toString().length() - 1) : variable.toString().substring(1, variable.toString().length() - 1);
             variableString = VariableString.newInstance(origstring, StringMode.VARIABLE_NAME);
             variableIsLocal = variable.isLocal();
+            Mundo.debug(this, "exprs[0]: " + variable);
             return true;
         }
         Skript.error(exprs[0].toString() + " is not a variable!");
