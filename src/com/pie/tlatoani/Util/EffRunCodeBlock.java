@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Util;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
@@ -56,7 +57,7 @@ public class EffRunCodeBlock extends Effect {
             String origstring = listVariable.isLocal() ? listVariable.toString().substring(2, listVariable.toString().length() - 1) : listVariable.toString().substring(1, listVariable.toString().length() - 1);
             variableString = VariableString.newInstance(origstring, StringMode.VARIABLE_NAME);
         }
-        return false;
+        return true;
     }
 
     public static class EmptyEvent extends Event {
