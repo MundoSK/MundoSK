@@ -472,7 +472,7 @@ public class Mundo extends JavaPlugin{
         Skript.registerCondition(ScopeSaveCodeBlock.class, "save codeblock in %object%");
 		Skript.registerEffect(EffScope.class, "$ scope");
 		Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
-        Skript.registerEffect(EffRunCodeBlock.class, "run codeblock %codeblock% [(1¦here|2¦with %objects%)]");
+        Skript.registerEffect(EffRunCodeBlock.class, "run codeblock %codeblock% [(1¦here|2¦with %-objects%)]");
 		Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "evt %strings%");
 		Skript.registerExpression(ExprIDOfCustomEvent.class,String.class,ExpressionType.PROPERTY,"id of custom event", "custom event's id");
 		Skript.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
