@@ -7,7 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/EffRunCodeBlock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/EffRunCodeBlock.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ScopeSaveCodeBlock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ScopeSaveCodeBlock.java" />
     </list>
     <ignored path="MundoSK.iws" />
@@ -44,27 +43,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScopeSaveCodeBlock.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ScopeSaveCodeBlock.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ScopeSaveCodeBlock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="33" column="52" selection-start-line="33" selection-start-column="52" selection-end-line="33" selection-end-column="52" />
+            <state relative-caret-position="289">
+              <caret line="30" column="49" selection-start-line="30" selection-start-column="49" selection-end-line="30" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1095#1096#0" expanded="true" />
-                <element signature="e#1148#1149#0" expanded="true" />
-                <element signature="e#1193#1194#0" expanded="true" />
-                <element signature="e#1282#1283#0" expanded="true" />
+                <element signature="e#1613#1614#0" expanded="true" />
+                <element signature="e#1666#1667#0" expanded="true" />
+                <element signature="e#1711#1712#0" expanded="true" />
+                <element signature="e#1813#1814#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EffRunCodeBlock.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EffRunCodeBlock.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/EffRunCodeBlock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="44" column="17" selection-start-line="44" selection-start-column="17" selection-end-line="44" selection-end-column="17" />
+            <state relative-caret-position="619">
+              <caret line="59" column="20" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1725#1726#0" expanded="true" />
@@ -202,8 +201,8 @@
         <option value="$PROJECT_DIR$/plugin.yml" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/SkriptCodeBlock.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ScopeSaveCodeBlock.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/EffRunCodeBlock.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ScopeSaveCodeBlock.java" />
       </list>
     </option>
   </component>
@@ -1067,30 +1066,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ScopeSaveCodeBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="33" column="52" selection-start-line="33" selection-start-column="52" selection-end-line="33" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1095#1096#0" expanded="true" />
-            <element signature="e#1148#1149#0" expanded="true" />
-            <element signature="e#1193#1194#0" expanded="true" />
-            <element signature="e#1282#1283#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/EffRunCodeBlock.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="44" column="17" selection-start-line="44" selection-start-column="17" selection-end-line="44" selection-end-column="17" />
+        <state relative-caret-position="619">
+          <caret line="59" column="20" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1725#1726#0" expanded="true" />
             <element signature="e#1799#1800#0" expanded="true" />
             <element signature="e#2711#2712#0" expanded="true" />
             <element signature="e#2753#2754#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ScopeSaveCodeBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="30" column="49" selection-start-line="30" selection-start-column="49" selection-end-line="30" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1613#1614#0" expanded="true" />
+            <element signature="e#1666#1667#0" expanded="true" />
+            <element signature="e#1711#1712#0" expanded="true" />
+            <element signature="e#1813#1814#0" expanded="true" />
           </folding>
         </state>
       </provider>
