@@ -29,12 +29,13 @@ public class SkriptCodeBlock {
 
     public void execute(Event event) {
         TriggerItem going = first;
+        TriggerItem end = first.getParent().getNext();
         Mundo.debug(this, "First: " + first);
-        while (going != null) {
+        Mundo.debug(this, "End: " + end);
+        while (going != null && going != end) {
             try {
-                Boolean whetherToContinue = (Boolean) run.invoke(going, event);
-                Mundo.debug(this, "whtertContiue: " + whetherToContinue);
-                going = whetherToContinue ? going.getNext() : null;
+                run.invoke(going, event);
+                going = going.getNext();
                 Mundo.debug(this, "going: " + going);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
