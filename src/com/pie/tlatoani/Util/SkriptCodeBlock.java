@@ -1,6 +1,7 @@
 package com.pie.tlatoani.Util;
 
 import ch.njol.skript.lang.TriggerItem;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.InvocationTargetException;
@@ -28,9 +29,13 @@ public class SkriptCodeBlock {
 
     public void execute(Event event) {
         TriggerItem going = first;
+        Mundo.debug(this, "First: " + first);
         while (going != null) {
             try {
-                going = (Boolean) run.invoke(going, event) ? going.getNext() : null;
+                Boolean whetherToContinue = (Boolean) run.invoke(going, event);
+                Mundo.debug(this, "whtertContiue: " + whetherToContinue);
+                going = whetherToContinue ? going.getNext() : null;
+                Mundo.debug(this, "going: " + going);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
                 going = null;
