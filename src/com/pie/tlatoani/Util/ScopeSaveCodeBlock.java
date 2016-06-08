@@ -18,6 +18,7 @@ import javax.annotation.Nullable;
  * Created by Tlatoani on 6/5/16.
  */
 public class ScopeSaveCodeBlock extends CustomScope {
+    private Variable variable;
     private VariableString variableString;
     private Boolean variableIsLocal;
     private SkriptCodeBlock skriptCodeBlock;
@@ -25,7 +26,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
     @Override
     public boolean init(Expression<?>[] exprs, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
         if (exprs[0] instanceof Variable) {
-            Variable variable = (Variable) exprs[0];
+            variable = (Variable) exprs[0];
             String origstring = variable.isLocal() ? variable.toString().substring(2, variable.toString().length() - 1) : variable.toString().substring(1, variable.toString().length() - 1);
             variableString = VariableString.newInstance(origstring, StringMode.VARIABLE_NAME);
             variableIsLocal = variable.isLocal();
@@ -49,6 +50,10 @@ public class ScopeSaveCodeBlock extends CustomScope {
 
     @Override
     public void go(Event e) {
+        Mundo.debug(this, "Varstring: " + variableString);
+        Mundo.debug(this, "isLocal: " + variableIsLocal);
         Variables.setVariable(variableString.toString(e), skriptCodeBlock, e, variableIsLocal);
+        Mundo.debug(this, "Var: " + variable);
+        Mundo.debug(this, "Var getSingle: " + variable.getSingle(e));
     }
 }
