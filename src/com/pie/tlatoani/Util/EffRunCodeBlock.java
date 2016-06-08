@@ -5,6 +5,7 @@ import ch.njol.skript.lang.*;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -38,7 +39,10 @@ public class EffRunCodeBlock extends Effect {
             TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(variableString.toString(event), event, ((Variable) args).isLocal());
             treeMap.forEach((string, object) -> Variables.setVariable(string, object, localevent, true));
         }
-        codeBlockExpression.getSingle(event).execute(localevent);
+        Mundo.debug(this, "CBE: " + codeBlockExpression);
+        SkriptCodeBlock codeBlock = codeBlockExpression.getSingle(event);
+        Mundo.debug(this, "getSingle: " + codeBlock);
+        codeBlock.execute(localevent);
     }
 
     @Override

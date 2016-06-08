@@ -6,6 +6,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Variable;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import javax.annotation.Nullable;
@@ -30,6 +31,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
     @Override
     public void afterSetNext() {
         skriptCodeBlock = new SkriptCodeBlock(first);
+        Mundo.debug(this, "SkCB: " + skriptCodeBlock);
     }
 
     @Override
