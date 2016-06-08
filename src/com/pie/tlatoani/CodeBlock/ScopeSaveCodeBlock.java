@@ -45,7 +45,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
 
     @Override
     public String toString(@Nullable Event e, boolean debug) {
-        return "save codeblock in %variable%";
+        return "codeblock %variable%";
     }
 
     @Override

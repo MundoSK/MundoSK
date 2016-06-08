@@ -138,7 +138,7 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
-        Skript.registerCondition(ScopeSaveCodeBlock.class, "save codeblock in %object%");
+        Skript.registerCondition(ScopeSaveCodeBlock.class, "codeblock %object%");
         Skript.registerEffect(EffRunCodeBlock.class, "run codeblock %codeblock% [(1¦here|2¦with %-objects%)]");
         //CustomEvent
         Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");

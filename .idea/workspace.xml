@@ -7,53 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/EffCallCustomEvent.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/EffRunCodeBlock$EmptyEvent.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/EffRunCodeBlock.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/EvtCustomEvent.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/ExprArgsOfCustomEvent.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/ExprIDOfCustomEvent.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/ScopeSaveCodeBlock.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/SkriptCodeBlock.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/UtilCustomEvent.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/EffCallCustomEvent.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/EffCallCustomEvent.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/EffRunCodeBlock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/EffRunCodeBlock.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/EvtCustomEvent.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/EvtCustomEvent.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprArgsOfCustomEvent.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/ExprArgsOfCustomEvent.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprIDOfCustomEvent.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/ExprIDOfCustomEvent.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ScopeSaveCodeBlock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/SkriptCodeBlock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/SkriptCodeBlock.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilCustomEvent.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/UtilCustomEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" afterPath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$1.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$10.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$10.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$11.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$11.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$12.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$12.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$13.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$13.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$14.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$14.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$15.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$15.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$16.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$16.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$17.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$17.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$18.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$18.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$19.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$19.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$2.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$20.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$20.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$21.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$21.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$22.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$22.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$23.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$23.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$24.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$24.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$25.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$25.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$26.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$26.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$27.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$27.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$3.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$4.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$5.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$6.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$7.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$8.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$9.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$9.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
     </list>
     <ignored path="MundoSK.iws" />
@@ -76,15 +30,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="709">
-              <caret line="146" column="146" selection-start-line="146" selection-start-column="146" selection-end-line="146" selection-end-column="146" />
+            <state relative-caret-position="439">
+              <caret line="140" column="70" selection-start-line="140" selection-start-column="70" selection-end-line="140" selection-end-column="70" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#10315#10316#0" expanded="true" />
-                <element signature="e#10361#10362#0" expanded="true" />
+                <element signature="e#10307#10308#0" expanded="true" />
+                <element signature="e#10353#10354#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -93,8 +47,8 @@
       <file leaf-file-name="ScopeSaveCodeBlock.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+            <state relative-caret-position="454">
+              <caret line="47" column="25" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -105,8 +59,8 @@
       <file leaf-file-name="EffRunCodeBlock.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/EffRunCodeBlock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+            <state relative-caret-position="199">
+              <caret line="30" column="47" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -128,7 +82,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
@@ -204,11 +158,11 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ScopeSaveCodeBlock.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/SkriptCodeBlock.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/EffRunCodeBlock.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/UtilCustomEvent.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/SkriptCodeBlock.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
       </list>
     </option>
   </component>
@@ -1004,16 +958,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/EffCallCustomEvent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1054,28 +998,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/EffRunCodeBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="709">
-          <caret line="146" column="146" selection-start-line="146" selection-start-column="146" selection-end-line="146" selection-end-column="146" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#10315#10316#0" expanded="true" />
-            <element signature="e#10361#10362#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/SkriptCodeBlock.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -1093,6 +1015,38 @@
         <state relative-caret-position="45">
           <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/EffRunCodeBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="30" column="47" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="47" column="25" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="140" column="70" selection-start-line="140" selection-start-column="70" selection-end-line="140" selection-end-column="70" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#10307#10308#0" expanded="true" />
+            <element signature="e#10353#10354#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
