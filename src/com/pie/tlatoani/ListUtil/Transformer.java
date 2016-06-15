@@ -3,6 +3,8 @@ package com.pie.tlatoani.ListUtil;
 import ch.njol.skript.lang.Expression;
 import org.bukkit.event.Event;
 
+import java.lang.reflect.Array;
+
 /**
  * Created by Tlatoani on 6/15/16.
  */
@@ -15,6 +17,14 @@ public interface Transformer<T> {
     Boolean isSettable();
 
     T[] get(Event event);
+
+    default void setSafely(Event event, Object[] value) {
+        T[] result = (T[]) Array.newInstance(getType(), value.length);
+        for (int i = 0; i < value.length; i++) {
+            result[i] = (T) value[i];
+        }
+        set(event, result);
+    }
 
     void set(Event event, T[] value);
 

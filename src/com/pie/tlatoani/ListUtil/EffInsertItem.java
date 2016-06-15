@@ -45,7 +45,7 @@ public class EffInsertItem extends Effect {
         System.arraycopy(original, 0, result, 0, index);
         System.arraycopy(insertion, 0, result, index, insertion.length);
         System.arraycopy(original, index, result, index + insertion.length, original.length - index);
-        transformer.set(event, result);
+        transformer.setSafely(event, result);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.pie.tlatoani.ListUtil;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -60,21 +59,21 @@ public class ExprItems extends SimpleExpression implements ListUtil.TransformerU
 
     public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
         if (mode == Changer.ChangeMode.SET) {
-            transformer.set(arg0, delta);
+            transformer.setSafely(arg0, delta);
         } else if (mode == Changer.ChangeMode.ADD) {
             Object[] original = transformer.get(arg0);
             Object[] sum = new Object[original.length + delta.length];
             System.arraycopy(original, 0, sum, 0, original.length);
             System.arraycopy(delta, 0, sum, original.length, delta.length);
-            transformer.set(arg0, sum);
+            transformer.setSafely(arg0, sum);
         } else if (mode == Changer.ChangeMode.DELETE) {
-            transformer.set(arg0, new Object[0]);
+            transformer.setSafely(arg0, new Object[0]);
         } else if (mode == Changer.ChangeMode.RESET) {
             Object[] original = transformer.get(arg0);
             for (int i = 0; i < original.length; i++) {
                 original[i] = ((Transformer.Resettable) transformer).reset();
             }
-            transformer.set(arg0, original);
+            transformer.setSafely(arg0, original);
         }
     }
 

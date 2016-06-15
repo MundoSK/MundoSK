@@ -1,6 +1,5 @@
 package com.pie.tlatoani.ListUtil;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -72,7 +71,7 @@ public class ExprSomeItems extends SimpleExpression implements ListUtil.Transfor
         System.arraycopy(secondarray, 0, result, 0, index);
         System.arraycopy(insertion, 0, result, index, insertion.length);
         System.arraycopy(secondarray, index, result, index + insertion.length, secondarray.length - index);
-        transformer.set(event, result);
+        transformer.setSafely(event, result);
     }
 
     public Boolean isMoveable() {
@@ -121,17 +120,17 @@ public class ExprSomeItems extends SimpleExpression implements ListUtil.Transfor
             System.arraycopy(original, 0, finalarray, 0, index1);
             System.arraycopy(delta, 0, finalarray, index1, delta.length);
             System.arraycopy(original, index2 + 1, finalarray, index1 + delta.length, original.length - index2 - 1);
-            transformer.set(event, finalarray);
+            transformer.setSafely(event, finalarray);
         } else if (mode == Changer.ChangeMode.DELETE) {
             Object[] finalarray = new Object[original.length + index1 - index2 - 1];
             System.arraycopy(original, 0, finalarray, 0, index1);
             System.arraycopy(original, index2 + 1, finalarray, index1, original.length - index2 - 1);
-            transformer.set(event, finalarray);
+            transformer.setSafely(event, finalarray);
         } else if (mode == Changer.ChangeMode.RESET) {
             for (int i = index1; i <= index2; i++) {
                 original[i] = ((Transformer.Resettable) transformer).reset();
             }
-            transformer.set(event, original);
+            transformer.setSafely(event, original);
         }
     }
 

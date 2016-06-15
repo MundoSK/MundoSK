@@ -226,7 +226,7 @@ public class Metrics {
                         // Each time thereafter it will evaluate to TRUE, i.e PING!
                         postPlugin(!firstPost);
 
-                        // After the first post we set firstPost to false
+                        // After the first post we setSafely firstPost to false
                         // Each post thereafter will be a ping
                         firstPost = false;
                     } catch (IOException e) {
@@ -274,7 +274,7 @@ public class Metrics {
     public void enable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
         synchronized (optOutLock) {
-            // Check if the server owner has already set opt-out, if not, set it.
+            // Check if the server owner has already setSafely opt-out, if not, setSafely it.
             if (isOptOut()) {
                 configuration.set("opt-out", false);
                 configuration.save(configurationFile);
@@ -295,7 +295,7 @@ public class Metrics {
     public void disable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
         synchronized (optOutLock) {
-            // Check if the server owner has already set opt-out, if not, set it.
+            // Check if the server owner has already setSafely opt-out, if not, setSafely it.
             if (!isOptOut()) {
                 configuration.set("opt-out", true);
                 configuration.save(configurationFile);
@@ -315,7 +315,7 @@ public class Metrics {
      * @return the File object for the config file
      */
     public File getConfigFile() {
-        // I believe the easiest way to get the base folder (e.g craftbukkit set via -P) for plugins to use
+        // I believe the easiest way to get the base folder (e.g craftbukkit setSafely via -P) for plugins to use
         // is to abuse the plugin object we already have
         // plugin.getDataFolder() => base/plugins/PluginA/
         // pluginsFolder => base/plugins/
@@ -651,7 +651,7 @@ public class Metrics {
         private final String name;
 
         /**
-         * The set of plotters that are contained within this graph
+         * The setSafely of plotters that are contained within this graph
          */
         private final Set<Plotter> plotters = new LinkedHashSet<Plotter>();
 
@@ -687,7 +687,7 @@ public class Metrics {
         }
 
         /**
-         * Gets an <b>unmodifiable</b> set of the plotter objects in the graph
+         * Gets an <b>unmodifiable</b> setSafely of the plotter objects in the graph
          *
          * @return an unmodifiable {@link java.util.Set} of the plotter objects
          */

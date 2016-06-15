@@ -7,7 +7,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/TransBookPages.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/TransBookPages.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Achievement/EffAwardAch.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Achievement/EffAwardAch.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Achievement/EffRemoveAch.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Achievement/EffRemoveAch.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/EffAddPage.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/EffAddPage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffInsertItem.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffInsertItem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItemCount.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItemCount.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItems.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItems.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprSomeItems.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprSomeItems.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Metrics.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Metrics.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffCloseFunctionSocket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffCloseFunctionSocket.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffOpenFunctionSocket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffOpenFunctionSocket.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffWriteToSocket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffWriteToSocket.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/EffSpawnObject.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/EffSpawnObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffResetBorder.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffResetBorder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffCreateWorldCreator.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffCreateWorldCreator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffDeleteWorld.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffDeleteWorld.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffDuplicateWorld.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffDuplicateWorld.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffUnloadWorld.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffUnloadWorld.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,27 +75,39 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="ExprItems.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItems.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="469">
+              <caret line="74" column="13" selection-start-line="74" selection-start-column="13" selection-end-line="74" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="ExprItem.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-131">
-              <caret line="35" column="51" selection-start-line="35" selection-start-column="51" selection-end-line="35" selection-end-column="51" />
+              <caret line="32" column="51" selection-start-line="32" selection-start-column="51" selection-end-line="32" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1466012656000" expanded="false" signature="1187:1198" placeholder=" { " />
-                <marker date="1466012656000" expanded="false" signature="1210:1216" placeholder=" }" />
-                <marker date="1466012656000" expanded="false" signature="1264:1275" placeholder=" { " />
-                <marker date="1466012656000" expanded="false" signature="1293:1299" placeholder=" }" />
+                <marker date="1466020671000" expanded="false" signature="1124:1135" placeholder=" { " />
+                <marker date="1466020671000" expanded="false" signature="1147:1153" placeholder=" }" />
+                <marker date="1466020671000" expanded="false" signature="1201:1212" placeholder=" { " />
+                <marker date="1466020671000" expanded="false" signature="1230:1236" placeholder=" }" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Transformer.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Transformer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
+            <state relative-caret-position="345">
+              <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -83,21 +115,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExprPagesOfBook.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprPagesOfBook.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="53" column="24" selection-start-line="53" selection-start-column="24" selection-end-line="53" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TransBookPages.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TransBookPages.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/TransBookPages.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="870">
-              <caret line="58" column="28" selection-start-line="58" selection-start-column="28" selection-end-line="58" selection-end-column="28" />
+            <state relative-caret-position="420">
+              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1098#1099#0" expanded="true" />
@@ -120,8 +142,8 @@
       <file leaf-file-name="ExprItemCount.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItemCount.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+            <state relative-caret-position="240">
+              <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -191,7 +213,6 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprLastIndex.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ConsumerExpression.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffMoveItem.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItems.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprSomeItems.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffInsertItem.java" />
@@ -200,6 +221,7 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Book/TransBookPages.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java" />
       </list>
     </option>
   </component>
@@ -698,6 +720,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1002,40 +1025,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItems.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1110">
-          <caret line="74" column="54" selection-start-line="74" selection-start-column="54" selection-end-line="74" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#783#784#0" expanded="true" />
-            <element signature="e#828#829#0" expanded="true" />
-            <element signature="e#875#876#0" expanded="true" />
-            <element signature="e#903#904#0" expanded="true" />
-            <element signature="e#953#954#0" expanded="true" />
-            <element signature="e#986#987#0" expanded="true" />
-            <element signature="e#1054#1055#0" expanded="true" />
-            <element signature="e#1106#1107#0" expanded="true" />
-            <element signature="e#2701#2731#0" expanded="true" />
-            <element signature="e#3172#3173#0" expanded="true" />
-            <element signature="e#3206#3207#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprSomeItems.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="484">
           <caret line="131" column="54" selection-start-line="131" selection-start-column="54" selection-end-line="131" selection-end-column="54" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3219#3220#0" expanded="true" />
-            <element signature="e#3266#3267#0" expanded="true" />
-            <element signature="e#3313#3314#0" expanded="true" />
-            <element signature="e#3341#3342#0" expanded="true" />
-            <element signature="e#3391#3392#0" expanded="true" />
-            <element signature="e#3424#3425#0" expanded="true" />
-            <element signature="e#5800#5830#0" expanded="true" />
+            <element signature="e#3195#3196#0" expanded="true" />
+            <element signature="e#3242#3243#0" expanded="true" />
+            <element signature="e#3289#3290#0" expanded="true" />
+            <element signature="e#3317#3318#0" expanded="true" />
+            <element signature="e#3367#3368#0" expanded="true" />
+            <element signature="e#3400#3401#0" expanded="true" />
+            <element signature="e#5794#5824#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1044,9 +1046,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
           <caret line="34" column="61" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1055,9 +1055,9 @@
         <state relative-caret-position="480">
           <caret line="32" column="159" selection-start-line="32" selection-start-column="159" selection-end-line="32" selection-end-column="159" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#497#498#0" expanded="true" />
-            <element signature="e#585#586#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#497#498#0" expanded="false" />
+            <element signature="e#585#586#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1070,55 +1070,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprPagesOfBook.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="53" column="24" selection-start-line="53" selection-start-column="24" selection-end-line="53" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#350#388#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItemCount.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+        <state relative-caret-position="240">
+          <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-131">
-          <caret line="35" column="51" selection-start-line="35" selection-start-column="51" selection-end-line="35" selection-end-column="51" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1466012656000" expanded="false" signature="1187:1198" placeholder=" { " />
-            <marker date="1466012656000" expanded="false" signature="1210:1216" placeholder=" }" />
-            <marker date="1466012656000" expanded="false" signature="1264:1275" placeholder=" { " />
-            <marker date="1466012656000" expanded="false" signature="1293:1299" placeholder=" }" />
           </folding>
         </state>
       </provider>
@@ -1134,10 +1091,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprPagesOfBook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1031">
+          <caret line="53" column="24" selection-start-line="53" selection-start-column="24" selection-end-line="53" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#350#388#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/TransBookPages.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
-          <caret line="58" column="28" selection-start-line="58" selection-start-column="28" selection-end-line="58" selection-end-column="28" />
+        <state relative-caret-position="420">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1098#1099#0" expanded="true" />
@@ -1152,6 +1128,40 @@
             <element signature="e#1685#1686#0" expanded="true" />
             <element signature="e#1753#1754#0" expanded="true" />
             <element signature="e#1788#1789#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItems.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="74" column="13" selection-start-line="74" selection-start-column="13" selection-end-line="74" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-131">
+          <caret line="32" column="51" selection-start-line="32" selection-start-column="51" selection-end-line="32" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1466020671000" expanded="false" signature="1124:1135" placeholder=" { " />
+            <marker date="1466020671000" expanded="false" signature="1147:1153" placeholder=" }" />
+            <marker date="1466020671000" expanded="false" signature="1201:1212" placeholder=" { " />
+            <marker date="1466020671000" expanded="false" signature="1230:1236" placeholder=" }" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1,6 +1,5 @@
 package com.pie.tlatoani.ListUtil;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -8,8 +7,6 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import org.bukkit.event.Event;
-
-import java.lang.reflect.Array;
 
 /**
  * Created by Tlatoani on 6/10/16.
@@ -75,21 +72,21 @@ public class ExprItem extends SimpleExpression implements ListUtil.Moveable {
         if (index >= original.length || index < 0) {
         } else if (mode == Changer.ChangeMode.SET) {
             original[index] = delta[0];
-            transformer.set(arg0, original);
+            transformer.setSafely(arg0, original);
         } else if (mode == Changer.ChangeMode.ADD) {
             original[index] = ((Transformer.Addable) transformer).add(original[index], delta[0]);
-            transformer.set(arg0, original);
+            transformer.setSafely(arg0, original);
         } else if (mode == Changer.ChangeMode.REMOVE) {
             original[index] = ((Transformer.Removeable) transformer).remove(original[index], delta[0]);
-            transformer.set(arg0, original);
+            transformer.setSafely(arg0, original);
         } else if (mode == Changer.ChangeMode.DELETE) {
             Object[] finalarray = new Object[original.length - 1];
             System.arraycopy(original, 0, finalarray, 0, index);
             System.arraycopy(original, index + 1, finalarray, index, original.length - index - 1);
-            transformer.set(arg0, finalarray);
+            transformer.setSafely(arg0, finalarray);
         } else if (mode == Changer.ChangeMode.RESET) {
             original[index] = ((Transformer.Resettable) transformer).reset();
-            transformer.set(arg0, original);
+            transformer.setSafely(arg0, original);
         }
     }
 
@@ -137,7 +134,7 @@ public class ExprItem extends SimpleExpression implements ListUtil.Moveable {
         System.arraycopy(secondarray, 0, result, 0, index);
         result[index] = insertion;
         System.arraycopy(secondarray, index, result, index + 1, secondarray.length - index);
-        transformer.set(event, result);
+        transformer.setSafely(event, result);
     }
 
     @Override

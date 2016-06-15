@@ -42,7 +42,7 @@ public class CondCatch extends Condition {
         container = expressions[0];
         Class[] classes = container.acceptChange(Changer.ChangeMode.SET);
         if (!(Arrays.asList(classes).contains(Throwable.class) || Arrays.asList(classes).contains(Object.class))) {
-            Skript.error("The expression " + container + " cannot be set to an exception! The expression of a catch statement needs to be able to catch an exception.");
+            Skript.error("The expression " + container + " cannot be setSafely to an exception! The expression of a catch statement needs to be able to catch an exception.");
             return false;
         }
         return true;

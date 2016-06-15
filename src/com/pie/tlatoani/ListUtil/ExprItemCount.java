@@ -1,6 +1,5 @@
 package com.pie.tlatoani.ListUtil;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -91,7 +90,7 @@ public class ExprItemCount extends SimpleExpression<Number> {
                 }
             }
         }
-        transformer.set(arg0, finalarray);
+        transformer.setSafely(arg0, finalarray);
     }
 
     @SuppressWarnings("unchecked")

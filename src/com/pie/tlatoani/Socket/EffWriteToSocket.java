@@ -34,7 +34,7 @@ public class EffWriteToSocket extends Effect{
 
 	@Override
 	public String toString(@Nullable Event paramEvent, boolean paramBoolean) {
-		return " set world border of world";
+		return " setSafely world border of world";
 	}
 
 	@Override

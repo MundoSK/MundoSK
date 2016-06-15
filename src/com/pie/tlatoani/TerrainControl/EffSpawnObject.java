@@ -38,7 +38,7 @@ public class EffSpawnObject extends Effect{
 	@Override
 	public String toString(@Nullable Event paramEvent, boolean paramBoolean) {
 		// TODO Auto-generated method stub
-		return " set world border of world";
+		return " setSafely world border of world";
 	}
 
 	@Override
