@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.BookMeta;
 /**
  * Created by Tlatoani on 6/15/16.
  */
-public class TransBookPages implements Transformer<String> {
+public class TransBookPages implements Transformer<String>, Transformer.Resettable<String>, Transformer.Addable<String, String> {
     private Expression<ItemStack> book;
 
     @Override
@@ -47,5 +47,20 @@ public class TransBookPages implements Transformer<String> {
     @Override
     public void set(Event event, String[] value) {
         ((BookMeta) book.getSingle(event).getItemMeta()).setPages(value);
+    }
+
+    @Override
+    public String reset() {
+        return "";
+    }
+
+    @Override
+    public String add(String orig, String addend) {
+        return orig + addend;
+    }
+
+    @Override
+    public Class<? extends String> getAddendType() {
+        return String.class;
     }
 }
