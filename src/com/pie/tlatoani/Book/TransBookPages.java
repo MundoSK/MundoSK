@@ -24,7 +24,7 @@ public class TransBookPages implements Transformer<String> {
             book = expression;
             return true;
         }
-        Mundo.debug(this, "THE EXPR: " + expression);
+        Mundo.debug(this, "THE EXPR: " + expression.getClass());
         Skript.error("'" + expression + "' is not an item!");
         return false;
     }
