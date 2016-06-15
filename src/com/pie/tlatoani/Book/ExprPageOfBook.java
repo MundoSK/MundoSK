@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -36,6 +37,7 @@ public class ExprPageOfBook extends SimpleExpression<String>{
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
 		pgnum = (Expression<Number>) expr[0];
 		book = (Expression<ItemStack>) expr[1];
+		Mundo.debug(this, "Look at thisL::::: " + book.getClass());
 		return true;
 	}
 

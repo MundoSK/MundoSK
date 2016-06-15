@@ -7,27 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Achievement/EffAwardAch.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Achievement/EffAwardAch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Achievement/EffRemoveAch.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Achievement/EffRemoveAch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/EffAddPage.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/EffAddPage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffInsertItem.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffInsertItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItemCount.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItemCount.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItems.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItems.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprSomeItems.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprSomeItems.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Metrics.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Metrics.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprPageOfBook.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprPageOfBook.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffCloseFunctionSocket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffCloseFunctionSocket.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffOpenFunctionSocket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffOpenFunctionSocket.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffWriteToSocket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffWriteToSocket.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/EffSpawnObject.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/EffSpawnObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffResetBorder.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffResetBorder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffCreateWorldCreator.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffCreateWorldCreator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffDeleteWorld.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffDeleteWorld.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffDuplicateWorld.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffDuplicateWorld.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffUnloadWorld.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/EffUnloadWorld.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -49,15 +30,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="178" column="102" selection-start-line="178" selection-start-column="102" selection-end-line="178" selection-end-column="102" />
+            <state relative-caret-position="510">
+              <caret line="179" column="26" selection-start-line="179" selection-start-column="26" selection-end-line="179" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#parse#0;class#2865:3523" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExprPageOfBook.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprPageOfBook.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="39" column="65" selection-start-line="39" selection-start-column="65" selection-end-line="39" selection-end-column="65" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -103,7 +94,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Transformer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Transformer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="345">
@@ -171,7 +162,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/glassfish/JsonReaderFactoryImpl.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/glassfish/JsonGeneratorImpl.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/glassfish/JsonPrettyGeneratorImpl.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/glassfish/JsonGeneratorFactoryImpl.java" />
@@ -219,9 +209,10 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItemCount.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Book/TransBookPages.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprPageOfBook.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
       </list>
     </option>
   </component>
@@ -709,13 +700,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprBranch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="20" column="41" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -1080,17 +1064,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="178" column="102" selection-start-line="178" selection-start-column="102" selection-end-line="178" selection-end-column="102" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#parse#0;class#2865:3523" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprPagesOfBook.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1031">
@@ -1162,6 +1135,25 @@
           <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprPageOfBook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="39" column="65" selection-start-line="39" selection-start-column="65" selection-end-line="39" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="179" column="26" selection-start-line="179" selection-start-column="26" selection-end-line="179" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#parse#0;class#2865:3523" expanded="false" />
           </folding>
         </state>
       </provider>
