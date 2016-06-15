@@ -30,7 +30,10 @@ public class ExprItem extends SimpleExpression implements ListUtil.Moveable {
     protected Object[] get(Event event) {
         Integer index = this.index.getSingle(event).intValue() - 1;
         Object[] original = transformer.get(event);
-        return new Object[]{index < original.length && index > -1 ? original[index] : null};
+        if (index < 0) {
+            index = 0;
+        }
+        return new Object[]{index < original.length ? original[index] : null};
     }
 
     @Override
