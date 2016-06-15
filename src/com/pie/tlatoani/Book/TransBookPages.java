@@ -3,6 +3,7 @@ package com.pie.tlatoani.Book;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import com.pie.tlatoani.ListUtil.Transformer;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -23,6 +24,7 @@ public class TransBookPages implements Transformer<String> {
             book = expression;
             return true;
         }
+        Mundo.debug(this, "THE EXPR: " + expression);
         Skript.error("'" + expression + "' is not an item!");
         return false;
     }

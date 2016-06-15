@@ -23,13 +23,13 @@ public final class ListUtil {
     }
 
     public static Transformer retrieveTransformer(String pattern, Expression expression) {
-        Transformer transformer = null;
         if (expression instanceof PersonalTransformer) {
             Transformer personalTransformer = ((PersonalTransformer) expression).getPersonalTransformer(pattern);
             if (personalTransformer != null ) {
                 return personalTransformer;
             }
         }
+        Transformer transformer = null;
         if (dictionary.containsKey(pattern)) {
             try {
                 transformer = dictionary.get(pattern).newInstance();
