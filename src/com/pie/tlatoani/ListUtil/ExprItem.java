@@ -54,7 +54,7 @@ public class ExprItem extends SimpleExpression implements ListUtil.Moveable {
         pattern = parseResult.regexes.get(0).group();
         transformer = ListUtil.retrieveTransformer(pattern, expression);
         isLastIndex = expressions[0] == null;
-        index = !isLastIndex ? (Expression<Number>) expressions[1] : new ExprItemCount(transformer, expression);
+        index = !isLastIndex ? (Expression<Number>) expressions[0] : new ExprItemCount(transformer, expression);
         if (transformer == null) {
             return false;
         }
