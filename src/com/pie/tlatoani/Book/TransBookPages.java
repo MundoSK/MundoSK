@@ -50,7 +50,10 @@ public class TransBookPages implements Transformer<String>, Transformer.Resettab
 
     @Override
     public void set(Event event, String[] value) {
-        ((BookMeta) book.getSingle(event).getItemMeta()).setPages(value);
+        ItemStack book = this.book.getSingle(event);
+        BookMeta meta = (BookMeta) book.getItemMeta();
+        meta.setPages(value);
+        book.setItemMeta(meta);
     }
 
     @Override
