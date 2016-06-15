@@ -116,7 +116,7 @@ public class ExprSomeItems extends SimpleExpression implements ListUtil.Transfor
         Object[] original = transformer.get(event);
         if (index1 > index2 || index2 >= original.length || index1 < 0) {
         } else if (mode == Changer.ChangeMode.SET) {
-            Object[] finalarray = new Object[original.length + delta.length - 1];
+            Object[] finalarray = new Object[original.length + delta.length + index1 - index2 - 1];
             System.arraycopy(original, 0, finalarray, 0, index1);
             System.arraycopy(delta, 0, finalarray, index1, delta.length);
             System.arraycopy(original, index2 + 1, finalarray, index1 + delta.length, original.length - index2 - 1);
