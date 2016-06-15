@@ -32,6 +32,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.EnchantedBook.*;
+import com.pie.tlatoani.ListUtil.*;
 import com.pie.tlatoani.Miscellaneous.*;
 import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
@@ -111,14 +112,15 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprAllAch.class,Achievement.class,ExpressionType.PROPERTY,"[all] achieve[ment]s [of %-player%]", "%player%'s achieve[ment]s");
 		Skript.registerExpression(ExprHasAch.class,Boolean.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %achievement%");
 		//Book
-		Skript.registerEffect(EffAddPage.class, "(add|insert|write) %strings% (1¦before|0¦after) (page %-number%|last page) (of|in) %itemstack%");
-		Skript.registerEffect(EffMovePage.class, "move (page[s] %-number% [to %-number%]|last [%-number%] page[s]) (of|in) %itemstack% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
+        ListUtil.registerTransformer(TransBookPages.class, "page");
+		//Skript.registerEffect(EffAddPage.class, "(add|insert|write) %strings% (1¦before|0¦after) (page %-number%|last page) (of|in) %itemstack%");
+		//Skript.registerEffect(EffMovePage.class, "move (page[s] %-number% [to %-number%]|last [%-number%] page[s]) (of|in) %itemstack% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
 		Skript.registerExpression(ExprBook.class,ItemStack.class,ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] %number% page[s] [%-strings%]");
 		Skript.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
 		Skript.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
-		Skript.registerExpression(ExprPageOfBook.class,String.class,ExpressionType.PROPERTY,"(page %number%|last page) of %itemstack%");
-		Skript.registerExpression(ExprPagesOfBook.class,String.class,ExpressionType.PROPERTY,"pages [%-number% to (%-number%|last)] of %itemstack%");
-		Skript.registerExpression(ExprPageCountOfBook.class,Integer.class,ExpressionType.PROPERTY,"page count of %itemstack%");
+		//Skript.registerExpression(ExprPageOfBook.class,String.class,ExpressionType.PROPERTY,"(page %number%|last page) of %itemstack%");
+		//Skript.registerExpression(ExprPagesOfBook.class,String.class,ExpressionType.PROPERTY,"pages [%-number% to (%-number%|last)] of %itemstack%");
+		//Skript.registerExpression(ExprPageCountOfBook.class,Integer.class,ExpressionType.PROPERTY,"page count of %itemstack%");
 		//CodeBlock
         Classes.registerClass(new ClassInfo<SkriptCodeBlock>(SkriptCodeBlock.class, "codeblock").user(new String[]{"codeblock"}).name("codeblock").parser(new Parser<SkriptCodeBlock>(){
 
@@ -171,6 +173,13 @@ public class Mundo extends JavaPlugin{
         Skript.registerEffect(EffPutJsonInListVariable.class, "put json %jsonobject% in listvar %objects%", "put jsons %jsonobjects% in listvar %objects%");
         Skript.registerExpression(ExprListVariableAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of listvar %objects%", "jsons of listvar %objects%");
         Skript.registerExpression(ExprStringAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of string %string%");
+        //ListUtil
+        Skript.registerEffect(EffInsertItem.class, "(add|insert) %objects% (1¦before|0¦after) (<.+> %-number%|last <.+>)[ (of|in) %object/objects%]");
+        Skript.registerEffect(EffMoveItem.class, "move %object/objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
+        Skript.registerExpression(ExprItem.class,Object.class,ExpressionType.PROPERTY,"(<.+> %number%|last <.+>)[ of %object/objects%]");
+        Skript.registerExpression(ExprItems.class,Object.class,ExpressionType.PROPERTY,"<.+>[ of %object/objects%]");
+        Skript.registerExpression(ExprSomeItems.class,String.class,ExpressionType.PROPERTY,"<.+> %-number% to (%-number%|last)[ of %object/objects%]");
+        Skript.registerExpression(ExprItemCount.class,Number.class,ExpressionType.PROPERTY,"<.+> count[ of %object/objects%]");
         //Miscellaneous
 		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
 
