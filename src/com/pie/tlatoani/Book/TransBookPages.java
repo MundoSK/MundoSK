@@ -15,6 +15,10 @@ public class TransBookPages implements Transformer<String> {
 
     @Override
     public Boolean init(Expression expression) {
+        if (expression == null) {
+            Skript.error("There needs to be an item!");
+            return false;
+        }
         if (expression.getReturnType().isAssignableFrom(ItemStack.class) || ItemStack.class.isAssignableFrom(expression.getReturnType())) {
             book = expression;
             return true;
