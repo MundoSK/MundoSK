@@ -174,12 +174,12 @@ public class Mundo extends JavaPlugin{
         Skript.registerExpression(ExprListVariableAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of listvar %objects%", "jsons of listvar %objects%");
         Skript.registerExpression(ExprStringAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of string %string%");
         //ListUtil
-        Skript.registerEffect(EffInsertItem.class, "(add|insert) %objects% (1¦before|0¦after) (<.+> %-number%|last <.+>)[ (of|in) %object/objects%]");
+        Skript.registerEffect(EffInsertItem.class, "(add|insert) %objects% (1¦before|0¦after) (<.+> %-number%|last <.+>)[ (of|in) %-object/-objects%]");
         Skript.registerEffect(EffMoveItem.class, "move %object/objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
-        Skript.registerExpression(ExprItem.class,Object.class,ExpressionType.PROPERTY,"(<.+> %number%|last <.+>)[ of %object/objects%]");
-        Skript.registerExpression(ExprItems.class,Object.class,ExpressionType.PROPERTY,"<.+>[ of %object/objects%]");
-        Skript.registerExpression(ExprSomeItems.class,String.class,ExpressionType.PROPERTY,"<.+> %-number% to (%-number%|last)[ of %object/objects%]");
-        Skript.registerExpression(ExprItemCount.class,Number.class,ExpressionType.PROPERTY,"<.+> count[ of %object/objects%]");
+        Skript.registerExpression(ExprItem.class,Object.class,ExpressionType.PROPERTY,"(<.+> %number%|last <.+>)[ of %-object/-objects%]");
+        Skript.registerExpression(ExprItems.class,Object.class,ExpressionType.PROPERTY,"<.+>[ of %-object/-objects%]");
+        Skript.registerExpression(ExprSomeItems.class,String.class,ExpressionType.PROPERTY,"<.+> %-number% to (%-number%|last)[ of %-object/-objects%]");
+        Skript.registerExpression(ExprItemCount.class,Number.class,ExpressionType.PROPERTY,"<.+> count[ of %-object/-objects%]");
         //Miscellaneous
 		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
 

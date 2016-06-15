@@ -7,17 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/TransBookPages.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffInsertItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffMoveItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItemCount.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItems.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprSomeItems.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ConsumerExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
     </list>
     <ignored path="MundoSK.iws" />
@@ -43,8 +32,8 @@
       <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="117" column="90" selection-start-line="117" selection-start-column="90" selection-end-line="117" selection-end-column="101" />
+            <state relative-caret-position="465">
+              <caret line="181" column="117" selection-start-line="181" selection-start-column="117" selection-end-line="181" selection-end-column="117" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#parse#0;class#2865:3523" expanded="false" />
@@ -975,18 +964,18 @@
         <state relative-caret-position="405">
           <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#439#440#0" expanded="true" />
-            <element signature="e#483#484#0" expanded="true" />
-            <element signature="e#535#536#0" expanded="true" />
-            <element signature="e#594#595#0" expanded="true" />
-            <element signature="e#680#681#0" expanded="true" />
-            <element signature="e#758#759#0" expanded="true" />
-            <element signature="e#785#786#0" expanded="true" />
-            <element signature="e#848#849#0" expanded="true" />
-            <element signature="e#875#876#0" expanded="true" />
-            <element signature="e#943#944#0" expanded="true" />
-            <element signature="e#970#971#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#439#440#0" expanded="false" />
+            <element signature="e#483#484#0" expanded="false" />
+            <element signature="e#535#536#0" expanded="false" />
+            <element signature="e#594#595#0" expanded="false" />
+            <element signature="e#680#681#0" expanded="false" />
+            <element signature="e#758#759#0" expanded="false" />
+            <element signature="e#785#786#0" expanded="false" />
+            <element signature="e#848#849#0" expanded="false" />
+            <element signature="e#875#876#0" expanded="false" />
+            <element signature="e#943#944#0" expanded="false" />
+            <element signature="e#970#971#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1133,8 +1122,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="117" column="90" selection-start-line="117" selection-start-column="90" selection-end-line="117" selection-end-column="101" />
+        <state relative-caret-position="465">
+          <caret line="181" column="117" selection-start-line="181" selection-start-column="117" selection-end-line="181" selection-end-column="117" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#parse#0;class#2865:3523" expanded="false" />
