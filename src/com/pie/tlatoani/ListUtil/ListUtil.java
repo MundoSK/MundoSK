@@ -30,11 +30,13 @@ public final class ListUtil {
                 return personalTransformer;
             }
         }
-        try {
-            transformer = dictionary.get(pattern).newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            return null;
+        if (dictionary.containsKey(pattern)) {
+            try {
+                transformer = dictionary.get(pattern).newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
         if (transformer == null) {
             Skript.error("'" + pattern + (expression != null ? "s of " + expression + "'" : "s'") + " is not a list!");

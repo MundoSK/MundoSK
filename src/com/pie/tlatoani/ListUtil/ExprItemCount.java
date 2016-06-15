@@ -19,6 +19,9 @@ public class ExprItemCount extends SimpleExpression<Number> {
     private Boolean isSettable;
     private Boolean usedAsLast;
 
+    //For Skript usage
+    public ExprItemCount() {}
+
     //For use as last index
     public ExprItemCount(Transformer transformer, Expression expression) {
         usedAsLast = true;
