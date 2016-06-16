@@ -175,7 +175,7 @@ public class Mundo extends JavaPlugin{
         Skript.registerExpression(ExprStringAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of string %string%");
         //ListUtil
         Skript.registerEffect(EffInsertItem.class, "(add|insert) %objects% (1¦before|0¦after) (<[a-zA-z]+> %-number%|last <[a-zA-z]+>)[ (of|in) %-object/objects%]");
-        Skript.registerEffect(EffMoveItem.class, "move %object/objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
+        Skript.registerEffect(EffMoveItem.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
         Skript.registerExpression(ExprItem.class,Object.class,ExpressionType.PROPERTY,"(<[a-zA-z]+> %-number%|last <[a-zA-z]+>)[ of %-object/objects%]");
         Skript.registerExpression(ExprItems.class,Object.class,ExpressionType.PROPERTY,"<[a-zA-z]+>[ of %-object/objects%]");
         Skript.registerExpression(ExprSomeItems.class,String.class,ExpressionType.PROPERTY,"<[a-zA-z]+> %-number% to (%-number%|last)[ of %-object/objects%]");

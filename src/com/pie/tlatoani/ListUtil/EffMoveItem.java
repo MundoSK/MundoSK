@@ -5,6 +5,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 /**
@@ -27,6 +28,7 @@ public class EffMoveItem extends Effect {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+        Mundo.debug(this, "Moveablemaybe: " + expressions[0].getClass());
         if (expressions[0] instanceof ListUtil.Moveable) {
             expression = (ListUtil.Moveable) expressions[0];
         } else {
