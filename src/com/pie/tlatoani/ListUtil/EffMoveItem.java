@@ -22,7 +22,7 @@ public class EffMoveItem extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "move " + expression + " " + (direction == 1 ? "forward" : "backward") + " " + movement;
+        return "move " + expression + " " + (direction == 1 ? "backward" : "forward") + " " + movement;
     }
 
     @Override

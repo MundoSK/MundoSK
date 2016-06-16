@@ -179,7 +179,7 @@ public class Mundo extends JavaPlugin{
         Skript.registerExpression(ExprItem.class,Object.class,ExpressionType.PROPERTY,"(<[a-zA-z]+> %-number%|last <[a-zA-z]+>)[ of %-object/objects%]");
         Skript.registerExpression(ExprItems.class,Object.class,ExpressionType.PROPERTY,"<[a-zA-z]+>[ of %-object/objects%]");
         Skript.registerExpression(ExprSomeItems.class,String.class,ExpressionType.PROPERTY,"<[a-zA-z]+> %-number% to (%-number%|last)[ of %-object/objects%]");
-        Skript.registerExpression(ExprItemCount.class,Number.class,ExpressionType.PROPERTY,"<[a-zA-z]+> count[ of %-object/objects%]");
+        Skript.registerExpression(ExprItemCount.class,Number.class,ExpressionType.PROPERTY,"<[a-zA-z]+> count[ of %-objects%]");
         //Miscellaneous
 		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
 
