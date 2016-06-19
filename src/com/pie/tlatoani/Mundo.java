@@ -26,6 +26,7 @@ import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
+import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -113,14 +114,9 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprHasAch.class,Boolean.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %achievement%");
 		//Book
         ListUtil.registerTransformer(TransBookPages.class, "page");
-		//Skript.registerEffect(EffAddPage.class, "(add|insert|write) %strings% (1¦before|0¦after) (page %-number%|last page) (of|in) %itemstack%");
-		//Skript.registerEffect(EffMovePage.class, "move (page[s] %-number% [to %-number%]|last [%-number%] page[s]) (of|in) %itemstack% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
 		Skript.registerExpression(ExprBook.class,ItemStack.class,ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] %number% page[s] [%-strings%]");
 		Skript.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
 		Skript.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
-		//Skript.registerExpression(ExprPageOfBook.class,String.class,ExpressionType.PROPERTY,"(page %number%|last page) of %itemstack%");
-		//Skript.registerExpression(ExprPagesOfBook.class,String.class,ExpressionType.PROPERTY,"pages [%-number% to (%-number%|last)] of %itemstack%");
-		//Skript.registerExpression(ExprPageCountOfBook.class,Integer.class,ExpressionType.PROPERTY,"page count of %itemstack%");
 		//CodeBlock
         Classes.registerClass(new ClassInfo<SkriptCodeBlock>(SkriptCodeBlock.class, "codeblock").user(new String[]{"codeblock"}).name("codeblock").parser(new Parser<SkriptCodeBlock>(){
 
@@ -180,6 +176,7 @@ public class Mundo extends JavaPlugin{
         Skript.registerExpression(ExprItems.class,Object.class,ExpressionType.PROPERTY,"<[a-zA-z]+>[ of %-object/objects%]");
         Skript.registerExpression(ExprSomeItems.class,String.class,ExpressionType.PROPERTY,"<[a-zA-z]+> %-number% to (%-number%|last)[ of %-object/objects%]");
         Skript.registerExpression(ExprItemCount.class,Number.class,ExpressionType.PROPERTY,"<[a-zA-z]+> count[ of %-objects%]");
+        ListUtil.registerTransformer(TransDefault.class, "item");
         //Miscellaneous
 		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
 
@@ -216,7 +213,15 @@ public class Mundo extends JavaPlugin{
 				return hangingPlaceEvent.getBlock();
 			}
 		}, 0);
-		Skript.registerEvent("Unhang Event", EvtUnHang.class, HangingBreakEvent.class, "unhang");
+		Skript.registerEvent("Unhang Event", EvtUnHang.class, HangingBreakEvent.class, "unhang");;
+        Skript.registerEvent("Chat Tab Complete Event", EvtChatTabComp.class, PlayerChatTabCompleteEvent.class, "chat tab complete");
+        EventValues.registerEventValue(PlayerChatTabCompleteEvent.class, String.class, new Getter<String, PlayerChatTabCompleteEvent>() {
+            @Override
+            public String get(PlayerChatTabCompleteEvent playerChatTabCompleteEvent) {
+                return playerChatTabCompleteEvent.getChatMessage();
+            }
+        }, 0);
+        Skript.registerExpression(ExprLastToken.class, String.class, ExpressionType.SIMPLE, "last token");
         Skript.registerExpression(ExprHangedEntity.class,Entity.class,ExpressionType.SIMPLE,"hanged entity");
 		Skript.registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
 		Skript.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
@@ -224,7 +229,9 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprGameRule.class,String.class,ExpressionType.PROPERTY,"value of [game]rule %string% in %world%");
 		Skript.registerExpression(ExprReturnTypeOfFunction.class,ClassInfo.class,ExpressionType.PROPERTY,"return type of function %string%");
         Skript.registerExpression(ExprRemainingAir.class,Timespan.class,ExpressionType.PROPERTY,"breath of %livingentity%", "%livingentity%'s breath", "max breath of %livingentity%", "%livingentity%'s max breath");
-		//NoteBlock
+		Skript.registerExpression(ExprLoadedScripts.class,String.class,ExpressionType.SIMPLE, "loaded scripts");
+        ListUtil.registerTransformer(TransCompletions.class, "completion");
+        //NoteBlock
         Classes.registerClass(new ClassInfo<Note>(Note.class, "note").user(new String[]{"note"}).name("note").parser(new Parser<Note>(){
 
             public Note parse(String s, ParseContext context) {

@@ -9,6 +9,9 @@ import ch.njol.util.coll.CollectionUtils;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Tlatoani on 6/10/16.
@@ -74,13 +77,39 @@ public class ExprItems extends SimpleExpression implements ListUtil.TransformerU
                 original[i] = ((Transformer.Resettable) transformer).reset();
             }
             transformer.setSafely(arg0, original);
+        } else if (mode == Changer.ChangeMode.REMOVE) {
+            List original = new ArrayList(Arrays.asList(transformer.get(arg0)));
+            for (int i = 0; i < delta.length; i++) {
+                original.remove(delta[i]);
+            }
+            transformer.setSafely(arg0, original.toArray());
+        } else if (mode == Changer.ChangeMode.REMOVE_ALL) {
+            Object[] original = transformer.get(arg0);
+            Object[] without = new Object[original.length];
+            Integer amountremoved = 0;
+            for (int i = 0; i < original.length; i++) {
+                Boolean removed = false;
+                for (int j = 0; j < delta.length; j++) {
+                    if (original[i].equals(delta[j])) {
+                        removed = true;
+                        amountremoved++;
+                        break;
+                    }
+                }
+                if (!removed) {
+                    without[i - amountremoved] = original[i];
+                }
+            }
+            Object[] result = new Object[original.length - amountremoved];
+            System.arraycopy(without, 0, result, 0, original.length - amountremoved);
+            transformer.setSafely(arg0, result);
         }
     }
 
     @SuppressWarnings("unchecked")
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (!isSettable) return null;
-        if (mode == Changer.ChangeMode.SET || mode == Changer.ChangeMode.DELETE || mode == Changer.ChangeMode.ADD) return CollectionUtils.array(typeToSetTo);
+        if (mode == Changer.ChangeMode.SET || mode == Changer.ChangeMode.DELETE || mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE || mode == Changer.ChangeMode.REMOVE_ALL) return CollectionUtils.array(typeToSetTo);
         if (mode == Changer.ChangeMode.RESET && isResettable) return CollectionUtils.array();
         return null;
     }
