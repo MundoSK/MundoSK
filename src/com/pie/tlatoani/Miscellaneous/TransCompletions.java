@@ -30,12 +30,12 @@ public class TransCompletions implements Transformer<String> {
 
     @Override
     public Class getType() {
-        return null;
+        return String.class;
     }
 
     @Override
-    public Boolean isSettable() {
-        return null;
+    public boolean isSettable() {
+        return true;
     }
 
     @Override

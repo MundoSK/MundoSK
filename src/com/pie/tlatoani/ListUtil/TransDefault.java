@@ -43,7 +43,7 @@ public class TransDefault implements Transformer {
     }
 
     @Override
-    public Boolean isSettable() {
+    public boolean isSettable() {
         return isSettable;
     }
 

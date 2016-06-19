@@ -14,7 +14,7 @@ public interface Transformer<T> {
 
     Class<? extends T> getType();
 
-    Boolean isSettable();
+    boolean isSettable();
 
     T[] get(Event event);
 

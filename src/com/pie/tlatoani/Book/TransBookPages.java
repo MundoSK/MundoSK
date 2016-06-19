@@ -39,7 +39,7 @@ public class TransBookPages implements Transformer<String>, Transformer.Resettab
     }
 
     @Override
-    public Boolean isSettable() {
+    public boolean isSettable() {
         return true;
     }
 
