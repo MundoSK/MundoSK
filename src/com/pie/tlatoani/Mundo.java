@@ -5,6 +5,8 @@ import java.util.List;
 
 import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleEvent;
+import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.skript.util.Slot;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.pie.tlatoani.CodeBlock.EffRunCodeBlock;
@@ -26,6 +28,7 @@ import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -214,11 +217,30 @@ public class Mundo extends JavaPlugin{
 			}
 		}, 0);
 		Skript.registerEvent("Unhang Event", EvtUnHang.class, HangingBreakEvent.class, "unhang");;
-        Skript.registerEvent("Chat Tab Complete Event", EvtChatTabComp.class, PlayerChatTabCompleteEvent.class, "chat tab complete");
+        Skript.registerEvent("Chat Tab Complete Event", SimpleEvent.class, PlayerChatTabCompleteEvent.class, "chat tab complete");
         EventValues.registerEventValue(PlayerChatTabCompleteEvent.class, String.class, new Getter<String, PlayerChatTabCompleteEvent>() {
             @Override
             public String get(PlayerChatTabCompleteEvent playerChatTabCompleteEvent) {
                 return playerChatTabCompleteEvent.getChatMessage();
+            }
+        }, 0);
+        Skript.registerEvent("Armor Stand Interact Event", SimpleEvent.class, PlayerArmorStandManipulateEvent.class, "armor stand (manipulate|interact)");
+        EventValues.registerEventValue(PlayerArmorStandManipulateEvent.class, Entity.class, new Getter<Entity, PlayerArmorStandManipulateEvent>() {
+            @Override
+            public Entity get(PlayerArmorStandManipulateEvent playerArmorStandManipulateEvent) {
+                return playerArmorStandManipulateEvent.getRightClicked();
+            }
+        }, 0);
+        EventValues.registerEventValue(PlayerArmorStandManipulateEvent.class, ItemStack.class, new Getter<ItemStack, PlayerArmorStandManipulateEvent>() {
+            @Override
+            public ItemStack get(PlayerArmorStandManipulateEvent playerArmorStandManipulateEvent) {
+                return playerArmorStandManipulateEvent.getArmorStandItem();
+            }
+        }, 0);
+        EventValues.registerEventValue(PlayerArmorStandManipulateEvent.class, Slot.class, new Getter<Slot, PlayerArmorStandManipulateEvent>() {
+            @Override
+            public Slot get(PlayerArmorStandManipulateEvent playerArmorStandManipulateEvent) {
+                return new ArmorStandEquipmentSlot(playerArmorStandManipulateEvent.getRightClicked(), ArmorStandEquipmentSlot.EquipSlot.getByEquipmentSlot(playerArmorStandManipulateEvent.getSlot()));
             }
         }, 0);
         Skript.registerExpression(ExprLastToken.class, String.class, ExpressionType.SIMPLE, "last token");
