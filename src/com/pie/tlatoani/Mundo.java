@@ -24,6 +24,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.NotePlayEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
@@ -243,6 +244,7 @@ public class Mundo extends JavaPlugin{
                 return new ArmorStandEquipmentSlot(playerArmorStandManipulateEvent.getRightClicked(), ArmorStandEquipmentSlot.EquipSlot.getByEquipmentSlot(playerArmorStandManipulateEvent.getSlot()));
             }
         }, 0);
+        Skript.registerEvent("Armor Stand Place Event", EvtArmorStandPlace.class, EntitySpawnEvent.class, "armor stand place");
         Skript.registerExpression(ExprLastToken.class, String.class, ExpressionType.SIMPLE, "last token");
         Skript.registerExpression(ExprHangedEntity.class,Entity.class,ExpressionType.SIMPLE,"hanged entity");
 		Skript.registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
