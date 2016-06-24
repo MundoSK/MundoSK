@@ -42,14 +42,14 @@ public class ExprItems extends SimpleExpression implements ListUtil.TransformerU
 
     @Override
     public String toString(Event event, boolean b) {
-        return pattern + " of " + expression;
+        return pattern + "s of " + expression;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         expression = expressions[0];
-        pattern = parseResult.regexes.get(0).group();
-        transformer = ListUtil.retrieveTransformerByPlural(pattern, expression);
+        pattern = ListUtil.retrievePattern(i);
+        transformer = ListUtil.retrieveTransformer(pattern, expression);
         if (transformer == null) {
             return false;
         }

@@ -54,7 +54,7 @@ public class ExprItemCount extends SimpleExpression<Number> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         usedAsLast = false;
         expression = expressions[0];
-        pattern = parseResult.regexes.get(0).group();
+        pattern = ListUtil.retrievePattern(i);
         transformer = ListUtil.retrieveTransformer(pattern, expression);
         if (transformer == null) {
             return false;

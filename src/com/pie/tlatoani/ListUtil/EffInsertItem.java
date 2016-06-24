@@ -58,7 +58,7 @@ public class EffInsertItem extends Effect {
         expression = expressions[2];
         insertion = expressions[0];
         isAfter = parseResult.mark == 0;
-        pattern = parseResult.regexes.get(0).group();
+        pattern = ListUtil.retrievePattern(i);
         transformer = ListUtil.retrieveTransformer(pattern, expression);
         isLastIndex = expressions[1] == null;
         index = !isLastIndex ? (Expression<Number>) expressions[1] : new ExprItemCount(transformer, expression);

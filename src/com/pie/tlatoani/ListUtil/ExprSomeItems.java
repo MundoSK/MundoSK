@@ -90,14 +90,14 @@ public class ExprSomeItems extends SimpleExpression implements ListUtil.Transfor
 
     @Override
     public String toString(Event event, boolean b) {
-        return pattern + " " + index1 + " to " + index2 + " of " + expression;
+        return pattern + "s " + index1 + " to " + index2 + " of " + expression;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         expression = expressions[2];
-        pattern = parseResult.regexes.get(0).group();
-        transformer = ListUtil.retrieveTransformerByPlural(pattern, expression);
+        pattern = ListUtil.retrievePattern(i);
+        transformer = ListUtil.retrieveTransformer(pattern, expression);
         if (transformer == null) {
             return false;
         }

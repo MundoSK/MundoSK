@@ -51,7 +51,7 @@ public class ExprItem extends SimpleExpression implements ListUtil.Moveable {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         expression = expressions[1];
-        pattern = parseResult.regexes.get(0).group();
+        pattern = ListUtil.retrievePattern(i);
         transformer = ListUtil.retrieveTransformer(pattern, expression);
         isLastIndex = expressions[0] == null;
         index = !isLastIndex ? (Expression<Number>) expressions[0] : new ExprItemCount(transformer, expression);
