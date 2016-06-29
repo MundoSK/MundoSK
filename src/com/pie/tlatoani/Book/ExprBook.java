@@ -17,7 +17,6 @@ public class ExprBook extends SimpleExpression<ItemStack>{
 	private Expression<ItemStack> book;
 	private Expression<String> title;
 	private Expression<String> author;
-	private Expression<Long> pgcount;
 	private Expression<String> texts;
 
 	@Override
@@ -39,8 +38,7 @@ public class ExprBook extends SimpleExpression<ItemStack>{
 		book = (Expression<ItemStack>) expr[0];
 		title = (Expression<String>) expr[1];
 		author = (Expression<String>) expr[2];
-		pgcount = (Expression<Long>) expr[3];
-		texts = (Expression<String>) expr[4];
+		texts = (Expression<String>) expr[3];
 		return true;
 	}
 
@@ -55,35 +53,10 @@ public class ExprBook extends SimpleExpression<ItemStack>{
 	protected ItemStack[] get(Event arg0) {
 		ItemStack input = book.getSingle(arg0);
 		BookMeta meta = (BookMeta) input.getItemMeta();
-			meta.setTitle(title.getSingle(arg0));
-			meta.setAuthor(author.getSingle(arg0));
-			Integer pageamount = pgcount.getSingle(arg0).intValue();
-			if (pageamount != meta.getPageCount()) {
-				if (pageamount > meta.getPageCount()) {
-					Integer n = (pageamount - meta.getPageCount());
-					int i;
-					for (i = 0; i < n; i++) {
-						meta.addPage("");
-					}
-				} else {
-					Integer n = (meta.getPageCount() - pageamount);
-					int i;
-					List<String> l = meta.getPages();
-					for (i = 0; i < n; i++) {
-						l.remove(l.size());
-					}
-					meta.setPages(l);
-				}
-			}
-		if (texts != null) {
-			String words[] = texts.getArray(arg0);
-			Integer pagenumber =  1;
-			for (String word : words) {
-				meta.setPage(pagenumber, word);
-				pagenumber++;
-			}
-		}
-		ItemStack result = book.getSingle(arg0);
+		meta.setTitle(title.getSingle(arg0));
+		meta.setAuthor(author.getSingle(arg0));
+		meta.setPages(texts.getAll(arg0));
+		ItemStack result = book.getSingle(arg0).clone();
 		result.setItemMeta(meta);
 		return new ItemStack[]{result};
 	}
