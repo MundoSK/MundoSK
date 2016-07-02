@@ -1,7 +1,12 @@
 package com.pie.tlatoani;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleEvent;
@@ -13,7 +18,9 @@ import com.pie.tlatoani.CodeBlock.EffRunCodeBlock;
 import com.pie.tlatoani.CodeBlock.ScopeSaveCodeBlock;
 import com.pie.tlatoani.CodeBlock.SkriptCodeBlock;
 import com.pie.tlatoani.CustomEvent.*;
-import com.pie.tlatoani.Json.API.JsonObject;
+import com.pie.tlatoani.Json.API.*;
+import com.pie.tlatoani.Json.API.stream.JsonParser;
+import com.pie.tlatoani.Json.API.stream.JsonParserFactory;
 import com.pie.tlatoani.Json.EffPutJsonInListVariable;
 import com.pie.tlatoani.Json.ExprListVariableAsJson;
 import com.pie.tlatoani.Json.ExprStringAsJson;
@@ -65,6 +72,10 @@ public class Mundo extends JavaPlugin{
 	public static Mundo instance;
 	public static FileConfiguration config;
     public static Boolean RandomSK;
+
+    public static String pluginFolder;
+    public static String separator;
+    public static JsonObject worldLoaders;
 	
 	public void onEnable(){
 		instance = this;
@@ -74,7 +85,11 @@ public class Mundo extends JavaPlugin{
 		saveConfig();
         RandomSK = Bukkit.getPluginManager().getPlugin("RandomSK") != null;
 		Skript.registerAddon(this);
-		info("Pie is awesome :D");
+        pluginFolder = getDataFolder().getAbsolutePath();
+        separator = File.separator;
+        loadWorldLoader();
+        loadWorlds();
+        info("Pie is awesome :D");
         //Achievement
         if (classInfoSafe(Achievement.class, "achievement")){
             Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
@@ -643,6 +658,9 @@ public class Mundo extends JavaPlugin{
 		Skript.registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
 		Skript.registerEffect(EffDeleteWorld.class, "delete %world%");
 		Skript.registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");
+        Skript.registerEffect(EffRunCreatorOnStart.class, "run %creator% on start");
+        Skript.registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start");
+        Skript.registerExpression(ExprCurrentWorlds.class,World.class,ExpressionType.SIMPLE,"[all] current worlds");
 		//TestSyntaxes
 		//
 		try {
@@ -687,7 +705,10 @@ public class Mundo extends JavaPlugin{
 
     @Override
     public void onDisable() {
-
+        info("Closing all function sockets");
+        UtilFunctionSocket.onDisable();
+        info("Saving world loaders");
+        saveWorldLoader();
     }
 	
 	public static void reportException(Object o, Exception e) {
@@ -737,6 +758,82 @@ public class Mundo extends JavaPlugin{
             return false;
         }
         return true;
+    }
+
+    public static void loadWorldLoader() {
+        try {
+            File loaderFile = new File(pluginFolder + separator + "worldloader.json");
+            if (!loaderFile.exists()) {
+                loaderFile.createNewFile();
+                JsonObject emptyObject = Json.createObjectBuilder().build();
+                FileWriter writer = new FileWriter(loaderFile);
+                writer.write(emptyObject.toString());
+                writer.flush();
+                writer.close();
+            }
+            JsonReader reader = Json.createReader(new FileReader(loaderFile));
+            worldLoaders = reader.readObject();
+        } catch (IOException e) {
+            info("A problem occurred while loading worlds");
+            debug(Mundo.class, e);
+        }
+    }
+
+    public static void loadWorlds() {
+        worldLoaders.forEach(new BiConsumer<String, JsonValue>() {
+            @Override
+            public void accept(String s, JsonValue jsonValue) {
+                WorldCreator creator = new WorldCreator(s);
+                JsonObject creatorJson = (JsonObject) jsonValue;
+                creator.environment(World.Environment.valueOf(creatorJson.getString("environment")));
+                creator.type(WorldType.valueOf(creatorJson.getString("worldtype")));
+                creator.generateStructures(creatorJson.getBoolean("structures"));
+                creator.seed(Long.parseLong(creatorJson.getString("seed")));
+                /*String generator;
+                if ((generator = creatorJson.getString("generator", null)) != null) {
+                    creator.generator(generator);
+                }*/
+                String generatorSettings;
+                if ((generatorSettings = creatorJson.getString("generatorsettings", null)) != null) {
+                    creator.generatorSettings(generatorSettings);
+                }
+                info("Loading the world '" + s + "'");
+                creator.createWorld();
+                info("The world '" + s + "' has been loaded!");
+            }
+        });
+    }
+
+    public static void addWorldLoader(WorldCreator creator) {
+        JsonObjectBuilder creatorJsonBuilder = Json.createObjectBuilder();
+        creatorJsonBuilder.add("environment", creator.environment().toString());
+        creatorJsonBuilder.add("worldtype", creator.type().toString());
+        creatorJsonBuilder.add("structures", creator.generateStructures());
+        creatorJsonBuilder.add("seed", new Long(creator.seed()).toString());
+        if (creator.generatorSettings() != null) {
+            creatorJsonBuilder.add("generatorsettings", creator.generatorSettings());
+        }
+        JsonObject creatorJson = creatorJsonBuilder.build();
+        worldLoaders.put(creator.name(), creatorJson);
+    }
+
+    public static void removeWorldLoader(String worldname) {
+        worldLoaders.remove(worldname);
+    }
+
+    public static void saveWorldLoader() {
+        try {
+            File loaderFile = new File(pluginFolder + separator + "worldloader.json");
+            FileWriter writer = new FileWriter(loaderFile);
+            writer.write(worldLoaders.toString());
+            writer.flush();
+            writer.close();
+
+        } catch (IOException e) {
+            info("A problem occured while saving world loaders");
+            debug(Mundo.class, e);
+        }
+
     }
 	
 }

@@ -1,9 +1,11 @@
 package com.pie.tlatoani.WorldCreator;
 
+import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
 import javax.annotation.Nullable;
 
+import org.bukkit.WorldType;
 import org.bukkit.event.Event;
 
 import ch.njol.skript.lang.Expression;
@@ -46,6 +48,8 @@ public class ExprCreatorNamed extends SimpleExpression<WorldCreator>{
 		String b = name.getSingle(arg0);
 		WorldCreator x = new WorldCreator(b);
 		x.generateStructures(true);
+		x.environment(World.Environment.NORMAL);
+		x.type(WorldType.NORMAL);
 		return new WorldCreator[]{x};
 	}
 
