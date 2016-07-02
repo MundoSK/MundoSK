@@ -6,6 +6,7 @@ import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.lang.VariableString;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
@@ -106,35 +107,72 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        Literal<ClassInfo<?>> literal = (Literal<ClassInfo<?>>) expressions[0];
-        index = (Expression<Number>) expressions[1];
-        packetContainerExpression = (Expression<PacketContainer>) expressions[2];
-        aClass = literal.getSingle().getC();
-        String classname = aClass.getSimpleName();
-        if (aClass == Object.class) {
+        if (i == 0 || i == 1) {
+            Literal<ClassInfo<?>> literal = (Literal<ClassInfo<?>>) expressions[0];
+            index = (Expression<Number>) expressions[1];
+            packetContainerExpression = (Expression<PacketContainer>) expressions[2];
+            aClass = literal.getSingle().getC();
+            String classname = aClass.getSimpleName();
+            if (aClass == Object.class) {
+                return true;
+            }
+            Mundo.debug(this, "Class simple name: " + classname);
+            String pluralclassname;
+            if (i == 1) {
+                pluralclassname = classname + "Arrays";
+                isSingle = false;
+            } else if (classname.substring(classname.length() - 1).equals("y")) {
+                pluralclassname = classname.substring(0, classname.length() - 1) + "ies";
+            } else {
+                pluralclassname = classname + "s";
+            }
+            Mundo.debug(this, "Class plural name: " + pluralclassname);
+            try {
+                Method method = PacketContainer.class.getMethod("get" + pluralclassname);
+                Mundo.debug(this, "Method: " + method.toString());
+                getObjects = method;
+            } catch (NoSuchMethodException e) {
+                Mundo.debug(this, e);
+                Skript.error("The type " + literal + " is not applicable for the '%type% %number% of %packet%' expression.");
+                return false;
+            }
+            return true;
+        } else {
+            String classname;
+            if (expressions[0] instanceof Literal<?>) {
+                classname = ((Literal<String>) expressions[0]).getSingle();
+            } else if (expressions[0] instanceof VariableString) {
+                String fullstring = ((VariableString) expressions[0]).toString();
+                classname = fullstring.substring(1, fullstring.length() - 1);
+            } else {
+                Skript.error("The string '" + expressions[0] + "' is not a literal string! Only literal strings can be used in the pjson expression!");
+                return false;
+            }
+            index = (Expression<Number>) expressions[1];
+            packetContainerExpression = (Expression<PacketContainer>) expressions[2];
+            Mundo.debug(this, "Method non-plural name without 'get': " + classname);
+            String pluralclassname;
+            if (i == 3) {
+                pluralclassname = classname + "Arrays";
+                isSingle = false;
+            } else if (classname.substring(classname.length() - 1).equals("y")) {
+                pluralclassname = classname.substring(0, classname.length() - 1) + "ies";
+            } else {
+                pluralclassname = classname + "s";
+            }
+            Mundo.debug(this, "Method name without 'get': " + pluralclassname);
+            try {
+                Method method = PacketContainer.class.getMethod("get" + pluralclassname);
+                Mundo.debug(this, "Method: " + method.toString());
+                getObjects = method;
+                aClass = method.getReturnType();
+            } catch (NoSuchMethodException e) {
+                Mundo.debug(this, e);
+                Skript.error("There is no packet info method called 'get" + pluralclassname + "'!");
+                return false;
+            }
             return true;
         }
-        Mundo.debug(this, "Class simple name: " + classname);
-        String pluralclassname;
-        if (i == 1) {
-            pluralclassname = classname + "Arrays";
-            isSingle = false;
-        } else if (classname.substring(classname.length() - 1).equals("y")) {
-            pluralclassname = classname.substring(0, classname.length() - 1) + "ies";
-        } else {
-            pluralclassname = classname + "s";
-        }
-        Mundo.debug(this, "Class plural name: " + pluralclassname);
-        try {
-            Method method = PacketContainer.class.getMethod("get" + pluralclassname);
-            Mundo.debug(this, "Method: " + method.toString());
-            getObjects = method;
-        } catch (NoSuchMethodException e) {
-            Mundo.debug(this, e);
-            Skript.error("The type " + literal + " is not applicable for the '%type% %number% of %packet%' expression.");
-            return false;
-        }
-        return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
