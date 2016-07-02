@@ -5,7 +5,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 import ch.njol.skript.lang.*;
@@ -75,7 +77,7 @@ public class Mundo extends JavaPlugin{
 
     public static String pluginFolder;
     public static String separator;
-    public static JsonObject worldLoaders;
+    public static Map<String, JsonObject> worldLoaderSaver;
 	
 	public void onEnable(){
 		instance = this;
@@ -87,9 +89,9 @@ public class Mundo extends JavaPlugin{
 		Skript.registerAddon(this);
         pluginFolder = getDataFolder().getAbsolutePath();
         separator = File.separator;
-        loadWorldLoader();
-        loadWorlds();
         info("Pie is awesome :D");
+        info("Loading worlds if there are any to load");
+        loadWorlds(loadWorldLoader());
         //Achievement
         if (classInfoSafe(Achievement.class, "achievement")){
             Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
@@ -760,7 +762,7 @@ public class Mundo extends JavaPlugin{
         return true;
     }
 
-    public static void loadWorldLoader() {
+    public static JsonObject loadWorldLoader() {
         try {
             File loaderFile = new File(pluginFolder + separator + "worldloader.json");
             if (!loaderFile.exists()) {
@@ -772,14 +774,25 @@ public class Mundo extends JavaPlugin{
                 writer.close();
             }
             JsonReader reader = Json.createReader(new FileReader(loaderFile));
-            worldLoaders = reader.readObject();
+            JsonObject worldLoaders = reader.readObject();
+            final Map<String, JsonObject> saver = new HashMap<String, JsonObject>();
+            worldLoaders.forEach(new BiConsumer<String, JsonValue>() {
+                @Override
+                public void accept(String s, JsonValue jsonValue) {
+                    saver.put(s, (JsonObject) jsonValue);
+                }
+            });
+            worldLoaderSaver = saver;
+            return worldLoaders;
         } catch (IOException e) {
             info("A problem occurred while loading worlds");
             debug(Mundo.class, e);
         }
+        worldLoaderSaver = new HashMap<String, JsonObject>();
+        return Json.createObjectBuilder().build();
     }
 
-    public static void loadWorlds() {
+    public static void loadWorlds(JsonObject worldLoaders) {
         worldLoaders.forEach(new BiConsumer<String, JsonValue>() {
             @Override
             public void accept(String s, JsonValue jsonValue) {
@@ -814,18 +827,25 @@ public class Mundo extends JavaPlugin{
             creatorJsonBuilder.add("generatorsettings", creator.generatorSettings());
         }
         JsonObject creatorJson = creatorJsonBuilder.build();
-        worldLoaders.put(creator.name(), creatorJson);
+        worldLoaderSaver.put(creator.name(), creatorJson);
     }
 
     public static void removeWorldLoader(String worldname) {
-        worldLoaders.remove(worldname);
+        worldLoaderSaver.remove(worldname);
     }
 
     public static void saveWorldLoader() {
+        JsonObjectBuilder builder = Json.createObjectBuilder();
+        worldLoaderSaver.forEach(new BiConsumer<String, JsonObject>() {
+            @Override
+            public void accept(String s, JsonObject jsonObject) {
+                builder.add(s, jsonObject);
+            }
+        });
         try {
             File loaderFile = new File(pluginFolder + separator + "worldloader.json");
             FileWriter writer = new FileWriter(loaderFile);
-            writer.write(worldLoaders.toString());
+            writer.write(builder.build().toString());
             writer.flush();
             writer.close();
 
