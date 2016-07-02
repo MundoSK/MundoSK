@@ -150,25 +150,15 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             }
             index = (Expression<Number>) expressions[1];
             packetContainerExpression = (Expression<PacketContainer>) expressions[2];
-            Mundo.debug(this, "Method non-plural name without 'get': " + classname);
-            String pluralclassname;
-            if (i == 3) {
-                pluralclassname = classname + "Arrays";
-                isSingle = false;
-            } else if (classname.substring(classname.length() - 1).equals("y")) {
-                pluralclassname = classname.substring(0, classname.length() - 1) + "ies";
-            } else {
-                pluralclassname = classname + "s";
-            }
-            Mundo.debug(this, "Method name without 'get': " + pluralclassname);
+            Mundo.debug(this, "Method name without 'get': " + classname);
             try {
-                Method method = PacketContainer.class.getMethod("get" + pluralclassname);
+                Method method = PacketContainer.class.getMethod("get" + classname);
                 Mundo.debug(this, "Method: " + method.toString());
                 getObjects = method;
                 aClass = method.getReturnType();
             } catch (NoSuchMethodException e) {
                 Mundo.debug(this, e);
-                Skript.error("There is no packet info method called 'get" + pluralclassname + "'!");
+                Skript.error("There is no packet info method called 'get" + classname + "'!");
                 return false;
             }
             return true;
