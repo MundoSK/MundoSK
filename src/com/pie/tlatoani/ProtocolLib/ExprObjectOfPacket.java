@@ -11,15 +11,23 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
+import com.comphenix.protocol.wrappers.BlockPosition;
 import com.pie.tlatoani.Mundo;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 
+import java.awt.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Created by Tlatoani on 5/2/16.
@@ -31,6 +39,11 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     private static Field structureModifier;
     private Boolean isSingle = true;
     private Class aClass;
+    private PacketInfoGetter getFunction;
+    private PacketInfoSetter setFunction;
+
+    public static Map<Class, PacketInfoGetter> getFunctionMap = new HashMap<Class, PacketInfoGetter>();
+    public static Map<Class, PacketInfoSetter> setFunctionMap = new HashMap<Class, PacketInfoSetter>();
 
     static {
         try {
@@ -39,6 +52,51 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
+
+        //Converters
+
+        registerConverter(Location.class, new PacketInfoGetter<Location>() {
+            @Override
+            public Location apply(PacketContainer packet, Integer index) {
+                StructureModifier<BlockPosition> structureModifier = packet.getBlockPositionModifier();
+                BlockPosition blockPosition = structureModifier.readSafely(index);
+                return blockPosition.toLocation(Bukkit.getWorlds().get(0));
+            }
+        }, new PacketInfoSetter<Location>() {
+            @Override
+            public void apply(PacketContainer packet, Integer index, Location value) {
+                StructureModifier<BlockPosition> structureModifier = packet.getBlockPositionModifier();
+                BlockPosition blockPosition = new BlockPosition(value.toVector());
+                structureModifier.writeSafely(index, blockPosition);
+            }
+        });
+    }
+
+
+
+    @FunctionalInterface
+    public interface PacketInfoGetter<T> {
+        public T apply(PacketContainer packet, Integer index);
+
+    }
+
+    @FunctionalInterface
+    public interface PacketInfoSetter<T> {
+        public void apply(PacketContainer packet, Integer index, T value);
+
+    }
+
+    private static <T> void registerConverter(Class<T> aClass, PacketInfoGetter<T> getter, PacketInfoSetter<T> setter) {
+        getFunctionMap.put(aClass, getter);
+        setFunctionMap.put(aClass, setter);
+    }
+
+    private static <T> PacketInfoGetter<T> getGetter(Class<T> aClass, Boolean single) {
+        return getFunctionMap.get(aClass);
+    }
+
+    private static <T> PacketInfoSetter<T> getSetter(Class<T> aClass, Boolean single) {
+        return setFunctionMap.get(aClass);
     }
 
     @Override
@@ -52,6 +110,8 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             } catch (InvocationTargetException e) {
                 Mundo.debug(this, e);
             }
+        } else if (getFunction != null && isSingle) {
+            return new Object[] {getFunction.apply(packetContainerExpression.getSingle(event), index.getSingle(event).intValue())};
         } else {
             try {
                 structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));
@@ -112,6 +172,13 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             index = (Expression<Number>) expressions[1];
             packetContainerExpression = (Expression<PacketContainer>) expressions[2];
             aClass = literal.getSingle().getC();
+            getFunction = getGetter(aClass, true);
+            if (getFunction != null) {
+                setFunction = getSetter(aClass, true);
+                Mundo.debug(this, "Converter to PLib type: " + aClass);
+                isSingle = true;
+                return true;
+            }
             String classname = aClass.getSimpleName();
             if (aClass == Object.class) {
                 return true;
@@ -155,7 +222,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 Method method = PacketContainer.class.getMethod("get" + classname);
                 Mundo.debug(this, "Method: " + method.toString());
                 getObjects = method;
-                aClass = method.getReturnType();
+                aClass = Object.class;
             } catch (NoSuchMethodException e) {
                 Mundo.debug(this, e);
                 Skript.error("There is no packet info method called 'get" + classname + "'!");
@@ -175,6 +242,8 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             } catch (InvocationTargetException e) {
                 Mundo.debug(this, e);
             }
+        } else if (setFunction != null && isSingle) {
+            setFunction.apply(packetContainerExpression.getSingle(event), index.getSingle(event).intValue(), delta[0]);
         } else {
             try {
                 structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));

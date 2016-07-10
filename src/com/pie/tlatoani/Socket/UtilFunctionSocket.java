@@ -11,13 +11,17 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.function.BiConsumer;
 
+import ch.njol.skript.lang.function.Function;
+import com.pie.tlatoani.Util.SyncGetter;
 import org.bukkit.Bukkit;
 
 import com.pie.tlatoani.Mundo;
 
 import ch.njol.skript.lang.function.Functions;
+import org.bukkit.scheduler.BukkitScheduler;
 
 public class UtilFunctionSocket implements Runnable {
 	private Boolean status = false;
@@ -26,6 +30,7 @@ public class UtilFunctionSocket implements Runnable {
 	private ServerSocket sock;
 	private String handler;
 	private static Map<Integer, UtilFunctionSocket> sockets = new HashMap<Integer, UtilFunctionSocket>();
+	private static BukkitScheduler scheduler = Bukkit.getScheduler();
 	
 	private UtilFunctionSocket(int portarg, String passarg, String handlerarg) {
 		port = portarg;
@@ -64,7 +69,7 @@ public class UtilFunctionSocket implements Runnable {
 					debug("At Function Socket on port " + port + ", running task to accept new connections");
 				}
 			}
-			try {
+			if (status) try {
 				debug("At Function Socket on port " + port + ", about to read message");
 				BufferedReader bread = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				List<String> list = new LinkedList<String>();
@@ -91,8 +96,14 @@ public class UtilFunctionSocket implements Runnable {
 					argsinfo[2] = new Integer(socket.getPort());
 					args[1] = argsinfo;
 					Object[] result = null;
-					if (Functions.getFunction(funcmsg) != null) {
-						result = Functions.getFunction(funcmsg).execute(args);
+					Function function = Functions.getFunction(funcmsg);
+					if (function != null) {
+						result = (new SyncGetter<Object[]>() {
+							@Override
+							protected Object[] getRaw() {
+								return function.execute(args);
+							}
+						}).getSync();
 						debug("At Function Socket on port " + port + ", the function " + funcmsg + "was successfully found");
 					} else debug("At Function Socket on port " + port + ", the function " + funcmsg + "was not found");
 					if (result != null) {
@@ -173,8 +184,9 @@ public class UtilFunctionSocket implements Runnable {
 	public static void onDisable() {
 		sockets.forEach(new BiConsumer<Integer, UtilFunctionSocket>() {
 			@Override
-			public void accept(Integer integer, UtilFunctionSocket utilFunctionSocket) {
-				closeFunctionSocket(integer);
+			public void accept(Integer portarg, UtilFunctionSocket utilFunctionSocket) {
+				debug("Function Socket on port " + portarg + " being closed (Special Case - onDisable)");
+				sockets.get(portarg).closeFunctionSocket();
 			}
 		});
 	}

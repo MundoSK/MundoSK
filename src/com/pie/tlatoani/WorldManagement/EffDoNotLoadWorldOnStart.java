@@ -15,7 +15,7 @@ public class EffDoNotLoadWorldOnStart extends Effect {
 
     @Override
     protected void execute(Event event) {
-        Mundo.removeWorldLoader(worldname.getSingle(event));
+        UtilWorldLoader.removeCreator(worldname.getSingle(event));
     }
 
     @Override

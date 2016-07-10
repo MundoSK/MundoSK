@@ -16,7 +16,7 @@ public class EffRunCreatorOnStart extends Effect {
 
     @Override
     protected void execute(Event event) {
-        Mundo.addWorldLoader(creatorExpression.getSingle(event));
+        UtilWorldLoader.addCreator(creatorExpression.getSingle(event));
     }
 
     @Override

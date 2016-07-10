@@ -1,51 +1,51 @@
 package com.pie.tlatoani;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
 
+import ch.njol.skript.Skript;
+import ch.njol.skript.SkriptAddon;
+import ch.njol.skript.classes.ClassInfo;
+import ch.njol.skript.classes.Parser;
+import ch.njol.skript.registrations.Classes;
+import ch.njol.skript.registrations.EventValues;
+import ch.njol.skript.util.EnchantmentType;
+import ch.njol.skript.util.Getter;
+import ch.njol.skript.util.Timespan;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleEvent;
-import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.Slot;
+
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
-import com.pie.tlatoani.CodeBlock.EffRunCodeBlock;
-import com.pie.tlatoani.CodeBlock.ScopeSaveCodeBlock;
-import com.pie.tlatoani.CodeBlock.SkriptCodeBlock;
-import com.pie.tlatoani.CustomEvent.*;
-import com.pie.tlatoani.Json.API.*;
-import com.pie.tlatoani.Json.API.stream.JsonParser;
-import com.pie.tlatoani.Json.API.stream.JsonParserFactory;
-import com.pie.tlatoani.Json.EffPutJsonInListVariable;
-import com.pie.tlatoani.Json.ExprListVariableAsJson;
-import com.pie.tlatoani.Json.ExprStringAsJson;
+import com.pie.tlatoani.Generator.*;
+import com.pie.tlatoani.TestSyntaxes.TestTabUpdate;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.NotePlayEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.hanging.HangingBreakByEntityEvent;
-import org.bukkit.event.hanging.HangingBreakEvent;
-import org.bukkit.event.hanging.HangingPlaceEvent;
+import org.bukkit.event.hanging.*;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
+import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.generator.ChunkGenerator.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
+import com.pie.tlatoani.CodeBlock.*;
+import com.pie.tlatoani.CustomEvent.*;
 import com.pie.tlatoani.EnchantedBook.*;
+import com.pie.tlatoani.Json.API.*;
+import com.pie.tlatoani.Json.*;
 import com.pie.tlatoani.ListUtil.*;
 import com.pie.tlatoani.Miscellaneous.*;
 import com.pie.tlatoani.NoteBlock.*;
@@ -60,24 +60,11 @@ import com.pie.tlatoani.WorldCreator.*;
 import com.pie.tlatoani.WorldManagement.*;
 import com.pie.tlatoani.Metrics.*;
 
-import ch.njol.skript.Skript;
-import ch.njol.skript.SkriptAddon;
-import ch.njol.skript.classes.ClassInfo;
-import ch.njol.skript.classes.Parser;
-import ch.njol.skript.registrations.Classes;
-import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.EnchantmentType;
-import ch.njol.skript.util.Getter;
-import ch.njol.skript.util.Timespan;
-
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
 	public static FileConfiguration config;
     public static Boolean RandomSK;
-
     public static String pluginFolder;
-    public static String separator;
-    public static Map<String, JsonObject> worldLoaderSaver;
 	
 	public void onEnable(){
 		instance = this;
@@ -88,10 +75,14 @@ public class Mundo extends JavaPlugin{
         RandomSK = Bukkit.getPluginManager().getPlugin("RandomSK") != null;
 		Skript.registerAddon(this);
         pluginFolder = getDataFolder().getAbsolutePath();
-        separator = File.separator;
         info("Pie is awesome :D");
-        info("Loading worlds if there are any to load");
-        loadWorlds(loadWorldLoader());
+        try {
+            UtilWorldLoader.load();
+            info("Worlds to load (if any) were loaded successfully!");
+        } catch (IOException e) {
+            info("A problem occurred while loading worlds");
+            debug(this, e);
+        }
         //Achievement
         if (classInfoSafe(Achievement.class, "achievement")){
             Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
@@ -168,7 +159,51 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprEnchBookWithEnch.class,ItemStack.class,ExpressionType.PROPERTY,"%itemstack% containing %enchantmenttypes%");
 		Skript.registerExpression(ExprEnchantLevelInEnchBook.class,Integer.class,ExpressionType.PROPERTY,"level of %enchantmenttype% within %itemstack%");
 		Skript.registerExpression(ExprEnchantsInEnchBook.class,EnchantmentType.class,ExpressionType.PROPERTY,"enchants within %itemstack%");
-		//Json
+		//Generator
+        Classes.registerClass(new ClassInfo<ChunkData>(ChunkData.class, "chunkdata").user(new String[]{"chunkdata"}).name("chunkdata").parser(new Parser<ChunkData>(){
+
+            public ChunkData parse(String s, ParseContext context) {
+                return null;
+            }
+
+            public String toString(ChunkData chunkData, int flags) {
+                return null;
+            }
+
+            public String toVariableNameString(ChunkData chunkData) {
+                return null;
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
+        Classes.registerClass(new ClassInfo<BiomeGrid>(BiomeGrid.class, "biomegrid").user(new String[]{"biomegrid"}).name("biomegrid").parser(new Parser<BiomeGrid>(){
+
+            public BiomeGrid parse(String s, ParseContext context) {
+                return null;
+            }
+
+            public String toString(BiomeGrid biomeGrid, int flags) {
+                return null;
+            }
+
+            public String toVariableNameString(BiomeGrid biomeGrid) {
+                return null;
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }));
+        Skript.registerEffect(EffRegisterGenerator.class, "register [custom] [world] generator with id %string% to generate chunks through %codeblock% [and get fixed spawn through %-codeblock%]");
+        Skript.registerEffect(EffSetRegionInChunkData.class,
+                "fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%",
+                "fill layer %number% in %chunkdata% with %itemstack%",
+                "fill layers %number% to %number% in %chunkdata% with %itemstack%");
+        Skript.registerExpression(ExprMaterialInChunkData.class, ItemStack.class, ExpressionType.PROPERTY, "material at %number%, %number%, %number% in %chunkdata%");
+        Skript.registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%");
+        //Json
         Classes.registerClass(new ClassInfo<JsonObject>(JsonObject.class, "jsonobject").user(new String[]{"jsonobject"}).name("jsonobject").parser(new Parser<JsonObject>(){
 
             public JsonObject parse(String s, ParseContext context) {
@@ -191,14 +226,7 @@ public class Mundo extends JavaPlugin{
         Skript.registerExpression(ExprListVariableAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of listvar %objects%", "jsons of listvar %objects%");
         Skript.registerExpression(ExprStringAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of string %string%");
         //ListUtil
-        //Skript.registerEffect(EffInsertItem.class, "(add|insert) %objects% (1¦before|0¦after) (<[a-zA-z]+> %-number%|last <[a-zA-z]+>)[ (of|in) %-object/objects%]");
         Skript.registerEffect(EffMoveItem.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
-        /*
-        Skript.registerExpression(ExprItem.class,Object.class,ExpressionType.PROPERTY,"(<[a-zA-z]+> %-number%|last <[a-zA-z]+>)[ of %-object/objects%]");
-        Skript.registerExpression(ExprItems.class,Object.class,ExpressionType.PROPERTY,"<[a-zA-z]+>[ of %-object/objects%]");
-        Skript.registerExpression(ExprSomeItems.class,String.class,ExpressionType.PROPERTY,"<[a-zA-z]+> %-number% to (%-number%|last)[ of %-object/objects%]");
-        Skript.registerExpression(ExprItemCount.class,Number.class,ExpressionType.PROPERTY,"<[a-zA-z]+> count[ of %-objects%]");
-        */
         ListUtil.registerTransformer(TransDefault.class, "item");
         //Miscellaneous
 		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
@@ -470,6 +498,8 @@ public class Mundo extends JavaPlugin{
             Skript.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "%*classinfo% pinfo %number% of %packet%", "%*classinfo% array pinfo %number% of %packet%","%string% pinfo %number% of %packet%");
             Skript.registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%");
             Skript.registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array pnum %number% of %packet%");
+            Skript.registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY, "%world% pentity %number% of %packet%");
+            Skript.registerExpression(ExprEnumOfPacket.class, String.class, ExpressionType.PROPERTY, "%string% penum %number% of %packet%");
 		}
 		//Socket
 		Skript.registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
@@ -664,6 +694,7 @@ public class Mundo extends JavaPlugin{
         Skript.registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start");
         Skript.registerExpression(ExprCurrentWorlds.class,World.class,ExpressionType.SIMPLE,"[all] current worlds");
 		//TestSyntaxes
+        Skript.registerEffect(TestTabUpdate.class, "mundosk test update_player_info target %player% display_name %string% ping %number%");
 		//
 		try {
 			Field classinfos = Classes.class.getDeclaredField("tempClassInfos");
@@ -675,7 +706,11 @@ public class Mundo extends JavaPlugin{
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+        if (Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10")) {
+            VersionSpecificRegistry.register();
+        }
         ListUtil.register();
+        ExprEventSpecificValue.register();
 		info("Awesome syntaxes have been registered!");
 		try {
 	        Metrics metrics = new Metrics(this);
@@ -707,10 +742,20 @@ public class Mundo extends JavaPlugin{
 
     @Override
     public void onDisable() {
-        info("Closing all function sockets");
         UtilFunctionSocket.onDisable();
-        info("Saving world loaders");
-        saveWorldLoader();
+        info("Closed all function sockets (if any were open)");
+        try {
+            UtilWorldLoader.save();
+            info("Successfully saved all world loaders");
+        } catch (IOException e) {
+            info("A problem occurred while saving world loaders");
+            debug(this, e);
+        }
+    }
+
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(String unusedWorldName, String id) {
+        return ChunkGeneratorManager.getSkriptGenerator(id);
     }
 	
 	public static void reportException(Object o, Exception e) {
@@ -762,98 +807,16 @@ public class Mundo extends JavaPlugin{
         return true;
     }
 
-    public static JsonObject loadWorldLoader() {
-        try {
-            File loaderFile = new File(pluginFolder + separator + "worldloader.json");
-            if (!loaderFile.exists()) {
-                loaderFile.createNewFile();
-                JsonObject emptyObject = Json.createObjectBuilder().build();
-                FileWriter writer = new FileWriter(loaderFile);
-                writer.write(emptyObject.toString());
-                writer.flush();
-                writer.close();
-            }
-            JsonReader reader = Json.createReader(new FileReader(loaderFile));
-            JsonObject worldLoaders = reader.readObject();
-            final Map<String, JsonObject> saver = new HashMap<String, JsonObject>();
-            worldLoaders.forEach(new BiConsumer<String, JsonValue>() {
-                @Override
-                public void accept(String s, JsonValue jsonValue) {
-                    saver.put(s, (JsonObject) jsonValue);
-                }
-            });
-            worldLoaderSaver = saver;
-            return worldLoaders;
-        } catch (IOException e) {
-            info("A problem occurred while loading worlds");
-            debug(Mundo.class, e);
+    //Modulus util
+
+    public static int intMod(int number, int mod) {
+        if (number > mod) {
+            return intMod(number - mod, mod);
+        } else if (number < 0) {
+            return intMod(number + mod, mod);
+        } else {
+            return number;
         }
-        worldLoaderSaver = new HashMap<String, JsonObject>();
-        return Json.createObjectBuilder().build();
-    }
-
-    public static void loadWorlds(JsonObject worldLoaders) {
-        worldLoaders.forEach(new BiConsumer<String, JsonValue>() {
-            @Override
-            public void accept(String s, JsonValue jsonValue) {
-                WorldCreator creator = new WorldCreator(s);
-                JsonObject creatorJson = (JsonObject) jsonValue;
-                creator.environment(World.Environment.valueOf(creatorJson.getString("environment")));
-                creator.type(WorldType.valueOf(creatorJson.getString("worldtype")));
-                creator.generateStructures(creatorJson.getBoolean("structures"));
-                creator.seed(Long.parseLong(creatorJson.getString("seed")));
-                /*String generator;
-                if ((generator = creatorJson.getString("generator", null)) != null) {
-                    creator.generator(generator);
-                }*/
-                String generatorSettings;
-                if ((generatorSettings = creatorJson.getString("generatorsettings", null)) != null) {
-                    creator.generatorSettings(generatorSettings);
-                }
-                info("Loading the world '" + s + "'");
-                creator.createWorld();
-                info("The world '" + s + "' has been loaded!");
-            }
-        });
-    }
-
-    public static void addWorldLoader(WorldCreator creator) {
-        JsonObjectBuilder creatorJsonBuilder = Json.createObjectBuilder();
-        creatorJsonBuilder.add("environment", creator.environment().toString());
-        creatorJsonBuilder.add("worldtype", creator.type().toString());
-        creatorJsonBuilder.add("structures", creator.generateStructures());
-        creatorJsonBuilder.add("seed", new Long(creator.seed()).toString());
-        if (creator.generatorSettings() != null) {
-            creatorJsonBuilder.add("generatorsettings", creator.generatorSettings());
-        }
-        JsonObject creatorJson = creatorJsonBuilder.build();
-        worldLoaderSaver.put(creator.name(), creatorJson);
-    }
-
-    public static void removeWorldLoader(String worldname) {
-        worldLoaderSaver.remove(worldname);
-    }
-
-    public static void saveWorldLoader() {
-        JsonObjectBuilder builder = Json.createObjectBuilder();
-        worldLoaderSaver.forEach(new BiConsumer<String, JsonObject>() {
-            @Override
-            public void accept(String s, JsonObject jsonObject) {
-                builder.add(s, jsonObject);
-            }
-        });
-        try {
-            File loaderFile = new File(pluginFolder + separator + "worldloader.json");
-            FileWriter writer = new FileWriter(loaderFile);
-            writer.write(builder.build().toString());
-            writer.flush();
-            writer.close();
-
-        } catch (IOException e) {
-            info("A problem occured while saving world loaders");
-            debug(Mundo.class, e);
-        }
-
     }
 	
 }

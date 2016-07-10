@@ -47,9 +47,6 @@ public class ExprCreatorNamed extends SimpleExpression<WorldCreator>{
 	protected WorldCreator[] get(Event arg0) {
 		String b = name.getSingle(arg0);
 		WorldCreator x = new WorldCreator(b);
-		x.generateStructures(true);
-		x.environment(World.Environment.NORMAL);
-		x.type(WorldType.NORMAL);
 		return new WorldCreator[]{x};
 	}
 

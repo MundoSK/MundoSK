@@ -1,5 +1,6 @@
 package com.pie.tlatoani.WorldCreator;
 
+import com.pie.tlatoani.Generator.ChunkGeneratorManager;
 import org.bukkit.WorldCreator;
 
 import javax.annotation.Nullable;
@@ -40,13 +41,13 @@ public class ExprGenOfCreator extends SimpleExpression<String>{
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
 		// TODO Auto-generated method stub
-		return "border length of world";
+		return "generator of " + creator;
 	}
 
 	@Override
 	@Nullable
 	protected String[] get(Event arg0) {
-		return null;
+		return new String[]{ChunkGeneratorManager.getGeneratorName(creator.getSingle(arg0).generator())};
 	}
 	
 	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){

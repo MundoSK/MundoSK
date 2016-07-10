@@ -5,6 +5,7 @@ import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.EmptyEvent;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -60,15 +61,6 @@ public class EffRunCodeBlock extends Effect {
             variableString = VariableString.newInstance(origstring, StringMode.VARIABLE_NAME);
         }
         return true;
-    }
-
-    public static class EmptyEvent extends Event {
-        public static HandlerList handlerList = new HandlerList();
-
-        @Override
-        public HandlerList getHandlers() {
-            return handlerList;
-        }
     }
 
 }

@@ -47,6 +47,8 @@ public class ExprCreatorOf extends SimpleExpression<WorldCreator>{
 		WorldCreator x = new WorldCreator(world.getSingle(arg0).getName());
 		x.copy(world.getSingle(arg0));
 		x.type(world.getSingle(arg0).getWorldType());
+		x.generateStructures(world.getSingle(arg0).canGenerateStructures());
+		x.generatorSettings("");
 		return new WorldCreator[]{x};
 	}
 

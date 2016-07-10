@@ -1,5 +1,6 @@
 package com.pie.tlatoani.WorldCreator;
 
+import com.pie.tlatoani.Generator.ChunkGeneratorManager;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
@@ -56,26 +57,30 @@ public class ExprCreatorWith extends SimpleExpression<WorldCreator>{
 	@Override
 	@Nullable
 	protected WorldCreator[] get(Event arg0) {
-		WorldCreator w = creator.getSingle(arg0);
-		String z = w.name();
+		WorldCreator oldCreator = creator.getSingle(arg0);
+		String worldName = oldCreator.name();
 		if (name != null) {
-			z = name.getSingle(arg0);
+			worldName = name.getSingle(arg0);
 		}
-		WorldCreator x = new WorldCreator(z);
-		x.environment(w.environment());
-		x.type(w.type());
-		x.generator(w.generator());
-		x.generatorSettings(w.generatorSettings());
-		x.generateStructures(w.generateStructures());
+		WorldCreator newCreator = new WorldCreator(worldName);
+		newCreator.environment(oldCreator.environment());
+		newCreator.type(oldCreator.type());
+		newCreator.generator(oldCreator.generator());
+		newCreator.generatorSettings(oldCreator.generatorSettings());
+		newCreator.generateStructures(oldCreator.generateStructures());
 		if (seed != null) {
-			if (seed.getSingle(arg0).length() > 0) x.seed(Long.parseLong(seed.getSingle(arg0)));
-		} else x.seed(w.seed());
-		if (gen != null) x.generator(gen.getSingle(arg0));
-		if (genset != null) x.generatorSettings(genset.getSingle(arg0));
-		if (struct != null) x.generateStructures(struct.getSingle(arg0));
-		if (env != null) x.environment(env.getSingle(arg0));
-		if (type != null) x.type(type.getSingle(arg0));
-		return new WorldCreator[]{x};
+			if (seed.getSingle(arg0).length() > 0) newCreator.seed(Long.parseLong(seed.getSingle(arg0)));
+		} else newCreator.seed(oldCreator.seed());
+		if (gen != null)  {
+			String genName = gen.getSingle(arg0);
+			newCreator.generator(genName);
+			ChunkGeneratorManager.saveGenerator(genName, newCreator.generator());
+		}
+		if (genset != null) newCreator.generatorSettings(genset.getSingle(arg0));
+		if (struct != null) newCreator.generateStructures(struct.getSingle(arg0));
+		if (env != null) newCreator.environment(env.getSingle(arg0));
+		if (type != null) newCreator.type(type.getSingle(arg0));
+		return new WorldCreator[]{newCreator};
 	}
 
 }
