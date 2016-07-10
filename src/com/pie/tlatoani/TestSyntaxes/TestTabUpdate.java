@@ -5,14 +5,18 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +43,15 @@ public class TestTabUpdate extends Effect {
         playerInfoDataList.add(playerInfoData);
         packet.getPlayerInfoDataLists().writeSafely(0, playerInfoDataList);
         packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.valueOf(modeExpression.getSingle(event)));
+        try {
+            UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
+        } catch (InvocationTargetException e) {
+            Mundo.debug(this, "What happend");
+            e.printStackTrace();
+        }
     }
 
-    @Override
+        @Override
     public String toString(Event event, boolean b) {
         return "mundosk test update_player_info target %player% display_name %string% ping %number% mode %string%";
     }
