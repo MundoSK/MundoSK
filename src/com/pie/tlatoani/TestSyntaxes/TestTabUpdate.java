@@ -30,13 +30,14 @@ public class TestTabUpdate extends Effect {
     private Expression<String> stringExpression;
     private Expression<Number> pingExpression;
     private Expression<String> modeExpression;
+    private Expression<String> UUIDExpression;
 
     @Override
     protected void execute(Event event) {
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
         Player player = playerExpression.getSingle(event);
         String displayName = stringExpression.getSingle(event);
-        WrappedGameProfile gameProfile = new WrappedGameProfile(UUID.nameUUIDFromBytes(("OfflinePlayer:" + displayName).getBytes(Charset.forName("UTF-8"))), displayName);
+        WrappedGameProfile gameProfile = new WrappedGameProfile(UUID.fromString(UUIDExpression.getSingle(event)), displayName);
         WrappedChatComponent chatComponent = WrappedChatComponent.fromText(displayName);
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, pingExpression.getSingle(event).intValue(), EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         List<PlayerInfoData> playerInfoDataList = new ArrayList<>();
@@ -62,6 +63,7 @@ public class TestTabUpdate extends Effect {
         stringExpression = (Expression<String>) expressions[1];
         pingExpression = (Expression<Number>) expressions[2];
         modeExpression = (Expression<String>) expressions[3];
+        UUIDExpression = (Expression<String>) expressions[4];
         return true;
     }
 }
