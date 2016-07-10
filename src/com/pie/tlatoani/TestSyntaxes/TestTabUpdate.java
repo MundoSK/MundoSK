@@ -13,6 +13,7 @@ import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,24 +25,25 @@ public class TestTabUpdate extends Effect {
     private Expression<Player> playerExpression;
     private Expression<String> stringExpression;
     private Expression<Number> pingExpression;
+    private Expression<String> modeExpression;
 
     @Override
     protected void execute(Event event) {
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
         Player player = playerExpression.getSingle(event);
         String displayName = stringExpression.getSingle(event);
-        WrappedGameProfile gameProfile = new WrappedGameProfile(player.getUniqueId(), displayName);
+        WrappedGameProfile gameProfile = new WrappedGameProfile(UUID.nameUUIDFromBytes(("OfflinePlayer:" + displayName).getBytes(Charset.forName("UTF-8"))), displayName);
         WrappedChatComponent chatComponent = WrappedChatComponent.fromText(displayName);
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, pingExpression.getSingle(event).intValue(), EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         List<PlayerInfoData> playerInfoDataList = new ArrayList<>();
         playerInfoDataList.add(playerInfoData);
         packet.getPlayerInfoDataLists().writeSafely(0, playerInfoDataList);
-        packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+        packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.valueOf(modeExpression.getSingle(event)));
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "mundosk test update_player_info target %player% display_name %string% ping %number%";
+        return "mundosk test update_player_info target %player% display_name %string% ping %number% mode %string%";
     }
 
     @Override
@@ -49,6 +51,7 @@ public class TestTabUpdate extends Effect {
         playerExpression = (Expression<Player>) expressions[0];
         stringExpression = (Expression<String>) expressions[1];
         pingExpression = (Expression<Number>) expressions[2];
+        modeExpression = (Expression<String>) expressions[3];
         return true;
     }
 }

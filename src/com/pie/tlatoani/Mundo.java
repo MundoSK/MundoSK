@@ -694,7 +694,7 @@ public class Mundo extends JavaPlugin{
         Skript.registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start");
         Skript.registerExpression(ExprCurrentWorlds.class,World.class,ExpressionType.SIMPLE,"[all] current worlds");
 		//TestSyntaxes
-        Skript.registerEffect(TestTabUpdate.class, "mundosk test update_player_info target %player% display_name %string% ping %number%");
+        Skript.registerEffect(TestTabUpdate.class, "mundosk test update_player_info target %player% display_name %string% ping %number% mode %string%");
 		//
 		try {
 			Field classinfos = Classes.class.getDeclaredField("tempClassInfos");
