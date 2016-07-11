@@ -13,6 +13,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -38,12 +39,15 @@ public class TestTabUpdate extends Effect {
         Player player = playerExpression.getSingle(event);
         String displayName = stringExpression.getSingle(event);
         WrappedGameProfile gameProfile = new WrappedGameProfile(UUID.fromString(UUIDExpression.getSingle(event)), displayName);
+
         WrappedChatComponent chatComponent = WrappedChatComponent.fromText(displayName);
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, pingExpression.getSingle(event).intValue(), EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         List<PlayerInfoData> playerInfoDataList = new ArrayList<>();
         playerInfoDataList.add(playerInfoData);
         packet.getPlayerInfoDataLists().writeSafely(0, playerInfoDataList);
         packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.valueOf(modeExpression.getSingle(event)));
+        Mundo.debug(this, "MultiMap of Properties: " + gameProfile.getProperties());
+        Mundo.debug(this, "roperties: " + gameProfile.getProperties().get("texture"));
         try {
             UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
         } catch (InvocationTargetException e) {
@@ -54,7 +58,7 @@ public class TestTabUpdate extends Effect {
 
         @Override
     public String toString(Event event, boolean b) {
-        return "mundosk test update_player_info target %player% display_name %string% ping %number% mode %string%";
+        return "mundosk test update_player_info target %player% display_name %string% ping %number% mode %string% uuid %string%";
     }
 
     @Override

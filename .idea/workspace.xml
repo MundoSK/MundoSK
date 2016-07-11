@@ -7,7 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" afterPath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TestSyntaxes/TestTabUpdate.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TestSyntaxes/TestTabUpdate.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,11 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="710" column="9" selection-start-line="710" selection-start-column="9" selection-end-line="710" selection-end-column="9" />
+            <state relative-caret-position="161">
+              <caret line="693" column="100" selection-start-line="693" selection-start-column="100" selection-end-line="693" selection-end-column="100" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#parse#0;class#3288:3946" expanded="false" />
@@ -42,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestTabUpdate.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TestTabUpdate.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TestSyntaxes/TestTabUpdate.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="300">
-              <caret line="39" column="110" selection-start-line="39" selection-start-column="110" selection-end-line="39" selection-end-column="110" />
+              <caret line="49" column="27" selection-start-line="49" selection-start-column="27" selection-end-line="49" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -160,8 +160,8 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/GlobalTabList.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/PlayerTabList.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TestTabUpdate.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TestSyntaxes/TestTabUpdate.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TestSyntaxes/TestTabUpdate.java" />
       </list>
     </option>
   </component>
@@ -1225,23 +1225,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TestSyntaxes/TestTabUpdate.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="39" column="110" selection-start-line="39" selection-start-column="110" selection-end-line="39" selection-end-column="110" />
+        <state relative-caret-position="161">
+          <caret line="693" column="100" selection-start-line="693" selection-start-column="100" selection-end-line="693" selection-end-column="100" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#parse#0;class#3288:3946" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TestSyntaxes/TestTabUpdate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="710" column="9" selection-start-line="710" selection-start-column="9" selection-end-line="710" selection-end-column="9" />
+        <state relative-caret-position="300">
+          <caret line="49" column="27" selection-start-line="49" selection-start-column="27" selection-end-line="49" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#parse#0;class#3288:3946" expanded="false" />
           </folding>
         </state>
       </provider>
