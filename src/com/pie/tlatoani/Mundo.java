@@ -18,7 +18,11 @@ import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.util.Slot;
 
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.google.common.collect.Multimap;
 import com.pie.tlatoani.Generator.*;
 import com.pie.tlatoani.TestSyntaxes.TestTabUpdate;
 import org.bukkit.*;
@@ -693,9 +697,17 @@ public class Mundo extends JavaPlugin{
         Skript.registerEffect(EffRunCreatorOnStart.class, "run %creator% on start");
         Skript.registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start");
         Skript.registerExpression(ExprCurrentWorlds.class,World.class,ExpressionType.SIMPLE,"[all] current worlds");
-		//TestSyntaxes
+		//Test
         Skript.registerEffect(TestTabUpdate.class, "mundosk test update_player_info target %player% display_name %string% ping %number% mode %string% uuid %string%");
-		//
+		UtilPacketEvent.protocolManager.addPacketListener(new PacketAdapter(this, PacketType.Play.Server.PLAYER_INFO) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                WrappedGameProfile gameProfile = event.getPacket().getPlayerInfoDataLists().readSafely(0).get(0).getProfile();
+                debug(this, "Multimap: " + gameProfile.getProperties());
+                debug(this, "IDK" + gameProfile.getProperties().get("textures"));
+            }
+        });
+        //
 		try {
 			Field classinfos = Classes.class.getDeclaredField("tempClassInfos");
 			classinfos.setAccessible(true);

@@ -46,8 +46,6 @@ public class TestTabUpdate extends Effect {
         playerInfoDataList.add(playerInfoData);
         packet.getPlayerInfoDataLists().writeSafely(0, playerInfoDataList);
         packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.valueOf(modeExpression.getSingle(event)));
-        Mundo.debug(this, "MultiMap of Properties: " + gameProfile.getProperties());
-        Mundo.debug(this, "roperties: " + gameProfile.getProperties().get("texture"));
         try {
             UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
         } catch (InvocationTargetException e) {
