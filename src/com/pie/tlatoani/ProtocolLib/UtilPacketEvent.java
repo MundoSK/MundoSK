@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,6 +28,19 @@ public class UtilPacketEvent extends Event implements Cancellable{
     private PacketType packetType;
     private PacketContainer packet;
     private Player player;
+
+    ///*
+    public static void testStuff() {
+        protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                WrappedGameProfile gameProfile = event.getPacket().getPlayerInfoDataLists().readSafely(0).get(0).getProfile();
+                Mundo.debug(this, "Multimap: " + gameProfile.getProperties());
+                Mundo.debug(this, "IDK" + gameProfile.getProperties().get("textures"));
+            }
+        });
+    }
+    //*/
 
     private static List<PacketType> listeners = new ArrayList<PacketType>();
     public static void addListener(PacketType[] packettypes) {
