@@ -22,7 +22,6 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.google.common.collect.Multimap;
 import com.pie.tlatoani.Generator.*;
 import com.pie.tlatoani.TestSyntaxes.TestTabUpdate;
 import org.bukkit.*;
@@ -255,7 +254,7 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
-		Skript.registerEvent("Hang Event", EvtHang.class, HangingPlaceEvent.class, "hang");
+		Skript.registerEvent("Hang Event", SimpleEvent.class, HangingPlaceEvent.class, "hang");
 		EventValues.registerEventValue(HangingBreakEvent.class, Entity.class, new Getter<Entity, HangingBreakEvent>() {
 			@Override
 			public Entity get(HangingBreakEvent hangingEvent) {
@@ -268,7 +267,7 @@ public class Mundo extends JavaPlugin{
 				return hangingPlaceEvent.getBlock();
 			}
 		}, 0);
-		Skript.registerEvent("Unhang Event", EvtUnHang.class, HangingBreakEvent.class, "unhang");;
+		Skript.registerEvent("Unhang Event", SimpleEvent.class, HangingBreakEvent.class, "unhang");;
         Skript.registerEvent("Chat Tab Complete Event", SimpleEvent.class, PlayerChatTabCompleteEvent.class, "chat tab complete");
         EventValues.registerEventValue(PlayerChatTabCompleteEvent.class, String.class, new Getter<String, PlayerChatTabCompleteEvent>() {
             @Override
@@ -476,6 +475,7 @@ public class Mundo extends JavaPlugin{
 				}
 			}));
 			Skript.registerEffect(EffSendPacket.class, "send packet %packet% to %player%", "send %player% packet %packet%");
+            Skript.registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet %packet% from %player%"); //Included incorrect spelling to avoid wasted time
 			Skript.registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%");
 			EventValues.registerEventValue(UtilPacketEvent.class, PacketContainer.class, new Getter<PacketContainer, UtilPacketEvent>() {
 				@Override
@@ -496,6 +496,7 @@ public class Mundo extends JavaPlugin{
 				}
 			}, 0);
 			Skript.registerExpression(ExprAllPacketTypes.class, PacketType.class, ExpressionType.SIMPLE, "all packettypes");
+            Skript.registerExpression(ExprTypeOfPacket.class, PacketType.class, ExpressionType.SIMPLE, "packettype of %packet%", "%packet%'s packettype");
 			Skript.registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
             Skript.registerExpression(ExprJsonObjectOfPacket.class, JsonObject.class, ExpressionType.PROPERTY, "%string% pjson %number% of %packet%");
             Skript.registerExpression(ExprJsonObjectArrayOfPacket.class, JsonObject.class, ExpressionType.PROPERTY, "%string% array pjson %number% of %packet%");

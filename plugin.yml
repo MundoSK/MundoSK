@@ -4,4 +4,4 @@ description: World Borders, World Management, Books, Enchanted Books, Sockets, a
 version: 1.7-ALPHA.2.0
 main: com.pie.tlatoani.Mundo
 depend: [Skript]
-soft-depend: [TerrainControl, ProtocolLib, SkQuery]
+soft-depend: [TerrainControl, ProtocolLib]
