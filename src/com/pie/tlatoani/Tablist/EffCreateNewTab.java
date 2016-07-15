@@ -16,7 +16,7 @@ public class EffCreateNewTab extends Effect {
     private Expression<Player> playerExpression;
     private Expression<String> displayName;
     private Expression<Number> ping;
-    private Expression<OfflinePlayer> offlinePlayerExpression;
+    private Expression<Player> offlinePlayerExpression;
 
     @Override
     protected void execute(Event event) {
@@ -37,7 +37,7 @@ public class EffCreateNewTab extends Effect {
         playerExpression = (Expression<Player>) expressions[1];
         displayName = (Expression<String>) expressions[2];
         ping = (Expression<Number>) expressions[3];
-        offlinePlayerExpression = (Expression<OfflinePlayer>) expressions[4];
+        offlinePlayerExpression = (Expression<Player>) expressions[4];
         return true;
     }
 }

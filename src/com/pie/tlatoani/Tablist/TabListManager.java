@@ -8,6 +8,7 @@ import com.comphenix.protocol.wrappers.*;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
+import org.apache.commons.codec.binary.Base64;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -82,7 +83,7 @@ public class TabListManager implements Listener {
         String template = "{text:\"TEXT\",color:COLOR,bold:BOLD,underlined:UNDERLINED,italic:ITALIC,strikethrough:STRIKETHROUGH,obfuscated:OBFUSCATED,extra:[EXTRA]}";
         String json = "";
 
-        List<String> parts = new ArrayList<String>();
+        List<String> parts = new ArrayList<>();
 
         int first = 0;
         int last = 0;
@@ -137,11 +138,14 @@ public class TabListManager implements Listener {
         UUID head = heads.get(id);
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, displayName);
         if (head != null) {
-            WrappedGameProfile headProfile = WrappedGameProfile.fromOfflinePlayer(Bukkit.getOfflinePlayer(head));
+            WrappedGameProfile headProfile = WrappedGameProfile.fromPlayer(Bukkit.getPlayer(head));
             gameProfile.getProperties().putAll(headProfile.getProperties());
         } else {
-            WrappedSignedProperty property = new WrappedSignedProperty("textures", "", "");
-            gameProfile.getProperties().put("textures", property);
+            //WrappedSignedProperty property = new WrappedSignedProperty("textures", "", "");
+            //gameProfile.getProperties().put("textures", property);
+            //String url;
+            //String formattedProperty = String.format("{textures:{SKIN:{url:\"%s\"}}}", url);
+            //byte[] encodedData = Base64.encodeBase64(formattedProperty.getBytes());
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         List<PlayerInfoData> playerInfoDatas = Arrays.asList(playerInfoData);
