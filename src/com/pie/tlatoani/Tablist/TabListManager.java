@@ -139,6 +139,9 @@ public class TabListManager implements Listener {
         if (head != null) {
             WrappedGameProfile headProfile = WrappedGameProfile.fromOfflinePlayer(Bukkit.getOfflinePlayer(head));
             gameProfile.getProperties().putAll(headProfile.getProperties());
+        } else {
+            WrappedSignedProperty property = new WrappedSignedProperty("textures", "", "");
+            gameProfile.getProperties().put("textures", property);
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         List<PlayerInfoData> playerInfoDatas = Arrays.asList(playerInfoData);

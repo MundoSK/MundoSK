@@ -527,7 +527,7 @@ public class Mundo extends JavaPlugin{
             }, this);
             Skript.registerEffect(EffActivateCustomTablist.class, "activate custom tablist for %player%");
             Skript.registerEffect(EffDeactivateCustomTablist.class, "deactivate custom tablist for %player%");
-            Skript.registerEffect(EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% (ping|latency) %number% [head [icon] %-offlineplayer%]");
+            Skript.registerEffect(EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [head [icon] %-offlineplayer%]");
             Skript.registerEffect(EffDeleteTab.class, "delete tab id %string% for %player%");
             Skript.registerExpression(ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
             Skript.registerExpression(ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");

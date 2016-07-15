@@ -22,13 +22,13 @@ public class EffCreateNewTab extends Effect {
     protected void execute(Event event) {
         TabListManager tabListManager;
         if ((tabListManager = TabListManager.getForPlayer(playerExpression.getSingle(event))) != null) {
-            tabListManager.createTab(id.getSingle(event), displayName.getSingle(event), ping.getSingle(event).intValue(), (offlinePlayerExpression == null ? null : offlinePlayerExpression.getSingle(event).getUniqueId()));
+            tabListManager.createTab(id.getSingle(event), displayName.getSingle(event), (ping == null ? 5 : ping.getSingle(event).intValue()), (offlinePlayerExpression == null ? null : offlinePlayerExpression.getSingle(event).getUniqueId()));
         }
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "create tab id " + id + " for " + playerExpression + " with display name " + displayName + " latency " + ping + (offlinePlayerExpression == null ? "" : " head icon " + offlinePlayerExpression);
+        return "create tab id " + id + " for " + playerExpression + " with display name " + displayName + (ping == null ? "" : " latency " + ping) + (offlinePlayerExpression == null ? "" : " head icon " + offlinePlayerExpression);
     }
 
     @Override
