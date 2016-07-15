@@ -11,6 +11,7 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.mojang.authlib.properties.Property;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import org.bukkit.Bukkit;
@@ -52,6 +53,7 @@ public class TestTabUpdate extends Effect {
             Mundo.debug(this, "What happend");
             e.printStackTrace();
         }
+        Property property = null;
     }
 
         @Override

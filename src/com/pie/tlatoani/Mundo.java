@@ -20,6 +20,7 @@ import ch.njol.skript.util.Slot;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.pie.tlatoani.Generator.*;
+import com.pie.tlatoani.Tablist.*;
 import com.pie.tlatoani.TestSyntaxes.TestTabUpdate;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
@@ -28,12 +29,15 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.NotePlayEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.hanging.*;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.ChunkGenerator.*;
 import org.bukkit.inventory.ItemStack;
@@ -513,7 +517,23 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprServerSocketIsOpen.class,Boolean.class,ExpressionType.COMBINED,"server socket is open at host %string% port %number% [with timeout of %-timespan%]");
 		Skript.registerExpression(ExprMotdOfServer.class,String.class,ExpressionType.COMBINED,"motd of server with host %string% [port %-number%]");
 		Skript.registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1¦player count|0¦max player count) of server with host %string% [port %-number%]");
-		//TerrainControl
+		//Tablist
+        if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
+            Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
+                @EventHandler
+                public void onQuit(PlayerQuitEvent event) {
+                    TabListManager.setActivated(event.getPlayer(), false);
+                }
+            }, this);
+            Skript.registerEffect(EffActivateCustomTablist.class, "activate custom tablist for %player%");
+            Skript.registerEffect(EffDeactivateCustomTablist.class, "deactivate custom tablist for %player%");
+            Skript.registerEffect(EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% (ping|latency) %number% [head [icon] %offlineplayer%]");
+            Skript.registerEffect(EffDeleteTab.class, "delete tab id %string% for %player%");
+            Skript.registerExpression(ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
+            Skript.registerExpression(ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");
+            Skript.registerExpression(ExprHeadOfTab.class, OfflinePlayer.class, ExpressionType.PROPERTY, "head [icon] of tab id %string% for %player%");
+        }
+        //TerrainControl
 		if (Bukkit.getServer().getPluginManager().getPlugin("TerrainControl") != null) {
 			this.getLogger().info("You uncovered the secret TerrainControl syntaxes!");
 			Skript.registerEffect(EffSpawnObject.class, "(tc|terrain control) spawn %string% at %location% with rotation %string%");
