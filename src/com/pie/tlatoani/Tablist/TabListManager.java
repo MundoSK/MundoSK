@@ -38,6 +38,7 @@ public class TabListManager implements Listener {
                 if (isActivated(event.getPlayer()) && !(event.getPlayer() instanceof FriendlyPacketContainer)) {
                     event.setCancelled(true);
                 }
+                Mundo.debug(TabListManager.class, "Is FriendlyPacketContainer: " + (event.getPlayer() instanceof FriendlyPacketContainer));
             }
         });
     }
