@@ -35,10 +35,10 @@ public class TabListManager implements Listener {
         UtilPacketEvent.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, packetType) {
             @Override
             public void onPacketSending(PacketEvent event) {
-                if (isActivated(event.getPlayer()) && !(event.getPlayer() instanceof FriendlyPacketContainer)) {
+                if (isActivated(event.getPlayer()) && event.getPacket().getPlayerInfoDataLists().readSafely(0).get(0).getGameMode() != EnumWrappers.NativeGameMode.NOT_SET) {
                     event.setCancelled(true);
                 }
-                Mundo.debug(TabListManager.class, "Is FriendlyPacketContainer: " + (event.getPlayer() instanceof FriendlyPacketContainer));
+                Mundo.debug(TabListManager.class, "Is NOT_SET: " + (event.getPacket().getPlayerInfoDataLists().readSafely(0).get(0).getGameMode() != EnumWrappers.NativeGameMode.NOT_SET));
             }
         });
     }

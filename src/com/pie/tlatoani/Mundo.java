@@ -793,7 +793,9 @@ public class Mundo extends JavaPlugin{
 	}
 	
 	public static void debug(Object obj, String msg) {
-		if (config.getBoolean("debug_mode")) {
+        if (obj instanceof Class) {
+            classDebug((Class<?>) obj, msg);
+        } else if (config.getBoolean("debug_mode")) {
 			info(obj.getClass().getSimpleName() + ": " + msg);
 		}
 	}
