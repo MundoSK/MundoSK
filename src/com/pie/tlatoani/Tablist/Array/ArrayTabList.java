@@ -26,7 +26,7 @@ public class ArrayTabList {
     private int rows;
 
     public ArrayTabList(Player player, int columns, int rows) {
-        Mundo.debug(this, "constructor");
+        Mundo.debug(this, "constructor " + columns + " " + rows);
         this.player = player;
         this.columns = Mundo.limitToRange(1, columns, 4);
         this.rows = 0;
@@ -48,8 +48,8 @@ public class ArrayTabList {
     public void setColumns(int columns) {
         columns = Mundo.limitToRange(1, columns, 4);
         if (columns > this.columns) {
-            ArrayList<PlayerInfoData> arrayList1 = new ArrayList();
-            ArrayList<PlayerInfoData> arrayList2 = new ArrayList();
+            ArrayList<PlayerInfoData> arrayList1 = new ArrayList<>();
+            ArrayList<PlayerInfoData> arrayList2 = new ArrayList<>();
             for (int column = this.columns + 1; column <= columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
                     String displayname = column + "," + (row < 10 ? "0" + row : row);
@@ -97,13 +97,14 @@ public class ArrayTabList {
     }
 
     public void setRows(int rows) {
+        Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
         this.rows = columns == 1 ? Mundo.limitToRange(1, rows, 20) :
                     columns == 2 ? Mundo.limitToRange(11, rows, 20) :
                     columns == 3 ? Mundo.limitToRange(14, rows, 20) :
                                    Mundo.limitToRange(16, rows, 20);
         if (rows > this.rows) {
-            ArrayList<PlayerInfoData> arrayList1 = new ArrayList();
-            ArrayList<PlayerInfoData> arrayList2 = new ArrayList();
+            ArrayList<PlayerInfoData> arrayList1 = new ArrayList<>();
+            ArrayList<PlayerInfoData> arrayList2 = new ArrayList<>();
             for (int column = 1; column <= this.columns; column++)
                 for (int row = this.rows + 1; row <= rows; row++) {
                     Mundo.debug(this, "COLUNWROW:: " + column + " " + row);
