@@ -109,8 +109,8 @@ public class ArrayTabList {
                     displayNames[column - 1][row - 1] = column + "," + (row < 10 ? "0" + row : row);
                     latencies[column - 1][row - 1] = 5;
                     sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    displayNames[column - 1][row - 1] = "";
-                    sendPacket(column, row, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
+                    //displayNames[column - 1][row - 1] = "";
+                    //sendPacket(column, row, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
                 }
         } else if (rows < this.rows) {
             for (int column = columns + 1; column <= this.columns; column++)
