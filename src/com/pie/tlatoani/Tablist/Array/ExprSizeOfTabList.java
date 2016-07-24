@@ -46,7 +46,7 @@ public class ExprSizeOfTabList extends SimpleExpression<Number> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         playerExpression = (Expression<Player>) expressions[0];
         isColumns = parseResult.mark == 0;
-        return false;
+        return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {

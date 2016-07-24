@@ -42,12 +42,8 @@ public class ArrayTabList {
         int ping = latencies[column - 1][row - 1];
         String displayName = displayNames[column - 1][row - 1];
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
-        //UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
-        //UUID uuid = UUID.nameUUIDFromBytes(new byte[]{new Integer((column * 20) + row).byteValue()});
-        //UUID uuid = UUID.fromString(uuidbeginning + column + "0" + (row < 10 ? "0" + row : row));
         int lastTwoDigits = (column - 1) * 5 + Mundo.divideNoRemainder(row - 1, 4) + 1;
         UUID uuid = UUID.fromString(uuidbeginning + ((row - 1) % 4 + 1) + "0" + lastTwoDigits);
-        Mundo.debug(this, "UUID generated for " + column + ", " + row + ": " + uuid.toString());
         UUID head = heads[column - 1][row - 1];
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (head != null) {
@@ -112,11 +108,9 @@ public class ArrayTabList {
         if (rows > this.rows) {
             for (int column = 1; column <= this.columns; column++)
                 for (int row = this.rows + 1; row <= rows; row++) {
-                    displayNames[column - 1][row - 1] = column + "," + (row < 10 ? "0" + row : row);
+                    displayNames[column - 1][row - 1] = "";
                     latencies[column - 1][row - 1] = 5;
                     sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    //displayNames[column - 1][row - 1] = "";
-                    //sendPacket(column, row, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
                 }
         } else if (rows < this.rows) {
             for (int column = columns + 1; column <= this.columns; column++)
