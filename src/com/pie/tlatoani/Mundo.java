@@ -72,6 +72,7 @@ public class Mundo extends JavaPlugin{
     public static Boolean RandomSK;
     public static String pluginFolder;
     public static Boolean debugMode;
+    public static String hexDigits = "0123456789abcdef";
 	
 	public void onEnable(){
 		instance = this;
@@ -874,6 +875,14 @@ public class Mundo extends JavaPlugin{
 
     public static boolean isInRange(int min, int num, int max) {
         return !(num > max || num < min);
+    }
+
+    public static char toHexDigit(int num) {
+        return hexDigits.charAt(num % 16);
+    }
+
+    public static int divideNoRemainder(int dividend, int divisor) {
+        return (dividend - (dividend % divisor)) / divisor;
     }
 	
 }
