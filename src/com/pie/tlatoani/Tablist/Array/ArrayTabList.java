@@ -38,11 +38,11 @@ public class ArrayTabList {
     }
 
     private void sendPacket(int column, int row, EnumWrappers.PlayerInfoAction action) {
-        int ping = latencies[column][row];
-        String displayName = displayNames[column][row];
+        int ping = latencies[column - 1][row - 1];
+        String displayName = displayNames[column - 1][row - 1];
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
         UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
-        UUID head = heads[column][row];
+        UUID head = heads[column - 1][row - 1];
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (head != null) {
             WrappedGameProfile headProfile = WrappedGameProfile.fromPlayer(Bukkit.getPlayer(head));
@@ -79,19 +79,19 @@ public class ArrayTabList {
         if (columns > this.columns) {
             for (int column = this.columns + 1; column <= columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
-                    displayNames[column][row] = column + "," + (row < 10 ? "0" + row : row);
-                    latencies[column][row] = 5;
+                    displayNames[column - 1][row - 1] = column + "," + (row < 10 ? "0" + row : row);
+                    latencies[column - 1][row - 1] = 5;
                     sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    displayNames[column][row] = "";
+                    displayNames[column - 1][row - 1] = "";
                     sendPacket(column, row, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
                 }
         } else if (columns < this.columns) {
             for (int column = columns + 1; column <= this.columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
                     sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    displayNames[column][row] = null;
-                    latencies[column][row] = null;
-                    heads[column][row] = null;
+                    displayNames[column - 1][row - 1] = null;
+                    latencies[column - 1][row - 1] = null;
+                    heads[column - 1][row - 1] = null;
                 }
         }
         this.columns = columns;
@@ -106,19 +106,19 @@ public class ArrayTabList {
         if (rows > this.rows) {
             for (int column = 1; column <= this.columns; column++)
                 for (int row = this.rows + 1; row <= rows; row++) {
-                    displayNames[column][row] = column + "," + (row < 10 ? "0" + row : row);
-                    latencies[column][row] = 5;
+                    displayNames[column - 1][row - 1] = column + "," + (row < 10 ? "0" + row : row);
+                    latencies[column - 1][row - 1] = 5;
                     sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    displayNames[column][row] = "";
+                    displayNames[column - 1][row - 1] = "";
                     sendPacket(column, row, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
                 }
         } else if (rows < this.rows) {
             for (int column = columns + 1; column <= this.columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
                     sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    displayNames[column][row] = null;
-                    latencies[column][row] = null;
-                    heads[column][row] = null;
+                    displayNames[column - 1][row - 1] = null;
+                    latencies[column - 1][row - 1] = null;
+                    heads[column - 1][row - 1] = null;
                 }
         }
         this.rows = rows;
@@ -144,27 +144,27 @@ public class ArrayTabList {
     }
 
     public String getDisplayName(int column, int row) {
-        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? displayNames[column][row] : null;
+        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? displayNames[column - 1][row - 1] : null;
     }
 
     public Integer getLatency(int column, int row) {
-        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? latencies[column][row] : null;
+        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? latencies[column - 1][row - 1] : null;
     }
 
     public UUID getHead(int column, int row) {
-        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? heads[column][row] : null;
+        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? heads[column - 1][row - 1] : null;
     }
 
     public void setDisplayName(int column, int row, String displayName) {
         if (Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows)) {
-            displayNames[column][row] = displayName;
+            displayNames[column - 1][row - 1] = displayName;
             sendPacket(column, row, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
         }
     }
 
     public void setLatency(int column, int row, Integer ping) {
         if (Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows)) {
-            latencies[column][row] = ping;
+            latencies[column - 1][row - 1] = ping;
             sendPacket(column, row, EnumWrappers.PlayerInfoAction.UPDATE_LATENCY);
         }
     }
@@ -172,7 +172,7 @@ public class ArrayTabList {
     public void setHead(int column, int row, UUID head) {
         if (Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows)) {
             sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-            heads[column][row] = head;
+            heads[column - 1][row - 1] = head;
             sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
         }
     }
