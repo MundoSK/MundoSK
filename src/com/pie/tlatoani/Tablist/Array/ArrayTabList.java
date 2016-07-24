@@ -44,7 +44,7 @@ public class ArrayTabList {
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
         //int lastTwoDigits = (column - 1) * 5 + Mundo.divideNoRemainder(row - 1, 4) + 1;
         //UUID uuid = UUID.fromString(uuidbeginning + ((row - 1) % 4 + 1) + "0" + lastTwoDigits);
-        UUID uuid = UUID.fromString(uuidbeginning + "10" + (((column - 1) * 20) + rows));
+        UUID uuid = UUID.fromString(uuidbeginning + "10" + (((column - 1) * 20) + row));
         UUID head = heads[column - 1][row - 1];
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (head != null) {
