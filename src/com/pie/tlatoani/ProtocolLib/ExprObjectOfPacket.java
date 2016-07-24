@@ -251,7 +251,11 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 e.printStackTrace();
             }
         }
-        structureModifier.writeSafely(index.getSingle(event).intValue(), delta[0]);
+        if (isSingle) {
+            structureModifier.writeSafely(index.getSingle(event).intValue(), delta[0]);
+        } else {
+            structureModifier.writeSafely(index.getSingle(event).intValue(), delta);
+        }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

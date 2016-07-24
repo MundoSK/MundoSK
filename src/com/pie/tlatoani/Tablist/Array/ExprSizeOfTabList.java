@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Tablist;
+package com.pie.tlatoani.Tablist.Array;
 
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
@@ -6,22 +6,23 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 /**
- * Created by Tlatoani on 7/13/16.
+ * Created by Tlatoani on 7/23/16.
  */
-public class ExprLatencyOfTab extends SimpleExpression<Number> {
-    private Expression<String> id;
+public class ExprSizeOfTabList extends SimpleExpression<Number> {
     private Expression<Player> playerExpression;
+    private boolean isColumns;
 
     @Override
     protected Number[] get(Event event) {
-        TabListManager tabListManager;
+        ArrayTabList arrayTabList;
         return new Number[] {
-                (tabListManager = TabListManager.getForPlayer(playerExpression.getSingle(event))) != null ?
-                        tabListManager.getLatency(id.getSingle(event)) :
+                (arrayTabList = TabListManager.getArrayTabListForPlayer(playerExpression.getSingle(event))) != null ?
+                        (isColumns ? arrayTabList.getColumns() : arrayTabList.getRows()) :
                         null
         };
     }
@@ -38,20 +39,24 @@ public class ExprLatencyOfTab extends SimpleExpression<Number> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "latency of tab id " + id + " for " + playerExpression;
+        return "amount of " + (isColumns ? "column" : "row") + "s in " + playerExpression + "'s array tablist";
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        id = (Expression<String>) expressions[0];
-        playerExpression = (Expression<Player>) expressions[1];
-        return true;
+        playerExpression = (Expression<Player>) expressions[0];
+        isColumns = parseResult.mark == 0;
+        return false;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        TabListManager tabListManager;
-        if ((tabListManager = TabListManager.getForPlayer(playerExpression.getSingle(event))) != null) {
-            tabListManager.setLatency(id.getSingle(event), ((Number) delta[0]).intValue());
+        ArrayTabList arrayTabList;
+        if ((arrayTabList = TabListManager.getArrayTabListForPlayer(playerExpression.getSingle(event))) != null) {
+            if (isColumns) {
+                arrayTabList.setColumns(((Number) delta[0]).intValue());
+            } else {
+                arrayTabList.setRows(((Number) delta[0]).intValue());
+            }
         }
     }
 

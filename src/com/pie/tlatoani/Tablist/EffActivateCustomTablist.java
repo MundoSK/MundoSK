@@ -25,11 +25,14 @@ import java.util.function.Consumer;
  */
 public class EffActivateCustomTablist extends Effect {
     private Expression<Player> playerExpression;
+    private int matchedPattern;
+    private Expression<Number> columns;
+    private Expression<Number> rows;
 
     @Override
     protected void execute(Event event) {
         Player player = playerExpression.getSingle(event);
-        if (!TabListManager.isActivated(player)) {
+        if (matchedPattern != 3 && !TabListManager.hasCustomTabList(player)) {
             final ArrayList<PlayerInfoData> dataArrayList = new ArrayList<>();
             Bukkit.getOnlinePlayers().forEach(new Consumer<Player>() {
                 @Override
@@ -44,7 +47,30 @@ public class EffActivateCustomTablist extends Effect {
             packetContainer.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             try {
                 UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
-                TabListManager.setActivated(player, true);
+            } catch (InvocationTargetException e) {
+                Mundo.reportException(this, e);
+            }
+        }
+        if (matchedPattern == 1) {
+            TabListManager.setSimpleTabList(player);
+        } else if (matchedPattern == 2) {
+            TabListManager.setArrayTabList(player, columns.getSingle(event).intValue(), rows.getSingle(event).intValue());
+        } else if (TabListManager.hasCustomTabList(player)) {
+            final ArrayList<PlayerInfoData> dataArrayList = new ArrayList<>();
+            Bukkit.getOnlinePlayers().forEach(new Consumer<Player>() {
+                @Override
+                public void accept(Player player) {
+                    WrappedGameProfile wrappedGameProfile = WrappedGameProfile.fromPlayer(player);
+                    PlayerInfoData playerInfoData = new PlayerInfoData(wrappedGameProfile, 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(TabListManager.colorStringToJson(player.getPlayerListName())));
+                    dataArrayList.add(playerInfoData);
+                }
+            });
+            PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+            packetContainer.getPlayerInfoDataLists().writeSafely(0, dataArrayList);
+            packetContainer.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+            try {
+                UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
+                TabListManager.clearTabList(player);
             } catch (InvocationTargetException e) {
                 Mundo.reportException(this, e);
             }
@@ -59,6 +85,11 @@ public class EffActivateCustomTablist extends Effect {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         playerExpression = (Expression<Player>) expressions[0];
+        matchedPattern = i;
+        if (matchedPattern == 2) {
+            columns = (Expression<Number>) expressions[1];
+            rows = (Expression<Number>) expressions[2];
+        }
         return true;
     }
 }

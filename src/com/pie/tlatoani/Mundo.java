@@ -19,9 +19,31 @@ import ch.njol.skript.util.Slot;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+
+import com.pie.tlatoani.Achievement.*;
+import com.pie.tlatoani.Book.*;
+import com.pie.tlatoani.CodeBlock.*;
+import com.pie.tlatoani.CustomEvent.*;
+import com.pie.tlatoani.EnchantedBook.*;
 import com.pie.tlatoani.Generator.*;
+import com.pie.tlatoani.Json.API.*;
+import com.pie.tlatoani.Json.*;
+import com.pie.tlatoani.ListUtil.*;
+import com.pie.tlatoani.Miscellaneous.*;
+import com.pie.tlatoani.NoteBlock.*;
+import com.pie.tlatoani.Probability.*;
+import com.pie.tlatoani.ProtocolLib.*;
+import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.Tablist.*;
+import com.pie.tlatoani.TerrainControl.*;
+import com.pie.tlatoani.Throwable.*;
+import com.pie.tlatoani.Util.*;
+import com.pie.tlatoani.WorldBorder.*;
+import com.pie.tlatoani.WorldCreator.*;
+import com.pie.tlatoani.WorldManagement.*;
+import com.pie.tlatoani.Metrics.*;
 import com.pie.tlatoani.TestSyntaxes.TestTabUpdate;
+
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
@@ -42,27 +64,6 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.ChunkGenerator.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.pie.tlatoani.Achievement.*;
-import com.pie.tlatoani.Book.*;
-import com.pie.tlatoani.CodeBlock.*;
-import com.pie.tlatoani.CustomEvent.*;
-import com.pie.tlatoani.EnchantedBook.*;
-import com.pie.tlatoani.Json.API.*;
-import com.pie.tlatoani.Json.*;
-import com.pie.tlatoani.ListUtil.*;
-import com.pie.tlatoani.Miscellaneous.*;
-import com.pie.tlatoani.NoteBlock.*;
-import com.pie.tlatoani.Probability.*;
-import com.pie.tlatoani.ProtocolLib.*;
-import com.pie.tlatoani.Socket.*;
-import com.pie.tlatoani.TerrainControl.*;
-import com.pie.tlatoani.Throwable.*;
-import com.pie.tlatoani.Util.*;
-import com.pie.tlatoani.WorldBorder.*;
-import com.pie.tlatoani.WorldCreator.*;
-import com.pie.tlatoani.WorldManagement.*;
-import com.pie.tlatoani.Metrics.*;
 
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
@@ -153,7 +154,7 @@ public class Mundo extends JavaPlugin{
             }
         }));
         Skript.registerCondition(ScopeSaveCodeBlock.class, "codeblock %object%");
-        Skript.registerEffect(EffRunCodeBlock.class, "run codeblock %codeblock% [(1¦here|2¦with %-objects%)]");
+        Skript.registerEffect(EffRunCodeBlock.class, "run codeblock %codeblock% [(1¦here|2¦with %-objects%)]", "run codeblocks %codeblocks% [(5¦here|2¦with %-objects%|4¦in a chain|6¦with %-objects% in a chain)]");
         //CustomEvent
         Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
         Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "evt %strings%");
@@ -522,16 +523,21 @@ public class Mundo extends JavaPlugin{
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onQuit(PlayerQuitEvent event) {
-                    TabListManager.setActivated(event.getPlayer(), false);
+                    TabListManager.clearTabList(event.getPlayer());
                 }
             }, this);
-            Skript.registerEffect(EffActivateCustomTablist.class, "activate custom tablist for %player%");
-            Skript.registerEffect(EffDeactivateCustomTablist.class, "deactivate custom tablist for %player%");
-            Skript.registerEffect(EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [head [icon] %-offlineplayer%]");
-            Skript.registerEffect(EffDeleteTab.class, "delete tab id %string% for %player%");
-            Skript.registerExpression(ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
-            Skript.registerExpression(ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");
-            Skript.registerExpression(ExprHeadOfTab.class, OfflinePlayer.class, ExpressionType.PROPERTY, "head [icon] of tab id %string% for %player%");
+            Skript.registerEffect(EffActivateCustomTablist.class, "set simple tablist for %player%", "set array tablist for %player% [with [%-number% columns] [%-number% rows]]", "set normal tablist for %player%");
+            //Simple
+            Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [head [icon] %-offlineplayer%]");
+            Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
+            Skript.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
+            Skript.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");
+            Skript.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprHeadOfTab.class, OfflinePlayer.class, ExpressionType.PROPERTY, "head [icon] of tab id %string% for %player%");
+            //Array
+            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% for %player%");
+            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %number%, %number% for %player%");
+            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprHeadOfTab.class, OfflinePlayer.class, ExpressionType.PROPERTY, "head [icon] of tab id %number%, %number% for %player%");
+            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %player%'s [array] tablist");
         }
         //TerrainControl
 		if (Bukkit.getServer().getPluginManager().getPlugin("TerrainControl") != null) {
@@ -842,6 +848,18 @@ public class Mundo extends JavaPlugin{
         } else {
             return number;
         }
+    }
+
+    //Min Max Util
+
+    public static int limitToRange(int min, int num, int max) {
+        if (num > max) return max;
+        if (num < min) return min;
+        return num;
+    }
+
+    public static boolean isInRange(int min, int num, int max) {
+        return !(num > max || num < min);
     }
 	
 }

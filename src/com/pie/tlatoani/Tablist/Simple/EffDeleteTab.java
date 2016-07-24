@@ -1,9 +1,10 @@
-package com.pie.tlatoani.Tablist;
+package com.pie.tlatoani.Tablist.Simple;
 
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -16,9 +17,9 @@ public class EffDeleteTab extends Effect {
 
     @Override
     protected void execute(Event event) {
-        TabListManager tabListManager;
-        if ((tabListManager = TabListManager.getForPlayer(playerExpression.getSingle(event))) != null) {
-            tabListManager.deleteTab(id.getSingle(event));
+        SimpleTabList simpleTabList;
+        if ((simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null) {
+            simpleTabList.deleteTab(id.getSingle(event));
         }
     }
 

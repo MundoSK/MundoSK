@@ -2,19 +2,16 @@ package com.pie.tlatoani.Tablist;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.*;
-import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
-import org.apache.commons.codec.binary.Base64;
-import org.bukkit.Bukkit;
+import com.pie.tlatoani.Tablist.Array.ArrayTabList;
+import com.pie.tlatoani.Tablist.Simple.SimpleTabList;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -24,26 +21,22 @@ import java.util.regex.Pattern;
  * Created by Tlatoani on 7/13/16.
  */
 public class TabListManager implements Listener {
-    private static final HashMap<UUID, TabListManager> tabLists = new HashMap<>();
-    private static final PacketType packetType = PacketType.Play.Server.PLAYER_INFO;
-    private static final Charset utf8 = Charset.forName("UTF-8");
-    private final Player player;
-    private final HashMap<String, String> displayNames = new HashMap<>();
-    private final HashMap<String, Integer> latencies = new HashMap<>();
-    private final HashMap<String, UUID> heads = new HashMap<>();
-
+    private static final HashMap<UUID, SimpleTabList> simpleTabLists = new HashMap<>();
+    private static final HashMap<UUID, ArrayTabList> arrayTabLists = new HashMap<>();
+    public static final PacketType packetType = PacketType.Play.Server.PLAYER_INFO;
+    public static final Charset utf8 = Charset.forName("UTF-8");
     static {
         UtilPacketEvent.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, packetType) {
             @Override
             public void onPacketSending(PacketEvent event) {
-                if (isActivated(event.getPlayer()) && event.getPacket().getPlayerInfoDataLists().readSafely(0).get(0).getGameMode() != EnumWrappers.NativeGameMode.NOT_SET) {
+                if (hasCustomTabList(event.getPlayer()) && event.getPacket().getPlayerInfoDataLists().readSafely(0).get(0).getGameMode() != EnumWrappers.NativeGameMode.NOT_SET) {
                     event.setCancelled(true);
                 }
-                Mundo.debug(TabListManager.class, "Is NOT_SET: " + (event.getPacket().getPlayerInfoDataLists().readSafely(0).get(0).getGameMode() != EnumWrappers.NativeGameMode.NOT_SET));
             }
         });
     }
 
+    /* Too attached to delete it
     public static class FriendlyPacketContainer extends PacketContainer {
 
         public FriendlyPacketContainer(PacketType packetType) {
@@ -51,25 +44,38 @@ public class TabListManager implements Listener {
         }
 
     }
+    */
 
-    private TabListManager(Player player) {
-        this.player = player;
+    public static boolean hasCustomTabList(Player player) {
+        return simpleTabLists.containsKey(player.getUniqueId()) || arrayTabLists.containsKey(player.getUniqueId());
     }
 
-    public static Boolean isActivated(Player player) {
-        return tabLists.containsKey(player.getUniqueId());
+    public static void setSimpleTabList(Player player) {
+        clearTabList(player);
+        simpleTabLists.put(player.getUniqueId(), new SimpleTabList(player));
     }
 
-    public static void setActivated(Player player, boolean activated) {
-        if (!activated) {
-            tabLists.remove(player.getUniqueId());
-        } else if (!isActivated(player)) {
-            tabLists.put(player.getUniqueId(), new TabListManager(player));
+    public static void setArrayTabList(Player player, int columns, int rows) {
+        clearTabList(player);
+        arrayTabLists.put(player.getUniqueId(), new ArrayTabList(player, columns, rows));
+    }
+
+    public static void clearTabList(Player player) {
+        if (arrayTabLists.containsKey(player.getUniqueId())) {
+            getArrayTabListForPlayer(player).clear();
+            arrayTabLists.remove(player.getUniqueId());
+        } else if (simpleTabLists.containsKey(player.getUniqueId())) {
+            getSimpleTabListForPlayer(player).clear();
+            simpleTabLists.remove(player.getUniqueId());
         }
     }
 
-    public static TabListManager getForPlayer(Player player) {
-        return tabLists.get(player.getUniqueId());
+    public static SimpleTabList getSimpleTabListForPlayer(Player player) {
+        return simpleTabLists.get(player.getUniqueId());
+    }
+
+    public static ArrayTabList getArrayTabListForPlayer(Player player) {
+        return arrayTabLists.get(player.getUniqueId());
     }
 
     //
@@ -126,95 +132,6 @@ public class TabListManager implements Listener {
         json = json.replace(",extra:[EXTRA]", "");
 
         return json;
-    }
-
-    //Non Static Stuff
-
-    private void sendPacket(String id, PlayerInfoAction action) {
-        int ping = latencies.get(id);
-        String displayName = displayNames.get(id);
-        WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(colorStringToJson(displayName));
-        UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + id).getBytes(utf8));
-        UUID head = heads.get(id);
-        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, displayName);
-        if (head != null) {
-            WrappedGameProfile headProfile = WrappedGameProfile.fromPlayer(Bukkit.getPlayer(head));
-            gameProfile.getProperties().putAll(headProfile.getProperties());
-        } else {
-            //WrappedSignedProperty property = new WrappedSignedProperty("textures", "", "");
-            //gameProfile.getProperties().put("textures", property);
-            //String url;
-            //String formattedProperty = String.format("{textures:{SKIN:{url:\"%s\"}}}", url);
-            //byte[] encodedData = Base64.encodeBase64(formattedProperty.getBytes());
-        }
-        PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
-        List<PlayerInfoData> playerInfoDatas = Arrays.asList(playerInfoData);
-        PacketContainer packetContainer = new FriendlyPacketContainer(packetType);
-        packetContainer.getPlayerInfoDataLists().writeSafely(0, playerInfoDatas);
-        packetContainer.getPlayerInfoAction().writeSafely(0, action);
-        try {
-            UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
-        } catch (InvocationTargetException e) {
-            Mundo.reportException(this, e);
-        }
-    }
-
-    public boolean tabExists(String id) {
-        return displayNames.containsKey(id);
-    }
-
-    public void createTab(String id, String displayName, Integer ping, UUID head) {
-        if (!tabExists(id)) {
-            ping = Math.max(ping, 0);
-            ping = Math.min(ping, 5);
-            latencies.put(id, ping);
-            displayNames.put(id, displayName);
-            heads.put(id, head);
-            sendPacket(id, PlayerInfoAction.ADD_PLAYER);
-        }
-    }
-
-    public void deleteTab(String id) {
-        if (tabExists(id)) {
-            sendPacket(id, PlayerInfoAction.REMOVE_PLAYER);
-            displayNames.remove(id);
-            latencies.remove(id);
-            heads.remove(id);
-        }
-    }
-
-    public String getDisplayName(String id) {
-        return displayNames.get(id);
-    }
-
-    public Integer getLatency(String id) {
-        return latencies.get(id);
-    }
-
-    public UUID getHead(String id) {
-        return heads.get(id);
-    }
-
-    public void setDisplayName(String id, String displayName) {
-        if (tabExists(id)) {
-            displayNames.put(id, displayName);
-            sendPacket(id, PlayerInfoAction.UPDATE_DISPLAY_NAME);
-        }
-    }
-
-    public void setLatency(String id, Integer ping) {
-        if (tabExists(id)) {
-            latencies.put(id, ping);
-            sendPacket(id, PlayerInfoAction.UPDATE_LATENCY);
-        }
-    }
-
-    public void setHead(String id, UUID head) {
-        if (tabExists(id)) {
-            sendPacket(id, PlayerInfoAction.REMOVE_PLAYER);
-            heads.put(id, head);
-            sendPacket(id, PlayerInfoAction.ADD_PLAYER);
-        }
     }
 
 }

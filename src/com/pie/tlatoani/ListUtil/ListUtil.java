@@ -72,7 +72,8 @@ public final class ListUtil {
             String j = patternlist.get(i);
             insertItem.add("(add|insert) %objects% (1¦before|0¦after) (" + j + " %-number%|last " + j + ")[ (of|in) %-object/objects%]");
             item.add("(" + j + " %-number%|last " + j + ")[ of %-object/objects%]");
-            items.add(j + "s[ of %-object/objects%]");
+            if (j != "item")
+                items.add(j + "s[ of %-object/objects%]");
             someItems.add(j + "s %-number% to (%-number%|last)[ of %-object/objects%]");
             itemCount.add(j + " count[ of %-objects%]");
         }

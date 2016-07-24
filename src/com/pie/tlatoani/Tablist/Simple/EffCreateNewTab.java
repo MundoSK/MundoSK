@@ -1,10 +1,10 @@
-package com.pie.tlatoani.Tablist;
+package com.pie.tlatoani.Tablist.Simple;
 
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import org.bukkit.OfflinePlayer;
+import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -20,9 +20,9 @@ public class EffCreateNewTab extends Effect {
 
     @Override
     protected void execute(Event event) {
-        TabListManager tabListManager;
-        if ((tabListManager = TabListManager.getForPlayer(playerExpression.getSingle(event))) != null) {
-            tabListManager.createTab(id.getSingle(event), displayName.getSingle(event), (ping == null ? 5 : ping.getSingle(event).intValue()), (offlinePlayerExpression == null ? null : offlinePlayerExpression.getSingle(event).getUniqueId()));
+        SimpleTabList simpleTabList;
+        if ((simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null) {
+            simpleTabList.createTab(id.getSingle(event), displayName.getSingle(event), (ping == null ? 5 : ping.getSingle(event).intValue()), (offlinePlayerExpression == null ? null : offlinePlayerExpression.getSingle(event).getUniqueId()));
         }
     }
 

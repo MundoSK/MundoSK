@@ -19,29 +19,41 @@ public class EffRunCodeBlock extends Effect {
     private Integer mark;
     private Expression args;
     private VariableString variableString;
+    private boolean isVariable = false;
 
-    @Override
-    protected void execute(Event event) {
-        final Event localevent;
-        if (mark == 0) {
+    private Event getLocalEvent(Event event, int mark) {
+        Event localevent = null;
+        if (mark == 0 || mark == 4) {
             localevent = new EmptyEvent();
-        } else if (mark == 1) {
+        } else if (mark == 1 || mark == 5) {
             localevent = event;
-        } else if (mark == 2) {
+        } else if (mark == 2 || mark == 6) {
             localevent = new EmptyEvent();
             Object[] list = args.getAll(event);
             for (int i = 1; i <= list.length; i++) {
                 Variables.setVariable(i + "", list[i - 1], localevent, true);
             }
-        } else {
-            localevent = new EmptyEvent();
+        } else if (mark == 3 || mark == 7){
+            final EmptyEvent tempevent = new EmptyEvent();
             TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(variableString.toString(event), event, ((Variable) args).isLocal());
-            treeMap.forEach((string, object) -> Variables.setVariable(string, object, localevent, true));
+            treeMap.forEach(tempevent::setLocalVariable);
+            localevent = tempevent;
         }
-        Mundo.debug(this, "CBE: " + codeBlockExpression);
-        SkriptCodeBlock codeBlock = codeBlockExpression.getSingle(event);
-        Mundo.debug(this, "getSingle: " + codeBlock);
-        codeBlock.execute(localevent);
+        return localevent;
+    }
+
+    @Override
+    protected void execute(Event event) {
+        if (mark < 4) {
+            for (SkriptCodeBlock codeBlock : codeBlockExpression.getArray(event)) {
+                codeBlock.execute(getLocalEvent(event, mark));
+            }
+        } else {
+            Event localevent = getLocalEvent(event, mark);
+            for (SkriptCodeBlock codeBlock : codeBlockExpression.getArray(event)) {
+                codeBlock.execute(localevent);
+            }
+        }
     }
 
     @Override
@@ -53,9 +65,9 @@ public class EffRunCodeBlock extends Effect {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         codeBlockExpression = (Expression<SkriptCodeBlock>) expressions[0];
         mark = parseResult.mark;
-        args = expressions[1];
+        args = expressions[2];
         if (args instanceof Variable) {
-            mark = 3;
+            mark++;
             Variable listVariable = (Variable) args;
             String origstring = listVariable.isLocal() ? listVariable.toString().substring(2, listVariable.toString().length() - 1) : listVariable.toString().substring(1, listVariable.toString().length() - 1);
             variableString = VariableString.newInstance(origstring, StringMode.VARIABLE_NAME);
