@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 /**
  * Created by Tlatoani on 7/13/16.
  */
-public class EffActivateCustomTablist extends Effect {
+public class EffSetCustomTablist extends Effect {
     private Expression<Player> playerExpression;
     private int matchedPattern;
     private Expression<Number> columns;
@@ -86,7 +86,7 @@ public class EffActivateCustomTablist extends Effect {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         playerExpression = (Expression<Player>) expressions[0];
-        matchedPattern = i;
+        matchedPattern = i + 1;
         if (matchedPattern == 2) {
             columns = (Expression<Number>) expressions[1];
             rows = (Expression<Number>) expressions[2];

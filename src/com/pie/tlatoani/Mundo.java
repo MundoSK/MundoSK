@@ -529,7 +529,7 @@ public class Mundo extends JavaPlugin{
                     TabListManager.clearTabList(event.getPlayer());
                 }
             }, this);
-            Skript.registerEffect(EffActivateCustomTablist.class, "set simple tablist for %player%", "set array tablist for %player% [with [%-number% columns] [%-number% rows]]", "set normal tablist for %player%");
+            Skript.registerEffect(EffSetCustomTablist.class, "set simple tablist for %player%", "set array tablist for %player% [with [%-number% columns] [%-number% rows]]", "set normal tablist for %player%");
             //Simple
             Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [head [icon] %-offlineplayer%]");
             Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
