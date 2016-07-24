@@ -63,6 +63,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.ChunkGenerator.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Mundo extends JavaPlugin{
@@ -743,24 +744,39 @@ public class Mundo extends JavaPlugin{
 		info("Awesome syntaxes have been registered!");
 		try {
 	        Metrics metrics = new Metrics(this);
-	        Graph skriptv = metrics.createGraph("Skript Version");
-	        skriptv.addPlotter(new Metrics.Plotter(Bukkit.getServer().getPluginManager().getPlugin("Skript").getDescription().getVersion()){
+            //Skript Version
+	        Graph skriptVersion = metrics.createGraph("Skript Version");
+	        skriptVersion.addPlotter(new Metrics.Plotter(Bukkit.getServer().getPluginManager().getPlugin("Skript").getDescription().getVersion()){
 	        	@Override
 	        	public int getValue() {
 	        		return 1;
 	        	}
 	        });
+
 	        Graph addons = metrics.createGraph("Skript Addons");
-	        Object[] addonlist = Skript.getAddons().toArray();
-	        for (int i = 0; i < addonlist.length; i++) {
-	        	addons.addPlotter(new Metrics.Plotter(((SkriptAddon) addonlist[i]).getName()) {
-					
-					@Override
-					public int getValue() {
-						return 1;
-					}
-				});
-	        }
+            SkriptAddon[] addonlist = Skript.getAddons().toArray(new SkriptAddon[0]);
+            for (int i = 0; i < addonlist.length; i++) {
+                addons.addPlotter(new Metrics.Plotter((addonlist[i]).getName()) {
+
+                    @Override
+                    public int getValue() {
+                        return 1;
+                    }
+                });
+            }
+
+            Graph plugins = metrics.createGraph("Plugins");
+            Plugin[] pluginlist = Bukkit.getPluginManager().getPlugins();
+            for (int i = 0; i < pluginlist.length; i++) {
+                addons.addPlotter(new Metrics.Plotter((pluginlist[i]).getName()) {
+
+                    @Override
+                    public int getValue() {
+                        return 1;
+                    }
+                });
+            }
+
 	        metrics.start();
 	        info("Metrics have been enabled!");
 	    } catch (Exception e) {

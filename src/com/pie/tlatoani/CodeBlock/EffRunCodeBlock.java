@@ -65,7 +65,7 @@ public class EffRunCodeBlock extends Effect {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         codeBlockExpression = (Expression<SkriptCodeBlock>) expressions[0];
         mark = parseResult.mark;
-        args = expressions[2];
+        args = expressions[1];
         if (args instanceof Variable) {
             mark++;
             Variable listVariable = (Variable) args;
