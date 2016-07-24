@@ -539,8 +539,8 @@ public class Mundo extends JavaPlugin{
             Skript.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprHeadOfTab.class, OfflinePlayer.class, ExpressionType.PROPERTY, "head [icon] of tab id %string% for %player%");
             //Array
             Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% for %player%");
-            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %number%, %number% for %player%");
-            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprHeadOfTab.class, OfflinePlayer.class, ExpressionType.PROPERTY, "head [icon] of tab id %number%, %number% for %player%");
+            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% for %player%");
+            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprHeadOfTab.class, OfflinePlayer.class, ExpressionType.PROPERTY, "head [icon] of tab %number%, %number% for %player%");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %player%'s [array] tablist");
         }
         //TerrainControl
