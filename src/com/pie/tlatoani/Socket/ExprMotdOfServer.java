@@ -91,7 +91,7 @@ public class ExprMotdOfServer extends SimpleExpression<String>{
 	}
 	
 	private static void debug(String msg) {
-		Mundo.classDebug(ExprMotdOfServer.class, msg);
+		Mundo.debug(ExprMotdOfServer.class, msg);
 	}
 
 }

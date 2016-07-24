@@ -100,7 +100,7 @@ public class ExprPlayerCountOfServer extends SimpleExpression<Number>{
 	}
 	
 	private static void debug(String msg) {
-		Mundo.classDebug(ExprPlayerCountOfServer.class, msg);
+		Mundo.debug(ExprPlayerCountOfServer.class, msg);
 	}
 
 }

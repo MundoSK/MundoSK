@@ -26,36 +26,15 @@ public class ArrayTabList {
     private int rows;
 
     public ArrayTabList(Player player, int columns, int rows) {
+        Mundo.debug(this, "constructor");
         this.player = player;
         this.columns = Mundo.limitToRange(1, columns, 4);
-        this.rows = columns == 1 ? Mundo.limitToRange(1, rows, 20) :
+        this.rows = 0;
+        rows = columns == 1 ? Mundo.limitToRange(1, rows, 20) :
                columns == 2 ? Mundo.limitToRange(11, rows, 20) :
                columns == 3 ? Mundo.limitToRange(14, rows, 20) :
                               Mundo.limitToRange(16, rows, 20);
-        ArrayList<PlayerInfoData> arrayList1 = new ArrayList();
-        ArrayList<PlayerInfoData> arrayList2 = new ArrayList();
-        for (int column = 1; column <= this.columns; column++)
-            for (int row = 1; row <= this.rows; row++) {
-                String displayname = column + "," + (row < 10 ? "0" + row : row);
-                UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
-                WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
-                PlayerInfoData playerInfoData1 = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(displayname));
-                PlayerInfoData playerInfoData2 = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(""));
-                arrayList1.add(playerInfoData1);
-                arrayList2.add(playerInfoData2);
-            }
-        PacketContainer packet1 = new PacketContainer(TabListManager.packetType);
-        PacketContainer packet2 = new PacketContainer(TabListManager.packetType);
-        packet1.getPlayerInfoDataLists().writeSafely(0, arrayList1);
-        packet2.getPlayerInfoDataLists().writeSafely(0, arrayList2);
-        packet1.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-        packet2.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
-        try {
-            UtilPacketEvent.protocolManager.sendServerPacket(player, packet1);
-            UtilPacketEvent.protocolManager.sendServerPacket(player, packet2);
-        } catch (InvocationTargetException e) {
-            Mundo.reportException(this, e);
-        }
+        setRows(rows);
     }
 
     public int getColumns() {
@@ -127,6 +106,7 @@ public class ArrayTabList {
             ArrayList<PlayerInfoData> arrayList2 = new ArrayList();
             for (int column = 1; column <= this.columns; column++)
                 for (int row = this.rows + 1; row <= rows; row++) {
+                    Mundo.debug(this, "COLUNWROW:: " + column + " " + row);
                     String displayname = column + "," + (row < 10 ? "0" + row : row);
                     UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
                     WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");

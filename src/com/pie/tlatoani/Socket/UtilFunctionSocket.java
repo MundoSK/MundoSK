@@ -178,7 +178,7 @@ public class UtilFunctionSocket implements Runnable {
 	}
 	
 	private static void debug(String msg) {
-		Mundo.classDebug(UtilFunctionSocket.class, msg);
+		Mundo.debug(UtilFunctionSocket.class, msg);
 	}
 
 	public static void onDisable() {

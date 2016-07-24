@@ -82,7 +82,7 @@ public class UtilWriterSocket implements Runnable{
 	}
 	
 	private static void debug(String msg) {
-		Mundo.classDebug(UtilWriterSocket.class, msg);
+		Mundo.debug(UtilWriterSocket.class, msg);
 	}
 
 }

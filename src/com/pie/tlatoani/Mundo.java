@@ -71,12 +71,14 @@ public class Mundo extends JavaPlugin{
 	public static FileConfiguration config;
     public static Boolean RandomSK;
     public static String pluginFolder;
+    public static Boolean debugMode;
 	
 	public void onEnable(){
 		instance = this;
 		config = getConfig();
 		config.addDefault("debug_mode", false);
 		config.options().copyDefaults(true);
+        debugMode = config.getBoolean("debug_mode");
 		saveConfig();
         RandomSK = Bukkit.getPluginManager().getPlugin("RandomSK") != null;
 		Skript.registerAddon(this);
@@ -802,37 +804,41 @@ public class Mundo extends JavaPlugin{
     public ChunkGenerator getDefaultWorldGenerator(String unusedWorldName, String id) {
         return ChunkGeneratorManager.getSkriptGenerator(id);
     }
+
+    //Logging Util
+
+    public static void info(String s) {
+        instance.getLogger().info(s);
+    }
 	
-	public static void reportException(Object o, Exception e) {
+	public static void reportException(Object obj, Exception e) {
 		info("An exception has occured within MundoSK");
 		info("Please report this to the MundoSK thread on forums.skunity.com");
-		info("Exception at " + o.getClass().getSimpleName());
+		info("Exception at " + (obj instanceof Class ? (Class) obj : obj.getClass()).getSimpleName());
 		e.printStackTrace();
 	}
 	
-	public static void info(String s) {
-		instance.getLogger().info(s);
-	}
-	
 	public static void debug(Object obj, String msg) {
-        if (obj instanceof Class) {
-            classDebug((Class<?>) obj, msg);
-        } else if (config.getBoolean("debug_mode")) {
-			info(obj.getClass().getSimpleName() + ": " + msg);
-		}
+        if (debugMode) {
+            info("DEBUG " + (obj instanceof Class ? (Class) obj : obj.getClass()).getSimpleName() + ": " + msg);
+        }
 	}
-	
-	public static void classDebug(Class<?> cla, String msg) {
-		if (config.getBoolean("debug_mode")) {
-			info(cla.getSimpleName() + ": " + msg);
+
+    public static void debug(Object obj, Exception e) {
+		if (debugMode) {
+			reportException(obj, e);
+            info("DEBUG");
+            info("An exception was reported for debugging while debug_mode was activated in the config");
+            info("If you were told to activate debug_mode to help fix bugs in MundoSK on forums.skunity.com, then please copy and paste this message along with the full stack trace of the following error to hastebin.com and give the hastebin link to whoever is helping you fix this bug");
+            info("If you are trying to fix a problem in MundoSK yourself, good luck :)");
+            info("Otherwise, if you do not know why you are seeing this error here, go to the MundoSK config, set debug_mode to false, and restart your server");
+            info("For help, go to the MundoSK thread on forums.skunity.com");
+            info("Exception debugged at " + (obj instanceof Class ? (Class) obj : obj.getClass()).getSimpleName());
+            e.printStackTrace();
 		}
 	}
 
-	public static void debug(Object obj, Exception e) {
-		if (config.getBoolean("debug_mode")) {
-			reportException(obj, e);
-		}
-	}
+    //Custom Event Util
 	
 	public static <T> void registerCustomEventValue(ClassInfo<T> type) {
 		EventValues.registerEventValue(UtilCustomEvent.class, type.getC(), new Getter<T, UtilCustomEvent>() {
@@ -845,16 +851,10 @@ public class Mundo extends JavaPlugin{
 	}
 
     public static Boolean classInfoSafe(Class c, String name) {
-        if (Classes.getExactClassInfo(c) != null) {
-            return false;
-        }
-        if (Classes.getClassInfoNoError(name) != null) {
-            return false;
-        }
-        return true;
+        return Classes.getExactClassInfo(c) == null && Classes.getClassInfoNoError(name) == null;
     }
 
-    //Modulus util
+    //Math Util
 
     public static int intMod(int number, int mod) {
         if (number > mod) {
@@ -865,8 +865,6 @@ public class Mundo extends JavaPlugin{
             return number;
         }
     }
-
-    //Min Max Util
 
     public static int limitToRange(int min, int num, int max) {
         if (num > max) return max;

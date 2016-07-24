@@ -54,6 +54,7 @@ public class EffActivateCustomTablist extends Effect {
         if (matchedPattern == 1) {
             TabListManager.setSimpleTabList(player);
         } else if (matchedPattern == 2) {
+            Mundo.debug(this, "matchedPattern == 2");
             TabListManager.setArrayTabList(player, columns.getSingle(event).intValue(), rows.getSingle(event).intValue());
         } else if (TabListManager.hasCustomTabList(player)) {
             final ArrayList<PlayerInfoData> dataArrayList = new ArrayList<>();
