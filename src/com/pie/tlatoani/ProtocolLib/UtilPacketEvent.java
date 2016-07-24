@@ -35,8 +35,8 @@ public class UtilPacketEvent extends Event implements Cancellable{
             @Override
             public void onPacketSending(PacketEvent event) {
                 WrappedGameProfile gameProfile = event.getPacket().getPlayerInfoDataLists().readSafely(0).get(0).getProfile();
-                Mundo.debug(UtilPacketEvent.class, "Multimap: " + gameProfile.getProperties());
-                Mundo.debug(UtilPacketEvent.class, "IDK" + gameProfile.getProperties().get("textures"));
+                //Mundo.debug(UtilPacketEvent.class, "Multimap: " + gameProfile.getProperties());
+                //Mundo.debug(UtilPacketEvent.class, "IDK" + gameProfile.getProperties().get("textures"));
             }
         });
     }
