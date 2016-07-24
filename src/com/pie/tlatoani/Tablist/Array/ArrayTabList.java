@@ -113,8 +113,8 @@ public class ArrayTabList {
                     sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
                 }
         } else if (rows < this.rows) {
-            for (int column = columns + 1; column <= this.columns; column++)
-                for (int row = 1; row <= this.rows; row++) {
+            for (int column = 1; column <= this.columns; column++)
+                for (int row = rows + 1; row <= this.rows; row++) {
                     sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
                     displayNames[column - 1][row - 1] = null;
                     latencies[column - 1][row - 1] = null;
