@@ -44,9 +44,9 @@ public class ArrayTabList {
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
         //UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
         //UUID uuid = UUID.nameUUIDFromBytes(new byte[]{new Integer((column * 20) + row).byteValue()});
-        //UUID uuid = UUID.fromString(uuidbeginning + (row < 10 ? "0" + row : row) + "0" + column);
-        int util = column * 20 + row - 1;
-        UUID uuid = UUID.fromString(uuidbeginning + "10" + (util % 5) + "" + (Mundo.toHexDigit(Mundo.divideNoRemainder(util, 5))));
+        //UUID uuid = UUID.fromString(uuidbeginning + column + "0" + (row < 10 ? "0" + row : row));
+        int lastTwoDigits = (column - 1) * 5 + Mundo.divideNoRemainder(row - 1, 4) + 1;
+        UUID uuid = UUID.fromString(uuidbeginning + ((row - 1) % 4 + 1) + "0" + lastTwoDigits);
         Mundo.debug(this, "UUID generated for " + column + ", " + row + ": " + uuid.toString());
         UUID head = heads[column - 1][row - 1];
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
