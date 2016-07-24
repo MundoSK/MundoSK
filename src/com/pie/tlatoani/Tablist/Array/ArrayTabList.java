@@ -22,6 +22,7 @@ public class ArrayTabList {
     private final String[][] displayNames = new String[4][20];
     private final Integer[][] latencies = new Integer[4][20];
     private final UUID[][] heads = new UUID[4][20];
+    private final static String uuidbeginning = "10001000-1000-3000-8000-1000100010";
     private int columns;
     private int rows;
 
@@ -42,7 +43,8 @@ public class ArrayTabList {
         String displayName = displayNames[column - 1][row - 1];
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
         //UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
-        UUID uuid = UUID.nameUUIDFromBytes(new byte[]{new Integer((column * 20) + row).byteValue()});
+        //UUID uuid = UUID.nameUUIDFromBytes(new byte[]{new Integer((column * 20) + row).byteValue()});
+        UUID uuid = UUID.fromString(uuidbeginning + ((column * 20) + row));
         Mundo.debug(this, "UUID generated for " + column + ", " + row + ": " + uuid.toString());
         UUID head = heads[column - 1][row - 1];
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
