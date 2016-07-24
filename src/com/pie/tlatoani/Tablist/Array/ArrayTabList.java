@@ -30,126 +30,11 @@ public class ArrayTabList {
         this.player = player;
         this.columns = Mundo.limitToRange(1, columns, 4);
         this.rows = 0;
-        rows = columns == 1 ? Mundo.limitToRange(1, rows, 20) :
+        rows = columns == 1 ? Mundo.limitToRange(1,  rows, 20) :
                columns == 2 ? Mundo.limitToRange(11, rows, 20) :
                columns == 3 ? Mundo.limitToRange(14, rows, 20) :
                               Mundo.limitToRange(16, rows, 20);
         setRows(rows);
-    }
-
-    public int getColumns() {
-        return columns;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public void setColumns(int columns) {
-        columns = Mundo.limitToRange(1, columns, 4);
-        if (columns > this.columns) {
-            ArrayList<PlayerInfoData> arrayList1 = new ArrayList<>();
-            ArrayList<PlayerInfoData> arrayList2 = new ArrayList<>();
-            for (int column = this.columns + 1; column <= columns; column++)
-                for (int row = 1; row <= this.rows; row++) {
-                    String displayname = column + "," + (row < 10 ? "0" + row : row);
-                    UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
-                    WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
-                    PlayerInfoData playerInfoData1 = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(displayname));
-                    PlayerInfoData playerInfoData2 = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(""));
-                    arrayList1.add(playerInfoData1);
-                    arrayList2.add(playerInfoData2);
-                }
-            PacketContainer packet1 = new PacketContainer(TabListManager.packetType);
-            PacketContainer packet2 = new PacketContainer(TabListManager.packetType);
-            packet1.getPlayerInfoDataLists().writeSafely(0, arrayList1);
-            packet2.getPlayerInfoDataLists().writeSafely(0, arrayList2);
-            packet1.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-            packet2.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
-            try {
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packet1);
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packet2);
-            } catch (InvocationTargetException e) {
-                Mundo.reportException(this, e);
-            }
-            this.columns = columns;
-        } else if (columns < this.columns) {
-            ArrayList<PlayerInfoData> arrayList1 = new ArrayList();
-            for (int column = columns + 1; column <= this.columns; column++)
-                for (int row = 1; row <= this.rows; row++) {
-                    String displayname = column + "," + (row < 10 ? "0" + row : row);
-                    UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
-                    WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
-                    PlayerInfoData playerInfoData1 = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(displayname));
-                    PlayerInfoData playerInfoData2 = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(""));
-                    arrayList1.add(playerInfoData1);
-                }
-            PacketContainer packet1 = new PacketContainer(TabListManager.packetType);
-            packet1.getPlayerInfoDataLists().writeSafely(0, arrayList1);
-            packet1.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-            try {
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packet1);
-            } catch (InvocationTargetException e) {
-                Mundo.reportException(this, e);
-            }
-            this.columns = columns;
-        }
-    }
-
-    public void setRows(int rows) {
-        Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
-        rows = columns == 1 ? Mundo.limitToRange(1, rows, 20) :
-               columns == 2 ? Mundo.limitToRange(11, rows, 20) :
-               columns == 3 ? Mundo.limitToRange(14, rows, 20) :
-                              Mundo.limitToRange(16, rows, 20);
-        if (rows > this.rows) {
-            ArrayList<PlayerInfoData> arrayList1 = new ArrayList<>();
-            ArrayList<PlayerInfoData> arrayList2 = new ArrayList<>();
-            for (int column = 1; column <= this.columns; column++)
-                for (int row = this.rows + 1; row <= rows; row++) {
-                    Mundo.debug(this, "COLUNWROW:: " + column + " " + row);
-                    String displayname = column + "," + (row < 10 ? "0" + row : row);
-                    UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
-                    WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
-                    PlayerInfoData playerInfoData1 = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(displayname));
-                    PlayerInfoData playerInfoData2 = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(""));
-                    arrayList1.add(playerInfoData1);
-                    arrayList2.add(playerInfoData2);
-                }
-            PacketContainer packet1 = new PacketContainer(TabListManager.packetType);
-            PacketContainer packet2 = new PacketContainer(TabListManager.packetType);
-            packet1.getPlayerInfoDataLists().writeSafely(0, arrayList1);
-            packet2.getPlayerInfoDataLists().writeSafely(0, arrayList2);
-            packet1.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-            packet2.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
-            try {
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packet1);
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packet2);
-            } catch (InvocationTargetException e) {
-                Mundo.reportException(this, e);
-            }
-            this.rows = rows;
-        } else if (rows < this.rows) {
-            ArrayList<PlayerInfoData> arrayList1 = new ArrayList();
-            for (int column = columns + 1; column <= this.columns; column++)
-                for (int row = 1; row <= this.rows; row++) {
-                    String displayname = column + "," + (row < 10 ? "0" + row : row);
-                    UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
-                    WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
-                    PlayerInfoData playerInfoData1 = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(displayname));
-                    PlayerInfoData playerInfoData2 = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(""));
-                    arrayList1.add(playerInfoData1);
-                }
-            PacketContainer packet1 = new PacketContainer(TabListManager.packetType);
-            packet1.getPlayerInfoDataLists().writeSafely(0, arrayList1);
-            packet1.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-            try {
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packet1);
-            } catch (InvocationTargetException e) {
-                Mundo.reportException(this, e);
-            }
-            this.rows = rows;
-        }
     }
 
     private void sendPacket(int column, int row, EnumWrappers.PlayerInfoAction action) {
@@ -179,6 +64,64 @@ public class ArrayTabList {
         } catch (InvocationTargetException e) {
             Mundo.reportException(this, e);
         }
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public void setColumns(int columns) {
+        columns = Mundo.limitToRange(1, columns, 4);
+        if (columns > this.columns) {
+            for (int column = this.columns + 1; column <= columns; column++)
+                for (int row = 1; row <= this.rows; row++) {
+                    displayNames[column][row] = column + "," + (row < 10 ? "0" + row : row);
+                    latencies[column][row] = 5;
+                    sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+                    displayNames[column][row] = "";
+                    sendPacket(column, row, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
+                }
+        } else if (columns < this.columns) {
+            for (int column = columns + 1; column <= this.columns; column++)
+                for (int row = 1; row <= this.rows; row++) {
+                    sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                    displayNames[column][row] = null;
+                    latencies[column][row] = null;
+                    heads[column][row] = null;
+                }
+        }
+        this.columns = columns;
+    }
+
+    public void setRows(int rows) {
+        Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
+        rows = columns == 1 ? Mundo.limitToRange(1,  rows, 20) :
+               columns == 2 ? Mundo.limitToRange(11, rows, 20) :
+               columns == 3 ? Mundo.limitToRange(14, rows, 20) :
+                              Mundo.limitToRange(16, rows, 20);
+        if (rows > this.rows) {
+            for (int column = 1; column <= this.columns; column++)
+                for (int row = this.rows + 1; row <= rows; row++) {
+                    displayNames[column][row] = column + "," + (row < 10 ? "0" + row : row);
+                    latencies[column][row] = 5;
+                    sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+                    displayNames[column][row] = "";
+                    sendPacket(column, row, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
+                }
+        } else if (rows < this.rows) {
+            for (int column = columns + 1; column <= this.columns; column++)
+                for (int row = 1; row <= this.rows; row++) {
+                    sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                    displayNames[column][row] = null;
+                    latencies[column][row] = null;
+                    heads[column][row] = null;
+                }
+        }
+        this.rows = rows;
     }
 
     public void clear() {
