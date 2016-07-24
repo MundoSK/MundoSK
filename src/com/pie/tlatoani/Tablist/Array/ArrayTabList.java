@@ -43,6 +43,7 @@ public class ArrayTabList {
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
         //UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
         UUID uuid = UUID.nameUUIDFromBytes(new byte[]{new Integer((column * 20) + row).byteValue()});
+        Mundo.debug(this, "UUID generated for " + column + ", " + row + ": " + uuid.toString());
         UUID head = heads[column - 1][row - 1];
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (head != null) {
