@@ -98,10 +98,10 @@ public class ArrayTabList {
 
     public void setRows(int rows) {
         Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
-        this.rows = columns == 1 ? Mundo.limitToRange(1, rows, 20) :
-                    columns == 2 ? Mundo.limitToRange(11, rows, 20) :
-                    columns == 3 ? Mundo.limitToRange(14, rows, 20) :
-                                   Mundo.limitToRange(16, rows, 20);
+        rows = columns == 1 ? Mundo.limitToRange(1, rows, 20) :
+               columns == 2 ? Mundo.limitToRange(11, rows, 20) :
+               columns == 3 ? Mundo.limitToRange(14, rows, 20) :
+                              Mundo.limitToRange(16, rows, 20);
         if (rows > this.rows) {
             ArrayList<PlayerInfoData> arrayList1 = new ArrayList<>();
             ArrayList<PlayerInfoData> arrayList2 = new ArrayList<>();
