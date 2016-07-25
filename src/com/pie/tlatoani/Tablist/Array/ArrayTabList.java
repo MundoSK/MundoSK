@@ -42,7 +42,8 @@ public class ArrayTabList {
         int ping = latencies[column - 1][row - 1];
         String displayName = displayNames[column - 1][row - 1];
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
-        UUID uuid = UUID.fromString(uuidbeginning + "10" + (((column - 1) * 20) + row - 1));
+        int ending = (((column - 1) * 20) + row) * 2 - 1;
+        UUID uuid = UUID.fromString(uuidbeginning + "1" + ending);
         UUID head = heads[column - 1][row - 1];
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (head != null) {
