@@ -3,6 +3,7 @@ package com.pie.tlatoani;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Random;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
@@ -26,6 +27,8 @@ import com.pie.tlatoani.CodeBlock.*;
 import com.pie.tlatoani.CustomEvent.*;
 import com.pie.tlatoani.EnchantedBook.*;
 import com.pie.tlatoani.Generator.*;
+import com.pie.tlatoani.Generator.Seed.ExprNewRandom;
+import com.pie.tlatoani.Generator.Seed.ExprNextRandomValue;
 import com.pie.tlatoani.Json.API.*;
 import com.pie.tlatoani.Json.*;
 import com.pie.tlatoani.ListUtil.*;
@@ -35,6 +38,7 @@ import com.pie.tlatoani.Probability.*;
 import com.pie.tlatoani.ProtocolLib.*;
 import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.Tablist.*;
+import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
 import com.pie.tlatoani.TerrainControl.*;
 import com.pie.tlatoani.Throwable.*;
 import com.pie.tlatoani.Util.*;
@@ -204,6 +208,23 @@ public class Mundo extends JavaPlugin{
             public String getVariableNamePattern() {
                 return ".+";
             }
+        }));Classes.registerClass(new ClassInfo<Random>(Random.class, "random").user(new String[]{"random"}).name("random").parser(new Parser<Random>(){
+
+            public Random parse(String s, ParseContext context) {
+                return null;
+            }
+
+            public String toString(Random random, int flags) {
+                return null;
+            }
+
+            public String toVariableNameString(Random biomeGrid) {
+                return null;
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
         }));
         Skript.registerEffect(EffRegisterGenerator.class, "register [custom] [world] generator with id %string% to generate chunks through %codeblock% [and get fixed spawn through %-codeblock%]");
         Skript.registerEffect(EffSetRegionInChunkData.class,
@@ -212,6 +233,9 @@ public class Mundo extends JavaPlugin{
                 "fill layers %number% to %number% in %chunkdata% with %itemstack%");
         Skript.registerExpression(ExprMaterialInChunkData.class, ItemStack.class, ExpressionType.PROPERTY, "material at %number%, %number%, %number% in %chunkdata%");
         Skript.registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%");
+        Skript.registerExpression(ExprNewRandom.class, Random.class, ExpressionType.PROPERTY, "new random [from seed %number%]");
+        Skript.registerExpression(ExprNextRandomValue.class, Object.class, ExpressionType.PROPERTY, "next (0¦int|1¦long|2¦float|3¦double|4¦gaussian|5¦int less than %-number%|6¦boolean) from random %random%");
+
         //Json
         Classes.registerClass(new ClassInfo<JsonObject>(JsonObject.class, "jsonobject").user(new String[]{"jsonobject"}).name("jsonobject").parser(new Parser<JsonObject>(){
 
@@ -530,17 +554,17 @@ public class Mundo extends JavaPlugin{
                     TabListManager.clearTabList(event.getPlayer());
                 }
             }, this);
-            Skript.registerEffect(EffSetCustomTablist.class, "set simple tablist for %player%", "set array tablist for %player% [with [%-number% columns] [%-number% rows]]", "set normal tablist for %player%");
+            Skript.registerEffect(EffSetCustomTablist.class, "set simple tablist for %player%", "set array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-string/-player%]]", "set normal tablist for %player%");
             //Simple
-            Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [head [icon] %-offlineplayer%]");
+            Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-string/-player%]");
             Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");
-            Skript.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprHeadOfTab.class, OfflinePlayer.class, ExpressionType.PROPERTY, "head [icon] of tab id %string% for %player%");
+            Skript.registerExpression(ExprIconOfTab.class, Object.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% for %player%");
             //Array
             Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% for %player%");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% for %player%");
-            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprHeadOfTab.class, OfflinePlayer.class, ExpressionType.PROPERTY, "head [icon] of tab %number%, %number% for %player%");
+            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Object.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% for %player%", "initial icon of %player%'s [array] tablist");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %player%'s [array] tablist");
         }
         //TerrainControl

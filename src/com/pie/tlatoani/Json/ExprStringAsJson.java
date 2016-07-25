@@ -4,9 +4,13 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+
+import com.google.gson.Gson;
+
 import com.pie.tlatoani.Json.API.Json;
 import com.pie.tlatoani.Json.API.JsonObject;
 import com.pie.tlatoani.Json.API.stream.JsonParsingException;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import java.io.StringReader;
@@ -16,6 +20,15 @@ import java.io.StringReader;
  */
 public class ExprStringAsJson extends SimpleExpression<JsonObject> {
     private Expression<String> stringExpression;
+
+    static {
+        Gson gson = new Gson();
+        com.google.gson.JsonObject jsonObject = new com.google.gson.JsonObject();
+        jsonObject.addProperty("1", "ONE");
+        jsonObject.addProperty("2", "TWO");
+        jsonObject.addProperty("3", "THREE");
+        Mundo.debug(ExprStringAsJson.class, "JSON " + jsonObject);
+    }
 
     @Override
     protected JsonObject[] get(Event event) {

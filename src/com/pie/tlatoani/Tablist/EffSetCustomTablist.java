@@ -18,6 +18,7 @@ import org.bukkit.event.Event;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 /**
@@ -28,53 +29,53 @@ public class EffSetCustomTablist extends Effect {
     private int matchedPattern;
     private Expression<Number> columns;
     private Expression<Number> rows;
+    private Expression<Object> iconExpression;
 
     @Override
     protected void execute(Event event) {
         Player player = playerExpression.getSingle(event);
         if (matchedPattern != 3 && !TabListManager.hasCustomTabList(player)) {
-            final ArrayList<PlayerInfoData> dataArrayList = new ArrayList<>();
             Bukkit.getOnlinePlayers().forEach(new Consumer<Player>() {
                 @Override
                 public void accept(Player player1) {
                     WrappedGameProfile wrappedGameProfile = WrappedGameProfile.fromPlayer(player1);
                     PlayerInfoData playerInfoData = new PlayerInfoData(wrappedGameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(""));
-                    dataArrayList.add(playerInfoData);
+                    PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                    packetContainer.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    packetContainer.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                    try {
+                        UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
+                    } catch (InvocationTargetException e) {
+                        Mundo.reportException(this, e);
+                    }
                 }
             });
-            PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-            packetContainer.getPlayerInfoDataLists().writeSafely(0, dataArrayList);
-            packetContainer.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-            try {
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
-            } catch (InvocationTargetException e) {
-                Mundo.reportException(this, e);
-            }
         }
         if (matchedPattern == 1) {
             TabListManager.setSimpleTabList(player);
         } else if (matchedPattern == 2) {
             Mundo.debug(this, "matchedPattern == 2");
-            TabListManager.setArrayTabList(player, columns.getSingle(event).intValue(), rows.getSingle(event).intValue());
+            int finalColumns = columns == null ? 4 : columns.getSingle(event).intValue();
+            int finalRows = rows == null ? 20 : rows.getSingle(event).intValue();
+            TabListIcon finalIcon = iconExpression == null ? TabListIcon.alex() : TabListIcon.convertSkriptValueToTabListIcon(iconExpression.getSingle(event));
+            TabListManager.setArrayTabList(player, finalColumns, finalRows, finalIcon);
         } else if (TabListManager.hasCustomTabList(player)) {
-            final ArrayList<PlayerInfoData> dataArrayList = new ArrayList<>();
+            TabListManager.clearTabList(player);
             Bukkit.getOnlinePlayers().forEach(new Consumer<Player>() {
                 @Override
                 public void accept(Player player) {
                     WrappedGameProfile wrappedGameProfile = WrappedGameProfile.fromPlayer(player);
                     PlayerInfoData playerInfoData = new PlayerInfoData(wrappedGameProfile, 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(TabListManager.colorStringToJson(player.getPlayerListName())));
-                    dataArrayList.add(playerInfoData);
+                    PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                    packetContainer.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    packetContainer.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+                    try {
+                        UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
+                    } catch (InvocationTargetException e) {
+                        Mundo.reportException(this, e);
+                    }
                 }
             });
-            PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-            packetContainer.getPlayerInfoDataLists().writeSafely(0, dataArrayList);
-            packetContainer.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-            try {
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
-                TabListManager.clearTabList(player);
-            } catch (InvocationTargetException e) {
-                Mundo.reportException(this, e);
-            }
         }
     }
 
@@ -90,6 +91,7 @@ public class EffSetCustomTablist extends Effect {
         if (matchedPattern == 2) {
             columns = (Expression<Number>) expressions[1];
             rows = (Expression<Number>) expressions[2];
+            iconExpression = (Expression<Object>) expressions[3];
         }
         return true;
     }

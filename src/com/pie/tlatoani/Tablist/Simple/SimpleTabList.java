@@ -3,15 +3,14 @@ package com.pie.tlatoani.Tablist.Simple;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.comphenix.protocol.wrappers.PlayerInfoData;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
+import com.pie.tlatoani.Tablist.TabListIcon;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -23,7 +22,7 @@ public class SimpleTabList {
     private final Player player;
     private final HashMap<String, String> displayNames = new HashMap<>();
     private final HashMap<String, Integer> latencies = new HashMap<>();
-    private final HashMap<String, UUID> heads = new HashMap<>();
+    private final HashMap<String, TabListIcon> heads = new HashMap<>();
 
     public SimpleTabList(Player player) {
         this.player = player;
@@ -34,17 +33,16 @@ public class SimpleTabList {
         String displayName = displayNames.get(id);
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
         UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + id).getBytes(TabListManager.utf8));
-        UUID head = heads.get(id);
+        TabListIcon icon = heads.get(id);
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
-        if (head != null) {
-            WrappedGameProfile headProfile = WrappedGameProfile.fromPlayer(Bukkit.getPlayer(head));
-            gameProfile.getProperties().putAll(headProfile.getProperties());
-        } else {
-            //WrappedSignedProperty property = new WrappedSignedProperty("textures", "", "");
-            //gameProfile.getProperties().put("textures", property);
-            //String url;
-            //String formattedProperty = String.format("{textures:{SKIN:{url:\"%s\"}}}", url);
-            //byte[] encodedData = Base64.encodeBase64(formattedProperty.getBytes());
+        if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
+            if (icon.type == TabListIcon.IconType.PLAYER) {
+                WrappedGameProfile iconProfile = WrappedGameProfile.fromPlayer(icon.player);
+                gameProfile.getProperties().putAll(iconProfile.getProperties());
+            } else if (icon.type == TabListIcon.IconType.URL) {
+                WrappedSignedProperty property = new WrappedSignedProperty("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + (icon.url) + "\"}}}"), "");
+
+            }
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         List<PlayerInfoData> playerInfoDatas = Arrays.asList(playerInfoData);
@@ -69,7 +67,7 @@ public class SimpleTabList {
         return displayNames.containsKey(id);
     }
 
-    public void createTab(String id, String displayName, Integer ping, UUID head) {
+    public void createTab(String id, String displayName, Integer ping, TabListIcon head) {
         if (!tabExists(id)) {
             ping = Math.max(ping, 0);
             ping = Math.min(ping, 5);
@@ -97,7 +95,7 @@ public class SimpleTabList {
         return latencies.get(id);
     }
 
-    public UUID getHead(String id) {
+    public TabListIcon getHead(String id) {
         return heads.get(id);
     }
 
@@ -115,10 +113,10 @@ public class SimpleTabList {
         }
     }
 
-    public void setHead(String id, UUID head) {
+    public void setHead(String id, TabListIcon icon) {
         if (tabExists(id)) {
             sendPacket(id, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-            heads.put(id, head);
+            heads.put(id, icon);
             sendPacket(id, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
         }
     }

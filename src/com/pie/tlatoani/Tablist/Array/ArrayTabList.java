@@ -1,15 +1,14 @@
 package com.pie.tlatoani.Tablist.Array;
 
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.comphenix.protocol.wrappers.PlayerInfoData;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
+import com.pie.tlatoani.Tablist.TabListIcon;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -21,12 +20,13 @@ public class ArrayTabList {
     private final Player player;
     private final String[][] displayNames = new String[4][20];
     private final Integer[][] latencies = new Integer[4][20];
-    private final UUID[][] heads = new UUID[4][20];
+    private final TabListIcon[][] heads = new TabListIcon[4][20];
     private final static String uuidbeginning = "10001000-1000-3000-8000-10001000";
     private int columns;
     private int rows;
+    public TabListIcon initialIcon;
 
-    public ArrayTabList(Player player, int columns, int rows) {
+    public ArrayTabList(Player player, int columns, int rows, TabListIcon initialIcon) {
         Mundo.debug(this, "constructor " + columns + " " + rows);
         this.player = player;
         this.columns = Mundo.limitToRange(1, columns, 4);
@@ -35,19 +35,21 @@ public class ArrayTabList {
                columns == 2 ? Mundo.limitToRange(11, rows, 20) :
                columns == 3 ? Mundo.limitToRange(14, rows, 20) :
                               Mundo.limitToRange(16, rows, 20);
+        this.initialIcon = initialIcon;
         setRows(rows);
     }
 
     private void sendPacket(int column, int row, EnumWrappers.PlayerInfoAction action) {
         int ping = latencies[column - 1][row - 1];
         String displayName = displayNames[column - 1][row - 1];
+        TabListIcon icon = heads[column - 1][row - 1];
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
-        int ending = (((column - 1) * 20) + row);
-        if (ending % 2 == 0) ending += 79;
-        UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(ending, 10)) + (ending % 10));
-        Mundo.debug(this, "UUID " + column + ", " + row + ": " + uuid);
-        UUID head = heads[column - 1][row - 1];
+        int identifier = (((column - 1) * 20) + row);
+        if (identifier % 2 == 0) identifier += 79;
+        if (icon.type == TabListIcon.IconType.STEVE) identifier--;
+        UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
+        /*UUID head = heads[column - 1][row - 1];
         if (head != null) {
             WrappedGameProfile headProfile = WrappedGameProfile.fromPlayer(Bukkit.getPlayer(head));
             gameProfile.getProperties().putAll(headProfile.getProperties());
@@ -57,6 +59,15 @@ public class ArrayTabList {
             //String url;
             //String formattedProperty = String.format("{textures:{SKIN:{url:\"%s\"}}}", url);
             //byte[] encodedData = Base64.encodeBase64(formattedProperty.getBytes());
+        }*/
+        if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
+            if (icon.type == TabListIcon.IconType.PLAYER) {
+                WrappedGameProfile iconProfile = WrappedGameProfile.fromPlayer(icon.player);
+                gameProfile.getProperties().putAll(iconProfile.getProperties());
+            } else if (icon.type == TabListIcon.IconType.URL) {
+                WrappedSignedProperty property = new WrappedSignedProperty("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + (icon.url) + "\"}}}"), "");
+
+            }
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         List<PlayerInfoData> playerInfoDatas = Arrays.asList(playerInfoData);
@@ -83,11 +94,10 @@ public class ArrayTabList {
         if (columns > this.columns) {
             for (int column = this.columns + 1; column <= columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
-                    displayNames[column - 1][row - 1] = column + "," + (row < 10 ? "0" + row : row);
-                    latencies[column - 1][row - 1] = 5;
-                    sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
                     displayNames[column - 1][row - 1] = "";
-                    sendPacket(column, row, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
+                    latencies[column - 1][row - 1] = 5;
+                    heads[column - 1][row - 1] = initialIcon;
+                    sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
                 }
         } else if (columns < this.columns) {
             for (int column = columns + 1; column <= this.columns; column++)
@@ -112,6 +122,7 @@ public class ArrayTabList {
                 for (int row = this.rows + 1; row <= rows; row++) {
                     displayNames[column - 1][row - 1] = "";
                     latencies[column - 1][row - 1] = 5;
+                    heads[column - 1][row - 1] = initialIcon;
                     sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
                 }
         } else if (rows < this.rows) {
@@ -153,7 +164,7 @@ public class ArrayTabList {
         return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? latencies[column - 1][row - 1] : null;
     }
 
-    public UUID getHead(int column, int row) {
+    public TabListIcon getHead(int column, int row) {
         return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? heads[column - 1][row - 1] : null;
     }
 
@@ -171,7 +182,7 @@ public class ArrayTabList {
         }
     }
 
-    public void setHead(int column, int row, UUID head) {
+    public void setHead(int column, int row, TabListIcon head) {
         if (Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows)) {
             sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             heads[column - 1][row - 1] = head;

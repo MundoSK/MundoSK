@@ -6,9 +6,8 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Tablist.TabListIcon;
 import com.pie.tlatoani.Tablist.TabListManager;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -17,18 +16,17 @@ import java.util.UUID;
 /**
  * Created by Tlatoani on 7/13/16.
  */
-public class ExprHeadOfTab extends SimpleExpression<OfflinePlayer> {
+public class ExprIconOfTab extends SimpleExpression<Object> {
     private Expression<String> id;
     private Expression<Player> playerExpression;
 
     @Override
-    protected OfflinePlayer[] get(Event event) {
+    protected Object[] get(Event event) {
         SimpleTabList simpleTabList;
-        UUID headUUID;
-        return new OfflinePlayer[] {
-                (simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null
-                        && (headUUID = simpleTabList.getHead(id.getSingle(event))) != null ?
-                        Bukkit.getOfflinePlayer(headUUID) :
+        TabListIcon icon;
+        return new Object[] {
+                (simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null ?
+                        simpleTabList.getHead(id.getSingle(event)).convertTabListIconToSkriptValue() :
                         null
         };
     }
@@ -39,8 +37,8 @@ public class ExprHeadOfTab extends SimpleExpression<OfflinePlayer> {
     }
 
     @Override
-    public Class<? extends OfflinePlayer> getReturnType() {
-        return OfflinePlayer.class;
+    public Class<? extends Object> getReturnType() {
+        return Object.class;
     }
 
     @Override
@@ -58,17 +56,13 @@ public class ExprHeadOfTab extends SimpleExpression<OfflinePlayer> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         SimpleTabList simpleTabList;
         if ((simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null) {
-            if (mode == Changer.ChangeMode.SET) {
-                simpleTabList.setHead(id.getSingle(event), ((OfflinePlayer) delta[0]).getUniqueId());
-            } else {
-                simpleTabList.setHead(id.getSingle(event), null);
-            }
+            simpleTabList.setHead(id.getSingle(event), TabListIcon.convertSkriptValueToTabListIcon(delta[0]));
         }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-        if (mode == Changer.ChangeMode.SET || mode == Changer.ChangeMode.DELETE) {
-            return CollectionUtils.array(OfflinePlayer.class);
+        if (mode == Changer.ChangeMode.SET) {
+            return CollectionUtils.array(String.class, Player.class);
         }
         return null;
     }

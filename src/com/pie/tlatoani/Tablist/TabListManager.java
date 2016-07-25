@@ -55,10 +55,10 @@ public class TabListManager implements Listener {
         simpleTabLists.put(player.getUniqueId(), new SimpleTabList(player));
     }
 
-    public static void setArrayTabList(Player player, int columns, int rows) {
+    public static void setArrayTabList(Player player, int columns, int rows, TabListIcon initialIcon) {
         Mundo.debug(TabListManager.class, "setARrayTagList");
         clearTabList(player);
-        arrayTabLists.put(player.getUniqueId(), new ArrayTabList(player, columns, rows));
+        arrayTabLists.put(player.getUniqueId(), new ArrayTabList(player, columns, rows, initialIcon));
     }
 
     public static void clearTabList(Player player) {
