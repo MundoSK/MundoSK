@@ -42,7 +42,8 @@ public class ArrayTabList {
         int ping = latencies[column - 1][row - 1];
         String displayName = displayNames[column - 1][row - 1];
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
-        int ending = (((column - 1) * 20) + row) * 2 - 1;
+        int ending = (((column - 1) * 20) + row);
+        if (ending % 2 == 0) ending += 80;
         UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(ending, 10)) + (ending % 10));
         Mundo.debug(this, "UUID " + column + ", " + row + ": " + uuid);
         UUID head = heads[column - 1][row - 1];
