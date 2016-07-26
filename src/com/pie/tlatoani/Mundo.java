@@ -69,6 +69,7 @@ import org.bukkit.generator.ChunkGenerator.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
@@ -77,6 +78,7 @@ public class Mundo extends JavaPlugin{
     public static String pluginFolder;
     public static Boolean debugMode;
     public static String hexDigits = "0123456789abcdef";
+    public static BukkitScheduler scheduler;
 	
 	public void onEnable(){
 		instance = this;
@@ -88,6 +90,8 @@ public class Mundo extends JavaPlugin{
         RandomSK = Bukkit.getPluginManager().getPlugin("RandomSK") != null;
 		Skript.registerAddon(this);
         pluginFolder = getDataFolder().getAbsolutePath();
+        scheduler = Bukkit.getScheduler();
+
         info("Pie is awesome :D");
         try {
             UtilWorldLoader.load();
@@ -769,18 +773,47 @@ public class Mundo extends JavaPlugin{
         ListUtil.register();
         ExprEventSpecificValue.register();
 		info("Awesome syntaxes have been registered!");
-		try {
-	        Metrics metrics = new Metrics(this);
-            //Skript Version
-	        Graph skriptVersion = metrics.createGraph("Skript Version");
-	        skriptVersion.addPlotter(new Metrics.Plotter(Bukkit.getServer().getPluginManager().getPlugin("Skript").getDescription().getVersion()){
-	        	@Override
-	        	public int getValue() {
-	        		return 1;
-	        	}
-	        });
+        scheduler.runTask(this, new Runnable() {
+            @Override
+            public void run() {
+                Mundo.enableMetrics();
+            }
+        });
+	}
 
-	        Graph addons = metrics.createGraph("Skript Addons");
+    @Override
+    public void onDisable() {
+        UtilFunctionSocket.onDisable();
+        info("Closed all function sockets (if any were open)");
+        try {
+            UtilWorldLoader.save();
+            info("Successfully saved all world loaders");
+        } catch (IOException e) {
+            info("A problem occurred while saving world loaders");
+            debug(this, e);
+        }
+    }
+
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(String unusedWorldName, String id) {
+        return ChunkGeneratorManager.getSkriptGenerator(id);
+    }
+
+    //Metrics Util
+
+    public static void enableMetrics() {
+        try {
+            Metrics metrics = new Metrics(instance);
+            //Skript Version
+            Graph skriptVersion = metrics.createGraph("Skript Version");
+            skriptVersion.addPlotter(new Metrics.Plotter(Bukkit.getServer().getPluginManager().getPlugin("Skript").getDescription().getVersion()){
+                @Override
+                public int getValue() {
+                    return 1;
+                }
+            });
+
+            Graph addons = metrics.createGraph("Skript Addons");
             SkriptAddon[] addonlist = Skript.getAddons().toArray(new SkriptAddon[0]);
             for (int i = 0; i < addonlist.length; i++) {
                 addons.addPlotter(new Metrics.Plotter((addonlist[i]).getName()) {
@@ -804,30 +837,12 @@ public class Mundo extends JavaPlugin{
                 });
             }
 
-	        metrics.start();
-	        info("Metrics have been enabled!");
-	    } catch (Exception e) {
-	    	info("Metrics failed to enable");
-	        Mundo.reportException(this, e);
-	    }
-	}
-
-    @Override
-    public void onDisable() {
-        UtilFunctionSocket.onDisable();
-        info("Closed all function sockets (if any were open)");
-        try {
-            UtilWorldLoader.save();
-            info("Successfully saved all world loaders");
-        } catch (IOException e) {
-            info("A problem occurred while saving world loaders");
-            debug(this, e);
+            metrics.start();
+            info("Metrics have been enabled!");
+        } catch (Exception e) {
+            info("Metrics failed to enable");
+            Mundo.reportException(Mundo.class, e);
         }
-    }
-
-    @Override
-    public ChunkGenerator getDefaultWorldGenerator(String unusedWorldName, String id) {
-        return ChunkGeneratorManager.getSkriptGenerator(id);
     }
 
     //Logging Util

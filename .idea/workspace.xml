@@ -7,19 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Seed/ExprNewRandom.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Seed/ExprNextRandomValue.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListIcon.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprHeadOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfTab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprHeadOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprIconOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Json/ExprStringAsJson.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Json/ExprStringAsJson.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTabList.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTabList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/EffSetCustomTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/EffSetCustomTablist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateNewTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateNewTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTabList.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTabList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,20 +29,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="236" column="183" selection-start-line="236" selection-start-column="183" selection-end-line="236" selection-end-column="183" />
+            <state relative-caret-position="-276">
+              <caret line="778" column="38" selection-start-line="778" selection-start-column="38" selection-end-line="778" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#parse#0;class#3817:4475" expanded="false" />
-                <element signature="e#43744#43745#0" expanded="true" />
-                <element signature="e#43800#43801#0" expanded="true" />
-                <element signature="e#45100#45101#0" expanded="true" />
-                <element signature="e#45144#45145#0" expanded="true" />
-                <element signature="e#47783#47784#0" expanded="true" />
-                <element signature="e#47832#47833#0" expanded="true" />
+                <element signature="method#parse#0;class#3951:4609" expanded="false" />
+                <element signature="e#43221#43222#0" expanded="true" />
+                <element signature="e#43274#43275#0" expanded="true" />
+                <element signature="e#44735#44736#0" expanded="true" />
+                <element signature="e#44791#44792#0" expanded="true" />
+                <element signature="e#45550#45551#0" expanded="true" />
+                <element signature="e#45594#45595#0" expanded="true" />
+                <element signature="e#48233#48234#0" expanded="true" />
+                <element signature="e#48282#48283#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -86,10 +76,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExprStringAsJson.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ExprStringAsJson.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/ExprStringAsJson.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
+            <state relative-caret-position="247">
               <caret line="29" column="64" selection-start-line="29" selection-start-column="64" selection-end-line="29" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -919,6 +909,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1252,16 +1245,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/ExprStringAsJson.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="29" column="64" selection-start-line="29" selection-start-column="64" selection-end-line="29" selection-end-column="64" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Random/ExprNextBoolean.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
@@ -1302,17 +1285,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="236" column="183" selection-start-line="236" selection-start-column="183" selection-end-line="236" selection-end-column="183" />
+        <state relative-caret-position="-276">
+          <caret line="778" column="38" selection-start-line="778" selection-start-column="38" selection-end-line="778" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#parse#0;class#3817:4475" expanded="false" />
-            <element signature="e#43744#43745#0" expanded="true" />
-            <element signature="e#43800#43801#0" expanded="true" />
-            <element signature="e#45100#45101#0" expanded="true" />
-            <element signature="e#45144#45145#0" expanded="true" />
-            <element signature="e#47783#47784#0" expanded="true" />
-            <element signature="e#47832#47833#0" expanded="true" />
+            <element signature="method#parse#0;class#3951:4609" expanded="false" />
+            <element signature="e#43221#43222#0" expanded="true" />
+            <element signature="e#43274#43275#0" expanded="true" />
+            <element signature="e#44735#44736#0" expanded="true" />
+            <element signature="e#44791#44792#0" expanded="true" />
+            <element signature="e#45550#45551#0" expanded="true" />
+            <element signature="e#45594#45595#0" expanded="true" />
+            <element signature="e#48233#48234#0" expanded="true" />
+            <element signature="e#48282#48283#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/ExprStringAsJson.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="29" column="64" selection-start-line="29" selection-start-column="64" selection-end-line="29" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
