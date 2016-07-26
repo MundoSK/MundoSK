@@ -5,13 +5,14 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-import com.google.gson.Gson;
-
 import com.pie.tlatoani.Json.API.Json;
 import com.pie.tlatoani.Json.API.JsonObject;
 import com.pie.tlatoani.Json.API.stream.JsonParsingException;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
+
+
+import org.json.simple.JSONObject;
 
 import java.io.StringReader;
 
@@ -22,11 +23,10 @@ public class ExprStringAsJson extends SimpleExpression<JsonObject> {
     private Expression<String> stringExpression;
 
     public static void test() {
-        Gson gson = new Gson();
-        com.google.gson.JsonObject jsonObject = new com.google.gson.JsonObject();
-        jsonObject.addProperty("1", "ONE");
-        jsonObject.addProperty("2", "TWO");
-        jsonObject.addProperty("3", "THREE");
+        org.json.simple.JSONObject jsonObject = new JSONObject();
+        jsonObject.put("1", "ONE");
+        jsonObject.put("2", "TWO");
+        jsonObject.put("3", "THREE");
         Mundo.debug(ExprStringAsJson.class, "JSON " + jsonObject);
     }
 
