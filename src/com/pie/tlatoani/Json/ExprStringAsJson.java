@@ -21,7 +21,7 @@ import java.io.StringReader;
 public class ExprStringAsJson extends SimpleExpression<JsonObject> {
     private Expression<String> stringExpression;
 
-    static {
+    public static void test() {
         Gson gson = new Gson();
         com.google.gson.JsonObject jsonObject = new com.google.gson.JsonObject();
         jsonObject.addProperty("1", "ONE");
