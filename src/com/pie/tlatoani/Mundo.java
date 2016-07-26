@@ -756,6 +756,7 @@ public class Mundo extends JavaPlugin{
 		//Test
         Skript.registerEffect(TestTabUpdate.class, "mundosk test update_player_info target %player% display_name %string% ping %number% mode %string% uuid %string%");
 		UtilPacketEvent.testStuff();
+        ExprStringAsJson.test();
         //
 		try {
 			Field classinfos = Classes.class.getDeclaredField("tempClassInfos");
