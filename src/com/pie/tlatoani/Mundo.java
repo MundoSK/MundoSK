@@ -2,6 +2,7 @@ package com.pie.tlatoani;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -21,6 +22,8 @@ import ch.njol.skript.util.Slot;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.WrappedSignedProperty;
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.CodeBlock.*;
@@ -29,7 +32,6 @@ import com.pie.tlatoani.EnchantedBook.*;
 import com.pie.tlatoani.Generator.*;
 import com.pie.tlatoani.Generator.Seed.ExprNewRandom;
 import com.pie.tlatoani.Generator.Seed.ExprNextRandomValue;
-import com.pie.tlatoani.Json.API.*;
 import com.pie.tlatoani.Json.*;
 import com.pie.tlatoani.ListUtil.*;
 import com.pie.tlatoani.Miscellaneous.*;
@@ -60,10 +62,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.NotePlayEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.hanging.*;
-import org.bukkit.event.player.PlayerAchievementAwardedEvent;
-import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
-import org.bukkit.event.player.PlayerChatTabCompleteEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.ChunkGenerator.*;
 import org.bukkit.inventory.ItemStack;
@@ -71,21 +70,26 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import org.json.simple.JSONObject;
+
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
 	public static FileConfiguration config;
     public static Boolean RandomSK;
     public static String pluginFolder;
     public static Boolean debugMode;
+    public static Boolean automaticSkinStorage;
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
 	
 	public void onEnable(){
 		instance = this;
 		config = getConfig();
-		config.addDefault("debug_mode", false);
+        config.addDefault("debug_mode", false);
+        config.addDefault("automatic_skin_storage", true);
 		config.options().copyDefaults(true);
         debugMode = config.getBoolean("debug_mode");
+        automaticSkinStorage = config.getBoolean("automatic_skin_storage");
 		saveConfig();
         RandomSK = Bukkit.getPluginManager().getPlugin("RandomSK") != null;
 		Skript.registerAddon(this);
@@ -241,17 +245,17 @@ public class Mundo extends JavaPlugin{
         Skript.registerExpression(ExprNextRandomValue.class, Object.class, ExpressionType.PROPERTY, "next (0¦int|1¦long|2¦float|3¦double|4¦gaussian|5¦int less than %-number%|6¦boolean) from random %random%");
 
         //Json
-        Classes.registerClass(new ClassInfo<JsonObject>(JsonObject.class, "jsonobject").user(new String[]{"jsonobject"}).name("jsonobject").parser(new Parser<JsonObject>(){
+        Classes.registerClass(new ClassInfo<JSONObject>(JSONObject.class, "jsonobject").user(new String[]{"jsonobject"}).name("jsonobject").parser(new Parser<JSONObject>(){
 
-            public JsonObject parse(String s, ParseContext context) {
+            public JSONObject parse(String s, ParseContext context) {
                 return null;
             }
 
-            public String toString(JsonObject jsonObject, int flags) {
+            public String toString(JSONObject jsonObject, int flags) {
                 return jsonObject.toString();
             }
 
-            public String toVariableNameString(JsonObject jsonObject) {
+            public String toVariableNameString(JSONObject jsonObject) {
                 return jsonObject.toString();
             }
 
@@ -260,8 +264,8 @@ public class Mundo extends JavaPlugin{
             }
         }));
         Skript.registerEffect(EffPutJsonInListVariable.class, "put json %jsonobject% in listvar %objects%", "put jsons %jsonobjects% in listvar %objects%");
-        Skript.registerExpression(ExprListVariableAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of listvar %objects%", "jsons of listvar %objects%");
-        Skript.registerExpression(ExprStringAsJson.class, JsonObject.class, ExpressionType.PROPERTY, "json of string %string%");
+        Skript.registerExpression(ExprListVariableAsJson.class, JSONObject.class, ExpressionType.PROPERTY, "json of listvar %objects%", "jsons of listvar %objects%");
+        Skript.registerExpression(ExprStringAsJson.class, JSONObject.class, ExpressionType.PROPERTY, "json of string %string%");
         //ListUtil
         Skript.registerEffect(EffMoveItem.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
         ListUtil.registerTransformer(TransDefault.class, "item");
@@ -532,8 +536,8 @@ public class Mundo extends JavaPlugin{
 			Skript.registerExpression(ExprAllPacketTypes.class, PacketType.class, ExpressionType.SIMPLE, "all packettypes");
             Skript.registerExpression(ExprTypeOfPacket.class, PacketType.class, ExpressionType.SIMPLE, "packettype of %packet%", "%packet%'s packettype");
 			Skript.registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
-            Skript.registerExpression(ExprJsonObjectOfPacket.class, JsonObject.class, ExpressionType.PROPERTY, "%string% pjson %number% of %packet%");
-            Skript.registerExpression(ExprJsonObjectArrayOfPacket.class, JsonObject.class, ExpressionType.PROPERTY, "%string% array pjson %number% of %packet%");
+            Skript.registerExpression(ExprJsonObjectOfPacket.class, JSONObject.class, ExpressionType.PROPERTY, "%string% pjson %number% of %packet%");
+            Skript.registerExpression(ExprJsonObjectArrayOfPacket.class, JSONObject.class, ExpressionType.PROPERTY, "%string% array pjson %number% of %packet%");
             Skript.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "%*classinfo% pinfo %number% of %packet%", "%*classinfo% array pinfo %number% of %packet%","%string% pinfo %number% of %packet%");
             Skript.registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%");
             Skript.registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array pnum %number% of %packet%");
@@ -554,11 +558,19 @@ public class Mundo extends JavaPlugin{
         if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
+                public void onJoin(PlayerJoinEvent event) {
+                    Player player = event.getPlayer();
+                    Collection<WrappedSignedProperty> properties = WrappedGameProfile.fromPlayer(player).getProperties().get("textures");
+                    UtilSkinStorage.setProperties(player.getUniqueId(), properties);
+                }
+            }, this);
+            Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
+                @EventHandler
                 public void onQuit(PlayerQuitEvent event) {
                     TabListManager.clearTabList(event.getPlayer());
                 }
             }, this);
-            Skript.registerEffect(EffSetCustomTablist.class, "set simple tablist for %player%", "set array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-string/-player%]]", "set normal tablist for %player%");
+            Skript.registerEffect(EffSetCustomTablist.class, "set simple tablist for %player%", "set array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-string/-offlineplayer%]]", "set normal tablist for %player%");
             //Simple
             Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-string/-player%]");
             Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
@@ -756,7 +768,6 @@ public class Mundo extends JavaPlugin{
 		//Test
         Skript.registerEffect(TestTabUpdate.class, "mundosk test update_player_info target %player% display_name %string% ping %number% mode %string% uuid %string%");
 		UtilPacketEvent.testStuff();
-        ExprStringAsJson.test();
         //
 		try {
 			Field classinfos = Classes.class.getDeclaredField("tempClassInfos");

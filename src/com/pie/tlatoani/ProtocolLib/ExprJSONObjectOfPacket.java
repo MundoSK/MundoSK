@@ -11,20 +11,19 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.pie.tlatoani.Json.API.Json;
-import com.pie.tlatoani.Json.API.JsonObject;
-import com.pie.tlatoani.Json.API.JsonReader;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.StringReader;
 import java.lang.reflect.Method;
 import java.util.*;
 
 /**
  * Created by Tlatoani on 5/4/16.
  */
-public class ExprJsonObjectOfPacket extends SimpleExpression<JsonObject> {
+public class ExprJsonObjectOfPacket extends SimpleExpression<JSONObject> {
     private Method getObjects = null;
     private PacketInfoGetter getFunction;
     private PacketInfoSetter setFunction;
@@ -39,14 +38,21 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JsonObject> {
         //Getters
         getFunctionMap.put("chatcomponent", new PacketInfoGetter() {
             @Override
-            public JsonObject apply(PacketContainer packet, Integer index) {
+            public JSONObject apply(PacketContainer packet, Integer index) {
                 Mundo.debug(this, "Packet :" + packet);
                 Mundo.debug(this, "ChatComponents :" + packet.getChatComponents());
                 WrappedChatComponent chatComponent = packet.getChatComponents().readSafely(index);
                 String fromjson = chatComponent.getJson();
                 Mundo.debug(this, "Fromjson: " + fromjson);
-                JsonReader jsonReader = Json.createReader(new StringReader(fromjson));
-                JsonObject tojson = jsonReader.readObject();
+                //JsonReader jsonReader = Json.createReader(new StringReader(fromjson));
+                //JsonObject tojson = jsonReader.readObject();
+                JSONParser parser = new JSONParser();
+                JSONObject tojson = null;
+                try {
+                    tojson = (JSONObject) parser.parse(fromjson);
+                } catch (ParseException | ClassCastException e) {
+                    Mundo.debug(ExprJsonObjectOfPacket.class, e);
+                }
                 Mundo.debug(this, "Tojson " + tojson);
                 return tojson;
             }
@@ -55,7 +61,7 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JsonObject> {
         //Setters
         setFunctionMap.put("chatcomponent", new PacketInfoSetter() {
             @Override
-            public void apply(PacketContainer packet, Integer index, JsonObject value) {
+            public void apply(PacketContainer packet, Integer index, JSONObject value) {
                 WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(value.toString());
                 packet.getChatComponents().writeSafely(index, chatComponent);
             }
@@ -64,22 +70,22 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JsonObject> {
 
     @FunctionalInterface
     public interface PacketInfoGetter {
-        public JsonObject apply(PacketContainer packet, Integer index);
+        public JSONObject apply(PacketContainer packet, Integer index);
 
     }
 
     @FunctionalInterface
     public interface PacketInfoSetter {
-        public void apply(PacketContainer packet, Integer index, JsonObject value);
+        public void apply(PacketContainer packet, Integer index, JSONObject value);
 
     }
 
     @Override
-    protected JsonObject[] get(Event event) {
+    protected JSONObject[] get(Event event) {
         PacketContainer packet = packetContainerExpression.getSingle(event);
         Mundo.debug(this, "Packet before calling function :" + packet);
-        JsonObject result = getFunction.apply(packet, index.getSingle(event).intValue());
-        return new JsonObject[]{result};
+        JSONObject result = getFunction.apply(packet, index.getSingle(event).intValue());
+        return new JSONObject[]{result};
     }
 
     @Override
@@ -88,8 +94,8 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JsonObject> {
     }
 
     @Override
-    public Class<JsonObject> getReturnType() {
-        return JsonObject.class;
+    public Class<JSONObject> getReturnType() {
+        return JSONObject.class;
     }
 
     @Override
@@ -124,12 +130,12 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JsonObject> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         PacketContainer packet = packetContainerExpression.getSingle(event);
         Mundo.debug(this, "Packet before calling function :" + packet);
-        setFunction.apply(packet, index.getSingle(event).intValue(), ((JsonObject) delta[0]));
+        setFunction.apply(packet, index.getSingle(event).intValue(), ((JSONObject) delta[0]));
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            return CollectionUtils.array(JsonObject.class);
+            return CollectionUtils.array(JSONObject.class);
         }
         return null;
     }

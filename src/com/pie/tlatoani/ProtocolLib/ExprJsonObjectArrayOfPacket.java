@@ -10,9 +10,9 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
-import com.pie.tlatoani.Json.API.JsonObject;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
+import org.json.simple.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by Tlatoani on 5/8/16.
  */
-public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
+public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JSONObject> {
     private Method getObjects = null;
     private PacketInfoGetter getFunction;
     private PacketInfoSetter setFunction;
@@ -90,21 +90,21 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
 
     @FunctionalInterface
     public interface PacketInfoGetter {
-        public JsonObject[] apply(PacketContainer packet, Integer index);
+        public JSONObject[] apply(PacketContainer packet, Integer index);
 
     }
 
     @FunctionalInterface
     public interface PacketInfoSetter {
-        public void apply(PacketContainer packet, Integer index, JsonObject[] value);
+        public void apply(PacketContainer packet, Integer index, JSONObject[] value);
 
     }
 
     @Override
-    protected JsonObject[] get(Event event) {
+    protected JSONObject[] get(Event event) {
         PacketContainer packet = packetContainerExpression.getSingle(event);
         Mundo.debug(this, "Packet before calling function :" + packet);
-        JsonObject[] result = getFunction.apply(packet, index.getSingle(event).intValue());
+        JSONObject[] result = getFunction.apply(packet, index.getSingle(event).intValue());
         return result;
     }
 
@@ -114,8 +114,8 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
     }
 
     @Override
-    public Class<JsonObject> getReturnType() {
-        return JsonObject.class;
+    public Class<JSONObject> getReturnType() {
+        return JSONObject.class;
     }
 
     @Override
@@ -150,12 +150,12 @@ public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JsonObject> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         PacketContainer packet = packetContainerExpression.getSingle(event);
         Mundo.debug(this, "Packet before calling function :" + packet);
-        setFunction.apply(packet, index.getSingle(event).intValue(), ((JsonObject[]) delta));
+        setFunction.apply(packet, index.getSingle(event).intValue(), ((JSONObject[]) delta));
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            return CollectionUtils.array(JsonObject[].class);
+            return CollectionUtils.array(JSONObject[].class);
         }
         return null;
     }

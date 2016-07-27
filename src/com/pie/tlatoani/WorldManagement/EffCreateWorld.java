@@ -4,6 +4,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Generator.ChunkGeneratorWithID;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
@@ -29,7 +30,7 @@ public class EffCreateWorld extends Effect {
         if (seed != null && seed.getSingle(arg0).length() > 0) {
             x.seed(Long.parseLong(seed.getSingle(arg0)));
         }
-        if (gen != null) x.generator(gen.getSingle(arg0));
+        if (gen != null) x.generator(ChunkGeneratorWithID.getGenerator(gen.getSingle(arg0)));
         if (genset != null) x.generatorSettings(genset.getSingle(arg0));
         if (struct != null) x.generateStructures(struct.getSingle(arg0));
         if (env != null) x.environment(env.getSingle(arg0));

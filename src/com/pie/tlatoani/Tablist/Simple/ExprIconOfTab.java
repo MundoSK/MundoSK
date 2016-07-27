@@ -8,6 +8,7 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Tablist.TabListIcon;
 import com.pie.tlatoani.Tablist.TabListManager;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -62,7 +63,7 @@ public class ExprIconOfTab extends SimpleExpression<Object> {
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            return CollectionUtils.array(String.class, Player.class);
+            return CollectionUtils.array(String.class, OfflinePlayer.class);
         }
         return null;
     }

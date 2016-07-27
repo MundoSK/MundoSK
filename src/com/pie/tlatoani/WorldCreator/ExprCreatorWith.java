@@ -1,6 +1,7 @@
 package com.pie.tlatoani.WorldCreator;
 
 import com.pie.tlatoani.Generator.ChunkGeneratorManager;
+import com.pie.tlatoani.Generator.ChunkGeneratorWithID;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
@@ -72,9 +73,7 @@ public class ExprCreatorWith extends SimpleExpression<WorldCreator>{
 			if (seed.getSingle(arg0).length() > 0) newCreator.seed(Long.parseLong(seed.getSingle(arg0)));
 		} else newCreator.seed(oldCreator.seed());
 		if (gen != null)  {
-			String genName = gen.getSingle(arg0);
-			newCreator.generator(genName);
-			ChunkGeneratorManager.saveGenerator(genName, newCreator.generator());
+			newCreator.generator(ChunkGeneratorWithID.getGenerator(gen.getSingle(arg0)));
 		}
 		if (genset != null) newCreator.generatorSettings(genset.getSingle(arg0));
 		if (struct != null) newCreator.generateStructures(struct.getSingle(arg0));

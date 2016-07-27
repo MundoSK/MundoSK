@@ -7,9 +7,10 @@ import ch.njol.skript.lang.Variable;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Json.API.*;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.util.List;
 import java.util.TreeMap;
@@ -18,12 +19,47 @@ import java.util.function.BiConsumer;
 /**
  * Created by Tlatoani on 5/7/16.
  */
-public class ExprListVariableAsJson extends SimpleExpression<JsonObject> {
+public class ExprListVariableAsJson extends SimpleExpression<JSONObject> {
     private Variable<?> listVariable;
     private Boolean isArray;
 
+    private static Object getJSONCompatibleObject(Object val) {
+        if (val instanceof TreeMap) {
+            TreeMap<String, Object> treeMap1 = (TreeMap<String, Object>) val;
+            if (treeMap1.containsKey("1")) {
+                return getJSONArray(treeMap1);
+            } else {
+                return getJSONObject(treeMap1);
+            }
+        } else {
+            return val;
+        }
+    }
+
+    private static JSONObject getJSONObject(TreeMap<String, Object> treeMap) {
+        JSONObject jsonObject = new JSONObject();
+        treeMap.forEach(new BiConsumer<String, Object>() {
+            public void accept(String key, Object val) {
+                jsonObject.put(key, getJSONCompatibleObject(val));
+            }
+        });
+        return jsonObject;
+    }
+
+    private static JSONArray getJSONArray(TreeMap<String, Object> treeMap) {
+        JSONArray jsonArray = new JSONArray();
+        treeMap.forEach(new BiConsumer<String, Object>() {
+            public void accept(String key, Object val) {
+                jsonArray.add(getJSONCompatibleObject(val));
+            }
+        });
+        return jsonArray;
+    }
+
+    /*
     private static JsonObject getJsonObject(TreeMap<String, Object> treeMap) {
         JsonObjectBuilder builder = Json.createObjectBuilder();
+        JSONObject jsonObject = new JSONObject();
         treeMap.forEach(new BiConsumer<String, Object>() {
             public void accept(String key, Object val) {
                 if (val instanceof String) {
@@ -53,6 +89,7 @@ public class ExprListVariableAsJson extends SimpleExpression<JsonObject> {
                         builder.add(key, valobject);
                     }
                 }
+
             }
         });
         return builder.build();
@@ -92,18 +129,18 @@ public class ExprListVariableAsJson extends SimpleExpression<JsonObject> {
             }
         });
         return builder.build();
-    }
+    }*/
 
     @Override
-    protected JsonObject[] get(Event event) {
+    protected JSONObject[] get(Event event) {
         TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(listVariable.isLocal() ? listVariable.toString().substring(2, listVariable.toString().length() - 1) : listVariable.toString().substring(1, listVariable.toString().length() - 1), event, listVariable.isLocal());
         if (isArray) {
-            List<JsonValue> result = getJsonArray(treeMap);
-            return result.toArray(new JsonObject[0]);
+            List<Object> result = getJSONArray(treeMap);
+            return result.toArray(new JSONObject[0]);
         } else {
-            JsonObject result = getJsonObject(treeMap);
+            JSONObject result = getJSONObject(treeMap);
             Mundo.debug(this, "Final Json: " + result);
-            return new JsonObject[] {result};
+            return new JSONObject[] {result};
         }
 
     }
@@ -114,8 +151,8 @@ public class ExprListVariableAsJson extends SimpleExpression<JsonObject> {
     }
 
     @Override
-    public Class<? extends JsonObject> getReturnType() {
-        return JsonObject.class;
+    public Class<? extends JSONObject> getReturnType() {
+        return JSONObject.class;
     }
 
     @Override

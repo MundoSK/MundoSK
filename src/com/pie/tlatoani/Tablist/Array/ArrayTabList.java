@@ -6,6 +6,7 @@ import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Tablist.TabListIcon;
 import com.pie.tlatoani.Tablist.TabListManager;
+import com.pie.tlatoani.Tablist.UtilSkinStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -49,24 +50,12 @@ public class ArrayTabList {
         if (icon.type == TabListIcon.IconType.STEVE) identifier--;
         UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
-        /*UUID head = heads[column - 1][row - 1];
-        if (head != null) {
-            WrappedGameProfile headProfile = WrappedGameProfile.fromPlayer(Bukkit.getPlayer(head));
-            gameProfile.getProperties().putAll(headProfile.getProperties());
-        } else {
-            //WrappedSignedProperty property = new WrappedSignedProperty("textures", "", "");
-            //gameProfile.getProperties().put("textures", property);
-            //String url;
-            //String formattedProperty = String.format("{textures:{SKIN:{url:\"%s\"}}}", url);
-            //byte[] encodedData = Base64.encodeBase64(formattedProperty.getBytes());
-        }*/
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon.type == TabListIcon.IconType.PLAYER) {
-                WrappedGameProfile iconProfile = WrappedGameProfile.fromPlayer(icon.player);
-                gameProfile.getProperties().putAll(iconProfile.getProperties());
+                gameProfile.getProperties().putAll("textures", UtilSkinStorage.getProperties(icon.playerUUID));
             } else if (icon.type == TabListIcon.IconType.URL) {
                 WrappedSignedProperty property = new WrappedSignedProperty("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + (icon.url) + "\"}}}"), "");
-
+                gameProfile.getProperties().put("textures", property);
             }
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);

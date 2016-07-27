@@ -1,14 +1,12 @@
 package com.pie.tlatoani.Tablist.Simple;
 
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Tablist.TabListIcon;
 import com.pie.tlatoani.Tablist.TabListManager;
-import org.bukkit.Bukkit;
+import com.pie.tlatoani.Tablist.UtilSkinStorage;
 import org.bukkit.entity.Player;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
@@ -37,8 +35,7 @@ public class SimpleTabList {
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon.type == TabListIcon.IconType.PLAYER) {
-                WrappedGameProfile iconProfile = WrappedGameProfile.fromPlayer(icon.player);
-                gameProfile.getProperties().putAll(iconProfile.getProperties());
+                gameProfile.getProperties().putAll("textures", UtilSkinStorage.getProperties(icon.playerUUID));
             } else if (icon.type == TabListIcon.IconType.URL) {
                 WrappedSignedProperty property = new WrappedSignedProperty("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + (icon.url) + "\"}}}"), "");
 

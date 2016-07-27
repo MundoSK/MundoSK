@@ -5,38 +5,26 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-import com.pie.tlatoani.Json.API.Json;
-import com.pie.tlatoani.Json.API.JsonObject;
-import com.pie.tlatoani.Json.API.stream.JsonParsingException;
-import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 
 import org.json.simple.JSONObject;
-
-import java.io.StringReader;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  * Created by Tlatoani on 5/8/16.
  */
-public class ExprStringAsJson extends SimpleExpression<JsonObject> {
+public class ExprStringAsJson extends SimpleExpression<JSONObject> {
     private Expression<String> stringExpression;
 
-    public static void test() {
-        org.json.simple.JSONObject jsonObject = new JSONObject();
-        jsonObject.put("1", "ONE");
-        jsonObject.put("2", "TWO");
-        jsonObject.put("3", "THREE");
-        Mundo.debug(ExprStringAsJson.class, "JSON " + jsonObject);
-    }
-
     @Override
-    protected JsonObject[] get(Event event) {
-        JsonObject jsonObject = null;
+    protected JSONObject[] get(Event event) {
+        JSONObject jsonObject = null;
         try {
-            jsonObject = Json.createReader(new StringReader(stringExpression.getSingle(event))).readObject();
-        } catch (JsonParsingException e) {}
-        return new JsonObject[]{jsonObject};
+            jsonObject = (JSONObject) (new JSONParser()).parse(stringExpression.getSingle(event));
+        } catch (ParseException | ClassCastException e) {}
+        return new JSONObject[]{jsonObject};
     }
 
     @Override
@@ -45,8 +33,8 @@ public class ExprStringAsJson extends SimpleExpression<JsonObject> {
     }
 
     @Override
-    public Class<? extends JsonObject> getReturnType() {
-        return JsonObject.class;
+    public Class<? extends JSONObject> getReturnType() {
+        return JSONObject.class;
     }
 
     @Override
