@@ -102,7 +102,16 @@ public class Mundo extends JavaPlugin{
             info("Worlds to load (if any) were loaded successfully!");
         } catch (IOException e) {
             info("A problem occurred while loading worlds");
-            debug(this, e);
+            reportException(this, e);
+        }
+        if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
+            try {
+                UtilSkinStorage.load();
+                info("Player skin textures to load (if any) were loaded successfully!");
+            } catch (IOException e) {
+                info("A problem occurred while loading player skin textures");
+                reportException(this, e);
+            }
         }
         //Achievement
         if (classInfoSafe(Achievement.class, "achievement")){
@@ -802,7 +811,16 @@ public class Mundo extends JavaPlugin{
             info("Successfully saved all world loaders");
         } catch (IOException e) {
             info("A problem occurred while saving world loaders");
-            debug(this, e);
+            reportException(this, e);
+        }
+        if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
+            try {
+                UtilSkinStorage.save();
+                info("Successfully saved all player skin textures");
+            } catch (IOException e) {
+                info("A problem occurred while saving player skin textures");
+                reportException(this, e);
+            }
         }
     }
 
