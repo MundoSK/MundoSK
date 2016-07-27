@@ -2,9 +2,11 @@ package com.pie.tlatoani;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
@@ -570,7 +572,14 @@ public class Mundo extends JavaPlugin{
                 public void onJoin(PlayerJoinEvent event) {
                     Player player = event.getPlayer();
                     Collection<WrappedSignedProperty> properties = WrappedGameProfile.fromPlayer(player).getProperties().get("textures");
-                    UtilSkinStorage.setProperties(player.getUniqueId(), properties);
+                    ArrayList<UtilSignedProperty> convertedProperties = new ArrayList<UtilSignedProperty>();
+                    properties.forEach(new Consumer<WrappedSignedProperty>() {
+                        @Override
+                        public void accept(WrappedSignedProperty wrappedSignedProperty) {
+                            convertedProperties.add(new UtilSignedProperty(wrappedSignedProperty.getName(), wrappedSignedProperty.getValue(), wrappedSignedProperty.getSignature()));
+                        }
+                    });
+                    UtilSkinStorage.setProperties(player.getUniqueId(), convertedProperties);
                 }
             }, this);
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {

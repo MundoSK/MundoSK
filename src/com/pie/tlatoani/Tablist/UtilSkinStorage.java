@@ -1,6 +1,5 @@
 package com.pie.tlatoani.Tablist;
 
-import com.comphenix.protocol.wrappers.WrappedSignedProperty;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.pie.tlatoani.Mundo;
@@ -18,7 +17,7 @@ import java.util.function.Consumer;
  * Created by Tlatoani on 7/26/16.
  */
 public class UtilSkinStorage {
-    private static ListMultimap<UUID, WrappedSignedProperty> skinSaver = ArrayListMultimap.create();
+    private static ListMultimap<UUID, UtilSignedProperty> skinSaver = ArrayListMultimap.create();
     private final static String filename = "skinstorage.json";
 
     private UtilSkinStorage() {} //Cannot be initialized
@@ -34,7 +33,7 @@ public class UtilSkinStorage {
                     @Override
                     public void accept(Object o) {
                         JSONObject jsonObject = (JSONObject) o;
-                        WrappedSignedProperty property = getPropertyFromJSON(jsonObject);
+                        UtilSignedProperty property = getPropertyFromJSON(jsonObject);
                         skinSaver.put(playerUUID, property);
                     }
                 });
@@ -80,9 +79,9 @@ public class UtilSkinStorage {
             @Override
             public void accept(UUID uuid) {
                 JSONArray jsonArray = new JSONArray();
-                skinSaver.get(uuid).forEach(new Consumer<WrappedSignedProperty>() {
+                skinSaver.get(uuid).forEach(new Consumer<UtilSignedProperty>() {
                     @Override
-                    public void accept(WrappedSignedProperty property) {
+                    public void accept(UtilSignedProperty property) {
                         jsonArray.add(getPropertyJSON(property));
                     }
                 });
@@ -94,11 +93,11 @@ public class UtilSkinStorage {
 
     //Map Interactions
 
-    public static List<WrappedSignedProperty> getProperties(UUID playerUUID) {
-        return new ArrayList<WrappedSignedProperty>(skinSaver.get(playerUUID));
+    public static List<UtilSignedProperty> getProperties(UUID playerUUID) {
+        return new ArrayList<UtilSignedProperty>(skinSaver.get(playerUUID));
     }
 
-    public static void setProperties(UUID playerUUID, Collection<WrappedSignedProperty> properties) {
+    public static void setProperties(UUID playerUUID, Collection<UtilSignedProperty> properties) {
         skinSaver.replaceValues(playerUUID, properties);
     }
 
@@ -108,16 +107,16 @@ public class UtilSkinStorage {
 
     //Conversion
 
-    public static JSONObject getPropertyJSON(WrappedSignedProperty property) {
+    public static JSONObject getPropertyJSON(UtilSignedProperty property) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", property.getName());
-        jsonObject.put("value", property.getValue());
-        jsonObject.put("signature", property.getSignature());
+        jsonObject.put("name", property.name);
+        jsonObject.put("value", property.value);
+        jsonObject.put("signature", property.signature);
         return jsonObject;
     }
 
-    public static WrappedSignedProperty getPropertyFromJSON(JSONObject propertyJSON) {
-        WrappedSignedProperty property = new WrappedSignedProperty(
+    public static UtilSignedProperty getPropertyFromJSON(JSONObject propertyJSON) {
+        UtilSignedProperty property = new UtilSignedProperty(
                 (String) propertyJSON.get("name"),
                 (String) propertyJSON.get("value"),
                 (String) propertyJSON.get("signature")

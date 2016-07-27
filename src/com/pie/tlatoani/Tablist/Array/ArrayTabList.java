@@ -2,10 +2,12 @@ package com.pie.tlatoani.Tablist.Array;
 
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
+import com.google.common.collect.Multimap;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Tablist.TabListIcon;
 import com.pie.tlatoani.Tablist.TabListManager;
+import com.pie.tlatoani.Tablist.UtilSignedProperty;
 import com.pie.tlatoani.Tablist.UtilSkinStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -13,6 +15,7 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Created by Tlatoani on 7/15/16.
@@ -52,7 +55,13 @@ public class ArrayTabList {
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon.type == TabListIcon.IconType.PLAYER) {
-                gameProfile.getProperties().putAll("textures", UtilSkinStorage.getProperties(icon.playerUUID));
+                Multimap<String, WrappedSignedProperty> propertyMultimap = gameProfile.getProperties();
+                UtilSkinStorage.getProperties(icon.playerUUID).forEach(new Consumer<UtilSignedProperty>() {
+                    @Override
+                    public void accept(UtilSignedProperty utilSignedProperty) {
+                        propertyMultimap.put("textures", new WrappedSignedProperty(utilSignedProperty.name, utilSignedProperty.value, utilSignedProperty.signature));
+                    }
+                });
             } else if (icon.type == TabListIcon.IconType.URL) {
                 WrappedSignedProperty property = new WrappedSignedProperty("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + (icon.url) + "\"}}}"), "");
                 gameProfile.getProperties().put("textures", property);
