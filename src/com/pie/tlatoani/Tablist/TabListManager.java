@@ -11,6 +11,8 @@ import com.pie.tlatoani.Tablist.Simple.SimpleTabList;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.json.simple.JSONObject;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.nio.charset.Charset;
 import java.util.*;
@@ -79,7 +81,7 @@ public class TabListManager implements Listener {
         return arrayTabLists.get(player.getUniqueId());
     }
 
-    //
+    //Util
 
     /*
     This method was coded by werter318 on Bukkit.org
@@ -133,6 +135,19 @@ public class TabListManager implements Listener {
         json = json.replace(",extra:[EXTRA]", "");
 
         return json;
+    }
+
+    public static String getTextureValue(String url, Player onlinePlayer) {
+        JSONObject returnValue = new JSONObject();
+        returnValue.put("timestamp", 0);
+        returnValue.put("profileId", onlinePlayer.getUniqueId().toString());
+        returnValue.put("profileName", onlinePlayer.getDisplayName());
+        JSONObject texturesValue = new JSONObject();
+        JSONObject SKINValue = new JSONObject();
+        SKINValue.put("url", url);
+        texturesValue.put("SKIN", SKINValue);
+        returnValue.put("textures", texturesValue);
+        return Base64Coder.encodeString(returnValue.toJSONString());
     }
 
 }

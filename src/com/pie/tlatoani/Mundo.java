@@ -157,7 +157,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprAllAch.class,Achievement.class,ExpressionType.PROPERTY,"[all] achieve[ment]s [of %-player%]", "%player%'s achieve[ment]s");
 		Skript.registerExpression(ExprHasAch.class,Boolean.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %achievement%");
 		//Book
-        ListUtil.registerTransformer(TransBookPages.class, "page");
+        ListUtil.registerTransformer("itemstack", TransBookPages.class, "page");
 		Skript.registerExpression(ExprBook.class,ItemStack.class,ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] pages %strings%");
 		Skript.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
 		Skript.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
@@ -279,7 +279,6 @@ public class Mundo extends JavaPlugin{
         Skript.registerExpression(ExprStringAsJson.class, JSONObject.class, ExpressionType.PROPERTY, "json of string %string%");
         //ListUtil
         Skript.registerEffect(EffMoveItem.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
-        ListUtil.registerTransformer(TransDefault.class, "item");
         //Miscellaneous
 		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
 
@@ -353,7 +352,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprReturnTypeOfFunction.class,ClassInfo.class,ExpressionType.PROPERTY,"return type of function %string%");
         Skript.registerExpression(ExprRemainingAir.class,Timespan.class,ExpressionType.PROPERTY,"breath of %livingentity%", "%livingentity%'s breath", "max breath of %livingentity%", "%livingentity%'s max breath");
 		Skript.registerExpression(ExprLoadedScripts.class,String.class,ExpressionType.SIMPLE, "loaded scripts");
-        ListUtil.registerTransformer(TransCompletions.class, "completion");
+        Skript.registerExpression(ExprCompletions.class,String.class,ExpressionType.SIMPLE,"completions");
         //NoteBlock
         Classes.registerClass(new ClassInfo<Note>(Note.class, "note").user(new String[]{"note"}).name("note").parser(new Parser<Note>(){
 
@@ -661,6 +660,7 @@ public class Mundo extends JavaPlugin{
         Skript.registerEffect(EffScope.class, "$ scope");
         Skript.registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% while %boolean%");
         Skript.registerExpression(ExprTreeOfListVariable.class, Object.class, ExpressionType.PROPERTY, "tree of %objects%");
+        Skript.registerExpression(ExprIndexesOfListVariable.class, String.class, ExpressionType.PROPERTY, "[all [of]] [the] index[es] (of|in) [value] %objects%");
         Skript.registerExpression(ExprBranch.class, String.class, ExpressionType.PROPERTY, "branch");
 		//WorldBorder
 		Skript.registerEffect(EffResetBorder.class, "reset %world%");

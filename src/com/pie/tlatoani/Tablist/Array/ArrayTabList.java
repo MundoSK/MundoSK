@@ -63,7 +63,10 @@ public class ArrayTabList {
                     }
                 });
             } else if (icon.type == TabListIcon.IconType.URL) {
-                WrappedSignedProperty property = new WrappedSignedProperty("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + (icon.url) + "\"}}}"), "");
+                //WrappedSignedProperty property = new WrappedSignedProperty("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + (icon.url) + "\"}}}"), "");
+                Mundo.debug(this, "URL: " + icon.url);
+                WrappedSignedProperty property = new WrappedSignedProperty("textures", TabListManager.getTextureValue(icon.url, player), "");
+                Mundo.debug(this, "PROPERTY: " + property);
                 gameProfile.getProperties().put("textures", property);
             }
         }

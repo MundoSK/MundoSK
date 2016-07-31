@@ -3,7 +3,9 @@ package com.pie.tlatoani.Miscellaneous;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
-import com.pie.tlatoani.ListUtil.Transformer;
+import ch.njol.skript.lang.SkriptParser;
+import ch.njol.util.Kleenean;
+import com.pie.tlatoani.ListUtil.ListExpression;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 
@@ -12,15 +14,29 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * Created by Tlatoani on 6/16/16.
+ * Created by Tlatoani on 7/27/16.
  */
-public class TransCompletions implements Transformer<String> {
+public class ExprCompletions extends ListExpression<String> {
     @Override
-    public Boolean init(Expression expression) {
-        if (expression != null) {
-            Skript.error("The 'completions' expression is used on its own!");
-            return false;
+    protected String[] get(Event event) {
+        if (event instanceof PlayerChatTabCompleteEvent) {
+            return ((PlayerChatTabCompleteEvent) event).getTabCompletions().toArray(new String[0]);
         }
+        return new String[0];
+    }
+
+    @Override
+    public Class<? extends String> getReturnType() {
+        return String.class;
+    }
+
+    @Override
+    public String toString(Event event, boolean b) {
+        return "completions";
+    }
+
+    @Override
+    public boolean subInit(Expression<?>[] expression, int matchedPattern, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         if (!ScriptLoader.isCurrentEvent(PlayerChatTabCompleteEvent.class)) {
             Skript.error("The 'completions' expression can only be used in the 'on chat tab complete' event!");
             return false;
@@ -29,21 +45,8 @@ public class TransCompletions implements Transformer<String> {
     }
 
     @Override
-    public Class getType() {
-        return String.class;
-    }
-
-    @Override
     public boolean isSettable() {
         return true;
-    }
-
-    @Override
-    public String[] get(Event event) {
-        if (event instanceof PlayerChatTabCompleteEvent) {
-            return ((PlayerChatTabCompleteEvent) event).getTabCompletions().toArray(new String[0]);
-        }
-        return new String[0];
     }
 
     @Override
@@ -63,5 +66,10 @@ public class TransCompletions implements Transformer<String> {
                 completions.add(newcompletions.get(i));
             }
         }
+    }
+
+    @Override
+    public String getResettedValue() {
+        return "";
     }
 }

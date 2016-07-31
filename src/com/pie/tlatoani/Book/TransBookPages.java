@@ -16,21 +16,8 @@ public class TransBookPages implements Transformer<String>, Transformer.Resettab
 
     @Override
     public Boolean init(Expression expression) {
-        if (expression == null) {
-            Skript.error("There needs to be an item!");
-            return false;
-        }
-        if (expression.getReturnType().isAssignableFrom(ItemStack.class) || ItemStack.class.isAssignableFrom(expression.getReturnType())) {
-            book = expression;
-            return true;
-        }
-        Expression<ItemStack> convertedExpression = ConvertedExpression.newInstance(expression, ItemStack.class);
-        if (convertedExpression != null) {
-            book = convertedExpression;
-            return true;
-        }
-        Skript.error("'" + expression + "' is not an item!");
-        return false;
+        book = expression;
+        return true;
     }
 
     @Override

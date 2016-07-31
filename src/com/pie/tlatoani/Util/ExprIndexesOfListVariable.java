@@ -9,54 +9,26 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
+import ch.njol.util.Pair;
 import org.bukkit.event.Event;
 
 import java.util.Iterator;
 import java.util.TreeMap;
-import java.util.WeakHashMap;
 
 /**
- * Created by Tlatoani on 5/7/16.
+ * Created by Tlatoani on 7/27/16.
  */
-public class ExprTreeOfListVariable extends SimpleExpression<Object> {
+public class ExprIndexesOfListVariable extends SimpleExpression<String> {
     private Variable listVariable;
     private VariableString variableString;
-    private WeakHashMap<Event, TreeIterator> iteratorWeakHashMap = new WeakHashMap<Event, TreeIterator>();
 
     @Override
-    protected Object[] get(Event event) {
-        throw new UnsupportedOperationException("'tree of %objects%' should only be used in loops!!");
-    }
-
-    @Override
-    public Iterator<?> iterator(Event event) {
+    protected String[] get(Event event) {
         TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(variableString.toString(event), event, listVariable.isLocal());
-        if (treeMap != null) {
-            TreeIterator result = new TreeIterator(treeMap);
-            iteratorWeakHashMap.put(event, result);
-            return result;
+        if (treeMap == null) {
+            return new String[0];
         }
-        return new Iterator<Object>() {
-
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-
-            @Override
-            public Object next() {
-                return null;
-            }
-        };
-    }
-
-    @Override
-    public boolean isLoopOf(String pattern) {
-        return pattern == "value";
-    }
-
-    public String getBranch(Event event) {
-        return iteratorWeakHashMap.get(event).currentIndex();
+        return treeMap.keySet().toArray(new String[0]);
     }
 
     @Override
@@ -65,13 +37,13 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     }
 
     @Override
-    public Class<?> getReturnType() {
-        return Object.class;
+    public Class<? extends String> getReturnType() {
+        return String.class;
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "tree of %objects%";
+        return "indexes of " + listVariable;
     }
 
     @Override
@@ -82,7 +54,7 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
             variableString = VariableString.newInstance(origstring, StringMode.VARIABLE_NAME);
             return true;
         }
-        Skript.error("'tree of %objects%' must be used with a list variable!");
+        Skript.error("'indexes of %listvariable%' must be used with a list variable!");
         return false;
     }
 }

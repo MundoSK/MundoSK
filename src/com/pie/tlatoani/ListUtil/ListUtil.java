@@ -16,19 +16,29 @@ import java.util.Map;
 public final class ListUtil {
     private final static Map<String, Class<? extends Transformer>> dictionary = new HashMap<String, Class<? extends Transformer>>();
     private final static ArrayList<String> patternlist = new ArrayList<>();
+    private final static ArrayList<String> possessorList = new ArrayList<>();
 
     //Cannot be instantiated
     private ListUtil() {}
 
     public static void registerTransformer(Class<? extends Transformer> transformer, String... patterns) {
+        registerTransformer("objects", transformer, patterns);
+    }
+
+    public static void registerTransformer(String possessorClassInfo, Class<? extends Transformer> transformer, String... patterns) {
+        if (possessorClassInfo == null)
+            possessorClassInfo = "objects";
         for (int i = 0; i < patterns.length; i++) {
-            dictionary.putIfAbsent(patterns[i], transformer);
-            patternlist.add(patterns[i]);
+            if (patterns[i] != null) {
+                dictionary.putIfAbsent(patterns[i], transformer);
+                patternlist.add(patterns[i]);
+                possessorList.add(possessorClassInfo);
+            }
         }
     }
 
     public static String retrievePattern(int index) {
-        return patternlist.get(index);
+        return patternlist.size() > index ? patternlist.get(index) : null;
     }
 
     public static Transformer retrieveTransformer(String pattern, Expression expression) {
@@ -44,8 +54,10 @@ public final class ListUtil {
                 transformer = dictionary.get(pattern).newInstance();
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
-                return null;
+                return transformer = new TransDefault();
             }
+        } else {
+            transformer = new TransDefault();
         }
         /*if (transformer == null) {
             Skript.error("'" + pattern + (expression != null ? "s of " + expression + "'" : "s'") + " is not a list!");
@@ -70,13 +82,19 @@ public final class ListUtil {
         List<String> itemCount = new ArrayList<>();
         for (int i = 0; i < patternlist.size(); i++) {
             String j = patternlist.get(i);
-            insertItem.add("(add|insert) %objects% (1¦before|0¦after) (" + j + " %-number%|last " + j + ")[ (of|in) %-object/objects%]");
-            item.add("(" + j + " %-number%|last " + j + ")[ of %-object/objects%]");
-            if (j != "item")
-                items.add(j + "s[ of %-object/objects%]");
-            someItems.add(j + "s %-number% to (%-number%|last)[ of %-object/objects%]");
-            itemCount.add(j + " count[ of %-objects%]");
+            String possessorClassInfo = possessorList.get(i);
+            insertItem.add("(add|insert) %objects% (1¦before|0¦after) (" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");
+            item.add("(" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");
+            items.add(j + "s (of|in) %" + possessorClassInfo + "%");
+            someItems.add(j + "s %number% to (%-number%|last) (of|in) %" + possessorClassInfo + "%");
+            itemCount.add(j + " count (of|in) %" + possessorClassInfo + "%");
         }
+        String j = "item";
+        String possessorClassInfo = "objects";
+        insertItem.add("(add|insert) %objects% (1¦before|0¦after) (" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");
+        item.add("(" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");
+        someItems.add(j + "s %number% to (%-number%|last) (of|in) %" + possessorClassInfo + "%");
+        itemCount.add(j + " count (of|in) %" + possessorClassInfo + "%");
         Skript.registerEffect(EffInsertItem.class,insertItem.toArray(new String[0]));
         Skript.registerExpression(ExprItem.class,Object.class, ExpressionType.PROPERTY,item.toArray(new String[0]));
         Skript.registerExpression(ExprItems.class,Object.class,ExpressionType.PROPERTY,items.toArray(new String[0]));
