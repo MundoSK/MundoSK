@@ -161,9 +161,13 @@ public class TabListManager implements Listener {
         } catch (ParseException e) {
 
         }
-        returnValue.put("profileId", onlinePlayer.getUniqueId().toString().replace("-", ""));
-        returnValue.put("profileName", onlinePlayer.getDisplayName());
-        return Base64Coder.encodeString(returnValue.toJSONString().replace("\\/", "/"));
+        String timestamp = "\"timestamp\":" + returnValue.get("timestamp");
+        String profileId = "\"profileId\":" + "\"" + onlinePlayer.getUniqueId().toString().replace("-", "") + "\"";
+        String profileName = "\"profileName\":" + "\"" + onlinePlayer.getDisplayName() + "\"";
+        String textures = "\"textures\":" + returnValue.get("textures");
+
+        String finalValue = "{" + timestamp + "," + profileId + "," + profileName + "," + textures + "}";
+        return Base64Coder.encodeString(finalValue.replace("\\/", "/"));
     }
 
 }

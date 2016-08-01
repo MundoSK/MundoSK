@@ -7,7 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTabList.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTabList.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
     </list>
     <ignored path="MundoSK.iws" />
@@ -44,11 +44,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TabListManager.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TabListManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="583">
-              <caret line="165" column="88" selection-start-line="165" selection-start-column="88" selection-end-line="165" selection-end-column="88" />
+            <state relative-caret-position="643">
+              <caret line="169" column="50" selection-start-line="169" selection-start-column="50" selection-end-line="169" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -89,11 +89,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArrayTabList.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ArrayTabList.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTabList.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="64" column="115" selection-start-line="64" selection-start-column="115" selection-end-line="64" selection-end-column="115" />
+            <state relative-caret-position="165">
+              <caret line="67" column="63" selection-start-line="67" selection-start-column="63" selection-end-line="67" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -197,8 +197,8 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Book/TransBookPages.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTabList.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
       </list>
     </option>
   </component>
@@ -1243,18 +1243,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTabList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="583">
-          <caret line="165" column="88" selection-start-line="165" selection-start-column="88" selection-end-line="165" selection-end-column="88" />
+        <state relative-caret-position="165">
+          <caret line="67" column="63" selection-start-line="67" selection-start-column="63" selection-end-line="67" selection-end-column="63" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTabList.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="64" column="115" selection-start-line="64" selection-start-column="115" selection-end-line="64" selection-end-column="115" />
+        <state relative-caret-position="643">
+          <caret line="169" column="50" selection-start-line="169" selection-start-column="50" selection-end-line="169" selection-end-column="50" />
           <folding />
         </state>
       </provider>
