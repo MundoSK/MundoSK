@@ -62,13 +62,13 @@ public class ArrayTabList {
                         Mundo.debug(this, "BEfore: " + utilSignedProperty.value);
                         String changed = TabListManager.switchPlayerOfTexture(utilSignedProperty.value, player);
                         Mundo.debug(this, "AFter: " + changed);
-                        propertyMultimap.put("textures", new WrappedSignedProperty(utilSignedProperty.name, changed, utilSignedProperty.signature));
+                        propertyMultimap.put("textures", new WrappedSignedProperty(utilSignedProperty.name, changed, /*utilSignedProperty.signature*/ null));
                     }
                 });
             } else if (icon.type == TabListIcon.IconType.URL) {
                 //WrappedSignedProperty property = new WrappedSignedProperty("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + (icon.url) + "\"}}}"), "");
                 Mundo.debug(this, "URL: " + icon.url);
-                WrappedSignedProperty property = new WrappedSignedProperty("textures", TabListManager.getTextureValue(icon.url, player), "");
+                WrappedSignedProperty property = new WrappedSignedProperty("textures", TabListManager.getTextureValue(icon.url, player), null);
                 Mundo.debug(this, "PROPERTY: " + property);
                 gameProfile.getProperties().put("textures", property);
             }
