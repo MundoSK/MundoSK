@@ -140,14 +140,16 @@ public class TabListManager implements Listener {
     public static String getTextureValue(String url, Player onlinePlayer) {
         JSONObject returnValue = new JSONObject();
         returnValue.put("timestamp", 0);
-        returnValue.put("profileId", onlinePlayer.getUniqueId().toString());
+        returnValue.put("profileId", onlinePlayer.getUniqueId().toString().replace("-", ""));
         returnValue.put("profileName", onlinePlayer.getDisplayName());
         JSONObject texturesValue = new JSONObject();
         JSONObject SKINValue = new JSONObject();
+        Mundo.debug(TabListManager.class, "URL: " + url);
+        Mundo.debug(TabListManager.class, "SKINValue:: " + SKINValue);
         SKINValue.put("url", url);
         texturesValue.put("SKIN", SKINValue);
         returnValue.put("textures", texturesValue);
-        return Base64Coder.encodeString(returnValue.toJSONString());
+        return Base64Coder.encodeString(returnValue.toJSONString().replace("\\/", "/"));
     }
 
 }
