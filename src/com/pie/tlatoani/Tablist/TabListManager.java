@@ -12,6 +12,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.nio.charset.Charset;
@@ -149,6 +151,18 @@ public class TabListManager implements Listener {
         SKINValue.put("url", url);
         texturesValue.put("SKIN", SKINValue);
         returnValue.put("textures", texturesValue);
+        return Base64Coder.encodeString(returnValue.toJSONString().replace("\\/", "/"));
+    }
+
+    public static String switchPlayerOfTexture(String encodedTexture, Player onlinePlayer) {
+        JSONObject returnValue = null;
+        try {
+            returnValue = (JSONObject) (new JSONParser()).parse(Base64Coder.decodeString(encodedTexture));
+        } catch (ParseException e) {
+
+        }
+        returnValue.put("profileId", onlinePlayer.getUniqueId().toString().replace("-", ""));
+        returnValue.put("profileName", onlinePlayer.getDisplayName());
         return Base64Coder.encodeString(returnValue.toJSONString().replace("\\/", "/"));
     }
 

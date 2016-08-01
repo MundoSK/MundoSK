@@ -59,7 +59,10 @@ public class ArrayTabList {
                 UtilSkinStorage.getProperties(icon.playerUUID).forEach(new Consumer<UtilSignedProperty>() {
                     @Override
                     public void accept(UtilSignedProperty utilSignedProperty) {
-                        propertyMultimap.put("textures", new WrappedSignedProperty(utilSignedProperty.name, utilSignedProperty.value, utilSignedProperty.signature));
+                        Mundo.debug(this, "BEfore: " + utilSignedProperty.value);
+                        String changed = TabListManager.switchPlayerOfTexture(utilSignedProperty.value, player);
+                        Mundo.debug(this, "AFter: " + changed);
+                        propertyMultimap.put("textures", new WrappedSignedProperty(utilSignedProperty.name, changed, utilSignedProperty.signature));
                     }
                 });
             } else if (icon.type == TabListIcon.IconType.URL) {
