@@ -109,7 +109,6 @@ public class UtilSkinStorage {
 
     public static JSONObject getPropertyJSON(UtilSignedProperty property) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", property.name);
         jsonObject.put("value", property.value);
         jsonObject.put("signature", property.signature);
         return jsonObject;
@@ -117,7 +116,7 @@ public class UtilSkinStorage {
 
     public static UtilSignedProperty getPropertyFromJSON(JSONObject propertyJSON) {
         UtilSignedProperty property = new UtilSignedProperty(
-                (String) propertyJSON.get("name"),
+                "textures",
                 (String) propertyJSON.get("value"),
                 (String) propertyJSON.get("signature")
         );
