@@ -2,15 +2,11 @@ package com.pie.tlatoani.Tablist.Simple;
 
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
-import com.google.common.collect.Multimap;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
-import com.pie.tlatoani.Tablist.TabListIcon;
+import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
 import com.pie.tlatoani.Tablist.TabListManager;
-import com.pie.tlatoani.Tablist.UtilSignedProperty;
-import com.pie.tlatoani.Tablist.UtilSkinStorage;
 import org.bukkit.entity.Player;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -23,7 +19,7 @@ public class SimpleTabList {
     private final Player player;
     private final HashMap<String, String> displayNames = new HashMap<>();
     private final HashMap<String, Integer> latencies = new HashMap<>();
-    private final HashMap<String, TabListIcon> heads = new HashMap<>();
+    private final HashMap<String, SkinTexture> heads = new HashMap<>();
 
     public SimpleTabList(Player player) {
         this.player = player;
@@ -34,21 +30,10 @@ public class SimpleTabList {
         String displayName = displayNames.get(id);
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
         UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + id).getBytes(TabListManager.utf8));
-        TabListIcon icon = heads.get(id);
+        SkinTexture icon = heads.get(id);
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
-            if (icon.type == TabListIcon.IconType.PLAYER) {
-                Multimap<String, WrappedSignedProperty> propertyMultimap = gameProfile.getProperties();
-                UtilSkinStorage.getProperties(icon.playerUUID).forEach(new Consumer<UtilSignedProperty>() {
-                    @Override
-                    public void accept(UtilSignedProperty utilSignedProperty) {
-                        propertyMultimap.put("textures", new WrappedSignedProperty(utilSignedProperty.name, utilSignedProperty.value, utilSignedProperty.signature));
-                    }
-                });
-            } else if (icon.type == TabListIcon.IconType.URL) {
-                WrappedSignedProperty property = new WrappedSignedProperty("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + (icon.url) + "\"}}}"), "");
-                gameProfile.getProperties().put("textures", property);
-            }
+            icon.retrieveSkinTextures(gameProfile.getProperties());
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         List<PlayerInfoData> playerInfoDatas = Arrays.asList(playerInfoData);
@@ -73,7 +58,7 @@ public class SimpleTabList {
         return displayNames.containsKey(id);
     }
 
-    public void createTab(String id, String displayName, Integer ping, TabListIcon head) {
+    public void createTab(String id, String displayName, Integer ping, SkinTexture head) {
         if (!tabExists(id)) {
             ping = Math.max(ping, 0);
             ping = Math.min(ping, 5);
@@ -101,7 +86,7 @@ public class SimpleTabList {
         return latencies.get(id);
     }
 
-    public TabListIcon getHead(String id) {
+    public SkinTexture getHead(String id) {
         return heads.get(id);
     }
 
@@ -119,7 +104,7 @@ public class SimpleTabList {
         }
     }
 
-    public void setHead(String id, TabListIcon icon) {
+    public void setHead(String id, SkinTexture icon) {
         if (tabExists(id)) {
             sendPacket(id, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             heads.put(id, icon);

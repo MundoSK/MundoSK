@@ -2,20 +2,14 @@ package com.pie.tlatoani.Tablist.Array;
 
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
-import com.google.common.collect.Multimap;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
-import com.pie.tlatoani.Tablist.TabListIcon;
+import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
 import com.pie.tlatoani.Tablist.TabListManager;
-import com.pie.tlatoani.Tablist.UtilSignedProperty;
-import com.pie.tlatoani.Tablist.UtilSkinStorage;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * Created by Tlatoani on 7/15/16.
@@ -24,13 +18,13 @@ public class ArrayTabList {
     private final Player player;
     private final String[][] displayNames = new String[4][20];
     private final Integer[][] latencies = new Integer[4][20];
-    private final TabListIcon[][] heads = new TabListIcon[4][20];
+    private final SkinTexture[][] heads = new SkinTexture[4][20];
     private final static String uuidbeginning = "10001000-1000-3000-8000-10001000";
     private int columns;
     private int rows;
-    public TabListIcon initialIcon;
+    public SkinTexture initialIcon;
 
-    public ArrayTabList(Player player, int columns, int rows, TabListIcon initialIcon) {
+    public ArrayTabList(Player player, int columns, int rows, SkinTexture initialIcon) {
         Mundo.debug(this, "constructor " + columns + " " + rows);
         this.player = player;
         this.columns = Mundo.limitToRange(1, columns, 4);
@@ -46,15 +40,15 @@ public class ArrayTabList {
     private void sendPacket(int column, int row, EnumWrappers.PlayerInfoAction action) {
         int ping = latencies[column - 1][row - 1];
         String displayName = displayNames[column - 1][row - 1];
-        TabListIcon icon = heads[column - 1][row - 1];
+        SkinTexture icon = heads[column - 1][row - 1];
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
         int identifier = (((column - 1) * 20) + row);
         if (identifier % 2 == 0) identifier += 79;
-        if (icon.type == TabListIcon.IconType.STEVE) identifier--;
+        /*if (icon.type == TabListIcon.IconType.STEVE) identifier--;*/
         UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
-            if (icon.type == TabListIcon.IconType.PLAYER) {
+            /*if (icon.type == TabListIcon.IconType.PLAYER) {
                 Multimap<String, WrappedSignedProperty> propertyMultimap = gameProfile.getProperties();
                 UtilSkinStorage.getProperties(icon.playerUUID).forEach(new Consumer<UtilSignedProperty>() {
                     @Override
@@ -74,7 +68,8 @@ public class ArrayTabList {
             } else if (icon.type == TabListIcon.IconType.SKINTEXTURE) {
                 Mundo.debug(this, "SKINTEXTURE: " + icon.skinTexture);
                 icon.skinTexture.retrieveSkinTextures(gameProfile.getProperties());
-            }
+            }*/
+            icon.retrieveSkinTextures(gameProfile.getProperties());
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         List<PlayerInfoData> playerInfoDatas = Arrays.asList(playerInfoData);
@@ -171,7 +166,7 @@ public class ArrayTabList {
         return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? latencies[column - 1][row - 1] : null;
     }
 
-    public TabListIcon getHead(int column, int row) {
+    public SkinTexture getHead(int column, int row) {
         return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? heads[column - 1][row - 1] : null;
     }
 
@@ -189,7 +184,7 @@ public class ArrayTabList {
         }
     }
 
-    public void setHead(int column, int row, TabListIcon head) {
+    public void setHead(int column, int row, SkinTexture head) {
         if (Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows)) {
             sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             heads[column - 1][row - 1] = head;

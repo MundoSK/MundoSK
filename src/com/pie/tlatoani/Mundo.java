@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Consumer;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
@@ -28,7 +26,6 @@ import ch.njol.yggdrasil.Fields;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
@@ -46,6 +43,7 @@ import com.pie.tlatoani.Probability.*;
 import com.pie.tlatoani.ProtocolLib.*;
 import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.Tablist.*;
+import com.pie.tlatoani.Tablist.Array.EffSetArrayTablist;
 import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
 import com.pie.tlatoani.Tablist.SkinTexture.ExprTextureOfPlayer;
 import com.pie.tlatoani.Tablist.SkinTexture.ExprTextureWith;
@@ -89,7 +87,6 @@ public class Mundo extends JavaPlugin{
     public static Boolean RandomSK;
     public static String pluginFolder;
     public static Boolean debugMode;
-    public static Boolean automaticSkinStorage;
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
 	
@@ -97,10 +94,8 @@ public class Mundo extends JavaPlugin{
 		instance = this;
 		config = getConfig();
         config.addDefault("debug_mode", false);
-        config.addDefault("automatic_skin_storage", true);
 		config.options().copyDefaults(true);
         debugMode = config.getBoolean("debug_mode");
-        automaticSkinStorage = config.getBoolean("automatic_skin_storage");
 		saveConfig();
         RandomSK = Bukkit.getPluginManager().getPlugin("RandomSK") != null;
 		Skript.registerAddon(this);
@@ -114,15 +109,6 @@ public class Mundo extends JavaPlugin{
         } catch (IOException e) {
             info("A problem occurred while loading worlds");
             reportException(this, e);
-        }
-        if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
-            try {
-                UtilSkinStorage.load();
-                info("Player skin textures to load (if any) were loaded successfully!");
-            } catch (IOException e) {
-                info("A problem occurred while loading player skin textures");
-                reportException(this, e);
-            }
         }
         //Achievement
         if (classInfoSafe(Achievement.class, "achievement")){
@@ -578,35 +564,27 @@ public class Mundo extends JavaPlugin{
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onJoin(PlayerJoinEvent event) {
-                    Player player = event.getPlayer();
-                    Collection<WrappedSignedProperty> properties = WrappedGameProfile.fromPlayer(player).getProperties().get("textures");
-                    ArrayList<UtilSignedProperty> convertedProperties = new ArrayList<UtilSignedProperty>();
-                    properties.forEach(new Consumer<WrappedSignedProperty>() {
-                        @Override
-                        public void accept(WrappedSignedProperty wrappedSignedProperty) {
-                            convertedProperties.add(new UtilSignedProperty(wrappedSignedProperty.getName(), wrappedSignedProperty.getValue(), wrappedSignedProperty.getSignature()));
-                        }
-                    });
-                    UtilSkinStorage.setProperties(player.getUniqueId(), convertedProperties);
+                    TabListManager.onJoin(event.getPlayer());
                 }
             }, this);
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onQuit(PlayerQuitEvent event) {
-                    TabListManager.clearTabList(event.getPlayer());
+                    TabListManager.onQuit(event.getPlayer());
                 }
             }, this);
-            Skript.registerEffect(EffSetCustomTablist.class, "set simple tablist for %player%", "set array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-string/-offlineplayer%]]", "set normal tablist for %player%");
             //Simple
             Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-string/-player%]");
             Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
+            Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete all id tabs for %player%");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");
-            Skript.registerExpression(ExprIconOfTab.class, Object.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% for %player%");
+            Skript.registerExpression(ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% for %player%");
             //Array
+            Skript.registerEffect(EffSetArrayTablist.class, "deactivate array tablist for %player%", "activate array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-string/-offlineplayer%]]");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% for %player%");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% for %player%");
-            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Object.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% for %player%", "initial icon of %player%'s [array] tablist");
+            Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% for %player%", "initial icon of %player%'s [array] tablist");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %player%'s [array] tablist");
             //SkinTexture
             Classes.registerClass(new ClassInfo<SkinTexture>(SkinTexture.class, "skintexture").user(new String[]{"skintexture"}).name("skintexture").parser(new Parser<SkinTexture>(){
@@ -882,15 +860,6 @@ public class Mundo extends JavaPlugin{
         } catch (IOException e) {
             info("A problem occurred while saving world loaders");
             reportException(this, e);
-        }
-        if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
-            try {
-                UtilSkinStorage.save();
-                info("Successfully saved all player skin textures");
-            } catch (IOException e) {
-                info("A problem occurred while saving player skin textures");
-                reportException(this, e);
-            }
         }
     }
 

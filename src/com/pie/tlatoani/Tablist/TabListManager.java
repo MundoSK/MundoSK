@@ -1,20 +1,13 @@
 package com.pie.tlatoani.Tablist;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Tablist.Array.ArrayTabList;
 import com.pie.tlatoani.Tablist.Simple.SimpleTabList;
+import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.nio.charset.Charset;
 import java.util.*;
@@ -29,7 +22,12 @@ public class TabListManager implements Listener {
     private static final HashMap<UUID, ArrayTabList> arrayTabLists = new HashMap<>();
     public static final PacketType packetType = PacketType.Play.Server.PLAYER_INFO;
     public static final Charset utf8 = Charset.forName("UTF-8");
-    static {
+    public static final SkinTexture DEFAULT_SKIN_TEXTURE = new SkinTexture(
+            "eyJ0aW1lc3RhbXAiOjE0NzAwMjgwNDU3MzUsInByb2ZpbGVJZCI6IjQzYTgzNzNkNjQyOTQ1MTBhOWFhYjMwZjViM2NlYmIzIiwicHJvZmlsZU5hbWUiOiJTa3VsbENsaWVudFNraW42Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iNTg3OTM1YzdmYmVjYzJmYWMxMDY0OWZjZGZiODM1YjQ2NTA3MzZiOWJmMWQ0NGVhZjc2ZDNiOWVmN2UwIn19fQ==",
+            "eTy8+/waBl22GpAyTHx+QY40J3DY57F2FSkVupjJxAuuUfstvX/DxmJANKtIcYCYP9LUHh9DkP1T2bXUobHcx8GAICi8S/uEWXx96PHHjSr7wQ9uBC4NMCkV7dHHMKdVqEJ9jDpMvSax9vs1tOc2NWaeMbzc/345K95JaYVD+AV4W1+IuppXlMgDmCatUCgGDbzTuQKO8An9zFPciCRq1VSGaOPCj4PoIDQyMhSPqb1cPML/wH26Wtl4DEjnyVIyemk7oDBK29DXxtBLmzX6Ni1C8VM3UmG2StDC7dSwxJNLBHQ/aqXwupK4j0bZghiRbiaq4kAlPcpMeL+TTHac7oYFGihj/s/OVWaL0Fo2KgFZgKuZ26kDepCLEEOOoj2Zq8ohtxufPdTDqw032AyA/HbldnBIsCnQCDiq3XXdZHz0R+pvuf73BSHc7CiG2pwjSdSQ8XetlP70A9SddJu+iFuKGwzh/cvQ2H+sqoUYmIYIXcl2xJTy+Y/shxJDZZVxGCSHmj+4SYzJCg+nsNlEJ9HBG//LfeY+WhacbC9pPPy8wKnDqvIx0QX2YakyBFy659DEBEhSSNRQjOm78Zd9K7pP1QOrS2RDwsDSIXaR0gxT69Bv+Z/r+w8GJY6tHvT8aqTNQHpmv+kwMVdGOWMj3wMErW2aqjH9ffc1nuWht/E="
+    );
+
+    /*static {
         UtilPacketEvent.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, packetType) {
             @Override
             public void onPacketSending(PacketEvent event) {
@@ -40,7 +38,9 @@ public class TabListManager implements Listener {
         });
     }
 
-    /* Too attached to delete it
+    *//*
+
+    Too attached to delete it
     public static class FriendlyPacketContainer extends PacketContainer {
 
         public FriendlyPacketContainer(PacketType packetType) {
@@ -54,24 +54,26 @@ public class TabListManager implements Listener {
         return simpleTabLists.containsKey(player.getUniqueId()) || arrayTabLists.containsKey(player.getUniqueId());
     }
 
-    public static void setSimpleTabList(Player player) {
-        clearTabList(player);
+    public static void onJoin(Player player) {
         simpleTabLists.put(player.getUniqueId(), new SimpleTabList(player));
     }
 
-    public static void setArrayTabList(Player player, int columns, int rows, TabListIcon initialIcon) {
+    public static void onQuit(Player player) {
+        getSimpleTabListForPlayer(player).clear();
+        simpleTabLists.remove(player.getUniqueId());
+        deactivateArrayTabList(player);
+    }
+
+    public static void activateArrayTabList(Player player, int columns, int rows, SkinTexture initialIcon) {
         Mundo.debug(TabListManager.class, "setARrayTagList");
-        clearTabList(player);
+        deactivateArrayTabList(player);
         arrayTabLists.put(player.getUniqueId(), new ArrayTabList(player, columns, rows, initialIcon));
     }
 
-    public static void clearTabList(Player player) {
+    public static void deactivateArrayTabList(Player player) {
         if (arrayTabLists.containsKey(player.getUniqueId())) {
             getArrayTabListForPlayer(player).clear();
             arrayTabLists.remove(player.getUniqueId());
-        } else if (simpleTabLists.containsKey(player.getUniqueId())) {
-            getSimpleTabListForPlayer(player).clear();
-            simpleTabLists.remove(player.getUniqueId());
         }
     }
 
@@ -137,37 +139,6 @@ public class TabListManager implements Listener {
         json = json.replace(",extra:[EXTRA]", "");
 
         return json;
-    }
-
-    public static String getTextureValue(String url, Player onlinePlayer) {
-        JSONObject returnValue = new JSONObject();
-        returnValue.put("timestamp", 0);
-        returnValue.put("profileId", onlinePlayer.getUniqueId().toString().replace("-", ""));
-        returnValue.put("profileName", onlinePlayer.getDisplayName());
-        JSONObject texturesValue = new JSONObject();
-        JSONObject SKINValue = new JSONObject();
-        Mundo.debug(TabListManager.class, "URL: " + url);
-        Mundo.debug(TabListManager.class, "SKINValue:: " + SKINValue);
-        SKINValue.put("url", url);
-        texturesValue.put("SKIN", SKINValue);
-        returnValue.put("textures", texturesValue);
-        return Base64Coder.encodeString(returnValue.toJSONString().replace("\\/", "/"));
-    }
-
-    public static String switchPlayerOfTexture(String encodedTexture, Player onlinePlayer) {
-        JSONObject returnValue = null;
-        try {
-            returnValue = (JSONObject) (new JSONParser()).parse(Base64Coder.decodeString(encodedTexture));
-        } catch (ParseException e) {
-
-        }
-        String timestamp = "\"timestamp\":" + returnValue.get("timestamp");
-        String profileId = "\"profileId\":" + "\"" + onlinePlayer.getUniqueId().toString().replace("-", "") + "\"";
-        String profileName = "\"profileName\":" + "\"" + onlinePlayer.getDisplayName() + "\"";
-        String textures = "\"textures\":" + returnValue.get("textures");
-
-        String finalValue = "{" + timestamp + "," + profileId + "," + profileName + "," + textures + "}";
-        return Base64Coder.encodeString(finalValue.replace("\\/", "/"));
     }
 
 }

@@ -6,28 +6,25 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Tablist.TabListIcon;
+import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import java.util.UUID;
-
 /**
  * Created by Tlatoani on 7/13/16.
  */
-public class ExprIconOfTab extends SimpleExpression<Object> {
+public class ExprIconOfTab extends SimpleExpression<SkinTexture> {
     private Expression<String> id;
     private Expression<Player> playerExpression;
 
     @Override
-    protected Object[] get(Event event) {
+    protected SkinTexture[] get(Event event) {
         SimpleTabList simpleTabList;
-        TabListIcon icon;
-        return new Object[] {
+        return new SkinTexture[] {
                 (simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null ?
-                        simpleTabList.getHead(id.getSingle(event)).convertTabListIconToSkriptValue() :
+                        simpleTabList.getHead(id.getSingle(event)) :
                         null
         };
     }
@@ -38,8 +35,8 @@ public class ExprIconOfTab extends SimpleExpression<Object> {
     }
 
     @Override
-    public Class<? extends Object> getReturnType() {
-        return Object.class;
+    public Class<? extends SkinTexture> getReturnType() {
+        return SkinTexture.class;
     }
 
     @Override
@@ -57,7 +54,7 @@ public class ExprIconOfTab extends SimpleExpression<Object> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         SimpleTabList simpleTabList;
         if ((simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null) {
-            simpleTabList.setHead(id.getSingle(event), TabListIcon.convertSkriptValueToTabListIcon(delta[0]));
+            simpleTabList.setHead(id.getSingle(event), (SkinTexture) delta[0]);
         }
     }
 
