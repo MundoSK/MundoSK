@@ -71,6 +71,9 @@ public class ArrayTabList {
                 WrappedSignedProperty property = new WrappedSignedProperty("textures", TabListManager.getTextureValue(icon.url, player), null);
                 Mundo.debug(this, "PROPERTY: " + property);
                 gameProfile.getProperties().put("textures", property);
+            } else if (icon.type == TabListIcon.IconType.SKINTEXTURE) {
+                Mundo.debug(this, "SKINTEXTURE: " + icon.skinTexture);
+                icon.skinTexture.retrieveSkinTextures(gameProfile.getProperties());
             }
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);

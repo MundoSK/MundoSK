@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
 import com.pie.tlatoani.Tablist.TabListIcon;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.OfflinePlayer;
@@ -72,7 +73,7 @@ public class ExprIconOfTab extends SimpleExpression<Object> {
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            return CollectionUtils.array(String.class, OfflinePlayer.class);
+            return CollectionUtils.array(String.class, OfflinePlayer.class, SkinTexture.class);
         }
         return null;
     }

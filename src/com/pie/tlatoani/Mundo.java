@@ -1,6 +1,8 @@
 package com.pie.tlatoani;
 
 import java.io.IOException;
+import java.io.NotSerializableException;
+import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +14,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Parser;
+import ch.njol.skript.classes.Serializer;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.EnchantmentType;
@@ -21,6 +24,7 @@ import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.util.Slot;
 
+import ch.njol.yggdrasil.Fields;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 
@@ -43,6 +47,9 @@ import com.pie.tlatoani.ProtocolLib.*;
 import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.Tablist.*;
 import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
+import com.pie.tlatoani.Tablist.SkinTexture.ExprTextureOfPlayer;
+import com.pie.tlatoani.Tablist.SkinTexture.ExprTextureWith;
+import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
 import com.pie.tlatoani.TerrainControl.*;
 import com.pie.tlatoani.Throwable.*;
 import com.pie.tlatoani.Util.*;
@@ -73,6 +80,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
@@ -599,6 +608,58 @@ public class Mundo extends JavaPlugin{
             Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% for %player%");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Object.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% for %player%", "initial icon of %player%'s [array] tablist");
             Skript.registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %player%'s [array] tablist");
+            //SkinTexture
+            Classes.registerClass(new ClassInfo<SkinTexture>(SkinTexture.class, "skintexture").user(new String[]{"skintexture"}).name("skintexture").parser(new Parser<SkinTexture>(){
+
+                public SkinTexture parse(String s, ParseContext context) {
+                    return null;
+                }
+
+                public String toString(SkinTexture packetType, int flags) {
+                    return null;
+                }
+
+                public String toVariableNameString(SkinTexture packetType) {
+                    return null;
+                }
+
+                public String getVariableNamePattern() {
+                    return ".+";
+                }
+            }).serializer(new Serializer<SkinTexture>() {
+                @Override
+                public Fields serialize(SkinTexture skinTexture) throws NotSerializableException {
+                    Fields fields = new Fields();
+                    fields.putObject("jsonarray", skinTexture.toJSONArray().toJSONString());
+                    return fields;
+                }
+
+                @Override
+                public void deserialize(SkinTexture skinTexture, Fields fields) throws StreamCorruptedException, NotSerializableException {
+                    assert false;
+                }
+
+                @Override
+                public SkinTexture deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
+                    try {
+                        return new SkinTexture((Collection<WrappedSignedProperty>) (new JSONParser()).parse((String) fields.getObject("jsonarray")));
+                    } catch (ParseException | ClassCastException e) {
+                        throw new StreamCorruptedException();
+                    }
+                }
+
+                @Override
+                public boolean mustSyncDeserialization() {
+                    return false;
+                }
+
+                @Override
+                protected boolean canBeInstantiated() {
+                    return false;
+                }
+            }));
+            Skript.registerExpression(ExprTextureOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture of %player%");
+            Skript.registerExpression(ExprTextureWith.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture with value %string% signature %string%");
         }
         //TerrainControl
 		if (Bukkit.getServer().getPluginManager().getPlugin("TerrainControl") != null) {
