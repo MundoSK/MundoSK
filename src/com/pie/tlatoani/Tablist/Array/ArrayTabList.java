@@ -140,22 +140,10 @@ public class ArrayTabList {
     }
 
     public void clear() {
-        ArrayList<PlayerInfoData> arrayList = new ArrayList<>();
         for (int column = 1; column <= columns; column++)
             for (int row = 1; row <= rows; row++) {
-                UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + column + "," + (row < 10 ? "0" + row : row)).getBytes(TabListManager.utf8));
-                WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
-                PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.NOT_SET, WrappedChatComponent.fromText(""));
-                arrayList.add(playerInfoData);
+                sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             }
-        PacketContainer packetContainer = new PacketContainer(TabListManager.packetType);
-        packetContainer.getPlayerInfoDataLists().writeSafely(0, arrayList);
-        packetContainer.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-        try {
-            UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
-        } catch (InvocationTargetException e) {
-            Mundo.reportException(this, e);
-        }
     }
 
     public String getDisplayName(int column, int row) {
