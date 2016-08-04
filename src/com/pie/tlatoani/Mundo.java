@@ -77,6 +77,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -620,7 +621,7 @@ public class Mundo extends JavaPlugin{
                 @Override
                 public SkinTexture deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
                     try {
-                        return new SkinTexture((Collection<WrappedSignedProperty>) (new JSONParser()).parse((String) fields.getObject("jsonarray")));
+                        return new SkinTexture((JSONArray) (new JSONParser()).parse((String) fields.getObject("jsonarray")));
                     } catch (ParseException | ClassCastException e) {
                         throw new StreamCorruptedException();
                     }

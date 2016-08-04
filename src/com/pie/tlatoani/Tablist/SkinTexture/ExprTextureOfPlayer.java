@@ -18,8 +18,7 @@ public class ExprTextureOfPlayer extends SimpleExpression<SkinTexture> {
 
     @Override
     protected SkinTexture[] get(Event event) {
-        Multimap<String, WrappedSignedProperty> multimap = WrappedGameProfile.fromPlayer(playerExpression.getSingle(event)).getProperties();
-        return new SkinTexture[]{new SkinTexture(multimap.get("textures"))};
+        return new SkinTexture[]{new SkinTexture(playerExpression.getSingle(event))};
     }
 
     @Override

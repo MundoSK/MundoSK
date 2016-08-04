@@ -19,7 +19,7 @@ public class EffRegisterGenerator extends Effect {
     protected void execute(Event event) {
         SkriptChunkGenerator generator = ChunkGeneratorManager.getSkriptGenerator(generatorID.getSingle(event));
         generator.setGenerateChunkData(generateChunks.getSingle(event));
-        if (getSpawn == null) {
+        if (getSpawn != null) {
             generator.setGetFixedSpawnLocation(getSpawn.getSingle(event));
         }
     }

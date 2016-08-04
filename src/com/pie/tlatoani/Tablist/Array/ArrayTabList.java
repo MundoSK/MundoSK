@@ -44,31 +44,9 @@ public class ArrayTabList {
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
         int identifier = (((column - 1) * 20) + row);
         if (identifier % 2 == 0) identifier += 79;
-        /*if (icon.type == TabListIcon.IconType.STEVE) identifier--;*/
         UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
-            /*if (icon.type == TabListIcon.IconType.PLAYER) {
-                Multimap<String, WrappedSignedProperty> propertyMultimap = gameProfile.getProperties();
-                UtilSkinStorage.getProperties(icon.playerUUID).forEach(new Consumer<UtilSignedProperty>() {
-                    @Override
-                    public void accept(UtilSignedProperty utilSignedProperty) {
-                        Mundo.debug(this, "BEfore: " + utilSignedProperty.value);
-                        String changed = TabListManager.switchPlayerOfTexture(utilSignedProperty.value, player);
-                        Mundo.debug(this, "AFter: " + changed);
-                        propertyMultimap.put("textures", new WrappedSignedProperty(utilSignedProperty.name, utilSignedProperty.value, utilSignedProperty.signature));
-                    }
-                });
-            } else if (icon.type == TabListIcon.IconType.URL) {
-                //WrappedSignedProperty property = new WrappedSignedProperty("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + (icon.url) + "\"}}}"), "");
-                Mundo.debug(this, "URL: " + icon.url);
-                WrappedSignedProperty property = new WrappedSignedProperty("textures", TabListManager.getTextureValue(icon.url, player), null);
-                Mundo.debug(this, "PROPERTY: " + property);
-                gameProfile.getProperties().put("textures", property);
-            } else if (icon.type == TabListIcon.IconType.SKINTEXTURE) {
-                Mundo.debug(this, "SKINTEXTURE: " + icon.skinTexture);
-                icon.skinTexture.retrieveSkinTextures(gameProfile.getProperties());
-            }*/
             icon.retrieveSkinTextures(gameProfile.getProperties());
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
