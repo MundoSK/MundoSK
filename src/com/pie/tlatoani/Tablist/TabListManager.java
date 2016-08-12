@@ -117,9 +117,9 @@ public class TabListManager implements Listener {
             PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
             packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
             packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-            for (Player target : playersNotSeePlayersInTablist.toArray(new Player[0])) {
+            for (UUID targetUUID : playersNotSeePlayersInTablist.toArray(new UUID[0])) {
                 try {
-                    Mundo.manager.sendServerPacket(target, packet);
+                    Mundo.manager.sendServerPacket(Bukkit.getPlayer(targetUUID), packet);
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
                 }
