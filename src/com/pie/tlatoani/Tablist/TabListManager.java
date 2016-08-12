@@ -148,7 +148,7 @@ public class TabListManager implements Listener {
     }
 
     public static boolean getPlayerSeesOtherPlayersInTablist(Player player) {
-        return playersNotSeePlayersInTablist.contains(player.getUniqueId());
+        return !playersNotSeePlayersInTablist.contains(player.getUniqueId());
     }
 
     public static void setPlayerSeesOtherPlayersInTablist(Player player, boolean whether) {

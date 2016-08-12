@@ -72,6 +72,14 @@ public class ArrayTabList {
     public void setColumns(int columns) {
         columns = Mundo.limitToRange(1, columns, 4);
         if (columns > this.columns) {
+            setRows(
+                    columns == 1 ? Mundo.limitToRange(1,  this.rows, 20) :
+                    columns == 2 ? Mundo.limitToRange(11, this.rows, 20) :
+                    columns == 3 ? Mundo.limitToRange(14, this.rows, 20) :
+                                   Mundo.limitToRange(16, this.rows, 20)
+            );
+        }
+        if (columns > this.columns) {
             for (int column = this.columns + 1; column <= columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
                     displayNames[column - 1][row - 1] = "";
