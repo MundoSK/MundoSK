@@ -60,7 +60,7 @@ public class ExprIconOfTab extends SimpleExpression<SkinTexture> {
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            return CollectionUtils.array(String.class, OfflinePlayer.class);
+            return CollectionUtils.array(SkinTexture.class);
         }
         return null;
     }

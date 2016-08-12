@@ -1,18 +1,30 @@
 package com.pie.tlatoani.Tablist;
 
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.comphenix.protocol.wrappers.PlayerInfoData;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Tablist.Array.ArrayTabList;
 import com.pie.tlatoani.Tablist.Simple.SimpleTabList;
 import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.pie.tlatoani.Mundo.scheduler;
 
 /**
  * Created by Tlatoani on 7/13/16.
@@ -20,12 +32,56 @@ import java.util.regex.Pattern;
 public class TabListManager implements Listener {
     private static final HashMap<UUID, SimpleTabList> simpleTabLists = new HashMap<>();
     private static final HashMap<UUID, ArrayTabList> arrayTabLists = new HashMap<>();
+    private static final ArrayList<UUID> playersNotSeePlayersInTablist = new ArrayList<>();
     public static final PacketType packetType = PacketType.Play.Server.PLAYER_INFO;
     public static final Charset utf8 = Charset.forName("UTF-8");
     public static final SkinTexture DEFAULT_SKIN_TEXTURE = new SkinTexture(
             "eyJ0aW1lc3RhbXAiOjE0NzAwMjgwNDU3MzUsInByb2ZpbGVJZCI6IjQzYTgzNzNkNjQyOTQ1MTBhOWFhYjMwZjViM2NlYmIzIiwicHJvZmlsZU5hbWUiOiJTa3VsbENsaWVudFNraW42Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iNTg3OTM1YzdmYmVjYzJmYWMxMDY0OWZjZGZiODM1YjQ2NTA3MzZiOWJmMWQ0NGVhZjc2ZDNiOWVmN2UwIn19fQ==",
             "eTy8+/waBl22GpAyTHx+QY40J3DY57F2FSkVupjJxAuuUfstvX/DxmJANKtIcYCYP9LUHh9DkP1T2bXUobHcx8GAICi8S/uEWXx96PHHjSr7wQ9uBC4NMCkV7dHHMKdVqEJ9jDpMvSax9vs1tOc2NWaeMbzc/345K95JaYVD+AV4W1+IuppXlMgDmCatUCgGDbzTuQKO8An9zFPciCRq1VSGaOPCj4PoIDQyMhSPqb1cPML/wH26Wtl4DEjnyVIyemk7oDBK29DXxtBLmzX6Ni1C8VM3UmG2StDC7dSwxJNLBHQ/aqXwupK4j0bZghiRbiaq4kAlPcpMeL+TTHac7oYFGihj/s/OVWaL0Fo2KgFZgKuZ26kDepCLEEOOoj2Zq8ohtxufPdTDqw032AyA/HbldnBIsCnQCDiq3XXdZHz0R+pvuf73BSHc7CiG2pwjSdSQ8XetlP70A9SddJu+iFuKGwzh/cvQ2H+sqoUYmIYIXcl2xJTy+Y/shxJDZZVxGCSHmj+4SYzJCg+nsNlEJ9HBG//LfeY+WhacbC9pPPy8wKnDqvIx0QX2YakyBFy659DEBEhSSNRQjOm78Zd9K7pP1QOrS2RDwsDSIXaR0gxT69Bv+Z/r+w8GJY6tHvT8aqTNQHpmv+kwMVdGOWMj3wMErW2aqjH9ffc1nuWht/E="
     );
+
+    static {
+        UtilPacketEvent.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                if (TabListManager.getPlayerSeesOtherPlayersInTablist(event.getPlayer()) && !event.isCancelled()) {
+                    Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
+                    PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getDisplayName())));
+                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                    packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+                    try {
+                        UtilPacketEvent.protocolManager.sendServerPacket(event.getPlayer(), packet);
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                    PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                    removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                    Mundo.scheduler.runTask(Mundo.instance, new PacketSender(removePacket, event.getPlayer()));
+                }
+            }
+        });
+    }
+
+    public static class PacketSender implements Runnable {
+        private PacketContainer packet;
+        private Player player;
+
+        public PacketSender(PacketContainer packet, Player player) {
+            this.packet = packet;
+            this.player = player;
+        }
+
+        @Override
+        public void run() {
+            try {
+                UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /*static {
         UtilPacketEvent.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, packetType) {
@@ -61,6 +117,7 @@ public class TabListManager implements Listener {
     public static void onQuit(Player player) {
         getSimpleTabListForPlayer(player).clear();
         simpleTabLists.remove(player.getUniqueId());
+        playersNotSeePlayersInTablist.remove(player.getUniqueId());
         deactivateArrayTabList(player);
     }
 
@@ -74,6 +131,42 @@ public class TabListManager implements Listener {
         if (arrayTabLists.containsKey(player.getUniqueId())) {
             getArrayTabListForPlayer(player).clear();
             arrayTabLists.remove(player.getUniqueId());
+        }
+    }
+
+    public static boolean getPlayerSeesOtherPlayersInTablist(Player player) {
+        return playersNotSeePlayersInTablist.contains(player.getUniqueId());
+    }
+
+    public static void setPlayerSeesOtherPlayersInTablist(Player player, boolean whether) {
+        if (whether != getPlayerSeesOtherPlayersInTablist(player)) {
+            if (whether) {
+                for (Player playerItem : Bukkit.getOnlinePlayers().toArray(new Player[0])) {
+                    PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(playerItem), 5, EnumWrappers.NativeGameMode.fromBukkit(playerItem.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(playerItem.getDisplayName())));
+                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                    packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+                    try {
+                        UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+                playersNotSeePlayersInTablist.remove(player.getUniqueId());
+            } else {
+                for (Player playerItem : Bukkit.getOnlinePlayers().toArray(new Player[0])) {
+                    PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(playerItem), 5, EnumWrappers.NativeGameMode.fromBukkit(playerItem.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(playerItem.getDisplayName())));
+                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                    packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                    try {
+                        UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+                playersNotSeePlayersInTablist.add(player.getUniqueId());
+            }
         }
     }
 

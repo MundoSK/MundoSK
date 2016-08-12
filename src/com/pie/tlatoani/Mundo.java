@@ -574,6 +574,7 @@ public class Mundo extends JavaPlugin{
                     TabListManager.onQuit(event.getPlayer());
                 }
             }, this);
+            Skript.registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "%player%'s tablist contains players");
             //Simple
             Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-string/-player%]");
             Skript.registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
