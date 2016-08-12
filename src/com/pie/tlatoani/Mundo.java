@@ -486,7 +486,13 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
 		//ProtocolLib
 		if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
-            Mundo.info("You've discovered the amazing realm of ProtocolLib packet syntaxes!");
+            info("You've discovered the amazing realm of ProtocolLib packet syntaxes!");
+            String pLibVersion = Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion();
+            if (!pLibVersion.substring(0, 1).equals("4") || pLibVersion.substring(0, 3).equals("4.0")) {
+                info("Your version of ProtocolLib is " + pLibVersion);
+                info("MundoSK requires that you run at least version 4.1 of ProtocolLib");
+                info("If you are running at least version 4.1 of ProtocolLib, please post a message on MundoSK's thread on forums.skunity.com");
+            }
 			Classes.registerClass(new ClassInfo<PacketType>(PacketType.class, "packettype").user(new String[]{"packettype"}).name("packettype").parser(new Parser<PacketType>(){
 
 				public PacketType parse(String s, ParseContext context) {

@@ -44,7 +44,7 @@ public class TabListManager implements Listener {
         UtilPacketEvent.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
             @Override
             public void onPacketSending(PacketEvent event) {
-                if (TabListManager.getPlayerSeesOtherPlayersInTablist(event.getPlayer()) && !event.isCancelled()) {
+                if (!TabListManager.getPlayerSeesOtherPlayersInTablist(event.getPlayer()) && !event.isCancelled()) {
                     Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
                     PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getDisplayName())));
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
