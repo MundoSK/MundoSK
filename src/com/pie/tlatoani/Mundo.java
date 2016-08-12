@@ -24,6 +24,9 @@ import ch.njol.skript.util.Slot;
 
 import ch.njol.yggdrasil.Fields;
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLib;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
@@ -90,6 +93,7 @@ public class Mundo extends JavaPlugin{
     public static Boolean debugMode;
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
+    public static ProtocolManager manager;
 	
 	public void onEnable(){
 		instance = this;
@@ -102,6 +106,7 @@ public class Mundo extends JavaPlugin{
 		Skript.registerAddon(this);
         pluginFolder = getDataFolder().getAbsolutePath();
         scheduler = Bukkit.getScheduler();
+        manager = ProtocolLibrary.getProtocolManager();
 
         info("Pie is awesome :D");
         try {
