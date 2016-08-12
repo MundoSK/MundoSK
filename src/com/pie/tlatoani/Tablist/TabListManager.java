@@ -37,7 +37,65 @@ public class TabListManager implements Listener {
             "eyJ0aW1lc3RhbXAiOjE0NzAwMjgwNDU3MzUsInByb2ZpbGVJZCI6IjQzYTgzNzNkNjQyOTQ1MTBhOWFhYjMwZjViM2NlYmIzIiwicHJvZmlsZU5hbWUiOiJTa3VsbENsaWVudFNraW42Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iNTg3OTM1YzdmYmVjYzJmYWMxMDY0OWZjZGZiODM1YjQ2NTA3MzZiOWJmMWQ0NGVhZjc2ZDNiOWVmN2UwIn19fQ==",
             "eTy8+/waBl22GpAyTHx+QY40J3DY57F2FSkVupjJxAuuUfstvX/DxmJANKtIcYCYP9LUHh9DkP1T2bXUobHcx8GAICi8S/uEWXx96PHHjSr7wQ9uBC4NMCkV7dHHMKdVqEJ9jDpMvSax9vs1tOc2NWaeMbzc/345K95JaYVD+AV4W1+IuppXlMgDmCatUCgGDbzTuQKO8An9zFPciCRq1VSGaOPCj4PoIDQyMhSPqb1cPML/wH26Wtl4DEjnyVIyemk7oDBK29DXxtBLmzX6Ni1C8VM3UmG2StDC7dSwxJNLBHQ/aqXwupK4j0bZghiRbiaq4kAlPcpMeL+TTHac7oYFGihj/s/OVWaL0Fo2KgFZgKuZ26kDepCLEEOOoj2Zq8ohtxufPdTDqw032AyA/HbldnBIsCnQCDiq3XXdZHz0R+pvuf73BSHc7CiG2pwjSdSQ8XetlP70A9SddJu+iFuKGwzh/cvQ2H+sqoUYmIYIXcl2xJTy+Y/shxJDZZVxGCSHmj+4SYzJCg+nsNlEJ9HBG//LfeY+WhacbC9pPPy8wKnDqvIx0QX2YakyBFy659DEBEhSSNRQjOm78Zd9K7pP1QOrS2RDwsDSIXaR0gxT69Bv+Z/r+w8GJY6tHvT8aqTNQHpmv+kwMVdGOWMj3wMErW2aqjH9ffc1nuWht/E="
     );
+    private static final Map<String, UUID> uuidSaver = new HashMap<>();
+    private static final String uuidbeginning = "62960000-6296-3000-8000-6296";
+    private static int uuidKeyCounter = 0;
 
+    public static class PacketSender implements Runnable {
+        private PacketContainer packet;
+        private Player[] players;
+
+        public PacketSender(PacketContainer packet, Player... players) {
+            this.packet = packet;
+            this.players = players;
+        }
+
+        @Override
+        public void run() {
+            for (Player player : players) {
+                try {
+                    Mundo.protocolManager.sendServerPacket(player, packet);
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    static {
+        Mundo.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                if (!TabListManager.getPlayerSeesOtherPlayersInTablist(event.getPlayer()) && !event.isCancelled()) {
+                    UUID uuid = event.getPacket().getUUIDs().readSafely(0);
+                    if (TabListManager.isUUIDKey(uuid)) {
+                        event.getPacket().getUUIDs().writeSafely(0, TabListManager.retrieveUUID(uuid));
+                    } else {
+                        event.setCancelled(true);
+                        Player player = Bukkit.getPlayer(uuid);
+                        PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getDisplayName())));
+                        PacketContainer addPacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                        addPacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                        addPacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+                        PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                        removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                        removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                        PacketContainer spawnPacket = event.getPacket().shallowClone();
+                        spawnPacket.getUUIDs().writeSafely(0, TabListManager.saveUUID(uuid));
+                        try {
+                            Mundo.protocolManager.sendServerPacket(event.getPlayer(), addPacket);
+                            Mundo.protocolManager.sendServerPacket(event.getPlayer(), spawnPacket);
+                            Mundo.protocolManager.sendServerPacket(event.getPlayer(), removePacket);
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    /*
     static {
         Mundo.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
             @Override
@@ -61,54 +119,16 @@ public class TabListManager implements Listener {
             }
         });
     }
+    */
 
-    public static class PacketSender implements Runnable {
-        private PacketContainer packet;
-        private Player[] players;
-
-        public PacketSender(PacketContainer packet, Player... players) {
-            this.packet = packet;
-            this.players = players;
-        }
-
-        @Override
-        public void run() {
-            for (Player player : players) {
-                try {
-                    Mundo.protocolManager.sendServerPacket(player, packet);
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /*static {
-        Mundo.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, packetType) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                if (hasCustomTabList(event.getPlayer()) && event.getPacket().getPlayerInfoDataLists().readSafely(0).get(0).getGameMode() != EnumWrappers.NativeGameMode.NOT_SET) {
-                    event.setCancelled(true);
-                }
-            }
-        });
-    }
-
-    *//*
-
-    Too attached to delete it
+    /*Too attached to delete it
     public static class FriendlyPacketContainer extends PacketContainer {
 
         public FriendlyPacketContainer(PacketType packetType) {
             super(packetType);
         }
 
-    }
-    */
-
-    public static boolean hasCustomTabList(Player player) {
-        return simpleTabLists.containsKey(player.getUniqueId()) || arrayTabLists.containsKey(player.getUniqueId());
-    }
+    }*/
 
     public static void onJoin(Player player) {
         simpleTabLists.put(player.getUniqueId(), new SimpleTabList(player));
@@ -189,6 +209,29 @@ public class TabListManager implements Listener {
 
     public static ArrayTabList getArrayTabListForPlayer(Player player) {
         return arrayTabLists.get(player.getUniqueId());
+    }
+
+    //UUID Saver
+
+    public static UUID saveUUID(UUID original) {
+        String lastDigits = uuidKeyCounter + "";
+        while (lastDigits.length() < 8) {
+            lastDigits = "0" + lastDigits;
+        }
+        UUID result = UUID.fromString(uuidbeginning + lastDigits);
+        uuidSaver.put(lastDigits, original);
+        return result;
+    }
+
+    public static UUID retrieveUUID(UUID key) {
+        String finalKey = key.toString().substring(28);
+        UUID result = uuidSaver.get(finalKey);
+        uuidSaver.remove(finalKey);
+        return result;
+    }
+
+    public static boolean isUUIDKey(UUID key) {
+        return key.toString().substring(0, 28).equals(uuidbeginning);
     }
 
     //Util
