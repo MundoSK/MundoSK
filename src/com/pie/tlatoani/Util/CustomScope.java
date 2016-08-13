@@ -69,9 +69,8 @@ public abstract class CustomScope extends Condition {
 								Mundo.debug(CustomScope.class, "TRIGGER:: " + trigger);
 								try {
 									TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
-									Mundo.debug(CustomScope.class, "GOING: " + going);
 									while (going != null) {
-										going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
+										Mundo.debug(CustomScope.class, "GOING: " + going);
 										if (going instanceof Conditional) {
 											Condition condition1 = (Condition) CustomScope.condition.get(going);
 											if (condition1 instanceof CustomScope) {
@@ -79,6 +78,8 @@ public abstract class CustomScope extends Condition {
 												//((CustomScope) condition1).setScope((Conditional) going);
 											}
 										}
+										going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
+
 									}
 								} catch (IllegalAccessException e) {
 									e.printStackTrace();
