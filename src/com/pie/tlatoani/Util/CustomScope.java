@@ -108,6 +108,7 @@ public abstract class CustomScope extends Condition {
 			TriggerItem going = (TriggerItem) firstitem.get(scopeParent);
 			Conditional scope = null;
 			while (scope == null) {
+				Mundo.debug(this, "GOING::: " + going);
 				going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
 				if (going instanceof Conditional) {
 					Condition condition1 = (Condition) condition.get(going);
