@@ -22,8 +22,10 @@ public abstract class CustomScope extends Condition {
 	public static Field firstitem;
 	public static Field condition;
 	public static Field whilecondition;
+	public static Field triggers;
 	public static Method walkmethod;
 	public static Method runmethod;
+	private static boolean setScopesWasRun = false;
 
 	protected TriggerSection scopeParent;
 	protected Conditional scope = null;
@@ -41,6 +43,8 @@ public abstract class CustomScope extends Condition {
 			condition.setAccessible(true);
 			whilecondition = While.class.getDeclaredField("c");
 			whilecondition.setAccessible(true);
+			triggers = SkriptEventHandler.class.getDeclaredField("triggers");
+			triggers.setAccessible(true);
 			walkmethod = TriggerItem.class.getDeclaredMethod("walk", Event.class);
 			walkmethod.setAccessible(true);
 			runmethod = TriggerItem.class.getDeclaredMethod("run", Event.class);
@@ -50,24 +54,40 @@ public abstract class CustomScope extends Condition {
 		}
 	}
 
-	public static void setScopes() {
-		try {
-			Field triggers = SkriptEventHandler.class.getDeclaredField("triggers");
-			triggers.setAccessible(true);
-			Map<Class<? extends Event>, List<Trigger>> triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
-			triggerMap.forEach(new BiConsumer<Class<? extends Event>, List<Trigger>>() {
-				@Override
-				public void accept(Class<? extends Event> aClass, List<Trigger> triggers) {
-					triggers.forEach(new Consumer<Trigger>() {
-						@Override
-						public void accept(Trigger trigger) {
+	public static void getScopes() {
+		if (!setScopesWasRun) {
+			try {
+				Map<Class<? extends Event>, List<Trigger>> triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
+				triggerMap.forEach(new BiConsumer<Class<? extends Event>, List<Trigger>>() {
+					@Override
+					public void accept(Class<? extends Event> aClass, List<Trigger> triggers) {
+						triggers.forEach(new Consumer<Trigger>() {
+							@Override
+							public void accept(Trigger trigger) {
+								try {
+									TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
+									while (going != null) {
+										going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
+										if (going instanceof Conditional) {
+											Condition condition1 = (Condition) CustomScope.condition.get(going);
+											if (condition1 instanceof CustomScope) {
+												Mundo.debug(CustomScope.class, "FOUND A CONDITIONAL:: " + going);
+												//((CustomScope) condition1).setScope((Conditional) going);
+											}
+										}
+									}
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								}
 
-						}
-					});
-				}
-			});
-		} catch (NoSuchFieldException | IllegalAccessException e) {
-			e.printStackTrace();
+							}
+						});
+					}
+				});
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			setScopesWasRun = true;
 		}
 	}
 
@@ -88,7 +108,7 @@ public abstract class CustomScope extends Condition {
 			TriggerItem going = (TriggerItem) firstitem.get(scopeParent);
 			Conditional scope = null;
 			while (scope == null) {
-				going = going.getNext();
+				going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
 				if (going instanceof Conditional) {
 					Condition condition1 = (Condition) condition.get(going);
 					if (this == condition1) {
@@ -116,14 +136,19 @@ public abstract class CustomScope extends Condition {
 		this.arg1 = arg1;
 		this.arg2 = arg2;
 		this.arg3 = arg3;
-		scopeParent = ScriptLoader.currentSections.get(ScriptLoader.currentSections.size() - 1);
+		int currentSectionsSize = ScriptLoader.currentSections.size();
+		if (currentSectionsSize > 0)
+			scopeParent = ScriptLoader.currentSections.get(currentSectionsSize - 1);
 		afterInit();
 		return true;
 	}
 
 	@Override
 	public boolean check(Event e) {
-		getScope();
+		if (scopeParent != null)
+			getScope();
+		else
+			getScopes();
 		go(e);
 		return false;
 	}
