@@ -58,14 +58,18 @@ public abstract class CustomScope extends Condition {
 		if (!setScopesWasRun) {
 			try {
 				Map<Class<? extends Event>, List<Trigger>> triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
+				Mundo.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
 				triggerMap.forEach(new BiConsumer<Class<? extends Event>, List<Trigger>>() {
 					@Override
 					public void accept(Class<? extends Event> aClass, List<Trigger> triggers) {
+						Mundo.debug(CustomScope.class, "TRIGGERS:: " + triggers);
 						triggers.forEach(new Consumer<Trigger>() {
 							@Override
 							public void accept(Trigger trigger) {
+								Mundo.debug(CustomScope.class, "TRIGGER:: " + trigger);
 								try {
 									TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
+									Mundo.debug(CustomScope.class, "GOING: " + going);
 									while (going != null) {
 										going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
 										if (going instanceof Conditional) {
@@ -118,7 +122,7 @@ public abstract class CustomScope extends Condition {
 				}
 			}
 			Mundo.debug(this, "FOUND THE CONDITIONAL:: " + scope);
-			//setScope(scope);
+			setScope(scope);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
