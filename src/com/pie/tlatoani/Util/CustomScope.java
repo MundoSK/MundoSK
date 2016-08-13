@@ -62,20 +62,16 @@ public abstract class CustomScope extends Condition {
 				triggerMap.forEach(new BiConsumer<Class<? extends Event>, List<Trigger>>() {
 					@Override
 					public void accept(Class<? extends Event> aClass, List<Trigger> triggers) {
-						Mundo.debug(CustomScope.class, "TRIGGERS:: " + triggers);
 						triggers.forEach(new Consumer<Trigger>() {
 							@Override
 							public void accept(Trigger trigger) {
-								Mundo.debug(CustomScope.class, "TRIGGER:: " + trigger);
 								try {
 									TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
 									while (going != null) {
-										Mundo.debug(CustomScope.class, "GOING: " + going);
 										if (going instanceof Conditional) {
 											Condition condition1 = (Condition) CustomScope.condition.get(going);
 											if (condition1 instanceof CustomScope) {
-												Mundo.debug(CustomScope.class, "FOUND A CONDITIONAL:: " + going);
-												//((CustomScope) condition1).setScope((Conditional) going);
+												((CustomScope) condition1).setScope((Conditional) going);
 											}
 										}
 										going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
@@ -151,10 +147,12 @@ public abstract class CustomScope extends Condition {
 
 	@Override
 	public boolean check(Event e) {
-		if (scopeParent != null)
-			getScope();
-		else
-			getScopes();
+		if (scope == null) {
+			if (scopeParent != null)
+				getScope();
+			else
+				getScopes();
+		}
 		go(e);
 		return false;
 	}
