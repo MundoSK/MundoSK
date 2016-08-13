@@ -176,29 +176,6 @@ public class TabListManager implements Listener {
         return arrayTabLists.get(player.getUniqueId());
     }
 
-    //UUID Saver
-
-    public static UUID saveUUID(UUID original) {
-        String lastDigits = uuidKeyCounter + "";
-        while (lastDigits.length() < 8) {
-            lastDigits = "0" + lastDigits;
-        }
-        UUID result = UUID.fromString(uuidbeginning + lastDigits);
-        uuidSaver.put(lastDigits, original);
-        return result;
-    }
-
-    public static UUID retrieveUUID(UUID key) {
-        String finalKey = key.toString().substring(28);
-        UUID result = uuidSaver.get(finalKey);
-        uuidSaver.remove(finalKey);
-        return result;
-    }
-
-    public static boolean isUUIDKey(UUID key) {
-        return key.toString().substring(0, 28).equals(uuidbeginning);
-    }
-
     //Util
 
     /*

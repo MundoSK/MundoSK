@@ -116,7 +116,7 @@ public abstract class CustomScope extends Condition {
 		this.arg1 = arg1;
 		this.arg2 = arg2;
 		this.arg3 = arg3;
-		scopeParent = ScriptLoader.currentSections.get(ScriptLoader.currentSections.size());
+		scopeParent = ScriptLoader.currentSections.get(ScriptLoader.currentSections.size() - 1);
 		afterInit();
 		return true;
 	}
