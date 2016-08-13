@@ -153,6 +153,8 @@ public abstract class CustomScope extends Condition {
 		int currentSectionsSize = ScriptLoader.currentSections.size();
 		if (currentSectionsSize > 0)
 			scopeParent = ScriptLoader.currentSections.get(currentSectionsSize - 1);
+		else
+			querySetScope();
 		afterInit();
 		return true;
 	}
