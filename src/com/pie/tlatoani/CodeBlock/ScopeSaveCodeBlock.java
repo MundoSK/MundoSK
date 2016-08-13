@@ -38,13 +38,13 @@ public class ScopeSaveCodeBlock extends CustomScope {
     }
 
     @Override
-    public void afterSetNext() {
+    public void afterSetScope() {
         skriptCodeBlock = new SkriptCodeBlock(first);
         Mundo.debug(this, "SkCB: " + skriptCodeBlock);
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean debug) {
+    public String getString() {
         return "codeblock %variable%";
     }
 

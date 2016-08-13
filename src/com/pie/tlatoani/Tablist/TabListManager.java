@@ -67,40 +67,6 @@ public class TabListManager implements Listener {
             @Override
             public void onPacketSending(PacketEvent event) {
                 if (!TabListManager.getPlayerSeesOtherPlayersInTablist(event.getPlayer()) && !event.isCancelled()) {
-                    UUID uuid = event.getPacket().getUUIDs().readSafely(0);
-                    if (TabListManager.isUUIDKey(uuid)) {
-                        event.getPacket().getUUIDs().writeSafely(0, TabListManager.retrieveUUID(uuid));
-                    } else {
-                        event.setCancelled(true);
-                        Player player = Bukkit.getPlayer(uuid);
-                        PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getDisplayName())));
-                        PacketContainer addPacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                        addPacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-                        addPacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                        PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                        removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-                        removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                        PacketContainer spawnPacket = event.getPacket().shallowClone();
-                        spawnPacket.getUUIDs().writeSafely(0, TabListManager.saveUUID(uuid));
-                        try {
-                            Mundo.protocolManager.sendServerPacket(event.getPlayer(), addPacket);
-                            Mundo.protocolManager.sendServerPacket(event.getPlayer(), spawnPacket);
-                            Mundo.protocolManager.sendServerPacket(event.getPlayer(), removePacket);
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    /*
-    static {
-        Mundo.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                if (!TabListManager.getPlayerSeesOtherPlayersInTablist(event.getPlayer()) && !event.isCancelled()) {
                     Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
                     PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getDisplayName())));
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
@@ -119,7 +85,6 @@ public class TabListManager implements Listener {
             }
         });
     }
-    */
 
     /*Too attached to delete it
     public static class FriendlyPacketContainer extends PacketContainer {

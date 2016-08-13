@@ -352,7 +352,7 @@ public class Metrics {
      * Generic method that posts a plugin to the metrics website
      */
     private void postPlugin(final boolean isPing) throws IOException {
-        // Server software specific section
+        // Server software specific scope
         PluginDescriptionFile description = plugin.getDescription();
         String pluginName = description.getName();
         boolean onlineMode = Bukkit.getServer().getOnlineMode(); // TRUE if online mode is enabled
@@ -360,7 +360,7 @@ public class Metrics {
         String serverVersion = Bukkit.getVersion();
         int playersOnline = this.getOnlinePlayers();
 
-        // END server software specific section -- all code below does not use any code outside of this class / Java
+        // END server software specific scope -- all code below does not use any code outside of this class / Java
 
         // Construct the post data
         StringBuilder json = new StringBuilder(1024);

@@ -39,11 +39,9 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     private static Field structureModifier;
     private Boolean isSingle = true;
     private Class aClass;
-    private PacketInfoGetter getFunction;
-    private PacketInfoSetter setFunction;
+    private PacketInfoConverter converter;
 
-    public static Map<Class, PacketInfoGetter> getFunctionMap = new HashMap<Class, PacketInfoGetter>();
-    public static Map<Class, PacketInfoSetter> setFunctionMap = new HashMap<Class, PacketInfoSetter>();
+    public static Map<Class, PacketInfoConverter> converterMap = new HashMap<>();
 
     static {
         try {
@@ -55,16 +53,16 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
         //Converters
 
-        registerConverter(Location.class, new PacketInfoGetter<Location>() {
+        registerConverter(Location.class, new PacketInfoConverter<Location>() {
             @Override
-            public Location apply(PacketContainer packet, Integer index) {
+            public Location get(PacketContainer packet, Integer index) {
                 StructureModifier<BlockPosition> structureModifier = packet.getBlockPositionModifier();
                 BlockPosition blockPosition = structureModifier.readSafely(index);
                 return blockPosition.toLocation(Bukkit.getWorlds().get(0));
             }
-        }, new PacketInfoSetter<Location>() {
+
             @Override
-            public void apply(PacketContainer packet, Integer index, Location value) {
+            public void set(PacketContainer packet, Integer index, Location value) {
                 StructureModifier<BlockPosition> structureModifier = packet.getBlockPositionModifier();
                 BlockPosition blockPosition = new BlockPosition(value.toVector());
                 structureModifier.writeSafely(index, blockPosition);
@@ -72,31 +70,12 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         });
     }
 
-
-
-    @FunctionalInterface
-    public interface PacketInfoGetter<T> {
-        public T apply(PacketContainer packet, Integer index);
-
+    private static <T> void registerConverter(Class<T> aClass, PacketInfoConverter<T> converter) {
+        converterMap.put(aClass, converter);
     }
 
-    @FunctionalInterface
-    public interface PacketInfoSetter<T> {
-        public void apply(PacketContainer packet, Integer index, T value);
-
-    }
-
-    private static <T> void registerConverter(Class<T> aClass, PacketInfoGetter<T> getter, PacketInfoSetter<T> setter) {
-        getFunctionMap.put(aClass, getter);
-        setFunctionMap.put(aClass, setter);
-    }
-
-    private static <T> PacketInfoGetter<T> getGetter(Class<T> aClass, Boolean single) {
-        return getFunctionMap.get(aClass);
-    }
-
-    private static <T> PacketInfoSetter<T> getSetter(Class<T> aClass, Boolean single) {
-        return setFunctionMap.get(aClass);
+    private static <T> PacketInfoConverter<T> getConverter(Class<T> aClass, Boolean isSingle) {
+        return converterMap.get(aClass);
     }
 
     @Override
@@ -110,8 +89,8 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             } catch (InvocationTargetException e) {
                 Mundo.debug(this, e);
             }
-        } else if (getFunction != null && isSingle) {
-            return new Object[] {getFunction.apply(packetContainerExpression.getSingle(event), index.getSingle(event).intValue())};
+        } else if (converter != null && isSingle) {
+            return new Object[] {converter.get(packetContainerExpression.getSingle(event), index.getSingle(event).intValue())};
         } else {
             try {
                 structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));
@@ -172,9 +151,8 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             index = (Expression<Number>) expressions[1];
             packetContainerExpression = (Expression<PacketContainer>) expressions[2];
             aClass = literal.getSingle().getC();
-            getFunction = getGetter(aClass, true);
-            if (getFunction != null) {
-                setFunction = getSetter(aClass, true);
+            converter = getConverter(aClass, true);
+            if (converter != null) {
                 Mundo.debug(this, "Converter to PLib type: " + aClass);
                 isSingle = true;
                 return true;
@@ -242,8 +220,8 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             } catch (InvocationTargetException e) {
                 Mundo.debug(this, e);
             }
-        } else if (setFunction != null && isSingle) {
-            setFunction.apply(packetContainerExpression.getSingle(event), index.getSingle(event).intValue(), delta[0]);
+        } else if (converter != null && isSingle) {
+            converter.set(packetContainerExpression.getSingle(event), index.getSingle(event).intValue(), delta[0]);
         } else {
             try {
                 structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));

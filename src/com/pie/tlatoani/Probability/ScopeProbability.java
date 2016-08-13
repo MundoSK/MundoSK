@@ -18,7 +18,7 @@ public class ScopeProbability extends CustomScope {
 	private List<Integer> indeces = new ArrayList<Integer>();
 
 	@Override
-	public String toString(Event e, boolean debug) {
+	public String getString() {
 		return "probability";
 	}
 
@@ -86,9 +86,10 @@ public class ScopeProbability extends CustomScope {
 	}
 	
 	@Override
-	public void afterSetNext() {
+	public void afterSetScope() {
 		Boolean within = true;
 		TriggerItem going = first;
+		TriggerItem end = scope.getNext();
 		Integer i = 0;
 		while (within) {
 			if (going instanceof CondProbability) {
@@ -113,7 +114,7 @@ public class ScopeProbability extends CustomScope {
 				i++;
 			}
 			going = going.getNext();
-			if (going == null || going.getIndentation().length() <= indent) within = false;
+			if (going == null || going == end) within = false;
 		}
 	}
 

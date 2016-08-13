@@ -24,28 +24,24 @@ import java.util.*;
  * Created by Tlatoani on 5/4/16.
  */
 public class ExprJsonObjectOfPacket extends SimpleExpression<JSONObject> {
-    private Method getObjects = null;
-    private PacketInfoGetter getFunction;
-    private PacketInfoSetter setFunction;
+    private PacketInfoConverter<JSONObject> converter;
     private Expression<Number> index;
     private Expression<PacketContainer> packetContainerExpression;
-    private Class aClass;
 
-    public static Map<String, PacketInfoGetter> getFunctionMap = new HashMap<String, PacketInfoGetter>();
-    public static Map<String, PacketInfoSetter> setFunctionMap = new HashMap<String, PacketInfoSetter>();
+    public static Map<String, PacketInfoConverter<JSONObject>> converterMap = new HashMap<>();
 
     static {
-        //Getters
-        getFunctionMap.put("chatcomponent", new PacketInfoGetter() {
+
+        //Converters
+
+        registerConverter("chatcomponent", new PacketInfoConverter<JSONObject>() {
             @Override
-            public JSONObject apply(PacketContainer packet, Integer index) {
+            public JSONObject get(PacketContainer packet, Integer index) {
                 Mundo.debug(this, "Packet :" + packet);
                 Mundo.debug(this, "ChatComponents :" + packet.getChatComponents());
                 WrappedChatComponent chatComponent = packet.getChatComponents().readSafely(index);
                 String fromjson = chatComponent.getJson();
                 Mundo.debug(this, "Fromjson: " + fromjson);
-                //JsonReader jsonReader = Json.createReader(new StringReader(fromjson));
-                //JsonObject tojson = jsonReader.readObject();
                 JSONParser parser = new JSONParser();
                 JSONObject tojson = null;
                 try {
@@ -56,35 +52,28 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JSONObject> {
                 Mundo.debug(this, "Tojson " + tojson);
                 return tojson;
             }
-        });
 
-        //Setters
-        setFunctionMap.put("chatcomponent", new PacketInfoSetter() {
             @Override
-            public void apply(PacketContainer packet, Integer index, JSONObject value) {
+            public void set(PacketContainer packet, Integer index, JSONObject value) {
                 WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(value.toString());
                 packet.getChatComponents().writeSafely(index, chatComponent);
             }
         });
     }
 
-    @FunctionalInterface
-    public interface PacketInfoGetter {
-        public JSONObject apply(PacketContainer packet, Integer index);
-
+    public static void registerConverter(String name, PacketInfoConverter<JSONObject> converter) {
+        converterMap.put(name, converter);
     }
 
-    @FunctionalInterface
-    public interface PacketInfoSetter {
-        public void apply(PacketContainer packet, Integer index, JSONObject value);
-
+    public static PacketInfoConverter<JSONObject> getConverter(String name) {
+        return converterMap.get(name);
     }
 
     @Override
     protected JSONObject[] get(Event event) {
         PacketContainer packet = packetContainerExpression.getSingle(event);
         Mundo.debug(this, "Packet before calling function :" + packet);
-        JSONObject result = getFunction.apply(packet, index.getSingle(event).intValue());
+        JSONObject result = converter.get(packet, index.getSingle(event).intValue());
         return new JSONObject[]{result};
     }
 
@@ -117,20 +106,18 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JSONObject> {
         }
         index = (Expression<Number>) expressions[1];
         packetContainerExpression = (Expression<PacketContainer>) expressions[2];
-        if (getFunctionMap.containsKey(string.toLowerCase())) {
-            getFunction = getFunctionMap.get(string.toLowerCase());
-            setFunction = setFunctionMap.get(string.toLowerCase());
-            return true;
-        } else {
+        converter = getConverter(string.toLowerCase());
+        if (converter == null) {
             Skript.error("The string " + string + " is not a valid packetinfo!");
             return false;
         }
+        return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         PacketContainer packet = packetContainerExpression.getSingle(event);
         Mundo.debug(this, "Packet before calling function :" + packet);
-        setFunction.apply(packet, index.getSingle(event).intValue(), ((JSONObject) delta[0]));
+        converter.set(packet, index.getSingle(event).intValue(), ((JSONObject) delta[0]));
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

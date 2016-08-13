@@ -14,7 +14,7 @@ public class ScopeTry extends CustomScope {
 	private CondCatch condCatch = null;
 
 	@Override
-	public String toString(Event e, boolean debug) {
+	public String getString() {
 		return "try";
 	}
 
@@ -22,16 +22,16 @@ public class ScopeTry extends CustomScope {
 	public void go(Event e) {
 		Boolean within = true;
 		TriggerItem going = first;
-		TriggerItem end = section.getNext();
+		TriggerItem end = scope.getNext();
 		Exception caught = null;
 		while (within) {
 			try {
-				Mundo.debug(this, "TOString of section: " + section);
-				Mundo.debug(this, "Indent: " + section.getIndentation() + "MARK");
+				Mundo.debug(this, "TOString of scope: " + scope);
+				Mundo.debug(this, "Indent: " + scope.getIndentation() + "MARK");
 				Mundo.debug(this, "TOString of going: " + going);
 				Mundo.debug(this, "Indent: " + going.getIndentation() + "MARK");
 				going = (TriggerItem) walkmethod.invoke(going, e);
-				if (going == null || going.getParent() == end) within = false;
+				if (going == null || going == end) within = false;
 			} catch (Exception e1) {
 				within = false;
 				caught = e1;
@@ -46,8 +46,8 @@ public class ScopeTry extends CustomScope {
 	}
 
 	@Override
-	public void afterSetNext() {
-		TriggerItem possibleCatch = section.getNext();
+	public void afterSetScope() {
+		TriggerItem possibleCatch = scope.getNext();
 		if (possibleCatch instanceof Conditional) {
 			try {
 				Condition catchCond = (Condition) CustomScope.condition.get(possibleCatch);
