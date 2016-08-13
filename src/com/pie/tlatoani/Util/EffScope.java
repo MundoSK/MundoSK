@@ -56,7 +56,7 @@ public class EffScope extends Effect{
 		try {
 			if (CustomScope.condition.get(section) instanceof CustomScope) {
 				scope = (CustomScope) CustomScope.condition.get(section);
-				scope.setScope(section);
+				//scope.setScope(section);
 			}
 			else Skript.error("You must put '$ scope' before a custom scope! **The following line isn't actually the wrong line, the wrong line is within the scope of the following line");
 		} catch (Exception e) {

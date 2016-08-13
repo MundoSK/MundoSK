@@ -25,7 +25,7 @@ public abstract class CustomScope extends Condition {
 	public static Field triggers;
 	public static Method walkmethod;
 	public static Method runmethod;
-	private static boolean setScopesWasRun = false;
+	private static boolean getScopesWasRun = true;
 
 	protected TriggerSection scopeParent;
 	protected Conditional scope = null;
@@ -55,7 +55,7 @@ public abstract class CustomScope extends Condition {
 	}
 
 	public static void getScopes() {
-		if (!setScopesWasRun) {
+		if (!getScopesWasRun) {
 			try {
 				Map<Class<? extends Event>, List<Trigger>> triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
 				Mundo.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
@@ -88,11 +88,23 @@ public abstract class CustomScope extends Condition {
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
-			setScopesWasRun = true;
+			getScopesWasRun = true;
 		}
 	}
 
-	public void setScope(Conditional scope) {
+	private static void querySetScope() {
+		if (getScopesWasRun) {
+			getScopesWasRun = false;
+			Mundo.scheduler.runTask(Mundo.instance, new Runnable() {
+				@Override
+				public void run() {
+					CustomScope.getScopes();
+				}
+			});
+		}
+	}
+
+	private void setScope(Conditional scope) {
 		if (scope != null) {
 			this.scope = scope;
 			try {
