@@ -74,8 +74,8 @@ public class ExprEnumOfPacket extends SimpleExpression<String> {
         }
         Mundo.debug(this, "Assumed method name: get" + enumMethodName);
         try {
-            Method method = PacketContainer.class.getMethod("get" + enumMethodName);
-            Mundo.debug(this, "Method Name: " + method.toString() + "s");
+            Method method = PacketContainer.class.getMethod("get" + enumMethodName + "s");
+            Mundo.debug(this, "Method Name: " + method.toString());
             getStructureModifier = method;
         } catch (NoSuchMethodException e) {
             Mundo.debug(this, e);
