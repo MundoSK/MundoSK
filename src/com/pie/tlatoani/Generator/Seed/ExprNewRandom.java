@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Generator.Seed;
 
+import ch.njol.skript.lang.DefaultExpression;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
@@ -11,7 +12,7 @@ import java.util.Random;
 /**
  * Created by Tlatoani on 7/25/16.
  */
-public class ExprNewRandom extends SimpleExpression<Random> {
+public class ExprNewRandom extends SimpleExpression<Random> implements DefaultExpression<Random> {
     Expression<Number> seed;
 
     @Override
@@ -40,6 +41,12 @@ public class ExprNewRandom extends SimpleExpression<Random> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         seed = (Expression<Number>) expressions[0];
+        return true;
+    }
+
+    @Override
+    public boolean init() {
+        seed = null;
         return true;
     }
 }

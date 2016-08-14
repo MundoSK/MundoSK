@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 public class ExprEnumOfPacket extends SimpleExpression<String> {
     private Expression<Number> index;
     private Expression<PacketContainer> packetContainerExpression;
-    private Method getStructureModifier;
+    private Method getStructureModifier = null;
     private Class<? extends Enum> enumClass;
 
     @Override
@@ -75,27 +75,31 @@ public class ExprEnumOfPacket extends SimpleExpression<String> {
         Mundo.debug(this, "Assumed method name: get" + enumMethodName);
         try {
             Method method = PacketContainer.class.getMethod("get" + enumMethodName);
-            Mundo.debug(this, "Method: " + method.toString());
+            Mundo.debug(this, "Method Name: " + method.toString() + "s");
             getStructureModifier = method;
         } catch (NoSuchMethodException e) {
             Mundo.debug(this, e);
-            Skript.error("The enum method name " + enumMethodName + " is not applicable for the '%string% penum %number% of %packet%' expression.");
-            return false;
+            try {
+                Method method = PacketContainer.class.getMethod("get" + enumMethodName);
+                Mundo.debug(this, "Method Name: " + method.toString());
+                getStructureModifier = method;
+            } catch (NoSuchMethodException e1) {
+                Mundo.debug(this, e1);
+                Skript.error("The enum method name " + enumMethodName + " is not applicable for the '%string% penum %number% of %packet%' expression.");
+                return false;
+            }
         }
         PacketContainer testContainer = new PacketContainer(PacketType.Play.Server.CHAT);
         StructureModifier<?> structureModifier = null;
         try {
             structureModifier = (StructureModifier) getStructureModifier.invoke(testContainer);
-        } catch (IllegalAccessException e) {
-            Mundo.debug(this, e);
-            Skript.error("The enum method name " + enumMethodName + " is not applicable for the '%string% penum %number% of %packet%' expression.");
-            return false;
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             Mundo.debug(this, e);
             Skript.error("The enum method name " + enumMethodName + " is not applicable for the '%string% penum %number% of %packet%' expression.");
             return false;
         }
         Class<?> enumClass = structureModifier.getFieldType();
+        Mundo.debug(this, "ENUM CLASS: " + enumClass);
         if (!Enum.class.isAssignableFrom(enumClass)) {
             Skript.error("The enum method name " + enumMethodName + " is not applicable for the '%string% penum %number% of %packet%' expression.");
             return false;

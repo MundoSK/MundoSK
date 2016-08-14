@@ -181,41 +181,4 @@ public abstract class CustomScope extends Condition {
 	
 	public void afterSetScope() {}
 
-
-
-	//Code that will be removed as custom scopes no longer need to function as standalone conditions
-	
-	@Override
-	public TriggerItem walk(final Event e) {
-		run(e);
-		debug(e, true);
-		return scope.getNext();
-	}
-	
-	@Override
-	public TriggerItem setNext(final @Nullable TriggerItem next) {
-		this.scope = (Conditional) next;
-		return this;
-	}
-	
-	@Override
-	public TriggerItem setParent(final @Nullable TriggerSection parent) {
-		super.parent = parent;
-		try {
-			if (this.scope instanceof TriggerSection) this.first = (TriggerItem) firstitem.get(scope);
-			else this.first = this.scope;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		afterSetScope();
-		return this;
-	}
-
-	@Override
-	public TriggerItem getNext() {
-		return scope.getNext();
-	}
-	
-
-
 }

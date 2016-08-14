@@ -4,14 +4,18 @@ import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.function.BiConsumer;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
+import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Parser;
 import ch.njol.skript.classes.Serializer;
+import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.EnchantmentType;
@@ -21,6 +25,9 @@ import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.util.Slot;
 
+import ch.njol.skript.variables.SerializedVariable;
+import ch.njol.util.Checker;
+import ch.njol.util.Kleenean;
 import ch.njol.yggdrasil.Fields;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -64,6 +71,7 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.NotePlayEvent;
@@ -242,7 +250,7 @@ public class Mundo extends JavaPlugin{
             public String getVariableNamePattern() {
                 return ".+";
             }
-        }));
+        }).defaultExpression(new ExprNewRandom()));
         Skript.registerEffect(EffRegisterGenerator.class, "register [custom] [world] generator with id %string% to generate chunks through %codeblock% [and get fixed spawn through %-codeblock%]");
         Skript.registerEffect(EffSetRegionInChunkData.class,
                 "fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%",
@@ -251,25 +259,77 @@ public class Mundo extends JavaPlugin{
         Skript.registerExpression(ExprMaterialInChunkData.class, ItemStack.class, ExpressionType.PROPERTY, "material at %number%, %number%, %number% in %chunkdata%");
         Skript.registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%");
         Skript.registerExpression(ExprNewRandom.class, Random.class, ExpressionType.PROPERTY, "new random [from seed %number%]");
-        Skript.registerExpression(ExprNextRandomValue.class, Object.class, ExpressionType.PROPERTY, "next (0¦int|1¦long|2¦float|3¦double|4¦gaussian|5¦int less than %-number%|6¦boolean) from random %random%");
-
+        Skript.registerExpression(ExprNextRandomValue.class, Object.class, ExpressionType.PROPERTY, "random (0¦int|1¦long|2¦float|3¦double|4¦gaussian|5¦int less than %-number%|6¦boolean) [from random %random%]");
         //Json
         Classes.registerClass(new ClassInfo<JSONObject>(JSONObject.class, "jsonobject").user(new String[]{"jsonobject"}).name("jsonobject").parser(new Parser<JSONObject>(){
 
             public JSONObject parse(String s, ParseContext context) {
-                return null;
+                JSONObject result = null;
+                try {
+                    result = (JSONObject) (new JSONParser()).parse(s);
+                } catch (ParseException | ClassCastException e) {
+                    //If parsing to a JSONObject fails, return null
+                }
+                return result;
             }
 
             public String toString(JSONObject jsonObject, int flags) {
-                return jsonObject.toString();
+                return jsonObject.toJSONString();
             }
 
             public String toVariableNameString(JSONObject jsonObject) {
-                return jsonObject.toString();
+                return jsonObject.toJSONString();
             }
 
             public String getVariableNamePattern() {
                 return ".+";
+            }
+        }).serializer(new Serializer<JSONObject>() {
+            @Override
+            public Fields serialize(JSONObject jsonObject) throws NotSerializableException {
+                JSONObject toBecomeString = new JSONObject();
+                jsonObject.forEach(new BiConsumer() {
+                    @Override
+                    public void accept(Object o, Object o2) {
+                        SerializedVariable.Value value = Classes.serialize(o2);
+                        if (value != null) {
+                            JSONObject valueJSON = new JSONObject();
+                            valueJSON.put("type", value.type);
+                            valueJSON.put("data", new String(value.data));
+                            toBecomeString.put(o, valueJSON);
+                        }
+                    }
+                });
+                Fields fields = new Fields();
+                fields.putObject("value", toBecomeString.toJSONString());
+                return fields;
+            }
+
+            @Override
+            public void deserialize(JSONObject jsonObject, Fields fields) throws StreamCorruptedException, NotSerializableException {
+                try {
+                    JSONObject fromString = (JSONObject) (new JSONParser()).parse((String) fields.getObject("value"));
+                    fromString.forEach(new BiConsumer() {
+                        @Override
+                        public void accept(Object o, Object o2) {
+                            JSONObject valueJSON = (JSONObject) o2;
+                            Object value = Classes.deserialize((String) valueJSON.get("type"), ((String) valueJSON.get("data")).getBytes());
+                            jsonObject.put(o, value);
+                        }
+                    });
+                } catch (ParseException | ClassCastException e) {
+                    throw new StreamCorruptedException();
+                }
+            }
+
+            @Override
+            public boolean mustSyncDeserialization() {
+                return false;
+            }
+
+            @Override
+            protected boolean canBeInstantiated() {
+                return true;
             }
         }));
         Skript.registerEffect(EffPutJsonInListVariable.class, "put json %jsonobject% in listvar %objects%", "put jsons %jsonobjects% in listvar %objects%");
@@ -618,19 +678,19 @@ public class Mundo extends JavaPlugin{
                 @Override
                 public Fields serialize(SkinTexture skinTexture) throws NotSerializableException {
                     Fields fields = new Fields();
-                    fields.putObject("jsonarray", skinTexture.toJSONArray().toJSONString());
+                    fields.putObject("value", skinTexture.toJSONArray().toJSONString());
                     return fields;
                 }
 
                 @Override
                 public void deserialize(SkinTexture skinTexture, Fields fields) throws StreamCorruptedException, NotSerializableException {
-                    assert false;
+                    throw new UnsupportedOperationException("SkinTexture does not have a nullary constructor!");
                 }
 
                 @Override
                 public SkinTexture deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
                     try {
-                        return new SkinTexture((JSONArray) (new JSONParser()).parse((String) fields.getObject("jsonarray")));
+                        return new SkinTexture((JSONArray) (new JSONParser()).parse((String) fields.getObject("value")));
                     } catch (ParseException | ClassCastException e) {
                         throw new StreamCorruptedException();
                     }
