@@ -38,6 +38,7 @@ public class ExprFunctionCodeBlock extends SimpleExpression<CodeBlock> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+        stringExpression = (Expression<String>) expressions[0];
         return true;
     }
 }

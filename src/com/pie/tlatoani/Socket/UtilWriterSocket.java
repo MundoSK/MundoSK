@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 
+import ch.njol.skript.lang.function.Function;
 import com.pie.tlatoani.Mundo;
 
 import ch.njol.skript.lang.function.Functions;
@@ -67,8 +68,14 @@ public class UtilWriterSocket implements Runnable{
 				argsinfo[1] = host;
 				argsinfo[2] = port;
 				args[1] = argsinfo;
-				if (Functions.getFunction(redirect) != null) {
-					Functions.getFunction(redirect).execute(args);
+				Function handler = Functions.getFunction(redirect);
+				if (handler != null) {
+					Mundo.scheduler.runTask(Mundo.instance, new Runnable() {
+						@Override
+						public void run() {
+							handler.execute(args);
+						}
+					});
 					debug("Writer Socket with host" + host + ", port" + port + " successfully found function " + redirect);
 				} else debug("Writer Socket with host" + host + ", port" + port + " didn't find function " + redirect);
 			}

@@ -62,7 +62,6 @@ import com.pie.tlatoani.WorldBorder.*;
 import com.pie.tlatoani.WorldCreator.*;
 import com.pie.tlatoani.WorldManagement.*;
 import com.pie.tlatoani.Metrics.*;
-import com.pie.tlatoani.TestSyntaxes.TestTabUpdate;
 
 import org.bukkit.*;
 import org.bukkit.World.Environment;
@@ -899,9 +898,6 @@ public class Mundo extends JavaPlugin{
         Skript.registerEffect(EffRunCreatorOnStart.class, "run %creator% on start");
         Skript.registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start");
         Skript.registerExpression(ExprCurrentWorlds.class,World.class,ExpressionType.SIMPLE,"[all] current worlds");
-		//Test
-        Skript.registerEffect(TestTabUpdate.class, "mundosk test update_player_info target %player% display_name %string% ping %number% mode %string% uuid %string%");
-		UtilPacketEvent.testStuff();
         //
 		try {
 			Field classinfos = Classes.class.getDeclaredField("tempClassInfos");
@@ -911,7 +907,7 @@ public class Mundo extends JavaPlugin{
 			for (int i = 0; i < classes.size(); i++)
 				registerCustomEventValue(classes.get(i));
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			reportException(this, e1);
 		}
         if (Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10")) {
             VersionSpecificRegistry.register();
