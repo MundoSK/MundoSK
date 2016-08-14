@@ -14,6 +14,12 @@ import java.util.Random;
  */
 public class ExprNewRandom extends SimpleExpression<Random> implements DefaultExpression<Random> {
     Expression<Number> seed;
+    boolean isDefault = false;
+
+    public ExprNewRandom setDefault() {
+        isDefault = true;
+        return this;
+    }
 
     @Override
     protected Random[] get(Event event) {
@@ -26,6 +32,11 @@ public class ExprNewRandom extends SimpleExpression<Random> implements DefaultEx
     @Override
     public boolean isSingle() {
         return true;
+    }
+
+    @Override
+    public boolean isDefault() {
+        return isDefault;
     }
 
     @Override

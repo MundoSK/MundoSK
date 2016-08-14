@@ -250,7 +250,7 @@ public class Mundo extends JavaPlugin{
             public String getVariableNamePattern() {
                 return ".+";
             }
-        }).defaultExpression(new ExprNewRandom()));
+        }).defaultExpression((new ExprNewRandom()).setDefault()));
         Skript.registerEffect(EffRegisterGenerator.class, "register [custom] [world] generator with id %string% to generate chunks through %codeblock% [and get fixed spawn through %-codeblock%]");
         Skript.registerEffect(EffSetRegionInChunkData.class,
                 "fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%",
