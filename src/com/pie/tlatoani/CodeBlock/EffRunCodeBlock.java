@@ -4,10 +4,8 @@ import ch.njol.skript.lang.*;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.EmptyEvent;
 import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
 import java.util.TreeMap;
 
@@ -15,7 +13,7 @@ import java.util.TreeMap;
  * Created by Tlatoani on 6/5/16.
  */
 public class EffRunCodeBlock extends Effect {
-    private Expression<SkriptCodeBlock> codeBlockExpression;
+    private Expression<CodeBlock> codeBlockExpression;
     private Integer mark;
     private Expression args;
     private VariableString variableString;
@@ -45,12 +43,12 @@ public class EffRunCodeBlock extends Effect {
     @Override
     protected void execute(Event event) {
         if (mark < 4) {
-            for (SkriptCodeBlock codeBlock : codeBlockExpression.getArray(event)) {
+            for (CodeBlock codeBlock : codeBlockExpression.getArray(event)) {
                 codeBlock.execute(getLocalEvent(event, mark));
             }
         } else {
             Event localevent = getLocalEvent(event, mark);
-            for (SkriptCodeBlock codeBlock : codeBlockExpression.getArray(event)) {
+            for (CodeBlock codeBlock : codeBlockExpression.getArray(event)) {
                 codeBlock.execute(localevent);
             }
         }
@@ -63,7 +61,7 @@ public class EffRunCodeBlock extends Effect {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        codeBlockExpression = (Expression<SkriptCodeBlock>) expressions[0];
+        codeBlockExpression = (Expression<CodeBlock>) expressions[0];
         mark = parseResult.mark;
         args = expressions[1];
         if (args instanceof Variable) {

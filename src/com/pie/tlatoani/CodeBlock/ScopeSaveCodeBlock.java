@@ -12,8 +12,6 @@ import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.CustomScope;
 import org.bukkit.event.Event;
 
-import javax.annotation.Nullable;
-
 /**
  * Created by Tlatoani on 6/5/16.
  */
@@ -21,7 +19,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
     private Variable variable;
     private VariableString variableString;
     private Boolean variableIsLocal;
-    private SkriptCodeBlock skriptCodeBlock;
+    private CodeBlock skriptCodeBlock;
 
     @Override
     public boolean init(Expression<?>[] exprs, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
@@ -39,7 +37,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
 
     @Override
     public void afterSetScope() {
-        skriptCodeBlock = new SkriptCodeBlock(first);
+        skriptCodeBlock = new ScopeCodeBlock(first);
         Mundo.debug(this, "SkCB: " + skriptCodeBlock);
     }
 

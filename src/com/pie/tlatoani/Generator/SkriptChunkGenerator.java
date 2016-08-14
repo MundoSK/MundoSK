@@ -1,6 +1,6 @@
 package com.pie.tlatoani.Generator;
 
-import com.pie.tlatoani.CodeBlock.SkriptCodeBlock;
+import com.pie.tlatoani.CodeBlock.CodeBlock;
 import com.pie.tlatoani.Util.EmptyEvent;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -12,22 +12,22 @@ import java.util.Random;
  * Created by Tlatoani on 7/3/16.
  */
 public class SkriptChunkGenerator extends ChunkGenerator {
-    private SkriptCodeBlock generateChunkData;
-    private SkriptCodeBlock getFixedSpawnLocation;
+    private CodeBlock generateChunkData;
+    private CodeBlock getFixedSpawnLocation;
 
-    public SkriptCodeBlock getGenerateChunkData() {
+    public CodeBlock getGenerateChunkData() {
         return generateChunkData;
     }
 
-    public void setGenerateChunkData(SkriptCodeBlock generateChunkData) {
+    public void setGenerateChunkData(CodeBlock generateChunkData) {
         this.generateChunkData = generateChunkData;
     }
 
-    public SkriptCodeBlock getGetFixedSpawnLocation() {
+    public CodeBlock getGetFixedSpawnLocation() {
         return getFixedSpawnLocation;
     }
 
-    public void setGetFixedSpawnLocation(SkriptCodeBlock getFixedSpawnLocation) {
+    public void setGetFixedSpawnLocation(CodeBlock getFixedSpawnLocation) {
         this.getFixedSpawnLocation = getFixedSpawnLocation;
     }
 

@@ -113,9 +113,9 @@ public class ExprEnumOfPacket extends SimpleExpression<String> {
             StructureModifier structureModifier = (StructureModifier) getStructureModifier.invoke(packetContainerExpression.getSingle(event));
             Object value = Enum.valueOf(enumClass, ((String) delta[0]).toUpperCase());
             structureModifier.writeSafely(index.getSingle(event).intValue(), value);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
             Mundo.debug(this, e);
-        } catch (IllegalArgumentException e) {}
+        }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

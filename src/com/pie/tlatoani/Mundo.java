@@ -4,18 +4,15 @@ import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
-import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Parser;
 import ch.njol.skript.classes.Serializer;
-import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.EnchantmentType;
@@ -26,8 +23,6 @@ import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.util.Slot;
 
 import ch.njol.skript.variables.SerializedVariable;
-import ch.njol.util.Checker;
-import ch.njol.util.Kleenean;
 import ch.njol.yggdrasil.Fields;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -71,7 +66,6 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.NotePlayEvent;
@@ -168,17 +162,17 @@ public class Mundo extends JavaPlugin{
 		Skript.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
 		Skript.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
 		//CodeBlock
-        Classes.registerClass(new ClassInfo<SkriptCodeBlock>(SkriptCodeBlock.class, "codeblock").user(new String[]{"codeblock"}).name("codeblock").parser(new Parser<SkriptCodeBlock>(){
+        Classes.registerClass(new ClassInfo<CodeBlock>(CodeBlock.class, "codeblock").user(new String[]{"codeblock"}).name("codeblock").parser(new Parser<CodeBlock>(){
 
-            public SkriptCodeBlock parse(String s, ParseContext context) {
+            public CodeBlock parse(String s, ParseContext context) {
                 return null;
             }
 
-            public String toString(SkriptCodeBlock codeBlock, int flags) {
+            public String toString(CodeBlock codeBlock, int flags) {
                 return null;
             }
 
-            public String toVariableNameString(SkriptCodeBlock codeBlock) {
+            public String toVariableNameString(CodeBlock codeBlock) {
                 return null;
             }
 
@@ -187,7 +181,7 @@ public class Mundo extends JavaPlugin{
             }
         }));
         Skript.registerCondition(ScopeSaveCodeBlock.class, "codeblock %object%");
-        Skript.registerEffect(EffRunCodeBlock.class, "run codeblock %codeblock% [(1¦here|2¦with %-objects%)]", "run codeblocks %codeblocks% [(5¦here|2¦with %-objects%|4¦in a chain|6¦with %-objects% in a chain)]");
+        Skript.registerEffect(EffRunCodeBlock.class, "((run|execute) codeblock|codeblock (run|execute)) %codeblock% [(1¦here|2¦with %-objects%)]", "((run|execute) codeblock|codeblock (run|execute)) %codeblocks% [(5¦here|2¦with %-objects%|4¦in a chain|6¦with %-objects% in a chain)]");
         //CustomEvent
         Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
         Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "evt %strings%");

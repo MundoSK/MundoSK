@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.CodeBlock.SkriptCodeBlock;
+import com.pie.tlatoani.CodeBlock.CodeBlock;
 import org.bukkit.event.Event;
 
 /**
@@ -12,8 +12,8 @@ import org.bukkit.event.Event;
  */
 public class EffRegisterGenerator extends Effect {
     private Expression<String> generatorID;
-    private Expression<SkriptCodeBlock> generateChunks;
-    private Expression<SkriptCodeBlock> getSpawn;
+    private Expression<CodeBlock> generateChunks;
+    private Expression<CodeBlock> getSpawn;
 
     @Override
     protected void execute(Event event) {
@@ -32,8 +32,8 @@ public class EffRegisterGenerator extends Effect {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         generatorID = (Expression<String>) expressions[0];
-        generateChunks = (Expression<SkriptCodeBlock>) expressions[1];
-        getSpawn = (Expression<SkriptCodeBlock>) expressions[2];
+        generateChunks = (Expression<CodeBlock>) expressions[1];
+        getSpawn = (Expression<CodeBlock>) expressions[2];
         return true;
     }
 }

@@ -8,9 +8,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * Created by Tlatoani on 6/5/16.
+ * Created by Tlatoani on 8/14/16.
  */
-public class SkriptCodeBlock {
+public class ScopeCodeBlock implements CodeBlock {
     public static Method run;
     private TriggerItem first;
 
@@ -23,7 +23,7 @@ public class SkriptCodeBlock {
         }
     }
 
-    public SkriptCodeBlock(TriggerItem first) {
+    public ScopeCodeBlock(TriggerItem first) {
         this.first = first;
     }
 
