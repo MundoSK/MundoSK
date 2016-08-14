@@ -11,9 +11,14 @@ import java.util.function.BiConsumer;
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
 import ch.njol.skript.classes.ClassInfo;
+import ch.njol.skript.classes.Converter;
 import ch.njol.skript.classes.Parser;
 import ch.njol.skript.classes.Serializer;
+import ch.njol.skript.lang.function.Function;
+import ch.njol.skript.lang.function.Functions;
+import ch.njol.skript.lang.function.ScriptFunction;
 import ch.njol.skript.registrations.Classes;
+import ch.njol.skript.registrations.Converters;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.EnchantmentType;
 import ch.njol.skript.util.Getter;
@@ -182,6 +187,14 @@ public class Mundo extends JavaPlugin{
         }));
         Skript.registerCondition(ScopeSaveCodeBlock.class, "codeblock %object%");
         Skript.registerEffect(EffRunCodeBlock.class, "((run|execute) codeblock|codeblock (run|execute)) %codeblock% [(1¦here|2¦with %-objects%)]", "((run|execute) codeblock|codeblock (run|execute)) %codeblocks% [(5¦here|2¦with %-objects%|4¦in a chain|6¦with %-objects% in a chain)]");
+        Skript.registerExpression(ExprFunctionCodeBlock.class, CodeBlock.class, ExpressionType.PROPERTY, "codeblock of function %string%");
+        Converters.registerConverter(String.class, CodeBlock.class, new Converter<String, CodeBlock>() {
+            @Override
+            public CodeBlock convert(String s) {
+                Function function = Functions.getFunction(s);
+                return function instanceof ScriptFunction ? new FunctionCodeBlock((ScriptFunction) function) : null;
+            }
+        });
         //CustomEvent
         Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
         Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "evt %strings%");
