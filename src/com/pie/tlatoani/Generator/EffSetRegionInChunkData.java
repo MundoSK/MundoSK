@@ -44,6 +44,7 @@ public class EffSetRegionInChunkData extends Effect {
         ChunkData chunkData = chunkDataExpression.getSingle(event);
         ItemStack itemStack = itemStackExpression.getSingle(event);
         MaterialData materialData = itemStack.getData();
+        Mundo.debug(this, "MATERIALDATA: " + materialData);
         chunkData.setRegion(x1, y1, z1, x2, y2, z2, materialData);
     }
 

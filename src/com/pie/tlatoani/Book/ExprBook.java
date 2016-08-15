@@ -55,7 +55,7 @@ public class ExprBook extends SimpleExpression<ItemStack>{
 		BookMeta meta = (BookMeta) input.getItemMeta();
 		meta.setTitle(title.getSingle(arg0));
 		meta.setAuthor(author.getSingle(arg0));
-		meta.setPages(texts.getAll(arg0));
+		meta.setPages(texts.getArray(arg0));
 		ItemStack result = book.getSingle(arg0).clone();
 		result.setItemMeta(meta);
 		return new ItemStack[]{result};

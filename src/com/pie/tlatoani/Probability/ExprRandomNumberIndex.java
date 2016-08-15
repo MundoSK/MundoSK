@@ -41,7 +41,7 @@ public class ExprRandomNumberIndex extends SimpleExpression<Integer> {
 	@Override
 	@Nullable
 	protected Integer[] get(Event e) {
-		List<Number> probs = Arrays.asList(numbers.getAll(e));
+		List<Number> probs = Arrays.asList(numbers.getArray(e));
 		List<Number> nums = new ArrayList<Number>();
 		Number sum = 0;
 		for (int i = 0; i < probs.size(); i++) {

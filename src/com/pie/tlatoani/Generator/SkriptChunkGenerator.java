@@ -1,6 +1,7 @@
 package com.pie.tlatoani.Generator;
 
 import com.pie.tlatoani.CodeBlock.CodeBlock;
+import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.EmptyEvent;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -44,7 +45,8 @@ public class SkriptChunkGenerator extends ChunkGenerator {
         event.setLocalVariable("x", x);
         event.setLocalVariable("z", z);
         event.setLocalVariable("biomegrid", biome);
-        generateChunkData.execute(event);
+        generateChunkData.execute(event, false);
+        Mundo.debug(this, "5, 1, 5:: " + result.getTypeAndData(5, 1, 5));
         return result;
     }
 

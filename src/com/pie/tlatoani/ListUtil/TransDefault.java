@@ -49,7 +49,7 @@ public class TransDefault implements Transformer {
 
     @Override
     public Object[] get(Event event) {
-        return expression.getAll(event);
+        return expression.getArray(event);
     }
 
     @Override

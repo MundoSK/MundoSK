@@ -23,6 +23,8 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     private VariableString variableString;
     private WeakHashMap<Event, TreeIterator> iteratorWeakHashMap = new WeakHashMap<Event, TreeIterator>();
 
+
+
     @Override
     protected Object[] get(Event event) {
         throw new UnsupportedOperationException("'tree of %objects%' should only be used in loops!!");
@@ -52,7 +54,7 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
 
     @Override
     public boolean isLoopOf(String pattern) {
-        return pattern == "value";
+        return pattern.equals("value");
     }
 
     public String getBranch(Event event) {

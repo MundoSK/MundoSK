@@ -22,7 +22,7 @@ public class EffInsertItem extends Effect {
     @Override
     protected void execute(Event event) {
         Object[] original = transformer.get(event);
-        Object[] insertion = this.insertion.getAll(event);
+        Object[] insertion = this.insertion.getArray(event);
         Integer index = this.index.getSingle(event).intValue() - (isAfter ? 0 : 1);
         if (index < 0) {
             index = 0;

@@ -47,7 +47,7 @@ public class EffWriteToSocket extends Effect{
 			reportarg = report.getSingle(arg0);
 		}
 		if (timeout != null && timeout.getSingle(arg0).getMilliSeconds() < Integer.MAX_VALUE) timeoutarg = (int) timeout.getSingle(arg0).getMilliSeconds();
-		UtilWriterSocket exec = new UtilWriterSocket(msgs.getAll(arg0), ip.getSingle(arg0), port.getSingle(arg0).intValue(), redirectarg, reportarg, timeoutarg);
+		UtilWriterSocket exec = new UtilWriterSocket(msgs.getArray(arg0), ip.getSingle(arg0), port.getSingle(arg0).intValue(), redirectarg, reportarg, timeoutarg);
 		Bukkit.getServer().getScheduler().runTaskAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("MundoSK"), exec);
 	}
 	

@@ -184,16 +184,9 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
-        Skript.registerCondition(ScopeSaveCodeBlock.class, "codeblock %object%");
-        Skript.registerEffect(EffRunCodeBlock.class, "((run|execute) codeblock|codeblock (run|execute)) %codeblock% [(1¦here|2¦with %-objects%)]", "((run|execute) codeblock|codeblock (run|execute)) %codeblocks% [(5¦here|2¦with %-objects%|4¦in a chain|6¦with %-objects% in a chain)]");
+        Skript.registerCondition(ScopeSaveCodeBlock.class, "codeblock %object% [with [(1¦constant|2¦constant %-object%|3¦constants %-objects)] [arguments %-strings%]]");
+        Skript.registerEffect(EffRunCodeBlock.class, "((run|execute) codeblock|codeblock (run|execute)) %codeblock% [(2¦with %-objects%|3¦with variables %-objects%)]", "((run|execute) codeblock|codeblock (run|execute)) %codeblocks% [(4¦in a chain|5¦here|7¦with variables %-objects% in a chain)]");
         Skript.registerExpression(ExprFunctionCodeBlock.class, CodeBlock.class, ExpressionType.PROPERTY, "codeblock of function %string%");
-        Converters.registerConverter(String.class, CodeBlock.class, new Converter<String, CodeBlock>() {
-            @Override
-            public CodeBlock convert(String s) {
-                Function function = Functions.getFunction(s);
-                return function instanceof ScriptFunction ? new FunctionCodeBlock((ScriptFunction) function) : null;
-            }
-        });
         //CustomEvent
         Skript.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
         Skript.registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "evt %strings%");
@@ -775,7 +768,7 @@ public class Mundo extends JavaPlugin{
         Skript.registerEffect(EffScope.class, "$ scope");
         Skript.registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% while %boolean%");
         Skript.registerExpression(ExprTreeOfListVariable.class, Object.class, ExpressionType.PROPERTY, "tree of %objects%");
-        Skript.registerExpression(ExprIndexesOfListVariable.class, String.class, ExpressionType.PROPERTY, "[all [of]] [the] index[es] (of|in) [value] %objects%");
+        Skript.registerExpression(ExprIndexesOfListVariable.class, String.class, ExpressionType.PROPERTY, "[all [of]] [the] indexes (of|in) [value] %objects%");
         Skript.registerExpression(ExprBranch.class, String.class, ExpressionType.PROPERTY, "branch");
 		//WorldBorder
 		Skript.registerEffect(EffResetBorder.class, "reset %world%");
