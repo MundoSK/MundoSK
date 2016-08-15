@@ -45,6 +45,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
                     constantVariableString = VariableString.newInstance(origstring1, StringMode.VARIABLE_NAME);
                 }
             }
+            Mundo.debug(this, "ARRAY LENGTH: " + exprs.length);
             argumentNames = (Expression<String>) exprs[3];
             return true;
         }
