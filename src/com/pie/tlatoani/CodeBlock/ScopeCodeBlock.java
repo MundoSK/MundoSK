@@ -3,6 +3,7 @@ package com.pie.tlatoani.CodeBlock;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.variables.Variables;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.CustomScope;
 import com.pie.tlatoani.Util.EmptyEvent;
 import org.bukkit.event.Event;
 
@@ -18,7 +19,8 @@ public class ScopeCodeBlock implements CodeBlock {
     private TriggerItem first;
     private boolean hasConstant;
     private Object constantValue = null;
-    private String[] argumentNames = null;
+    private String[] argumentNames;
+    private String returnName;
 
     public static final String constantVariableName = "constant";
 
@@ -31,15 +33,11 @@ public class ScopeCodeBlock implements CodeBlock {
         }
     }
 
-    public ScopeCodeBlock(TriggerItem first, boolean hasConstant) {
-        this.first = first;
-        this.hasConstant = hasConstant;
-    }
-
-    public ScopeCodeBlock(TriggerItem first, boolean hasConstant, String[] argumentNames) {
+    public ScopeCodeBlock(TriggerItem first, boolean hasConstant, String[] argumentNames, String returnName) {
         this.first = first;
         this.hasConstant = hasConstant;
         this.argumentNames = argumentNames;
+        this.returnName = returnName;
     }
 
     public void setConstantSingle(Object constantValue) {
@@ -58,7 +56,7 @@ public class ScopeCodeBlock implements CodeBlock {
         this.constantValue = constantValue.clone();
     }
 
-    public void execute(Event event, boolean preserveOldValues) {
+    public Object execute(Event event, boolean preserveOldValues) {
         Object preservation = null;
         if (hasConstant) {
             if (preserveOldValues) {
@@ -72,8 +70,7 @@ public class ScopeCodeBlock implements CodeBlock {
         Mundo.debug(this, "End: " + end);
         while (going != null && going != end) {
             try {
-                run.invoke(going, event);
-                going = going.getNext();
+                going = (TriggerItem) CustomScope.walkmethod.invoke(going, event);
                 Mundo.debug(this, "going: " + going);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
@@ -86,15 +83,28 @@ public class ScopeCodeBlock implements CodeBlock {
                 Variables.setVariable(constantVariableName, preservation, event, true);
             }
         }
+        if (returnName != null) {
+            return Variables.getVariable(returnName, event, true);
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public void execute(Object[] args) {
+    public Object execute(Object[] args) {
         EmptyEvent event = new EmptyEvent();
         if (argumentNames != null) {
             for (int i = 0; i < Math.min(argumentNames.length, args.length); i++) {
-                event.setLocalVariable(argumentNames[i], args[i]);
+                if (args[i] instanceof Object[]) {
+                    Mundo.setListVariable(argumentNames[i], Mundo.listVariableFromArray((Object[]) args[i]), event, true);
+                } else if (args[i] instanceof TreeMap) {
+                    Mundo.setListVariable(argumentNames[i], (TreeMap<String, Object>) args[i], event, true);
+                } else {
+                    event.setLocalVariable(argumentNames[i], args[i]);
+                }
             }
         }
+        return execute(event, false);
     }
+
 }

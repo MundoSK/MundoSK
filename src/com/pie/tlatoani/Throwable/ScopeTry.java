@@ -11,7 +11,7 @@ import com.pie.tlatoani.Util.CustomScope;
 import ch.njol.skript.lang.TriggerItem;
 
 public class ScopeTry extends CustomScope {
-	private CondCatch condCatch = null;
+	private ScopeCatch scopeCatch = null;
 
 	@Override
 	public String getString() {
@@ -39,8 +39,8 @@ public class ScopeTry extends CustomScope {
 				Mundo.debug(this, e1);
 			}
 		}
-		if (condCatch != null) {
-			condCatch.putCatch(e, ((caught != null) ? caught.getCause() : null));
+		if (scopeCatch != null) {;
+			scopeCatch.catchThrowable(e, ((caught != null) ? caught.getCause() : null));
 		}
 		ExprCatch.catches.put(e, ((caught != null) ? caught.getCause() : null));
 	}
@@ -51,8 +51,8 @@ public class ScopeTry extends CustomScope {
 		if (possibleCatch instanceof Conditional) {
 			try {
 				Condition catchCond = (Condition) CustomScope.condition.get(possibleCatch);
-				if (catchCond instanceof CondCatch) {
-					this.condCatch = (CondCatch) catchCond;
+				if (catchCond instanceof ScopeCatch) {
+					this.scopeCatch = (ScopeCatch) catchCond;
 				} else {
 					Skript.warning("It is recommended to use a catch statement after a try statement");
 				}

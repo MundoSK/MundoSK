@@ -23,6 +23,7 @@ public class EffSetRegionInChunkData extends Effect {
     private Expression<ChunkData> chunkDataExpression;
     private Expression<ItemStack> itemStackExpression;
     private int matchedPattern;
+
     @Override
     protected void execute(Event event) {
         int x1 = 0;
@@ -45,7 +46,7 @@ public class EffSetRegionInChunkData extends Effect {
         ItemStack itemStack = itemStackExpression.getSingle(event);
         MaterialData materialData = itemStack.getData();
         Mundo.debug(this, "MATERIALDATA: " + materialData);
-        chunkData.setRegion(x1, y1, z1, x2, y2, z2, materialData);
+        chunkData.setRegion(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2), Math.max(x1, x2) + 1, Math.max(y1, y2) + 1, Math.max(z1, z2) + 1, materialData);
     }
 
     @Override

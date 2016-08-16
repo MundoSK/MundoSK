@@ -15,7 +15,7 @@ import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.lang.TriggerSection;
 import ch.njol.util.Kleenean;
 
-public class CondProbability extends Condition {
+public class CondProbabilityValue extends Condition {
 	public Boolean ret = true;
 	private Expression<Number> num;
 	public TriggerSection section;

@@ -39,13 +39,7 @@ public class SkriptChunkGenerator extends ChunkGenerator {
         }
         EmptyEvent event = new EmptyEvent();
         ChunkData result = createChunkData(world);
-        event.setLocalVariable("chunkdata", result);
-        event.setLocalVariable("world", world);
-        event.setLocalVariable("random", random);
-        event.setLocalVariable("x", x);
-        event.setLocalVariable("z", z);
-        event.setLocalVariable("biomegrid", biome);
-        generateChunkData.execute(event, false);
+        generateChunkData.execute(new Object[]{x, z, result, world, random, biome}); //This must be the ordering of arguments
         Mundo.debug(this, "5, 1, 5:: " + result.getTypeAndData(5, 1, 5));
         return result;
     }
@@ -58,6 +52,7 @@ public class SkriptChunkGenerator extends ChunkGenerator {
         EmptyEvent event = new EmptyEvent();
         event.setLocalVariable("world", world);
         event.setLocalVariable("random", random);
+        getFixedSpawnLocation.execute(new Object[]{world, random}); //This must be the ordering of arguments
         return (Location) event.getLocalVariable("spawn");
     }
 }

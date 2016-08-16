@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
  */
 public interface CodeBlock {
 
-    void execute(Event event, boolean preserveOldValues);
+    Object execute(Event event, boolean preserveOldValues);
 
-    void execute(Object[] args);
+    Object execute(Object[] args);
 }

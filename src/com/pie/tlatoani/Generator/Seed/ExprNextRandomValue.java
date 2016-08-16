@@ -55,6 +55,7 @@ public class ExprNextRandomValue extends SimpleExpression<Object> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         maxExpression = (Expression<Number>) expressions[0];
         randomExpression = (Expression<Random>) expressions[1];
+        mark = parseResult.mark;
         return true;
     }
 }

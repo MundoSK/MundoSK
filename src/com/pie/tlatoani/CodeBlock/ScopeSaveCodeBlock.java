@@ -25,10 +25,10 @@ public class ScopeSaveCodeBlock extends CustomScope {
     private VariableString constantVariableString;
     private int mark;
     private Expression<String> argumentNames;
-
+    private Expression<String> returnNames;
 
     @Override
-    public boolean init(Expression<?>[] exprs, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
+    public boolean init() {
         if (exprs[0] instanceof Variable) {
             variable = (Variable) exprs[0];
             String origstring = variable.isLocal() ? variable.toString().substring(2, variable.toString().length() - 1) : variable.toString().substring(1, variable.toString().length() - 1);
@@ -45,8 +45,8 @@ public class ScopeSaveCodeBlock extends CustomScope {
                     constantVariableString = VariableString.newInstance(origstring1, StringMode.VARIABLE_NAME);
                 }
             }
-            Mundo.debug(this, "ARRAY LENGTH: " + exprs.length);
             argumentNames = (Expression<String>) exprs[3];
+            returnNames = (Expression<String>) exprs[4];
             return true;
         }
         Skript.error(exprs[0].toString() + " is not a variable!");
@@ -60,7 +60,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
 
     @Override
     public void go(Event e) {
-        ScopeCodeBlock scopeCodeBlock = new ScopeCodeBlock(first, mark != 0, argumentNames == null ? null : argumentNames.getArray(e));
+        ScopeCodeBlock scopeCodeBlock = new ScopeCodeBlock(first, mark != 0, argumentNames != null ? argumentNames.getArray(e) : new String[0], returnNames != null ? returnNames.getSingle(e) : null);
         switch (mark) {
             case 2: scopeCodeBlock.setConstantSingle(constant.getSingle(e));
                 break;

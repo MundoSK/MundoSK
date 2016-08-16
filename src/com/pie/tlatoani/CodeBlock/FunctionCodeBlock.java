@@ -1,48 +1,55 @@
 package com.pie.tlatoani.CodeBlock;
 
 import ch.njol.skript.lang.Trigger;
-import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.lang.function.Function;
+import ch.njol.skript.lang.function.FunctionEvent;
+import ch.njol.skript.lang.function.Parameter;
 import ch.njol.skript.lang.function.ScriptFunction;
+import ch.njol.skript.variables.Variables;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.WeakHashMap;
 
 /**
  * Created by Tlatoani on 8/14/16.
  */
 public class FunctionCodeBlock implements CodeBlock {
     Function function;
-    Trigger trigger;
 
-    public static Field triggerField;
+    private static WeakHashMap weakHashMap;
 
     static {
         try {
-            triggerField = ScriptFunction.class.getDeclaredField("trigger");
-            triggerField.setAccessible(true);
-        } catch (NoSuchFieldException e) {
+            Field localVariables = Variables.class.getDeclaredField("localVariables");
+            localVariables.setAccessible(true);
+            weakHashMap = (WeakHashMap) localVariables.get(null);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             Mundo.reportException(FunctionCodeBlock.class, e);
         }
     }
 
-    public FunctionCodeBlock(ScriptFunction function) {
+    public FunctionCodeBlock(Function function) {
         this.function = function;
-        try {
-            trigger = (Trigger) triggerField.get(function);
-        } catch (IllegalAccessException | ClassCastException e) {
-            e.printStackTrace();
+    }
+
+    @Override
+    public Object execute(Event event, boolean preserveOldValues) {
+        FunctionEvent functionEvent = new FunctionEvent();
+        weakHashMap.put(functionEvent, weakHashMap.get(event));
+        Parameter[] parameters = function.getParameters();
+        Object[][] args = new Object[parameters.length][1];
+        for (int i = 0; i < parameters.length; i++) {
+            String paramToString = parameters[i].toString();
+            args[i][0] = Variables.getVariable(paramToString.substring(0, paramToString.indexOf(':')), event, true);
         }
+        return function.execute(functionEvent, args);
     }
 
     @Override
-    public void execute(Event event, boolean preserveOldValues) {
-        trigger.execute(event);
-    }
-
-    @Override
-    public void execute(Object[] args) {
+    public Object execute(Object[] args) {
         Object[][] funcArgs = new Object[args.length][];
         for (int i = 0; i < args.length; i++) {
             if (args[i] instanceof Object[]) {
@@ -51,6 +58,6 @@ public class FunctionCodeBlock implements CodeBlock {
                 funcArgs[i] = new Object[]{args[i]};
             }
         }
-        function.execute(funcArgs);
+        return function.execute(funcArgs);
     }
 }

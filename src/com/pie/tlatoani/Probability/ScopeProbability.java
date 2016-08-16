@@ -13,7 +13,7 @@ import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.lang.TriggerSection;
 
 public class ScopeProbability extends CustomScope {
-	private List<CondProbability> probs = new ArrayList<CondProbability>();
+	private List<CondProbabilityValue> probs = new ArrayList<CondProbabilityValue>();
 	private List<TriggerItem> triggeritems = new ArrayList<TriggerItem>();
 	private List<Integer> indeces = new ArrayList<Integer>();
 
@@ -37,7 +37,7 @@ public class ScopeProbability extends CustomScope {
 			if (random.doubleValue() <= nums.get(j).doubleValue()) searching = false;
 			else j++;
 		}
-		CondProbability start = probs.get(j);
+		CondProbabilityValue start = probs.get(j);
 		if (!start.ret) {
 			TriggerItem uniquegoing = start.first;
 			Boolean uniquewithin = true;
@@ -92,15 +92,15 @@ public class ScopeProbability extends CustomScope {
 		TriggerItem end = scope.getNext();
 		Integer i = 0;
 		while (within) {
-			if (going instanceof CondProbability) {
-				probs.add((CondProbability) going);
+			if (going instanceof CondProbabilityValue) {
+				probs.add((CondProbabilityValue) going);
 				indeces.add(i);
 			} else if (going instanceof Conditional) {
 				try {
 					Object goingcond = condition.get((TriggerSection) going);
-					if (goingcond instanceof CondProbability) {
-						probs.add((CondProbability) goingcond);
-						((CondProbability) goingcond).setTriggerSection((TriggerSection) going);
+					if (goingcond instanceof CondProbabilityValue) {
+						probs.add((CondProbabilityValue) goingcond);
+						((CondProbabilityValue) goingcond).setTriggerSection((TriggerSection) going);
 						indeces.add(i);
 					} else {
 						triggeritems.add(going);

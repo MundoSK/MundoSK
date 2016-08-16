@@ -30,6 +30,7 @@ public abstract class CustomScope extends Condition {
 	protected TriggerSection scopeParent;
 	protected Conditional scope = null;
 	protected TriggerItem first;
+
 	protected Expression<?>[] exprs;
 	protected Integer arg1;
 	protected Kleenean arg2;
@@ -155,8 +156,7 @@ public abstract class CustomScope extends Condition {
 			scopeParent = ScriptLoader.currentSections.get(currentSectionsSize - 1);
 		else
 			querySetScope();
-		afterInit();
-		return true;
+		return init();
 	}
 
 	@Override
@@ -175,9 +175,11 @@ public abstract class CustomScope extends Condition {
 
 	public abstract String getString();
 
-	public abstract void go(Event e);
+	public void go(Event e) {}
 
-	public void afterInit() {}
+	public boolean init() {
+		return true;
+	}
 	
 	public void afterSetScope() {}
 
