@@ -49,10 +49,8 @@ public class SkriptChunkGenerator extends ChunkGenerator {
         if (getFixedSpawnLocation == null) {
             return null;
         }
-        EmptyEvent event = new EmptyEvent();
-        event.setLocalVariable("world", world);
-        event.setLocalVariable("random", random);
         getFixedSpawnLocation.execute(new Object[]{world, random}); //This must be the ordering of arguments
-        return (Location) event.getLocalVariable("spawn");
+        Object result = getFixedSpawnLocation.execute(new Object[]{world, random});
+        return result instanceof Location ? (Location) result : null;
     }
 }

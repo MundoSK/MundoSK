@@ -183,7 +183,7 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
-        registerScope(ScopeSaveCodeBlock.class, "codeblock %object% [with (1¦constant|2¦constant %-object%|3¦constants %-objects)] [:: %-strings%] [-> %-string%]");
+        registerScope(ScopeSaveCodeBlock.class, "codeblock %object% [with (1¦constant|2¦constant %-object%|3¦constants %-objects%)] [:: %-strings%] [-> %-string%]");
         registerEffect(EffRunCodeBlock.class, "((run|execute) codeblock|codeblock (run|execute)) %codeblock% [(2¦with %-objects%|3¦with variables %-objects%)]", "((run|execute) codeblock|codeblock (run|execute)) %codeblocks% [(4¦in a chain|5¦here|7¦with variables %-objects% in a chain)]");
         registerExpression(ExprFunctionCodeBlock.class, CodeBlock.class, ExpressionType.PROPERTY, "[codeblock of] function %string%");
         //CustomEvent
