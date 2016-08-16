@@ -113,6 +113,7 @@ public abstract class CustomScope extends Condition {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			Mundo.debug(this, "GUTEN ROUNDEN:: " + first);
 			afterSetScope();
 		}
 	}
