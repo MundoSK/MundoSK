@@ -215,9 +215,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         if (getObjects != null) {
             try {
                 structureModifier = (StructureModifier) getObjects.invoke(packetContainerExpression.getSingle(event));
-            } catch (IllegalAccessException e) {
-                Mundo.debug(this, e);
-            } catch (InvocationTargetException e) {
+            } catch (IllegalAccessException | InvocationTargetException e) {
                 Mundo.debug(this, e);
             }
         } else if (converter != null && isSingle) {
@@ -229,10 +227,12 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 e.printStackTrace();
             }
         }
-        if (isSingle) {
-            structureModifier.writeSafely(index.getSingle(event).intValue(), delta[0]);
-        } else {
-            structureModifier.writeSafely(index.getSingle(event).intValue(), delta);
+        if (structureModifier != null) {
+            if (isSingle) {
+                structureModifier.writeSafely(index.getSingle(event).intValue(), delta[0]);
+            } else {
+                structureModifier.writeSafely(index.getSingle(event).intValue(), delta);
+            }
         }
     }
 

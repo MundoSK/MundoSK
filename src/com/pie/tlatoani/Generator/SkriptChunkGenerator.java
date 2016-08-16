@@ -34,13 +34,12 @@ public class SkriptChunkGenerator extends ChunkGenerator {
 
     @Override
     public ChunkData generateChunkData(World world, Random random, int x, int z, ChunkGenerator.BiomeGrid biome) {
-        if (generateChunkData == null) {
-            return createChunkData(world);
-        }
-        EmptyEvent event = new EmptyEvent();
         ChunkData result = createChunkData(world);
-        generateChunkData.execute(new Object[]{x, z, result, world, random, biome}); //This must be the ordering of arguments
-        Mundo.debug(this, "5, 1, 5:: " + result.getTypeAndData(5, 1, 5));
+        if (generateChunkData != null) {
+            EmptyEvent event = new EmptyEvent();
+            generateChunkData.execute(new Object[]{x, z, result, world, random, biome}); //This must be the ordering of arguments
+            Mundo.debug(this, "5, 1, 5:: " + result.getTypeAndData(5, 1, 5));
+        }
         return result;
     }
 
@@ -49,8 +48,8 @@ public class SkriptChunkGenerator extends ChunkGenerator {
         if (getFixedSpawnLocation == null) {
             return null;
         }
-        getFixedSpawnLocation.execute(new Object[]{world, random}); //This must be the ordering of arguments
         Object result = getFixedSpawnLocation.execute(new Object[]{world, random});
+        Mundo.debug(this, "REUSLT:: " + result);
         return result instanceof Location ? (Location) result : null;
     }
 }

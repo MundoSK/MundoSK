@@ -50,6 +50,7 @@ public class FunctionCodeBlock implements CodeBlock {
 
     @Override
     public Object execute(Object[] args) {
+        Mundo.debug(this, "START:: " + args);
         Object[][] funcArgs = new Object[args.length][];
         for (int i = 0; i < args.length; i++) {
             if (args[i] instanceof Object[]) {
@@ -58,6 +59,9 @@ public class FunctionCodeBlock implements CodeBlock {
                 funcArgs[i] = new Object[]{args[i]};
             }
         }
-        return function.execute(funcArgs);
+        Mundo.debug(this, "THEN:: " + funcArgs);
+        Object result = function.execute(funcArgs);
+        Mundo.debug(this, "NOW:: " + result);
+        return result;
     }
 }

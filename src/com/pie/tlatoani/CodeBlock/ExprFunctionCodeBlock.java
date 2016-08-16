@@ -18,7 +18,7 @@ public class ExprFunctionCodeBlock extends SimpleExpression<CodeBlock> {
     @Override
     protected CodeBlock[] get(Event event) {
         Function function = Functions.getFunction(stringExpression.getSingle(event));
-        return new CodeBlock[]{function instanceof ScriptFunction ? new FunctionCodeBlock((ScriptFunction) function) : null};
+        return new CodeBlock[]{new FunctionCodeBlock(function)};
     }
 
     @Override
