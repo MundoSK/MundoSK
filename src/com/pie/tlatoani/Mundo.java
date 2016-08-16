@@ -954,11 +954,11 @@ public class Mundo extends JavaPlugin{
     //Registration
     
     public static void registerEffect(Class<? extends Effect> effectClass, String... patterns) {
-        registerEffect(effectClass, patterns);
+        Skript.registerEffect(effectClass, patterns);
     }
     
     public static <T> void registerExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, ExpressionType expressionType, String... patterns) {
-        registerExpression(expressionClass, type, expressionType, patterns);
+        Skript.registerExpression(expressionClass, type, expressionType, patterns);
     }
 
     public static void registerCondition(Class<? extends Condition> conditionClass, String... patterns) {
@@ -966,7 +966,7 @@ public class Mundo extends JavaPlugin{
     }
     
     public static void registerEvent(String name, Class<? extends SkriptEvent> eventClass, Class<? extends Event> eventType, String... patterns) {
-        registerEvent(name, eventClass, eventType, patterns);
+        Skript.registerEvent(name, eventClass, eventType, patterns);
     }
 
     public static void registerScope(Class<? extends CustomScope> conditionClass, String... patterns) {
