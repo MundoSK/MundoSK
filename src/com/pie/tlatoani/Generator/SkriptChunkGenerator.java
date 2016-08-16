@@ -50,6 +50,11 @@ public class SkriptChunkGenerator extends ChunkGenerator {
         }
         Object result = getFixedSpawnLocation.execute(new Object[]{world, random});
         Mundo.debug(this, "REUSLT:: " + result);
-        return result instanceof Location ? (Location) result : null;
+        if (result instanceof Location) {
+            Location spawn = (Location) result;
+            Mundo.debug(this, "COORDS:: " + spawn.getX() + "," + spawn.getY() + "," + spawn.getZ() + "," + spawn.getWorld());
+            return spawn;
+        }
+        return null;
     }
 }
