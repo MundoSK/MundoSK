@@ -60,7 +60,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
 
     @Override
     public void go(Event e) {
-        Mundo.debug(this, "GUTEN ROUNDEN:: " + first);
+        Mundo.debug(this, "GUTEN ROUNDEN 2:: " + first);
         ScopeCodeBlock scopeCodeBlock = new ScopeCodeBlock(first, mark != 0, argumentNames != null ? argumentNames.getArray(e) : new String[0], returnNames != null ? returnNames.getSingle(e) : null);
         switch (mark) {
             case 2: scopeCodeBlock.setConstantSingle(constant.getSingle(e));
