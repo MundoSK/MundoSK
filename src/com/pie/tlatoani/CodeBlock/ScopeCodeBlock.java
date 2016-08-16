@@ -65,6 +65,8 @@ public class ScopeCodeBlock implements CodeBlock {
             Variables.setVariable(constantVariableName, constantValue, event, true);
         }
         TriggerItem going = first;
+        Mundo.debug(this, "FIRST:: " + first);
+        Mundo.debug(this, "GETPARETN:: " + first.getParent());
         TriggerItem end = first.getParent().getNext();
         Mundo.debug(this, "First: " + first);
         Mundo.debug(this, "End: " + end);
