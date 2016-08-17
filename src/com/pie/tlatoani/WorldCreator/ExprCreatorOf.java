@@ -37,19 +37,19 @@ public class ExprCreatorOf extends SimpleExpression<WorldCreator>{
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		// TODO Auto-generated method stub
-		return "border length of world";
+		return "creator of " + world;
 	}
 
 	@Override
 	@Nullable
 	protected WorldCreator[] get(Event arg0) {
-		WorldCreator x = new WorldCreator(world.getSingle(arg0).getName());
-		x.copy(world.getSingle(arg0));
-		x.type(world.getSingle(arg0).getWorldType());
-		x.generateStructures(world.getSingle(arg0).canGenerateStructures());
-		x.generatorSettings("");
-		return new WorldCreator[]{x};
+		World world = this.world.getSingle(arg0);
+		WorldCreator worldCreator = new WorldCreator(world.getName());
+		worldCreator.copy(world);
+		worldCreator.type(world.getWorldType());
+		worldCreator.generateStructures(world.canGenerateStructures());
+		worldCreator.generatorSettings("");
+		return new WorldCreator[]{worldCreator};
 	}
 
 }

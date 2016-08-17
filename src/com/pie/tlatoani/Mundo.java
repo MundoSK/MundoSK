@@ -12,10 +12,12 @@ import java.util.function.BiConsumer;
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
 import ch.njol.skript.classes.ClassInfo;
+import ch.njol.skript.classes.Converter;
 import ch.njol.skript.classes.Parser;
 import ch.njol.skript.classes.Serializer;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.registrations.Classes;
+import ch.njol.skript.registrations.Converters;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.EnchantmentType;
 import ch.njol.skript.util.Getter;
@@ -61,6 +63,7 @@ import com.pie.tlatoani.WorldCreator.*;
 import com.pie.tlatoani.WorldManagement.*;
 import com.pie.tlatoani.Metrics.*;
 
+import com.pie.tlatoani.WorldManagement.WorldLoader.*;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
@@ -900,14 +903,29 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprTypeOfCreator.class,WorldType.class,ExpressionType.PROPERTY,"worldtype of %creator%");
 		registerExpression(ExprStructOfCreator.class,Boolean.class,ExpressionType.PROPERTY,"struct[ure(s| settings)] of %creator%");
 		//WorldManagement
+        Converters.registerConverter(World.class, WorldCreator.class, new Converter<World, WorldCreator>() {
+            @Override
+            public WorldCreator convert(World world) {
+                WorldCreator worldCreator = new WorldCreator(world.getName());
+                worldCreator.copy(world);
+                worldCreator.type(world.getWorldType());
+                worldCreator.generateStructures(world.canGenerateStructures());
+                worldCreator.generatorSettings("");
+                return worldCreator;
+            }
+        });
         registerEffect(EffCreateWorld.class, "create world named %string%[,][ env[ironment] %-environment%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
 		registerEffect(EffCreateWorldCreator.class, "create world using %creator%");
 		registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
 		registerEffect(EffDeleteWorld.class, "delete %world%");
 		registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");
-        registerEffect(EffRunCreatorOnStart.class, "run %creator% on start");
-        registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start");
         registerExpression(ExprCurrentWorlds.class,World.class,ExpressionType.SIMPLE,"[all] current worlds");
+        //WorldLoader
+        registerEffect(EffRunCreatorOnStart.class, "run %creator% on start"); //Will be removed in a future version
+        registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start"); //Will be removed in a future version
+
+        registerExpression(ExprCreatorsThatRunOnStart.class, WorldCreator.class, ExpressionType.SIMPLE, "creators to load on start");
+        registerExpression(ExprCreatorToLoadOnStart.class, WorldCreator.class, ExpressionType.SIMPLE, "creator %string% to load on start");
         //
 		try {
 			Field classinfos = Classes.class.getDeclaredField("tempClassInfos");

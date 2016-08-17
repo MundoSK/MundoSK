@@ -1,10 +1,11 @@
-package com.pie.tlatoani.WorldManagement;
+package com.pie.tlatoani.WorldManagement.WorldLoader;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.WorldManagement.WorldLoader.UtilWorldLoader;
 import org.bukkit.event.Event;
 
 /**
@@ -26,6 +27,7 @@ public class EffDoNotLoadWorldOnStart extends Effect {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         worldname = (Expression<String>) expressions[0];
+        Skript.warning("The 'don't load world %string% on start' effect will be removed in a future version, please use the 'creators to load on start' and 'creator %string to load on start' expressions instead (View MundoSK's documentation for more info)");
         return true;
     }
 }

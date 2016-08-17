@@ -1,4 +1,4 @@
-package com.pie.tlatoani.WorldManagement;
+package com.pie.tlatoani.WorldManagement.WorldLoader;
 
 import com.pie.tlatoani.Generator.ChunkGeneratorWithID;
 import com.pie.tlatoani.Mundo;
@@ -116,6 +116,10 @@ public final class UtilWorldLoader {
             }
         });
         return result;
+    }
+
+    public static void clearAllCreators() {
+        worldLoaderSaver.clear();
     }
 
     //Conversion
