@@ -2,6 +2,8 @@ package com.pie.tlatoani.Util;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.SkriptEventHandler;
+import ch.njol.skript.command.Commands;
+import ch.njol.skript.command.ScriptCommand;
 import ch.njol.skript.lang.*;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
@@ -23,8 +25,10 @@ public abstract class CustomScope extends Condition {
 	public static Field condition;
 	public static Field whilecondition;
 	public static Field triggers;
+	public static Field commands;
 	public static Method walkmethod;
 	public static Method runmethod;
+	public static Field commandTrigger;
 	private static boolean getScopesWasRun = true;
 
 	protected TriggerSection scopeParent;
@@ -46,6 +50,10 @@ public abstract class CustomScope extends Condition {
 			whilecondition.setAccessible(true);
 			triggers = SkriptEventHandler.class.getDeclaredField("triggers");
 			triggers.setAccessible(true);
+			commandTrigger = ScriptCommand.class.getDeclaredField("trigger");
+			commandTrigger.setAccessible(true);
+			commands = Commands.class.getDeclaredField("commands");
+			commands.setAccessible(true);
 			walkmethod = TriggerItem.class.getDeclaredMethod("walk", Event.class);
 			walkmethod.setAccessible(true);
 			runmethod = TriggerItem.class.getDeclaredMethod("run", Event.class);
@@ -84,6 +92,29 @@ public abstract class CustomScope extends Condition {
 
 							}
 						});
+					}
+				});
+
+				Map<String, ScriptCommand> commandMap = (Map<String, ScriptCommand>) commands.get(null);
+				commandMap.forEach(new BiConsumer<String, ScriptCommand>() {
+					@Override
+					public void accept(String s, ScriptCommand scriptCommand) {
+						try {
+							Trigger trigger = (Trigger) commandTrigger.get(scriptCommand);
+							TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
+							while (going != null) {
+								if (going instanceof Conditional) {
+									Condition condition1 = (Condition) CustomScope.condition.get(going);
+									if (condition1 instanceof CustomScope) {
+										((CustomScope) condition1).setScope((Conditional) going);
+									}
+								}
+								going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
+
+							}
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						}
 					}
 				});
 			} catch (IllegalAccessException e) {
