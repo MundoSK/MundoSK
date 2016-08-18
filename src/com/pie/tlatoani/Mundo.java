@@ -37,6 +37,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.CodeBlock.*;
@@ -127,31 +128,6 @@ public class Mundo extends JavaPlugin{
             info("A problem occurred while loading worlds");
             reportException(this, e);
         }
-        //Achievement
-        /*if (classInfoSafe(Achievement.class, "achievement")){
-            Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
-
-                public Achievement parse(String s, ParseContext context) {
-                	try {
-                		return Achievement.valueOf(s.toUpperCase());
-                	} catch (IllegalArgumentException e) {
-                		return null;
-                	}
-                }
-
-                public String toString(Achievement ach, int flags) {
-        		return ach.toString();
-            }
-
-                public String toVariableNameString(Achievement ach) {
-        		return ach.toString();
-            }
-
-                public String getVariableNamePattern() {
-                return ".+";
-            }
-            }));
-        }*/
         registerEnum(Achievement.class, "achievement", Achievement.values());
 		registerEffect(EffAwardAch.class, "award achieve[ment] %achievement% to %player%");
 		registerEffect(EffRemoveAch.class, "remove achieve[ment] %achievement% from %player%");
@@ -347,50 +323,8 @@ public class Mundo extends JavaPlugin{
         //ListUtil
         registerEffect(EffMoveItem.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
         //Miscellaneous
-		Classes.registerClass(new ClassInfo<Difficulty>(Difficulty.class, "difficulty").user(new String[]{"difficulty"}).name("difficulty").parser(new Parser<Difficulty>(){
-
-            public Difficulty parse(String s, ParseContext context) {
-            	try {
-            		return Difficulty.valueOf(s.toUpperCase());
-            	} catch (IllegalArgumentException e) {
-            		return null;
-            	}
-            }
-
-            public String toString(Difficulty diff, int flags) {
-        		return diff.toString().toLowerCase();
-            }
-
-            public String toVariableNameString(Difficulty diff) {
-        		return diff.toString().toLowerCase();
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));
-        Classes.registerClass(new ClassInfo<PlayerLoginEvent.Result>(PlayerLoginEvent.Result.class, "playerloginresult").user(new String[]{"playerloginresult"}).name("playerloginresult").parser(new Parser<PlayerLoginEvent.Result>(){
-
-            public PlayerLoginEvent.Result parse(String s, ParseContext context) {
-                try {
-                    return PlayerLoginEvent.Result.valueOf(s.toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    return null;
-                }
-            }
-
-            public String toString(PlayerLoginEvent.Result result, int flags) {
-                return result.toString().toLowerCase();
-            }
-
-            public String toVariableNameString(PlayerLoginEvent.Result result) {
-                return result.toString().toLowerCase();
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));
+        registerEnum(Difficulty.class, "difficulty", Difficulty.values());
+        registerEnum(PlayerLoginEvent.Result.class, "playerloginresult", PlayerLoginEvent.Result.values());
 		registerEvent("Hang Event", SimpleEvent.class, HangingPlaceEvent.class, "hang");
 		EventValues.registerEventValue(HangingPlaceEvent.class, Block.class, new Getter<Block, HangingPlaceEvent>() {
 			@Override
@@ -516,28 +450,7 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
-        Classes.registerClass(new ClassInfo<Instrument>(Instrument.class, "instrument").user(new String[]{"instrument"}).name("instrument").parser(new Parser<Instrument>(){
-
-            public Instrument parse(String s, ParseContext context) {
-                try {
-                    return Instrument.valueOf(s.toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    return null;
-                }
-            }
-
-            public String toString(Instrument instrument, int flags) {
-                return instrument.toString().toLowerCase();
-            }
-
-            public String toVariableNameString(Instrument instrument) {
-                return instrument.toString().toLowerCase();
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));
+        registerEnum(Instrument.class, "instrument", Instrument.values());
         registerEffect(EffPlayNoteBlock.class, "play [[%-note% with] %-instrument% on] noteblock %block%");
         registerEvent("Note Play", SimpleEvent.class, NotePlayEvent.class, "note play");
         EventValues.registerEventValue(NotePlayEvent.class, Note.class, new Getter<Note, NotePlayEvent>(){
@@ -677,7 +590,7 @@ public class Mundo extends JavaPlugin{
             registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");
             registerExpression(ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% for %player%");
             //Array
-            registerEffect(EffSetArrayTablist.class, "deactivate array tablist for %player%", "activate array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-string/-offlineplayer%]]");
+            registerEffect(EffSetArrayTablist.class, "deactivate array tablist for %player%", "activate array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skintexture%]]");
             registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% for %player%");
             registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% for %player%");
             registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% for %player%", "initial icon of %player%'s [array] tablist");
@@ -833,70 +746,9 @@ public class Mundo extends JavaPlugin{
             }
         }));
 		if (Bukkit.getServer().getPluginManager().getPlugin("RandomSK") == null) {
-			Classes.registerClass(new ClassInfo<Environment>(Environment.class, "environment").user(new String[]{"environment"}).name("environment").parser(new Parser<Environment>(){
-
-	            public Environment parse(String s, ParseContext context) {
-	            	if (s.equalsIgnoreCase("NORMAL")) return (World.Environment.NORMAL);
-	    			if (s.equalsIgnoreCase("NETHER")) return (World.Environment.NETHER);
-	    			if (s.equalsIgnoreCase("END") || s.equalsIgnoreCase("THE_END")) return (World.Environment.THE_END);
-	                return null;
-	            }
-
-	            public String toString(Environment env, int flags) {
-	        		if (env == World.Environment.NORMAL) return "normal";
-	        		if (env == World.Environment.NETHER) return "nether";
-	        		if (env == World.Environment.THE_END) return "end";
-	        		return null;
-	            }
-
-	            public String toVariableNameString(Environment env) {
-	            	if (env == World.Environment.NORMAL) return "normal";
-	        		if (env == World.Environment.NETHER) return "nether";
-	        		if (env == World.Environment.THE_END) return "end";
-	        		return null;
-	            }
-
-	            public String getVariableNamePattern() {
-	                return ".+";
-	            }
-	        }));
+            registerEnum(Environment.class, "environment", Environment.values(), new Pair<String, Environment>("END", Environment.THE_END));
 		}
-		Classes.registerClass(new ClassInfo<WorldType>(WorldType.class, "worldtype").user(new String[]{"worldtype"}).name("worldtype").parser(new Parser<WorldType>(){
-
-            public WorldType parse(String s, ParseContext context) {
-            	if (s.equalsIgnoreCase("normal")) return (WorldType.NORMAL);
-    			if (s.equalsIgnoreCase("flat") || s.equalsIgnoreCase("superflat")) return (WorldType.FLAT);
-    			if (s.equalsIgnoreCase("large biomes") || s.equalsIgnoreCase("large_biomes")) return (WorldType.LARGE_BIOMES);
-    			if (s.equalsIgnoreCase("amplified")) return (WorldType.AMPLIFIED);
-    			if (s.equalsIgnoreCase("version 1.1") || s.equalsIgnoreCase("version_1_1")) return (WorldType.VERSION_1_1);
-    			if (s.equalsIgnoreCase("customized")) return (WorldType.CUSTOMIZED);
-                return null;
-            }
-
-            public String toString(WorldType type, int flags) {
-            	if (type == WorldType.NORMAL) return "normal";
-        		if (type == WorldType.AMPLIFIED) return "amplified";
-        		if (type == WorldType.FLAT) return "flat";
-        		if (type == WorldType.LARGE_BIOMES) return "large biomes";
-        		if (type == WorldType.VERSION_1_1) return "version 1.1";
-        		if (type == WorldType.CUSTOMIZED) return "customized";
-        		return null;
-            }
-
-            public String toVariableNameString(WorldType type) {
-            	if (type == WorldType.NORMAL) return "normal";
-        		if (type == WorldType.AMPLIFIED) return "amplified";
-        		if (type == WorldType.FLAT) return "flat";
-        		if (type == WorldType.LARGE_BIOMES) return "large biomes";
-        		if (type == WorldType.VERSION_1_1) return "version 1.1";
-        		if (type == WorldType.CUSTOMIZED) return "customized";
-        		return null;
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));
+        registerEnum(WorldType.class, "worldtype", WorldType.values(), new Pair<String, WorldType>("SUPERFLAT", WorldType.FLAT), new Pair<String, WorldType>("LARGE BIOMES", WorldType.LARGE_BIOMES), new Pair<String, WorldType>("VERSION 1.1", WorldType.VERSION_1_1));
 		registerExpression(ExprCreatorNamed.class,WorldCreator.class,ExpressionType.PROPERTY,"creator (with name|named) %string%");
 		registerExpression(ExprCreatorWith.class,WorldCreator.class,ExpressionType.PROPERTY,"%creator%[ modified],[ name %-string%][,][ env[ironment] %-environment%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
 		registerExpression(ExprCreatorOf.class,WorldCreator.class,ExpressionType.PROPERTY,"creator of %world%");
@@ -1012,12 +864,12 @@ public class Mundo extends JavaPlugin{
 
             @Override
             public E parse(String s, ParseContext parseContext) {
+                String upperCase = s.toUpperCase();
                 for (int i = 0; i < additionalPairings.length; i++) {
-                    if (additionalPairings[i].getFirst().equals(s)) {
+                    if (additionalPairings[i].getFirst().equals(upperCase)) {
                         return additionalPairings[i].getSecond();
                     }
                 }
-                String upperCase = s.toUpperCase();
                 for (int i = 0; i < values.length; i++) {
                     if (values[i].name().equals(upperCase)) {
                         return values[i];
@@ -1030,7 +882,7 @@ public class Mundo extends JavaPlugin{
             public String toString(E e, int useless) {
                 for (int i = 0; i < additionalPairings.length; i++) {
                     if (additionalPairings[i].getSecond() == e) {
-                        return additionalPairings[i].getFirst();
+                        return additionalPairings[i].getFirst().toLowerCase();
                     }
                 }
                 for (int i = 0; i < values.length; i++) {
