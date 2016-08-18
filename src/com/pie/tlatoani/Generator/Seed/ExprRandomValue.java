@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * Created by Tlatoani on 7/25/16.
  */
-public class ExprNextRandomValue extends SimpleExpression<Object> {
+public class ExprRandomValue extends SimpleExpression<Object> {
     Expression<Random> randomExpression;
     Expression<Number> maxExpression;
     int mark; //mark is 0, 1, 2, 3, 4, 5, 6

@@ -21,13 +21,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by Tlatoani on 5/2/16.
@@ -231,7 +229,11 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             if (isSingle) {
                 structureModifier.writeSafely(index.getSingle(event).intValue(), delta[0]);
             } else {
-                structureModifier.writeSafely(index.getSingle(event).intValue(), delta);
+                Object[] result = (Object[]) Array.newInstance(aClass, delta.length);
+                for (int i = 0; i < delta.length; i++) {
+                    result[i] = delta[i];
+                }
+                structureModifier.writeSafely(index.getSingle(event).intValue(), result);
             }
         }
     }

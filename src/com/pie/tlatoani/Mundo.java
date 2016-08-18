@@ -16,7 +16,6 @@ import ch.njol.skript.classes.Parser;
 import ch.njol.skript.classes.Serializer;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.skript.lang.util.SimpleLiteral;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.registrations.Converters;
 import ch.njol.skript.registrations.EventValues;
@@ -37,7 +36,6 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 
-import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.CodeBlock.*;
@@ -45,7 +43,7 @@ import com.pie.tlatoani.CustomEvent.*;
 import com.pie.tlatoani.EnchantedBook.*;
 import com.pie.tlatoani.Generator.*;
 import com.pie.tlatoani.Generator.Seed.ExprNewRandom;
-import com.pie.tlatoani.Generator.Seed.ExprNextRandomValue;
+import com.pie.tlatoani.Generator.Seed.ExprRandomValue;
 import com.pie.tlatoani.Json.*;
 import com.pie.tlatoani.ListUtil.*;
 import com.pie.tlatoani.Miscellaneous.*;
@@ -244,7 +242,7 @@ public class Mundo extends JavaPlugin{
         registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%");
         //Random
         registerExpression(ExprNewRandom.class, Random.class, ExpressionType.PROPERTY, "new random [from seed %number%]");
-        registerExpression(ExprNextRandomValue.class, Object.class, ExpressionType.PROPERTY, "random (0¦int|1¦long|2¦float|3¦double|4¦gaussian|5¦int less than %-number%|6¦boolean) [from [random] %random%]");
+        registerExpression(ExprRandomValue.class, Object.class, ExpressionType.PROPERTY, "random (0¦int|1¦long|2¦float|3¦double|4¦gaussian|5¦int less than %-number%|6¦boolean) [from [random] %random%]");
         //Json
         Classes.registerClass(new ClassInfo<JSONObject>(JSONObject.class, "jsonobject").user(new String[]{"jsonobject"}).name("jsonobject").parser(new Parser<JSONObject>(){
 
