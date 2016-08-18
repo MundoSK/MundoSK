@@ -102,9 +102,9 @@ public class Mundo extends JavaPlugin{
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
     public static ProtocolManager protocolManager;
-    public static ArrayList<Enum[]> ena;
-    public static ArrayList<String> enumNames;
-    public static ArrayList<Class<? extends Enum>> enumClasses;
+    public static ArrayList<Enum[]> ena = new ArrayList<>();
+    public static ArrayList<String> enumNames = new ArrayList<>();
+    public static ArrayList<Class<? extends Enum>> enumClasses = new ArrayList<>();
 	
 	public void onEnable(){
 		instance = this;
