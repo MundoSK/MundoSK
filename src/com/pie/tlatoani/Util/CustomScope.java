@@ -1,6 +1,7 @@
 package com.pie.tlatoani.Util;
 
 import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptEventHandler;
 import ch.njol.skript.command.Commands;
 import ch.njol.skript.command.ScriptCommand;
@@ -201,6 +202,12 @@ public abstract class CustomScope extends Condition {
 		}
 		go(e);
 		return false;
+	}
+
+	@Override
+	public TriggerItem setNext(TriggerItem next) {
+		Skript.error("Custom scopes cannot be used as free standing conditions!");
+		return super.setNext(next);
 	}
 
 	//Methods to override

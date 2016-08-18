@@ -42,7 +42,6 @@ public class ScopeTry extends CustomScope {
 		if (scopeCatch != null) {;
 			scopeCatch.catchThrowable(e, ((caught != null) ? caught.getCause() : null));
 		}
-		ExprCatch.catches.put(e, ((caught != null) ? caught.getCause() : null));
 	}
 
 	@Override

@@ -4,10 +4,9 @@ import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Random;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
@@ -16,6 +15,8 @@ import ch.njol.skript.classes.Converter;
 import ch.njol.skript.classes.Parser;
 import ch.njol.skript.classes.Serializer;
 import ch.njol.skript.lang.Effect;
+import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.skript.lang.util.SimpleLiteral;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.registrations.Converters;
 import ch.njol.skript.registrations.EventValues;
@@ -28,6 +29,8 @@ import ch.njol.skript.util.Slot;
 
 import ch.njol.skript.variables.SerializedVariable;
 import ch.njol.skript.variables.Variables;
+import ch.njol.util.Kleenean;
+import ch.njol.util.Pair;
 import ch.njol.yggdrasil.Fields;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -99,6 +102,9 @@ public class Mundo extends JavaPlugin{
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
     public static ProtocolManager protocolManager;
+    public static ArrayList<Enum[]> ena;
+    public static ArrayList<String> enumNames;
+    public static ArrayList<Class<? extends Enum>> enumClasses;
 	
 	public void onEnable(){
 		instance = this;
@@ -122,7 +128,7 @@ public class Mundo extends JavaPlugin{
             reportException(this, e);
         }
         //Achievement
-        if (classInfoSafe(Achievement.class, "achievement")){
+        /*if (classInfoSafe(Achievement.class, "achievement")){
             Classes.registerClass(new ClassInfo<Achievement>(Achievement.class, "achievement").user(new String[]{"achievement"}).name("achievement").parser(new Parser<Achievement>(){
 
                 public Achievement parse(String s, ParseContext context) {
@@ -145,7 +151,8 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
             }));
-        }
+        }*/
+        registerEnum(Achievement.class, "achievement", Achievement.values());
 		registerEffect(EffAwardAch.class, "award achieve[ment] %achievement% to %player%");
 		registerEffect(EffRemoveAch.class, "remove achieve[ment] %achievement% from %player%");
 		registerEvent("Achievement Award", EvtAchAward.class, PlayerAchievementAwardedEvent.class, "achieve[ment] [%-achievement%] award", "award of achieve[ment] [%-achievement%]");
@@ -160,7 +167,7 @@ public class Mundo extends JavaPlugin{
 			}
 		}, 0);
 		registerExpression(ExprParentAch.class,Achievement.class,ExpressionType.PROPERTY,"parent of achieve[ment] %achievement%");
-		registerExpression(ExprAllAch.class,Achievement.class,ExpressionType.PROPERTY,"[all] achieve[ment]s [of %-player%]", "%player%'s achieve[ment]s");
+		registerExpression(ExprAllAch.class,Achievement.class,ExpressionType.PROPERTY,"achieve[ment]s of %player%", "%player%'s achieve[ment]s");
 		registerExpression(ExprHasAch.class,Boolean.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %achievement%");
 		//Book
         ListUtil.registerTransformer("itemstack", TransBookPages.class, "page");
@@ -663,7 +670,7 @@ public class Mundo extends JavaPlugin{
             }, this);
             registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "%player%'s tablist contains players");
             //Simple
-            registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-string/-player%]");
+            registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skintexture%]");
             registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
             registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete all id tabs for %player%");
             registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
@@ -775,10 +782,6 @@ public class Mundo extends JavaPlugin{
 		registerScope(ScopeTry.class, "try");
         registerScope(ScopeCatch.class, "catch in %object%");
 		registerEffect(EffPrintStackTrace.class, "print stack trace of %throwable%");
-		if (Bukkit.getServer().getPluginManager().getPlugin("RandomSK") == null)
-		registerExpression(ExprCatch.class,Throwable.class,ExpressionType.SIMPLE,"(catch|caught exception)");
-		else
-		registerExpression(ExprCatch.class,Throwable.class,ExpressionType.SIMPLE,"caught exception");
 		registerExpression(ExprCause.class,Throwable.class,ExpressionType.PROPERTY,"throwable cause of %throwable%", "%throwable%'s throwable cause");
 		registerExpression(ExprDetails.class,String.class,ExpressionType.PROPERTY,"details of %throwable%", "%throwable%'s details");
 		registerExpression(ExprStackTrace.class,StackTraceElement.class,ExpressionType.PROPERTY,"stack trace of %throwable%", "%throwable%'s stack trace");
@@ -816,7 +819,9 @@ public class Mundo extends JavaPlugin{
             }
 
             public String toString(WorldCreator creator, int flags) {
-                return creator.toString();
+                JSONObject jsonObject = UtilWorldLoader.getCreatorJSON(creator);
+                jsonObject.put("worldname", creator.name());
+                return jsonObject.toString();
             }
 
             public String toVariableNameString(WorldCreator creator) {
@@ -924,9 +929,17 @@ public class Mundo extends JavaPlugin{
         registerEffect(EffRunCreatorOnStart.class, "run %creator% on start"); //Will be removed in a future version
         registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start"); //Will be removed in a future version
 
-        registerExpression(ExprCreatorsThatRunOnStart.class, WorldCreator.class, ExpressionType.SIMPLE, "creators to load on start");
-        registerExpression(ExprCreatorToLoadOnStart.class, WorldCreator.class, ExpressionType.SIMPLE, "creator %string% to load on start");
+        registerExpression(ExprAllAutomaticCreators.class, WorldCreator.class, ExpressionType.SIMPLE, "[all] automatic creators");
+        registerExpression(ExprAutomaticCreator.class, WorldCreator.class, ExpressionType.SIMPLE, "automatic creator %string%");
         //
+        ArrayList<String> patterns = new ArrayList<>();
+        enumNames.forEach(new Consumer<String>() {
+            @Override
+            public void accept(String s) {
+                patterns.add("[all] " + s + "s");
+            }
+        });
+        Skript.registerExpression(ExprEnumValues.class, Enum.class, ExpressionType.SIMPLE, patterns.toArray(new String[0]));
 		try {
 			Field classinfos = Classes.class.getDeclaredField("tempClassInfos");
 			classinfos.setAccessible(true);
@@ -989,6 +1002,147 @@ public class Mundo extends JavaPlugin{
 
     public static void registerScope(Class<? extends CustomScope> conditionClass, String... patterns) {
         Skript.registerCondition(conditionClass, patterns);
+    }
+
+    public static <E extends Enum<E>> void registerEnum(Class<E> enumClass, String name, E[] values, Pair<String, E>... defaultPairings) {
+        if (!classInfoSafe(enumClass, name)) return;
+        Classes.registerClass(new ClassInfo<E>(enumClass, name).user(new String[]{name}).name(name).parser(new Parser<E>() {
+            private E[] enumValues = values;
+            private Pair<String, E>[] additionalPairings = defaultPairings;
+
+            @Override
+            public E parse(String s, ParseContext parseContext) {
+                for (int i = 0; i < additionalPairings.length; i++) {
+                    if (additionalPairings[i].getFirst().equals(s)) {
+                        return additionalPairings[i].getSecond();
+                    }
+                }
+                String upperCase = s.toUpperCase();
+                for (int i = 0; i < values.length; i++) {
+                    if (values[i].name().equals(upperCase)) {
+                        return values[i];
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            public String toString(E e, int useless) {
+                for (int i = 0; i < additionalPairings.length; i++) {
+                    if (additionalPairings[i].getSecond() == e) {
+                        return additionalPairings[i].getFirst();
+                    }
+                }
+                for (int i = 0; i < values.length; i++) {
+                    if (values[i] == e) {
+                        return values[i].name().toLowerCase();
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            public String toVariableNameString(E e) {
+                return toString(e, 0);
+            }
+
+            @Override
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }).serializer(new Serializer<E>() {
+            private E[] enumValues = values;
+            private Pair<String, E>[] additionalPairings = defaultPairings;
+
+            public E parse(String s) {
+                String upperCase = s.toUpperCase();
+                for (int i = 0; i < additionalPairings.length; i++) {
+                    if (additionalPairings[i].getFirst().equals(upperCase)) {
+                        return additionalPairings[i].getSecond();
+                    }
+                }
+                for (int i = 0; i < values.length; i++) {
+                    if (values[i].name().equals(upperCase)) {
+                        return values[i];
+                    }
+                }
+                return null;
+            }
+
+            public String toString(E e) {
+                for (int i = 0; i < additionalPairings.length; i++) {
+                    if (additionalPairings[i].getSecond() == e) {
+                        return additionalPairings[i].getFirst().toLowerCase();
+                    }
+                }
+                for (int i = 0; i < values.length; i++) {
+                    if (values[i] == e) {
+                        return values[i].name().toLowerCase();
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            public Fields serialize(E e) throws NotSerializableException {
+                Fields fields = new Fields();
+                fields.putObject("value", toString(e));
+                return null;
+            }
+
+            @Override
+            public void deserialize(E e, Fields fields) throws StreamCorruptedException, NotSerializableException {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public boolean mustSyncDeserialization() {
+                return false;
+            }
+
+            @Override
+            protected boolean canBeInstantiated() {
+                return false;
+            }
+
+            @Override
+            public E deserialize(Fields fields) throws StreamCorruptedException {
+                return parse((String) fields.getObject("value"));
+            }
+        }));
+        ena.add(values);
+        enumNames.add(name);
+        enumClasses.add(enumClass);
+    }
+
+    public static class ExprEnumValues<E extends Enum<E>> extends SimpleExpression<E> {
+        private int whichEnum;
+
+        @Override
+        protected E[] get(Event event) {
+            return (E[]) Mundo.ena.get(whichEnum);
+        }
+
+        @Override
+        public boolean isSingle() {
+            return false;
+        }
+
+        @Override
+        public Class<? extends E> getReturnType() {
+            return (Class<? extends E>) enumClasses.get(whichEnum);
+        }
+
+        @Override
+        public String toString(Event event, boolean b) {
+            return "all " + enumNames.get(whichEnum) + "s";
+        }
+
+        @Override
+        public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+            whichEnum = i;
+            return true;
+        }
     }
 
     //Metrics Util

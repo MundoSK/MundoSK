@@ -1,9 +1,6 @@
 package com.pie.tlatoani.Achievement;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.Nullable;
 
@@ -21,13 +18,11 @@ public class ExprAllAch extends SimpleExpression<Achievement>{
 
 	@Override
 	public Class<? extends Achievement> getReturnType() {
-		// TODO Auto-generated method stub
 		return Achievement.class;
 	}
 
 	@Override
 	public boolean isSingle() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -40,32 +35,25 @@ public class ExprAllAch extends SimpleExpression<Achievement>{
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		// TODO Auto-generated method stub
-		return "border length of world";
+		return player + "'s achievements";
 	}
 
 	@Override
 	@Nullable
 	protected Achievement[] get(Event arg0) {
-		if (player == null) return Achievement.values();
-		else {
-			List<Achievement> list = new LinkedList<Achievement>();
-			for (int a = 0; a < Achievement.values().length; a++) {
-				if (player.getSingle(arg0).hasAchievement(Achievement.values()[a])) list.add(Achievement.values()[a]);
-			}
-			return list.toArray(new Achievement[list.size()]);
+		List<Achievement> list = new ArrayList<>();
+		for (int a = 0; a < Achievement.values().length; a++) {
+			if (player.getSingle(arg0).hasAchievement(Achievement.values()[a])) list.add(Achievement.values()[a]);
 		}
+		return list.toArray(new Achievement[list.size()]);
 	}
-	
+
 	public Iterator<Achievement> iterator(Event arg0) {
-		if (player == null) return Arrays.asList(Achievement.values()).iterator();
-		else {
-			List<Achievement> list = new LinkedList<Achievement>();
-			for (int a = 0; a < Achievement.values().length; a++) {
-				if (player.getSingle(arg0).hasAchievement(Achievement.values()[a])) list.add(Achievement.values()[a]);
-			}
-			return list.iterator();
+		List<Achievement> list = new ArrayList<>();
+		for (int a = 0; a < Achievement.values().length; a++) {
+			if (player.getSingle(arg0).hasAchievement(Achievement.values()[a])) list.add(Achievement.values()[a]);
 		}
+		return list.iterator();
 	}
 
 }
