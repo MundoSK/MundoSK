@@ -96,6 +96,7 @@ public class Mundo extends JavaPlugin{
 	public static Mundo instance;
 	public static FileConfiguration config;
     public static Boolean RandomSK;
+    public static Boolean ProtocolLib;
     public static String pluginFolder;
     public static Boolean debugMode;
     public static String hexDigits = "0123456789abcdef";
@@ -113,6 +114,7 @@ public class Mundo extends JavaPlugin{
         debugMode = config.getBoolean("debug_mode");
 		saveConfig();
         RandomSK = Bukkit.getPluginManager().getPlugin("RandomSK") != null;
+        ProtocolLib = Bukkit.getPluginManager().getPlugin("ProtocolLib") != null;
 		Skript.registerAddon(this);
         pluginFolder = getDataFolder().getAbsolutePath();
         scheduler = Bukkit.getScheduler();
@@ -479,7 +481,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprRandomIndex.class,String.class,ExpressionType.PROPERTY,"random from %numbers% prob[abilitie]s");
 		registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
 		//ProtocolLib
-		if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
+		if (ProtocolLib) {
             info("You've discovered the amazing realm of ProtocolLib packet syntaxes!");
             String pLibVersion = Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion();
             if (!pLibVersion.substring(0, 1).equals("4") || pLibVersion.substring(0, 3).equals("4.0")) {
@@ -566,7 +568,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprMotdOfServer.class,String.class,ExpressionType.COMBINED,"motd of server with host %string% [port %-number%]");
 		registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1¦player count|0¦max player count) of server with host %string% [port %-number%]");
 		//Tablist
-        if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
+        if (ProtocolLib) {
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onJoin(PlayerJoinEvent event) {
@@ -1026,6 +1028,16 @@ public class Mundo extends JavaPlugin{
             for (int i = 0; i < pluginlist.length; i++) {
                 addons.addPlotter(new Metrics.Plotter((pluginlist[i]).getName()) {
 
+                    @Override
+                    public int getValue() {
+                        return 1;
+                    }
+                });
+            }
+
+            if (ProtocolLib) {
+                Graph protocolLibVersion = metrics.createGraph("ProtocolLib Version");
+                protocolLibVersion.addPlotter(new Plotter(Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion()) {
                     @Override
                     public int getValue() {
                         return 1;
