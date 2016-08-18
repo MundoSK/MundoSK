@@ -7,7 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
     </list>
     <ignored path="MundoSK.iws" />
@@ -32,8 +31,8 @@
       <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="467">
-              <caret line="1042" column="32" selection-start-line="1042" selection-start-column="32" selection-end-line="1042" selection-end-column="32" />
+            <state relative-caret-position="257">
+              <caret line="1028" column="23" selection-start-line="1028" selection-start-column="23" selection-end-line="1028" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#5610#5611#0" expanded="true" />
@@ -171,8 +170,8 @@
                 <element signature="e#52022#52023#0" expanded="true" />
                 <element signature="e#52098#52099#0" expanded="true" />
                 <element signature="e#52168#52169#0" expanded="true" />
-                <element signature="e#54118#54119#0" expanded="true" />
-                <element signature="e#54174#54175#0" expanded="true" />
+                <element signature="e#54119#54120#0" expanded="true" />
+                <element signature="e#54175#54176#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1446,8 +1445,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="467">
-          <caret line="1042" column="32" selection-start-line="1042" selection-start-column="32" selection-end-line="1042" selection-end-column="32" />
+        <state relative-caret-position="257">
+          <caret line="1028" column="23" selection-start-line="1028" selection-start-column="23" selection-end-line="1028" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#5610#5611#0" expanded="true" />
@@ -1585,8 +1584,8 @@
             <element signature="e#52022#52023#0" expanded="true" />
             <element signature="e#52098#52099#0" expanded="true" />
             <element signature="e#52168#52169#0" expanded="true" />
-            <element signature="e#54118#54119#0" expanded="true" />
-            <element signature="e#54174#54175#0" expanded="true" />
+            <element signature="e#54119#54120#0" expanded="true" />
+            <element signature="e#54175#54176#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1026,7 +1026,7 @@ public class Mundo extends JavaPlugin{
             Graph plugins = metrics.createGraph("Plugins");
             Plugin[] pluginlist = Bukkit.getPluginManager().getPlugins();
             for (int i = 0; i < pluginlist.length; i++) {
-                addons.addPlotter(new Metrics.Plotter((pluginlist[i]).getName()) {
+                plugins.addPlotter(new Metrics.Plotter((pluginlist[i]).getName()) {
 
                     @Override
                     public int getValue() {
