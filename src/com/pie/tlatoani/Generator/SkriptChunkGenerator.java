@@ -17,6 +17,8 @@ import java.util.Random;
  */
 public class SkriptChunkGenerator extends ChunkGenerator {
     public Trigger trigger = null;
+    public static final int X_CODE = 7929802;
+    public static final int Z_CODE = 1846994;
 
     @Override
     public ChunkData generateChunkData(World world, Random random, int x, int z, ChunkGenerator.BiomeGrid biome) {
@@ -29,12 +31,12 @@ public class SkriptChunkGenerator extends ChunkGenerator {
     @Override
     public Location getFixedSpawnLocation(World world, Random random) {
         Mundo.debug(this, "SPAWN LOCATION:: " + world.getSpawnLocation());
-        return world.getSpawnLocation().getBlockX() == Integer.MAX_VALUE ? null : world.getSpawnLocation();
+        return world.getSpawnLocation().getBlockX() == X_CODE && world.getSpawnLocation().getBlockZ() == Z_CODE ? null : world.getSpawnLocation();
     }
 
     @Override
     public List<BlockPopulator> getDefaultPopulators(World world) {
-        world.setSpawnLocation(Integer.MAX_VALUE, 0, 0);
+        world.setSpawnLocation(X_CODE, 0, Z_CODE);
         return world.getPopulators();
     }
 }
