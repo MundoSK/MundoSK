@@ -28,13 +28,13 @@ public class SkriptChunkGenerator extends ChunkGenerator {
 
     @Override
     public Location getFixedSpawnLocation(World world, Random random) {
-        Mundo.debug(this, "GETTING FIXED SPAWN, CURRENT SPAWN: " + world.getSpawnLocation());
-        return null;
+        Mundo.debug(this, "SPAWN LOCATION:: " + world.getSpawnLocation());
+        return world.getSpawnLocation().getBlockX() == Integer.MAX_VALUE ? null : world.getSpawnLocation();
     }
 
     @Override
     public List<BlockPopulator> getDefaultPopulators(World world) {
-        Mundo.debug(this, "GETTING POPULATORS: " + world.getPopulators());
-        return new ArrayList<>();
+        world.setSpawnLocation(Integer.MAX_VALUE, 0, 0);
+        return world.getPopulators();
     }
 }
