@@ -77,7 +77,7 @@ public abstract class CustomScope extends Condition {
 				Mundo.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
 				List<Trigger> triggerList = triggerMap.get(SkriptChunkGenerationEvent.class);
 				if (triggerList != null) {
-
+					ChunkGeneratorManager.registerTriggers(triggerList);
 				}
 				triggerMap.forEach(new BiConsumer<Class<? extends Event>, List<Trigger>>() {
 					@Override
