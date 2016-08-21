@@ -864,7 +864,7 @@ public class Mundo extends JavaPlugin{
 
     @Override
     public ChunkGenerator getDefaultWorldGenerator(String unusedWorldName, String id) {
-        return ChunkGeneratorManager.getOldSkriptGenerator(id);
+        return ChunkGeneratorManager.getSkriptGenerator(id);
     }
     
     //Registration
