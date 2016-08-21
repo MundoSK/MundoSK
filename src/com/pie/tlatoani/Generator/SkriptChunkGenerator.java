@@ -2,9 +2,14 @@ package com.pie.tlatoani.Generator;
 
 import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.lang.TriggerItem;
+import com.pie.tlatoani.Mundo;
+import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -19,5 +24,17 @@ public class SkriptChunkGenerator extends ChunkGenerator {
         SkriptChunkGenerationEvent event = new SkriptChunkGenerationEvent(x, z, world, chunkData, random, biome);
         TriggerItem.walk(trigger, event);
         return chunkData;
+    }
+
+    @Override
+    public Location getFixedSpawnLocation(World world, Random random) {
+        Mundo.debug(this, "GETTING FIXED SPAWN");
+        return null;
+    }
+
+    @Override
+    public List<BlockPopulator> getDefaultPopulators(World world) {
+        Mundo.debug(this, "GETTING DEFAULT POPULATORS");
+        return new ArrayList();
     }
 }
