@@ -15,6 +15,10 @@ public class BaseEvent extends Event {
         return handlerList;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlerList;
+    }
+
     public void setLocalVariable(String varname, Object value) {
         Variables.setVariable(varname, value, this, true);
     }
