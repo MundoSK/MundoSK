@@ -28,7 +28,6 @@ public class ExprMaterialInChunkData extends SimpleExpression<ItemStack> {
         Integer z = Mundo.intMod(zExpression.getSingle(event).intValue(), 16);
         ChunkData chunkData = chunkDataExpression.getSingle(event);
         MaterialData materialData = chunkData.getTypeAndData(x, y, z);
-        Mundo.debug(this, "MATERIALDATA: " + materialData);
         ItemStack result = new ItemStack(materialData.getItemType());
         result.setData(materialData);
         return new ItemStack[]{result};
@@ -65,10 +64,7 @@ public class ExprMaterialInChunkData extends SimpleExpression<ItemStack> {
         ChunkData chunkData = chunkDataExpression.getSingle(event);
         ItemStack itemStack = (ItemStack) delta[0];
         MaterialData materialData = itemStack.getData();
-        Mundo.debug(this, "MATERIALDATA ARG: " + materialData);
-        Mundo.debug(this, "MATERIALDATA PREV: " + chunkData.getTypeAndData(x, y, z));
         chunkData.setBlock(x, y, z, materialData);
-        Mundo.debug(this, "MATERIALDATA PROV: " + chunkData.getTypeAndData(x, y, z));
     }
 
     @SuppressWarnings("unchecked")
