@@ -13,8 +13,6 @@ import java.util.function.Consumer;
  * Created by Tlatoani on 7/4/16.
  */
 public final class ChunkGeneratorManager {
-    private static Map<String, OldSkriptChunkGenerator> oldSkriptGeneratorMap = new HashMap<>();
-
     private static Map<String, SkriptChunkGenerator>  skriptGeneratorMap = new HashMap<>();
     private static ArrayList<String> countedIDs = new ArrayList<>();
 
@@ -25,17 +23,8 @@ public final class ChunkGeneratorManager {
     This method gives out empty SkriptChunkGenerators for use in worlds
     So that they can be modified later
     When Skript has loaded
-    To include the CodeBlocks that do the actual generating
+    To include the triggers that do the actual generating
      */
-    public static OldSkriptChunkGenerator getOldSkriptGenerator(String id) {
-        if (!oldSkriptGeneratorMap.containsKey(id)) {
-            oldSkriptGeneratorMap.put(id, new OldSkriptChunkGenerator());
-        }
-        return oldSkriptGeneratorMap.get(id);
-    }
-
-    //
-
     public static SkriptChunkGenerator getSkriptGenerator(String id) {
         if (!skriptGeneratorMap.containsKey(id)) {
             skriptGeneratorMap.put(id, new SkriptChunkGenerator());
@@ -53,6 +42,7 @@ public final class ChunkGeneratorManager {
         return true;
     }
 
+    //Registers the custom generator triggers
     public static void registerTriggers(Collection<Trigger> triggers) {
         triggers.forEach(new Consumer<Trigger>() {
             @Override

@@ -238,9 +238,6 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }).defaultExpression((new ExprNewRandom()).setDefault()));
-        //Will be removed in 1.7.2
-        registerEffect(EffRegisterGenerator.class, "register [custom] [world] generator with id %string% to generate chunks through %codeblock% [and get fixed spawn through %-codeblock%]");
-
         registerEffect(EffSetRegionInChunkData.class,
                 "fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%",
                 "fill layer %number% in %chunkdata% with %itemstack%",
