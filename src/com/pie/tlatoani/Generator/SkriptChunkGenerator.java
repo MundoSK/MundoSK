@@ -34,8 +34,7 @@ public class SkriptChunkGenerator extends ChunkGenerator {
 
     @Override
     public List<BlockPopulator> getDefaultPopulators(World world) {
-        Mundo.debug(this, "GETTING DEFAULT POPULATORS");
-        world.setSpawnLocation(0, 5, 0);
-        return new ArrayList();
+        Mundo.debug(this, "GETTING POPULATORS: " + world.getPopulators());
+        return new ArrayList<>();
     }
 }
