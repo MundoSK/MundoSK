@@ -75,10 +75,6 @@ public abstract class CustomScope extends Condition {
 			try {
 				Map<Class<? extends Event>, List<Trigger>> triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
 				Mundo.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
-				List<Trigger> triggerList = triggerMap.get(SkriptChunkGenerationEvent.class);
-				if (triggerList != null) {
-					ChunkGeneratorManager.registerTriggers(triggerList);
-				}
 				triggerMap.forEach(new BiConsumer<Class<? extends Event>, List<Trigger>>() {
 					@Override
 					public void accept(Class<? extends Event> aClass, List<Trigger> triggers) {
@@ -105,6 +101,11 @@ public abstract class CustomScope extends Condition {
 						});
 					}
 				});
+
+				List<Trigger> triggerList = triggerMap.get(SkriptChunkGenerationEvent.class);
+				if (triggerList != null) {
+					ChunkGeneratorManager.registerTriggers(triggerList);
+				}
 
 				Map<String, ScriptCommand> commandMap = (Map<String, ScriptCommand>) commands.get(null);
 				commandMap.forEach(new BiConsumer<String, ScriptCommand>() {
@@ -161,6 +162,9 @@ public abstract class CustomScope extends Condition {
 				e.printStackTrace();
 			}
 			Mundo.debug(this, "GUTEN ROUNDEN:: " + first);
+			if (scopeParent == null) {
+				scopeParent = scope.getParent();
+			}
 			setScope();
 		}
 	}

@@ -17,6 +17,7 @@ import java.util.Random;
  */
 public class SkriptChunkGenerator extends ChunkGenerator {
     public Trigger trigger = null;
+    private TriggerItem generation = null;
     public static final int X_CODE = 7929802;
     public static final int Z_CODE = 1846994;
 
@@ -24,7 +25,7 @@ public class SkriptChunkGenerator extends ChunkGenerator {
     public ChunkData generateChunkData(World world, Random random, int x, int z, ChunkGenerator.BiomeGrid biome) {
         ChunkData chunkData = createChunkData(world);
         SkriptChunkGenerationEvent event = new SkriptChunkGenerationEvent(x, z, world, chunkData, random, biome);
-        TriggerItem.walk(trigger, event);
+        TriggerItem.walk(generation, event);
         return chunkData;
     }
 
@@ -37,6 +38,11 @@ public class SkriptChunkGenerator extends ChunkGenerator {
     @Override
     public List<BlockPopulator> getDefaultPopulators(World world) {
         world.setSpawnLocation(X_CODE, 0, Z_CODE);
-        return world.getPopulators();
+        SkriptChunkGenerationEvent event = new SkriptChunkGenerationEvent(0, 0, world, null, new Random(world.getSeed()), null);
+        TriggerItem.walk(trigger, event);
+        generation = event.generation;
+        List<BlockPopulator> result = new ArrayList<>(world.getPopulators());
+        world.getPopulators().clear();
+        return result;
     }
 }
