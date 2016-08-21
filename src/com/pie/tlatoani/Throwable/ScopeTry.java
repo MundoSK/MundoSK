@@ -19,33 +19,23 @@ public class ScopeTry extends CustomScope {
 	}
 
 	@Override
-	public void go(Event e) {
-		Boolean within = true;
-		TriggerItem going = first;
-		TriggerItem end = scope.getNext();
+	public boolean go(Event e) {
 		Exception caught = null;
-		while (within) {
-			try {
-				Mundo.debug(this, "TOString of scope: " + scope);
-				Mundo.debug(this, "Indent: " + scope.getIndentation() + "MARK");
-				Mundo.debug(this, "TOString of going: " + going);
-				Mundo.debug(this, "Indent: " + going.getIndentation() + "MARK");
-				going = (TriggerItem) walkmethod.invoke(going, e);
-				if (going == null || going == end) within = false;
-			} catch (Exception e1) {
-				within = false;
-				caught = e1;
-				Mundo.debug(this, "Exception caught");
-				Mundo.debug(this, e1);
-			}
+		try {
+			TriggerItem.walk(first, e);
+		} catch (Exception e1) {
+			caught = e1;
+			Mundo.debug(this, "Exception caught");
+			Mundo.debug(this, e1);
 		}
 		if (scopeCatch != null) {;
 			scopeCatch.catchThrowable(e, ((caught != null) ? caught.getCause() : null));
 		}
+		return false;
 	}
 
 	@Override
-	public void afterSetScope() {
+	public void setScope() {
 		TriggerItem possibleCatch = scope.getNext();
 		if (possibleCatch instanceof Conditional) {
 			try {
@@ -61,6 +51,7 @@ public class ScopeTry extends CustomScope {
 		} else {
 			Skript.warning("It is recommended to use a catch statement after a try statement");
 		}
+		last.setNext(null);
 	}
 
 }

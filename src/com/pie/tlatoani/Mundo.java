@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
@@ -94,6 +95,7 @@ import org.json.simple.parser.ParseException;
 
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
+    public static Logger logger;
 	public static FileConfiguration config;
     public static Boolean RandomSK;
     public static Boolean ProtocolLib;
@@ -108,6 +110,7 @@ public class Mundo extends JavaPlugin{
 	
 	public void onEnable(){
 		instance = this;
+        logger = getLogger();
 		config = getConfig();
         config.addDefault("debug_mode", false);
 		config.options().copyDefaults(true);
@@ -170,7 +173,7 @@ public class Mundo extends JavaPlugin{
             }
         }));
         registerScope(ScopeSaveCodeBlock.class, "codeblock %object% [with (1¦constant|2¦constant %-object%|3¦constants %-objects%)] [:: %-strings%] [-> %-string%]");
-        registerEffect(EffRunCodeBlock.class, "((run|execute) codeblock|codeblock (run|execute)) %codeblock% [(2¦with %-objects%|3¦with variables %-objects%)]", "((run|execute) codeblock|codeblock (run|execute)) %codeblocks% [(4¦in a chain|5¦here|7¦with variables %-objects% in a chain)]");
+        registerEffect(EffRunCodeBlock.class, "((run|execute) codeblock|codeblock (run|execute)) %codeblocks% [(2¦with %-objects%|3¦with variables %-objects%|4¦in a chain|5¦here|7¦with variables %-objects% in a chain)]");
         registerExpression(ExprFunctionCodeBlock.class, CodeBlock.class, ExpressionType.PROPERTY, "[codeblock of] function %string%");
         //CustomEvent
         registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
@@ -235,11 +238,39 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }).defaultExpression((new ExprNewRandom()).setDefault()));
+        //Will be removed in 1.7.2
         registerEffect(EffRegisterGenerator.class, "register [custom] [world] generator with id %string% to generate chunks through %codeblock% [and get fixed spawn through %-codeblock%]");
+
         registerEffect(EffSetRegionInChunkData.class,
                 "fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%",
                 "fill layer %number% in %chunkdata% with %itemstack%",
                 "fill layers %number% to %number% in %chunkdata% with %itemstack%");
+        registerEvent("World Generator", EvtChunkGenerator.class, SkriptChunkGenerationEvent.class, "[custom] [(world|chunk)] generator %string%");
+        EventValues.registerEventValue(SkriptChunkGenerationEvent.class, World.class, new Getter<World, SkriptChunkGenerationEvent>() {
+            @Override
+            public World get(SkriptChunkGenerationEvent skriptChunkGenerationEvent) {
+                return skriptChunkGenerationEvent.world;
+            }
+        }, 0);
+        EventValues.registerEventValue(SkriptChunkGenerationEvent.class, ChunkData.class, new Getter<ChunkData, SkriptChunkGenerationEvent>() {
+            @Override
+            public ChunkData get(SkriptChunkGenerationEvent skriptChunkGenerationEvent) {
+                return skriptChunkGenerationEvent.chunkData;
+            }
+        }, 0);
+        EventValues.registerEventValue(SkriptChunkGenerationEvent.class, Random.class, new Getter<Random, SkriptChunkGenerationEvent>() {
+            @Override
+            public Random get(SkriptChunkGenerationEvent skriptChunkGenerationEvent) {
+                return skriptChunkGenerationEvent.random;
+            }
+        }, 0);
+        EventValues.registerEventValue(SkriptChunkGenerationEvent.class, BiomeGrid.class, new Getter<BiomeGrid, SkriptChunkGenerationEvent>() {
+            @Override
+            public BiomeGrid get(SkriptChunkGenerationEvent skriptChunkGenerationEvent) {
+                return skriptChunkGenerationEvent.biomeGrid;
+            }
+        }, 0);
+        registerExpression(ExprCurrentChunkCoordinate.class, Number.class, ExpressionType.SIMPLE, "current x", "current z");
         registerExpression(ExprMaterialInChunkData.class, ItemStack.class, ExpressionType.PROPERTY, "material at %number%, %number%, %number% in %chunkdata%");
         registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%");
         //Random
@@ -371,6 +402,8 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprLoadedScripts.class,String.class,ExpressionType.SIMPLE, "loaded scripts");
         registerExpression(ExprCompletions.class,String.class,ExpressionType.SIMPLE,"completions");
         registerExpression(ExprLoginResult.class, PlayerLoginEvent.Result.class, ExpressionType.SIMPLE, "(login|connect[ion]) result");
+        registerScope(ScopeMatcher.class, "(switch|match) %object%");
+        registerScope(ScopeMatches.class, "(case|matches) %object%");
         //NoteBlock
         Classes.registerClass(new ClassInfo<Note>(Note.class, "note").user(new String[]{"note"}).name("note").parser(new Parser<Note>(){
 
@@ -831,7 +864,7 @@ public class Mundo extends JavaPlugin{
 
     @Override
     public ChunkGenerator getDefaultWorldGenerator(String unusedWorldName, String id) {
-        return ChunkGeneratorManager.getSkriptGenerator(id);
+        return ChunkGeneratorManager.getOldSkriptGenerator(id);
     }
     
     //Registration
@@ -1056,7 +1089,7 @@ public class Mundo extends JavaPlugin{
     //Logging Util
 
     public static void info(String s) {
-        instance.getLogger().info(s);
+        logger.info(s);
     }
 	
 	public static void reportException(Object obj, Exception e) {

@@ -7,7 +7,7 @@ import org.bukkit.event.HandlerList;
 /**
  * Created by Tlatoani on 7/4/16.
  */
-public class EmptyEvent extends Event {
+public class BaseEvent extends Event {
     public static HandlerList handlerList = new HandlerList();
 
     @Override

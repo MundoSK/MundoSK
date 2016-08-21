@@ -41,15 +41,6 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../Dependencies/SkQuery.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/../Dependencies/ProtocolLib-4.1.jar!/" />
         </CLASSES>
         <JAVADOC />

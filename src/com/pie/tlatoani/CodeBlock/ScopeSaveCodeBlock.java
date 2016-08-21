@@ -28,6 +28,13 @@ public class ScopeSaveCodeBlock extends CustomScope {
     private Expression<String> returnNames;
 
     @Override
+    public void setScope() {
+        if (last != null) {
+            last.setNext(null);
+        }
+    }
+
+    @Override
     public boolean init() {
         if (exprs[0] instanceof Variable) {
             variable = (Variable) exprs[0];
@@ -59,7 +66,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
     }
 
     @Override
-    public void go(Event e) {
+    public boolean go(Event e) {
         Mundo.debug(this, "GUTEN ROUNDEN 2:: " + first);
         ScopeCodeBlock scopeCodeBlock = new ScopeCodeBlock(first, mark != 0, argumentNames != null ? argumentNames.getArray(e) : new String[0], returnNames != null ? returnNames.getSingle(e) : null);
         switch (mark) {
@@ -68,7 +75,9 @@ public class ScopeSaveCodeBlock extends CustomScope {
             case 3: scopeCodeBlock.setConstantArray(constant.getArray(e));
                 break;
             case 4: scopeCodeBlock.setConstantListVariable((TreeMap) Variables.getVariable(constantVariableString.toString(e), e, ((Variable) constant).isLocal()));
+                break;
         }
         Variables.setVariable(variableString.toString(e), scopeCodeBlock, e, variableIsLocal);
+        return false;
     }
 }

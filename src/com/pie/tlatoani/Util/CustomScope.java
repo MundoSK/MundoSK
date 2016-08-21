@@ -6,6 +6,8 @@ import ch.njol.skript.SkriptEventHandler;
 import ch.njol.skript.command.Commands;
 import ch.njol.skript.command.ScriptCommand;
 import ch.njol.skript.lang.*;
+import com.pie.tlatoani.Generator.ChunkGeneratorManager;
+import com.pie.tlatoani.Generator.SkriptChunkGenerationEvent;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
@@ -23,6 +25,7 @@ import ch.njol.util.Kleenean;
 
 public abstract class CustomScope extends Condition {
 	public static Field firstitem;
+	public static Field lastitem;
 	public static Field condition;
 	public static Field whilecondition;
 	public static Field triggers;
@@ -35,6 +38,7 @@ public abstract class CustomScope extends Condition {
 	protected TriggerSection scopeParent;
 	protected Conditional scope = null;
 	protected TriggerItem first;
+	protected TriggerItem last;
 
 	protected Expression<?>[] exprs;
 	protected Integer arg1;
@@ -45,6 +49,8 @@ public abstract class CustomScope extends Condition {
 		try {
 			firstitem = TriggerSection.class.getDeclaredField("first");
 			firstitem.setAccessible(true);
+			lastitem = TriggerSection.class.getDeclaredField("last");
+			lastitem.setAccessible(true);
 			condition = Conditional.class.getDeclaredField("cond");
 			condition.setAccessible(true);
 			whilecondition = While.class.getDeclaredField("c");
@@ -69,6 +75,10 @@ public abstract class CustomScope extends Condition {
 			try {
 				Map<Class<? extends Event>, List<Trigger>> triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
 				Mundo.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
+				List<Trigger> triggerList = triggerMap.get(SkriptChunkGenerationEvent.class);
+				if (triggerList != null) {
+
+				}
 				triggerMap.forEach(new BiConsumer<Class<? extends Event>, List<Trigger>>() {
 					@Override
 					public void accept(Class<? extends Event> aClass, List<Trigger> triggers) {
@@ -125,7 +135,7 @@ public abstract class CustomScope extends Condition {
 		}
 	}
 
-	private static void querySetScope() {
+	public static void querySetScope() {
 		if (getScopesWasRun) {
 			getScopesWasRun = false;
 			Mundo.scheduler.runTask(Mundo.instance, new Runnable() {
@@ -137,16 +147,21 @@ public abstract class CustomScope extends Condition {
 		}
 	}
 
+	public static boolean getScopesWasRun() {
+		return getScopesWasRun;
+	}
+
 	private void setScope(Conditional scope) {
 		if (scope != null) {
 			this.scope = scope;
 			try {
 				this.first = (TriggerItem) firstitem.get(scope);
+				this.last = (TriggerItem) lastitem.get(scope);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			Mundo.debug(this, "GUTEN ROUNDEN:: " + first);
-			afterSetScope();
+			setScope();
 		}
 	}
 
@@ -200,8 +215,7 @@ public abstract class CustomScope extends Condition {
 			else
 				getScopes();
 		}
-		go(e);
-		return false;
+		return go(e);
 	}
 
 	@Override
@@ -214,12 +228,14 @@ public abstract class CustomScope extends Condition {
 
 	public abstract String getString();
 
-	public void go(Event e) {}
+	public boolean go(Event e) {
+		return false;
+	}
 
 	public boolean init() {
 		return true;
 	}
 	
-	public void afterSetScope() {}
+	public void setScope() {}
 
 }

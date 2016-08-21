@@ -5,7 +5,7 @@ import ch.njol.skript.lang.*;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.EmptyEvent;
+import com.pie.tlatoani.Util.BaseEvent;
 import org.bukkit.event.Event;
 
 import java.util.TreeMap;
@@ -23,11 +23,11 @@ public class EffRunCodeBlock extends Effect {
     private Event getLocalEvent(Event event, int mark) {
         Event localevent = null;
         if (mark == 0 || mark == 4) {
-            localevent = new EmptyEvent();
+            localevent = new BaseEvent();
         } else if (mark == 5) {
             localevent = event;
         } else if (mark == 3 || mark == 7){
-            final EmptyEvent tempevent = new EmptyEvent();
+            final BaseEvent tempevent = new BaseEvent();
             TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(variableString.toString(event), event, ((Variable) args).isLocal());
             treeMap.forEach(tempevent::setLocalVariable);
             localevent = tempevent;

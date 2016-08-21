@@ -7,7 +7,91 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/EvtChunkGenerator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ExprCurrentChunkCoordinate.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/OldSkriptChunkGenerator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptChunkGenerationEvent.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ScopeMatcher.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ScopeMatches.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/ExprHostOfSocket.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/ExprPortOfSocket.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/Socket2.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/SocketHandler.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/SocketListener.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$7$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$7$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/EmptyEvent.class" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/EmptyEvent.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/BaseEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" afterPath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/CodeBlock/EffRunCodeBlock.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/CodeBlock/EffRunCodeBlock.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/CodeBlock/ScopeCodeBlock.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/CodeBlock/ScopeCodeBlock.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Generator/ChunkGeneratorManager.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Generator/ChunkGeneratorManager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Generator/EffRegisterGenerator.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Generator/EffRegisterGenerator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Generator/SkriptChunkGenerator.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Generator/SkriptChunkGenerator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$1.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$10.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$10.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$11.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$11.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$12.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$12.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$13.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$13.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$14.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$14.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$15.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$15.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$16.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$16.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$17.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$17.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$18.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$18.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$19.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$19.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$2.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$20.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$20.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$21.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$21.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$22.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$22.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$23.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$23.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$24.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$24.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$25.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$25.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$26.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$26.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$27.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$27.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$28.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$28.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$29.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$29.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$3.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$30.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$30.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$31.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$31.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$32.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$32.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$33.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$33.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$34.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$34.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$35.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$35.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$36.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$36.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$37.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$37.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$38.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$38.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$39.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$39.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$4.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$40.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$40.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$41.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$41.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$5.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$6.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$7.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$7.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$8.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$8.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$9.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$9.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$ExprEnumValues.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$ExprEnumValues.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Probability/ScopeProbability.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Probability/ScopeProbability.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Throwable/ScopeTry.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Throwable/ScopeTry.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/CustomScope$1$1.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/CustomScope$1$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/CustomScope$1.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/CustomScope$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/CustomScope$2.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/CustomScope$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/CustomScope$3.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/CustomScope$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/CustomScope.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Util/CustomScope.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.iml" afterPath="$PROJECT_DIR$/MundoSK.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/EffRunCodeBlock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/EffRunCodeBlock.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeCodeBlock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeCodeBlock.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ChunkGeneratorManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ChunkGeneratorManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/EffRegisterGenerator.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/EffRegisterGenerator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptChunkGenerator.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptChunkGenerator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ScopeProbability.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ScopeProbability.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,157 +115,243 @@
       <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="1028" column="23" selection-start-line="1028" selection-start-column="23" selection-end-line="1028" selection-end-column="23" />
+            <state relative-caret-position="530">
+              <caret line="270" column="13" selection-start-line="270" selection-start-column="13" selection-end-line="270" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5610#5611#0" expanded="true" />
-                <element signature="e#5641#5642#0" expanded="true" />
-                <element signature="e#5859#5860#0" expanded="true" />
-                <element signature="e#5895#5896#0" expanded="true" />
-                <element signature="e#6998#6999#0" expanded="true" />
-                <element signature="e#7041#7042#0" expanded="true" />
-                <element signature="e#7111#7112#0" expanded="true" />
-                <element signature="e#7154#7155#0" expanded="true" />
-                <element signature="e#7225#7226#0" expanded="true" />
-                <element signature="e#7268#7269#0" expanded="true" />
-                <element signature="e#7322#7323#0" expanded="true" />
-                <element signature="e#7365#7366#0" expanded="true" />
-                <element signature="e#9179#9180#0" expanded="true" />
-                <element signature="e#9222#9223#0" expanded="true" />
-                <element signature="e#9292#9293#0" expanded="true" />
-                <element signature="e#9335#9336#0" expanded="true" />
-                <element signature="e#9406#9407#0" expanded="true" />
-                <element signature="e#9449#9450#0" expanded="true" />
-                <element signature="e#9503#9504#0" expanded="true" />
-                <element signature="e#9546#9547#0" expanded="true" />
-                <element signature="e#9796#9797#0" expanded="true" />
-                <element signature="e#9839#9840#0" expanded="true" />
-                <element signature="e#9909#9910#0" expanded="true" />
-                <element signature="e#9952#9953#0" expanded="true" />
-                <element signature="e#10023#10024#0" expanded="true" />
-                <element signature="e#10066#10067#0" expanded="true" />
-                <element signature="e#10120#10121#0" expanded="true" />
-                <element signature="e#10163#10164#0" expanded="true" />
-                <element signature="e#10383#10384#0" expanded="true" />
-                <element signature="e#10426#10427#0" expanded="true" />
-                <element signature="e#10490#10491#0" expanded="true" />
-                <element signature="e#10533#10534#0" expanded="true" />
-                <element signature="e#10601#10602#0" expanded="true" />
-                <element signature="e#10644#10645#0" expanded="true" />
-                <element signature="e#10698#10699#0" expanded="true" />
-                <element signature="e#10741#10742#0" expanded="true" />
-                <element signature="e#12644#12645#0" expanded="true" />
-                <element signature="e#12708#12709#0" expanded="true" />
-                <element signature="e#12781#12782#0" expanded="true" />
-                <element signature="e#12845#12846#0" expanded="true" />
-                <element signature="e#12899#12900#0" expanded="true" />
-                <element signature="e#12942#12943#0" expanded="true" />
-                <element signature="e#14948#14949#0" expanded="true" />
-                <element signature="e#14992#14993#0" expanded="true" />
-                <element signature="e#15067#15068#0" expanded="true" />
-                <element signature="e#15110#15111#0" expanded="true" />
-                <element signature="e#16159#16160#0" expanded="true" />
-                <element signature="e#16205#16206#0" expanded="true" />
-                <element signature="e#22600#22601#0" expanded="true" />
-                <element signature="e#22643#22644#0" expanded="true" />
-                <element signature="e#23117#23118#0" expanded="true" />
-                <element signature="e#23179#23180#0" expanded="true" />
-                <element signature="e#23401#23402#0" expanded="true" />
-                <element signature="e#23469#23470#0" expanded="true" />
-                <element signature="e#23676#23677#0" expanded="true" />
-                <element signature="e#23739#23740#0" expanded="true" />
-                <element signature="e#25214#25215#0" expanded="true" />
-                <element signature="e#25280#25281#0" expanded="true" />
-                <element signature="e#25593#25594#0" expanded="true" />
-                <element signature="e#25617#25618#0" expanded="true" />
-                <element signature="e#25864#25865#0" expanded="true" />
-                <element signature="e#25888#25889#0" expanded="true" />
-                <element signature="e#25953#25954#0" expanded="true" />
-                <element signature="e#25977#25978#0" expanded="true" />
-                <element signature="e#26043#26044#0" expanded="true" />
-                <element signature="e#26067#26068#0" expanded="true" />
-                <element signature="e#26113#26114#0" expanded="true" />
-                <element signature="e#26137#26138#0" expanded="true" />
-                <element signature="e#26707#26708#0" expanded="true" />
-                <element signature="e#26740#26741#0" expanded="true" />
-                <element signature="e#26930#26931#0" expanded="true" />
-                <element signature="e#26967#26968#0" expanded="true" />
-                <element signature="e#27145#27146#0" expanded="true" />
-                <element signature="e#27178#27179#0" expanded="true" />
-                <element signature="e#30154#30354#0" expanded="true" />
-                <element signature="e#30353#30354#0" expanded="true" />
-                <element signature="e#30428#30628#0" expanded="true" />
-                <element signature="e#30627#30628#0" expanded="true" />
-                <element signature="e#33074#33075#0" expanded="true" />
-                <element signature="e#33125#33126#0" expanded="true" />
-                <element signature="e#33202#33203#0" expanded="true" />
-                <element signature="e#33253#33254#0" expanded="true" />
-                <element signature="e#33331#33332#0" expanded="true" />
-                <element signature="e#33382#33383#0" expanded="true" />
-                <element signature="e#33440#33441#0" expanded="true" />
-                <element signature="e#33491#33492#0" expanded="true" />
-                <element signature="e#34719#34720#0" expanded="true" />
-                <element signature="e#34771#34772#0" expanded="true" />
-                <element signature="e#34854#34855#0" expanded="true" />
+                <element signature="e#5706#5707#0" expanded="true" />
+                <element signature="e#5737#5738#0" expanded="true" />
+                <element signature="e#5955#5956#0" expanded="true" />
+                <element signature="e#5991#5992#0" expanded="true" />
+                <element signature="e#7094#7095#0" expanded="true" />
+                <element signature="e#7137#7138#0" expanded="true" />
+                <element signature="e#7207#7208#0" expanded="true" />
+                <element signature="e#7250#7251#0" expanded="true" />
+                <element signature="e#7321#7322#0" expanded="true" />
+                <element signature="e#7364#7365#0" expanded="true" />
+                <element signature="e#7418#7419#0" expanded="true" />
+                <element signature="e#7461#7462#0" expanded="true" />
+                <element signature="e#9206#9207#0" expanded="true" />
+                <element signature="e#9249#9250#0" expanded="true" />
+                <element signature="e#9319#9320#0" expanded="true" />
+                <element signature="e#9362#9363#0" expanded="true" />
+                <element signature="e#9433#9434#0" expanded="true" />
+                <element signature="e#9476#9477#0" expanded="true" />
+                <element signature="e#9530#9531#0" expanded="true" />
+                <element signature="e#9573#9574#0" expanded="true" />
+                <element signature="e#9823#9824#0" expanded="true" />
+                <element signature="e#9866#9867#0" expanded="true" />
+                <element signature="e#9936#9937#0" expanded="true" />
+                <element signature="e#9979#9980#0" expanded="true" />
+                <element signature="e#10050#10051#0" expanded="true" />
+                <element signature="e#10093#10094#0" expanded="true" />
+                <element signature="e#10147#10148#0" expanded="true" />
+                <element signature="e#10190#10191#0" expanded="true" />
+                <element signature="e#10410#10411#0" expanded="true" />
+                <element signature="e#10453#10454#0" expanded="true" />
+                <element signature="e#10517#10518#0" expanded="true" />
+                <element signature="e#10560#10561#0" expanded="true" />
+                <element signature="e#10628#10629#0" expanded="true" />
+                <element signature="e#10671#10672#0" expanded="true" />
+                <element signature="e#10725#10726#0" expanded="true" />
+                <element signature="e#10768#10769#0" expanded="true" />
+                <element signature="e#14336#14337#0" expanded="true" />
+                <element signature="e#14400#14401#0" expanded="true" />
+                <element signature="e#14473#14474#0" expanded="true" />
+                <element signature="e#14537#14538#0" expanded="true" />
+                <element signature="e#14591#14592#0" expanded="true" />
+                <element signature="e#14634#14635#0" expanded="true" />
+                <element signature="e#16640#16641#0" expanded="true" />
+                <element signature="e#16684#16685#0" expanded="true" />
+                <element signature="e#16759#16760#0" expanded="true" />
+                <element signature="e#16802#16803#0" expanded="true" />
+                <element signature="e#17851#17852#0" expanded="true" />
+                <element signature="e#17897#17898#0" expanded="true" />
+                <element signature="e#24432#24433#0" expanded="true" />
+                <element signature="e#24475#24476#0" expanded="true" />
+                <element signature="e#24949#24950#0" expanded="true" />
+                <element signature="e#25011#25012#0" expanded="true" />
+                <element signature="e#25233#25234#0" expanded="true" />
+                <element signature="e#25301#25302#0" expanded="true" />
+                <element signature="e#25508#25509#0" expanded="true" />
+                <element signature="e#25571#25572#0" expanded="true" />
+                <element signature="e#27046#27047#0" expanded="true" />
+                <element signature="e#27112#27113#0" expanded="true" />
+                <element signature="e#27425#27426#0" expanded="true" />
+                <element signature="e#27449#27450#0" expanded="true" />
+                <element signature="e#27696#27697#0" expanded="true" />
+                <element signature="e#27720#27721#0" expanded="true" />
+                <element signature="e#27785#27786#0" expanded="true" />
+                <element signature="e#27809#27810#0" expanded="true" />
+                <element signature="e#27875#27876#0" expanded="true" />
+                <element signature="e#27899#27900#0" expanded="true" />
+                <element signature="e#27945#27946#0" expanded="true" />
+                <element signature="e#27969#27970#0" expanded="true" />
+                <element signature="e#28539#28540#0" expanded="true" />
+                <element signature="e#28572#28573#0" expanded="true" />
+                <element signature="e#28762#28763#0" expanded="true" />
+                <element signature="e#28799#28800#0" expanded="true" />
+                <element signature="e#28977#28978#0" expanded="true" />
+                <element signature="e#29010#29011#0" expanded="true" />
+                <element signature="e#31986#32186#0" expanded="true" />
+                <element signature="e#32185#32186#0" expanded="true" />
+                <element signature="e#32260#32460#0" expanded="true" />
+                <element signature="e#32459#32460#0" expanded="true" />
                 <element signature="e#34906#34907#0" expanded="true" />
-                <element signature="e#36021#36022#0" expanded="true" />
-                <element signature="e#36064#36065#0" expanded="true" />
-                <element signature="e#36128#36129#0" expanded="true" />
-                <element signature="e#36181#36182#0" expanded="true" />
-                <element signature="e#36246#36247#0" expanded="true" />
-                <element signature="e#36299#36300#0" expanded="true" />
-                <element signature="e#36353#36354#0" expanded="true" />
-                <element signature="e#36396#36397#0" expanded="true" />
-                <element signature="e#36696#36697#0" expanded="true" />
-                <element signature="e#36739#36740#0" expanded="true" />
-                <element signature="e#36812#36813#0" expanded="true" />
-                <element signature="e#36866#36867#0" expanded="true" />
-                <element signature="e#36940#36941#0" expanded="true" />
-                <element signature="e#36994#36995#0" expanded="true" />
-                <element signature="e#37048#37049#0" expanded="true" />
-                <element signature="e#37091#37092#0" expanded="true" />
-                <element signature="e#39002#39003#0" expanded="true" />
-                <element signature="e#39032#39033#0" expanded="true" />
-                <element signature="e#40396#40397#0" expanded="true" />
-                <element signature="e#40439#40440#0" expanded="true" />
-                <element signature="e#40784#40785#0" expanded="true" />
-                <element signature="e#40841#40842#0" expanded="true" />
-                <element signature="e#40895#40896#0" expanded="true" />
-                <element signature="e#40938#40939#0" expanded="true" />
-                <element signature="e#44730#44731#0" expanded="true" />
-                <element signature="e#44794#44795#0" expanded="true" />
-                <element signature="e#45051#45081#1" expanded="true" />
-                <element signature="e#45680#45681#0" expanded="true" />
-                <element signature="e#45733#45734#0" expanded="true" />
-                <element signature="e#49079#49080#0" expanded="true" />
-                <element signature="e#49132#49133#0" expanded="true" />
-                <element signature="e#49208#49209#0" expanded="true" />
-                <element signature="e#49251#49252#0" expanded="true" />
-                <element signature="e#51084#51085#0" expanded="true" />
-                <element signature="e#51128#51129#0" expanded="true" />
-                <element signature="e#51203#51204#0" expanded="true" />
-                <element signature="e#51247#51248#0" expanded="true" />
-                <element signature="e#51721#51722#0" expanded="true" />
-                <element signature="e#51782#51783#0" expanded="true" />
-                <element signature="e#51837#51838#0" expanded="true" />
-                <element signature="e#51873#51874#0" expanded="true" />
-                <element signature="e#51944#51945#0" expanded="true" />
-                <element signature="e#52022#52023#0" expanded="true" />
-                <element signature="e#52098#52099#0" expanded="true" />
-                <element signature="e#52168#52169#0" expanded="true" />
-                <element signature="e#54119#54120#0" expanded="true" />
-                <element signature="e#54175#54176#0" expanded="true" />
+                <element signature="e#34957#34958#0" expanded="true" />
+                <element signature="e#35034#35035#0" expanded="true" />
+                <element signature="e#35085#35086#0" expanded="true" />
+                <element signature="e#35163#35164#0" expanded="true" />
+                <element signature="e#35214#35215#0" expanded="true" />
+                <element signature="e#35272#35273#0" expanded="true" />
+                <element signature="e#35323#35324#0" expanded="true" />
+                <element signature="e#36551#36552#0" expanded="true" />
+                <element signature="e#36603#36604#0" expanded="true" />
+                <element signature="e#36686#36687#0" expanded="true" />
+                <element signature="e#36738#36739#0" expanded="true" />
+                <element signature="e#37853#37854#0" expanded="true" />
+                <element signature="e#37896#37897#0" expanded="true" />
+                <element signature="e#37960#37961#0" expanded="true" />
+                <element signature="e#38013#38014#0" expanded="true" />
+                <element signature="e#38078#38079#0" expanded="true" />
+                <element signature="e#38131#38132#0" expanded="true" />
+                <element signature="e#38185#38186#0" expanded="true" />
+                <element signature="e#38228#38229#0" expanded="true" />
+                <element signature="e#38528#38529#0" expanded="true" />
+                <element signature="e#38571#38572#0" expanded="true" />
+                <element signature="e#38644#38645#0" expanded="true" />
+                <element signature="e#38698#38699#0" expanded="true" />
+                <element signature="e#38772#38773#0" expanded="true" />
+                <element signature="e#38826#38827#0" expanded="true" />
+                <element signature="e#38880#38881#0" expanded="true" />
+                <element signature="e#38923#38924#0" expanded="true" />
+                <element signature="e#40834#40835#0" expanded="true" />
+                <element signature="e#40864#40865#0" expanded="true" />
+                <element signature="e#42228#42229#0" expanded="true" />
+                <element signature="e#42271#42272#0" expanded="true" />
+                <element signature="e#42616#42617#0" expanded="true" />
+                <element signature="e#42673#42674#0" expanded="true" />
+                <element signature="e#42727#42728#0" expanded="true" />
+                <element signature="e#42770#42771#0" expanded="true" />
+                <element signature="e#46562#46563#0" expanded="true" />
+                <element signature="e#46626#46627#0" expanded="true" />
+                <element signature="e#46883#46913#1" expanded="true" />
+                <element signature="e#47512#47513#0" expanded="true" />
+                <element signature="e#47565#47566#0" expanded="true" />
+                <element signature="e#50914#50915#0" expanded="true" />
+                <element signature="e#50967#50968#0" expanded="true" />
+                <element signature="e#51043#51044#0" expanded="true" />
+                <element signature="e#51086#51087#0" expanded="true" />
+                <element signature="e#52919#52920#0" expanded="true" />
+                <element signature="e#52963#52964#0" expanded="true" />
+                <element signature="e#53038#53039#0" expanded="true" />
+                <element signature="e#53082#53083#0" expanded="true" />
+                <element signature="e#53556#53557#0" expanded="true" />
+                <element signature="e#53617#53618#0" expanded="true" />
+                <element signature="e#53672#53673#0" expanded="true" />
+                <element signature="e#53708#53709#0" expanded="true" />
+                <element signature="e#53779#53780#0" expanded="true" />
+                <element signature="e#53857#53858#0" expanded="true" />
+                <element signature="e#53933#53934#0" expanded="true" />
+                <element signature="e#54003#54004#0" expanded="true" />
+                <element signature="e#55954#55955#0" expanded="true" />
+                <element signature="e#56010#56011#0" expanded="true" />
+                <element signature="e#56328#56329#0" expanded="true" />
+                <element signature="e#56358#56359#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExprRandomValue.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Seed/ExprRandomValue.java">
+      <file leaf-file-name="ExprCurrentChunkCoordinate.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ExprCurrentChunkCoordinate.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="73">
-              <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
+            <state relative-caret-position="268">
+              <caret line="19" column="93" selection-start-line="19" selection-start-column="93" selection-end-line="19" selection-end-column="93" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#742#743#0" expanded="true" />
+                <element signature="e#769#770#0" expanded="true" />
+                <element signature="e#837#838#0" expanded="true" />
+                <element signature="e#872#873#0" expanded="true" />
+                <element signature="e#940#941#0" expanded="true" />
+                <element signature="e#993#994#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChunkGeneratorManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ChunkGeneratorManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="178">
+              <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OldSkriptChunkGenerator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/OldSkriptChunkGenerator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="35" column="112" selection-start-line="35" selection-start-column="21" selection-end-line="35" selection-end-column="112" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SkriptChunkGenerationEvent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptChunkGenerationEvent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="22" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EvtChunkGenerator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/EvtChunkGenerator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#387#388#0" expanded="true" />
+                <element signature="e#421#422#0" expanded="true" />
+                <element signature="e#873#874#0" expanded="true" />
+                <element signature="e#901#902#0" expanded="true" />
+                <element signature="e#969#970#0" expanded="true" />
+                <element signature="e#1024#1025#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CustomScope.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="140">
+              <caret line="133" column="35" selection-start-line="133" selection-start-column="35" selection-end-line="133" selection-end-column="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#5044#5045#0" expanded="true" />
+                <element signature="e#5073#5074#0" expanded="true" />
+                <element signature="e#7030#7031#0" expanded="true" />
+                <element signature="e#7049#7050#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/plugin.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -190,66 +360,8 @@
       <file leaf-file-name="SkriptChunkGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptChunkGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="15" column="40" selection-start-line="15" selection-start-column="40" selection-end-line="15" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TabListManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-945">
-              <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExprAllAch.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Achievement/ExprAllAch.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2">
-              <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#528#529#0" expanded="true" />
-                <element signature="e#559#560#0" expanded="true" />
-                <element signature="e#600#601#0" expanded="true" />
-                <element signature="e#619#620#0" expanded="true" />
-                <element signature="e#894#895#0" expanded="true" />
-                <element signature="e#934#935#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EffCreateNewTab.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateNewTab.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/plugin.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UtilPacketEvent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="592">
-              <caret line="45" column="31" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
+            <state relative-caret-position="195">
+              <caret line="13" column="33" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -257,34 +369,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExprObjectOfPacket.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java">
+      <file leaf-file-name="ScopeMatches.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ScopeMatches.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="466">
-              <caret line="235" column="87" selection-start-line="235" selection-start-column="87" selection-end-line="235" selection-end-column="87" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExprAllAutomaticCreators.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldLoader/ExprAllAutomaticCreators.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="41" column="38" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="38" />
+            <state relative-caret-position="178">
+              <caret line="20" column="101" selection-start-line="20" selection-start-column="101" selection-end-line="20" selection-end-column="101" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#640#641#0" expanded="true" />
-                <element signature="e#724#725#0" expanded="true" />
-                <element signature="e#797#798#0" expanded="true" />
-                <element signature="e#863#864#0" expanded="true" />
-                <element signature="e#910#911#0" expanded="true" />
-                <element signature="e#938#939#0" expanded="true" />
-                <element signature="e#1012#1013#0" expanded="true" />
-                <element signature="e#1053#1054#0" expanded="true" />
-                <element signature="e#1121#1122#0" expanded="true" />
-                <element signature="e#1168#1169#0" expanded="true" />
-                <element signature="e#1788#1818#0" expanded="true" />
+                <element signature="e#814#815#0" expanded="true" />
+                <element signature="e#867#868#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -311,19 +404,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/EffScope.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Seed/ExprDefaultRandom.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Seed/ExprNewRandom.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprEnumOfPacket.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/SkriptCodeBlock.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/UtilWriterSocket.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprTreeOfListVariable.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/EffRunCodeBlock.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprBook.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/EffCallCustomEvent.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Json/EffPutJsonInListVariable.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffInsertItem.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/TransDefault.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ExprRandomNumberIndex.java" />
@@ -336,14 +416,11 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/CodeBlock.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/EffSetRegionInChunkData.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ScopeProbAmount.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ScopeProbability.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeCatch.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprLoginResult.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprEntityOfPacket.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ExprFunctionCodeBlock.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/FunctionCodeBlock.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeCodeBlock.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldCreator/ExprCreatorOf.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/UtilWorldLoader.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/ExprCreatorsThatRunOnStart.java" />
@@ -352,15 +429,31 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldLoader/ExprCreatorToLoadOnStart.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldLoader/EffRunCreatorOnStart.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldLoader/EffDoNotLoadWorldOnStart.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldLoader/ExprAllAutomaticCreators.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldLoader/ExprAutomaticCreator.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Achievement/ExprAllAch.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptChunkGenerator.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Seed/ExprRandomValue.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/SocketListener.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/ExprHostOfSocket.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/ExprPortOfSocket.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/Socket2.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/SocketHandler.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeCodeBlock.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/CondProbabilityValue.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ScopeMatcher.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ScopeProbability.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ScopeMatches.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/OldSkriptChunkGenerator.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptChunkGenerationEvent.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptChunkGenerator.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/EvtChunkGenerator.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ChunkGeneratorManager.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ExprCurrentChunkCoordinate.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -373,6 +466,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="-3" />
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="813" />
@@ -463,7 +557,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Tablist" />
+              <option name="myItemId" value="Util" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -485,29 +579,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ProtocolLib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tlatoani" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Generator" />
+              <option name="myItemId" value="Miscellaneous" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -530,10 +602,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Generator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Seed" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -556,50 +624,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="CodeBlock" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tlatoani" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Book" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tlatoani" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Achievement" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -903,7 +927,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="813" extended-state="6" />
+    <frame x="-3" y="23" width="1440" height="813" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -980,140 +1004,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprEnumOfPacket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="117" column="9" selection-start-line="117" selection-start-column="9" selection-end-line="117" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Socket/UtilWriterSocket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="77" column="23" selection-start-line="77" selection-start-column="23" selection-end-line="77" selection-end-column="23" />
-          <folding>
-            <element signature="e#2605#2606#0" expanded="false" />
-            <element signature="e#2643#2644#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprTreeOfListVariable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding>
-            <element signature="e#1670#1671#0" expanded="true" />
-            <element signature="e#1716#1717#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprBook.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="56" column="36" selection-start-line="56" selection-start-column="36" selection-end-line="56" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/EffCallCustomEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="34" column="44" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Json/EffPutJsonInListVariable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="66" column="55" selection-start-line="66" selection-start-column="55" selection-end-line="66" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffInsertItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/TransDefault.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ExprRandomNumberIndex.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="43" column="60" selection-start-line="43" selection-start-column="60" selection-end-line="43" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EvtPacketEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/EvtCustomEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="26" column="27" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Socket/EffWriteToSocket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="40" column="40" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ExprLoopWhile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="25" column="46" selection-start-line="25" selection-start-column="46" selection-end-line="25" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ExprMaterialInChunkData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="67" column="43" selection-start-line="67" selection-start-column="43" selection-end-line="67" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/EmptyEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/CodeBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/EffSetRegionInChunkData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
@@ -1130,24 +1020,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Probability/CondProbabilityValue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ScopeProbability.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="44" column="21" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
-          <folding>
-            <element signature="e#437#459#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/CondCatch.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1161,9 +1033,9 @@
         <state relative-caret-position="448">
           <caret line="38" column="32" selection-start-line="38" selection-start-column="32" selection-end-line="38" selection-end-column="32" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#539#540#0" expanded="true" />
-            <element signature="e#585#586#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#539#540#0" expanded="false" />
+            <element signature="e#585#586#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1189,13 +1061,13 @@
         <state relative-caret-position="103">
           <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#782#783#0" expanded="true" />
-            <element signature="e#809#810#0" expanded="true" />
-            <element signature="e#877#878#0" expanded="true" />
-            <element signature="e#912#913#0" expanded="true" />
-            <element signature="e#980#981#0" expanded="true" />
-            <element signature="e#1017#1018#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#782#783#0" expanded="false" />
+            <element signature="e#809#810#0" expanded="false" />
+            <element signature="e#877#878#0" expanded="false" />
+            <element signature="e#912#913#0" expanded="false" />
+            <element signature="e#980#981#0" expanded="false" />
+            <element signature="e#1017#1018#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1205,7 +1077,7 @@
         <state relative-caret-position="448">
           <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1220,40 +1092,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/FunctionCodeBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="40" column="63" selection-start-line="40" selection-start-column="63" selection-end-line="40" selection-end-column="63" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/EffRunCodeBlock.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="62" column="42" selection-start-line="62" selection-start-column="42" selection-end-line="62" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeCodeBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="46" column="58" selection-start-line="46" selection-start-column="58" selection-end-line="46" selection-end-column="58" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1464#1480#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1270,8 +1113,8 @@
         <state relative-caret-position="105">
           <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
           <folding>
-            <element signature="e#4197#4198#0" expanded="true" />
-            <element signature="e#4237#4238#0" expanded="true" />
+            <element signature="e#4197#4198#0" expanded="false" />
+            <element signature="e#4237#4238#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1281,8 +1124,8 @@
         <state relative-caret-position="376">
           <caret line="39" column="36" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
           <folding>
-            <element signature="e#980#981#0" expanded="true" />
-            <element signature="e#1015#1016#0" expanded="true" />
+            <element signature="e#980#981#0" expanded="false" />
+            <element signature="e#1015#1016#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1300,26 +1143,8 @@
         <state relative-caret-position="375">
           <caret line="29" column="63" selection-start-line="29" selection-start-column="63" selection-end-line="29" selection-end-column="63" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2008">
-          <caret line="198" column="8" selection-start-line="198" selection-start-column="8" selection-end-line="198" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="43" column="9" selection-start-line="43" selection-start-column="9" selection-end-line="43" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1336,14 +1161,14 @@
         <state relative-caret-position="463">
           <caret line="44" column="45" selection-start-line="44" selection-start-column="45" selection-end-line="44" selection-end-column="45" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#739#740#0" expanded="true" />
-            <element signature="e#766#767#0" expanded="true" />
-            <element signature="e#840#841#0" expanded="true" />
-            <element signature="e#881#882#0" expanded="true" />
-            <element signature="e#949#950#0" expanded="true" />
-            <element signature="e#1011#1012#0" expanded="true" />
-            <element signature="e#1684#1714#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#739#740#0" expanded="false" />
+            <element signature="e#766#767#0" expanded="false" />
+            <element signature="e#840#841#0" expanded="false" />
+            <element signature="e#881#882#0" expanded="false" />
+            <element signature="e#949#950#0" expanded="false" />
+            <element signature="e#1011#1012#0" expanded="false" />
+            <element signature="e#1684#1714#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1361,18 +1186,18 @@
         <state relative-caret-position="238">
           <caret line="41" column="38" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="38" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#640#641#0" expanded="true" />
-            <element signature="e#724#725#0" expanded="true" />
-            <element signature="e#797#798#0" expanded="true" />
-            <element signature="e#863#864#0" expanded="true" />
-            <element signature="e#910#911#0" expanded="true" />
-            <element signature="e#938#939#0" expanded="true" />
-            <element signature="e#1012#1013#0" expanded="true" />
-            <element signature="e#1053#1054#0" expanded="true" />
-            <element signature="e#1121#1122#0" expanded="true" />
-            <element signature="e#1168#1169#0" expanded="true" />
-            <element signature="e#1788#1818#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#640#641#0" expanded="false" />
+            <element signature="e#724#725#0" expanded="false" />
+            <element signature="e#797#798#0" expanded="false" />
+            <element signature="e#863#864#0" expanded="false" />
+            <element signature="e#910#911#0" expanded="false" />
+            <element signature="e#938#939#0" expanded="false" />
+            <element signature="e#1012#1013#0" expanded="false" />
+            <element signature="e#1053#1054#0" expanded="false" />
+            <element signature="e#1121#1122#0" expanded="false" />
+            <element signature="e#1168#1169#0" expanded="false" />
+            <element signature="e#1788#1818#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1382,7 +1207,7 @@
         <state relative-caret-position="592">
           <caret line="45" column="31" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1400,13 +1225,13 @@
         <state relative-caret-position="-2">
           <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#528#529#0" expanded="true" />
-            <element signature="e#559#560#0" expanded="true" />
-            <element signature="e#600#601#0" expanded="true" />
-            <element signature="e#619#620#0" expanded="true" />
-            <element signature="e#894#895#0" expanded="true" />
-            <element signature="e#934#935#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#528#529#0" expanded="false" />
+            <element signature="e#559#560#0" expanded="false" />
+            <element signature="e#600#601#0" expanded="false" />
+            <element signature="e#619#620#0" expanded="false" />
+            <element signature="e#894#895#0" expanded="false" />
+            <element signature="e#934#935#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1415,14 +1240,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-945">
           <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptChunkGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="15" column="40" selection-start-line="15" selection-start-column="40" selection-end-line="15" selection-end-column="40" />
           <folding />
         </state>
       </provider>
@@ -1443,157 +1260,428 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Socket/UtilFunctionSocket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="1028" column="23" selection-start-line="1028" selection-start-column="23" selection-end-line="1028" selection-end-column="23" />
+        <state relative-caret-position="150">
+          <caret line="42" column="22" selection-start-line="42" selection-start-column="22" selection-end-line="42" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Socket/UtilWriterSocket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/UtilBorderManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-242">
+          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/ExprPortOfSocket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="17" column="145" selection-start-line="17" selection-start-column="145" selection-end-line="17" selection-end-column="145" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/SocketListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1495#1496#0" expanded="false" />
+            <element signature="e#1541#1542#0" expanded="false" />
+            <element signature="e#1602#1603#0" expanded="false" />
+            <element signature="e#1634#1635#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/Socket2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1322">
+          <caret line="66" column="28" selection-start-line="66" selection-start-column="28" selection-end-line="66" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5610#5611#0" expanded="true" />
-            <element signature="e#5641#5642#0" expanded="true" />
-            <element signature="e#5859#5860#0" expanded="true" />
-            <element signature="e#5895#5896#0" expanded="true" />
-            <element signature="e#6998#6999#0" expanded="true" />
-            <element signature="e#7041#7042#0" expanded="true" />
-            <element signature="e#7111#7112#0" expanded="true" />
-            <element signature="e#7154#7155#0" expanded="true" />
-            <element signature="e#7225#7226#0" expanded="true" />
-            <element signature="e#7268#7269#0" expanded="true" />
-            <element signature="e#7322#7323#0" expanded="true" />
-            <element signature="e#7365#7366#0" expanded="true" />
-            <element signature="e#9179#9180#0" expanded="true" />
-            <element signature="e#9222#9223#0" expanded="true" />
-            <element signature="e#9292#9293#0" expanded="true" />
-            <element signature="e#9335#9336#0" expanded="true" />
-            <element signature="e#9406#9407#0" expanded="true" />
-            <element signature="e#9449#9450#0" expanded="true" />
-            <element signature="e#9503#9504#0" expanded="true" />
-            <element signature="e#9546#9547#0" expanded="true" />
-            <element signature="e#9796#9797#0" expanded="true" />
-            <element signature="e#9839#9840#0" expanded="true" />
-            <element signature="e#9909#9910#0" expanded="true" />
-            <element signature="e#9952#9953#0" expanded="true" />
-            <element signature="e#10023#10024#0" expanded="true" />
-            <element signature="e#10066#10067#0" expanded="true" />
-            <element signature="e#10120#10121#0" expanded="true" />
-            <element signature="e#10163#10164#0" expanded="true" />
-            <element signature="e#10383#10384#0" expanded="true" />
-            <element signature="e#10426#10427#0" expanded="true" />
-            <element signature="e#10490#10491#0" expanded="true" />
-            <element signature="e#10533#10534#0" expanded="true" />
-            <element signature="e#10601#10602#0" expanded="true" />
-            <element signature="e#10644#10645#0" expanded="true" />
-            <element signature="e#10698#10699#0" expanded="true" />
-            <element signature="e#10741#10742#0" expanded="true" />
-            <element signature="e#12644#12645#0" expanded="true" />
-            <element signature="e#12708#12709#0" expanded="true" />
-            <element signature="e#12781#12782#0" expanded="true" />
-            <element signature="e#12845#12846#0" expanded="true" />
-            <element signature="e#12899#12900#0" expanded="true" />
-            <element signature="e#12942#12943#0" expanded="true" />
-            <element signature="e#14948#14949#0" expanded="true" />
-            <element signature="e#14992#14993#0" expanded="true" />
-            <element signature="e#15067#15068#0" expanded="true" />
-            <element signature="e#15110#15111#0" expanded="true" />
-            <element signature="e#16159#16160#0" expanded="true" />
-            <element signature="e#16205#16206#0" expanded="true" />
-            <element signature="e#22600#22601#0" expanded="true" />
-            <element signature="e#22643#22644#0" expanded="true" />
-            <element signature="e#23117#23118#0" expanded="true" />
-            <element signature="e#23179#23180#0" expanded="true" />
-            <element signature="e#23401#23402#0" expanded="true" />
-            <element signature="e#23469#23470#0" expanded="true" />
-            <element signature="e#23676#23677#0" expanded="true" />
-            <element signature="e#23739#23740#0" expanded="true" />
-            <element signature="e#25214#25215#0" expanded="true" />
-            <element signature="e#25280#25281#0" expanded="true" />
-            <element signature="e#25593#25594#0" expanded="true" />
-            <element signature="e#25617#25618#0" expanded="true" />
-            <element signature="e#25864#25865#0" expanded="true" />
-            <element signature="e#25888#25889#0" expanded="true" />
-            <element signature="e#25953#25954#0" expanded="true" />
-            <element signature="e#25977#25978#0" expanded="true" />
-            <element signature="e#26043#26044#0" expanded="true" />
-            <element signature="e#26067#26068#0" expanded="true" />
-            <element signature="e#26113#26114#0" expanded="true" />
-            <element signature="e#26137#26138#0" expanded="true" />
-            <element signature="e#26707#26708#0" expanded="true" />
-            <element signature="e#26740#26741#0" expanded="true" />
-            <element signature="e#26930#26931#0" expanded="true" />
-            <element signature="e#26967#26968#0" expanded="true" />
-            <element signature="e#27145#27146#0" expanded="true" />
-            <element signature="e#27178#27179#0" expanded="true" />
-            <element signature="e#30154#30354#0" expanded="true" />
-            <element signature="e#30353#30354#0" expanded="true" />
-            <element signature="e#30428#30628#0" expanded="true" />
-            <element signature="e#30627#30628#0" expanded="true" />
-            <element signature="e#33074#33075#0" expanded="true" />
-            <element signature="e#33125#33126#0" expanded="true" />
-            <element signature="e#33202#33203#0" expanded="true" />
-            <element signature="e#33253#33254#0" expanded="true" />
-            <element signature="e#33331#33332#0" expanded="true" />
-            <element signature="e#33382#33383#0" expanded="true" />
-            <element signature="e#33440#33441#0" expanded="true" />
-            <element signature="e#33491#33492#0" expanded="true" />
-            <element signature="e#34719#34720#0" expanded="true" />
-            <element signature="e#34771#34772#0" expanded="true" />
-            <element signature="e#34854#34855#0" expanded="true" />
+            <element signature="e#2670#2671#0" expanded="true" />
+            <element signature="e#2714#2715#0" expanded="true" />
+            <element signature="e#3321#3322#0" expanded="true" />
+            <element signature="e#3382#3383#0" expanded="true" />
+            <element signature="e#3415#3416#0" expanded="true" />
+            <element signature="e#3459#3460#0" expanded="true" />
+            <element signature="e#3498#3499#0" expanded="true" />
+            <element signature="e#3558#3559#0" expanded="true" />
+            <element signature="e#3594#3595#0" expanded="true" />
+            <element signature="e#3633#3634#0" expanded="true" />
+            <element signature="e#3664#3665#0" expanded="true" />
+            <element signature="e#3692#3693#0" expanded="true" />
+            <element signature="e#4299#4300#0" expanded="true" />
+            <element signature="e#4388#4389#0" expanded="true" />
+            <element signature="e#4938#4939#0" expanded="true" />
+            <element signature="e#4975#4976#0" expanded="true" />
+            <element signature="e#5007#5008#0" expanded="true" />
+            <element signature="e#5044#5045#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/SocketHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/ExprHostOfSocket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#674#675#0" expanded="false" />
+            <element signature="e#701#702#0" expanded="false" />
+            <element signature="e#769#770#0" expanded="false" />
+            <element signature="e#804#805#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/FunctionCodeBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeCodeBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="57" column="5" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1491#1507#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Throwable/ScopeTry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ScopeProbability.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="41" column="21" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
+          <folding>
+            <element signature="e#437#459#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="80" column="21" selection-start-line="80" selection-start-column="21" selection-end-line="80" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Probability/CondProbabilityValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="47" column="9" selection-start-line="47" selection-start-column="9" selection-end-line="47" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ScopeMatcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="33" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#343#344#0" expanded="true" />
+            <element signature="e#370#371#0" expanded="true" />
+            <element signature="e#417#418#0" expanded="true" />
+            <element signature="e#467#468#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ScopeMatches.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="20" column="101" selection-start-line="20" selection-start-column="101" selection-end-line="20" selection-end-column="101" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#814#815#0" expanded="true" />
+            <element signature="e#867#868#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../Dependencies/spigot-1.10.jar!/org/bukkit/generator/ChunkGenerator.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="61" column="15" selection-start-line="61" selection-start-column="15" selection-end-line="61" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/OldSkriptChunkGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="35" column="112" selection-start-line="35" selection-start-column="21" selection-end-line="35" selection-end-column="112" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptChunkGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="33" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptChunkGenerationEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="22" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/EvtChunkGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+            <element signature="e#421#422#0" expanded="true" />
+            <element signature="e#873#874#0" expanded="true" />
+            <element signature="e#901#902#0" expanded="true" />
+            <element signature="e#969#970#0" expanded="true" />
+            <element signature="e#1024#1025#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ChunkGeneratorManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ExprCurrentChunkCoordinate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="19" column="93" selection-start-line="19" selection-start-column="93" selection-end-line="19" selection-end-column="93" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#742#743#0" expanded="true" />
+            <element signature="e#769#770#0" expanded="true" />
+            <element signature="e#837#838#0" expanded="true" />
+            <element signature="e#872#873#0" expanded="true" />
+            <element signature="e#940#941#0" expanded="true" />
+            <element signature="e#993#994#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="530">
+          <caret line="270" column="13" selection-start-line="270" selection-start-column="13" selection-end-line="270" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5706#5707#0" expanded="true" />
+            <element signature="e#5737#5738#0" expanded="true" />
+            <element signature="e#5955#5956#0" expanded="true" />
+            <element signature="e#5991#5992#0" expanded="true" />
+            <element signature="e#7094#7095#0" expanded="true" />
+            <element signature="e#7137#7138#0" expanded="true" />
+            <element signature="e#7207#7208#0" expanded="true" />
+            <element signature="e#7250#7251#0" expanded="true" />
+            <element signature="e#7321#7322#0" expanded="true" />
+            <element signature="e#7364#7365#0" expanded="true" />
+            <element signature="e#7418#7419#0" expanded="true" />
+            <element signature="e#7461#7462#0" expanded="true" />
+            <element signature="e#9206#9207#0" expanded="true" />
+            <element signature="e#9249#9250#0" expanded="true" />
+            <element signature="e#9319#9320#0" expanded="true" />
+            <element signature="e#9362#9363#0" expanded="true" />
+            <element signature="e#9433#9434#0" expanded="true" />
+            <element signature="e#9476#9477#0" expanded="true" />
+            <element signature="e#9530#9531#0" expanded="true" />
+            <element signature="e#9573#9574#0" expanded="true" />
+            <element signature="e#9823#9824#0" expanded="true" />
+            <element signature="e#9866#9867#0" expanded="true" />
+            <element signature="e#9936#9937#0" expanded="true" />
+            <element signature="e#9979#9980#0" expanded="true" />
+            <element signature="e#10050#10051#0" expanded="true" />
+            <element signature="e#10093#10094#0" expanded="true" />
+            <element signature="e#10147#10148#0" expanded="true" />
+            <element signature="e#10190#10191#0" expanded="true" />
+            <element signature="e#10410#10411#0" expanded="true" />
+            <element signature="e#10453#10454#0" expanded="true" />
+            <element signature="e#10517#10518#0" expanded="true" />
+            <element signature="e#10560#10561#0" expanded="true" />
+            <element signature="e#10628#10629#0" expanded="true" />
+            <element signature="e#10671#10672#0" expanded="true" />
+            <element signature="e#10725#10726#0" expanded="true" />
+            <element signature="e#10768#10769#0" expanded="true" />
+            <element signature="e#14336#14337#0" expanded="true" />
+            <element signature="e#14400#14401#0" expanded="true" />
+            <element signature="e#14473#14474#0" expanded="true" />
+            <element signature="e#14537#14538#0" expanded="true" />
+            <element signature="e#14591#14592#0" expanded="true" />
+            <element signature="e#14634#14635#0" expanded="true" />
+            <element signature="e#16640#16641#0" expanded="true" />
+            <element signature="e#16684#16685#0" expanded="true" />
+            <element signature="e#16759#16760#0" expanded="true" />
+            <element signature="e#16802#16803#0" expanded="true" />
+            <element signature="e#17851#17852#0" expanded="true" />
+            <element signature="e#17897#17898#0" expanded="true" />
+            <element signature="e#24432#24433#0" expanded="true" />
+            <element signature="e#24475#24476#0" expanded="true" />
+            <element signature="e#24949#24950#0" expanded="true" />
+            <element signature="e#25011#25012#0" expanded="true" />
+            <element signature="e#25233#25234#0" expanded="true" />
+            <element signature="e#25301#25302#0" expanded="true" />
+            <element signature="e#25508#25509#0" expanded="true" />
+            <element signature="e#25571#25572#0" expanded="true" />
+            <element signature="e#27046#27047#0" expanded="true" />
+            <element signature="e#27112#27113#0" expanded="true" />
+            <element signature="e#27425#27426#0" expanded="true" />
+            <element signature="e#27449#27450#0" expanded="true" />
+            <element signature="e#27696#27697#0" expanded="true" />
+            <element signature="e#27720#27721#0" expanded="true" />
+            <element signature="e#27785#27786#0" expanded="true" />
+            <element signature="e#27809#27810#0" expanded="true" />
+            <element signature="e#27875#27876#0" expanded="true" />
+            <element signature="e#27899#27900#0" expanded="true" />
+            <element signature="e#27945#27946#0" expanded="true" />
+            <element signature="e#27969#27970#0" expanded="true" />
+            <element signature="e#28539#28540#0" expanded="true" />
+            <element signature="e#28572#28573#0" expanded="true" />
+            <element signature="e#28762#28763#0" expanded="true" />
+            <element signature="e#28799#28800#0" expanded="true" />
+            <element signature="e#28977#28978#0" expanded="true" />
+            <element signature="e#29010#29011#0" expanded="true" />
+            <element signature="e#31986#32186#0" expanded="true" />
+            <element signature="e#32185#32186#0" expanded="true" />
+            <element signature="e#32260#32460#0" expanded="true" />
+            <element signature="e#32459#32460#0" expanded="true" />
             <element signature="e#34906#34907#0" expanded="true" />
-            <element signature="e#36021#36022#0" expanded="true" />
-            <element signature="e#36064#36065#0" expanded="true" />
-            <element signature="e#36128#36129#0" expanded="true" />
-            <element signature="e#36181#36182#0" expanded="true" />
-            <element signature="e#36246#36247#0" expanded="true" />
-            <element signature="e#36299#36300#0" expanded="true" />
-            <element signature="e#36353#36354#0" expanded="true" />
-            <element signature="e#36396#36397#0" expanded="true" />
-            <element signature="e#36696#36697#0" expanded="true" />
-            <element signature="e#36739#36740#0" expanded="true" />
-            <element signature="e#36812#36813#0" expanded="true" />
-            <element signature="e#36866#36867#0" expanded="true" />
-            <element signature="e#36940#36941#0" expanded="true" />
-            <element signature="e#36994#36995#0" expanded="true" />
-            <element signature="e#37048#37049#0" expanded="true" />
-            <element signature="e#37091#37092#0" expanded="true" />
-            <element signature="e#39002#39003#0" expanded="true" />
-            <element signature="e#39032#39033#0" expanded="true" />
-            <element signature="e#40396#40397#0" expanded="true" />
-            <element signature="e#40439#40440#0" expanded="true" />
-            <element signature="e#40784#40785#0" expanded="true" />
-            <element signature="e#40841#40842#0" expanded="true" />
-            <element signature="e#40895#40896#0" expanded="true" />
-            <element signature="e#40938#40939#0" expanded="true" />
-            <element signature="e#44730#44731#0" expanded="true" />
-            <element signature="e#44794#44795#0" expanded="true" />
-            <element signature="e#45051#45081#1" expanded="true" />
-            <element signature="e#45680#45681#0" expanded="true" />
-            <element signature="e#45733#45734#0" expanded="true" />
-            <element signature="e#49079#49080#0" expanded="true" />
-            <element signature="e#49132#49133#0" expanded="true" />
-            <element signature="e#49208#49209#0" expanded="true" />
-            <element signature="e#49251#49252#0" expanded="true" />
-            <element signature="e#51084#51085#0" expanded="true" />
-            <element signature="e#51128#51129#0" expanded="true" />
-            <element signature="e#51203#51204#0" expanded="true" />
-            <element signature="e#51247#51248#0" expanded="true" />
-            <element signature="e#51721#51722#0" expanded="true" />
-            <element signature="e#51782#51783#0" expanded="true" />
-            <element signature="e#51837#51838#0" expanded="true" />
-            <element signature="e#51873#51874#0" expanded="true" />
-            <element signature="e#51944#51945#0" expanded="true" />
-            <element signature="e#52022#52023#0" expanded="true" />
-            <element signature="e#52098#52099#0" expanded="true" />
-            <element signature="e#52168#52169#0" expanded="true" />
-            <element signature="e#54119#54120#0" expanded="true" />
-            <element signature="e#54175#54176#0" expanded="true" />
+            <element signature="e#34957#34958#0" expanded="true" />
+            <element signature="e#35034#35035#0" expanded="true" />
+            <element signature="e#35085#35086#0" expanded="true" />
+            <element signature="e#35163#35164#0" expanded="true" />
+            <element signature="e#35214#35215#0" expanded="true" />
+            <element signature="e#35272#35273#0" expanded="true" />
+            <element signature="e#35323#35324#0" expanded="true" />
+            <element signature="e#36551#36552#0" expanded="true" />
+            <element signature="e#36603#36604#0" expanded="true" />
+            <element signature="e#36686#36687#0" expanded="true" />
+            <element signature="e#36738#36739#0" expanded="true" />
+            <element signature="e#37853#37854#0" expanded="true" />
+            <element signature="e#37896#37897#0" expanded="true" />
+            <element signature="e#37960#37961#0" expanded="true" />
+            <element signature="e#38013#38014#0" expanded="true" />
+            <element signature="e#38078#38079#0" expanded="true" />
+            <element signature="e#38131#38132#0" expanded="true" />
+            <element signature="e#38185#38186#0" expanded="true" />
+            <element signature="e#38228#38229#0" expanded="true" />
+            <element signature="e#38528#38529#0" expanded="true" />
+            <element signature="e#38571#38572#0" expanded="true" />
+            <element signature="e#38644#38645#0" expanded="true" />
+            <element signature="e#38698#38699#0" expanded="true" />
+            <element signature="e#38772#38773#0" expanded="true" />
+            <element signature="e#38826#38827#0" expanded="true" />
+            <element signature="e#38880#38881#0" expanded="true" />
+            <element signature="e#38923#38924#0" expanded="true" />
+            <element signature="e#40834#40835#0" expanded="true" />
+            <element signature="e#40864#40865#0" expanded="true" />
+            <element signature="e#42228#42229#0" expanded="true" />
+            <element signature="e#42271#42272#0" expanded="true" />
+            <element signature="e#42616#42617#0" expanded="true" />
+            <element signature="e#42673#42674#0" expanded="true" />
+            <element signature="e#42727#42728#0" expanded="true" />
+            <element signature="e#42770#42771#0" expanded="true" />
+            <element signature="e#46562#46563#0" expanded="true" />
+            <element signature="e#46626#46627#0" expanded="true" />
+            <element signature="e#46883#46913#1" expanded="true" />
+            <element signature="e#47512#47513#0" expanded="true" />
+            <element signature="e#47565#47566#0" expanded="true" />
+            <element signature="e#50914#50915#0" expanded="true" />
+            <element signature="e#50967#50968#0" expanded="true" />
+            <element signature="e#51043#51044#0" expanded="true" />
+            <element signature="e#51086#51087#0" expanded="true" />
+            <element signature="e#52919#52920#0" expanded="true" />
+            <element signature="e#52963#52964#0" expanded="true" />
+            <element signature="e#53038#53039#0" expanded="true" />
+            <element signature="e#53082#53083#0" expanded="true" />
+            <element signature="e#53556#53557#0" expanded="true" />
+            <element signature="e#53617#53618#0" expanded="true" />
+            <element signature="e#53672#53673#0" expanded="true" />
+            <element signature="e#53708#53709#0" expanded="true" />
+            <element signature="e#53779#53780#0" expanded="true" />
+            <element signature="e#53857#53858#0" expanded="true" />
+            <element signature="e#53933#53934#0" expanded="true" />
+            <element signature="e#54003#54004#0" expanded="true" />
+            <element signature="e#55954#55955#0" expanded="true" />
+            <element signature="e#56010#56011#0" expanded="true" />
+            <element signature="e#56328#56329#0" expanded="true" />
+            <element signature="e#56358#56359#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="133" column="35" selection-start-line="133" selection-start-column="35" selection-end-line="133" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5044#5045#0" expanded="true" />
+            <element signature="e#5073#5074#0" expanded="true" />
+            <element signature="e#7030#7031#0" expanded="true" />
+            <element signature="e#7049#7050#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+        <state relative-caret-position="15">
+          <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
           <folding />
         </state>
       </provider>

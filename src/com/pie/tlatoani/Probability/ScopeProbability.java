@@ -23,7 +23,7 @@ public class ScopeProbability extends CustomScope {
 	}
 
 	@Override
-	public void go(Event e) {
+	public boolean go(Event e) {
 		List<Number> nums = new ArrayList<Number>();
 		Number total = 0;
 		for (int i = 0; i < probs.size(); i++) {
@@ -38,55 +38,12 @@ public class ScopeProbability extends CustomScope {
 			else j++;
 		}
 		CondProbabilityValue start = probs.get(j);
-		if (!start.ret) {
-			TriggerItem uniquegoing = start.first;
-			Boolean uniquewithin = true;
-			while (uniquewithin) {
-				try {
-					uniquegoing = (TriggerItem) walkmethod.invoke(uniquegoing, e);
-					if (uniquegoing == null || uniquegoing.getIndentation().length() <= start.section.getIndentation().length()) uniquewithin = false;
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		}
-		Boolean within = true;
-		if (triggeritems.size() > 0) {
-			int k = indeces.get(j);
-			while (within) {
-				TriggerItem going = triggeritems.get(k);
-				if (going instanceof Condition) {
-					try {
-						within = (Boolean) runmethod.invoke(going, e);
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-				} else if (going instanceof TriggerSection) {
-					TriggerItem uniquegoing = going;
-					Boolean uniquewithin = true;
-					while (uniquewithin) {
-						try {
-							uniquegoing = (TriggerItem) walkmethod.invoke(uniquegoing, e);
-							if (uniquegoing == null || uniquegoing.getIndentation().length() <= going.getIndentation().length()) uniquewithin = false;
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-					}
-				} else {
-					try {
-						walkmethod.invoke(going, e);
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-				}
-				k++;
-				within = within && k < triggeritems.size();
-			}
-		}
+		TriggerItem.walk(start.getTriggerItem(), e);
+		return false;
 	}
 	
 	@Override
-	public void afterSetScope() {
+	public void setScope() {
 		Boolean within = true;
 		TriggerItem going = first;
 		TriggerItem end = scope.getNext();

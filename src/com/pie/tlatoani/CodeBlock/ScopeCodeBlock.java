@@ -4,11 +4,12 @@ import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.variables.Variables;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.CustomScope;
-import com.pie.tlatoani.Util.EmptyEvent;
+import com.pie.tlatoani.Util.BaseEvent;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 /**
@@ -59,30 +60,30 @@ public class ScopeCodeBlock implements CodeBlock {
     public Object execute(Event event, boolean preserveOldValues) {
         Object preservation = null;
         if (hasConstant) {
-            if (preserveOldValues) {
-                preservation = Variables.getVariable(constantVariableName, event, true);
-            }
-            Variables.setVariable(constantVariableName, constantValue, event, true);
-        }
-        TriggerItem going = first;
-        Mundo.debug(this, "FIRST:: " + first);
-        Mundo.debug(this, "GETPARETN:: " + first.getParent());
-        TriggerItem end = first.getParent().getNext();
-        Mundo.debug(this, "First: " + first);
-        Mundo.debug(this, "End: " + end);
-        while (going != null && going != end) {
-            try {
-                going = (TriggerItem) CustomScope.walkmethod.invoke(going, event);
-                Mundo.debug(this, "going: " + going);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-                going = null;
+            if (constantValue instanceof TreeMap) {
+                if (preserveOldValues) {
+                    preservation = Variables.getVariable(constantVariableName + "::*", event, true);
+                }
+                Mundo.setListVariable(constantVariableName, (TreeMap<String, Object>) constantValue, event, true);
+            } else {
+                if (preserveOldValues) {
+                    preservation = Variables.getVariable(constantVariableName, event, true);
+                }
+                Variables.setVariable(constantVariableName, constantValue, event, true);
             }
         }
+        TriggerItem.walk(first, event);
         if (hasConstant) {
-            constantValue = Variables.getVariable(constantVariableName, event, true);
-            if (preserveOldValues) {
-                Variables.setVariable(constantVariableName, preservation, event, true);
+            if (constantValue instanceof TreeMap) {
+                constantValue = Variables.getVariable(constantVariableName + "::*", event, true);
+                if (preserveOldValues) {
+                    Mundo.setListVariable(constantVariableName, (TreeMap<String, Object>) preservation, event, true);
+                }
+            } else {
+                constantValue = Variables.getVariable(constantVariableName, event, true);
+                if (preserveOldValues) {
+                    Variables.setVariable(constantVariableName, preservation, event, true);
+                }
             }
         }
         if (returnName != null) {
@@ -94,7 +95,7 @@ public class ScopeCodeBlock implements CodeBlock {
 
     @Override
     public Object execute(Object[] args) {
-        EmptyEvent event = new EmptyEvent();
+        BaseEvent event = new BaseEvent();
         if (argumentNames != null) {
             for (int i = 0; i < Math.min(argumentNames.length, args.length); i++) {
                 if (args[i] instanceof Object[]) {
