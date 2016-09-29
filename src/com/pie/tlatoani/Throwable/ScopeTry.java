@@ -21,6 +21,7 @@ public class ScopeTry extends CustomScope {
 	@Override
 	public boolean go(Event e) {
 		Exception caught = null;
+		scope.setNext(null);
 		try {
 			TriggerItem.walk(first, e);
 		} catch (Exception e1) {
@@ -31,6 +32,7 @@ public class ScopeTry extends CustomScope {
 		if (scopeCatch != null) {;
 			scopeCatch.catchThrowable(e, ((caught != null) ? caught.getCause() : null));
 		}
+		scope.setNext(scopeNext);
 		return false;
 	}
 

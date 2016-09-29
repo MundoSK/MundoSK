@@ -4,6 +4,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.lang.TriggerItem;
 import org.bukkit.event.Event;
 
 /**
@@ -12,6 +13,10 @@ import org.bukkit.event.Event;
 public class EvtChunkGenerator extends SkriptEvent {
     private String generatorID = null;
 
+    public TriggerItem generation;
+    public TriggerItem creation;
+    public TriggerItem loading;
+
     public String getGeneratorID() {
         return generatorID;
     }
@@ -19,7 +24,7 @@ public class EvtChunkGenerator extends SkriptEvent {
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
         generatorID = ((Literal<String>) literals[0]).getSingle();
-        if (ChunkGeneratorManager.addID(generatorID)) {
+        if (SkriptGeneratorManager.addID(generatorID)) {
             return true;
         }
         Skript.error("A world generator is already registered with the name '" + generatorID + "'!");

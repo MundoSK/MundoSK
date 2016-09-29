@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Json;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
@@ -45,6 +46,7 @@ public class ExprStringAsJson extends SimpleExpression<JSONObject> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         stringExpression = (Expression<String>) expressions[0];
+        Skript.error("The 'json of string %string%' expression will be removed in a future version, please use '%string% parsed as a jsonobject' instead");
         return true;
     }
 }

@@ -18,6 +18,7 @@ public class SocketListener implements Runnable {
     private int port;
     private ServerSocket serverSocket = null;
     private boolean listening;
+    private String password;
 
     private static Map<Integer, SocketListener> listenerMap = new HashMap<>();
 
@@ -28,20 +29,34 @@ public class SocketListener implements Runnable {
         return listener == null ? false : listener.listening;
     }
 
-    public void setListeningOnPort(int port, boolean whether) {
-        if (whether) {
+    public String getPasswordOfPort(int port) {
+        SocketListener listener = listenerMap.get(port);
+        return listener == null ? null : listener.password;
+    }
+
+    public void startListeningOnPort(int port, String password) {
+        if (password != null) {
             SocketListener socketListener = listenerMap.get(port);
             if (socketListener == null) {
                 socketListener = new SocketListener(port);
                 listenerMap.put(port, socketListener);
             }
+            socketListener.password = password;
             socketListener.start();
-        } else {
-            SocketListener socketListener = listenerMap.get(port);
-            if (socketListener != null) {
-                socketListener.stop();
-                listenerMap.remove(port);
-            }
+        }
+    }
+
+    public void stopListeningOnPort(int port) {
+        SocketListener socketListener = listenerMap.get(port);
+        if (socketListener != null) {
+            socketListener.stop();
+            listenerMap.remove(port);
+        }
+    }
+
+    public void setPasswordOfPort(int port, String password) {
+        if (password != null && isListeningOnPort(port)) {
+            listenerMap.get(port).password = password;
         }
     }
 
@@ -86,7 +101,7 @@ public class SocketListener implements Runnable {
             while (listening) {
                 try {
                     Socket socket = serverSocket.accept();
-                    onSocketConnection(new Socket2(socket));
+                    onSocketConnection(socket);
                 } catch (SocketException e) {
                     if (listening) {
                         Mundo.reportException(SocketListener.class, e);
@@ -100,8 +115,26 @@ public class SocketListener implements Runnable {
 
     }
 
-    private void onSocketConnection(Socket2 socket2) {
-        ConnectEvent event = new ConnectEvent(socket2);
-        Bukkit.getServer().getPluginManager().callEvent(event);
+    private void onSocketConnection(Socket socket) {
+        Mundo.sync(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Socket2 socket2 = new Socket2();
+                    socket2.use(socket, password, new Runnable() {
+                        @Override
+                        public void run() {
+                            if (socket2.getState() == Socket2.State.CONNECTED) {
+                                ConnectEvent event = new ConnectEvent(socket2);
+                                Bukkit.getServer().getPluginManager().callEvent(event);
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    Mundo.reportException(SocketListener.class, e);
+                }
+
+            }
+        });
     }
 }

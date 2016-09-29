@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
+import com.pie.tlatoani.SkinTexture.SkinTexture;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

@@ -14,7 +14,7 @@ public class EffScope extends Effect{
 
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean paramKleenean, ParseResult paramParseResult) {
-		Skript.warning("The '$ scope' effect is no longer needed to activate custom scopes, and will be removed in a future version, so it is recommended that you remove it as soon as possible");
+		Skript.error("The '$ scope' effect is no longer needed to activate custom scopes, and will be removed in a future version, so it is recommended that you remove it as soon as possible");
 		return true;
 	}
 

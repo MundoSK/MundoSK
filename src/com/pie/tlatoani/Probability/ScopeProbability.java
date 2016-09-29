@@ -24,6 +24,7 @@ public class ScopeProbability extends CustomScope {
 
 	@Override
 	public boolean go(Event e) {
+	    scope.setNext(null);
 		List<Number> nums = new ArrayList<Number>();
 		Number total = 0;
 		for (int i = 0; i < probs.size(); i++) {
@@ -39,6 +40,7 @@ public class ScopeProbability extends CustomScope {
 		}
 		CondProbabilityValue start = probs.get(j);
 		TriggerItem.walk(start.getTriggerItem(), e);
+        scope.setNext(scopeNext);
 		return false;
 	}
 	
@@ -73,6 +75,7 @@ public class ScopeProbability extends CustomScope {
 			going = going.getNext();
 			if (going == null || going == end) within = false;
 		}
+		last.setNext(null);
 	}
 
 }

@@ -6,8 +6,8 @@ import ch.njol.skript.SkriptEventHandler;
 import ch.njol.skript.command.Commands;
 import ch.njol.skript.command.ScriptCommand;
 import ch.njol.skript.lang.*;
-import com.pie.tlatoani.Generator.ChunkGeneratorManager;
-import com.pie.tlatoani.Generator.SkriptChunkGenerationEvent;
+import com.pie.tlatoani.Generator.SkriptGeneratorManager;
+import com.pie.tlatoani.Generator.SkriptGeneratorEvent;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
@@ -36,6 +36,7 @@ public abstract class CustomScope extends Condition {
 	private static boolean getScopesWasRun = true;
 
 	protected TriggerSection scopeParent;
+	protected TriggerItem scopeNext;
 	protected Conditional scope = null;
 	protected TriggerItem first;
 	protected TriggerItem last;
@@ -102,9 +103,9 @@ public abstract class CustomScope extends Condition {
 					}
 				});
 
-				List<Trigger> triggerList = triggerMap.get(SkriptChunkGenerationEvent.class);
+				List<Trigger> triggerList = triggerMap.get(SkriptGeneratorEvent.class);
 				if (triggerList != null) {
-					ChunkGeneratorManager.registerTriggers(triggerList);
+					SkriptGeneratorManager.registerTriggers(triggerList);
 				}
 
 				Map<String, ScriptCommand> commandMap = (Map<String, ScriptCommand>) commands.get(null);
@@ -152,7 +153,7 @@ public abstract class CustomScope extends Condition {
 		return getScopesWasRun;
 	}
 
-	private void setScope(Conditional scope) {
+	public void setScope(Conditional scope) {
 		if (scope != null) {
 			this.scope = scope;
 			try {
@@ -165,6 +166,7 @@ public abstract class CustomScope extends Condition {
 			if (scopeParent == null) {
 				scopeParent = scope.getParent();
 			}
+			scopeNext = scope.getNext();
 			setScope();
 		}
 	}
@@ -241,5 +243,11 @@ public abstract class CustomScope extends Condition {
 	}
 	
 	public void setScope() {}
+
+	//Public Utility Methods
+
+	public TriggerItem getFirst() {
+		return first;
+	}
 
 }

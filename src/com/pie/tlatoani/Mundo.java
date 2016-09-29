@@ -48,25 +48,26 @@ import com.pie.tlatoani.Generator.Seed.ExprRandomValue;
 import com.pie.tlatoani.Json.*;
 import com.pie.tlatoani.ListUtil.*;
 import com.pie.tlatoani.Miscellaneous.*;
+import com.pie.tlatoani.Miscellaneous.ArmorStand.*;
+import com.pie.tlatoani.Miscellaneous.Matcher.*;
+import com.pie.tlatoani.Miscellaneous.Thread.*;
 import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
 import com.pie.tlatoani.ProtocolLib.*;
+import com.pie.tlatoani.SkinTexture.*;
 import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.Tablist.*;
 import com.pie.tlatoani.Tablist.Array.EffSetArrayTablist;
 import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
-import com.pie.tlatoani.Tablist.SkinTexture.ExprTextureOfPlayer;
-import com.pie.tlatoani.Tablist.SkinTexture.ExprTextureWith;
-import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
 import com.pie.tlatoani.TerrainControl.*;
 import com.pie.tlatoani.Throwable.*;
 import com.pie.tlatoani.Util.*;
 import com.pie.tlatoani.WorldBorder.*;
 import com.pie.tlatoani.WorldCreator.*;
 import com.pie.tlatoani.WorldManagement.*;
+import com.pie.tlatoani.WorldManagement.WorldLoader.*;
 import com.pie.tlatoani.Metrics.*;
 
-import com.pie.tlatoani.WorldManagement.WorldLoader.*;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
@@ -104,9 +105,9 @@ public class Mundo extends JavaPlugin{
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
     public static ProtocolManager protocolManager;
-    public static ArrayList<Enum[]> ena = new ArrayList<>();
+    public static ArrayList<Object[]> ena = new ArrayList<>();
     public static ArrayList<String> enumNames = new ArrayList<>();
-    public static ArrayList<Class<? extends Enum>> enumClasses = new ArrayList<>();
+    public static ArrayList<Class<?>> enumClasses = new ArrayList<>();
 	
 	public void onEnable(){
 		instance = this;
@@ -156,6 +157,10 @@ public class Mundo extends JavaPlugin{
 		//CodeBlock
         Classes.registerClass(new ClassInfo<CodeBlock>(CodeBlock.class, "codeblock").user(new String[]{"codeblock"}).name("codeblock").parser(new Parser<CodeBlock>(){
 
+            public boolean canParse(final ParseContext context) {
+                return false;
+            }
+
             public CodeBlock parse(String s, ParseContext context) {
                 return null;
             }
@@ -187,6 +192,10 @@ public class Mundo extends JavaPlugin{
 		//Generator
         Classes.registerClass(new ClassInfo<ChunkData>(ChunkData.class, "chunkdata").user(new String[]{"chunkdata"}).name("chunkdata").parser(new Parser<ChunkData>(){
 
+            public boolean canParse(final ParseContext context) {
+                return false;
+            }
+
             public ChunkData parse(String s, ParseContext context) {
                 return null;
             }
@@ -205,6 +214,10 @@ public class Mundo extends JavaPlugin{
         }));
         Classes.registerClass(new ClassInfo<BiomeGrid>(BiomeGrid.class, "biomegrid").user(new String[]{"biomegrid"}).name("biomegrid").parser(new Parser<BiomeGrid>(){
 
+            public boolean canParse(final ParseContext context) {
+                return false;
+            }
+
             public BiomeGrid parse(String s, ParseContext context) {
                 return null;
             }
@@ -221,6 +234,10 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));Classes.registerClass(new ClassInfo<Random>(Random.class, "random").user(new String[]{"random"}).name("random").parser(new Parser<Random>(){
+
+            public boolean canParse(final ParseContext context) {
+                return false;
+            }
 
             public Random parse(String s, ParseContext context) {
                 return null;
@@ -242,42 +259,48 @@ public class Mundo extends JavaPlugin{
                 "fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%",
                 "fill layer %number% in %chunkdata% with %itemstack%",
                 "fill layers %number% to %number% in %chunkdata% with %itemstack%");
-        registerEvent("World Generator", EvtChunkGenerator.class, SkriptChunkGenerationEvent.class, "[custom] [(world|chunk)] generator %string%");
-        EventValues.registerEventValue(SkriptChunkGenerationEvent.class, World.class, new Getter<World, SkriptChunkGenerationEvent>() {
+        registerEvent("World Generator", EvtChunkGenerator.class, SkriptGeneratorEvent.class, "[custom] [(world|chunk)] generator %string%");
+        EventValues.registerEventValue(SkriptGeneratorEvent.class, World.class, new Getter<World, SkriptGeneratorEvent>() {
             @Override
-            public World get(SkriptChunkGenerationEvent skriptChunkGenerationEvent) {
-                return skriptChunkGenerationEvent.world;
+            public World get(SkriptGeneratorEvent skriptGeneratorEvent) {
+                return skriptGeneratorEvent.world;
             }
         }, 0);
-        EventValues.registerEventValue(SkriptChunkGenerationEvent.class, ChunkData.class, new Getter<ChunkData, SkriptChunkGenerationEvent>() {
+        EventValues.registerEventValue(SkriptGeneratorEvent.class, ChunkData.class, new Getter<ChunkData, SkriptGeneratorEvent>() {
             @Override
-            public ChunkData get(SkriptChunkGenerationEvent skriptChunkGenerationEvent) {
-                return skriptChunkGenerationEvent.chunkData;
+            public ChunkData get(SkriptGeneratorEvent skriptGeneratorEvent) {
+                return skriptGeneratorEvent.chunkData;
             }
         }, 0);
-        EventValues.registerEventValue(SkriptChunkGenerationEvent.class, Random.class, new Getter<Random, SkriptChunkGenerationEvent>() {
+        EventValues.registerEventValue(SkriptGeneratorEvent.class, Random.class, new Getter<Random, SkriptGeneratorEvent>() {
             @Override
-            public Random get(SkriptChunkGenerationEvent skriptChunkGenerationEvent) {
-                return skriptChunkGenerationEvent.random;
+            public Random get(SkriptGeneratorEvent skriptGeneratorEvent) {
+                return skriptGeneratorEvent.random;
             }
         }, 0);
-        EventValues.registerEventValue(SkriptChunkGenerationEvent.class, BiomeGrid.class, new Getter<BiomeGrid, SkriptChunkGenerationEvent>() {
+        EventValues.registerEventValue(SkriptGeneratorEvent.class, BiomeGrid.class, new Getter<BiomeGrid, SkriptGeneratorEvent>() {
             @Override
-            public BiomeGrid get(SkriptChunkGenerationEvent skriptChunkGenerationEvent) {
-                return skriptChunkGenerationEvent.biomeGrid;
+            public BiomeGrid get(SkriptGeneratorEvent skriptGeneratorEvent) {
+                return skriptGeneratorEvent.biomeGrid;
             }
         }, 0);
         registerExpression(ExprCurrentChunkCoordinate.class, Number.class, ExpressionType.SIMPLE, "current x", "current z");
         registerExpression(ExprMaterialInChunkData.class, ItemStack.class, ExpressionType.PROPERTY, "material at %number%, %number%, %number% in %chunkdata%");
         registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%");
         registerScope(ScopeGeneration.class, "generation");
+        registerScope(ScopePopulation.class, "population");
         //Random
         registerExpression(ExprNewRandom.class, Random.class, ExpressionType.PROPERTY, "new random [from seed %number%]");
         registerExpression(ExprRandomValue.class, Object.class, ExpressionType.PROPERTY, "random (0¦int|1¦long|2¦float|3¦double|4¦gaussian|5¦int less than %-number%|6¦boolean) [from [random] %random%]");
         //Json
         Classes.registerClass(new ClassInfo<JSONObject>(JSONObject.class, "jsonobject").user(new String[]{"jsonobject"}).name("jsonobject").parser(new Parser<JSONObject>(){
 
+            public boolean canParse(final ParseContext context) {
+                return context == ParseContext.DEFAULT;
+            }
+
             public JSONObject parse(String s, ParseContext context) {
+
                 JSONObject result = null;
                 try {
                     result = (JSONObject) (new JSONParser()).parse(s);
@@ -354,6 +377,7 @@ public class Mundo extends JavaPlugin{
         //Miscellaneous
         registerEnum(Difficulty.class, "difficulty", Difficulty.values());
         registerEnum(PlayerLoginEvent.Result.class, "playerloginresult", PlayerLoginEvent.Result.values());
+        registerEffect(EffWait.class, "wait (0¦until|1¦while) %boolean%");
 		registerEvent("Hang Event", SimpleEvent.class, HangingPlaceEvent.class, "hang");
 		EventValues.registerEventValue(HangingPlaceEvent.class, Block.class, new Getter<Block, HangingPlaceEvent>() {
 			@Override
@@ -361,7 +385,16 @@ public class Mundo extends JavaPlugin{
 				return hangingPlaceEvent.getBlock();
 			}
 		}, 0);
-		registerEvent("Unhang Event", SimpleEvent.class, HangingBreakEvent.class, "unhang");;
+		registerEvent("Unhang Event", SimpleEvent.class, HangingBreakEvent.class, "unhang");
+        EventValues.registerEventValue(HangingBreakEvent.class, Entity.class, new Getter<Entity, HangingBreakEvent>() {
+            @Override
+            public Entity get(HangingBreakEvent hangingBreakEvent) {
+                if (hangingBreakEvent instanceof HangingBreakByEntityEvent) {
+                    return ((HangingBreakByEntityEvent) hangingBreakEvent).getRemover();
+                }
+                return null;
+            }
+        }, 0);
         registerEvent("Chat Tab Complete Event", SimpleEvent.class, PlayerChatTabCompleteEvent.class, "chat tab complete");
         EventValues.registerEventValue(PlayerChatTabCompleteEvent.class, String.class, new Getter<String, PlayerChatTabCompleteEvent>() {
             @Override
@@ -402,6 +435,9 @@ public class Mundo extends JavaPlugin{
         registerExpression(ExprLoginResult.class, PlayerLoginEvent.Result.class, ExpressionType.SIMPLE, "(login|connect[ion]) result");
         registerScope(ScopeMatcher.class, "(switch|match) %object%");
         registerScope(ScopeMatches.class, "(case|matches) %object%");
+        registerScope(ScopeAsync.class, "async");
+        registerScope(ScopeSync.class, "sync");
+        registerScope(ScopeWhen.class, "when %boolean% (1async");
         //NoteBlock
         Classes.registerClass(new ClassInfo<Note>(Note.class, "note").user(new String[]{"note"}).name("note").parser(new Parser<Note>(){
 
@@ -588,6 +624,65 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY, "%world% pentity %number% of %packet%");
             registerExpression(ExprEnumOfPacket.class, String.class, ExpressionType.PROPERTY, "%string% penum %number% of %packet%");
 		}
+        //SkinTexture
+        Classes.registerClass(new ClassInfo<SkinTexture>(SkinTexture.class, "skintexture").user(new String[]{"skintexture"}).name("skintexture").parser(new Parser<SkinTexture>(){
+
+            public SkinTexture parse(String s, ParseContext context) {
+                if (s.equalsIgnoreCase("STEVE")) {
+                    return SkinTexture.STEVE;
+                }
+                if (s.equalsIgnoreCase("ALEX")) {
+                    return SkinTexture.ALEX;
+                }
+                return null;
+            }
+
+            public String toString(SkinTexture packetType, int flags) {
+                return null;
+            }
+
+            public String toVariableNameString(SkinTexture packetType) {
+                return null;
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        }).serializer(new Serializer<SkinTexture>() {
+            @Override
+            public Fields serialize(SkinTexture skinTexture) throws NotSerializableException {
+                Fields fields = new Fields();
+                fields.putObject("value", skinTexture.toJSONArray().toJSONString());
+                return fields;
+            }
+
+            @Override
+            public void deserialize(SkinTexture skinTexture, Fields fields) throws StreamCorruptedException, NotSerializableException {
+                throw new UnsupportedOperationException("SkinTexture does not have a nullary constructor!");
+            }
+
+            @Override
+            public SkinTexture deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
+                try {
+                    return new SkinTexture((JSONArray) (new JSONParser()).parse((String) fields.getObject("value")));
+                } catch (ParseException | ClassCastException e) {
+                    throw new StreamCorruptedException();
+                }
+            }
+
+            @Override
+            public boolean mustSyncDeserialization() {
+                return false;
+            }
+
+            @Override
+            protected boolean canBeInstantiated() {
+                return false;
+            }
+        }));
+        registerExpression(ExprTextureOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture of %player%");
+        registerExpression(ExprTextureWith.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture with value %string% signature %string%");
+        registerExpression(ExprDisplayedSkinOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "displayed skin of %player%", "%player%'s displayed skin");
 		//Socket
 		registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
 		registerEffect(EffOpenFunctionSocket.class, "open function socket at port %number% [with password %-string%] [through function %-string%]");
@@ -604,19 +699,21 @@ public class Mundo extends JavaPlugin{
                 @EventHandler
                 public void onJoin(PlayerJoinEvent event) {
                     TabListManager.onJoin(event.getPlayer());
+                    SkinManager.onJoin(event.getPlayer());
                 }
             }, this);
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onQuit(PlayerQuitEvent event) {
                     TabListManager.onQuit(event.getPlayer());
+                    SkinManager.onQuit(event.getPlayer());
                 }
             }, this);
             registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "%player%'s tablist contains players");
             //Simple
             registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skintexture%]");
             registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
-            registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete all id tabs for %player%");
+            registerEffect(com.pie.tlatoani.Tablist.Simple.EffRemoveAllIDTabs.class, "delete all id tabs for %player%");
             registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
             registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");
             registerExpression(ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% for %player%");
@@ -626,58 +723,6 @@ public class Mundo extends JavaPlugin{
             registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% for %player%");
             registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% for %player%", "initial icon of %player%'s [array] tablist");
             registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %player%'s [array] tablist");
-            //SkinTexture
-            Classes.registerClass(new ClassInfo<SkinTexture>(SkinTexture.class, "skintexture").user(new String[]{"skintexture"}).name("skintexture").parser(new Parser<SkinTexture>(){
-
-                public SkinTexture parse(String s, ParseContext context) {
-                    return null;
-                }
-
-                public String toString(SkinTexture packetType, int flags) {
-                    return null;
-                }
-
-                public String toVariableNameString(SkinTexture packetType) {
-                    return null;
-                }
-
-                public String getVariableNamePattern() {
-                    return ".+";
-                }
-            }).serializer(new Serializer<SkinTexture>() {
-                @Override
-                public Fields serialize(SkinTexture skinTexture) throws NotSerializableException {
-                    Fields fields = new Fields();
-                    fields.putObject("value", skinTexture.toJSONArray().toJSONString());
-                    return fields;
-                }
-
-                @Override
-                public void deserialize(SkinTexture skinTexture, Fields fields) throws StreamCorruptedException, NotSerializableException {
-                    throw new UnsupportedOperationException("SkinTexture does not have a nullary constructor!");
-                }
-
-                @Override
-                public SkinTexture deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
-                    try {
-                        return new SkinTexture((JSONArray) (new JSONParser()).parse((String) fields.getObject("value")));
-                    } catch (ParseException | ClassCastException e) {
-                        throw new StreamCorruptedException();
-                    }
-                }
-
-                @Override
-                public boolean mustSyncDeserialization() {
-                    return false;
-                }
-
-                @Override
-                protected boolean canBeInstantiated() {
-                    return false;
-                }
-            }));
-            registerExpression(ExprTextureOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture of %player%");
-            registerExpression(ExprTextureWith.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture with value %string% signature %string%");
         }
         //TerrainControl
 		if (Bukkit.getServer().getPluginManager().getPlugin("TerrainControl") != null) {
@@ -689,7 +734,11 @@ public class Mundo extends JavaPlugin{
 		//Throwable
 		Classes.registerClass(new ClassInfo<Throwable>(Throwable.class, "throwable").user(new String[]{"throwable"}).name("throwable").parser(new Parser<Throwable>(){
 
-            public Throwable parse(String s, ParseContext context) {
+            public boolean canParse(final ParseContext context) {
+                return false;
+            }
+
+		    public Throwable parse(String s, ParseContext context) {
                 return null;
             }
 
@@ -707,7 +756,11 @@ public class Mundo extends JavaPlugin{
         }));
 		Classes.registerClass(new ClassInfo<StackTraceElement>(StackTraceElement.class, "stacktraceelement").user(new String[]{"stacktraceelement"}).name("stacktraceelement").parser(new Parser<StackTraceElement>(){
 
-            public StackTraceElement parse(String s, ParseContext context) {
+            public boolean canParse(final ParseContext context) {
+                return false;
+            }
+
+		    public StackTraceElement parse(String s, ParseContext context) {
                 return null;
             }
 
@@ -758,7 +811,11 @@ public class Mundo extends JavaPlugin{
 		//WorldCreator
 		Classes.registerClass(new ClassInfo<WorldCreator>(WorldCreator.class, "creator").user(new String[]{"creator"}).name("creator").parser(new Parser<WorldCreator>(){
 
-            public WorldCreator parse(String s, ParseContext context) {
+            public boolean canParse(final ParseContext context) {
+                return false;
+            }
+
+		    public WorldCreator parse(String s, ParseContext context) {
                 return null;
             }
 
@@ -822,7 +879,7 @@ public class Mundo extends JavaPlugin{
                 patterns.add("[all] " + s + "s");
             }
         });
-        Skript.registerExpression(ExprEnumValues.class, Enum.class, ExpressionType.SIMPLE, patterns.toArray(new String[0]));
+        Skript.registerExpression(ExprEnumValues.class, Object.class, ExpressionType.SIMPLE, patterns.toArray(new String[0]));
 		try {
 			Field classinfos = Classes.class.getDeclaredField("tempClassInfos");
 			classinfos.setAccessible(true);
@@ -862,7 +919,7 @@ public class Mundo extends JavaPlugin{
 
     @Override
     public ChunkGenerator getDefaultWorldGenerator(String unusedWorldName, String id) {
-        return ChunkGeneratorManager.getSkriptGenerator(id);
+        return SkriptGeneratorManager.getSkriptGenerator(id);
     }
     
     //Registration
@@ -887,7 +944,7 @@ public class Mundo extends JavaPlugin{
         Skript.registerCondition(conditionClass, patterns);
     }
 
-    public static <E extends Enum<E>> void registerEnum(Class<E> enumClass, String name, E[] values, Pair<String, E>... defaultPairings) {
+    public static <E> void registerEnum(Class<E> enumClass, String name, E[] values, Pair<String, E>... defaultPairings) {
         if (!classInfoSafe(enumClass, name)) return;
         Classes.registerClass(new ClassInfo<E>(enumClass, name).user(new String[]{name}).name(name).parser(new Parser<E>() {
             private E[] enumValues = values;
@@ -902,7 +959,7 @@ public class Mundo extends JavaPlugin{
                     }
                 }
                 for (int i = 0; i < values.length; i++) {
-                    if (values[i].name().equals(upperCase)) {
+                    if (values[i].toString().equals(upperCase)) {
                         return values[i];
                     }
                 }
@@ -918,7 +975,7 @@ public class Mundo extends JavaPlugin{
                 }
                 for (int i = 0; i < values.length; i++) {
                     if (values[i] == e) {
-                        return values[i].name().toLowerCase();
+                        return values[i].toString().toLowerCase();
                     }
                 }
                 return null;
@@ -945,7 +1002,7 @@ public class Mundo extends JavaPlugin{
                     }
                 }
                 for (int i = 0; i < values.length; i++) {
-                    if (values[i].name().equals(upperCase)) {
+                    if (values[i].toString().equals(upperCase)) {
                         return values[i];
                     }
                 }
@@ -960,7 +1017,7 @@ public class Mundo extends JavaPlugin{
                 }
                 for (int i = 0; i < values.length; i++) {
                     if (values[i] == e) {
-                        return values[i].name().toLowerCase();
+                        return values[i].toString().toLowerCase();
                     }
                 }
                 return null;
@@ -998,12 +1055,12 @@ public class Mundo extends JavaPlugin{
         enumClasses.add(enumClass);
     }
 
-    public static class ExprEnumValues<E extends Enum<E>> extends SimpleExpression<E> {
+    public static class ExprEnumValues extends SimpleExpression<Object> {
         private int whichEnum;
 
         @Override
-        protected E[] get(Event event) {
-            return (E[]) Mundo.ena.get(whichEnum);
+        protected Object[] get(Event event) {
+            return Mundo.ena.get(whichEnum);
         }
 
         @Override
@@ -1012,8 +1069,8 @@ public class Mundo extends JavaPlugin{
         }
 
         @Override
-        public Class<? extends E> getReturnType() {
-            return (Class<? extends E>) enumClasses.get(whichEnum);
+        public Class<? extends Object> getReturnType() {
+            return enumClasses.get(whichEnum);
         }
 
         @Override
@@ -1190,6 +1247,16 @@ public class Mundo extends JavaPlugin{
                 }
             }
         });
+    }
+
+    //Scheduler Util
+
+    public static void sync(Runnable runnable) {
+        scheduler.runTask(instance, runnable);
+    }
+
+    public static void async(Runnable runnable) {
+        scheduler.runTaskAsynchronously(instance, runnable);
     }
 	
 }

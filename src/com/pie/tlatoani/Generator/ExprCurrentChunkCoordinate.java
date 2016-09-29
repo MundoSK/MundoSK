@@ -16,8 +16,8 @@ public class ExprCurrentChunkCoordinate extends SimpleExpression<Number> {
 
     @Override
     protected Number[] get(Event event) {
-        SkriptChunkGenerationEvent skriptChunkGenerationEvent = (SkriptChunkGenerationEvent) event;
-        return new Number[]{isX ? skriptChunkGenerationEvent.x : skriptChunkGenerationEvent.z};
+        SkriptGeneratorEvent skriptGeneratorEvent = (SkriptGeneratorEvent) event;
+        return new Number[]{isX ? skriptGeneratorEvent.x : skriptGeneratorEvent.z};
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ExprCurrentChunkCoordinate extends SimpleExpression<Number> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         isX = i == 0;
-        if (ScriptLoader.isCurrentEvent(SkriptChunkGenerationEvent.class)) {
+        if (ScriptLoader.isCurrentEvent(SkriptGeneratorEvent.class)) {
             return true;
         }
         Skript.error("The 'current (x|z)' expression can only be used in a custom world generator!");

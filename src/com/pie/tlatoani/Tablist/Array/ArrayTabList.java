@@ -4,7 +4,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
-import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
+import com.pie.tlatoani.SkinTexture.SkinTexture;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.entity.Player;
 

@@ -6,9 +6,8 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
+import com.pie.tlatoani.SkinTexture.SkinTexture;
 import com.pie.tlatoani.Tablist.TabListManager;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 

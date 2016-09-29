@@ -9,10 +9,10 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
+import com.pie.tlatoani.SkinTexture.SkinManager;
 import com.pie.tlatoani.Tablist.Array.ArrayTabList;
 import com.pie.tlatoani.Tablist.Simple.SimpleTabList;
-import com.pie.tlatoani.Tablist.SkinTexture.SkinTexture;
+import com.pie.tlatoani.SkinTexture.SkinTexture;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -66,9 +66,21 @@ public class TabListManager implements Listener {
         Mundo.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
             @Override
             public void onPacketSending(PacketEvent event) {
-                if (!TabListManager.getPlayerSeesOtherPlayersInTablist(event.getPlayer()) && !event.isCancelled()) {
+                if (!event.isCancelled()) {
                     Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
-                    PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getDisplayName())));
+                    WrappedGameProfile gameProfile = WrappedGameProfile.fromPlayer(player);
+                    SkinManager.getCurrentSkin(player).retrieveSkinTextures(gameProfile.getProperties());
+                    PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getDisplayName())));
+                    if (TabListManager.getPlayerSeesOtherPlayersInTablist(event.getPlayer())) {
+                        PacketContainer prePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                        prePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                        prePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                        try {
+                            Mundo.protocolManager.sendServerPacket(event.getPlayer(), prePacket);
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                     packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                     packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);

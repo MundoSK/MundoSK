@@ -27,7 +27,7 @@ public class EffDoNotLoadWorldOnStart extends Effect {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         worldname = (Expression<String>) expressions[0];
-        Skript.warning("The 'don't load world %string% on start' effect will be removed in a future version, please use the 'creators to load on start' and 'creator %string to load on start' expressions instead (View MundoSK's documentation for more info)");
+        Skript.error("The 'don't load world %string% on start' effect will be removed in a future version, please use the 'creators to load on start' and 'creator %string to load on start' expressions instead (View MundoSK's documentation for more info)");
         return true;
     }
 }
