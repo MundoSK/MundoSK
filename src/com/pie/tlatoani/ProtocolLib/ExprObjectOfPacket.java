@@ -56,6 +56,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             public Location get(PacketContainer packet, Integer index) {
                 StructureModifier<BlockPosition> structureModifier = packet.getBlockPositionModifier();
                 BlockPosition blockPosition = structureModifier.readSafely(index);
+                if (blockPosition == null) return null;
                 return blockPosition.toLocation(Bukkit.getWorlds().get(0));
             }
 

@@ -104,7 +104,6 @@ public class Mundo extends JavaPlugin{
     public static Boolean debugMode;
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
-    public static ProtocolManager protocolManager;
     public static ArrayList<Object[]> ena = new ArrayList<>();
     public static ArrayList<String> enumNames = new ArrayList<>();
     public static ArrayList<Class<?>> enumClasses = new ArrayList<>();
@@ -122,7 +121,6 @@ public class Mundo extends JavaPlugin{
 		Skript.registerAddon(this);
         pluginFolder = getDataFolder().getAbsolutePath();
         scheduler = Bukkit.getScheduler();
-        protocolManager = ProtocolLibrary.getProtocolManager();
 
         info("Pie is awesome :D");
         try {
@@ -680,10 +678,12 @@ public class Mundo extends JavaPlugin{
                 return false;
             }
         }));
-        registerExpression(ExprTextureOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture of %player%");
         registerExpression(ExprTextureWith.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture with value %string% signature %string%");
-        registerExpression(ExprDisplayedSkinOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "displayed skin of %player%", "%player%'s displayed skin");
-		//Socket
+        if (ProtocolLib) {
+            registerExpression(ExprTextureOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture of %player%");
+            registerExpression(ExprDisplayedSkinOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "displayed skin of %player%", "%player%'s displayed skin");
+        }
+        //Socket
 		registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
 		registerEffect(EffOpenFunctionSocket.class, "open function socket at port %number% [with password %-string%] [through function %-string%]");
 		registerEffect(EffCloseFunctionSocket.class, "close function socket at port %number%");

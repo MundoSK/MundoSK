@@ -1,6 +1,7 @@
 package com.pie.tlatoani.Tablist;
 
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
@@ -54,7 +55,7 @@ public class TabListManager implements Listener {
         public void run() {
             for (Player player : players) {
                 try {
-                    Mundo.protocolManager.sendServerPacket(player, packet);
+                    ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
                 }
@@ -63,7 +64,7 @@ public class TabListManager implements Listener {
     }
 
     static {
-        Mundo.protocolManager.addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
             @Override
             public void onPacketSending(PacketEvent event) {
                 if (!event.isCancelled()) {
@@ -76,7 +77,7 @@ public class TabListManager implements Listener {
                         prePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                         prePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
                         try {
-                            Mundo.protocolManager.sendServerPacket(event.getPlayer(), prePacket);
+                            ProtocolLibrary.getProtocolManager().sendServerPacket(event.getPlayer(), prePacket);
                         } catch (InvocationTargetException e) {
                             e.printStackTrace();
                         }
@@ -85,7 +86,7 @@ public class TabListManager implements Listener {
                     packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                     packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
                     try {
-                        Mundo.protocolManager.sendServerPacket(event.getPlayer(), packet);
+                        ProtocolLibrary.getProtocolManager().sendServerPacket(event.getPlayer(), packet);
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
                     }
@@ -157,7 +158,7 @@ public class TabListManager implements Listener {
                     packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                     packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
                     try {
-                        Mundo.protocolManager.sendServerPacket(player, packet);
+                        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
                     }
@@ -170,7 +171,7 @@ public class TabListManager implements Listener {
                     packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                     packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
                     try {
-                        Mundo.protocolManager.sendServerPacket(player, packet);
+                        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
                     }

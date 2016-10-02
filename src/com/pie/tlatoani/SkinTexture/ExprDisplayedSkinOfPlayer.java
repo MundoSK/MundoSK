@@ -7,6 +7,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -44,6 +45,7 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<SkinTexture> {
 
     @Override
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
+        Mundo.debug(this, "DELTA 0: " + delta[0]);
         SkinManager.setCurrentSkin(playerExpression.getSingle(event), (SkinTexture) delta[0]);
     }
 
