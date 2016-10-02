@@ -64,6 +64,7 @@ public class TabListManager implements Listener {
     }
 
     static {
+        /*
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
             @Override
             public void onPacketSending(PacketEvent event) {
@@ -82,6 +83,31 @@ public class TabListManager implements Listener {
                             e.printStackTrace();
                         }
                     }
+                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                    packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+                    try {
+                        ProtocolLibrary.getProtocolManager().sendServerPacket(event.getPlayer(), packet);
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                    PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                    removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                    Mundo.scheduler.runTask(Mundo.instance, new PacketSender(removePacket, event.getPlayer()));
+                }
+            }
+        });
+        */
+
+        //1.7.2 code
+
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                if (!TabListManager.getPlayerSeesOtherPlayersInTablist(event.getPlayer()) && !event.isCancelled()) {
+                    Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
+                    PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getDisplayName())));
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                     packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                     packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
