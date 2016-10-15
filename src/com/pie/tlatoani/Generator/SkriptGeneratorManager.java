@@ -68,6 +68,7 @@ public final class SkriptGeneratorManager {
                                 generator.population = ((CustomScope) goingcond).getFirst();
                             }
                         }
+                        going = going.getNext();
                     }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

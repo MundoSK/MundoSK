@@ -7,55 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprServerIP.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprNameTag.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" afterPath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$19.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$19.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$20.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$20.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$21.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$21.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$22.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$22.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$23.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$23.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$24.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$24.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$25.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$25.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$26.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$26.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$27.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$27.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$28.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$28.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$29.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$29.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$30.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$30.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$31.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$31.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$32.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$32.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$33.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$33.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$34.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$34.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$35.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$35.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$36.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$36.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$37.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$37.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$38.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$38.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$39.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$39.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$40.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$40.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$41.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$41.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$42.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$42.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$43.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$43.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$44.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$44.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$45.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$45.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$46.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$46.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$ExprEnumValues.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo$ExprEnumValues.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Mundo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/ExprDisplayedSkinOfPlayer.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/ExprDisplayedSkinOfPlayer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinManager.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinManager.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$1.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$2.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$3.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/TabListManager$1.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/TabListManager$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/TabListManager$PacketSender.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/TabListManager$PacketSender.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/TabListManager.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/TabListManager.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/ExprDisplayedSkinOfPlayer.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/ExprDisplayedSkinOfPlayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinTexture.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinTexture.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptGeneratorManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptGeneratorManager.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -76,13 +30,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="625" column="9" selection-start-line="625" selection-start-column="9" selection-end-line="625" selection-end-column="9" />
+            <state relative-caret-position="7780">
+              <caret line="701" column="34" selection-start-line="701" selection-start-column="30" selection-end-line="701" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#36144#36145#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -115,7 +70,17 @@
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
-              <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+              <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SkriptGeneratorManager.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptGeneratorManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="477">
+              <caret line="70" column="48" selection-start-line="70" selection-start-column="48" selection-end-line="70" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -126,16 +91,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="165">
               <caret line="24" column="123" selection-start-line="24" selection-start-column="123" selection-end-line="24" selection-end-column="123" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UtilPacketEvent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="41" column="20" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -218,7 +173,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Probability/CondProbabilityValue.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ScopeMatcher.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CodeBlock/ScopeSaveCodeBlock.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ScopeMatches.java" />
@@ -261,7 +215,6 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Socket2/SocketListener.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java" />
-        <option value="$PROJECT_DIR$/plugin.yml" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinTexture.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprServerIP.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprNameTag.java" />
@@ -269,6 +222,8 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/ExprDisplayedSkinOfPlayer.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
+        <option value="$PROJECT_DIR$/plugin.yml" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptGeneratorManager.java" />
       </list>
     </option>
   </component>
@@ -1050,14 +1005,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptGeneratorManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="56" column="44" selection-start-line="56" selection-start-column="44" selection-end-line="56" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Probability/ScopeProbability.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -1083,6 +1030,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
           <caret line="54" column="57" selection-start-line="54" selection-start-column="57" selection-end-line="54" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1961#1962#0" expanded="false" />
+            <element signature="e#2025#2026#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1315,14 +1267,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plugin.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/ExprTextureOfPlayer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -1384,11 +1328,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="625" column="9" selection-start-line="625" selection-start-column="9" selection-end-line="625" selection-end-column="9" />
+        <state relative-caret-position="7780">
+          <caret line="701" column="34" selection-start-line="701" selection-start-column="30" selection-end-line="701" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#36144#36145#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugin.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptGeneratorManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="477">
+          <caret line="70" column="48" selection-start-line="70" selection-start-column="48" selection-end-line="70" selection-end-column="48" />
+          <folding />
         </state>
       </provider>
     </entry>
