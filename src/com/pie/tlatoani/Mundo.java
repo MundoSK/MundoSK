@@ -431,11 +431,12 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprLoadedScripts.class,String.class,ExpressionType.SIMPLE, "loaded scripts");
         registerExpression(ExprCompletions.class,String.class,ExpressionType.SIMPLE,"completions");
         registerExpression(ExprLoginResult.class, PlayerLoginEvent.Result.class, ExpressionType.SIMPLE, "(login|connect[ion]) result");
+        registerExpression(ExprServerIP.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] ip of server", "[mundo[sk]] server's ip");
         registerScope(ScopeMatcher.class, "(switch|match) %object%");
         registerScope(ScopeMatches.class, "(case|matches) %object%");
         registerScope(ScopeAsync.class, "async");
         registerScope(ScopeSync.class, "sync");
-        registerScope(ScopeWhen.class, "when %boolean% (1async");
+        registerScope(ScopeWhen.class, "when %boolean%");
         //NoteBlock
         Classes.registerClass(new ClassInfo<Note>(Note.class, "note").user(new String[]{"note"}).name("note").parser(new Parser<Note>(){
 
@@ -621,6 +622,7 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array pnum %number% of %packet%");
             registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY, "%world% pentity %number% of %packet%");
             registerExpression(ExprEnumOfPacket.class, String.class, ExpressionType.PROPERTY, "%string% penum %number% of %packet%");
+            registerExpression(ExprNameTag.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] nametag", "[mundo[sk]] nametag of %player%");
 		}
         //SkinTexture
         Classes.registerClass(new ClassInfo<SkinTexture>(SkinTexture.class, "skintexture").user(new String[]{"skintexture"}).name("skintexture").parser(new Parser<SkinTexture>(){

@@ -38,9 +38,12 @@ public class TabListManager implements Listener {
             "eyJ0aW1lc3RhbXAiOjE0NzAwMjgwNDU3MzUsInByb2ZpbGVJZCI6IjQzYTgzNzNkNjQyOTQ1MTBhOWFhYjMwZjViM2NlYmIzIiwicHJvZmlsZU5hbWUiOiJTa3VsbENsaWVudFNraW42Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iNTg3OTM1YzdmYmVjYzJmYWMxMDY0OWZjZGZiODM1YjQ2NTA3MzZiOWJmMWQ0NGVhZjc2ZDNiOWVmN2UwIn19fQ==",
             "eTy8+/waBl22GpAyTHx+QY40J3DY57F2FSkVupjJxAuuUfstvX/DxmJANKtIcYCYP9LUHh9DkP1T2bXUobHcx8GAICi8S/uEWXx96PHHjSr7wQ9uBC4NMCkV7dHHMKdVqEJ9jDpMvSax9vs1tOc2NWaeMbzc/345K95JaYVD+AV4W1+IuppXlMgDmCatUCgGDbzTuQKO8An9zFPciCRq1VSGaOPCj4PoIDQyMhSPqb1cPML/wH26Wtl4DEjnyVIyemk7oDBK29DXxtBLmzX6Ni1C8VM3UmG2StDC7dSwxJNLBHQ/aqXwupK4j0bZghiRbiaq4kAlPcpMeL+TTHac7oYFGihj/s/OVWaL0Fo2KgFZgKuZ26kDepCLEEOOoj2Zq8ohtxufPdTDqw032AyA/HbldnBIsCnQCDiq3XXdZHz0R+pvuf73BSHc7CiG2pwjSdSQ8XetlP70A9SddJu+iFuKGwzh/cvQ2H+sqoUYmIYIXcl2xJTy+Y/shxJDZZVxGCSHmj+4SYzJCg+nsNlEJ9HBG//LfeY+WhacbC9pPPy8wKnDqvIx0QX2YakyBFy659DEBEhSSNRQjOm78Zd9K7pP1QOrS2RDwsDSIXaR0gxT69Bv+Z/r+w8GJY6tHvT8aqTNQHpmv+kwMVdGOWMj3wMErW2aqjH9ffc1nuWht/E="
     );
+
     private static final Map<String, UUID> uuidSaver = new HashMap<>();
     private static final String uuidbeginning = "62960000-6296-3000-8000-6296";
     private static int uuidKeyCounter = 0;
+
+    public static final HashMap<UUID, String> nameTags = new HashMap<>();
 
     public static class PacketSender implements Runnable {
         private PacketContainer packet;
@@ -64,14 +67,15 @@ public class TabListManager implements Listener {
     }
 
     static {
-        /*
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
+        /*ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
             @Override
             public void onPacketSending(PacketEvent event) {
                 if (!event.isCancelled()) {
                     Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
                     WrappedGameProfile gameProfile = WrappedGameProfile.fromPlayer(player);
-                    SkinManager.getCurrentSkin(player).retrieveSkinTextures(gameProfile.getProperties());
+                    SkinManager.getDisplayedSkin(player).retrieveSkinTextures(gameProfile.getProperties());
+                    Mundo.debug(TabListManager.class, "DISPLAYED SKIN: " + SkinManager.getDisplayedSkin(player));
+                    Mundo.debug(TabListManager.class, "GAMEPROFILE PROPERTIES: " + gameProfile.getProperties());
                     PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getDisplayName())));
                     if (TabListManager.getPlayerSeesOtherPlayersInTablist(event.getPlayer())) {
                         PacketContainer prePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
@@ -97,14 +101,23 @@ public class TabListManager implements Listener {
                     Mundo.scheduler.runTask(Mundo.instance, new PacketSender(removePacket, event.getPlayer()));
                 }
             }
-        });
-        */
+        });*/
 
-        //1.7.2 code
+
+        //1.7.2 code (with minor change to accommodate Skin disguising and nametags tuff
 
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
             @Override
             public void onPacketSending(PacketEvent event) {
+                if (!event.isCancelled()) { //NameTag Magic
+                    WrappedGameProfile gameProfile = event.getPacket().getGameProfiles().readSafely(0);
+                    if (gameProfile != null) {
+                        event.getPacket().getGameProfiles().writeSafely(0, gameProfile.withName(nameTags.get(gameProfile.getUUID())));
+                        Mundo.debug(TabListManager.class, "NAMETAG :: UUID: " + gameProfile.getUUID() + ", NAMETAG NEW: " + nameTags.get(gameProfile.getUUID()));
+                    } else {
+                        Mundo.debug(this, "No game profile found in this NAMED_ENTITY_SPAWN packet");
+                    }
+                }
                 if (!TabListManager.getPlayerSeesOtherPlayersInTablist(event.getPlayer()) && !event.isCancelled()) {
                     Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
                     PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getDisplayName())));
@@ -216,6 +229,10 @@ public class TabListManager implements Listener {
     }
 
     //Util
+
+    public static PacketContainer refreshNamedEntity(Player player) {
+        return null;
+    }
 
     /*
     This method was coded by werter318 on Bukkit.org

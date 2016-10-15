@@ -37,6 +37,7 @@ public class SkinTexture {
     public SkinTexture(Player player) {
         textures = null;
         altTextures = WrappedGameProfile.fromPlayer(player).getProperties().get("textures");
+        Mundo.debug(this, "ALT TEXTURES: " + altTextures);
     }
 
     public SkinTexture(JSONArray jsonArray) {

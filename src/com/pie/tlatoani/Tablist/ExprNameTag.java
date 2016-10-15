@@ -1,4 +1,4 @@
-package com.pie.tlatoani.SkinTexture;
+package com.pie.tlatoani.Tablist;
 
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
@@ -7,18 +7,20 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.SkinTexture.SkinManager;
+import com.pie.tlatoani.SkinTexture.SkinTexture;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 /**
- * Created by Tlatoani on 9/18/16.
+ * Created by Tlatoani on 10/8/16.
  */
-public class ExprDisplayedSkinOfPlayer extends SimpleExpression<SkinTexture> {
+public class ExprNameTag extends SimpleExpression<String> {
     private Expression<Player> playerExpression;
 
     @Override
-    protected SkinTexture[] get(Event event) {
-        return new SkinTexture[]{SkinManager.getDisplayedSkin(playerExpression.getSingle(event))};
+    protected String[] get(Event event) {
+        return new String[]{TabListManager.nameTags.get(playerExpression.getSingle(event).getUniqueId())};
     }
 
     @Override
@@ -27,13 +29,13 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<SkinTexture> {
     }
 
     @Override
-    public Class<? extends SkinTexture> getReturnType() {
-        return SkinTexture.class;
+    public Class<? extends String> getReturnType() {
+        return String.class;
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return playerExpression + "'s displayed skin";
+        return playerExpression + "'s nametag";
     }
 
     @Override
@@ -44,19 +46,19 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<SkinTexture> {
 
     @Override
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
-        SkinTexture skinDelta = null;
+        String nameTag = null;
         if (mode == Changer.ChangeMode.SET) {
             Mundo.debug(this, "DELTA 0: " + delta[0]);
-            skinDelta = (SkinTexture) delta[0];
+            nameTag = (String) delta[0];
         } else if (mode == Changer.ChangeMode.RESET) {
-            skinDelta = null;
+            nameTag = playerExpression.getSingle(event).getName();
         }
-        SkinManager.setDisplayedSkin(playerExpression.getSingle(event), skinDelta);
+        TabListManager.nameTags.put(playerExpression.getSingle(event).getUniqueId(), nameTag);
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            return CollectionUtils.array(SkinTexture.class);
+            return CollectionUtils.array(String.class);
         }
         if (mode == Changer.ChangeMode.RESET) {
             return CollectionUtils.array();
