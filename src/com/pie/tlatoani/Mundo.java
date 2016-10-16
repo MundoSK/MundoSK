@@ -282,6 +282,12 @@ public class Mundo extends JavaPlugin{
                 return skriptGeneratorEvent.biomeGrid;
             }
         }, 0);
+        EventValues.registerEventValue(SkriptGeneratorEvent.class, Chunk.class, new Getter<Chunk, SkriptGeneratorEvent>() {
+            @Override
+            public Chunk get(SkriptGeneratorEvent skriptGeneratorEvent) {
+                return skriptGeneratorEvent.chunk;
+            }
+        }, 0);
         registerExpression(ExprCurrentChunkCoordinate.class, Number.class, ExpressionType.SIMPLE, "current x", "current z");
         registerExpression(ExprMaterialInChunkData.class, ItemStack.class, ExpressionType.PROPERTY, "material at %number%, %number%, %number% in %chunkdata%");
         registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%");
