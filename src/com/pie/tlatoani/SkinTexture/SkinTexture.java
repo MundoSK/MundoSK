@@ -41,6 +41,11 @@ public class SkinTexture {
         Mundo.debug(this, "ALT TEXTURES: " + altTextures);
     }
 
+    public SkinTexture(Collection<WrappedSignedProperty> textures) {
+        this.textures = null;
+        altTextures = textures;
+    }
+
     public SkinTexture(JSONArray jsonArray) {
         Pair<String, String>[] pairs = new Pair[jsonArray.size()];
         for (int i = 0; i < jsonArray.size(); i++) {

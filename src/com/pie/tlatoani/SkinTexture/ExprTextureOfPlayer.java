@@ -15,7 +15,8 @@ public class ExprTextureOfPlayer extends SimpleExpression<SkinTexture> {
 
     @Override
     protected SkinTexture[] get(Event event) {
-        return new SkinTexture[]{new SkinTexture(playerExpression.getSingle(event))};
+        return new SkinTexture[]{SkinManager.getActualSkin(playerExpression.getSingle(event))};
+        //return new SkinTexture[]{new SkinTexture(playerExpression.getSingle(event))};
     }
 
     @Override
