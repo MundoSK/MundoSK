@@ -671,7 +671,7 @@ public class Mundo extends JavaPlugin{
             @Override
             public SkinTexture deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
                 try {
-                    return new SkinTexture((JSONArray) (new JSONParser()).parse((String) fields.getObject("value")));
+                    return new SkinTexture.JSON((JSONArray) (new JSONParser()).parse((String) fields.getObject("value")));
                 } catch (ParseException | ClassCastException e) {
                     throw new StreamCorruptedException();
                 }

@@ -15,7 +15,7 @@ public class ExprTextureWith extends SimpleExpression<SkinTexture> {
 
     @Override
     protected SkinTexture[] get(Event event) {
-        return new SkinTexture[]{new SkinTexture(valueExpr.getSingle(event), signatureExpr.getSingle(event))};
+        return new SkinTexture[]{new SkinTexture.Simple(valueExpr.getSingle(event), signatureExpr.getSingle(event))};
     }
 
     @Override

@@ -34,7 +34,7 @@ public class SkinManager {
                         for (PlayerInfoData playerInfoData : event.getPacket().getPlayerInfoDataLists().readSafely(0)) {
                             if (!actualSkins.containsKey(playerInfoData.getProfile().getUUID()) && playerInfoData.getProfile().getUUID().toString().substring(14, 15).equals("4")) {
                                 Mundo.debug(SkinManager.class, "NEW PLAYER !");
-                                SkinTexture skinTexture = new SkinTexture(playerInfoData.getProfile().getProperties().get("textures"));
+                                SkinTexture skinTexture = new SkinTexture.Collected(playerInfoData.getProfile().getProperties().get("textures"));
                                 actualSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
                                 displayedSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
 
