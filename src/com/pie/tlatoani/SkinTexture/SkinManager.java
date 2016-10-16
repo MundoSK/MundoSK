@@ -42,11 +42,13 @@ public class SkinManager {
 
                             SkinTexture skinTexture = displayedSkins.get(playerInfoData.getProfile().getUUID());
                             Mundo.debug(SkinManager.class, "PLAYER DISPLAY NAME: " + playerInfoData.getProfile().getName());
+                            Mundo.debug(SkinManager.class, "PLAYER UUID: " + playerInfoData.getProfile().getUUID());
                             Mundo.debug(SkinManager.class, "SKINTEXTURE FOUND IN PACKET: " + playerInfoData.getProfile().getProperties().get("textures"));
                             Mundo.debug(SkinManager.class, "SKINTEXTURE REPLACEMENT (MAY OR MAY NOT EXIST): " + skinTexture);
                             if (skinTexture != null) {
                                 skinTexture.retrieveSkinTextures(playerInfoData.getProfile().getProperties());
                             }
+                            Mundo.debug(SkinManager.class, "THIS IS WHAT THE ACTUALSKINS MAP CURRENTLY LOOKS LIKE: " + actualSkins);
                         }
                 }
             }
