@@ -434,10 +434,11 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprGameRule.class,String.class,ExpressionType.PROPERTY,"value of [game]rule %string% in %world%");
 		registerExpression(ExprReturnTypeOfFunction.class,ClassInfo.class,ExpressionType.PROPERTY,"return type of function %string%");
         registerExpression(ExprRemainingAir.class,Timespan.class,ExpressionType.PROPERTY,"breath of %livingentity%", "%livingentity%'s breath", "max breath of %livingentity%", "%livingentity%'s max breath");
-		registerExpression(ExprLoadedScripts.class,String.class,ExpressionType.SIMPLE, "loaded scripts");
+		registerExpression(ExprLoadedScripts.class,String.class,ExpressionType.SIMPLE, "loaded script[ name]s");
         registerExpression(ExprCompletions.class,String.class,ExpressionType.SIMPLE,"completions");
         registerExpression(ExprLoginResult.class, PlayerLoginEvent.Result.class, ExpressionType.SIMPLE, "(login|connect[ion]) result");
-        registerExpression(ExprServerIP.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] ip of server", "[mundo[sk]] server's ip");
+        registerExpression(ExprServerIP.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] [the] ip of server", "[mundo[sk]] [the] server's ip");
+        registerExpression(ExprServerPort.class, Number.class, ExpressionType.PROPERTY, "[mundo[sk]] [the] port of server", "[mundo[sk]] [the] server's port");
         registerScope(ScopeMatcher.class, "(switch|match) %object%");
         registerScope(ScopeMatches.class, "(case|matches) %object%");
         registerScope(ScopeAsync.class, "async");
@@ -643,12 +644,12 @@ public class Mundo extends JavaPlugin{
                 return null;
             }
 
-            public String toString(SkinTexture packetType, int flags) {
-                return null;
+            public String toString(SkinTexture skinTexture, int flags) {
+                return skinTexture.toString();
             }
 
-            public String toVariableNameString(SkinTexture packetType) {
-                return null;
+            public String toVariableNameString(SkinTexture skinTexture) {
+                return skinTexture.toString();
             }
 
             public String getVariableNamePattern() {

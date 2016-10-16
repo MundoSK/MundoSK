@@ -50,7 +50,7 @@ public class ScopeProbability extends CustomScope {
 		TriggerItem going = first;
 		TriggerItem end = scope.getNext();
 		Integer i = 0;
-		while (within) {
+		while (going != null && going != end) {
 			if (going instanceof CondProbabilityValue) {
 				probs.add((CondProbabilityValue) going);
 				indeces.add(i);
@@ -73,7 +73,6 @@ public class ScopeProbability extends CustomScope {
 				i++;
 			}
 			going = going.getNext();
-			if (going == null || going == end) within = false;
 		}
 		last.setNext(null);
 	}

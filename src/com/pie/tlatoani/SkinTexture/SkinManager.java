@@ -33,7 +33,8 @@ public class SkinManager {
                     if (event.getPacket().getPlayerInfoAction().read(0) == EnumWrappers.PlayerInfoAction.ADD_PLAYER)
                         for (PlayerInfoData playerInfoData : event.getPacket().getPlayerInfoDataLists().readSafely(0)) {
                             SkinTexture skinTexture = textureMap.get(playerInfoData.getProfile().getUUID());
-                            Mundo.debug(SkinManager.class, "SKINTEXTURE MAY OR MAY NOT EXIST: " + skinTexture);
+                            Mundo.debug(SkinManager.class, "SKINTEXTURE FOUND IN PACKET: " + playerInfoData.getProfile().getProperties().get("textures"));
+                            Mundo.debug(SkinManager.class, "SKINTEXTURE REPLACEMENT (MAY OR MAY NOT EXIST): " + skinTexture);
                             if (skinTexture != null) {
                                 skinTexture.retrieveSkinTextures(playerInfoData.getProfile().getProperties());
                             }
