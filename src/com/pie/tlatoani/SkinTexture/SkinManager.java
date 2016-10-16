@@ -33,6 +33,7 @@ public class SkinManager {
                     if (event.getPacket().getPlayerInfoAction().read(0) == EnumWrappers.PlayerInfoAction.ADD_PLAYER)
                         for (PlayerInfoData playerInfoData : event.getPacket().getPlayerInfoDataLists().readSafely(0)) {
                             SkinTexture skinTexture = textureMap.get(playerInfoData.getProfile().getUUID());
+                            Mundo.debug(SkinManager.class, "PLAYER DISPLAY NAME: " + playerInfoData.getProfile().getName());
                             Mundo.debug(SkinManager.class, "SKINTEXTURE FOUND IN PACKET: " + playerInfoData.getProfile().getProperties().get("textures"));
                             Mundo.debug(SkinManager.class, "SKINTEXTURE REPLACEMENT (MAY OR MAY NOT EXIST): " + skinTexture);
                             if (skinTexture != null) {
@@ -80,7 +81,15 @@ public class SkinManager {
                 e.printStackTrace();
             }*/
             target.hidePlayer(player);
-            target.showPlayer(player);
+            //target.showPlayer(player);
         }
+        Mundo.scheduler.scheduleSyncDelayedTask(Mundo.instance, new Runnable() {
+            @Override
+            public void run() {
+                for (Player target : Bukkit.getOnlinePlayers()) {
+                    target.showPlayer(player);
+                }
+            }
+        }, 1);
     }
 }
