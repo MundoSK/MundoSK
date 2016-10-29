@@ -11,6 +11,7 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.comphenix.protocol.wrappers.WrappedServerPing;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 import org.json.simple.JSONObject;
@@ -57,6 +58,23 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JSONObject> {
             public void set(PacketContainer packet, Integer index, JSONObject value) {
                 WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(value.toString());
                 packet.getChatComponents().writeSafely(index, chatComponent);
+            }
+        });
+
+        registerConverter("serverping", new PacketInfoConverter<JSONObject>() {
+            @Override
+            public JSONObject get(PacketContainer packet, Integer index) {
+                try {
+                    return (JSONObject) (new JSONParser()).parse(packet.getServerPings().readSafely(0).toJson());
+                } catch (ParseException | ClassCastException e) {
+                    Mundo.reportException(ExprJsonObjectOfPacket.class, e);
+                    return null;
+                }
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, JSONObject value) {
+                packet.getServerPings().writeSafely(0, WrappedServerPing.fromJson(value.toJSONString()));
             }
         });
     }

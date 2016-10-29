@@ -170,7 +170,7 @@ public class Metrics {
     }
 
     /**
-     * Add a Graph object to BukkitMetrics that represents data for the plugin that should be sent to the backend
+     * Add a Graph object to BukkitMetrics that represents Data for the plugin that should be sent to the backend
      *
      * @param graph The name of the graph
      */
@@ -184,7 +184,7 @@ public class Metrics {
 
     /**
      * Start measuring statistics. This will immediately create an async repeating task as the plugin and send the
-     * initial data to the metrics backend, and then after that it will post in increments of PING_INTERVAL * 1200
+     * initial Data to the metrics backend, and then after that it will post in increments of PING_INTERVAL * 1200
      * ticks.
      *
      * @return True if statistics measuring is running, otherwise false.
@@ -201,7 +201,7 @@ public class Metrics {
                 return true;
             }
 
-            // Begin hitting the server with glorious data
+            // Begin hitting the server with glorious Data
             task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
 
                 private boolean firstPost = true;
@@ -310,7 +310,7 @@ public class Metrics {
     }
 
     /**
-     * Gets the File object of the config file that should be used to store data such as the GUID and opt-out status
+     * Gets the File object of the config file that should be used to store Data such as the GUID and opt-out status
      *
      * @return the File object for the config file
      */
@@ -362,17 +362,17 @@ public class Metrics {
 
         // END server software specific scope -- all code below does not use any code outside of this class / Java
 
-        // Construct the post data
+        // Construct the post Data
         StringBuilder json = new StringBuilder(1024);
         json.append('{');
 
-        // The plugin's description file containg all of the plugin data such as name, version, author, etc
+        // The plugin's description file containg all of the plugin Data such as name, version, author, etc
         appendJSONPair(json, "guid", guid);
         appendJSONPair(json, "plugin_version", pluginVersion);
         appendJSONPair(json, "server_version", serverVersion);
         appendJSONPair(json, "players_online", Integer.toString(playersOnline));
 
-        // New data as of R6
+        // New Data as of R6
         String osname = System.getProperty("os.name");
         String osarch = System.getProperty("os.arch");
         String osversion = System.getProperty("os.version");
@@ -471,7 +471,7 @@ public class Metrics {
             System.out.println("[Metrics] Prepared request for " + pluginName + " uncompressed=" + uncompressed.length + " compressed=" + compressed.length);
         }
 
-        // Write the data
+        // Write the Data
         OutputStream os = connection.getOutputStream();
         os.write(compressed);
         os.flush();
@@ -718,7 +718,7 @@ public class Metrics {
     }
 
     /**
-     * Interface used to collect custom data for a plugin
+     * Interface used to collect custom Data for a plugin
      */
     public static abstract class Plotter {
 

@@ -336,7 +336,7 @@ public class Mundo extends JavaPlugin{
                         if (value != null) {
                             JSONObject valueJSON = new JSONObject();
                             valueJSON.put("type", value.type);
-                            valueJSON.put("data", new String(value.data));
+                            valueJSON.put("Data", new String(value.data));
                             toBecomeString.put(o, valueJSON);
                         }
                     }
@@ -354,7 +354,7 @@ public class Mundo extends JavaPlugin{
                         @Override
                         public void accept(Object o, Object o2) {
                             JSONObject valueJSON = (JSONObject) o2;
-                            Object value = Classes.deserialize((String) valueJSON.get("type"), ((String) valueJSON.get("data")).getBytes());
+                            Object value = Classes.deserialize((String) valueJSON.get("type"), ((String) valueJSON.get("Data")).getBytes());
                             jsonObject.put(o, value);
                         }
                     });
@@ -719,6 +719,7 @@ public class Mundo extends JavaPlugin{
                 }
             }, this);
             registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "%player%'s tablist contains players");
+            registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% in [the] tab[list] of %players%");
             //Simple
             registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skintexture%]");
             registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");

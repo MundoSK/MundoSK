@@ -20,7 +20,7 @@ public class ExprNameTag extends SimpleExpression<String> {
 
     @Override
     protected String[] get(Event event) {
-        return new String[]{TabListManager.nameTags.get(playerExpression.getSingle(event).getUniqueId())};
+        return new String[]{playerExpression.getSingle(event).getPlayerListName()};
     }
 
     @Override
@@ -53,7 +53,8 @@ public class ExprNameTag extends SimpleExpression<String> {
         } else if (mode == Changer.ChangeMode.RESET) {
             nameTag = playerExpression.getSingle(event).getName();
         }
-        TabListManager.nameTags.put(playerExpression.getSingle(event).getUniqueId(), nameTag);
+        //TabListManager.nameTags.put(playerExpression.getSingle(event).getUniqueId(), nameTag);
+        playerExpression.getSingle(event).setPlayerListName(nameTag);
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
