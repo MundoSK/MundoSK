@@ -627,7 +627,6 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array pnum %number% of %packet%");
             registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY, "%world% pentity %number% of %packet%");
             registerExpression(ExprEnumOfPacket.class, String.class, ExpressionType.PROPERTY, "%string% penum %number% of %packet%");
-            registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s tab name", "tab name of %player%");
 		}
         //SkinTexture
         Classes.registerClass(new ClassInfo<SkinTexture>(SkinTexture.class, "skintexture").user(new String[]{"skintexture"}).name("skintexture").parser(new Parser<SkinTexture>(){
@@ -689,6 +688,7 @@ public class Mundo extends JavaPlugin{
         if (ProtocolLib) {
             registerExpression(ExprTextureOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture of %player%");
             registerExpression(ExprDisplayedSkinOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "displayed skin of %player%", "%player%'s displayed skin");
+            registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "%player%'s name[]tag", "name[]tag of %player%");
         }
         //Socket
 		registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");

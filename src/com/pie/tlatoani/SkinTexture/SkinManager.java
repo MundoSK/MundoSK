@@ -11,7 +11,6 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Tablist.TabListManager;
-import com.sun.org.apache.xpath.internal.operations.String;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -44,14 +43,17 @@ public class SkinManager {
                                 displayedSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
                             }
 
-                            SkinTexture skinTexture = displayedSkins.get(playerInfoData.getProfile().getUUID());
-                            Mundo.debug(SkinManager.class, "PLAYER DISPLAY NAME: " + playerInfoData.getProfile().getName());
-                            Mundo.debug(SkinManager.class, "PLAYER INFO DATA NAME: " + playerInfoData.getDisplayName());
-                            Mundo.debug(SkinManager.class, "PLAYER UUID: " + playerInfoData.getProfile().getUUID());
-                            Mundo.debug(SkinManager.class, "SKINTEXTURE FOUND IN PACKET: " + playerInfoData.getProfile().getProperties().get("textures"));
+                            PlayerInfoData newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTags.get(playerInfoData.getProfile().getUUID())), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
+                            playerInfoDatas.set(i, newPlayerInfoData);
+
+                            SkinTexture skinTexture = displayedSkins.get(newPlayerInfoData.getProfile().getUUID());
+                            Mundo.debug(SkinManager.class, "PLAYER DISPLAY NAME: " + newPlayerInfoData.getProfile().getName());
+                            Mundo.debug(SkinManager.class, "PLAYER INFO DATA NAME: " + newPlayerInfoData.getDisplayName());
+                            Mundo.debug(SkinManager.class, "PLAYER UUID: " + newPlayerInfoData.getProfile().getUUID());
+                            Mundo.debug(SkinManager.class, "SKINTEXTURE FOUND IN PACKET: " + newPlayerInfoData.getProfile().getProperties().get("textures"));
                             Mundo.debug(SkinManager.class, "SKINTEXTURE REPLACEMENT (MAY OR MAY NOT EXIST): " + skinTexture);
                             if (skinTexture != null) {
-                                skinTexture.retrieveSkinTextures(playerInfoData.getProfile().getProperties());
+                                skinTexture.retrieveSkinTextures(newPlayerInfoData.getProfile().getProperties());
                             }
 
                             i++;
