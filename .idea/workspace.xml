@@ -7,9 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprNameTag.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTabName.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
     </list>
     <ignored path="MundoSK.iws" />
@@ -64,8 +61,8 @@
       <file leaf-file-name="TabListManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="77" column="73" selection-start-line="77" selection-start-column="73" selection-end-line="77" selection-end-column="73" />
+            <state relative-caret-position="135">
+              <caret line="78" column="104" selection-start-line="78" selection-start-column="104" selection-end-line="78" selection-end-column="104" />
               <folding />
             </state>
           </provider>
@@ -164,9 +161,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="812" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -542,6 +538,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/Tlatoani/Documents/MundoSK/src/com/pie/tlatoani/ListUtil/Transformer.java" />
+    <property name="FullScreen" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -830,7 +827,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="812" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1211,7 +1208,7 @@
         <state relative-caret-position="255">
           <caret line="29" column="59" selection-start-line="29" selection-start-column="59" selection-end-line="29" selection-end-column="59" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1299,8 +1296,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="77" column="73" selection-start-line="77" selection-start-column="73" selection-end-line="77" selection-end-column="73" />
+        <state relative-caret-position="135">
+          <caret line="78" column="104" selection-start-line="78" selection-start-column="104" selection-end-line="78" selection-end-column="104" />
           <folding />
         </state>
       </provider>
