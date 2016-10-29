@@ -74,9 +74,8 @@ public class TabListManager implements Listener {
             @Override
             public void onPacketSending(PacketEvent event) {
                 Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
-                Mundo.debug(TabListManager.class, "Player: " + player + ", event.getPlayer(): " + event.getPlayer());
                 Mundo.debug(TabListManager.class, "Received spawn packet of " + player.getDisplayName() + " sending to " + event.getPlayer().getDisplayName());
-                if (hiddenPlayerLists.get(event.getPlayer().getUniqueId()).contains(player.getUniqueId()) && !event.isCancelled()) {
+                if (event.getPlayer() != null && hiddenPlayerLists.get(event.getPlayer().getUniqueId()).contains(player.getUniqueId()) && !event.isCancelled()) {
                     Mundo.debug(TabListManager.class, "Player is hidden");
                     PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
