@@ -50,7 +50,7 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<SkinTexture> {
             Mundo.debug(this, "DELTA 0: " + delta[0]);
             skinDelta = (SkinTexture) delta[0];
         } else if (mode == Changer.ChangeMode.RESET) {
-            skinDelta = SkinManager.getActualSkin(player);
+            skinDelta = null;
         }
         SkinManager.setDisplayedSkin(player, skinDelta);
     }

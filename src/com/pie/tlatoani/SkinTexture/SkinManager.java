@@ -81,12 +81,13 @@ public class SkinManager {
         return displayedSkins.get(player.getUniqueId());
     }
 
+    //skinTexture = null will reset the player's displayed skin to their actual skin
     public static void setDisplayedSkin(Player player, SkinTexture skinTexture) {
         Mundo.debug(SkinManager.class, "SKINTEXTURE: " + skinTexture);
         if (skinTexture != null)
             displayedSkins.put(player.getUniqueId(), skinTexture);
         else
-            displayedSkins.remove(player.getUniqueId());
+            displayedSkins.put(player.getUniqueId(), getActualSkin(player));
         refreshPlayer(player);
     }
 
@@ -96,6 +97,7 @@ public class SkinManager {
 
     public static void setNameTag(Player player, String nameTag) {
         nameTags.put(player.getUniqueId(), nameTag);
+        refreshPlayer(player);
     }
 
     private static void refreshPlayer(Player player) {
