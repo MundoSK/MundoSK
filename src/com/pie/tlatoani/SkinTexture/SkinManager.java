@@ -95,8 +95,13 @@ public class SkinManager {
         return nameTags.get(player.getUniqueId());
     }
 
+    //skinTexture = null will reset the player's nametag to their actual name
     public static void setNameTag(Player player, String nameTag) {
-        nameTags.put(player.getUniqueId(), nameTag);
+        Mundo.debug(SkinManager.class, "Setting nametag of " + player.getName() + " to " + nameTag);
+        if (nameTag != null)
+            nameTags.put(player.getUniqueId(), nameTag);
+        else
+            nameTags.put(player.getUniqueId(), player.getName());
         refreshPlayer(player);
     }
 

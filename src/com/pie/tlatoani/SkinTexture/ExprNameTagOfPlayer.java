@@ -48,8 +48,6 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
         Player player = playerExpression.getSingle(event);
         if (mode == Changer.ChangeMode.SET)
             nameTag = (String) delta[0];
-        else if (mode == Changer.ChangeMode.RESET)
-            nameTag = player.getName();
         SkinManager.setNameTag(player, (String) delta[0]);
     }
 
