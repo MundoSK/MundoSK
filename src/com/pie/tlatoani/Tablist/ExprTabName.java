@@ -15,7 +15,7 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 10/8/16.
  */
-public class ExprNameTag extends SimpleExpression<String> {
+public class ExprTabName extends SimpleExpression<String> {
     private Expression<Player> playerExpression;
 
     @Override
@@ -35,7 +35,7 @@ public class ExprNameTag extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return playerExpression + "'s nametag";
+        return playerExpression + "'s tab name";
     }
 
     @Override
@@ -53,7 +53,6 @@ public class ExprNameTag extends SimpleExpression<String> {
         } else if (mode == Changer.ChangeMode.RESET) {
             nameTag = playerExpression.getSingle(event).getName();
         }
-        //TabListManager.nameTags.put(playerExpression.getSingle(event).getUniqueId(), nameTag);
         playerExpression.getSingle(event).setPlayerListName(nameTag);
     }
 

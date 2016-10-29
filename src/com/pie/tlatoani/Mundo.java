@@ -33,8 +33,6 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.Pair;
 import ch.njol.yggdrasil.Fields;
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 
 import com.pie.tlatoani.Achievement.*;
@@ -629,7 +627,7 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array pnum %number% of %packet%");
             registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY, "%world% pentity %number% of %packet%");
             registerExpression(ExprEnumOfPacket.class, String.class, ExpressionType.PROPERTY, "%string% penum %number% of %packet%");
-            registerExpression(ExprNameTag.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] nametag", "[mundo[sk]] nametag of %player%");
+            registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s tab name", "tab name of %player%");
 		}
         //SkinTexture
         Classes.registerClass(new ClassInfo<SkinTexture>(SkinTexture.class, "skintexture").user(new String[]{"skintexture"}).name("skintexture").parser(new Parser<SkinTexture>(){

@@ -45,7 +45,7 @@ public class TabListManager implements Listener {
     private static final String uuidbeginning = "62960000-6296-3000-8000-6296";
     private static int uuidKeyCounter = 0;
 
-    public static final HashMap<UUID, String> nameTags = new HashMap<>();
+    public static final HashMap<UUID, String> tabNames = new HashMap<>();
 
     public static class PacketSender implements Runnable {
         private PacketContainer packet;
@@ -75,7 +75,7 @@ public class TabListManager implements Listener {
             @Override
             public void onPacketSending(PacketEvent event) {
                 Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
-                if (hiddenPlayerLists.get(event.getPlayer()).contains(player) && !event.isCancelled()) {
+                if (hiddenPlayerLists.get(event.getPlayer().getUniqueId()).contains(player) && !event.isCancelled()) {
                     PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                     packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
@@ -158,32 +158,12 @@ public class TabListManager implements Listener {
             ArrayList<UUID> hiddenPlayers = hiddenPlayerLists.get(player.getUniqueId());
             if (whether) {
                 for (Player playerItem : Bukkit.getOnlinePlayers().toArray(new Player[0])) {
-                    PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(playerItem), 5, EnumWrappers.NativeGameMode.fromBukkit(playerItem.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(playerItem.getPlayerListName())));
-                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                    packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-                    packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    try {
-                        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                    
-                    hiddenPlayers.add(playerItem.getUniqueId());
+                    showPlayer(playerItem, player);
                 }
                 playersNotSeePlayersInTablist.remove(player.getUniqueId());
             } else {
                 for (Player playerItem : Bukkit.getOnlinePlayers().toArray(new Player[0])) {
-                    PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(playerItem), 5, EnumWrappers.NativeGameMode.fromBukkit(playerItem.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(playerItem.getPlayerListName())));
-                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                    packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-                    packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    try {
-                        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                    
-                    hiddenPlayers.remove(playerItem.getUniqueId());
+                    hidePlayer(playerItem, player);
                 }
                 playersNotSeePlayersInTablist.add(player.getUniqueId());
             }
