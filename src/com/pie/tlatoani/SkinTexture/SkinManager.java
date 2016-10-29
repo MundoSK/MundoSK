@@ -11,6 +11,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Tablist.TabListManager;
+import com.sun.org.apache.xpath.internal.operations.String;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -25,6 +26,7 @@ import java.util.UUID;
 public class SkinManager {
     private static HashMap<UUID, SkinTexture> actualSkins = new HashMap<>();
     private static HashMap<UUID, SkinTexture> displayedSkins = new HashMap<>();
+    private static HashMap<UUID, String> nameTags = new HashMap<>();
 
     static {
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
@@ -44,7 +46,7 @@ public class SkinManager {
 
                             SkinTexture skinTexture = displayedSkins.get(playerInfoData.getProfile().getUUID());
                             Mundo.debug(SkinManager.class, "PLAYER DISPLAY NAME: " + playerInfoData.getProfile().getName());
-                            Mundo.debug(SkinManager.class, "PLAYER INFO DATA NAME: " + playerInfoData.getProfile().getName());
+                            Mundo.debug(SkinManager.class, "PLAYER INFO DATA NAME: " + playerInfoData.getDisplayName());
                             Mundo.debug(SkinManager.class, "PLAYER UUID: " + playerInfoData.getProfile().getUUID());
                             Mundo.debug(SkinManager.class, "SKINTEXTURE FOUND IN PACKET: " + playerInfoData.getProfile().getProperties().get("textures"));
                             Mundo.debug(SkinManager.class, "SKINTEXTURE REPLACEMENT (MAY OR MAY NOT EXIST): " + skinTexture);
@@ -85,21 +87,19 @@ public class SkinManager {
             displayedSkins.put(player.getUniqueId(), skinTexture);
         else
             displayedSkins.remove(player.getUniqueId());
-        Mundo.debug(SkinManager.class, "THIS DEBUG MESSAGE SHOULD CONTAIN THE EXACT SAME SKINTEXTURE THAT WAS JUST PRINTED, OTHERWISE THERE IS SOMETHING VERY WRONG WITH HASHMAPS AND UUIDS: " + displayedSkins.get(player.getUniqueId()));
-        PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(TabListManager.colorStringToJson(player.getDisplayName())));
-        PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-        removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-        removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-        PacketContainer addPacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-        addPacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-        addPacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+        refreshPlayer(player);
+    }
+
+    public static String getNameTag(Player player) {
+        return nameTags.get(player.getUniqueId());
+    }
+
+    public static void setNameTag(Player player, String nameTag) {
+        nameTags.put(player.getUniqueId(), nameTag);
+    }
+
+    private static void refreshPlayer(Player player) {
         for (Player target : Bukkit.getOnlinePlayers()) {
-            /*if (TabListManager.tablistContainsPlayers(target)) try {
-                ProtocolLibrary.getProtocolManager().sendServerPacket(target, removePacket);
-                ProtocolLibrary.getProtocolManager().sendServerPacket(target, addPacket);
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }*/
             target.hidePlayer(player);
             //target.showPlayer(player);
         }
