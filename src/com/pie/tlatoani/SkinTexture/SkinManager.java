@@ -14,10 +14,7 @@ import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Tlatoani on 9/18/16.
@@ -34,17 +31,18 @@ public class SkinManager {
                 if (!event.isCancelled()) {
                     if (event.getPacket().getPlayerInfoAction().read(0) == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
                         List<PlayerInfoData> playerInfoDatas = event.getPacket().getPlayerInfoDataLists().readSafely(0);
-                        int i = 0;
+                        List<PlayerInfoData> newPlayerInfoDatas = new ArrayList<PlayerInfoData>();
                         for (PlayerInfoData playerInfoData : playerInfoDatas) {
                             if (!actualSkins.containsKey(playerInfoData.getProfile().getUUID()) && playerInfoData.getProfile().getUUID().toString().substring(14, 15).equals("4")) {
                                 Mundo.debug(SkinManager.class, "NEW PLAYER !");
                                 SkinTexture skinTexture = new SkinTexture.Collected(playerInfoData.getProfile().getProperties().get("textures"));
                                 actualSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
                                 displayedSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
+                                nameTags.put(playerInfoData.getProfile().getUUID(), playerInfoData.getProfile().getName());
                             }
 
                             PlayerInfoData newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTags.get(playerInfoData.getProfile().getUUID())), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
-                            playerInfoDatas.set(i, newPlayerInfoData);
+                            newPlayerInfoDatas.add(newPlayerInfoData);
 
                             SkinTexture skinTexture = displayedSkins.get(newPlayerInfoData.getProfile().getUUID());
                             Mundo.debug(SkinManager.class, "PLAYER DISPLAY NAME: " + newPlayerInfoData.getProfile().getName());
@@ -55,9 +53,8 @@ public class SkinManager {
                             if (skinTexture != null) {
                                 skinTexture.retrieveSkinTextures(newPlayerInfoData.getProfile().getProperties());
                             }
-
-                            i++;
                         }
+                        event.getPacket().getPlayerInfoDataLists().writeSafely(0, newPlayerInfoDatas);
                     }
                 }
             }
@@ -67,12 +64,13 @@ public class SkinManager {
     private SkinManager() {}
 
     public static void onJoin(Player player) {
-        //displayedSkins.put(player.getUniqueId(), new SkinTexture(player));
+
     }
 
     public static void onQuit(Player player) {
         actualSkins.remove(player.getUniqueId());
         displayedSkins.remove(player.getUniqueId());
+        nameTags.remove(player.getUniqueId());
     }
 
     public static SkinTexture getActualSkin(Player player) {
