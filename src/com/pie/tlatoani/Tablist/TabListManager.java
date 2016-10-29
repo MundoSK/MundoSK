@@ -10,7 +10,6 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.SkinTexture.SkinManager;
 import com.pie.tlatoani.Tablist.Array.ArrayTabList;
 import com.pie.tlatoani.Tablist.Simple.SimpleTabList;
 import com.pie.tlatoani.SkinTexture.SkinTexture;
@@ -33,7 +32,7 @@ public class TabListManager implements Listener {
     private static final HashMap<UUID, SimpleTabList> simpleTabLists = new HashMap<>();
     private static final HashMap<UUID, ArrayTabList> arrayTabLists = new HashMap<>();
     private static final HashMap<UUID, ArrayList<UUID>> hiddenPlayerLists = new HashMap<>();
-    private static final ArrayList<UUID> playersNotSeePlayersInTablist = new ArrayList<>();
+    private static final ArrayList<UUID> playerFreeTablists = new ArrayList<>();
     public static final PacketType packetType = PacketType.Play.Server.PLAYER_INFO;
     public static final Charset utf8 = Charset.forName("UTF-8");
     public static final SkinTexture DEFAULT_SKIN_TEXTURE = new SkinTexture.Simple(
@@ -108,20 +107,11 @@ public class TabListManager implements Listener {
     public static void onJoin(Player player) {
         simpleTabLists.put(player.getUniqueId(), new SimpleTabList(player));
         hiddenPlayerLists.put(player.getUniqueId(), new ArrayList<>());
-        if (!playersNotSeePlayersInTablist.isEmpty()) {
-            PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
-            PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-            packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-            packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-            Player[] targetPlayers = new Player[playersNotSeePlayersInTablist.size()];
-            int i = 0;
-            for (UUID targetUUID : playersNotSeePlayersInTablist.toArray(new UUID[0])) {
-                targetPlayers[i] = Bukkit.getPlayer(targetUUID);
-                hiddenPlayerLists.get(targetUUID).add(player.getUniqueId());
-                i++;
+        if (!playerFreeTablists.isEmpty())
+            for (UUID targetUUID : playerFreeTablists.toArray(new UUID[0])) {
+                hidePlayer(player, Bukkit.getPlayer(targetUUID));
             }
-            Mundo.scheduler.runTask(Mundo.instance, new PacketSender(packet, targetPlayers));
-        }
+
     }
 
     public static void onQuit(Player player) {
@@ -134,7 +124,7 @@ public class TabListManager implements Listener {
                 uuids.remove(player.getUniqueId());
             }
         });
-        playersNotSeePlayersInTablist.remove(player.getUniqueId());
+        playerFreeTablists.remove(player.getUniqueId());
         deactivateArrayTabList(player);
     }
 
@@ -151,29 +141,29 @@ public class TabListManager implements Listener {
         }
     }
 
-    public static boolean getPlayerSeesOtherPlayersInTablist(Player player) {
-        return !playersNotSeePlayersInTablist.contains(player.getUniqueId());
+    public static boolean tablistContainsPlayers(Player player) {
+        return !playerFreeTablists.contains(player.getUniqueId());
     }
 
-    public static void setPlayerSeesOtherPlayersInTablist(Player player, boolean whether) {
-        if (whether != getPlayerSeesOtherPlayersInTablist(player)) {
+    public static void setTablistContainsPlayers(Player player, boolean whether) {
+        if (whether != tablistContainsPlayers(player)) {
             ArrayList<UUID> hiddenPlayers = hiddenPlayerLists.get(player.getUniqueId());
             if (whether) {
                 for (Player playerItem : Bukkit.getOnlinePlayers().toArray(new Player[0])) {
                     showPlayer(playerItem, player);
                 }
-                playersNotSeePlayersInTablist.remove(player.getUniqueId());
+                playerFreeTablists.remove(player.getUniqueId());
             } else {
                 for (Player playerItem : Bukkit.getOnlinePlayers().toArray(new Player[0])) {
                     hidePlayer(playerItem, player);
                 }
-                playersNotSeePlayersInTablist.add(player.getUniqueId());
+                playerFreeTablists.add(player.getUniqueId());
             }
         }
     }
     
     public static void showPlayer(Player player, Player to) {
-        playersNotSeePlayersInTablist.remove(to.getUniqueId());
+        playerFreeTablists.remove(to.getUniqueId());
         ArrayList<UUID> hiddenPlayers = hiddenPlayerLists.get(to.getUniqueId());
         if (hiddenPlayers.contains(player.getUniqueId())) {
             hiddenPlayers.remove(player.getUniqueId());

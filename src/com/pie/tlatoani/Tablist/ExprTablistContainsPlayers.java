@@ -17,7 +17,7 @@ public class ExprTablistContainsPlayers extends SimpleExpression<Boolean> {
 
     @Override
     protected Boolean[] get(Event event) {
-        return new Boolean[]{TabListManager.getPlayerSeesOtherPlayersInTablist(playerExpression.getSingle(event))};
+        return new Boolean[]{TabListManager.tablistContainsPlayers(playerExpression.getSingle(event))};
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ExprTablistContainsPlayers extends SimpleExpression<Boolean> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        TabListManager.setPlayerSeesOtherPlayersInTablist(playerExpression.getSingle(event), (Boolean) delta[0]);
+        TabListManager.setTablistContainsPlayers(playerExpression.getSingle(event), (Boolean) delta[0]);
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
