@@ -74,7 +74,12 @@ public class TabListManager implements Listener {
             @Override
             public void onPacketSending(PacketEvent event) {
                 Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
-                if (event.getPlayer() != null && hiddenPlayerLists.get(event.getPlayer().getUniqueId()).contains(player.getUniqueId()) && !event.isCancelled()) {
+                if (player != null) {
+                    Mundo.debug(TabListManager.class, "PLAYER NAME: " + player.getName());
+                    Mundo.debug(TabListManager.class, "TESTING WHETHER HIDDENPLAYERLISTS HAS ENTRY FOR EVENT.GETPLAYER(): " + hiddenPlayerLists.containsKey(event.getPlayer().getUniqueId()));
+                    Mundo.debug(TabListManager.class, "TESTING WHETHER SIMPLETABLISTS HAS ENTRY FOR EVENT.GETPLAYER(): " + simpleTabLists.containsKey(event.getPlayer()));
+                }
+                if (player != null && event.getPlayer() != null && hiddenPlayerLists.get(event.getPlayer().getUniqueId()).contains(player.getUniqueId()) && !event.isCancelled()) {
                     Mundo.debug(TabListManager.class, "Player is hidden");
                     PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
@@ -130,6 +135,7 @@ public class TabListManager implements Listener {
     public static void activateArrayTabList(Player player, int columns, int rows, SkinTexture initialIcon) {
         Mundo.debug(TabListManager.class, "setARrayTagList");
         deactivateArrayTabList(player);
+        getSimpleTabListForPlayer(player).clear();
         arrayTabLists.put(player.getUniqueId(), new ArrayTabList(player, columns, rows, initialIcon));
     }
 

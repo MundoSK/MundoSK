@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Tablist.Array;
 
+import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
@@ -51,7 +52,7 @@ public class ArrayTabList {
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         List<PlayerInfoData> playerInfoDatas = Arrays.asList(playerInfoData);
-        PacketContainer packetContainer = new PacketContainer(TabListManager.packetType);
+        PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
         packetContainer.getPlayerInfoDataLists().writeSafely(0, playerInfoDatas);
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
         try {

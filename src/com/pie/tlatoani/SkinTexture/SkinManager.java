@@ -33,23 +33,22 @@ public class SkinManager {
                         List<PlayerInfoData> playerInfoDatas = event.getPacket().getPlayerInfoDataLists().readSafely(0);
                         List<PlayerInfoData> newPlayerInfoDatas = new ArrayList<PlayerInfoData>();
                         for (PlayerInfoData playerInfoData : playerInfoDatas) {
+                            Player player = Bukkit.getPlayer(playerInfoData.getProfile().getUUID());
                             PlayerInfoData newPlayerInfoData = playerInfoData;
-                            if (!actualSkins.containsKey(playerInfoData.getProfile().getUUID()) && playerInfoData.getProfile().getUUID().toString().substring(14, 15).equals("4")) {
+                            if (!actualSkins.containsKey(playerInfoData.getProfile().getUUID()) && player != null) {
                                 Mundo.debug(SkinManager.class, "NEW PLAYER !");
                                 SkinTexture skinTexture = new SkinTexture.Collected(playerInfoData.getProfile().getProperties().get("textures"));
                                 actualSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
                                 displayedSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
                                 nameTags.put(playerInfoData.getProfile().getUUID(), playerInfoData.getProfile().getName());
-                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(playerInfoData.getProfile().getName().replace(Bukkit.getPlayer(playerInfoData.getProfile().getUUID()).getName(), nameTags.get(playerInfoData.getProfile().getUUID()))), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
                             }
 
+                            if (player != null)
+                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(playerInfoData.getProfile().getName().replace(player.getName(), getNameTag(player))), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
                             newPlayerInfoDatas.add(newPlayerInfoData);
 
                             SkinTexture skinTexture = displayedSkins.get(newPlayerInfoData.getProfile().getUUID());
-                            Mundo.debug(SkinManager.class, "PLAYER DISPLAY NAME: " + newPlayerInfoData.getProfile().getName());
-                            Mundo.debug(SkinManager.class, "PLAYER INFO DATA NAME: " + newPlayerInfoData.getDisplayName());
-                            Mundo.debug(SkinManager.class, "PLAYER UUID: " + newPlayerInfoData.getProfile().getUUID());
-                            Mundo.debug(SkinManager.class, "SKINTEXTURE FOUND IN PACKET: " + newPlayerInfoData.getProfile().getProperties().get("textures"));
+                            Mundo.debug(SkinManager.class, "PLAYER ACTUAL NAME: " + (player != null ? player.getName() : "NOT A REAL PLAYER"));
                             Mundo.debug(SkinManager.class, "SKINTEXTURE REPLACEMENT (MAY OR MAY NOT EXIST): " + skinTexture);
                             if (skinTexture != null) {
                                 skinTexture.retrieveSkinTextures(newPlayerInfoData.getProfile().getProperties());
