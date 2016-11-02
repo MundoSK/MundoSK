@@ -77,7 +77,7 @@ public class TabListManager implements Listener {
                 if (player != null) {
                     Mundo.debug(TabListManager.class, "PLAYER NAME: " + player.getName());
                     Mundo.debug(TabListManager.class, "TESTING WHETHER HIDDENPLAYERLISTS HAS ENTRY FOR EVENT.GETPLAYER(): " + hiddenPlayerLists.containsKey(event.getPlayer().getUniqueId()));
-                    Mundo.debug(TabListManager.class, "TESTING WHETHER SIMPLETABLISTS HAS ENTRY FOR EVENT.GETPLAYER(): " + simpleTabLists.containsKey(event.getPlayer()));
+                    Mundo.debug(TabListManager.class, "TESTING WHETHER SIMPLETABLISTS HAS ENTRY FOR EVENT.GETPLAYER(): " + simpleTabLists.containsKey(event.getPlayer().getUniqueId()));
                 }
                 if (player != null && event.getPlayer() != null && hiddenPlayerLists.get(event.getPlayer().getUniqueId()).contains(player.getUniqueId()) && !event.isCancelled()) {
                     Mundo.debug(TabListManager.class, "Player is hidden");

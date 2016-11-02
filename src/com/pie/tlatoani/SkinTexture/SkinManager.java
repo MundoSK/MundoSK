@@ -44,7 +44,9 @@ public class SkinManager {
                             }
 
                             if (player != null)
+                                Mundo.debug(SkinManager.class, "Pre Namtatg: " + playerInfoData.getProfile().getName());
                                 newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(playerInfoData.getProfile().getName().replace(player.getName(), getNameTag(player))), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
+                                Mundo.debug(SkinManager.class, "Post Namtatg: " + newPlayerInfoData.getProfile().getName());
                             newPlayerInfoDatas.add(newPlayerInfoData);
 
                             SkinTexture skinTexture = displayedSkins.get(newPlayerInfoData.getProfile().getUUID());
