@@ -104,12 +104,9 @@ public class SkinManager {
     public static void setNameTag(Player player, String nameTag) {
         Mundo.debug(SkinManager.class, "Setting nametag of " + player.getName() + " to " + nameTag);
         String oldNameTag = getNameTag(player);
-        //Team team = player.getScoreboard().getEntryTeam(oldNameTag);
-        //team.removeEntry(oldNameTag);
         if (nameTag == null)
             nameTag = player.getName();
         nameTags.put(player.getUniqueId(), nameTag);
-        //team.addEntry(nameTag);
         refreshPlayer(player);
     }
 
