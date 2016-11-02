@@ -47,7 +47,8 @@ public class SkinManager {
                             if (player != null)
                                 Mundo.debug(SkinManager.class, "Pre Namtatg: " + playerInfoData.getProfile().getName());
                                 Team team = player.getScoreboard().getEntryTeam(player.getName());
-                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(team.getPrefix() + getNameTag(player) + team.getSuffix()), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
+                                String nameTag = team == null ? getNameTag(player) : team.getPrefix() + getNameTag(player) + team.getSuffix();
+                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTag), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
                                 Mundo.debug(SkinManager.class, "Post Namtatg: " + newPlayerInfoData.getProfile().getName());
                             newPlayerInfoDatas.add(newPlayerInfoData);
 
