@@ -13,6 +13,7 @@ import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 
@@ -45,7 +46,7 @@ public class SkinManager {
 
                             if (player != null)
                                 Mundo.debug(SkinManager.class, "Pre Namtatg: " + playerInfoData.getProfile().getName());
-                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(playerInfoData.getProfile().getName().replace(player.getName(), getNameTag(player))), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
+                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(getNameTag(player)), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
                                 Mundo.debug(SkinManager.class, "Post Namtatg: " + newPlayerInfoData.getProfile().getName());
                             newPlayerInfoDatas.add(newPlayerInfoData);
 
@@ -100,10 +101,13 @@ public class SkinManager {
     //skinTexture = null will reset the player's nametag to their actual name
     public static void setNameTag(Player player, String nameTag) {
         Mundo.debug(SkinManager.class, "Setting nametag of " + player.getName() + " to " + nameTag);
-        if (nameTag != null)
-            nameTags.put(player.getUniqueId(), nameTag);
-        else
-            nameTags.put(player.getUniqueId(), player.getName());
+        String oldNameTag = getNameTag(player);
+        Team team = player.getScoreboard().getEntryTeam(oldNameTag);
+        team.removeEntry(oldNameTag);
+        if (nameTag == null)
+            nameTag = player.getName();
+        nameTags.put(player.getUniqueId(), nameTag);
+        team.addEntry(nameTag);
         refreshPlayer(player);
     }
 
