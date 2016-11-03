@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Created by Tlatoani on 9/18/16.
@@ -44,12 +45,14 @@ public class SkinManager {
                                 nameTags.put(playerInfoData.getProfile().getUUID(), playerInfoData.getProfile().getName());
                             }
 
-                            if (player != null)
+                            if (player != null) {
                                 Mundo.debug(SkinManager.class, "Pre Namtatg: " + playerInfoData.getProfile().getName());
-                                Team team = player.getScoreboard().getEntryTeam(player.getName());
-                                String nameTag = team == null ? getNameTag(player) : team.getPrefix() + getNameTag(player) + team.getSuffix();
+                                //Team team = player.getScoreboard().getEntryTeam(player.getName());
+                                //String nameTag = team == null ? getNameTag(player) : team.getPrefix() + getNameTag(player) + team.getSuffix();
+                                String nameTag = getNameTag(player);
                                 newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTag), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
                                 Mundo.debug(SkinManager.class, "Post Namtatg: " + newPlayerInfoData.getProfile().getName());
+                            }
                             newPlayerInfoDatas.add(newPlayerInfoData);
 
                             SkinTexture skinTexture = displayedSkins.get(newPlayerInfoData.getProfile().getUUID());
@@ -61,6 +64,29 @@ public class SkinManager {
                         }
                         event.getPacket().getPlayerInfoDataLists().writeSafely(0, newPlayerInfoDatas);
                     }
+                }
+            }
+        });
+
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.SCOREBOARD_TEAM) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                if (!event.isCancelled()) {
+                    Collection<String> playerNames = event.getPacket().getSpecificModifier(Collection.class).readSafely(0);
+                    List<String> addedNames = new ArrayList<String>();
+                    playerNames.forEach(new Consumer<String>() {
+                        @Override
+                        public void accept(String s) {
+                            Player player = Bukkit.getPlayerExact(s);
+                            if (player != null) {
+                                String nameTag = getNameTag(player);
+                                if (!nameTag.equals(s))
+                                    addedNames.add(nameTag);
+                            }
+                        }
+                    });
+                    playerNames.addAll(addedNames);
+                    event.getPacket().getSpecificModifier(Collection.class).writeSafely(0, playerNames);
                 }
             }
         });
@@ -107,6 +133,10 @@ public class SkinManager {
         if (nameTag == null)
             nameTag = player.getName();
         nameTags.put(player.getUniqueId(), nameTag);
+        Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
+        if (!nameTags.containsValue(oldNameTag)) {
+
+        }
         refreshPlayer(player);
     }
 
