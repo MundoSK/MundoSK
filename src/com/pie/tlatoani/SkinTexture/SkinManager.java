@@ -73,6 +73,7 @@ public class SkinManager {
             public void onPacketSending(PacketEvent event) {
                 if (!event.isCancelled()) {
                     Collection<String> playerNames = event.getPacket().getSpecificModifier(Collection.class).readSafely(0);
+                    Mundo.debug(SkinManager.class, "playerNames: " + playerNames);
                     List<String> addedNames = new ArrayList<String>();
                     playerNames.forEach(new Consumer<String>() {
                         @Override
@@ -82,6 +83,7 @@ public class SkinManager {
                                 String nameTag = getNameTag(player);
                                 if (!nameTag.equals(s))
                                     addedNames.add(nameTag);
+                                Mundo.debug(SkinManager.class, "Player " + s + ", Nametag " + nameTag);
                             }
                         }
                     });
