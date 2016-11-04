@@ -8,6 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,8 +52,8 @@
       <file leaf-file-name="SkinManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="53" column="210" selection-start-line="53" selection-start-column="210" selection-end-line="53" selection-end-column="210" />
+            <state relative-caret-position="737">
+              <caret line="152" column="9" selection-start-line="152" selection-start-column="9" selection-end-line="152" selection-end-column="9" />
               <folding>
                 <element signature="e#1634#1650#0" expanded="true" />
                 <element signature="e#4990#4998#0" expanded="true" />
@@ -1323,8 +1324,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="53" column="210" selection-start-line="53" selection-start-column="210" selection-end-line="53" selection-end-column="210" />
+        <state relative-caret-position="737">
+          <caret line="152" column="9" selection-start-line="152" selection-start-column="9" selection-end-line="152" selection-end-column="9" />
           <folding>
             <element signature="e#1634#1650#0" expanded="true" />
             <element signature="e#4990#4998#0" expanded="true" />

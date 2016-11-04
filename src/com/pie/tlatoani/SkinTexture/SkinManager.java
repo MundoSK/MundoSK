@@ -131,7 +131,12 @@ public class SkinManager {
     }
 
     public static String getNameTag(Player player) {
-        return nameTags.get(player.getUniqueId());
+        String nameTag = nameTags.get(player.getUniqueId());
+        if (nameTag == null) {
+            nameTag = player.getName();
+            nameTags.put(player.getUniqueId(), nameTag);
+        }
+        return nameTag;
     }
 
     //skinTexture = null will reset the player's nametag to their actual name
@@ -142,9 +147,10 @@ public class SkinManager {
             nameTag = player.getName();
         nameTags.put(player.getUniqueId(), nameTag);
         Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
-        if (team != null)
+        if (team != null) {
             team.removeEntry(player.getName());
             team.addEntry(player.getName());
+        }
         refreshPlayer(player);
     }
 
