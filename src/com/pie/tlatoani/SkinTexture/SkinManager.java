@@ -50,7 +50,8 @@ public class SkinManager {
                                 //Team team = player.getScoreboard().getEntryTeam(player.getName());
                                 //String nameTag = team == null ? getNameTag(player) : team.getPrefix() + getNameTag(player) + team.getSuffix();
                                 String nameTag = getNameTag(player);
-                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTag), playerInfoData.getLatency(), playerInfoData.getGameMode(), WrappedChatComponent.fromText(player.getPlayerListName()));
+                                String tabName = player.getPlayerListName();
+                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTag), playerInfoData.getLatency(), playerInfoData.getGameMode(), nameTag.equals(tabName) ? null : WrappedChatComponent.fromText(player.getPlayerListName()));
                                 Mundo.debug(SkinManager.class, "Post Namtatg: " + newPlayerInfoData.getProfile().getName());
                             }
                             newPlayerInfoDatas.add(newPlayerInfoData);

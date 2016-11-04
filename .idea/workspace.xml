@@ -42,8 +42,8 @@
       <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+            <state relative-caret-position="90">
+              <caret line="6" column="42" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -52,11 +52,11 @@
       <file leaf-file-name="SkinManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="90" column="126" selection-start-line="90" selection-start-column="126" selection-end-line="90" selection-end-column="126" />
+            <state relative-caret-position="525">
+              <caret line="53" column="210" selection-start-line="53" selection-start-column="210" selection-end-line="53" selection-end-column="210" />
               <folding>
                 <element signature="e#1634#1650#0" expanded="true" />
-                <element signature="e#4880#4888#0" expanded="true" />
+                <element signature="e#4990#4998#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1324,19 +1324,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="90" column="126" selection-start-line="90" selection-start-column="126" selection-end-line="90" selection-end-column="126" />
+        <state relative-caret-position="525">
+          <caret line="53" column="210" selection-start-line="53" selection-start-column="210" selection-end-line="53" selection-end-column="210" />
           <folding>
             <element signature="e#1634#1650#0" expanded="true" />
-            <element signature="e#4880#4888#0" expanded="true" />
+            <element signature="e#4990#4998#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+        <state relative-caret-position="90">
+          <caret line="6" column="42" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
           <folding />
         </state>
       </provider>
