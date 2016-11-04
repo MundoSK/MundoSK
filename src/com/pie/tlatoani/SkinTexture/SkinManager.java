@@ -50,7 +50,7 @@ public class SkinManager {
                                 //Team team = player.getScoreboard().getEntryTeam(player.getName());
                                 //String nameTag = team == null ? getNameTag(player) : team.getPrefix() + getNameTag(player) + team.getSuffix();
                                 String nameTag = getNameTag(player);
-                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTag), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
+                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTag), playerInfoData.getLatency(), playerInfoData.getGameMode(), WrappedChatComponent.fromText(player.getPlayerListName()));
                                 Mundo.debug(SkinManager.class, "Post Namtatg: " + newPlayerInfoData.getProfile().getName());
                             }
                             newPlayerInfoDatas.add(newPlayerInfoData);
@@ -83,7 +83,12 @@ public class SkinManager {
                                 String nameTag = getNameTag(player);
                                 if (!nameTag.equals(s))
                                     addedNames.add(nameTag);
-                                Mundo.debug(SkinManager.class, "Player " + s + ", Nametag " + nameTag);
+
+                                String tabName = player.getPlayerListName();
+                                if (!tabName.equals(s) && !tabName.equals(nameTag))
+                                    addedNames.add(tabName);
+
+                                Mundo.debug(SkinManager.class, "Player " + s + ", Nametag " + nameTag + ", Tabname " + tabName);
                             }
                         }
                     });
@@ -97,7 +102,7 @@ public class SkinManager {
     private SkinManager() {}
 
     public static void onJoin(Player player) {
-        player.setPlayerListName(player.getName());
+
     }
 
     public static void onQuit(Player player) {
@@ -137,7 +142,8 @@ public class SkinManager {
         nameTags.put(player.getUniqueId(), nameTag);
         Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
         if (team != null)
-            team.setSuffix(team.getSuffix());
+            team.removeEntry(player.getName());
+            team.addEntry(player.getName());
         refreshPlayer(player);
     }
 

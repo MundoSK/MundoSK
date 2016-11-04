@@ -52,13 +52,11 @@
       <file leaf-file-name="SkinManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="542">
-              <caret line="139" column="43" selection-start-line="139" selection-start-column="43" selection-end-line="139" selection-end-column="43" />
+            <state relative-caret-position="585">
+              <caret line="90" column="126" selection-start-line="90" selection-start-column="126" selection-end-line="90" selection-end-column="126" />
               <folding>
                 <element signature="e#1634#1650#0" expanded="true" />
-                <element signature="e#4854#4862#0" expanded="true" />
-                <element signature="e#5793#5794#0" expanded="true" />
-                <element signature="e#5851#5852#0" expanded="true" />
+                <element signature="e#4880#4888#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1326,13 +1324,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="542">
-          <caret line="139" column="43" selection-start-line="139" selection-start-column="43" selection-end-line="139" selection-end-column="43" />
+        <state relative-caret-position="585">
+          <caret line="90" column="126" selection-start-line="90" selection-start-column="126" selection-end-line="90" selection-end-column="126" />
           <folding>
             <element signature="e#1634#1650#0" expanded="true" />
-            <element signature="e#4854#4862#0" expanded="true" />
-            <element signature="e#5793#5794#0" expanded="true" />
-            <element signature="e#5851#5852#0" expanded="true" />
+            <element signature="e#4880#4888#0" expanded="true" />
           </folding>
         </state>
       </provider>
