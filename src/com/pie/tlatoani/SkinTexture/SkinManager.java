@@ -97,7 +97,7 @@ public class SkinManager {
     private SkinManager() {}
 
     public static void onJoin(Player player) {
-
+        player.setPlayerListName(player.getName());
     }
 
     public static void onQuit(Player player) {
@@ -136,9 +136,8 @@ public class SkinManager {
             nameTag = player.getName();
         nameTags.put(player.getUniqueId(), nameTag);
         Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
-        if (!nameTags.containsValue(oldNameTag)) {
-
-        }
+        if (team != null)
+            team.setSuffix(team.getSuffix());
         refreshPlayer(player);
     }
 
