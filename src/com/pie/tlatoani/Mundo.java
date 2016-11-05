@@ -379,7 +379,7 @@ public class Mundo extends JavaPlugin{
         //Miscellaneous
         registerEnum(Difficulty.class, "difficulty", Difficulty.values());
         registerEnum(PlayerLoginEvent.Result.class, "playerloginresult", PlayerLoginEvent.Result.values());
-        registerEffect(EffWait.class, "wait (0¦until|1¦while) %boolean%");
+        registerEffect(EffWait.class, "wait (0¦until|1¦while) %boolean% [for %-timespan%]");
 		registerEvent("Hang Event", SimpleEvent.class, HangingPlaceEvent.class, "hang");
 		EventValues.registerEventValue(HangingPlaceEvent.class, Block.class, new Getter<Block, HangingPlaceEvent>() {
 			@Override

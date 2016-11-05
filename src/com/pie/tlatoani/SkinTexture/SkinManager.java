@@ -93,8 +93,12 @@ public class SkinManager {
                             }
                         }
                     });
-                    playerNames.addAll(addedNames);
-                    event.getPacket().getSpecificModifier(Collection.class).writeSafely(0, playerNames);
+                    Mundo.debug(SkinManager.class, "addedNames: " + addedNames);
+                    Set<String> finalNames = new HashSet<String>();
+                    finalNames.addAll(playerNames);
+                    finalNames.addAll(addedNames);
+                    Mundo.debug(SkinManager.class, "finalNames: " + finalNames);
+                    event.getPacket().getSpecificModifier(Collection.class).writeSafely(0, finalNames);
                 }
             }
         });
@@ -143,18 +147,33 @@ public class SkinManager {
     public static void setNameTag(Player player, String nameTag) {
         Mundo.debug(SkinManager.class, "Setting nametag of " + player.getName() + " to " + nameTag);
         String oldNameTag = getNameTag(player);
+        Mundo.debug(SkinManager.class, "Setting nametag STEP 2");
         if (nameTag == null)
             nameTag = player.getName();
-        nameTags.put(player.getUniqueId(), nameTag);
+        Mundo.debug(SkinManager.class, "Setting nametag STEP 3");
+        Mundo.debug(SkinManager.class, "Setting nametag STEP 4");
         Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
+        Mundo.debug(SkinManager.class, "Setting nametag STEP 5");
         if (team != null) {
             team.removeEntry(player.getName());
-            team.addEntry(player.getName());
+            Mundo.debug(SkinManager.class, "Setting nametag STEP 6");
+            Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
+                @Override
+                public void run() {
+                    Mundo.debug(SkinManager.class, "Setting nametag STEP 9");
+                    team.addEntry(player.getName());
+                    Mundo.debug(SkinManager.class, "Setting nametag STEP 10");
+                }
+            }, 1);
+            Mundo.debug(SkinManager.class, "Setting nametag STEP 7");
         }
+        nameTags.put(player.getUniqueId(), nameTag);
         refreshPlayer(player);
+        Mundo.debug(SkinManager.class, "Setting nametag STEP 8");
     }
 
     private static void refreshPlayer(Player player) {
+        Mundo.debug(SkinManager.class, "Now hiding player " + player.getName());
         for (Player target : Bukkit.getOnlinePlayers()) {
             target.hidePlayer(player);
             //target.showPlayer(player);
@@ -162,6 +181,8 @@ public class SkinManager {
         Mundo.scheduler.scheduleSyncDelayedTask(Mundo.instance, new Runnable() {
             @Override
             public void run() {
+
+                Mundo.debug(SkinManager.class, "Now showing player " + player.getName());
                 for (Player target : Bukkit.getOnlinePlayers()) {
                     target.showPlayer(player);
                 }

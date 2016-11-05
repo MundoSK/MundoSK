@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.json.simple.JSONObject;
@@ -48,6 +49,7 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
         Player player = playerExpression.getSingle(event);
         if (mode == Changer.ChangeMode.SET)
             nameTag = (String) delta[0];
+        Mundo.debug(this, "");
         SkinManager.setNameTag(player, nameTag);
     }
 
