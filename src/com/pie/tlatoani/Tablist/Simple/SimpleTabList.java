@@ -59,6 +59,7 @@ public class SimpleTabList {
     }
 
     public void createTab(String id, String displayName, Integer ping, SkinTexture head) {
+        TabListManager.deactivateArrayTabList(player);
         if (!tabExists(id)) {
             ping = Math.max(ping, 0);
             ping = Math.min(ping, 5);

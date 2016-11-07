@@ -11,8 +11,11 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import com.pie.tlatoani.Mundo;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,6 +23,8 @@ import org.json.simple.parser.ParseException;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * Created by Tlatoani on 5/4/16.
@@ -75,6 +80,86 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JSONObject> {
             @Override
             public void set(PacketContainer packet, Integer index, JSONObject value) {
                 packet.getServerPings().writeSafely(0, WrappedServerPing.fromJson(value.toJSONString()));
+            }
+        });
+
+        registerConverter("datawatcher", new PacketInfoConverter<JSONObject>() {
+            @Override
+            public JSONObject get(PacketContainer packet, Integer index) {
+                JSONObject jsonObject = new JSONObject();
+                WrappedDataWatcher dataWatcher = packet.getDataWatcherModifier().readSafely(index);
+                jsonObject.put("entity", dataWatcher.getEntity());
+                if (dataWatcher != null) {
+                    dataWatcher.forEach(new Consumer<WrappedWatchableObject>() {
+                        int i = 0;
+
+                        @Override
+                        public void accept(WrappedWatchableObject wrappedWatchableObject) {
+                            jsonObject.put("" + i, wrappedWatchableObject.getValue());
+                            i++;
+                        }
+                    });
+                }
+                return jsonObject;
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, JSONObject value) {
+                List<WrappedWatchableObject> wrappedWatchableObjects = new ArrayList<WrappedWatchableObject>();
+                Entity entity = (Entity) value.get("entity");
+                value.forEach(new BiConsumer() {
+                    @Override
+                    public void accept(Object o, Object o2) {
+                        try {
+                            String key = (String) o;
+                            int i = Integer.parseInt(key);
+                            WrappedWatchableObject watchableObject = new WrappedWatchableObject(i, o2);
+                            wrappedWatchableObjects.add(watchableObject);
+
+                        } catch (ClassCastException | NumberFormatException e) {}
+                    }
+                });
+                WrappedDataWatcher dataWatcher = new WrappedDataWatcher(wrappedWatchableObjects);
+                dataWatcher.setEntity(entity);
+                packet.getDataWatcherModifier().writeSafely(index, dataWatcher);
+            }
+        });
+
+        registerConverter("watchablecollection", new PacketInfoConverter<JSONObject>() {
+            @Override
+            public JSONObject get(PacketContainer packet, Integer index) {
+                JSONObject jsonObject = new JSONObject();
+                Collection<WrappedWatchableObject> wrappedWatchableObjects = packet.getWatchableCollectionModifier().readSafely(index);
+                if (wrappedWatchableObjects != null) {
+                    wrappedWatchableObjects.forEach(new Consumer<WrappedWatchableObject>() {
+                        int i = 0;
+
+                        @Override
+                        public void accept(WrappedWatchableObject wrappedWatchableObject) {
+                            jsonObject.put("" + i, wrappedWatchableObject.getValue());
+                            i++;
+                        }
+                    });
+                }
+                return jsonObject;
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, JSONObject value) {
+                List<WrappedWatchableObject> wrappedWatchableObjects = new ArrayList<WrappedWatchableObject>();
+                value.forEach(new BiConsumer() {
+                    @Override
+                    public void accept(Object o, Object o2) {
+                        try {
+                            String key = (String) o;
+                            int i = Integer.parseInt(key);
+                            WrappedWatchableObject watchableObject = new WrappedWatchableObject(i, o2);
+                            wrappedWatchableObjects.add(watchableObject);
+
+                        } catch (ClassCastException | NumberFormatException e) {}
+                    }
+                });
+                packet.getWatchableCollectionModifier().writeSafely(index, wrappedWatchableObjects);
             }
         });
     }

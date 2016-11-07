@@ -439,8 +439,8 @@ public class Mundo extends JavaPlugin{
         registerExpression(ExprServerPort.class, Number.class, ExpressionType.PROPERTY, "[mundo[sk]] [the] port of server", "[mundo[sk]] [the] server's port");
         registerScope(ScopeMatcher.class, "(switch|match) %object%");
         registerScope(ScopeMatches.class, "(case|matches) %object%");
-        registerScope(ScopeAsync.class, "async");
-        registerScope(ScopeSync.class, "sync");
+        registerScope(ScopeAsync.class, "async [in %-timespan%]");
+        registerScope(ScopeSync.class, "(sync|in %-timespan%)");
         registerScope(ScopeWhen.class, "when %boolean%");
         //NoteBlock
         Classes.registerClass(new ClassInfo<Note>(Note.class, "note").user(new String[]{"note"}).name("note").parser(new Parser<Note>(){
