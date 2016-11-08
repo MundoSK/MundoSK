@@ -122,6 +122,7 @@ public class SkinManager {
                 Mundo.debug(SkinManager.class, "x, z = " + x + ", " + z);
                 if (x == SkriptGenerator.X_CODE && z == SkriptGenerator.Z_CODE) {
                     event.setCancelled(true);
+                    Mundo.debug(SkinManager.class, "EVENT CANCELLITU");
                 }
             }
         });
