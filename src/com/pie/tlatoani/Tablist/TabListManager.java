@@ -44,7 +44,7 @@ public class TabListManager implements Listener {
     private static final String uuidbeginning = "62960000-6296-3000-8000-6296";
     private static int uuidKeyCounter = 0;
 
-    public static final HashMap<UUID, String> tabNames = new HashMap<>();
+    private static ArrayList<UUID> playersRespawning = new ArrayList<>();
 
     public static class PacketSender implements Runnable {
         private PacketContainer packet;
@@ -94,6 +94,45 @@ public class TabListManager implements Listener {
                     removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                     removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
                     Mundo.scheduler.runTask(Mundo.instance, new PacketSender(removePacket, event.getPlayer()));
+                }
+            }
+        });
+
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.RESPAWN) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                Player player = event.getPlayer();
+                if (player != null) {
+                    Mundo.debug(TabListManager.class, "RESPAWN PACKET : PLAYER NAME: " + player.getName());
+                    Mundo.debug(TabListManager.class, "TESTING WHETHER HIDDENPLAYERLISTS HAS ENTRY FOR EVENT.GETPLAYER(): " + hiddenPlayerLists.containsKey(event.getPlayer().getUniqueId()));
+                    Mundo.debug(TabListManager.class, "TESTING WHETHER SIMPLETABLISTS HAS ENTRY FOR EVENT.GETPLAYER(): " + simpleTabLists.containsKey(event.getPlayer().getUniqueId()));
+                }
+                if (player != null && hiddenPlayerLists.get(player.getUniqueId()).contains(player.getUniqueId()) && !playersRespawning.contains(player.getUniqueId()) && !event.isCancelled()) {
+                    Mundo.debug(TabListManager.class, "Player is hidden");
+                    playersRespawning.add(player.getUniqueId());
+                    PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
+                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                    packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+                    try {
+                        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                    PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                    removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                    Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
+                        @Override
+                        public void run() {
+                            playersRespawning.remove(player.getUniqueId());
+                            try {
+                                ProtocolLibrary.getProtocolManager().sendServerPacket(player, removePacket);
+                            } catch (InvocationTargetException e) {
+                                Mundo.reportException(TabListManager.class, e);
+                            }
+                        }
+                    }, 2);
                 }
             }
         });

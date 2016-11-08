@@ -18,7 +18,7 @@ public class EvtPacketEvent extends SkriptEvent{
 
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
-        PacketType[] packetTypeArray = i == 0 ? ((Literal<PacketType>) literals[0]).getAll() : ExprAllPacketTypes.returnArray;
+        PacketType[] packetTypeArray = ((Literal<PacketType>) literals[0]).getAll();
         UtilPacketEvent.addListener(packetTypeArray);
         packetTypes = Arrays.asList(packetTypeArray);
         return true;

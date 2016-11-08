@@ -601,7 +601,7 @@ public class Mundo extends JavaPlugin{
 			}));
 			registerEffect(EffSendPacket.class, "send packet %packet% to %player%", "send %player% packet %packet%");
             registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet %packet% from %player%"); //Included incorrect spelling to avoid wasted time
-			registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%", "any packet event");
+			registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%");
 			EventValues.registerEventValue(UtilPacketEvent.class, PacketContainer.class, new Getter<PacketContainer, UtilPacketEvent>() {
 				@Override
 				public PacketContainer get(UtilPacketEvent e) {
