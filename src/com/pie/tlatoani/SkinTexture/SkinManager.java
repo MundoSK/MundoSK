@@ -12,6 +12,7 @@ import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Generator.SkriptGenerator;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Tablist.TabListManager;
+import org.apache.logging.log4j.core.net.Protocol;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
@@ -109,6 +110,18 @@ public class SkinManager {
                     finalNames.addAll(addedNames);
                     Mundo.debug(SkinManager.class, "finalNames: " + finalNames);
                     event.getPacket().getSpecificModifier(Collection.class).writeSafely(0, finalNames);
+                }
+            }
+        });
+
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.POSITION) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                double x = event.getPacket().getDoubles().readSafely(0);
+                double z = event.getPacket().getDoubles().readSafely(2);
+                Mundo.debug(SkinManager.class, "x, z = " + x + ", " + z);
+                if (x == SkriptGenerator.X_CODE && z == SkriptGenerator.Z_CODE) {
+                    event.setCancelled(true);
                 }
             }
         });
@@ -237,7 +250,8 @@ public class SkinManager {
         //Location testLoc = player.getLocation();
         //testLoc.setX(testLoc.getX() + 10000);
         //player.teleport(testLoc);
-        player.teleport(new Location(player.getWorld(), playerLoc.getX() + 10000, -5, playerLoc.getZ() + 10000));
+        //player.teleport(new Location(player.getWorld(), playerLoc.getX() + 10000, -5, playerLoc.getZ() + 10000));
+        player.teleport(new Location(player.getWorld(), SkriptGenerator.X_CODE, -5, SkriptGenerator.Z_CODE));
         Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
             public void run() {
@@ -246,12 +260,6 @@ public class SkinManager {
                     TabListManager.showPlayer(player, player);
             }
         }, 3);
-        //Location location = player.getLocation();
-        /*position.getDoubles().writeSafely(0, location.getX());
-        position.getDoubles().writeSafely(1, location.getY());
-        position.getDoubles().writeSafely(2, location.getZ());
-        position.getFloat().writeSafely(0, location.getYaw());
-        position.getFloat().writeSafely(1, location.getPitch());*/
 
     }
 
