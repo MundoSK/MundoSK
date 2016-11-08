@@ -3,6 +3,7 @@ package com.pie.tlatoani.SkinTexture;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
@@ -10,9 +11,13 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -144,6 +149,7 @@ public class SkinManager {
         else
             displayedSkins.put(player.getUniqueId(), getActualSkin(player));
         refreshPlayer(player);
+        respawnPlayer(player);
     }
 
     public static String getNameTag(Player player) {
@@ -199,5 +205,45 @@ public class SkinManager {
                 }
             }
         }, 1);
+    }
+
+    private static void respawnPlayer(Player player) {
+        PacketContainer respawn1 = new PacketContainer(PacketType.Play.Server.RESPAWN);
+        PacketContainer respawn2 = new PacketContainer(PacketType.Play.Server.RESPAWN);
+        //PacketContainer position = new PacketContainer(PacketType.Play.Server.POSITION);
+        EnumWrappers.Difficulty difficulty = convertDifficulty(player.getWorld().getDifficulty());
+        respawn1.getDifficulties().writeSafely(0, difficulty);
+        respawn2.getDifficulties().writeSafely(0, difficulty);
+        respawn1.getGameModes().writeSafely(0, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()));
+        respawn2.getGameModes().writeSafely(0, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()));
+        respawn1.getWorldTypeModifier().writeSafely(0, player.getWorld().getWorldType());
+        respawn2.getWorldTypeModifier().writeSafely(0, player.getWorld().getWorldType());
+        World.Environment environment = player.getWorld().getEnvironment();
+        respawn1.getIntegers().writeSafely(0, environment == World.Environment.NETHER ? 0 : -1);
+        respawn2.getIntegers().writeSafely(0, environment == World.Environment.NORMAL ? 0 : environment == World.Environment.NETHER ? -1 : 1);
+        try {
+            ProtocolLibrary.getProtocolManager().sendServerPacket(player, respawn1);
+            ProtocolLibrary.getProtocolManager().sendServerPacket(player, respawn2);
+        } catch (InvocationTargetException e) {
+            Mundo.reportException(SkinManager.class, e);
+        }
+        player.teleport(player.getLocation());
+        //Location location = player.getLocation();
+        /*position.getDoubles().writeSafely(0, location.getX());
+        position.getDoubles().writeSafely(1, location.getY());
+        position.getDoubles().writeSafely(2, location.getZ());
+        position.getFloat().writeSafely(0, location.getYaw());
+        position.getFloat().writeSafely(1, location.getPitch());*/
+
+    }
+
+    private static EnumWrappers.Difficulty convertDifficulty(Difficulty difficulty) {
+        switch (difficulty) {
+            case PEACEFUL: return EnumWrappers.Difficulty.PEACEFUL;
+            case EASY: return EnumWrappers.Difficulty.EASY;
+            case NORMAL: return EnumWrappers.Difficulty.NORMAL;
+            case HARD: return EnumWrappers.Difficulty.HARD;
+        }
+        return null;
     }
 }
