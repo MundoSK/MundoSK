@@ -100,6 +100,7 @@ public class Mundo extends JavaPlugin{
     public static Boolean ProtocolLib;
     public static String pluginFolder;
     public static Boolean debugMode;
+    public static Boolean messyStuffEnabled;
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
     public static ArrayList<Object[]> ena = new ArrayList<>();
@@ -111,8 +112,10 @@ public class Mundo extends JavaPlugin{
         logger = getLogger();
 		config = getConfig();
         config.addDefault("debug_mode", false);
+        config.addDefault("disable_messy_stuff", false);
 		config.options().copyDefaults(true);
         debugMode = config.getBoolean("debug_mode");
+        messyStuffEnabled = !config.getBoolean("disable_messy_stuff");
 		saveConfig();
         RandomSK = Bukkit.getPluginManager().getPlugin("RandomSK") != null;
         ProtocolLib = Bukkit.getPluginManager().getPlugin("ProtocolLib") != null;
@@ -598,7 +601,7 @@ public class Mundo extends JavaPlugin{
 			}));
 			registerEffect(EffSendPacket.class, "send packet %packet% to %player%", "send %player% packet %packet%");
             registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet %packet% from %player%"); //Included incorrect spelling to avoid wasted time
-			registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%");
+			registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%", "any packet event");
 			EventValues.registerEventValue(UtilPacketEvent.class, PacketContainer.class, new Getter<PacketContainer, UtilPacketEvent>() {
 				@Override
 				public PacketContainer get(UtilPacketEvent e) {

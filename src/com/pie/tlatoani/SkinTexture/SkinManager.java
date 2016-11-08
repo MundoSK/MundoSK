@@ -37,13 +37,15 @@ public class SkinManager {
                             PlayerInfoData newPlayerInfoData = playerInfoData;
                             if (!actualSkins.containsKey(playerInfoData.getProfile().getUUID()) && player != null) {
                                 Mundo.debug(SkinManager.class, "NEW PLAYER !");
-                                SkinTexture skinTexture = new SkinTexture.Collected(playerInfoData.getProfile().getProperties().get("textures"));
-                                Mundo.debug(SkinManager.class, "SKINTEXTURE FOUND IN PACKET = " + skinTexture);
-                                if (!skinTexture.toString().equals("[]")) {
-                                    actualSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
-                                    displayedSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
+                                if (!actualSkins.containsKey(player.getUniqueId())) {
+                                    SkinTexture skinTexture = new SkinTexture.Collected(playerInfoData.getProfile().getProperties().get("textures"));
+                                    Mundo.debug(SkinManager.class, "ALTERNATIVE SKINTEXTURE FOUND IN PACKET = " + skinTexture);
+                                    if (!skinTexture.toString().equals("[]")) {
+                                        actualSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
+                                        displayedSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
+                                    }
                                 }
-                                nameTags.put(playerInfoData.getProfile().getUUID(), playerInfoData.getProfile().getName());
+
                             }
 
                             if (player != null) {
@@ -108,13 +110,13 @@ public class SkinManager {
     private SkinManager() {}
 
     public static void onJoin(Player player) {
-        if (getActualSkin(player) == null) {
-            SkinTexture skinTexture = new SkinTexture.Collected(WrappedGameProfile.fromPlayer(player).getProperties().get("textures"));
-            Mundo.debug(SkinManager.class, "ALTERNATIVE SKINTEXTURE GIVEN BY PROTOCOLLIB FOR PLAYER " + player.getName() + " = " + skinTexture);
-            if (!skinTexture.toString().equals("[]")) {
-                actualSkins.put(player.getUniqueId(), skinTexture);
-                displayedSkins.put(player.getUniqueId(), skinTexture);
-            }
+        nameTags.put(player.getUniqueId(), player.getName());
+
+        SkinTexture skinTexture = new SkinTexture.Collected(WrappedGameProfile.fromPlayer(player).getProperties().get("textures"));
+        Mundo.debug(SkinManager.class, "SKINTEXTURE GIVEN BY PROTOCOLLIB FOR PLAYER " + player.getName() + " = " + skinTexture);
+        if (!skinTexture.toString().equals("[]")) {
+            actualSkins.put(player.getUniqueId(), skinTexture);
+            displayedSkins.put(player.getUniqueId(), skinTexture);
         }
     }
 
@@ -155,15 +157,14 @@ public class SkinManager {
 
     //skinTexture = null will reset the player's nametag to their actual name
     public static void setNameTag(Player player, String nameTag) {
+        if (nameTag != null && nameTag.length() > 16) {
+            nameTag = nameTag.substring(0, 16); //Nametags can only be up to 16 chars in length
+        }
         Mundo.debug(SkinManager.class, "Setting nametag of " + player.getName() + " to " + nameTag);
         String oldNameTag = getNameTag(player);
-        Mundo.debug(SkinManager.class, "Setting nametag STEP 2");
         if (nameTag == null)
             nameTag = player.getName();
-        Mundo.debug(SkinManager.class, "Setting nametag STEP 3");
-        Mundo.debug(SkinManager.class, "Setting nametag STEP 4");
         Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
-        Mundo.debug(SkinManager.class, "Setting nametag STEP 5");
         if (team != null) {
             team.removeEntry(player.getName());
             Mundo.debug(SkinManager.class, "Setting nametag STEP 6");

@@ -33,6 +33,7 @@ public class SimpleTabList {
         SkinTexture icon = heads.get(id);
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
+            if (icon == null) icon = TabListManager.DEFAULT_SKIN_TEXTURE;
             icon.retrieveSkinTextures(gameProfile.getProperties());
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);

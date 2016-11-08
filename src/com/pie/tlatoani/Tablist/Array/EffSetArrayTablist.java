@@ -29,14 +29,15 @@ public class EffSetArrayTablist extends Effect {
             Mundo.debug(this, "matchedPattern == 2");
             int finalColumns = columns == null ? 4 : columns.getSingle(event).intValue();
             int finalRows = rows == null ? 20 : rows.getSingle(event).intValue();
-            SkinTexture finalIcon = iconExpression == null ? TabListManager.DEFAULT_SKIN_TEXTURE : iconExpression.getSingle(event);
+            SkinTexture finalIcon = iconExpression == null ? null : iconExpression.getSingle(event);
+            Mundo.debug(this, "ICON EXPR " + iconExpression + " VALUE " + finalIcon);
             TabListManager.activateArrayTabList(player, finalColumns, finalRows, finalIcon);
         }
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "activate custom tablist for " + playerExpression;
+        return "activate array tablist for " + playerExpression;
     }
 
     @Override

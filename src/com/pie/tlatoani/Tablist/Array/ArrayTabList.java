@@ -26,7 +26,8 @@ public class ArrayTabList {
     public SkinTexture initialIcon;
 
     public ArrayTabList(Player player, int columns, int rows, SkinTexture initialIcon) {
-        Mundo.debug(this, "constructor " + columns + " " + rows);
+        if (initialIcon == null)
+        Mundo.debug(this, "constructor " + columns + " " + rows + " " + initialIcon);
         this.player = player;
         this.columns = Mundo.limitToRange(1, columns, 4);
         this.rows = 0;
@@ -48,6 +49,7 @@ public class ArrayTabList {
         UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
+            if (icon == null) icon = TabListManager.DEFAULT_SKIN_TEXTURE;
             icon.retrieveSkinTextures(gameProfile.getProperties());
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);

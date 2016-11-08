@@ -133,9 +133,13 @@ public class TabListManager implements Listener {
     }
 
     public static void activateArrayTabList(Player player, int columns, int rows, SkinTexture initialIcon) {
-        Mundo.debug(TabListManager.class, "setARrayTagList");
+        Mundo.debug(TabListManager.class, "setARrayTagList with icon " + initialIcon);
         deactivateArrayTabList(player);
         getSimpleTabListForPlayer(player).clear();
+        setTablistContainsPlayers(player, false);
+        if (columns < 4 || rows < 20) {
+            setTablistContainsPlayers(player, false);
+        }
         arrayTabLists.put(player.getUniqueId(), new ArrayTabList(player, columns, rows, initialIcon));
     }
 
@@ -154,6 +158,7 @@ public class TabListManager implements Listener {
         if (whether != tablistContainsPlayers(player)) {
             ArrayList<UUID> hiddenPlayers = hiddenPlayerLists.get(player.getUniqueId());
             if (whether) {
+                deactivateArrayTabList(player);
                 for (Player playerItem : Bukkit.getOnlinePlayers().toArray(new Player[0])) {
                     showPlayer(playerItem, player);
                 }

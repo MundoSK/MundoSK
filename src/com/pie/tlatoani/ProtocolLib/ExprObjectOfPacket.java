@@ -35,7 +35,8 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     private Expression<Number> index;
     private Expression<PacketContainer> packetContainerExpression;
     private static Field structureModifier;
-    private Boolean isSingle = true;
+    private boolean isSingle = true;
+    private boolean collection = false;
     private Class aClass;
     private PacketInfoConverter converter;
 
@@ -80,16 +81,21 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     @Override
     protected Object[] get(Event event) {
         StructureModifier structureModifier = null;
+        PacketContainer packet = packetContainerExpression.getSingle(event);
+        int index = this.index.getSingle(event).intValue();
         if (getObjects != null) {
             try {
-                structureModifier = (StructureModifier) getObjects.invoke(packetContainerExpression.getSingle(event));
+                structureModifier = (StructureModifier) getObjects.invoke(packet);
             } catch (IllegalAccessException e) {
                 Mundo.debug(this, e);
             } catch (InvocationTargetException e) {
                 Mundo.debug(this, e);
             }
         } else if (converter != null && isSingle) {
-            return new Object[] {converter.get(packetContainerExpression.getSingle(event), index.getSingle(event).intValue())};
+            return new Object[] {converter.get(packet, index)};
+        } else if (collection) {
+            Collection collection1 = packet.getSpecificModifier(Collection.class).readSafely(index);
+            return collection1 == null ? new Object[]{} : collection1.toArray();
         } else {
             try {
                 structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));
@@ -98,34 +104,10 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             }
         }
         if (isSingle) {
-            return new Object[] {structureModifier.readSafely(index.getSingle(event).intValue())};
+            return new Object[] {structureModifier.readSafely(index)};
         } else {
-            return (Object[]) structureModifier.readSafely(index.getSingle(event).intValue());
+            return (Object[]) structureModifier.readSafely(index);
         }
-    }
-
-    @Override
-    public Iterator<Object> iterator(Event event) {
-        if (isSingle) {
-            throw new UnsupportedOperationException("This is not an array!");
-        }
-        StructureModifier structureModifier = null;
-        if (getObjects != null) {
-            try {
-                structureModifier = (StructureModifier) getObjects.invoke(packetContainerExpression.getSingle(event));
-            } catch (IllegalAccessException e) {
-                Mundo.debug(this, e);
-            } catch (InvocationTargetException e) {
-                Mundo.debug(this, e);
-            }
-        } else {
-            try {
-                structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return Arrays.asList((Object[]) structureModifier.readSafely(index.getSingle(event).intValue())).iterator();
     }
 
     @Override
@@ -183,9 +165,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             return true;
         } else {
             String classname;
-            if (expressions[0] instanceof Literal<?>) {
-                classname = ((Literal<String>) expressions[0]).getSingle();
-            } else if (expressions[0] instanceof VariableString) {
+            if (expressions[0] instanceof VariableString) {
                 String fullstring = ((VariableString) expressions[0]).toString();
                 classname = fullstring.substring(1, fullstring.length() - 1);
             } else {
@@ -194,6 +174,12 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             }
             index = (Expression<Number>) expressions[1];
             packetContainerExpression = (Expression<PacketContainer>) expressions[2];
+            if (classname.equalsIgnoreCase("collection")) {
+                isSingle = false;
+                collection = true;
+                aClass = Object.class;
+                return true;
+            }
             Mundo.debug(this, "Method name without 'get': " + classname);
             try {
                 Method method = PacketContainer.class.getMethod("get" + classname);
@@ -211,30 +197,34 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         StructureModifier structureModifier = null;
+        PacketContainer packet = packetContainerExpression.getSingle(event);
+        int index = this.index.getSingle(event).intValue();
         if (getObjects != null) {
             try {
-                structureModifier = (StructureModifier) getObjects.invoke(packetContainerExpression.getSingle(event));
+                structureModifier = (StructureModifier) getObjects.invoke(packet);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 Mundo.debug(this, e);
             }
         } else if (converter != null && isSingle) {
-            converter.set(packetContainerExpression.getSingle(event), index.getSingle(event).intValue(), delta[0]);
+            converter.set(packet, index, delta[0]);
+        } else if (collection) {
+            packet.getSpecificModifier(Collection.class).writeSafely(index, Arrays.asList(delta));
         } else {
             try {
-                structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packetContainerExpression.getSingle(event));
+                structureModifier = (StructureModifier) ExprObjectOfPacket.structureModifier.get(packet);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
         if (structureModifier != null) {
             if (isSingle) {
-                structureModifier.writeSafely(index.getSingle(event).intValue(), delta[0]);
+                structureModifier.writeSafely(index, delta[0]);
             } else {
                 Object[] result = (Object[]) Array.newInstance(aClass, delta.length);
                 for (int i = 0; i < delta.length; i++) {
                     result[i] = delta[i];
                 }
-                structureModifier.writeSafely(index.getSingle(event).intValue(), result);
+                structureModifier.writeSafely(index, result);
             }
         }
     }

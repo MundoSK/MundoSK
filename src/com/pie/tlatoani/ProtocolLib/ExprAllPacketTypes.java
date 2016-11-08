@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class ExprAllPacketTypes extends SimpleExpression<PacketType> {
     private static List<PacketType> listToConvert = new ArrayList<PacketType>();
-    private static PacketType[] returnArray;
+    public static final PacketType[] returnArray;
     private static Map<String, PacketType> nametoptype = new HashMap<String, PacketType>();
     private static Map<PacketType, String> ptypetoname = new HashMap<PacketType, String>();
     private static Map<PacketType, Boolean> ptypetoboolean = new HashMap<PacketType, Boolean>();
