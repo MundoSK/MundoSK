@@ -238,7 +238,7 @@ public class SkinManager {
         //testLoc.setX(testLoc.getX() + 10000);
         //player.teleport(testLoc);
         player.teleport(new Location(player.getWorld(), playerLoc.getX() + 10000, -5, playerLoc.getZ() + 10000));
-        player.teleport(player.getLocation());
+        player.teleport(playerLoc);
         if (!playerPrevHidden) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
             public void run() {
