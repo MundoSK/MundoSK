@@ -69,7 +69,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
@@ -79,16 +79,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SkinManager.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SkinManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="557">
-              <caret line="234" column="46" selection-start-line="234" selection-start-column="46" selection-end-line="234" selection-end-column="46" />
+            <state relative-caret-position="437">
+              <caret line="211" column="28" selection-start-line="211" selection-start-column="28" selection-end-line="211" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1721#1737#0" expanded="true" />
                 <element signature="e#5340#5348#0" expanded="true" />
                 <element signature="e#6382#6390#0" expanded="true" />
+                <element signature="e#11106#11107#0" expanded="true" />
+                <element signature="e#11195#11196#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -97,7 +99,7 @@
       <file leaf-file-name="TabListManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="615">
+            <state relative-caret-position="825">
               <caret line="127" column="75" selection-start-line="127" selection-start-column="75" selection-end-line="127" selection-end-column="75" />
               <folding />
             </state>
@@ -204,8 +206,8 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EvtPacketEvent.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" />
       </list>
     </option>
   </component>
@@ -1307,14 +1309,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="127" column="75" selection-start-line="127" selection-start-column="75" selection-end-line="127" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="566">
@@ -1323,16 +1317,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="557">
-          <caret line="234" column="46" selection-start-line="234" selection-start-column="46" selection-end-line="234" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1721#1737#0" expanded="true" />
-            <element signature="e#5340#5348#0" expanded="true" />
-            <element signature="e#6382#6390#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="825">
+          <caret line="127" column="75" selection-start-line="127" selection-start-column="75" selection-end-line="127" selection-end-column="75" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1341,6 +1330,21 @@
         <state relative-caret-position="45">
           <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="211" column="28" selection-start-line="211" selection-start-column="28" selection-end-line="211" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1721#1737#0" expanded="true" />
+            <element signature="e#5340#5348#0" expanded="true" />
+            <element signature="e#6382#6390#0" expanded="true" />
+            <element signature="e#11106#11107#0" expanded="true" />
+            <element signature="e#11195#11196#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

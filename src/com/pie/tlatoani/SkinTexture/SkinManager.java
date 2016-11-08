@@ -193,9 +193,7 @@ public class SkinManager {
         Mundo.debug(SkinManager.class, "Now hiding player " + player.getName());
         UUID uuid = player.getUniqueId();
         for (Player target : Bukkit.getOnlinePlayers()) {
-            if (!target.getUniqueId().equals(uuid)) {
-                target.hidePlayer(player);
-            }
+            target.hidePlayer(player);
         }
         Mundo.scheduler.scheduleSyncDelayedTask(Mundo.instance, new Runnable() {
             @Override
@@ -203,7 +201,16 @@ public class SkinManager {
 
                 Mundo.debug(SkinManager.class, "Now showing player " + player.getName());
                 for (Player target : Bukkit.getOnlinePlayers()) {
-                    target.showPlayer(player);
+                    if (!target.getUniqueId().equals(uuid)){
+                        target.showPlayer(player);
+                    } else {
+                        Mundo.scheduler.scheduleSyncDelayedTask(Mundo.instance, new Runnable() {
+                            @Override
+                            public void run() {
+                                player.showPlayer(player);
+                            }
+                        }, 2);
+                    }
                 }
             }
         }, 1);
