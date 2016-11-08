@@ -191,9 +191,11 @@ public class SkinManager {
 
     private static void refreshPlayer(Player player) {
         Mundo.debug(SkinManager.class, "Now hiding player " + player.getName());
+        UUID uuid = player.getUniqueId();
         for (Player target : Bukkit.getOnlinePlayers()) {
-            target.hidePlayer(player);
-            //target.showPlayer(player);
+            if (!target.getUniqueId().equals(uuid)) {
+                target.hidePlayer(player);
+            }
         }
         Mundo.scheduler.scheduleSyncDelayedTask(Mundo.instance, new Runnable() {
             @Override
@@ -227,6 +229,9 @@ public class SkinManager {
         } catch (InvocationTargetException e) {
             Mundo.reportException(SkinManager.class, e);
         }
+        Location testLoc = player.getLocation();
+        testLoc.setX(testLoc.getX() + 10000);
+        player.teleport(testLoc);
         player.teleport(player.getLocation());
         //Location location = player.getLocation();
         /*position.getDoubles().writeSafely(0, location.getX());
