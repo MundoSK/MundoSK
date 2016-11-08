@@ -10,6 +10,7 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
@@ -203,13 +204,6 @@ public class SkinManager {
                 for (Player target : Bukkit.getOnlinePlayers()) {
                     if (!target.getUniqueId().equals(uuid)){
                         target.showPlayer(player);
-                    } else {
-                        /*Mundo.scheduler.scheduleSyncDelayedTask(Mundo.instance, new Runnable() {
-                            @Override
-                            public void run() {
-                                player.showPlayer(player);
-                            }
-                        }, 2);*/
                     }
                 }
             }
@@ -217,6 +211,8 @@ public class SkinManager {
     }
 
     private static void respawnPlayer(Player player) {
+        boolean playerPrevHidden = TabListManager.playerIsHidden(player, player);
+        if (!playerPrevHidden) TabListManager.hidePlayer(player, player);
         PacketContainer respawn1 = new PacketContainer(PacketType.Play.Server.RESPAWN);
         PacketContainer respawn2 = new PacketContainer(PacketType.Play.Server.RESPAWN);
         //PacketContainer position = new PacketContainer(PacketType.Play.Server.POSITION);
@@ -240,6 +236,7 @@ public class SkinManager {
         testLoc.setX(testLoc.getX() + 10000);
         player.teleport(testLoc);
         player.teleport(player.getLocation());
+        if (!playerPrevHidden) TabListManager.showPlayer(player, player);
         //Location location = player.getLocation();
         /*position.getDoubles().writeSafely(0, location.getX());
         position.getDoubles().writeSafely(1, location.getY());

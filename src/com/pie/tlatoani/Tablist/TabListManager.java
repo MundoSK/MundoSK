@@ -244,6 +244,10 @@ public class TabListManager implements Listener {
         }
     }
 
+    public static boolean playerIsHidden(Player player, Player from) {
+        return hiddenPlayerLists.get(from.getUniqueId()).contains(player.getUniqueId());
+    }
+
     public static SimpleTabList getSimpleTabListForPlayer(Player player) {
         return simpleTabLists.get(player.getUniqueId());
     }
