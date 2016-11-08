@@ -236,7 +236,12 @@ public class SkinManager {
         testLoc.setX(testLoc.getX() + 10000);
         player.teleport(testLoc);
         player.teleport(player.getLocation());
-        if (!playerPrevHidden) TabListManager.showPlayer(player, player);
+        if (!playerPrevHidden) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
+            @Override
+            public void run() {
+                TabListManager.showPlayer(player, player);
+            }
+        }, 3);
         //Location location = player.getLocation();
         /*position.getDoubles().writeSafely(0, location.getX());
         position.getDoubles().writeSafely(1, location.getY());
