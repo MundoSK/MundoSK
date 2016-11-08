@@ -204,12 +204,12 @@ public class SkinManager {
                     if (!target.getUniqueId().equals(uuid)){
                         target.showPlayer(player);
                     } else {
-                        Mundo.scheduler.scheduleSyncDelayedTask(Mundo.instance, new Runnable() {
+                        /*Mundo.scheduler.scheduleSyncDelayedTask(Mundo.instance, new Runnable() {
                             @Override
                             public void run() {
                                 player.showPlayer(player);
                             }
-                        }, 2);
+                        }, 2);*/
                     }
                 }
             }
