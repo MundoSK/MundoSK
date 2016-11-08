@@ -9,6 +9,7 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.pie.tlatoani.Generator.SkriptGenerator;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.Bukkit;
@@ -232,9 +233,11 @@ public class SkinManager {
         } catch (InvocationTargetException e) {
             Mundo.reportException(SkinManager.class, e);
         }
-        Location testLoc = player.getLocation();
-        testLoc.setX(testLoc.getX() + 10000);
-        player.teleport(testLoc);
+        Location playerLoc = player.getLocation();
+        //Location testLoc = player.getLocation();
+        //testLoc.setX(testLoc.getX() + 10000);
+        //player.teleport(testLoc);
+        player.teleport(new Location(player.getWorld(), playerLoc.getX() + 10000, -5, playerLoc.getZ() + 10000));
         player.teleport(player.getLocation());
         if (!playerPrevHidden) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
