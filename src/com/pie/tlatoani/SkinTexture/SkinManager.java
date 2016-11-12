@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
@@ -18,6 +19,9 @@ import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Team;
 
 import java.lang.reflect.InvocationTargetException;
@@ -31,6 +35,8 @@ public class SkinManager {
     private static HashMap<UUID, SkinTexture> actualSkins = new HashMap<>();
     private static HashMap<UUID, SkinTexture> displayedSkins = new HashMap<>();
     private static HashMap<UUID, String> nameTags = new HashMap<>();
+
+    private static ArrayList<UUID> respawningPlayers = new ArrayList<>();
 
     static {
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
@@ -114,15 +120,31 @@ public class SkinManager {
             }
         });
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.POSITION) {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.POSITION, PacketType.Play.Server.MAP_CHUNK, PacketType.Play.Server.MAP_CHUNK_BULK) {
             @Override
             public void onPacketSending(PacketEvent event) {
-                double x = event.getPacket().getDoubles().readSafely(0);
+                /*double x = event.getPacket().getDoubles().readSafely(0);
                 double z = event.getPacket().getDoubles().readSafely(2);
                 Mundo.debug(SkinManager.class, "x, z = " + x + ", " + z);
                 if (x == SkriptGenerator.X_CODE && z == SkriptGenerator.Z_CODE) {
                     event.setCancelled(true);
                     Mundo.debug(SkinManager.class, "EVENT CANCELLITU");
+                }*/
+                if (respawningPlayers.contains(event.getPlayer().getUniqueId())) {
+                    event.setCancelled(true);
+                    Mundo.debug(SkinManager.class, "RESPAWINING PLAYER " + event.getPlayer().getName() + " PACKETTYPE " + event.getPacketType());
+                }
+            }
+        });
+
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.SCOREBOARD_SCORE) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                StructureModifier<String> stringStructureModifier = event.getPacket().getStrings();
+                String actualString = stringStructureModifier.read(0);
+                if (actualString != null) {
+                    stringStructureModifier.writeSafely(0, getNameTag(Bukkit.getPlayerExact(actualString)));
+                    Mundo.debug(SkinManager.class, "REPLACING SCORE IN NAME " + actualString);
                 }
             }
         });
@@ -149,6 +171,12 @@ public class SkinManager {
 
     public static SkinTexture getActualSkin(Player player) {
         SkinTexture skinTexture = actualSkins.get(player.getUniqueId());
+        if (skinTexture == null) {
+            skinTexture = new SkinTexture.Collected(WrappedGameProfile.fromPlayer(player).getProperties().get("textures"));
+            if (!skinTexture.toString().equals("[]")) {
+                actualSkins.put(player.getUniqueId(), skinTexture);
+            }
+        }
         Mundo.debug(SkinManager.class, "ACTUALSKIN OF PLAYER " + player.getName() + " = " + skinTexture);
         return skinTexture;
     }
@@ -165,7 +193,7 @@ public class SkinManager {
         else
             displayedSkins.put(player.getUniqueId(), getActualSkin(player));
         refreshPlayer(player);
-        respawnPlayer(player);
+        //respawnPlayer(player);
     }
 
     public static String getNameTag(Player player) {
@@ -189,20 +217,26 @@ public class SkinManager {
         Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
         if (team != null) {
             team.removeEntry(player.getName());
-            Mundo.debug(SkinManager.class, "Setting nametag STEP 6");
             Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
                 @Override
                 public void run() {
-                    Mundo.debug(SkinManager.class, "Setting nametag STEP 9");
                     team.addEntry(player.getName());
-                    Mundo.debug(SkinManager.class, "Setting nametag STEP 10");
                 }
             }, 1);
-            Mundo.debug(SkinManager.class, "Setting nametag STEP 7");
+        }
+        Objective objective = player.getScoreboard() != null ? player.getScoreboard().getObjective(DisplaySlot.BELOW_NAME) : null;
+        Score score = null;
+        int actualScore = 0;
+        if (objective != null) {
+            score = objective.getScore(player.getName());
+            actualScore = score.getScore();
+            score.setScore(0);
         }
         nameTags.put(player.getUniqueId(), nameTag);
         refreshPlayer(player);
-        Mundo.debug(SkinManager.class, "Setting nametag STEP 8");
+        if (objective != null) {
+            score.setScore(actualScore);
+        }
     }
 
     private static void refreshPlayer(Player player) {
