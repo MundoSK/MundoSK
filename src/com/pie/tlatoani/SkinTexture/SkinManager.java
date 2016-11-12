@@ -192,8 +192,8 @@ public class SkinManager {
             displayedSkins.put(player.getUniqueId(), skinTexture);
         else
             displayedSkins.put(player.getUniqueId(), getActualSkin(player));
-        refreshPlayer(player);
-        //respawnPlayer(player);
+        //refreshPlayer(player);
+        respawnPlayer(player);
     }
 
     public static String getNameTag(Player player) {
