@@ -287,13 +287,13 @@ public class SkinManager {
         //testLoc.setX(testLoc.getX() + 10000);
         //player.teleport(testLoc);
         //player.teleport(new Location(player.getWorld(), playerLoc.getX() + 10000, -5, playerLoc.getZ() + 10000));
-        respawningPlayers.add(player.getUniqueId());
+        //respawningPlayers.add(player.getUniqueId());
         player.teleport(new Location(player.getWorld(), SkriptGenerator.X_CODE, -5, SkriptGenerator.Z_CODE));
         Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
             public void run() {
-                respawningPlayers.remove(player.getUniqueId());
-                player.teleport(playerLoc);
+                //respawningPlayers.remove(player.getUniqueId());
+                //player.teleport(playerLoc);
                 if (!playerPrevHidden)
                     TabListManager.showPlayer(player, player);
             }
