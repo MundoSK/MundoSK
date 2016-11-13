@@ -52,15 +52,15 @@
       <file leaf-file-name="SkinManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="299" column="12" selection-start-line="299" selection-start-column="12" selection-end-line="299" selection-end-column="12" />
+            <state relative-caret-position="-2098">
+              <caret line="122" column="133" selection-start-line="122" selection-start-column="133" selection-end-line="122" selection-end-column="133" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2121#2137#0" expanded="true" />
                 <element signature="e#5740#5748#0" expanded="true" />
                 <element signature="e#6782#6790#0" expanded="true" />
-                <element signature="e#12241#12242#0" expanded="true" />
-                <element signature="e#12312#12313#0" expanded="true" />
+                <element signature="e#12245#12246#0" expanded="true" />
+                <element signature="e#12316#12317#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1317,15 +1317,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="299" column="12" selection-start-line="299" selection-start-column="12" selection-end-line="299" selection-end-column="12" />
+        <state relative-caret-position="-2098">
+          <caret line="122" column="133" selection-start-line="122" selection-start-column="133" selection-end-line="122" selection-end-column="133" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2121#2137#0" expanded="true" />
             <element signature="e#5740#5748#0" expanded="true" />
             <element signature="e#6782#6790#0" expanded="true" />
-            <element signature="e#12241#12242#0" expanded="true" />
-            <element signature="e#12312#12313#0" expanded="true" />
+            <element signature="e#12245#12246#0" expanded="true" />
+            <element signature="e#12316#12317#0" expanded="true" />
           </folding>
         </state>
       </provider>

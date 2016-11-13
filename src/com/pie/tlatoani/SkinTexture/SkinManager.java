@@ -120,7 +120,7 @@ public class SkinManager {
             }
         });
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.POSITION, PacketType.Play.Server.MAP_CHUNK, PacketType.Play.Server.MAP_CHUNK_BULK) {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, /*PacketType.Play.Server.POSITION,*/ PacketType.Play.Server.MAP_CHUNK, PacketType.Play.Server.MAP_CHUNK_BULK) {
             @Override
             public void onPacketSending(PacketEvent event) {
                 /*double x = event.getPacket().getDoubles().readSafely(0);
@@ -287,17 +287,17 @@ public class SkinManager {
         //testLoc.setX(testLoc.getX() + 10000);
         //player.teleport(testLoc);
         //player.teleport(new Location(player.getWorld(), playerLoc.getX() + 10000, -5, playerLoc.getZ() + 10000));
-        //respawningPlayers.add(player.getUniqueId());
+        respawningPlayers.add(player.getUniqueId());
         player.teleport(new Location(player.getWorld(), SkriptGenerator.X_CODE, -5, SkriptGenerator.Z_CODE));
         Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
             public void run() {
-                //respawningPlayers.remove(player.getUniqueId());
+                respawningPlayers.remove(player.getUniqueId());
                 player.teleport(playerLoc);
                 if (!playerPrevHidden)
                     TabListManager.showPlayer(player, player);
             }
-        }, 3);
+        }, 50);
 
     }
 
