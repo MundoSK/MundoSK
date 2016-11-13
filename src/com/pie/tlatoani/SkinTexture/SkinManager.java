@@ -120,6 +120,18 @@ public class SkinManager {
             }
         });
 
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.SCOREBOARD_SCORE) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                StructureModifier<String> stringStructureModifier = event.getPacket().getStrings();
+                String actualString = stringStructureModifier.read(0);
+                if (actualString != null) {
+                    stringStructureModifier.writeSafely(0, getNameTag(Bukkit.getPlayerExact(actualString)));
+                    Mundo.debug(SkinManager.class, "REPLACING SCORE IN NAME " + actualString);
+                }
+            }
+        });
+
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, /*PacketType.Play.Server.POSITION,*/ PacketType.Play.Server.MAP_CHUNK, PacketType.Play.Server.MAP_CHUNK_BULK) {
             @Override
             public void onPacketSending(PacketEvent event) {
@@ -137,14 +149,31 @@ public class SkinManager {
             }
         });
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.SCOREBOARD_SCORE) {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.POSITION) {
             @Override
             public void onPacketSending(PacketEvent event) {
-                StructureModifier<String> stringStructureModifier = event.getPacket().getStrings();
-                String actualString = stringStructureModifier.read(0);
-                if (actualString != null) {
-                    stringStructureModifier.writeSafely(0, getNameTag(Bukkit.getPlayerExact(actualString)));
-                    Mundo.debug(SkinManager.class, "REPLACING SCORE IN NAME " + actualString);
+                /*double x = event.getPacket().getDoubles().readSafely(0);
+                double z = event.getPacket().getDoubles().readSafely(2);
+                Mundo.debug(SkinManager.class, "x, z = " + x + ", " + z);
+                if (x == SkriptGenerator.X_CODE && z == SkriptGenerator.Z_CODE) {
+                    event.setCancelled(true);
+                    Mundo.debug(SkinManager.class, "EVENT CANCELLITU");
+                }*/
+                if (respawningPlayers.contains(event.getPlayer().getUniqueId())) {
+                    event.setCancelled(true);
+                    Mundo.debug(SkinManager.class, "RESPAWNING PLAYER " + event.getPlayer().getName() + " PACKETTYPE " + event.getPacketType());
+                    PacketContainer packetContainer = new PacketContainer(PacketType.Play.Client.TELEPORT_ACCEPT);
+                    packetContainer.getIntegers().writeSafely(0, event.getPacket().getIntegers().readSafely(0));
+                    Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                ProtocolLibrary.getProtocolManager().recieveClientPacket(event.getPlayer(), packetContainer);
+                            } catch (IllegalAccessException | InvocationTargetException e) {
+                                Mundo.reportException(SkinManager.class, e);
+                            }
+                        }
+                    }, 1);
                 }
             }
         });

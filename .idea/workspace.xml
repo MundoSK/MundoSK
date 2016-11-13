@@ -7,8 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" afterPath="$PROJECT_DIR$/out/artifacts/MundoSK/MundoSK.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" />
     </list>
@@ -54,15 +52,15 @@
       <file leaf-file-name="SkinManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="192" column="60" selection-start-line="192" selection-start-column="60" selection-end-line="192" selection-end-column="60" />
+            <state relative-caret-position="347">
+              <caret line="165" column="82" selection-start-line="165" selection-start-column="82" selection-end-line="165" selection-end-column="82" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2105#2121#0" expanded="true" />
                 <element signature="e#5798#5806#0" expanded="true" />
                 <element signature="e#6840#6848#0" expanded="true" />
-                <element signature="e#12112#12113#0" expanded="true" />
-                <element signature="e#12183#12184#0" expanded="true" />
+                <element signature="e#13889#13890#0" expanded="true" />
+                <element signature="e#13960#13961#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -168,8 +166,8 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EvtPacketEvent.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" />
       </list>
     </option>
   </component>
@@ -1319,15 +1317,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="192" column="60" selection-start-line="192" selection-start-column="60" selection-end-line="192" selection-end-column="60" />
+        <state relative-caret-position="347">
+          <caret line="165" column="82" selection-start-line="165" selection-start-column="82" selection-end-line="165" selection-end-column="82" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2105#2121#0" expanded="true" />
             <element signature="e#5798#5806#0" expanded="true" />
             <element signature="e#6840#6848#0" expanded="true" />
-            <element signature="e#12112#12113#0" expanded="true" />
-            <element signature="e#12183#12184#0" expanded="true" />
+            <element signature="e#13889#13890#0" expanded="true" />
+            <element signature="e#13960#13961#0" expanded="true" />
           </folding>
         </state>
       </provider>
