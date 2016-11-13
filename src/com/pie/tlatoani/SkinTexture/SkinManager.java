@@ -262,7 +262,6 @@ public class SkinManager {
         if (!playerPrevHidden) TabListManager.hidePlayer(player, player);
         PacketContainer respawn1 = new PacketContainer(PacketType.Play.Server.RESPAWN);
         PacketContainer respawn2 = new PacketContainer(PacketType.Play.Server.RESPAWN);
-        //PacketContainer position = new PacketContainer(PacketType.Play.Server.POSITION);
         EnumWrappers.Difficulty difficulty = convertDifficulty(player.getWorld().getDifficulty());
         respawn1.getDifficulties().writeSafely(0, difficulty);
         respawn2.getDifficulties().writeSafely(0, difficulty);
@@ -281,13 +280,20 @@ public class SkinManager {
         }
         Location playerLoc = player.getLocation();
         GameMode playerMode = player.getGameMode();
-        //Location testLoc = player.getLocation();
-        //testLoc.setX(testLoc.getX() + 10000);
-        //player.teleport(testLoc);
-        //player.teleport(new Location(player.getWorld(), playerLoc.getX() + 10000, -5, playerLoc.getZ() + 10000));
         respawningPlayers.add(player.getUniqueId());
         player.setGameMode(GameMode.CREATIVE);
         player.teleport(new Location(player.getWorld(), SkriptGenerator.X_CODE, -5, SkriptGenerator.Z_CODE));
+        PacketContainer borderPacket = new PacketContainer(PacketType.Play.Server.WORLD_BORDER);
+        WorldBorder border = player.getWorld().getWorldBorder();
+        borderPacket.getWorldBorderActions().writeSafely(0, EnumWrappers.WorldBorderAction.INITIALIZE);
+        borderPacket.getIntegers().writeSafely(0, 29999984);
+        borderPacket.getIntegers().writeSafely(1, border.getWarningTime());
+        borderPacket.getIntegers().writeSafely(2, border.getWarningDistance());
+        borderPacket.getDoubles().writeSafely(0, border.getCenter().getX());
+        borderPacket.getDoubles().writeSafely(1, border.getCenter().getZ());
+        borderPacket.getDoubles().writeSafely(2, border.getSize());
+        borderPacket.getDoubles().writeSafely(3, border.getSize());
+        borderPacket.getLongs().writeSafely(0, 0L);
         Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
             public void run() {
@@ -296,6 +302,11 @@ public class SkinManager {
                 player.setGameMode(playerMode);
                 if (!playerPrevHidden)
                     TabListManager.showPlayer(player, player);
+                try {
+                    ProtocolLibrary.getProtocolManager().sendServerPacket(player, borderPacket);
+                } catch (InvocationTargetException e) {
+                    Mundo.reportException(SkinManager.class, e);
+                }
             }
         }, 35);
 
