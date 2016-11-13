@@ -48,18 +48,21 @@ public class SkinManager {
                         for (PlayerInfoData playerInfoData : playerInfoDatas) {
                             Player player = Bukkit.getPlayer(playerInfoData.getProfile().getUUID());
                             PlayerInfoData newPlayerInfoData = playerInfoData;
-                            if (!actualSkins.containsKey(playerInfoData.getProfile().getUUID()) && player != null) {
+
+                            if (!spawnedPlayers.contains(player.getUniqueId())) {
                                 Mundo.debug(SkinManager.class, "NEW PLAYER !");
                                 spawnedPlayers.add(player.getUniqueId());
-                                if (!actualSkins.containsKey(player.getUniqueId())) {
-                                    SkinTexture skinTexture = new SkinTexture.Collected(playerInfoData.getProfile().getProperties().get("textures"));
-                                    Mundo.debug(SkinManager.class, "ALTERNATIVE SKINTEXTURE FOUND IN PACKET = " + skinTexture);
-                                    if (!skinTexture.toString().equals("[]")) {
-                                        actualSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
-                                        displayedSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
+                                if (!actualSkins.containsKey(playerInfoData.getProfile().getUUID()) && player != null) {
+                                    if (!actualSkins.containsKey(player.getUniqueId())) {
+                                        SkinTexture skinTexture = new SkinTexture.Collected(playerInfoData.getProfile().getProperties().get("textures"));
+                                        Mundo.debug(SkinManager.class, "ALTERNATIVE SKINTEXTURE FOUND IN PACKET = " + skinTexture);
+                                        if (!skinTexture.toString().equals("[]")) {
+                                            actualSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
+                                            displayedSkins.put(playerInfoData.getProfile().getUUID(), skinTexture);
+                                        }
                                     }
-                                }
 
+                                }
                             }
 
                             if (player != null) {
