@@ -14,10 +14,7 @@ import com.pie.tlatoani.Generator.SkriptGenerator;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.apache.logging.log4j.core.net.Protocol;
-import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -283,17 +280,20 @@ public class SkinManager {
             Mundo.reportException(SkinManager.class, e);
         }
         Location playerLoc = player.getLocation();
+        GameMode playerMode = player.getGameMode();
         //Location testLoc = player.getLocation();
         //testLoc.setX(testLoc.getX() + 10000);
         //player.teleport(testLoc);
         //player.teleport(new Location(player.getWorld(), playerLoc.getX() + 10000, -5, playerLoc.getZ() + 10000));
         respawningPlayers.add(player.getUniqueId());
+        player.setGameMode(GameMode.CREATIVE);
         player.teleport(new Location(player.getWorld(), SkriptGenerator.X_CODE, -5, SkriptGenerator.Z_CODE));
         Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
             public void run() {
                 respawningPlayers.remove(player.getUniqueId());
                 player.teleport(playerLoc);
+                player.setGameMode(playerMode);
                 if (!playerPrevHidden)
                     TabListManager.showPlayer(player, player);
             }
