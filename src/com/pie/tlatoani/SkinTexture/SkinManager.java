@@ -297,7 +297,7 @@ public class SkinManager {
                 if (!playerPrevHidden)
                     TabListManager.showPlayer(player, player);
             }
-        }, 20);
+        }, 200);
 
     }
 

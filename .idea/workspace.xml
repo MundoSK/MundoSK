@@ -52,8 +52,8 @@
       <file leaf-file-name="SkinManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="294" column="16" selection-start-line="294" selection-start-column="16" selection-end-line="294" selection-end-column="16" />
+            <state relative-caret-position="587">
+              <caret line="299" column="14" selection-start-line="299" selection-start-column="14" selection-end-line="299" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2121#2137#0" expanded="true" />
@@ -166,8 +166,8 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EvtPacketEvent.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
-        <option value="$PROJECT_DIR$/plugin.yml" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" />
+        <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
   </component>
@@ -1291,14 +1291,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plugin.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="332">
@@ -1323,10 +1315,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/plugin.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="294" column="16" selection-start-line="294" selection-start-column="16" selection-end-line="294" selection-end-column="16" />
+        <state relative-caret-position="587">
+          <caret line="299" column="14" selection-start-line="299" selection-start-column="14" selection-end-line="299" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2121#2137#0" expanded="true" />
