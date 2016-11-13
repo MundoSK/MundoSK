@@ -33,6 +33,8 @@ public class SkinManager {
     private static HashMap<UUID, SkinTexture> displayedSkins = new HashMap<>();
     private static HashMap<UUID, String> nameTags = new HashMap<>();
 
+    private static ArrayList<UUID> spawnedPlayers = new ArrayList<>();
+
     private static ArrayList<UUID> respawningPlayers = new ArrayList<>();
 
     static {
@@ -48,6 +50,7 @@ public class SkinManager {
                             PlayerInfoData newPlayerInfoData = playerInfoData;
                             if (!actualSkins.containsKey(playerInfoData.getProfile().getUUID()) && player != null) {
                                 Mundo.debug(SkinManager.class, "NEW PLAYER !");
+                                spawnedPlayers.add(player.getUniqueId());
                                 if (!actualSkins.containsKey(player.getUniqueId())) {
                                     SkinTexture skinTexture = new SkinTexture.Collected(playerInfoData.getProfile().getProperties().get("textures"));
                                     Mundo.debug(SkinManager.class, "ALTERNATIVE SKINTEXTURE FOUND IN PACKET = " + skinTexture);
@@ -131,7 +134,6 @@ public class SkinManager {
                     event.setCancelled(true);
                     Mundo.debug(SkinManager.class, "RESPAWNING PLAYER " + event.getPlayer().getName() + " PACKETTYPE " + event.getPacketType());
                 }
-                Mundo.debug(SkinManager.class, "NOT RESPAWNING PLAYER " + event.getPlayer().getName() + " PACKETTYPE " + event.getPacketType());
             }
         });
 
@@ -152,13 +154,7 @@ public class SkinManager {
 
     public static void onJoin(Player player) {
         nameTags.put(player.getUniqueId(), player.getName());
-
-        SkinTexture skinTexture = new SkinTexture.Collected(WrappedGameProfile.fromPlayer(player).getProperties().get("textures"));
-        Mundo.debug(SkinManager.class, "SKINTEXTURE GIVEN BY PROTOCOLLIB FOR PLAYER " + player.getName() + " = " + skinTexture);
-        if (!skinTexture.toString().equals("[]")) {
-            actualSkins.put(player.getUniqueId(), skinTexture);
-            displayedSkins.put(player.getUniqueId(), skinTexture);
-        }
+        getActualSkin(player);
     }
 
     public static void onQuit(Player player) {
@@ -171,8 +167,12 @@ public class SkinManager {
         SkinTexture skinTexture = actualSkins.get(player.getUniqueId());
         if (skinTexture == null) {
             skinTexture = new SkinTexture.Collected(WrappedGameProfile.fromPlayer(player).getProperties().get("textures"));
+            Mundo.debug(SkinManager.class, "SKINTEXTURE GIVEN BY PROTOCOLLIB FOR PLAYER " + player.getName() + " = " + skinTexture);
             if (!skinTexture.toString().equals("[]")) {
                 actualSkins.put(player.getUniqueId(), skinTexture);
+                if (!displayedSkins.containsKey(player.getUniqueId())) {
+                    displayedSkins.put(player.getUniqueId(), skinTexture);
+                }
             }
         }
         Mundo.debug(SkinManager.class, "ACTUALSKIN OF PLAYER " + player.getName() + " = " + skinTexture);
@@ -190,8 +190,10 @@ public class SkinManager {
             displayedSkins.put(player.getUniqueId(), skinTexture);
         else
             displayedSkins.put(player.getUniqueId(), getActualSkin(player));
-        //refreshPlayer(player);
-        respawnPlayer(player);
+        if (spawnedPlayers.contains(player.getUniqueId())) {
+            //refreshPlayer(player);
+            respawnPlayer(player);
+        }
     }
 
     public static String getNameTag(Player player) {
