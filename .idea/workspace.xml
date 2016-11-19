@@ -52,17 +52,17 @@
       <file leaf-file-name="SkinManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="233" column="20" selection-start-line="233" selection-start-column="20" selection-end-line="233" selection-end-column="20" />
+            <state relative-caret-position="-358">
+              <caret line="225" column="12" selection-start-line="225" selection-start-column="12" selection-end-line="225" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2105#2121#0" expanded="true" />
                 <element signature="e#5951#5959#0" expanded="true" />
                 <element signature="e#6993#7001#0" expanded="true" />
-                <element signature="e#13484#13485#0" expanded="true" />
-                <element signature="e#13565#13566#0" expanded="true" />
-                <element signature="e#14736#14737#0" expanded="true" />
-                <element signature="e#14807#14808#0" expanded="true" />
+                <element signature="e#13482#13483#0" expanded="true" />
+                <element signature="e#13563#13564#0" expanded="true" />
+                <element signature="e#14734#14735#0" expanded="true" />
+                <element signature="e#14805#14806#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1319,17 +1319,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="233" column="20" selection-start-line="233" selection-start-column="20" selection-end-line="233" selection-end-column="20" />
+        <state relative-caret-position="-358">
+          <caret line="225" column="12" selection-start-line="225" selection-start-column="12" selection-end-line="225" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2105#2121#0" expanded="true" />
             <element signature="e#5951#5959#0" expanded="true" />
             <element signature="e#6993#7001#0" expanded="true" />
-            <element signature="e#13484#13485#0" expanded="true" />
-            <element signature="e#13565#13566#0" expanded="true" />
-            <element signature="e#14736#14737#0" expanded="true" />
-            <element signature="e#14807#14808#0" expanded="true" />
+            <element signature="e#13482#13483#0" expanded="true" />
+            <element signature="e#13563#13564#0" expanded="true" />
+            <element signature="e#14734#14735#0" expanded="true" />
+            <element signature="e#14805#14806#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -223,7 +223,7 @@ public class SkinManager {
         else
             displayedSkins.put(player.getUniqueId(), getActualSkin(player));
         if (spawnedPlayers.contains(player.getUniqueId())) {
-            //refreshPlayer(player);
+            refreshPlayer(player);
             //respawnPlayer(player);
             boolean playerPrevHidden = TabListManager.playerIsHidden(player, player);
             if (!playerPrevHidden) TabListManager.hidePlayer(player, player);
@@ -284,7 +284,9 @@ public class SkinManager {
         Mundo.debug(SkinManager.class, "Now hiding player " + player.getName());
         UUID uuid = player.getUniqueId();
         for (Player target : Bukkit.getOnlinePlayers()) {
-            target.hidePlayer(player);
+            if (!target.getUniqueId().equals(uuid)) {
+                target.hidePlayer(player);
+            }
         }
         Mundo.scheduler.scheduleSyncDelayedTask(Mundo.instance, new Runnable() {
             @Override
