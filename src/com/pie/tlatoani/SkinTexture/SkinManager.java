@@ -13,8 +13,8 @@ import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Generator.SkriptGenerator;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Tablist.TabListManager;
-import org.apache.logging.log4j.core.net.Protocol;
 import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -224,7 +224,8 @@ public class SkinManager {
             displayedSkins.put(player.getUniqueId(), getActualSkin(player));
         if (spawnedPlayers.contains(player.getUniqueId())) {
             //refreshPlayer(player);
-            respawnPlayer(player);
+            //respawnPlayer(player);
+            ((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().moveToWorld(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
         }
     }
 
