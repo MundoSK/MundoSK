@@ -13,6 +13,7 @@ import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Generator.SkriptGenerator;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Tablist.TabListManager;
+import com.pie.tlatoani.Util.Reflection;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.entity.Player;
@@ -37,7 +38,25 @@ public class SkinManager {
 
     private static ArrayList<UUID> respawningPlayers = new ArrayList<>();
 
+    private static boolean reflectionEnabled = false;
+    private static Object nmsServer = null;
+    private static Reflection.MethodInvoker craftPlayerGetHandle = null;
+    private static Reflection.MethodInvoker moveToWorld = null;
+
     static {
+
+        //Reflection stuff
+        try {
+            nmsServer = Reflection.getTypedMethod(Reflection.getCraftBukkitClass("CraftServer"), "getHandle", Reflection.getMinecraftClass("DedicatedPlayerList")).invoke(Bukkit.getServer());
+            craftPlayerGetHandle = Reflection.getTypedMethod(Reflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", Reflection.getMinecraftClass("EntityPlayer"));
+            moveToWorld = Reflection.getMethod(Reflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld", Reflection.getMinecraftClass("EntityPlayer"), int.class, boolean.class, Location.class, boolean.class);
+            reflectionEnabled = true;
+        } catch (Exception e) {
+            Mundo.reportException(SkinManager.class, e);
+        }
+
+        //Packet stuff
+
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
             @Override
             public void onPacketSending(PacketEvent event) {
@@ -225,15 +244,8 @@ public class SkinManager {
         if (spawnedPlayers.contains(player.getUniqueId())) {
             refreshPlayer(player);
             //respawnPlayer(player);
-            boolean playerPrevHidden = TabListManager.playerIsHidden(player, player);
-            if (!playerPrevHidden) TabListManager.hidePlayer(player, player);
-            ((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().moveToWorld(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
-            if (!playerPrevHidden) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
-                @Override
-                public void run() {
-                    TabListManager.showPlayer(player, player);
-                }
-            }, 3);
+            if (reflectionEnabled)
+                respawnPlayerWithReflection(player);
         }
     }
 
@@ -302,6 +314,22 @@ public class SkinManager {
         }, 1);
     }
 
+    private static void respawnPlayerWithReflection(Player player) {
+        boolean playerPrevHidden = TabListManager.playerIsHidden(player, player);
+        if (!playerPrevHidden) TabListManager.hidePlayer(player, player);
+
+        //Replace direct CraftBukkit accessing code with reflection
+        //((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().moveToWorld(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
+        moveToWorld.invoke(nmsServer, craftPlayerGetHandle.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, player.getLocation(), true);
+
+        if (!playerPrevHidden) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
+            @Override
+            public void run() {
+                TabListManager.showPlayer(player, player);
+            }
+        }, 3);
+    }
+
     private static void respawnPlayer(Player player) {
         boolean playerPrevHidden = TabListManager.playerIsHidden(player, player);
         if (!playerPrevHidden) TabListManager.hidePlayer(player, player);
@@ -365,5 +393,13 @@ public class SkinManager {
             case HARD: return EnumWrappers.Difficulty.HARD;
         }
         return null;
+    }
+
+    private static int convertDimension(World.Environment dimension) {
+        switch (dimension) {
+            case NETHER: return -1;
+            case THE_END: return 1;
+        }
+        return 0;
     }
 }
