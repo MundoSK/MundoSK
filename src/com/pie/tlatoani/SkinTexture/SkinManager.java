@@ -225,7 +225,15 @@ public class SkinManager {
         if (spawnedPlayers.contains(player.getUniqueId())) {
             //refreshPlayer(player);
             //respawnPlayer(player);
+            boolean playerPrevHidden = TabListManager.playerIsHidden(player, player);
+            if (!playerPrevHidden) TabListManager.hidePlayer(player, player);
             ((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().moveToWorld(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
+            if (!playerPrevHidden) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
+                @Override
+                public void run() {
+                    TabListManager.showPlayer(player, player);
+                }
+            }, 3);
         }
     }
 
