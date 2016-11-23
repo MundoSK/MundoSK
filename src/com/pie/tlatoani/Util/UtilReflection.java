@@ -7,18 +7,36 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.pie.tlatoani.Mundo;
 import org.bukkit.Bukkit;
 
 /*
-This class was borrowed from the ProtocolLib GitHub for use in MundoSK, no credit is claimed by the creator of MundoSK for this code
-*/
+* This class was borrowed from the ProtocolLib GitHub for use in MundoSK, no credit is claimed by the creator of MundoSK for this code.
+* Note: Some code has been added to the original class, that code is specified by MUNDOSK START and MUNDOSK END.
+* Note: Additionally, the name has been changed from Reflection to UtilReflection.
+* */
 
 /**
  * An utility class that simplifies reflection in Bukkit plugins.
  *
  * @author Kristian
  */
-public final class Reflection {
+public final class UtilReflection {
+
+    //MUNDOSK START
+
+    public static Object nmsServer = null;
+
+    static {
+        try {
+            nmsServer = UtilReflection.getTypedMethod(UtilReflection.getCraftBukkitClass("CraftServer"), "getHandle", UtilReflection.getMinecraftClass("DedicatedPlayerList")).invoke(Bukkit.getServer());
+        } catch (Exception e) {
+            Mundo.reportException(UtilReflection.class, e);
+        }
+    }
+
+    //MUNDOSK END
+
     /**
      * An interface for invoking a specific constructor.
      */
@@ -85,7 +103,7 @@ public final class Reflection {
     // Variable replacement
     private static Pattern MATCH_VARIABLE = Pattern.compile("\\{([^\\}]+)\\}");
 
-    private Reflection() {
+    private UtilReflection() {
         // Seal class
     }
 

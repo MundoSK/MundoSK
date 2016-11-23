@@ -41,8 +41,7 @@ import com.pie.tlatoani.CodeBlock.*;
 import com.pie.tlatoani.CustomEvent.*;
 import com.pie.tlatoani.EnchantedBook.*;
 import com.pie.tlatoani.Generator.*;
-import com.pie.tlatoani.Generator.Seed.ExprNewRandom;
-import com.pie.tlatoani.Generator.Seed.ExprRandomValue;
+import com.pie.tlatoani.Generator.Seed.*;
 import com.pie.tlatoani.Json.*;
 import com.pie.tlatoani.ListUtil.*;
 import com.pie.tlatoani.Miscellaneous.*;
@@ -96,41 +95,54 @@ public class Mundo extends JavaPlugin{
 	public static Mundo instance;
     public static Logger logger;
 	public static FileConfiguration config;
-    public static Boolean RandomSK;
-    public static Boolean ProtocolLib;
     public static String pluginFolder;
     public static Boolean debugMode;
-    public static Boolean messyStuffEnabled;
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
+
     public static ArrayList<Object[]> ena = new ArrayList<>();
     public static ArrayList<String> enumNames = new ArrayList<>();
     public static ArrayList<Class<?>> enumClasses = new ArrayList<>();
+
+    public void onLoad() {
+        try {
+            UtilWorldLoader.load();
+            if (UtilWorldLoader.getAllCreators().isEmpty()) {
+                info("No worlds were assigned to load automatically");
+            } else {
+                info("Worlds to automatically load were loaded successfully!");
+            }
+
+        } catch (IOException e) {
+            info("A problem occurred while automatically loading worlds");
+            reportException(this, e);
+        }
+    }
 	
-	public void onEnable(){
+	public void onEnable() {
 		instance = this;
         logger = getLogger();
 		config = getConfig();
         config.addDefault("debug_mode", false);
-        config.addDefault("disable_messy_stuff", false);
 		config.options().copyDefaults(true);
         debugMode = config.getBoolean("debug_mode");
-        messyStuffEnabled = !config.getBoolean("disable_messy_stuff");
 		saveConfig();
-        RandomSK = Bukkit.getPluginManager().getPlugin("RandomSK") != null;
-        ProtocolLib = Bukkit.getPluginManager().getPlugin("ProtocolLib") != null;
 		Skript.registerAddon(this);
         pluginFolder = getDataFolder().getAbsolutePath();
         scheduler = Bukkit.getScheduler();
 
         info("Pie is awesome :D");
-        try {
-            UtilWorldLoader.load();
-            info("Worlds to load (if any) were loaded successfully!");
-        } catch (IOException e) {
-            info("A problem occurred while loading worlds");
-            reportException(this, e);
+        if (getDescription().getVersion().toUpperCase().contains("BETA")) {
+            info("You are currently running a BETA version of MundoSK");
+            info("You should only run BETA versions of MundoSK on test servers unless Tlatoani or another reliable source has recommended otherwise");
         }
+        if (debugMode) {
+            info("You have enabled debug_mode in MundoSK config");
+            info("debug_mode should only be enabled when you are trying to fix a bug or assist someone else with fixing a bug in MundoSK");
+            info("By having debug_mode enabled, you will have tons of random annoying spam in your console");
+            info("If you would like to disable debug_mode, simply go to your 'plugins' folder, go to the 'MundoSK' folder, open 'config.yml', and where it says 'debug_mode', replace 'true' with 'false'");
+        }
+
         registerEnum(Achievement.class, "achievement", Achievement.values());
 		registerEffect(EffAwardAch.class, "award achieve[ment] %achievement% to %player%");
 		registerEffect(EffRemoveAch.class, "remove achieve[ment] %achievement% from %player%");
@@ -452,7 +464,7 @@ public class Mundo extends JavaPlugin{
                 if (s.substring(0, 1).toUpperCase().equals("N")) {
                     s = s.substring(1);
                 } else {
-                    if (RandomSK) {
+                    if (isPluginEnabled("RandomSK")) {
                         return null;
                     }
                 }
@@ -555,7 +567,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprRandomIndex.class,String.class,ExpressionType.PROPERTY,"random from %numbers% prob[abilitie]s");
 		registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
 		//ProtocolLib
-		if (ProtocolLib) {
+		if (isPluginEnabled("ProtocolLib")) {
             info("You've discovered the amazing realm of ProtocolLib packet syntaxes!");
             String pLibVersion = Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion();
             if (!pLibVersion.substring(0, 1).equals("4") || pLibVersion.substring(0, 3).equals("4.0")) {
@@ -688,7 +700,7 @@ public class Mundo extends JavaPlugin{
             }
         }));
         registerExpression(ExprTextureWith.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture with value %string% signature %string%");
-        if (ProtocolLib) {
+        if (isPluginEnabled("ProtocolLib")) {
             registerExpression(ExprTextureOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture of %player%");
             registerExpression(ExprDisplayedSkinOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "displayed skin of %player%", "%player%'s displayed skin");
             registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "%player%'s name[]tag", "name[]tag of %player%");
@@ -705,7 +717,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1¦player count|0¦max player count) of server with host %string% [port %-number%]");
 		//Tablist
         registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
-        if (ProtocolLib) {
+        if (isPluginEnabled("ProtocolLib")) {
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onJoin(PlayerJoinEvent event) {
@@ -722,19 +734,22 @@ public class Mundo extends JavaPlugin{
             }, this);
             registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "%player%'s tablist contains players");
             registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% in [the] tab[list] of %players%");
-            //Simple
-            registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skintexture%]");
-            registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
-            registerEffect(com.pie.tlatoani.Tablist.Simple.EffRemoveAllIDTabs.class, "delete all id tabs for %player%");
-            registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
-            registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");
-            registerExpression(ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% for %player%");
-            //Array
-            registerEffect(EffSetArrayTablist.class, "deactivate array tablist for %player%", "activate array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skintexture%]]");
-            registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% for %player%");
-            registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% for %player%");
-            registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% for %player%", "initial icon of %player%'s [array] tablist");
-            registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %player%'s [array] tablist");
+            {
+                //Simple
+                registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skintexture%]");
+                registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
+                registerEffect(com.pie.tlatoani.Tablist.Simple.EffRemoveAllIDTabs.class, "delete all id tabs for %player%");
+                registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
+                registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");
+                registerExpression(ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% for %player%");
+            } {
+                //Array
+                registerEffect(EffSetArrayTablist.class, "deactivate array tablist for %player%", "activate array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skintexture%]]");
+                registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% for %player%");
+                registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% for %player%");
+                registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% for %player%", "initial icon of %player%'s [array] tablist");
+                registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %player%'s [array] tablist");
+            }
         }
         //TerrainControl
 		if (Bukkit.getServer().getPluginManager().getPlugin("TerrainControl") != null) {
@@ -845,7 +860,7 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
-		if (Bukkit.getServer().getPluginManager().getPlugin("RandomSK") == null) {
+		if (isPluginEnabled("RandomSK")) {
             registerEnum(Environment.class, "environment", Environment.values(), new Pair<String, Environment>("END", Environment.THE_END));
 		}
         registerEnum(WorldType.class, "worldtype", WorldType.values(), new Pair<String, WorldType>("SUPERFLAT", WorldType.FLAT), new Pair<String, WorldType>("LARGE BIOMES", WorldType.LARGE_BIOMES), new Pair<String, WorldType>("VERSION 1.1", WorldType.VERSION_1_1));
@@ -1135,7 +1150,7 @@ public class Mundo extends JavaPlugin{
                 });
             }
 
-            if (ProtocolLib) {
+            if (isPluginEnabled("ProtocolLib")) {
                 Graph protocolLibVersion = metrics.createGraph("ProtocolLib Version");
                 protocolLibVersion.addPlotter(new Plotter(Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion()) {
                     @Override
@@ -1269,6 +1284,12 @@ public class Mundo extends JavaPlugin{
 
     public static void async(Runnable runnable) {
         scheduler.runTaskAsynchronously(instance, runnable);
+    }
+
+    //Miscellanous
+
+    public static boolean isPluginEnabled(String pluginName) {
+        return Bukkit.getPluginManager().isPluginEnabled(pluginName);
     }
 	
 }

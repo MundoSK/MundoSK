@@ -4,6 +4,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.util.ConvertedExpression;
 import com.pie.tlatoani.ListUtil.Transformer;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -39,8 +40,10 @@ public class TransBookPages implements Transformer<String>, Transformer.Resettab
     public void set(Event event, String[] value) {
         ItemStack book = this.book.getSingle(event);
         BookMeta meta = (BookMeta) book.getItemMeta();
+        Mundo.debug(this, "PAGES NEW VALUE: " + value + ", BOOK = " + book + ", META = " + meta + ", META.GETPAGES() = " + meta.getPages());
         meta.setPages(value);
         book.setItemMeta(meta);
+        Mundo.debug(this, "META.GETPAGES() = " + meta.getPages());
     }
 
     @Override

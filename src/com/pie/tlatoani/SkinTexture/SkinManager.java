@@ -3,26 +3,22 @@ package com.pie.tlatoani.SkinTexture;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.pie.tlatoani.Generator.SkriptGenerator;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Tablist.TabListManager;
-import com.pie.tlatoani.Util.Reflection;
+import com.pie.tlatoani.Util.UtilReflection;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Team;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -36,20 +32,18 @@ public class SkinManager {
 
     private static ArrayList<UUID> spawnedPlayers = new ArrayList<>();
 
-    private static ArrayList<UUID> respawningPlayers = new ArrayList<>();
+    //private static ArrayList<UUID> respawningPlayers = new ArrayList<>();
 
     private static boolean reflectionEnabled = false;
-    private static Object nmsServer = null;
-    private static Reflection.MethodInvoker craftPlayerGetHandle = null;
-    private static Reflection.MethodInvoker moveToWorld = null;
+    private static UtilReflection.MethodInvoker craftPlayerGetHandle = null;
+    private static UtilReflection.MethodInvoker moveToWorld = null;
 
     static {
 
         //Reflection stuff
         try {
-            nmsServer = Reflection.getTypedMethod(Reflection.getCraftBukkitClass("CraftServer"), "getHandle", Reflection.getMinecraftClass("DedicatedPlayerList")).invoke(Bukkit.getServer());
-            craftPlayerGetHandle = Reflection.getTypedMethod(Reflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", Reflection.getMinecraftClass("EntityPlayer"));
-            moveToWorld = Reflection.getMethod(Reflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld", Reflection.getMinecraftClass("EntityPlayer"), int.class, boolean.class, Location.class, boolean.class);
+            craftPlayerGetHandle = UtilReflection.getTypedMethod(UtilReflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", UtilReflection.getMinecraftClass("EntityPlayer"));
+            moveToWorld = UtilReflection.getMethod(UtilReflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld", UtilReflection.getMinecraftClass("EntityPlayer"), int.class, boolean.class, Location.class, boolean.class);
             reflectionEnabled = true;
         } catch (Exception e) {
             Mundo.reportException(SkinManager.class, e);
@@ -124,11 +118,7 @@ public class SkinManager {
                                 if (!nameTag.equals(s))
                                     addedNames.add(nameTag);
 
-                                String tabName = player.getPlayerListName();
-                                if (!tabName.equals(s) && !tabName.equals(nameTag))
-                                    addedNames.add(tabName);
-
-                                Mundo.debug(SkinManager.class, "Player " + s + ", Nametag " + nameTag + ", Tabname " + tabName);
+                                Mundo.debug(SkinManager.class, "Player " + s + ", Nametag " + nameTag);
                             }
                         }
                     });
@@ -147,58 +137,14 @@ public class SkinManager {
             public void onPacketSending(PacketEvent event) {
                 StructureModifier<String> stringStructureModifier = event.getPacket().getStrings();
                 String actualString = stringStructureModifier.read(0);
-                if (actualString != null) {
-                    stringStructureModifier.writeSafely(0, getNameTag(Bukkit.getPlayerExact(actualString)));
+                Player player = actualString == null ? null : Bukkit.getPlayerExact(actualString);
+                if (player != null) {
+                    stringStructureModifier.writeSafely(0, getNameTag(player));
                     Mundo.debug(SkinManager.class, "REPLACING SCORE IN NAME " + actualString);
                 }
             }
         });
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, /*PacketType.Play.Server.POSITION,*/ PacketType.Play.Server.MAP_CHUNK, PacketType.Play.Server.MAP_CHUNK_BULK) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                /*double x = event.getPacket().getDoubles().readSafely(0);
-                double z = event.getPacket().getDoubles().readSafely(2);
-                Mundo.debug(SkinManager.class, "x, z = " + x + ", " + z);
-                if (x == SkriptGenerator.X_CODE && z == SkriptGenerator.Z_CODE) {
-                    event.setCancelled(true);
-                    Mundo.debug(SkinManager.class, "EVENT CANCELLITU");
-                }*/
-                if (respawningPlayers.contains(event.getPlayer().getUniqueId())) {
-                    event.setCancelled(true);
-                    Mundo.debug(SkinManager.class, "RESPAWNING PLAYER " + event.getPlayer().getName() + " PACKETTYPE " + event.getPacketType());
-                }
-            }
-        });
-
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.POSITION) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                /*double x = event.getPacket().getDoubles().readSafely(0);
-                double z = event.getPacket().getDoubles().readSafely(2);
-                Mundo.debug(SkinManager.class, "x, z = " + x + ", " + z);
-                if (x == SkriptGenerator.X_CODE && z == SkriptGenerator.Z_CODE) {
-                    event.setCancelled(true);
-                    Mundo.debug(SkinManager.class, "EVENT CANCELLITU");
-                }*/
-                if (respawningPlayers.contains(event.getPlayer().getUniqueId())) {
-                    event.setCancelled(true);
-                    Mundo.debug(SkinManager.class, "RESPAWNING PLAYER " + event.getPlayer().getName() + " PACKETTYPE " + event.getPacketType());
-                    PacketContainer packetContainer = new PacketContainer(PacketType.Play.Client.TELEPORT_ACCEPT);
-                    packetContainer.getIntegers().writeSafely(0, event.getPacket().getIntegers().readSafely(0));
-                    Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                ProtocolLibrary.getProtocolManager().recieveClientPacket(event.getPlayer(), packetContainer);
-                            } catch (IllegalAccessException | InvocationTargetException e) {
-                                Mundo.reportException(SkinManager.class, e);
-                            }
-                        }
-                    }, 1);
-                }
-            }
-        });
     }
 
     private SkinManager() {}
@@ -320,7 +266,7 @@ public class SkinManager {
 
         //Replace direct CraftBukkit accessing code with reflection
         //((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().moveToWorld(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
-        moveToWorld.invoke(nmsServer, craftPlayerGetHandle.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, player.getLocation(), true);
+        moveToWorld.invoke(UtilReflection.nmsServer, craftPlayerGetHandle.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, player.getLocation(), true);
 
         if (!playerPrevHidden) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
@@ -328,71 +274,6 @@ public class SkinManager {
                 TabListManager.showPlayer(player, player);
             }
         }, 3);
-    }
-
-    private static void respawnPlayer(Player player) {
-        boolean playerPrevHidden = TabListManager.playerIsHidden(player, player);
-        if (!playerPrevHidden) TabListManager.hidePlayer(player, player);
-        PacketContainer respawn1 = new PacketContainer(PacketType.Play.Server.RESPAWN);
-        PacketContainer respawn2 = new PacketContainer(PacketType.Play.Server.RESPAWN);
-        EnumWrappers.Difficulty difficulty = convertDifficulty(player.getWorld().getDifficulty());
-        respawn1.getDifficulties().writeSafely(0, difficulty);
-        respawn2.getDifficulties().writeSafely(0, difficulty);
-        respawn1.getGameModes().writeSafely(0, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()));
-        respawn2.getGameModes().writeSafely(0, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()));
-        respawn1.getWorldTypeModifier().writeSafely(0, player.getWorld().getWorldType());
-        respawn2.getWorldTypeModifier().writeSafely(0, player.getWorld().getWorldType());
-        World.Environment environment = player.getWorld().getEnvironment();
-        respawn1.getIntegers().writeSafely(0, environment == World.Environment.NETHER ? 0 : -1);
-        respawn2.getIntegers().writeSafely(0, environment == World.Environment.NORMAL ? 0 : environment == World.Environment.NETHER ? -1 : 1);
-        try {
-            ProtocolLibrary.getProtocolManager().sendServerPacket(player, respawn1);
-            ProtocolLibrary.getProtocolManager().sendServerPacket(player, respawn2);
-        } catch (InvocationTargetException e) {
-            Mundo.reportException(SkinManager.class, e);
-        }
-        Location playerLoc = player.getLocation();
-        GameMode playerMode = player.getGameMode();
-        respawningPlayers.add(player.getUniqueId());
-        player.setGameMode(GameMode.CREATIVE);
-        player.teleport(new Location(player.getWorld(), SkriptGenerator.X_CODE, -5, SkriptGenerator.Z_CODE));
-        PacketContainer borderPacket = new PacketContainer(PacketType.Play.Server.WORLD_BORDER);
-        WorldBorder border = player.getWorld().getWorldBorder();
-        borderPacket.getWorldBorderActions().writeSafely(0, EnumWrappers.WorldBorderAction.INITIALIZE);
-        borderPacket.getIntegers().writeSafely(0, 29999984);
-        borderPacket.getIntegers().writeSafely(1, border.getWarningTime());
-        borderPacket.getIntegers().writeSafely(2, border.getWarningDistance());
-        borderPacket.getDoubles().writeSafely(0, border.getCenter().getX());
-        borderPacket.getDoubles().writeSafely(1, border.getCenter().getZ());
-        borderPacket.getDoubles().writeSafely(2, border.getSize());
-        borderPacket.getDoubles().writeSafely(3, border.getSize());
-        borderPacket.getLongs().writeSafely(0, 0L);
-        Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
-            @Override
-            public void run() {
-                respawningPlayers.remove(player.getUniqueId());
-                player.teleport(playerLoc);
-                player.setGameMode(playerMode);
-                if (!playerPrevHidden)
-                    TabListManager.showPlayer(player, player);
-                try {
-                    ProtocolLibrary.getProtocolManager().sendServerPacket(player, borderPacket);
-                } catch (InvocationTargetException e) {
-                    Mundo.reportException(SkinManager.class, e);
-                }
-            }
-        }, 35);
-
-    }
-
-    private static EnumWrappers.Difficulty convertDifficulty(Difficulty difficulty) {
-        switch (difficulty) {
-            case PEACEFUL: return EnumWrappers.Difficulty.PEACEFUL;
-            case EASY: return EnumWrappers.Difficulty.EASY;
-            case NORMAL: return EnumWrappers.Difficulty.NORMAL;
-            case HARD: return EnumWrappers.Difficulty.HARD;
-        }
-        return null;
     }
 
     private static int convertDimension(World.Environment dimension) {

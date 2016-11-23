@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 /**
@@ -71,6 +72,7 @@ public class ExprItem extends SimpleExpression implements ListUtil.Moveable {
         Integer index = this.index.getSingle(arg0).intValue() - 1;
         if (index >= original.length || index < 0) {
         } else if (mode == Changer.ChangeMode.SET) {
+            Mundo.debug(this, "DELTA = " + delta + ", ORIGINAL = " + original);
             original[index] = delta[0];
             transformer.setSafely(arg0, original);
         } else if (mode == Changer.ChangeMode.ADD) {
