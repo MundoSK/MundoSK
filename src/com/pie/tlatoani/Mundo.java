@@ -103,6 +103,7 @@ public class Mundo extends JavaPlugin{
     public static ArrayList<Class<?>> enumClasses = new ArrayList<>();
 
     public void onLoad() {
+        instance = this;
         try {
             UtilWorldLoader.load();
             if (UtilWorldLoader.getAllCreators().isEmpty()) {
@@ -118,7 +119,6 @@ public class Mundo extends JavaPlugin{
     }
 	
 	public void onEnable() {
-		instance = this;
 		config = getConfig();
         config.addDefault("debug_mode", false);
 		config.options().copyDefaults(true);

@@ -325,7 +325,8 @@ public class SkinManager {
             public void run() {
                 Mundo.debug(SkinManager.class, "playerLoc2 = " + playerLoc);
                 Mundo.debug(SkinManager.class, "player current location = " + player.getLocation());
-                //player.teleport(playerLoc);
+                player.teleport(playerLoc);
+                Mundo.debug(SkinManager.class, "player new current location = " + player.getLocation());
             }
         }, 35);
     }
