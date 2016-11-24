@@ -20,6 +20,7 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Team;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -153,6 +154,8 @@ public class SkinManager {
     public static void onJoin(Player player) {
         nameTags.put(player.getUniqueId(), player.getName());
         getActualSkin(player);
+        getNameTag(player);
+        getTablistName(player);
     }
 
     public static void onQuit(Player player) {
@@ -237,6 +240,25 @@ public class SkinManager {
         if (objective != null) {
             score.setScore(actualScore);
         }
+        nameTags.forEach(new BiConsumer<UUID, String>() {
+            @Override
+            public void accept(UUID uuid, String s) {
+                if (s.equals(oldNameTag)) {
+                    Player nameTagOwner = Bukkit.getPlayer(uuid);
+                    Team team1 = nameTagOwner.getScoreboard() != null ? nameTagOwner.getScoreboard().getEntryTeam(nameTagOwner.getName()) : null;
+                    if (team1 != null) {
+                        team1.removeEntry(nameTagOwner.getName());
+                        Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
+                            @Override
+                            public void run() {
+                                team1.addEntry(nameTagOwner.getName());
+                            }
+                        }, 1);
+                    }
+
+                }
+            }
+        });
     }
 
     public static String getTablistName(Player player) {
