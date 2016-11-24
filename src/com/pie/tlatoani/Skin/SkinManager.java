@@ -233,6 +233,7 @@ public class SkinManager {
         }
         nameTags.put(player.getUniqueId(), nameTag);
         refreshPlayer(player);
+        updateTablistName(player);
         if (objective != null) {
             score.setScore(actualScore);
         }

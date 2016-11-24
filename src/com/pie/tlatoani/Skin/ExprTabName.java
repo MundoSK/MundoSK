@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Tablist;
+package com.pie.tlatoani.Skin;
 
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
@@ -17,7 +17,7 @@ public class ExprTabName extends SimpleExpression<String> {
 
     @Override
     protected String[] get(Event event) {
-        return new String[]{playerExpression.getSingle(event).getPlayerListName()};
+        return new String[]{SkinManager.getTablistName(playerExpression.getSingle(event))};
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ExprTabName extends SimpleExpression<String> {
         Player player = playerExpression.getSingle(event);
         if (mode == Changer.ChangeMode.SET)
             tabName = (String) delta[0];
-        playerExpression.getSingle(event).setPlayerListName(tabName);
+        SkinManager.setTablistName(player, tabName);
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
