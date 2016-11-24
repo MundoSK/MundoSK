@@ -5,7 +5,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
-import com.pie.tlatoani.SkinTexture.SkinTexture;
+import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.entity.Player;
 
@@ -19,7 +19,7 @@ public class SimpleTabList {
     private final Player player;
     private final HashMap<String, String> displayNames = new HashMap<>();
     private final HashMap<String, Integer> latencies = new HashMap<>();
-    private final HashMap<String, SkinTexture> heads = new HashMap<>();
+    private final HashMap<String, Skin> heads = new HashMap<>();
 
     public SimpleTabList(Player player) {
         this.player = player;
@@ -30,7 +30,7 @@ public class SimpleTabList {
         String displayName = displayNames.get(id);
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
         UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTabList::" + id).getBytes(TabListManager.utf8));
-        SkinTexture icon = heads.get(id);
+        Skin icon = heads.get(id);
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon == null) icon = TabListManager.DEFAULT_SKIN_TEXTURE;
@@ -59,7 +59,7 @@ public class SimpleTabList {
         return displayNames.containsKey(id);
     }
 
-    public void createTab(String id, String displayName, Integer ping, SkinTexture head) {
+    public void createTab(String id, String displayName, Integer ping, Skin head) {
         TabListManager.deactivateArrayTabList(player);
         if (!tabExists(id)) {
             ping = Math.max(ping, 0);
@@ -88,7 +88,7 @@ public class SimpleTabList {
         return latencies.get(id);
     }
 
-    public SkinTexture getHead(String id) {
+    public Skin getHead(String id) {
         return heads.get(id);
     }
 
@@ -106,7 +106,7 @@ public class SimpleTabList {
         }
     }
 
-    public void setHead(String id, SkinTexture icon) {
+    public void setHead(String id, Skin icon) {
         if (tabExists(id)) {
             sendPacket(id, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             heads.put(id, icon);

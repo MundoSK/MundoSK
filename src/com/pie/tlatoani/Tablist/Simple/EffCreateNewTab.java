@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.SkinTexture.SkinTexture;
+import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -17,7 +17,7 @@ public class EffCreateNewTab extends Effect {
     private Expression<Player> playerExpression;
     private Expression<String> displayName;
     private Expression<Number> ping;
-    private Expression<SkinTexture> iconExpression;
+    private Expression<Skin> iconExpression;
 
     @Override
     protected void execute(Event event) {
@@ -38,7 +38,7 @@ public class EffCreateNewTab extends Effect {
         playerExpression = (Expression<Player>) expressions[1];
         displayName = (Expression<String>) expressions[2];
         ping = (Expression<Number>) expressions[3];
-        iconExpression = (Expression<SkinTexture>) expressions[4];
+        iconExpression = (Expression<Skin>) expressions[4];
         return true;
     }
 }

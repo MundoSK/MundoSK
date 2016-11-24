@@ -23,12 +23,19 @@ import org.bukkit.Bukkit;
  */
 public final class UtilReflection {
 
+
+    // Deduce the net.minecraft.server.v* package
+    private static String OBC_PREFIX = Bukkit.getServer().getClass().getPackage().getName();
+    private static String NMS_PREFIX = OBC_PREFIX.replace("org.bukkit.craftbukkit", "net.minecraft.server");
+    private static String VERSION = OBC_PREFIX.replace("org.bukkit.craftbukkit", "").replace(".", "");
+
     //MUNDOSK START
 
     public static Object nmsServer = null;
 
     static {
         try {
+            Mundo.debug(UtilReflection.class, "Bukkit getserver blah blah package thing: " + Bukkit.getServer().getClass().getPackage().getName());
             nmsServer = UtilReflection.getTypedMethod(UtilReflection.getCraftBukkitClass("CraftServer"), "getHandle", UtilReflection.getMinecraftClass("DedicatedPlayerList")).invoke(Bukkit.getServer());
         } catch (Exception e) {
             Mundo.reportException(UtilReflection.class, e);
@@ -94,11 +101,6 @@ public final class UtilReflection {
          */
         public boolean hasField(Object target);
     }
-
-    // Deduce the net.minecraft.server.v* package
-    private static String OBC_PREFIX = Bukkit.getServer().getClass().getPackage().getName();
-    private static String NMS_PREFIX = OBC_PREFIX.replace("org.bukkit.craftbukkit", "net.minecraft.server");
-    private static String VERSION = OBC_PREFIX.replace("org.bukkit.craftbukkit", "").replace(".", "");
 
     // Variable replacement
     private static Pattern MATCH_VARIABLE = Pattern.compile("\\{([^\\}]+)\\}");

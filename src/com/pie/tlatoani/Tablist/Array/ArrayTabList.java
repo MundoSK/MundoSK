@@ -5,7 +5,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
-import com.pie.tlatoani.SkinTexture.SkinTexture;
+import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.entity.Player;
 
@@ -19,13 +19,13 @@ public class ArrayTabList {
     private final Player player;
     private final String[][] displayNames = new String[4][20];
     private final Integer[][] latencies = new Integer[4][20];
-    private final SkinTexture[][] heads = new SkinTexture[4][20];
+    private final Skin[][] heads = new Skin[4][20];
     private final static String uuidbeginning = "10001000-1000-3000-8000-10001000";
     private int columns;
     private int rows;
-    public SkinTexture initialIcon;
+    public Skin initialIcon;
 
-    public ArrayTabList(Player player, int columns, int rows, SkinTexture initialIcon) {
+    public ArrayTabList(Player player, int columns, int rows, Skin initialIcon) {
         if (initialIcon == null)
         Mundo.debug(this, "constructor " + columns + " " + rows + " " + initialIcon);
         this.player = player;
@@ -42,7 +42,7 @@ public class ArrayTabList {
     private void sendPacket(int column, int row, EnumWrappers.PlayerInfoAction action) {
         int ping = latencies[column - 1][row - 1];
         String displayName = displayNames[column - 1][row - 1];
-        SkinTexture icon = heads[column - 1][row - 1];
+        Skin icon = heads[column - 1][row - 1];
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(TabListManager.colorStringToJson(displayName));
         int identifier = (((column - 1) * 20) + row);
         if (identifier % 2 == 0) identifier += 79;
@@ -143,7 +143,7 @@ public class ArrayTabList {
         return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? latencies[column - 1][row - 1] : null;
     }
 
-    public SkinTexture getHead(int column, int row) {
+    public Skin getHead(int column, int row) {
         return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? heads[column - 1][row - 1] : null;
     }
 
@@ -161,7 +161,7 @@ public class ArrayTabList {
         }
     }
 
-    public void setHead(int column, int row, SkinTexture head) {
+    public void setHead(int column, int row, Skin head) {
         if (Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows)) {
             sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             heads[column - 1][row - 1] = head;

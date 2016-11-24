@@ -51,7 +51,7 @@ import com.pie.tlatoani.Miscellaneous.Thread.*;
 import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
 import com.pie.tlatoani.ProtocolLib.*;
-import com.pie.tlatoani.SkinTexture.*;
+import com.pie.tlatoani.Skin.*;
 import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.Tablist.*;
 import com.pie.tlatoani.Tablist.Array.EffSetArrayTablist;
@@ -643,66 +643,68 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY, "%world% pentity %number% of %packet%");
             registerExpression(ExprEnumOfPacket.class, String.class, ExpressionType.PROPERTY, "%string% penum %number% of %packet%");
 		}
-        //SkinTexture
-        Classes.registerClass(new ClassInfo<SkinTexture>(SkinTexture.class, "skintexture").user(new String[]{"skintexture"}).name("skintexture").parser(new Parser<SkinTexture>(){
-
-            public SkinTexture parse(String s, ParseContext context) {
-                if (s.equalsIgnoreCase("STEVE")) {
-                    return SkinTexture.STEVE;
-                }
-                if (s.equalsIgnoreCase("ALEX")) {
-                    return SkinTexture.ALEX;
-                }
-                return null;
-            }
-
-            public String toString(SkinTexture skinTexture, int flags) {
-                return skinTexture.toString();
-            }
-
-            public String toVariableNameString(SkinTexture skinTexture) {
-                return skinTexture.toString();
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }).serializer(new Serializer<SkinTexture>() {
-            @Override
-            public Fields serialize(SkinTexture skinTexture) throws NotSerializableException {
-                Fields fields = new Fields();
-                fields.putObject("value", skinTexture.toJSONArray().toJSONString());
-                return fields;
-            }
-
-            @Override
-            public void deserialize(SkinTexture skinTexture, Fields fields) throws StreamCorruptedException, NotSerializableException {
-                throw new UnsupportedOperationException("SkinTexture does not have a nullary constructor!");
-            }
-
-            @Override
-            public SkinTexture deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
-                try {
-                    return new SkinTexture.JSON((JSONArray) (new JSONParser()).parse((String) fields.getObject("value")));
-                } catch (ParseException | ClassCastException e) {
-                    throw new StreamCorruptedException();
-                }
-            }
-
-            @Override
-            public boolean mustSyncDeserialization() {
-                return false;
-            }
-
-            @Override
-            protected boolean canBeInstantiated() {
-                return false;
-            }
-        }));
-        registerExpression(ExprTextureWith.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture with value %string% signature %string%");
+        //Skin
         if (isPluginEnabled("ProtocolLib")) {
-            registerExpression(ExprTextureOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "skin texture of %player%");
-            registerExpression(ExprDisplayedSkinOfPlayer.class, SkinTexture.class, ExpressionType.PROPERTY, "displayed skin of %player%", "%player%'s displayed skin");
+            Classes.registerClass(new ClassInfo<Skin>(Skin.class, "skin").user(new String[]{"skin", "skintexture"}).name("skin").parser(new Parser<Skin>(){
+
+                public Skin parse(String s, ParseContext context) {
+                    if (s.equalsIgnoreCase("STEVE")) {
+                        return Skin.STEVE;
+                    }
+                    if (s.equalsIgnoreCase("ALEX")) {
+                        return Skin.ALEX;
+                    }
+                    return null;
+                }
+
+                public String toString(Skin skin, int flags) {
+                    return skin.toString();
+                }
+
+                public String toVariableNameString(Skin skin) {
+                    return skin.toString();
+                }
+
+                public String getVariableNamePattern() {
+                    return ".+";
+                }
+            }).serializer(new Serializer<Skin>() {
+                @Override
+                public Fields serialize(Skin skin) throws NotSerializableException {
+                    Fields fields = new Fields();
+                    fields.putObject("value", skin.toJSONArray().toJSONString());
+                    return fields;
+                }
+
+                @Override
+                public void deserialize(Skin skin, Fields fields) throws StreamCorruptedException, NotSerializableException {
+                    throw new UnsupportedOperationException("Skin does not have a nullary constructor!");
+                }
+
+                @Override
+                public Skin deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
+                    try {
+                        return new Skin.JSON((JSONArray) (new JSONParser()).parse((String) fields.getObject("value")));
+                    } catch (ParseException | ClassCastException e) {
+                        throw new StreamCorruptedException();
+                    }
+                }
+
+                @Override
+                public boolean mustSyncDeserialization() {
+                    return false;
+                }
+
+                @Override
+                protected boolean canBeInstantiated() {
+                    return false;
+                }
+            }));
+            registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] with value %string% signature %string%");
+            registerExpression(ExprSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] [texture] of %player%");
+            registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player%", "%player%'s displayed skin");
+            registerExpression(ExprSkinOfSkull.class, Skin.class, ExpressionType.PROPERTY, "skin of %skull%", "%skull%'s skin");
+            registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%");
             registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "%player%'s name[]tag", "name[]tag of %player%");
         }
         //Socket
@@ -736,18 +738,18 @@ public class Mundo extends JavaPlugin{
             registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% in [the] tab[list] of %players%");
             {
                 //Simple
-                registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skintexture%]");
+                registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skin%]");
                 registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
                 registerEffect(com.pie.tlatoani.Tablist.Simple.EffRemoveAllIDTabs.class, "delete all id tabs for %player%");
                 registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
                 registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");
-                registerExpression(ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% for %player%");
+                registerExpression(ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% for %player%");
             } {
                 //Array
-                registerEffect(EffSetArrayTablist.class, "deactivate array tablist for %player%", "activate array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skintexture%]]");
+                registerEffect(EffSetArrayTablist.class, "deactivate array tablist for %player%", "activate array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skin%]]");
                 registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% for %player%");
                 registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% for %player%");
-                registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, SkinTexture.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% for %player%", "initial icon of %player%'s [array] tablist");
+                registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% for %player%", "initial icon of %player%'s [array] tablist");
                 registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %player%'s [array] tablist");
             }
         }

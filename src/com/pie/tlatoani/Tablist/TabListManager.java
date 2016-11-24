@@ -12,7 +12,7 @@ import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Tablist.Array.ArrayTabList;
 import com.pie.tlatoani.Tablist.Simple.SimpleTabList;
-import com.pie.tlatoani.SkinTexture.SkinTexture;
+import com.pie.tlatoani.Skin.Skin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -35,7 +35,7 @@ public class TabListManager implements Listener {
     private static final ArrayList<UUID> playerFreeTablists = new ArrayList<>();
     public static final PacketType packetType = PacketType.Play.Server.PLAYER_INFO;
     public static final Charset utf8 = Charset.forName("UTF-8");
-    public static final SkinTexture DEFAULT_SKIN_TEXTURE = new SkinTexture.Simple(
+    public static final Skin DEFAULT_SKIN_TEXTURE = new Skin.Simple(
             "eyJ0aW1lc3RhbXAiOjE0NzAwMjgwNDU3MzUsInByb2ZpbGVJZCI6IjQzYTgzNzNkNjQyOTQ1MTBhOWFhYjMwZjViM2NlYmIzIiwicHJvZmlsZU5hbWUiOiJTa3VsbENsaWVudFNraW42Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iNTg3OTM1YzdmYmVjYzJmYWMxMDY0OWZjZGZiODM1YjQ2NTA3MzZiOWJmMWQ0NGVhZjc2ZDNiOWVmN2UwIn19fQ==",
             "eTy8+/waBl22GpAyTHx+QY40J3DY57F2FSkVupjJxAuuUfstvX/DxmJANKtIcYCYP9LUHh9DkP1T2bXUobHcx8GAICi8S/uEWXx96PHHjSr7wQ9uBC4NMCkV7dHHMKdVqEJ9jDpMvSax9vs1tOc2NWaeMbzc/345K95JaYVD+AV4W1+IuppXlMgDmCatUCgGDbzTuQKO8An9zFPciCRq1VSGaOPCj4PoIDQyMhSPqb1cPML/wH26Wtl4DEjnyVIyemk7oDBK29DXxtBLmzX6Ni1C8VM3UmG2StDC7dSwxJNLBHQ/aqXwupK4j0bZghiRbiaq4kAlPcpMeL+TTHac7oYFGihj/s/OVWaL0Fo2KgFZgKuZ26kDepCLEEOOoj2Zq8ohtxufPdTDqw032AyA/HbldnBIsCnQCDiq3XXdZHz0R+pvuf73BSHc7CiG2pwjSdSQ8XetlP70A9SddJu+iFuKGwzh/cvQ2H+sqoUYmIYIXcl2xJTy+Y/shxJDZZVxGCSHmj+4SYzJCg+nsNlEJ9HBG//LfeY+WhacbC9pPPy8wKnDqvIx0QX2YakyBFy659DEBEhSSNRQjOm78Zd9K7pP1QOrS2RDwsDSIXaR0gxT69Bv+Z/r+w8GJY6tHvT8aqTNQHpmv+kwMVdGOWMj3wMErW2aqjH9ffc1nuWht/E="
     );
@@ -171,7 +171,7 @@ public class TabListManager implements Listener {
         deactivateArrayTabList(player);
     }
 
-    public static void activateArrayTabList(Player player, int columns, int rows, SkinTexture initialIcon) {
+    public static void activateArrayTabList(Player player, int columns, int rows, Skin initialIcon) {
         Mundo.debug(TabListManager.class, "setARrayTagList with icon " + initialIcon);
         deactivateArrayTabList(player);
         getSimpleTabListForPlayer(player).clear();

@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.SkinTexture.SkinTexture;
+import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -14,14 +14,14 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 7/13/16.
  */
-public class ExprIconOfTab extends SimpleExpression<SkinTexture> {
+public class ExprIconOfTab extends SimpleExpression<Skin> {
     private Expression<String> id;
     private Expression<Player> playerExpression;
 
     @Override
-    protected SkinTexture[] get(Event event) {
+    protected Skin[] get(Event event) {
         SimpleTabList simpleTabList;
-        return new SkinTexture[] {
+        return new Skin[] {
                 (simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null ?
                         simpleTabList.getHead(id.getSingle(event)) :
                         null
@@ -34,8 +34,8 @@ public class ExprIconOfTab extends SimpleExpression<SkinTexture> {
     }
 
     @Override
-    public Class<? extends SkinTexture> getReturnType() {
-        return SkinTexture.class;
+    public Class<? extends Skin> getReturnType() {
+        return Skin.class;
     }
 
     @Override
@@ -53,13 +53,13 @@ public class ExprIconOfTab extends SimpleExpression<SkinTexture> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         SimpleTabList simpleTabList;
         if ((simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null) {
-            simpleTabList.setHead(id.getSingle(event), (SkinTexture) delta[0]);
+            simpleTabList.setHead(id.getSingle(event), (Skin) delta[0]);
         }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            return CollectionUtils.array(SkinTexture.class);
+            return CollectionUtils.array(Skin.class);
         }
         return null;
     }

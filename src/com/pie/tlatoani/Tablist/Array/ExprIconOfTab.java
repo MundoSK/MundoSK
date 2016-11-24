@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.SkinTexture.SkinTexture;
+import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.TabListManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -14,19 +14,19 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 7/25/16.
  */
-public class ExprIconOfTab extends SimpleExpression<SkinTexture> {
+public class ExprIconOfTab extends SimpleExpression<Skin> {
     private Expression<Player> playerExpression;
     private Expression<Number> column;
     private Expression<Number> row;
     private int pattern;
 
     @Override
-    protected SkinTexture[] get(Event event) {
+    protected Skin[] get(Event event) {
         ArrayTabList arrayTabList;
         if ((arrayTabList = TabListManager.getArrayTabListForPlayer(playerExpression.getSingle(event))) != null) {
-            return new SkinTexture[]{pattern == 0 ? arrayTabList.getHead(column.getSingle(event).intValue(), row.getSingle(event).intValue()) : arrayTabList.initialIcon};
+            return new Skin[]{pattern == 0 ? arrayTabList.getHead(column.getSingle(event).intValue(), row.getSingle(event).intValue()) : arrayTabList.initialIcon};
         }
-        return new SkinTexture[]{null};
+        return new Skin[]{null};
     }
 
     @Override
@@ -35,8 +35,8 @@ public class ExprIconOfTab extends SimpleExpression<SkinTexture> {
     }
 
     @Override
-    public Class<? extends SkinTexture> getReturnType() {
-        return SkinTexture.class;
+    public Class<? extends Skin> getReturnType() {
+        return Skin.class;
     }
 
     @Override
@@ -60,16 +60,16 @@ public class ExprIconOfTab extends SimpleExpression<SkinTexture> {
         ArrayTabList arrayTabList;
         if ((arrayTabList = TabListManager.getArrayTabListForPlayer(playerExpression.getSingle(event))) != null) {
             if (pattern == 0) {
-                arrayTabList.setHead(column.getSingle(event).intValue(), row.getSingle(event).intValue(), (SkinTexture) delta[0]);
+                arrayTabList.setHead(column.getSingle(event).intValue(), row.getSingle(event).intValue(), (Skin) delta[0]);
             } else {
-                arrayTabList.initialIcon = (SkinTexture) delta[0];
+                arrayTabList.initialIcon = (Skin) delta[0];
             }
         }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            return CollectionUtils.array(SkinTexture.class);
+            return CollectionUtils.array(Skin.class);
         }
         return null;
     }
