@@ -1285,6 +1285,14 @@ public class Mundo extends JavaPlugin{
         scheduler.runTaskAsynchronously(instance, runnable);
     }
 
+    public static void syncDelay(int ticks, Runnable runnable) {
+        scheduler.runTaskLater(Mundo.instance, runnable, ticks);
+    }
+
+    public static void asyncDelay(int ticks, Runnable runnable) {
+        scheduler.runTaskLaterAsynchronously(Mundo.instance, runnable, ticks);
+    }
+
     //Miscellanous
 
     public static boolean isPluginEnabled(String pluginName) {

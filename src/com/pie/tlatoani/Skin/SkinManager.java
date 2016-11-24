@@ -312,14 +312,19 @@ public class SkinManager {
             Mundo.reportException(SkinManager.class, e);
         }
 
+        if (!playerPrevHidden) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
+            @Override
+            public void run() {
+                TabListManager.showPlayer(player, player);
+            }
+        }, 3);
+
         Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
             public void run() {
                 player.teleport(playerLoc);
-                if (!playerPrevHidden)
-                    TabListManager.showPlayer(player, player);
             }
-        }, 3);
+        }, 20);
     }
 
     private static void updateTablistName(Player player) {
