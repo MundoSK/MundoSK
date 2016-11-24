@@ -64,10 +64,10 @@ public class SkinManager {
                             Player player = Bukkit.getPlayer(playerInfoData.getProfile().getUUID());
                             PlayerInfoData newPlayerInfoData = playerInfoData;
 
-                            if (!spawnedPlayers.contains(player.getUniqueId())) {
+                            if (player != null && !spawnedPlayers.contains(player.getUniqueId())) {
                                 Mundo.debug(SkinManager.class, "NEW PLAYER !");
                                 spawnedPlayers.add(player.getUniqueId());
-                                if (!actualSkins.containsKey(playerInfoData.getProfile().getUUID()) && player != null) {
+                                if (!actualSkins.containsKey(playerInfoData.getProfile().getUUID())) {
                                     if (!actualSkins.containsKey(player.getUniqueId())) {
                                         Skin skin = new Skin.Collected(playerInfoData.getProfile().getProperties().get("textures"));
                                         Mundo.debug(SkinManager.class, "ALTERNATIVE SKINTEXTURE FOUND IN PACKET = " + skin);
@@ -304,13 +304,19 @@ public class SkinManager {
         if (!playerPrevHidden) TabListManager.hidePlayer(player, player);
         Location playerLoc = player.getLocation();
         Mundo.debug(SkinManager.class, "playerLoc1 = " + playerLoc);
-        try {
-            //Replace direct CraftBukkit accessing code with reflection
-            //((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().moveToWorld(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
-            moveToWorld.invoke(UtilReflection.nmsServer, craftPlayerGetHandle.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, playerLoc, true);
-        } catch (Exception e) {
-            Mundo.debug(SkinManager.class, "Failed to make player see his skin change");
-            Mundo.reportException(SkinManager.class, e);
+        World mainWorld = Bukkit.getWorlds().get(0);
+        if (mainWorld.getName().equals(player.getWorld().getName())) {
+            try {
+                //Replace direct CraftBukkit accessing code with reflection
+                //((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().moveToWorld(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
+                moveToWorld.invoke(UtilReflection.nmsServer, craftPlayerGetHandle.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, playerLoc, true);
+            } catch (Exception e) {
+                Mundo.debug(SkinManager.class, "Failed to make player see his skin change");
+                Mundo.reportException(SkinManager.class, e);
+            }
+        } else {
+            player.teleport(mainWorld.getHighestBlockAt(mainWorld.getSpawnLocation()).getLocation());
+            player.teleport(playerLoc);
         }
 
         if (!playerPrevHidden) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
@@ -320,7 +326,7 @@ public class SkinManager {
             }
         }, 3);
 
-        if (Bukkit.getVersion().contains("1.8")) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
+        /*if (Bukkit.getVersion().contains("1.8")) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
             public void run() {
                 Mundo.debug(SkinManager.class, "playerLoc2 = " + playerLoc);
@@ -328,7 +334,7 @@ public class SkinManager {
                 player.teleport(playerLoc);
                 Mundo.debug(SkinManager.class, "player new current location = " + player.getLocation());
             }
-        }, 100);
+        }, 100);*/
     }
 
     private static void updateTablistName(Player player) {
