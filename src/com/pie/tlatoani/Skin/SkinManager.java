@@ -29,6 +29,7 @@ public class SkinManager {
     private static HashMap<UUID, Skin> actualSkins = new HashMap<>();
     private static HashMap<UUID, Skin> displayedSkins = new HashMap<>();
     private static HashMap<UUID, String> nameTags = new HashMap<>();
+    private static HashMap<UUID, String> tabNames = new HashMap<>();
 
     private static ArrayList<UUID> spawnedPlayers = new ArrayList<>();
 
@@ -117,7 +118,7 @@ public class SkinManager {
                                 String nameTag = getNameTag(player);
                                 if (!nameTag.equals(s))
                                     addedNames.add(nameTag);
-
+                                updateTablistName(player);
                                 Mundo.debug(SkinManager.class, "Player " + s + ", Nametag " + nameTag);
                             }
                         }
@@ -190,7 +191,7 @@ public class SkinManager {
         if (spawnedPlayers.contains(player.getUniqueId())) {
             refreshPlayer(player);
             if (reflectionEnabled)
-                respawnPlayerWithReflection(player);
+                respawnPlayer(player);
         }
     }
 
@@ -237,6 +238,22 @@ public class SkinManager {
         }
     }
 
+    public static String getTablistName(Player player) {
+        String tablistName = tabNames.get(player.getUniqueId());
+        if (tablistName == null) {
+            tablistName = player.getName();
+            tabNames.put(player.getUniqueId(), tablistName);
+        }
+        return tablistName;
+    }
+
+    public static void setTablistName(Player player, String tablistName) {
+        if (tablistName == null)
+            tablistName = player.getName();
+        tabNames.put(player.getUniqueId(), tablistName);
+        updateTablistName(player);
+    }
+
     private static void refreshPlayer(Player player) {
         Mundo.debug(SkinManager.class, "Now hiding player " + player.getName());
         UUID uuid = player.getUniqueId();
@@ -259,25 +276,36 @@ public class SkinManager {
         }, 1);
     }
 
-    private static void respawnPlayerWithReflection(Player player) {
+    private static void respawnPlayer(Player player) {
         boolean playerPrevHidden = TabListManager.playerIsHidden(player, player);
         if (!playerPrevHidden) TabListManager.hidePlayer(player, player);
-
+        Location playerLoc = player.getLocation();
         try {
             //Replace direct CraftBukkit accessing code with reflection
             //((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().moveToWorld(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
-            moveToWorld.invoke(UtilReflection.nmsServer, craftPlayerGetHandle.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, player.getLocation(), true);
+            moveToWorld.invoke(UtilReflection.nmsServer, craftPlayerGetHandle.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, playerLoc, true);
         } catch (Exception e) {
             Mundo.debug(SkinManager.class, "Failed to make player see his skin change");
             Mundo.reportException(SkinManager.class, e);
         }
 
-        if (!playerPrevHidden) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
+        Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
             public void run() {
-                TabListManager.showPlayer(player, player);
+                player.teleport(playerLoc);
+                if (!playerPrevHidden)
+                    TabListManager.showPlayer(player, player);
             }
         }, 3);
+    }
+
+    private static void updateTablistName(Player player) {
+        Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
+        String tablistName = getTablistName(player);
+        if (team == null || tablistName.equals(getNameTag(player)))
+            player.setPlayerListName(tablistName);
+        else
+            player.setPlayerListName(team.getPrefix() + tablistName + team.getSuffix());
     }
 
     private static int convertDimension(World.Environment dimension) {
