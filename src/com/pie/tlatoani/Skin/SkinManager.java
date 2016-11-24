@@ -328,7 +328,7 @@ public class SkinManager {
                 player.teleport(playerLoc);
                 Mundo.debug(SkinManager.class, "player new current location = " + player.getLocation());
             }
-        }, 35);
+        }, 100);
     }
 
     private static void updateTablistName(Player player) {
