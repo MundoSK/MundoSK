@@ -93,7 +93,6 @@ import org.json.simple.parser.ParseException;
 
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
-    public static Logger logger;
 	public static FileConfiguration config;
     public static String pluginFolder;
     public static Boolean debugMode;
@@ -121,7 +120,6 @@ public class Mundo extends JavaPlugin{
 	
 	public void onEnable() {
 		instance = this;
-        logger = getLogger();
 		config = getConfig();
         config.addDefault("debug_mode", false);
 		config.options().copyDefaults(true);
@@ -703,7 +701,7 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] with value %string% signature %string%");
             registerExpression(ExprSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] [texture] of %player%");
             registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player%", "%player%'s displayed skin");
-            registerExpression(ExprSkinOfSkull.class, Skin.class, ExpressionType.PROPERTY, "skin of %skull%", "%skull%'s skin");
+            registerExpression(ExprSkinOfSkull.class, Skin.class, ExpressionType.PROPERTY, "skin of %itemstack%", "%itemstack%'s skin");
             registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%");
             registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "%player%'s name[]tag", "name[]tag of %player%");
         }
@@ -1173,7 +1171,7 @@ public class Mundo extends JavaPlugin{
     //Logging Util
 
     public static void info(String s) {
-        logger.info(s);
+        Mundo.instance.getLogger().info(s);
     }
 	
 	public static void reportException(Object obj, Exception e) {

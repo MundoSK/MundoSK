@@ -7,55 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOfSkull.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkullFromSkin.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/ExprDisplayedSkinOfPlayer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/ExprNameTagOfPlayer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/ExprTextureOfPlayer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/ExprTextureWith.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinManager$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinManager$2$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinManager$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinManager$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinManager$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinManager$5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinManager$6.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinManager$7.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinManager.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$Collected$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$Collected.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$JSON$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$JSON$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$JSON$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$JSON.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture$Simple.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/SkinTexture/SkinTexture.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/MineSkinClient/Data/Skin.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/MineSkinClient/Data/SkinCallback.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/MineSkinClient/Data/SkinData.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/MineSkinClient/Data/Texture.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/MineSkinClient/MineskinClient.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/MineSkinClient/Model.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/MineSkinClient/SkinOptions.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/MineSkinClient/Visibility.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/ExprDisplayedSkinOfPlayer.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprDisplayedSkinOfPlayer.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/ExprNameTagOfPlayer.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprNameTagOfPlayer.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/ExprTextureOfPlayer.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOfPlayer.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/ExprTextureWith.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinWith.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/SkinTexture/SkinTexture.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Skin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTabList.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTabList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/EffSetArrayTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/EffSetArrayTablist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTabName.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTabName.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateNewTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateNewTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprIconOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprIconOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTabList.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTabList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilReflection.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilReflection.java" />
     </list>
     <ignored path="MundoSK.iws" />
@@ -80,20 +33,22 @@
       <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="669" column="17" selection-start-line="669" selection-start-column="17" selection-end-line="669" selection-end-column="17" />
+            <state relative-caret-position="66">
+              <caret line="1181" column="5" selection-start-line="1181" selection-start-column="5" selection-end-line="1181" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#33485#33486#0" expanded="true" />
-                <element signature="e#33547#33548#0" expanded="true" />
-                <element signature="e#33612#33613#0" expanded="true" />
-                <element signature="e#33674#33675#0" expanded="true" />
-                <element signature="e#33732#33733#0" expanded="true" />
-                <element signature="e#33783#33784#0" expanded="true" />
-                <element signature="e#34953#34954#0" expanded="true" />
-                <element signature="e#35005#35006#0" expanded="true" />
-                <element signature="e#35088#35089#0" expanded="true" />
-                <element signature="e#35140#35141#0" expanded="true" />
+                <element signature="e#33422#33423#0" expanded="true" />
+                <element signature="e#33484#33485#0" expanded="true" />
+                <element signature="e#33549#33550#0" expanded="true" />
+                <element signature="e#33611#33612#0" expanded="true" />
+                <element signature="e#33669#33670#0" expanded="true" />
+                <element signature="e#33720#33721#0" expanded="true" />
+                <element signature="e#34890#34891#0" expanded="true" />
+                <element signature="e#34942#34943#0" expanded="true" />
+                <element signature="e#35025#35026#0" expanded="true" />
+                <element signature="e#35077#35078#0" expanded="true" />
+                <element signature="e#60100#60101#0" expanded="true" />
+                <element signature="e#60150#60151#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -188,7 +143,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilReflection.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
-              <caret line="37" column="145" selection-start-line="37" selection-start-column="145" selection-end-line="37" selection-end-column="145" />
+              <caret line="37" column="171" selection-start-line="37" selection-start-column="171" selection-end-line="37" selection-end-column="171" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -199,8 +154,8 @@
       <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="42" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
+            <state relative-caret-position="45">
+              <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -273,11 +228,11 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Skin.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOfSkull.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkullFromSkin.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/MineSkinClient/MineskinClient.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilReflection.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/MineSkinClient/MineskinClient.java" />
       </list>
     </option>
   </component>
@@ -1491,6 +1446,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2745#2761#0" expanded="true" />
+            <element signature="e#6507#6515#0" expanded="true" />
+            <element signature="e#7301#7309#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/MineSkinClient/MineskinClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="67" column="32" selection-start-line="67" selection-start-column="32" selection-end-line="67" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkullFromSkin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
@@ -1509,33 +1485,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="669" column="17" selection-start-line="669" selection-start-column="17" selection-end-line="669" selection-end-column="17" />
+        <state relative-caret-position="66">
+          <caret line="1181" column="5" selection-start-line="1181" selection-start-column="5" selection-end-line="1181" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#33485#33486#0" expanded="true" />
-            <element signature="e#33547#33548#0" expanded="true" />
-            <element signature="e#33612#33613#0" expanded="true" />
-            <element signature="e#33674#33675#0" expanded="true" />
-            <element signature="e#33732#33733#0" expanded="true" />
-            <element signature="e#33783#33784#0" expanded="true" />
-            <element signature="e#34953#34954#0" expanded="true" />
-            <element signature="e#35005#35006#0" expanded="true" />
-            <element signature="e#35088#35089#0" expanded="true" />
-            <element signature="e#35140#35141#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2745#2761#0" expanded="true" />
-            <element signature="e#6507#6515#0" expanded="true" />
-            <element signature="e#7301#7309#0" expanded="true" />
+            <element signature="e#33422#33423#0" expanded="true" />
+            <element signature="e#33484#33485#0" expanded="true" />
+            <element signature="e#33549#33550#0" expanded="true" />
+            <element signature="e#33611#33612#0" expanded="true" />
+            <element signature="e#33669#33670#0" expanded="true" />
+            <element signature="e#33720#33721#0" expanded="true" />
+            <element signature="e#34890#34891#0" expanded="true" />
+            <element signature="e#34942#34943#0" expanded="true" />
+            <element signature="e#35025#35026#0" expanded="true" />
+            <element signature="e#35077#35078#0" expanded="true" />
+            <element signature="e#60100#60101#0" expanded="true" />
+            <element signature="e#60150#60151#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1543,25 +1508,17 @@
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilReflection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
-          <caret line="37" column="145" selection-start-line="37" selection-start-column="145" selection-end-line="37" selection-end-column="145" />
+          <caret line="37" column="171" selection-start-line="37" selection-start-column="171" selection-end-line="37" selection-end-column="171" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/MineSkinClient/MineskinClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="67" column="32" selection-start-line="67" selection-start-column="32" selection-end-line="67" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="42" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
+        <state relative-caret-position="45">
+          <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
           <folding />
         </state>
       </provider>
