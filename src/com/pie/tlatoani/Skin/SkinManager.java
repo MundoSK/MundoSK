@@ -303,6 +303,7 @@ public class SkinManager {
         boolean playerPrevHidden = TabListManager.playerIsHidden(player, player);
         if (!playerPrevHidden) TabListManager.hidePlayer(player, player);
         Location playerLoc = player.getLocation();
+        Mundo.debug(SkinManager.class, "playerLoc = " + playerLoc);
         try {
             //Replace direct CraftBukkit accessing code with reflection
             //((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().moveToWorld(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
@@ -319,12 +320,13 @@ public class SkinManager {
             }
         }, 3);
 
-        Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
+        if (Bukkit.getVersion().contains("1.8")) Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
             @Override
             public void run() {
+                Mundo.debug(SkinManager.class, "playerLoc = " + playerLoc);
                 player.teleport(playerLoc);
             }
-        }, 20);
+        }, 35);
     }
 
     private static void updateTablistName(Player player) {
