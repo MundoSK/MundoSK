@@ -101,8 +101,8 @@ public class Mundo extends JavaPlugin{
     public static ArrayList<Object[]> ena = new ArrayList<>();
     public static ArrayList<String> enumNames = new ArrayList<>();
     public static ArrayList<Class<?>> enumClasses = new ArrayList<>();
-
-    public void onLoad() {
+	
+	public void onEnable() {
         pluginFolder = getDataFolder().getAbsolutePath();
         FileConfiguration config = getConfig();
         config.addDefault("debug_mode", false);
@@ -111,17 +111,8 @@ public class Mundo extends JavaPlugin{
         saveConfig();
         instance = this;
         UtilWorldLoader.load();
-        if (UtilWorldLoader.getAllCreators().isEmpty()) {
-            info("No worlds were assigned to load automatically");
-        } else {
-            info("Worlds to automatically load were loaded successfully!");
-        }
-    }
-	
-	public void onEnable() {
 		Skript.registerAddon(this);
         scheduler = Bukkit.getScheduler();
-
         info("Pie is awesome :D");
         if (getDescription().getVersion().toUpperCase().contains("BETA")) {
             info("You are currently running a BETA version of MundoSK");
