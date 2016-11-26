@@ -93,7 +93,6 @@ import org.json.simple.parser.ParseException;
 
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
-	public static FileConfiguration config;
     public static String pluginFolder;
     public static Boolean debugMode;
     public static String hexDigits = "0123456789abcdef";
@@ -104,6 +103,12 @@ public class Mundo extends JavaPlugin{
     public static ArrayList<Class<?>> enumClasses = new ArrayList<>();
 
     public void onLoad() {
+        pluginFolder = getDataFolder().getAbsolutePath();
+        FileConfiguration config = getConfig();
+        config.addDefault("debug_mode", false);
+        config.options().copyDefaults(true);
+        debugMode = config.getBoolean("debug_mode");
+        saveConfig();
         instance = this;
         UtilWorldLoader.load();
         if (UtilWorldLoader.getAllCreators().isEmpty()) {
@@ -114,13 +119,7 @@ public class Mundo extends JavaPlugin{
     }
 	
 	public void onEnable() {
-		config = getConfig();
-        config.addDefault("debug_mode", false);
-		config.options().copyDefaults(true);
-        debugMode = config.getBoolean("debug_mode");
-		saveConfig();
 		Skript.registerAddon(this);
-        pluginFolder = getDataFolder().getAbsolutePath();
         scheduler = Bukkit.getScheduler();
 
         info("Pie is awesome :D");
