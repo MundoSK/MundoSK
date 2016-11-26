@@ -75,7 +75,7 @@ public class SkinManager {
                             if (player != null && !spawnedPlayers.contains(player)) {
                                 Mundo.debug(SkinManager.class, "NEW PLAYER !");
                                 spawnedPlayers.add(player);
-                                if (!actualSkins.containsKey(playerInfoData.getProfile().getUUID())) {
+                                if (!actualSkins.containsKey(player)) {
                                     if (!actualSkins.containsKey(player)) {
                                         Skin skin = new Skin.Collected(playerInfoData.getProfile().getProperties().get("textures"));
                                         Mundo.debug(SkinManager.class, "ALTERNATIVE SKINTEXTURE FOUND IN PACKET = " + skin);

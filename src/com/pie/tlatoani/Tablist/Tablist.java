@@ -54,6 +54,7 @@ public class Tablist {
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
             @Override
             public void onPacketSending(PacketEvent event) {
+                /*
                 if (!event.isCancelled()) {
                     List<PlayerInfoData> playerInfoDatas = event.getPacket().getPlayerInfoDataLists().readSafely(0);
                     List<PlayerInfoData> newPlayerInfoDatas = new ArrayList<PlayerInfoData>();
@@ -75,6 +76,7 @@ public class Tablist {
                     }
                     event.getPacket().getPlayerInfoDataLists().writeSafely(0, newPlayerInfoDatas);
                 }
+                */
             }
         });
 
@@ -86,7 +88,7 @@ public class Tablist {
                     Mundo.debug(Tablist.class, "Player is hidden");
                     PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                    packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    packet.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
                     packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
                     try {
                         ProtocolLibrary.getProtocolManager().sendServerPacket(event.getPlayer(), packet);
@@ -94,7 +96,7 @@ public class Tablist {
                         e.printStackTrace();
                     }
                     PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                    removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                    removePacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
                     removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
                     Mundo.sync(new PacketSender(removePacket, event.getPlayer()));
                 }
