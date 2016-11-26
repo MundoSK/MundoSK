@@ -160,6 +160,7 @@ public class Tablist {
     public static void onJoin(Player player) {
         if (!tablistMap.containsKey(player)) {
             setTablistForPlayer(Arrays.asList(player), new Tablist());
+
         }
         Mundo.syncDelay(1, new Runnable() {
             @Override
@@ -193,12 +194,11 @@ public class Tablist {
     }
 
     public static void setTablistForPlayer(Collection<Player> players, Tablist newTablist) {
-        players.forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player player) {
-                getTablistForPlayer(player).removePlayers(Arrays.asList(player));
-            }
-        });
+        for (Player player : players) {
+            Tablist oldTablist = getTablistForPlayer(player);
+            if (oldTablist != null) oldTablist.removePlayers(Arrays.asList(player));
+            tablistMap.put(player, newTablist);
+        }
         newTablist.addPlayers(players);
     }
 
