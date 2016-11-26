@@ -34,6 +34,7 @@ import ch.njol.yggdrasil.Fields;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 
+import com.comphenix.protocol.reflect.ObjectEnum;
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.CodeBlock.*;
@@ -104,17 +105,11 @@ public class Mundo extends JavaPlugin{
 
     public void onLoad() {
         instance = this;
-        try {
-            UtilWorldLoader.load();
-            if (UtilWorldLoader.getAllCreators().isEmpty()) {
-                info("No worlds were assigned to load automatically");
-            } else {
-                info("Worlds to automatically load were loaded successfully!");
-            }
-
-        } catch (IOException e) {
-            info("A problem occurred while automatically loading worlds");
-            reportException(this, e);
+        UtilWorldLoader.load();
+        if (UtilWorldLoader.getAllCreators().isEmpty()) {
+            info("No worlds were assigned to load automatically");
+        } else {
+            info("Worlds to automatically load were loaded successfully!");
         }
     }
 	
@@ -163,28 +158,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
 		registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
 		//CodeBlock
-        Classes.registerClass(new ClassInfo<CodeBlock>(CodeBlock.class, "codeblock").user(new String[]{"codeblock"}).name("codeblock").parser(new Parser<CodeBlock>(){
-
-            public boolean canParse(final ParseContext context) {
-                return false;
-            }
-
-            public CodeBlock parse(String s, ParseContext context) {
-                return null;
-            }
-
-            public String toString(CodeBlock codeBlock, int flags) {
-                return null;
-            }
-
-            public String toVariableNameString(CodeBlock codeBlock) {
-                return null;
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));
+        registerSimpleType(CodeBlock.class, "codeblock");
         registerScope(ScopeSaveCodeBlock.class, "codeblock %object% [with (1¦constant|2¦constant %-object%|3¦constants %-objects%)] [:: %-strings%] [-> %-string%]");
         registerEffect(EffRunCodeBlock.class, "((run|execute) codeblock|codeblock (run|execute)) %codeblocks% [(2¦with %-objects%|3¦with variables %-objects%|4¦in a chain|5¦here|7¦with variables %-objects% in a chain)]");
         registerExpression(ExprFunctionCodeBlock.class, CodeBlock.class, ExpressionType.PROPERTY, "[codeblock of] function %string%");
@@ -198,71 +172,9 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprEnchantLevelInEnchBook.class,Integer.class,ExpressionType.PROPERTY,"level of %enchantmenttype% within %itemstack%");
 		registerExpression(ExprEnchantsInEnchBook.class,EnchantmentType.class,ExpressionType.PROPERTY,"enchants within %itemstack%");
 		//Generator
-        Classes.registerClass(new ClassInfo<ChunkData>(ChunkData.class, "chunkdata").user(new String[]{"chunkdata"}).name("chunkdata").parser(new Parser<ChunkData>(){
-
-            public boolean canParse(final ParseContext context) {
-                return false;
-            }
-
-            public ChunkData parse(String s, ParseContext context) {
-                return null;
-            }
-
-            public String toString(ChunkData chunkData, int flags) {
-                return null;
-            }
-
-            public String toVariableNameString(ChunkData chunkData) {
-                return null;
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));
-        Classes.registerClass(new ClassInfo<BiomeGrid>(BiomeGrid.class, "biomegrid").user(new String[]{"biomegrid"}).name("biomegrid").parser(new Parser<BiomeGrid>(){
-
-            public boolean canParse(final ParseContext context) {
-                return false;
-            }
-
-            public BiomeGrid parse(String s, ParseContext context) {
-                return null;
-            }
-
-            public String toString(BiomeGrid biomeGrid, int flags) {
-                return null;
-            }
-
-            public String toVariableNameString(BiomeGrid biomeGrid) {
-                return null;
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));Classes.registerClass(new ClassInfo<Random>(Random.class, "random").user(new String[]{"random"}).name("random").parser(new Parser<Random>(){
-
-            public boolean canParse(final ParseContext context) {
-                return false;
-            }
-
-            public Random parse(String s, ParseContext context) {
-                return null;
-            }
-
-            public String toString(Random random, int flags) {
-                return null;
-            }
-
-            public String toVariableNameString(Random biomeGrid) {
-                return null;
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }).defaultExpression((new ExprNewRandom()).setDefault()));
+        registerSimpleType(ChunkData.class, "chunkdata");
+        registerSimpleType(BiomeGrid.class, "biomegrid");
+        registerSimpleType(Random.class, "random").defaultExpression((new ExprNewRandom()).setDefault());
         registerEffect(EffSetRegionInChunkData.class,
                 "fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%",
                 "fill layer %number% in %chunkdata% with %itemstack%",
@@ -455,84 +367,31 @@ public class Mundo extends JavaPlugin{
         registerScope(ScopeSync.class, "(sync|in %-timespan%)");
         registerScope(ScopeWhen.class, "when %boolean%");
         //NoteBlock
-        Classes.registerClass(new ClassInfo<Note>(Note.class, "note").user(new String[]{"note"}).name("note").parser(new Parser<Note>(){
-
-            public Note parse(String s, ParseContext context) {
-                if (s.substring(0, 1).toUpperCase().equals("N")) {
-                    s = s.substring(1);
-                } else {
-                    if (isPluginEnabled("RandomSK")) {
-                        return null;
+        ArrayList<Pair<String, Note>> notes = new ArrayList<>();
+        for (int octave : new int[]{0, 1})
+            for (Note.Tone tone : Note.Tone.values())
+                for (int deviation : new int[]{-1, 0, 1}) {
+                    if (deviation == 1 && (tone == Note.Tone.B || tone == Note.Tone.E)) continue;
+                    if (deviation == -1 && (tone == Note.Tone.C || tone == Note.Tone.F)) continue;
+                    Note note = Note.natural(octave, tone);
+                    if (deviation == 1) note = note.sharped();
+                    else if (deviation == -1) note = note.flattened();
+                    String noteName = tone.name() + (deviation == 1 ? "+" : deviation == -1 ? "-" : "") + octave;
+                    notes.add(new Pair<>("n" + noteName, note));
+                    if (octave == 0) notes.add(new Pair<>("n" + noteName.substring(0, noteName.length() - 1), note));
+                    if (!isPluginEnabled("RandomSK")) {
+                        notes.add(new Pair<>(noteName, note));
+                        if (octave == 0) notes.add(new Pair<>(noteName.substring(0, noteName.length() - 1), note));
                     }
                 }
-                if (s.length() > 3) {
-                    return null;
-                }
-                try {
-                    Note.Tone tone = Note.Tone.valueOf(s.substring(0, 1).toUpperCase());
-                    s = s.substring(1);
-                    Boolean sharp = null;
-                    Integer octave = 0;
-                    if (s.length() > 0) {
-                        if (s.substring(0, 1).equals("+")) {
-                            sharp = true;
-                            s = s.substring(1);
-                        } else if (s.substring(0, 1).equals("-")) {
-                            sharp = false;
-                            s = s.substring(1);
-                        } else if (s.length() > 1) {
-                            return null;
-                        }
-                    }
-                    if (s.length() > 0) {
-                        if (s.equals("1")) {
-                            octave = 1;
-                        } else if (s.equals("2")) {
-                            octave = 2;
-                        } else if (s.equals("0")) {
-                            octave = 0;
-                        } else {
-                            return null;
-                        }
-                    }
-                    if (sharp == null) {
-                        return Note.natural(octave, tone);
-                    } else if (sharp) {
-                        return Note.sharp(octave, tone);
-                    } else {
-                        return Note.flat(octave, tone);
-                    }
-                } catch (IllegalArgumentException e) {
-                    return null;
-                }
-            }
-
-            public String toString(Note note, int flags) {
-                String result = note.getTone().toString();
-                if (note.isSharped()) {
-                    result += '+';
-                }
-                if (note.getOctave() > 0) {
-                    result = result + Integer.toString(note.getOctave());
-                }
-                return result;
-            }
-
-            public String toVariableNameString(Note note) {
-                String result = note.getTone().toString();
-                if (note.isSharped()) {
-                    result += '+';
-                }
-                if (note.getOctave() > 0) {
-                    result = result + Integer.toString(note.getOctave());
-                }
-                return result;
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));
+        Note fSharp2 = Note.sharp(2, Note.Tone.F);
+        notes.add(new Pair<>("nF+2", fSharp2));
+        notes.add(new Pair<>("nG-2", fSharp2));
+        if (!isPluginEnabled("RandomSK")) {
+            notes.add(new Pair<>("F+2", fSharp2));
+            notes.add(new Pair<>("G-2", fSharp2));
+        }
+        registerEnum(Note.class, "note", new Note[0], notes.toArray(new Pair[0]));
         registerEnum(Instrument.class, "instrument", Instrument.values());
         registerEffect(EffPlayNoteBlock.class, "play [[%-note% with] %-instrument% on] noteblock %block%");
         registerEvent("Note Play", SimpleEvent.class, NotePlayEvent.class, "note play");
@@ -572,42 +431,16 @@ public class Mundo extends JavaPlugin{
                 info("MundoSK requires that you run at least version 4.1 of ProtocolLib");
                 info("If you are running at least version 4.1 of ProtocolLib, please post a message on MundoSK's thread on forums.skunity.com");
             }
-			Classes.registerClass(new ClassInfo<PacketType>(PacketType.class, "packettype").user(new String[]{"packettype"}).name("packettype").parser(new Parser<PacketType>(){
-
-				public PacketType parse(String s, ParseContext context) {
-					return ExprAllPacketTypes.fromString(s.toLowerCase());
-				}
-
-				public String toString(PacketType packetType, int flags) {
-					return ExprAllPacketTypes.PacketTypeToString(packetType);
-				}
-
-				public String toVariableNameString(PacketType packetType) {
-					return ExprAllPacketTypes.PacketTypeToString(packetType);
-				}
-
-				public String getVariableNamePattern() {
-					return ".+";
-				}
-			}));
-			Classes.registerClass(new ClassInfo<PacketContainer>(PacketContainer.class, "packet").user(new String[]{"packet"}).name("packet").parser(new Parser<PacketContainer>(){
-
-				public PacketContainer parse(String s, ParseContext context) {
-					return null;
-				}
-
-				public String toString(PacketContainer packet, int flags) {
-					return null;
-				}
-
-				public String toVariableNameString(PacketContainer packet) {
-					return null;
-				}
-
-				public String getVariableNamePattern() {
-					return ".+";
-				}
-			}));
+            addPacketTypes(PacketType.Play.Server.getInstance(), "play", true);
+            addPacketTypes(PacketType.Play.Client.getInstance(), "play", false);
+            addPacketTypes(PacketType.Handshake.Server.getInstance(), "handshake", true);
+            addPacketTypes(PacketType.Handshake.Client.getInstance(), "handshake", false);
+            addPacketTypes(PacketType.Login.Server.getInstance(), "login", true);
+            addPacketTypes(PacketType.Login.Client.getInstance(), "login", false);
+            addPacketTypes(PacketType.Status.Server.getInstance(), "status", true);
+            addPacketTypes(PacketType.Status.Client.getInstance(), "status", false);
+            registerEnum(PacketType.class, "packettype", new PacketType[0], nametoptype.entrySet().toArray(new Map.Entry[0]));
+            registerSimpleType(PacketContainer.class, "packet");
 			registerEffect(EffSendPacket.class, "send packet %packet% to %player%", "send %player% packet %packet%");
             registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet %packet% from %player%"); //Included incorrect spelling to avoid wasted time
 			registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%");
@@ -699,7 +532,7 @@ public class Mundo extends JavaPlugin{
             }));
             registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] with value %string% signature %string%");
             registerExpression(ExprSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] [texture] of %player%");
-            registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player%", "%player%'s displayed skin");
+            registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(for %-players%|excluding %-players%)]", "%player%'s displayed skin [(for %-players%|excluding %-players%)]");
             registerExpression(ExprSkinOfSkull.class, Skin.class, ExpressionType.PROPERTY, "skin of %itemstack%", "%itemstack%'s skin");
             registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%");
             registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "%player%'s name[]tag", "name[]tag of %player%");
@@ -717,37 +550,45 @@ public class Mundo extends JavaPlugin{
 		//Tablist
         registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
         if (isPluginEnabled("ProtocolLib")) {
+            registerSimpleType(Tablist.class, "tablist");
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onJoin(PlayerJoinEvent event) {
-                    TabListManager.onJoin(event.getPlayer());
+                    Tablist.onJoin(event.getPlayer());
                     SkinManager.onJoin(event.getPlayer());
                 }
             }, this);
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onQuit(PlayerQuitEvent event) {
-                    TabListManager.onQuit(event.getPlayer());
+                    Tablist.onQuit(event.getPlayer());
                     SkinManager.onQuit(event.getPlayer());
                 }
             }, this);
-            registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "%player%'s tablist contains players");
-            registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% in [the] tab[list] of %players%");
+            registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "(%tablist%|%player%'s tablist) contains players");
+            registerExpression(ExprNewTablist.class, Tablist.class, ExpressionType.SIMPLE, "new tablist");
+            registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores enabled in (%tablist%|%player%'s tablist)");
+            registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "tablist name of %player% (in %tablist%|for %player%)", "%player%'s tablist name (in %tablist%|for %player%)");
+            registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "tablist score of %player% (in %tablist%|for %player%)", "%player%'s tablist score (in %tablist%|for %player%)");
+            registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% (in %tablist%|for %player%)");
+            registerEffect(EffSetTablist.class, "set tablist of %players% to %tablist%", "set %player%'s tablist to %tablist%");
             {
                 //Simple
-                registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% for %player% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skin%]");
-                registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% for %player%");
-                registerEffect(com.pie.tlatoani.Tablist.Simple.EffRemoveAllIDTabs.class, "delete all id tabs for %player%");
-                registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% for %player%");
-                registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% for %player%");
-                registerExpression(ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% for %player%");
+                registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% (in %tablist%|for %player%) with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skin%] [score %-number%]");
+                registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% (in %tablist%|for %player%)");
+                registerEffect(com.pie.tlatoani.Tablist.Simple.EffRemoveAllIDTabs.class, "delete all id tabs (in %tablist%|for %player%)");
+                registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% (in %tablist%|for %player%)");
+                registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% (in %tablist%|for %player%)");
+                registerExpression(ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% (in %tablist%|for %player%)");
+                registerExpression(com.pie.tlatoani.Tablist.Simple.ExprScoreOfTab.class, Number.class, ExpressionType.PROPERTY, "score of tab id %string% (in %tablist%|for %player%)");
             } {
                 //Array
                 registerEffect(EffSetArrayTablist.class, "deactivate array tablist for %player%", "activate array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skin%]]");
-                registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% for %player%");
-                registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% for %player%");
-                registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% for %player%", "initial icon of %player%'s [array] tablist");
-                registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %player%'s [array] tablist");
+                registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% (in %tablist%|for %player%)");
+                registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% (in %tablist%|for %player%)");
+                registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% (in %tablist%|for %player%)", "initial icon of (%tablist%|%player%'s [array] tablist)");
+                registerExpression(com.pie.tlatoani.Tablist.Array.ExprScoreOfTab.class, Number.class, ExpressionType.PROPERTY, "score of tab %number%, %number% (in %tablist%|for %player%)");
+                registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in (%tablist%|%player%'s [array] tablist)");
             }
         }
         //TerrainControl
@@ -758,50 +599,8 @@ public class Mundo extends JavaPlugin{
 			registerExpression(ExprTCEnabled.class,Boolean.class,ExpressionType.PROPERTY,"(tc|terrain control) is enabled for %world%");
 		}
 		//Throwable
-		Classes.registerClass(new ClassInfo<Throwable>(Throwable.class, "throwable").user(new String[]{"throwable"}).name("throwable").parser(new Parser<Throwable>(){
-
-            public boolean canParse(final ParseContext context) {
-                return false;
-            }
-
-		    public Throwable parse(String s, ParseContext context) {
-                return null;
-            }
-
-            public String toString(Throwable exc, int flags) {
-                return exc.toString();
-            }
-
-            public String toVariableNameString(Throwable exc) {
-                return exc.toString();
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));
-		Classes.registerClass(new ClassInfo<StackTraceElement>(StackTraceElement.class, "stacktraceelement").user(new String[]{"stacktraceelement"}).name("stacktraceelement").parser(new Parser<StackTraceElement>(){
-
-            public boolean canParse(final ParseContext context) {
-                return false;
-            }
-
-		    public StackTraceElement parse(String s, ParseContext context) {
-                return null;
-            }
-
-            public String toString(StackTraceElement elem, int flags) {
-                return elem.toString();
-            }
-
-            public String toVariableNameString(StackTraceElement elem) {
-                return elem.toString();
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));
+        registerSimpleType(Throwable.class, "throwable");
+        registerSimpleType(StackTraceElement.class, "stacktraceelement");
 		registerScope(ScopeTry.class, "try");
         registerScope(ScopeCatch.class, "catch in %object%");
 		registerEffect(EffPrintStackTrace.class, "print stack trace of %throwable%");
@@ -859,9 +658,7 @@ public class Mundo extends JavaPlugin{
                 return ".+";
             }
         }));
-		if (isPluginEnabled("RandomSK")) {
-            registerEnum(Environment.class, "environment", Environment.values(), new Pair<String, Environment>("END", Environment.THE_END));
-		}
+        registerEnum(Environment.class, "environment", Environment.values(), new Pair<String, Environment>("END", Environment.THE_END));
         registerEnum(WorldType.class, "worldtype", WorldType.values(), new Pair<String, WorldType>("SUPERFLAT", WorldType.FLAT), new Pair<String, WorldType>("LARGE BIOMES", WorldType.LARGE_BIOMES), new Pair<String, WorldType>("VERSION 1.1", WorldType.VERSION_1_1));
 		registerExpression(ExprCreatorNamed.class,WorldCreator.class,ExpressionType.PROPERTY,"creator (with name|named) %string%");
 		registerExpression(ExprCreatorWith.class,WorldCreator.class,ExpressionType.PROPERTY,"%creator%[ modified],[ name %-string%][,][ env[ironment] %-environment%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
@@ -970,18 +767,45 @@ public class Mundo extends JavaPlugin{
         Skript.registerCondition(conditionClass, patterns);
     }
 
-    public static <E> void registerEnum(Class<E> enumClass, String name, E[] values, Pair<String, E>... defaultPairings) {
+    public static <T> ClassInfo<T> registerSimpleType(Class<T> type, String name, String... alternateNames) {
+        ArrayList<String> names = new ArrayList<String>(Arrays.asList(alternateNames));
+        names.add(0, name);
+        ClassInfo<T> result = new ClassInfo<T>(type, name).user(names.toArray(new String[0])).name(name).parser(new Parser<T>(){
+
+            public T parse(String s, ParseContext context) {
+                return null;
+            }
+
+            public String toString(T unused, int flags) {
+                return null;
+            }
+
+            public String toVariableNameString(T unused) {
+                return null;
+            }
+
+            public String getVariableNamePattern() {
+                return ".+";
+            }
+        });
+        if (classInfoSafe(type, name)) {
+            Classes.registerClass(result);
+        }
+        return result;
+    }
+
+    public static <E> void registerEnum(Class<E> enumClass, String name, E[] values, Map.Entry<String, E>... defaultPairings) {
         if (!classInfoSafe(enumClass, name)) return;
         Classes.registerClass(new ClassInfo<E>(enumClass, name).user(new String[]{name}).name(name).parser(new Parser<E>() {
             private E[] enumValues = values;
-            private Pair<String, E>[] additionalPairings = defaultPairings;
+            private Map.Entry<String, E>[] additionalPairings = defaultPairings;
 
             @Override
             public E parse(String s, ParseContext parseContext) {
                 String upperCase = s.toUpperCase();
                 for (int i = 0; i < additionalPairings.length; i++) {
-                    if (additionalPairings[i].getFirst().equals(upperCase)) {
-                        return additionalPairings[i].getSecond();
+                    if (additionalPairings[i].getKey().equals(upperCase)) {
+                        return additionalPairings[i].getValue();
                     }
                 }
                 for (int i = 0; i < values.length; i++) {
@@ -995,8 +819,8 @@ public class Mundo extends JavaPlugin{
             @Override
             public String toString(E e, int useless) {
                 for (int i = 0; i < additionalPairings.length; i++) {
-                    if (additionalPairings[i].getSecond() == e) {
-                        return additionalPairings[i].getFirst().toLowerCase();
+                    if (additionalPairings[i].getValue() == e) {
+                        return additionalPairings[i].getKey().toLowerCase();
                     }
                 }
                 for (int i = 0; i < values.length; i++) {
@@ -1018,13 +842,13 @@ public class Mundo extends JavaPlugin{
             }
         }).serializer(new Serializer<E>() {
             private E[] enumValues = values;
-            private Pair<String, E>[] additionalPairings = defaultPairings;
+            private Map.Entry<String, E>[] additionalPairings = defaultPairings;
 
             public E parse(String s) {
                 String upperCase = s.toUpperCase();
                 for (int i = 0; i < additionalPairings.length; i++) {
-                    if (additionalPairings[i].getFirst().equals(upperCase)) {
-                        return additionalPairings[i].getSecond();
+                    if (additionalPairings[i].getKey().equals(upperCase)) {
+                        return additionalPairings[i].getValue();
                     }
                 }
                 for (int i = 0; i < values.length; i++) {
@@ -1037,8 +861,8 @@ public class Mundo extends JavaPlugin{
 
             public String toString(E e) {
                 for (int i = 0; i < additionalPairings.length; i++) {
-                    if (additionalPairings[i].getSecond() == e) {
-                        return additionalPairings[i].getFirst().toLowerCase();
+                    if (additionalPairings[i].getValue() == e) {
+                        return additionalPairings[i].getKey().toLowerCase();
                     }
                 }
                 for (int i = 0; i < values.length; i++) {
@@ -1108,6 +932,21 @@ public class Mundo extends JavaPlugin{
         public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
             whichEnum = i;
             return true;
+        }
+    }
+
+    //PacketType Stuff
+
+    private static Map<String, PacketType> nametoptype = new HashMap<String, PacketType>();
+    //private static Map<PacketType, Boolean> ptypetoboolean = new HashMap<PacketType, Boolean>();
+
+    private static void addPacketTypes(ObjectEnum<PacketType> packetTypes, String prefix, Boolean isServer) {
+        Iterator<PacketType> packetTypeIterator = packetTypes.iterator();
+        while (packetTypeIterator.hasNext()) {
+            PacketType current = packetTypeIterator.next();
+            String fullname = prefix + "_" + (isServer ? "server" : "client") + "_" + current.name().toLowerCase();
+            nametoptype.put(fullname, current);
+            //ptypetoboolean.put(current, isServer);
         }
     }
 

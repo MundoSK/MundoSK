@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Tablist.TabListManager;
+import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -16,16 +16,13 @@ import org.bukkit.event.Event;
 public class ExprDisplayNameOfTab extends SimpleExpression<String> {
     private Expression<Number> column;
     private Expression<Number> row;
+    private Expression<Tablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected String[] get(Event event) {
-        ArrayTabList arrayTabList;
-        return new String[] {
-                (arrayTabList = TabListManager.getArrayTabListForPlayer(playerExpression.getSingle(event))) != null ?
-                        arrayTabList.getDisplayName(column.getSingle(event).intValue(), row.getSingle(event).intValue()) :
-                        null
-        };
+        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        return new String[]{tablist.arrayTablist.getDisplayName(column.getSingle(event).intValue(), row.getSingle(event).intValue())};
     }
 
     @Override
@@ -47,15 +44,14 @@ public class ExprDisplayNameOfTab extends SimpleExpression<String> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         column = (Expression<Number>) expressions[0];
         row = (Expression<Number>) expressions[1];
-        playerExpression = (Expression<Player>) expressions[2];
+        tablistExpression = (Expression<Tablist>) expressions[2];
+        playerExpression = (Expression<Player>) expressions[3];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        ArrayTabList arrayTabList;
-        if ((arrayTabList = TabListManager.getArrayTabListForPlayer(playerExpression.getSingle(event))) != null) {
-            arrayTabList.setDisplayName(column.getSingle(event).intValue(), row.getSingle(event).intValue(), ((String) delta[0]));
-        }
+        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        tablist.arrayTablist.setDisplayName(column.getSingle(event).intValue(), row.getSingle(event).intValue(), ((String) delta[0]));
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

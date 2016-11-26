@@ -7,22 +7,24 @@ import ch.njol.util.Kleenean;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.util.Arrays;
+
 /**
  * Created by Tlatoani on 10/20/16.
  */
 public class EffChangePlayerVisibility extends Effect {
     private boolean visible;
-    private Expression<Player> targets;
+    private Expression<Tablist> tablistExpression;
+    private Expression<Player> playerExpression;
     private Expression<Player> objects;
 
     @Override
     protected void execute(Event event) {
-        for (Player target : targets.getArray(event))
-            for (Player object : objects.getArray(event))
-                if (visible)
-                    TabListManager.showPlayer(object, target);
-                else
-                    TabListManager.hidePlayer(object, target);
+        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        if (visible)
+            tablist.showPlayers(Arrays.asList(objects.getArray(event)));
+        else
+            tablist.hidePlayers(Arrays.asList(objects.getArray(event)));
     }
 
     @Override
@@ -33,7 +35,8 @@ public class EffChangePlayerVisibility extends Effect {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         visible = parseResult.mark == 0;
-        targets = (Expression<Player>) expressions[1];
+        tablistExpression = (Expression<Tablist>) expressions[1];
+        playerExpression = (Expression<Player>) expressions[2];
         objects = (Expression<Player>) expressions[0];
         return true;
     }

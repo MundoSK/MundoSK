@@ -22,11 +22,13 @@ import java.util.function.BiConsumer;
 public final class UtilWorldLoader {
     private static Map<String, WorldCreator> worldLoaderSaver = new HashMap<String, WorldCreator>();
     private final static String filename = "worldloader.json";
+    private static boolean success = true;
 
     private UtilWorldLoader() {} //Cannot be initialized
 
-    public static void load() throws IOException {
-        readJSONObject(getLoaderFile()).forEach(new BiConsumer() {
+    public static void load() {
+        File file = getLoaderFile();
+        if (file != null) readJSONObject(file).forEach(new BiConsumer() {
             @Override
             public void accept(Object key, Object value) {
                 String s = (String) key;
@@ -36,6 +38,13 @@ public final class UtilWorldLoader {
                 creator.createWorld();
             }
         });
+        if (success) {
+            if (getAllCreators().isEmpty()) {
+                Mundo.info("No worlds were assigned to load automatically");
+            } else {
+                Mundo.info("Worlds to automatically load were loaded successfully!");
+            }
+        }
     }
 
     public static void save() throws IOException {
@@ -45,37 +54,38 @@ public final class UtilWorldLoader {
         writer.close();
     }
 
-    public static File getLoaderFile() throws IOException {
-        File result = new File(Mundo.pluginFolder + File.separator + filename);
-        if (!result.exists()) {
-            result.createNewFile();
-            //JsonObject emptyObject = Json.createObjectBuilder().build();
-            JSONObject emptyObject = new JSONObject();
-            FileWriter writer = new FileWriter(result);
-            writer.write(emptyObject.toString());
-            writer.flush();
-            writer.close();
+    public static File getLoaderFile() {
+        try {
+            File result = new File(Mundo.pluginFolder + File.separator + filename);
+            if (!result.exists()) {
+                result.createNewFile();
+                //JsonObject emptyObject = Json.createObjectBuilder().build();
+                JSONObject emptyObject = new JSONObject();
+                FileWriter writer = new FileWriter(result);
+                writer.write(emptyObject.toString());
+                writer.flush();
+                writer.close();
+            }
+            return result;
+        } catch (IOException e) {
+            Mundo.info("MundoSK encountered problems while reading the file for automatically loaded worlds");
+            Mundo.info("Any worlds set to automatically load were not loaded");
+            Mundo.debug(UtilWorldLoader.class, e);
+            success = false;
         }
-        return result;
+        return null;
     }
 
-    public static JSONObject readJSONObject(File jsonFile) throws FileNotFoundException {
-        /*JsonReader reader = Json.createReader(new FileReader(jsonFile));
-        JsonObject worldLoaders = reader.readObject();
-        Map<String, JsonObject> creatorJsons = new HashMap<>();
-        worldLoaders.forEach(new BiConsumer<String, JsonValue>() {
-            @Override
-            public void accept(String s, JsonValue jsonValue) {
-                creatorJsons.put(s, (JsonObject) jsonValue);
-            }
-        });
-        return creatorJsons;*/
+    public static JSONObject readJSONObject(File jsonFile) {
         JSONParser parser = new JSONParser();
         JSONObject result = null;
         try {
             result = (JSONObject) parser.parse(new FileReader(jsonFile));
         } catch (IOException | ParseException | ClassCastException e) {
-            e.printStackTrace();
+            Mundo.info("MundoSK encountered problems while reading the file for automatically loaded worlds");
+            Mundo.info("Any worlds set to automatically load were not loaded");
+            Mundo.debug(UtilWorldLoader.class, e);
+            success = false;
         }
         return result;
     }

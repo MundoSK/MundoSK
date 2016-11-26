@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Tablist.TabListManager;
+import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -13,14 +13,13 @@ import org.bukkit.event.Event;
  */
 public class EffDeleteTab extends Effect {
     private Expression<String> id;
+    private Expression<Tablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected void execute(Event event) {
-        SimpleTabList simpleTabList;
-        if ((simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null) {
-            simpleTabList.deleteTab(id.getSingle(event));
-        }
+        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        tablist.simpleTablist.deleteTab(id.getSingle(event));
     }
 
     @Override
@@ -31,7 +30,8 @@ public class EffDeleteTab extends Effect {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         id = (Expression<String>) expressions[0];
-        playerExpression = (Expression<Player>) expressions[1];
+        tablistExpression = (Expression<Tablist>) expressions[1];
+        playerExpression = (Expression<Player>) expressions[2];
         return true;
     }
 }

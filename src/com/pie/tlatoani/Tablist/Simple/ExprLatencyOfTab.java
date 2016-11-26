@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Tablist.TabListManager;
+import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -15,16 +15,13 @@ import org.bukkit.event.Event;
  */
 public class ExprLatencyOfTab extends SimpleExpression<Number> {
     private Expression<String> id;
+    private Expression<Tablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected Number[] get(Event event) {
-        SimpleTabList simpleTabList;
-        return new Number[] {
-                (simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null ?
-                        simpleTabList.getLatency(id.getSingle(event)) :
-                        null
-        };
+        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        return new Number[]{tablist.simpleTablist.getLatency(id.getSingle(event))};
     }
 
     @Override
@@ -45,15 +42,14 @@ public class ExprLatencyOfTab extends SimpleExpression<Number> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         id = (Expression<String>) expressions[0];
-        playerExpression = (Expression<Player>) expressions[1];
+        tablistExpression = (Expression<Tablist>) expressions[1];
+        playerExpression = (Expression<Player>) expressions[2];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        SimpleTabList simpleTabList;
-        if ((simpleTabList = TabListManager.getSimpleTabListForPlayer(playerExpression.getSingle(event))) != null) {
-            simpleTabList.setLatency(id.getSingle(event), ((Number) delta[0]).intValue());
-        }
+        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        tablist.simpleTablist.setLatency(id.getSingle(event), ((Number) delta[0]).intValue());
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

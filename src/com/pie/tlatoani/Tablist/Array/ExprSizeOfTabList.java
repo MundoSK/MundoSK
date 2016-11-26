@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Tablist.TabListManager;
+import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -14,17 +14,14 @@ import org.bukkit.event.Event;
  * Created by Tlatoani on 7/23/16.
  */
 public class ExprSizeOfTabList extends SimpleExpression<Number> {
+    private Expression<Tablist> tablistExpression;
     private Expression<Player> playerExpression;
     private boolean isColumns;
 
     @Override
     protected Number[] get(Event event) {
-        ArrayTabList arrayTabList;
-        return new Number[] {
-                (arrayTabList = TabListManager.getArrayTabListForPlayer(playerExpression.getSingle(event))) != null ?
-                        (isColumns ? arrayTabList.getColumns() : arrayTabList.getRows()) :
-                        null
-        };
+        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        return new Number[]{isColumns ? tablist.arrayTablist.getColumns() : tablist.arrayTablist.getRows()};
     }
 
     @Override
@@ -44,19 +41,18 @@ public class ExprSizeOfTabList extends SimpleExpression<Number> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        playerExpression = (Expression<Player>) expressions[0];
+        tablistExpression = (Expression<Tablist>) expressions[0];
+        playerExpression = (Expression<Player>) expressions[1];
         isColumns = parseResult.mark == 0;
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        ArrayTabList arrayTabList;
-        if ((arrayTabList = TabListManager.getArrayTabListForPlayer(playerExpression.getSingle(event))) != null) {
-            if (isColumns) {
-                arrayTabList.setColumns(((Number) delta[0]).intValue());
-            } else {
-                arrayTabList.setRows(((Number) delta[0]).intValue());
-            }
+        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        if (isColumns) {
+            tablist.arrayTablist.setColumns(((Number) delta[0]).intValue());
+        } else {
+            tablist.arrayTablist.setRows(((Number) delta[0]).intValue());
         }
     }
 

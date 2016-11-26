@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Miscellaneous.Thread;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.util.Timespan;
@@ -47,5 +48,23 @@ public class ScopeAsync extends CustomScope {
     public boolean init() {
         delay = (Expression<Timespan>) exprs[0];
         return true;
+    }
+
+    //Work as free standing condition
+
+    @Override
+    public TriggerItem setNext(TriggerItem next) {
+        return super.setNext(next);
+    }
+
+    @Override
+    public TriggerItem walk(Event event) {
+        Mundo.async(new Runnable() {
+            @Override
+            public void run() {
+                TriggerItem.walk(getNext(), event);
+            }
+        });
+        return null;
     }
 }

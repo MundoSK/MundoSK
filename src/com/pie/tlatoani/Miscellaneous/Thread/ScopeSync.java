@@ -48,4 +48,22 @@ public class ScopeSync extends CustomScope {
         delay = (Expression<Timespan>) exprs[0];
         return true;
     }
+
+    //Work as free standing condition
+
+    @Override
+    public TriggerItem setNext(TriggerItem next) {
+        return super.setNext(next);
+    }
+
+    @Override
+    public TriggerItem walk(Event event) {
+        Mundo.sync(new Runnable() {
+            @Override
+            public void run() {
+                TriggerItem.walk(getNext(), event);
+            }
+        });
+        return null;
+    }
 }
