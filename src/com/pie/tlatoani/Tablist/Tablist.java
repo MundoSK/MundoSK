@@ -374,10 +374,9 @@ public class Tablist {
     }
 
     public static void enableTablistObjective(Collection<? extends Player> players) {
-        PacketContainer createPacket = new PacketContainer(PacketType.Play.Server.SCOREBOARD_OBJECTIVE);
+        PacketContainer createPacket = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.SCOREBOARD_OBJECTIVE); //Used to get some defaults
         createPacket.getStrings().writeSafely(0, OBJECTIVE_NAME);
         createPacket.getStrings().writeSafely(1, OBJECTIVE_NAME);
-        //Something goes here
         createPacket.getIntegers().writeSafely(0, 0);
         PacketContainer displayPacket = new PacketContainer(PacketType.Play.Server.SCOREBOARD_DISPLAY_OBJECTIVE);
         displayPacket.getIntegers().writeSafely(0, 0);
@@ -385,7 +384,7 @@ public class Tablist {
         try {
             for (Player player : players) {
                 ProtocolLibrary.getProtocolManager().sendServerPacket(player, createPacket);
-                //ProtocolLibrary.getProtocolManager().sendServerPacket(player, displayPacket);
+                ProtocolLibrary.getProtocolManager().sendServerPacket(player, displayPacket);
             }
         } catch (InvocationTargetException e) {
             Mundo.reportException(Tablist.class, e);

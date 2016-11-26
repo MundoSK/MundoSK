@@ -5,6 +5,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
 import org.bukkit.event.Event;
 
@@ -16,7 +17,7 @@ public class ExprNewPacket extends SimpleExpression<PacketContainer> {
 
     @Override
     protected PacketContainer[] get(Event event) {
-        return new PacketContainer[]{UtilPacketEvent.protocolManager.createPacket(packetTypeExpression.getSingle(event))};
+        return new PacketContainer[]{ProtocolLibrary.getProtocolManager().createPacket(packetTypeExpression.getSingle(event))};
     }
 
     @Override
