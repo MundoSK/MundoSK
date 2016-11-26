@@ -62,7 +62,11 @@ public class Tablist {
                         PlayerInfoData newPlayerInfoData = playerInfoData;
                         if (player != null && event.getPlayer() != null) {
                             Tablist tablist = getTablistForPlayer(event.getPlayer());
+                            Mundo.debug(Tablist.class, "getTablistForPlayer = " + tablist);
+                            HashMap<Player, String> tablistNames = tablist.tablistNames;
+                            Mundo.debug(Tablist.class, "tablistNames = " + tablistNames);
                             String tablistName = tablist.tablistNames.get(player);
+                            Mundo.debug(Tablist.class, "tablistName = " + tablistName);
                             if (tablistName != null) {
                                 newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile(), playerInfoData.getLatency(), playerInfoData.getGameMode(), WrappedChatComponent.fromJson(colorStringToJson(tablistName)));
                                 newPlayerInfoDatas.add(newPlayerInfoData);

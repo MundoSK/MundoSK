@@ -551,7 +551,7 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores enabled in (%tablist%|%player%'s tablist)");
             registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "tablist name of %player% (in %tablist%|for %player%)", "%player%'s tablist name (in %tablist%|for %player%)");
             registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "tablist score of %player% (in %tablist%|for %player%)", "%player%'s tablist score (in %tablist%|for %player%)");
-            registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% (in %tablist%|for %player%)");
+            registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% in (%tablist%|tab[list] of %player%)");
             registerEffect(EffSetTablist.class, "set tablist of %players% to %tablist%", "set %player%'s tablist to %tablist%");
             {
                 //Simple
