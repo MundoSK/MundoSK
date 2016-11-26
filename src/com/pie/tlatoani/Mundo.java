@@ -431,15 +431,7 @@ public class Mundo extends JavaPlugin{
                 info("MundoSK requires that you run at least version 4.1 of ProtocolLib");
                 info("If you are running at least version 4.1 of ProtocolLib, please post a message on MundoSK's thread on forums.skunity.com");
             }
-            addPacketTypes(PacketType.Play.Server.getInstance(), "play", true);
-            addPacketTypes(PacketType.Play.Client.getInstance(), "play", false);
-            addPacketTypes(PacketType.Handshake.Server.getInstance(), "handshake", true);
-            addPacketTypes(PacketType.Handshake.Client.getInstance(), "handshake", false);
-            addPacketTypes(PacketType.Login.Server.getInstance(), "login", true);
-            addPacketTypes(PacketType.Login.Client.getInstance(), "login", false);
-            addPacketTypes(PacketType.Status.Server.getInstance(), "status", true);
-            addPacketTypes(PacketType.Status.Client.getInstance(), "status", false);
-            registerEnum(PacketType.class, "packettype", new PacketType[0], nametoptype.entrySet().toArray(new Map.Entry[0]));
+            registerEnum(PacketType.class, "packettype", new PacketType[0], UtilPacketEvent.nametoptype.entrySet().toArray(new Map.Entry[0]));
             registerSimpleType(PacketContainer.class, "packet");
 			registerEffect(EffSendPacket.class, "send packet %packet% to %player%", "send %player% packet %packet%");
             registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet %packet% from %player%"); //Included incorrect spelling to avoid wasted time
@@ -462,7 +454,6 @@ public class Mundo extends JavaPlugin{
 					return e.getPlayer();
 				}
 			}, 0);
-			registerExpression(ExprAllPacketTypes.class, PacketType.class, ExpressionType.SIMPLE, "all packettypes");
             registerExpression(ExprTypeOfPacket.class, PacketType.class, ExpressionType.SIMPLE, "packettype of %packet%", "%packet%'s packettype");
 			registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
             registerExpression(ExprJsonObjectOfPacket.class, JSONObject.class, ExpressionType.PROPERTY, "%string% pjson %number% of %packet%");
@@ -932,21 +923,6 @@ public class Mundo extends JavaPlugin{
         public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
             whichEnum = i;
             return true;
-        }
-    }
-
-    //PacketType Stuff
-
-    private static Map<String, PacketType> nametoptype = new HashMap<String, PacketType>();
-    //private static Map<PacketType, Boolean> ptypetoboolean = new HashMap<PacketType, Boolean>();
-
-    private static void addPacketTypes(ObjectEnum<PacketType> packetTypes, String prefix, Boolean isServer) {
-        Iterator<PacketType> packetTypeIterator = packetTypes.iterator();
-        while (packetTypeIterator.hasNext()) {
-            PacketType current = packetTypeIterator.next();
-            String fullname = prefix + "_" + (isServer ? "server" : "client") + "_" + current.name().toLowerCase();
-            nametoptype.put(fullname, current);
-            //ptypetoboolean.put(current, isServer);
         }
     }
 

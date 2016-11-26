@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.reflect.ObjectEnum;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,8 +15,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Tlatoani on 4/29/16.
@@ -27,6 +27,32 @@ public class UtilPacketEvent extends Event implements Cancellable{
     private PacketType packetType;
     private PacketContainer packet;
     private Player player;
+
+    //PacketType Stuff
+
+    public static Map<String, PacketType> nametoptype = new HashMap<String, PacketType>();
+    //private static Map<PacketType, Boolean> ptypetoboolean = new HashMap<PacketType, Boolean>();
+
+    private static void addPacketTypes(ObjectEnum<PacketType> packetTypes, String prefix, Boolean isServer) {
+        Iterator<PacketType> packetTypeIterator = packetTypes.iterator();
+        while (packetTypeIterator.hasNext()) {
+            PacketType current = packetTypeIterator.next();
+            String fullname = prefix + "_" + (isServer ? "server" : "client") + "_" + current.name().toLowerCase();
+            nametoptype.put(fullname, current);
+            //ptypetoboolean.put(current, isServer);
+        }
+    }
+
+    static {
+        addPacketTypes(PacketType.Play.Server.getInstance(), "play", true);
+        addPacketTypes(PacketType.Play.Client.getInstance(), "play", false);
+        addPacketTypes(PacketType.Handshake.Server.getInstance(), "handshake", true);
+        addPacketTypes(PacketType.Handshake.Client.getInstance(), "handshake", false);
+        addPacketTypes(PacketType.Login.Server.getInstance(), "login", true);
+        addPacketTypes(PacketType.Login.Client.getInstance(), "login", false);
+        addPacketTypes(PacketType.Status.Server.getInstance(), "status", true);
+        addPacketTypes(PacketType.Status.Client.getInstance(), "status", false);
+    }
 
     private static List<PacketType> listeners = new ArrayList<PacketType>();
     public static void addListener(PacketType[] packettypes) {
