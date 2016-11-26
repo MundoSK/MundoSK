@@ -215,12 +215,9 @@ public class Tablist {
         updateTablistName(visiblePlayers, players);
         if (scoresEnabled) {
             enableTablistObjective(players);
-            visiblePlayers.forEach(new Consumer<Player>() {
-                @Override
-                public void accept(Player player) {
-                    updateScore(player, players, getScore(player));
-                }
-            });
+            for (Player visiblePlayer : visiblePlayers) {
+                updateScore(visiblePlayer, players, getScore(visiblePlayer));
+            }
         }
     }
 
@@ -312,16 +309,13 @@ public class Tablist {
                 PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                 packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                 packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                subjects.forEach(new Consumer<Player>() {
-                    @Override
-                    public void accept(Player subject) {
-                        try {
-                            ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
-                        } catch (InvocationTargetException e) {
-                            Mundo.reportException(Tablist.class, e);
-                        }
+                try {
+                    for (Player subject : subjects) {
+                        ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
                     }
-                });
+                } catch (InvocationTargetException e) {
+                    Mundo.reportException(Tablist.class, e);
+                }
             }
         });
     }
@@ -334,16 +328,13 @@ public class Tablist {
                 PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                 packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                 packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                subjects.forEach(new Consumer<Player>() {
-                    @Override
-                    public void accept(Player subject) {
-                        try {
-                            ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
-                        } catch (InvocationTargetException e) {
-                            Mundo.reportException(Tablist.class, e);
-                        }
+                try {
+                    for (Player subject : subjects) {
+                        ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
                     }
-                });
+                } catch (InvocationTargetException e) {
+                    Mundo.reportException(Tablist.class, e);
+                }
             }
         });
     }
@@ -356,16 +347,13 @@ public class Tablist {
                 PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                 packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                 packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
-                subjects.forEach(new Consumer<Player>() {
-                    @Override
-                    public void accept(Player subject) {
-                        try {
-                            ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
-                        } catch (InvocationTargetException e) {
-                            Mundo.reportException(Tablist.class, e);
-                        }
+                try {
+                    for (Player subject : subjects) {
+                        ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
                     }
-                });
+                } catch (InvocationTargetException e) {
+                    Mundo.reportException(Tablist.class, e);
+                }
             }
         });
     }
@@ -376,16 +364,13 @@ public class Tablist {
         packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, score);
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
-        subjects.forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player player) {
-                try {
-                    ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
-                } catch (InvocationTargetException e) {
-                    Mundo.reportException(this, e);
-                }
+        try {
+            for (Player subject : subjects) {
+                ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
             }
-        });
+        } catch (InvocationTargetException e) {
+            Mundo.reportException(Tablist.class, e);
+        }
     }
 
     public static void enableTablistObjective(Collection<? extends Player> players) {
@@ -397,17 +382,15 @@ public class Tablist {
         PacketContainer displayPacket = new PacketContainer(PacketType.Play.Server.SCOREBOARD_DISPLAY_OBJECTIVE);
         displayPacket.getIntegers().writeSafely(0, 0);
         displayPacket.getStrings().writeSafely(0, OBJECTIVE_NAME);
-        players.forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player player) {
-                try {
-                    ProtocolLibrary.getProtocolManager().sendServerPacket(player, createPacket);
-                    ProtocolLibrary.getProtocolManager().sendServerPacket(player, displayPacket);
-                } catch (InvocationTargetException e) {
-                    Mundo.reportException(Tablist.class, e);
-                }
+        try {
+            for (Player player : players) {
+                ProtocolLibrary.getProtocolManager().sendServerPacket(player, createPacket);
+                //ProtocolLibrary.getProtocolManager().sendServerPacket(player, displayPacket);
             }
-        });
+        } catch (InvocationTargetException e) {
+            Mundo.reportException(Tablist.class, e);
+        }
+
     }
 
     public static void disableTablistObjective(Collection<? extends Player> players) {
@@ -416,16 +399,13 @@ public class Tablist {
         removePacket.getStrings().writeSafely(1, OBJECTIVE_NAME);
         //Something goes here
         removePacket.getIntegers().writeSafely(0, 1);
-        players.forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player player) {
-                try {
-                    ProtocolLibrary.getProtocolManager().sendServerPacket(player, removePacket);
-                } catch (InvocationTargetException e) {
-                    Mundo.reportException(Tablist.class, e);
-                }
+        try {
+            for (Player player : players) {
+                ProtocolLibrary.getProtocolManager().sendServerPacket(player, removePacket);
             }
-        });
+        } catch (InvocationTargetException e) {
+            Mundo.reportException(Tablist.class, e);
+        }
     }
 
     /*
