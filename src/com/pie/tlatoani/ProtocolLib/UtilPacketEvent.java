@@ -37,21 +37,21 @@ public class UtilPacketEvent extends Event implements Cancellable{
         Iterator<PacketType> packetTypeIterator = packetTypes.iterator();
         while (packetTypeIterator.hasNext()) {
             PacketType current = packetTypeIterator.next();
-            String fullname = prefix + "_" + (isServer ? "server" : "client") + "_" + current.name().toLowerCase();
+            String fullname = prefix + "_" + (isServer ? "SERVER" : "CLIENT") + "_" + current.name().toUpperCase();
             nametoptype.put(fullname, current);
             //ptypetoboolean.put(current, isServer);
         }
     }
 
     static {
-        addPacketTypes(PacketType.Play.Server.getInstance(), "play", true);
-        addPacketTypes(PacketType.Play.Client.getInstance(), "play", false);
-        addPacketTypes(PacketType.Handshake.Server.getInstance(), "handshake", true);
-        addPacketTypes(PacketType.Handshake.Client.getInstance(), "handshake", false);
-        addPacketTypes(PacketType.Login.Server.getInstance(), "login", true);
-        addPacketTypes(PacketType.Login.Client.getInstance(), "login", false);
-        addPacketTypes(PacketType.Status.Server.getInstance(), "status", true);
-        addPacketTypes(PacketType.Status.Client.getInstance(), "status", false);
+        addPacketTypes(PacketType.Play.Server.getInstance(), "PLAY", true);
+        addPacketTypes(PacketType.Play.Client.getInstance(), "PLAY", false);
+        addPacketTypes(PacketType.Handshake.Server.getInstance(), "HANDSHAKE", true);
+        addPacketTypes(PacketType.Handshake.Client.getInstance(), "HANDSHAKE", false);
+        addPacketTypes(PacketType.Login.Server.getInstance(), "LOGIN", true);
+        addPacketTypes(PacketType.Login.Client.getInstance(), "LOGIN", false);
+        addPacketTypes(PacketType.Status.Server.getInstance(), "STATUS", true);
+        addPacketTypes(PacketType.Status.Client.getInstance(), "STATUS", false);
     }
 
     private static List<PacketType> listeners = new ArrayList<PacketType>();

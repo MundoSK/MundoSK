@@ -775,6 +775,7 @@ public class Mundo extends JavaPlugin{
         return result;
     }
 
+    //Default pairing string names should be in uppercase
     public static <E> void registerEnum(Class<E> enumClass, String name, E[] values, Map.Entry<String, E>... defaultPairings) {
         if (!classInfoSafe(enumClass, name)) return;
         Classes.registerClass(new ClassInfo<E>(enumClass, name).user(new String[]{name}).name(name).parser(new Parser<E>() {
