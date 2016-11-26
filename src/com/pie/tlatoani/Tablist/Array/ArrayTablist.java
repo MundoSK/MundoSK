@@ -51,7 +51,7 @@ public class ArrayTablist {
         int identifier = (((column - 1) * 20) + row);
         if (identifier % 2 == 0) identifier += 79;
         UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
-        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSKTablist::" + identifier);
+        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSK::" + identifier);
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
             icon.retrieveSkinTextures(gameProfile.getProperties());
@@ -82,7 +82,7 @@ public class ArrayTablist {
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.SCOREBOARD_SCORE);
         int identifier = (((column - 1) * 20) + row);
         if (identifier % 2 == 0) identifier += 79;
-        packet.getStrings().writeSafely(0, "MundoSKTablist::" + identifier);
+        packet.getStrings().writeSafely(0, "MundoSK::" + identifier);
         packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, scores[column - 1][row - 1]);
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
