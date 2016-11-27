@@ -236,6 +236,9 @@ public class Tablist {
     }
 
     public void showPlayers(Collection<Player> playersToShow) {
+        if (allPlayersHidden) {
+            arrayTablist.setColumns(0);
+        }
         allPlayersHidden = false;
         showInTablist(playersToShow, players);
         hiddenPlayers.removeAll(playersToShow);
@@ -249,6 +252,7 @@ public class Tablist {
     }
 
     public void showAllPlayers() {
+        arrayTablist.setColumns(0);
         allPlayersHidden = false;
         showInTablist(Bukkit.getOnlinePlayers(), players);
         hiddenPlayers.clear();
