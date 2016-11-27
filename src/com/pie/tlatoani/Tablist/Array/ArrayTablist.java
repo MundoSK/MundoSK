@@ -157,7 +157,7 @@ public class ArrayTablist {
             for (int column = columns + 1; column <= this.columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
                     Mundo.debug(this, "Removing tab " + column + "," + row);
-                    displayNames[column - 1][row - 1] = null;
+                    displayNames[column - 1][row - 1] = "";
                     latencies[column - 1][row - 1] = 5;
                     heads[column - 1][row - 1] = null;
                     scores[column - 1][row - 1] = 0;
@@ -200,7 +200,7 @@ public class ArrayTablist {
         } else if (rows < this.rows) {
             for (int column = 1; column <= this.columns; column++)
                 for (int row = rows + 1; row <= this.rows; row++) {
-                    displayNames[column - 1][row - 1] = null;
+                    displayNames[column - 1][row - 1] = "";
                     latencies[column - 1][row - 1] = 5;
                     heads[column - 1][row - 1] = null;
                     scores[column - 1][row - 1] = 0;
