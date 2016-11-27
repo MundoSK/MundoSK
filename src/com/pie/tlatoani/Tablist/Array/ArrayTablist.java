@@ -143,8 +143,15 @@ public class ArrayTablist {
                     latencies[column - 1][row - 1] = 5;
                     heads[column - 1][row - 1] = null;
                     scores[column - 1][row - 1] = 0;
+                    Mundo.debug(this, "CHECKPOINT 4.1");
                     sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    if (tablist.areScoresEnabled()) sendScorePacketToAll(column, row);
+                    Mundo.debug(this, "CHECKPOINT 4.2");
+                    if (tablist.areScoresEnabled()) {
+                        Mundo.debug(this, "CHECKPOINT 4.3");
+                        sendScorePacketToAll(column, row);
+                        Mundo.debug(this, "CHECKPOINT 4.4");
+                    }
+                    Mundo.debug(this, "CHECKPOINT 4.5");
                 }
             Mundo.debug(this, "CHECKPOINT 5");
         }
