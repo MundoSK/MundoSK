@@ -70,7 +70,7 @@ public class SimpleTablist {
     private void sendScorePacket(String id, Collection<Player> players) {
         if (!tablist.areScoresEnabled()) return;
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.SCOREBOARD_SCORE);
-        packet.getStrings().writeSafely(0, "");
+        packet.getStrings().writeSafely(0, "MSK-" + id);
         packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, scores.get(id));
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
