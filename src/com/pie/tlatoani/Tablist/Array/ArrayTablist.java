@@ -109,11 +109,16 @@ public class ArrayTablist {
     public void setColumns(int columns) {
         Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", columns " + columns);
         columns = Mundo.limitToRange(0, columns, 4);
+        Mundo.debug(this, "CHECKPOINT 1");
         if (columns == this.columns) return;
+        Mundo.debug(this, "CHECKPOINT 2");
         if (columns != 0) {
             tablist.simpleTablist.clear();
-            tablist.hideAllPlayers();
+            if (!tablist.areAllPlayersHidden()) {
+                tablist.hideAllPlayers();
+            }
         }
+        Mundo.debug(this, "CHECKPOINT 3");
         if (columns > this.columns) {
             if (this.columns == 0) {
                 this.rows = getViableRowAmount(columns, this.rows);
@@ -130,6 +135,7 @@ public class ArrayTablist {
                     if (tablist.areScoresEnabled()) sendScorePacketToAll(column, row);
                 }
         } else {
+            Mundo.debug(this, "CHECKPOINT 4");
             for (int column = columns + 1; column <= this.columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
                     Mundo.debug(this, "Removing tab " + column + "," + row);
@@ -140,11 +146,17 @@ public class ArrayTablist {
                     sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
                     if (tablist.areScoresEnabled()) sendScorePacketToAll(column, row);
                 }
+            Mundo.debug(this, "CHECKPOINT 5");
         }
+        Mundo.debug(this, "CHECKPOINT 6");
         this.columns = columns;
+        Mundo.debug(this, "CHECKPOINT 7");
         if (columns == 0) {
+            Mundo.debug(this, "CHECKPOINT 8");
             this.rows = 0;
+            Mundo.debug(this, "CHECKPOINT 9");
         }
+        Mundo.debug(this, "CHECKPOINT 10");
     }
 
     public void setRows(int rows) {
