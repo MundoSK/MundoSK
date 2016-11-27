@@ -125,7 +125,7 @@ public class SimpleTablist {
             heads.put(id, head);
             scores.put(id, score);
             sendPacketToAll(id, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-            sendScorePacketToAll(id);
+            if (score != 0) sendScorePacketToAll(id);
         }
     }
 
@@ -179,6 +179,7 @@ public class SimpleTablist {
     public void setScore(String id, Integer ping) {
         if (tabExists(id)) {
             scores.put(id, ping);
+            sendScorePacketToAll(id);
         }
     }
 
