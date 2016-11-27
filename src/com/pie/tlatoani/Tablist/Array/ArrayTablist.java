@@ -107,8 +107,8 @@ public class ArrayTablist {
     }
 
     public void setColumns(int columns) {
+        Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", columns " + columns);
         columns = Mundo.limitToRange(0, columns, 4);
-        this.columns = columns;
         if (columns != 0) {
             tablist.simpleTablist.clear();
             tablist.hideAllPlayers();
