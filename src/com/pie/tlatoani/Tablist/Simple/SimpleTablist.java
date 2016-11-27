@@ -41,7 +41,7 @@ public class SimpleTablist {
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(Tablist.colorStringToJson(displayName));
         UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8));
         Skin icon = heads.get(id);
-        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, /*"$" + id.substring(0, 15)*/ "");
+        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, /*"$" + id.substring(0, 15)*/ "MSK-" + id.substring(0, 12));
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
             icon.retrieveSkinTextures(gameProfile.getProperties());
@@ -70,7 +70,7 @@ public class SimpleTablist {
     private void sendScorePacket(String id, Collection<Player> players) {
         if (!tablist.areScoresEnabled()) return;
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.SCOREBOARD_SCORE);
-        packet.getStrings().writeSafely(0, "$" + id.substring(0, 15));
+        packet.getStrings().writeSafely(0, "MSK-" + id.substring(0, 12));
         packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, scores.get(id));
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
@@ -112,12 +112,12 @@ public class SimpleTablist {
     }
 
     public boolean tabExists(String id) {
-        return displayNames.containsKey(id);
+        return id.length() <= 12 && displayNames.containsKey(id);
     }
 
     public void createTab(String id, String displayName, Integer ping, Skin head, Integer score) {
         tablist.arrayTablist.setColumns(0);
-        if (!tabExists(id)) {
+        if (id.length() <= 12 && !tabExists(id)) {
             ping = Math.max(ping, 0);
             ping = Math.min(ping, 5);
             latencies.put(id, ping);
