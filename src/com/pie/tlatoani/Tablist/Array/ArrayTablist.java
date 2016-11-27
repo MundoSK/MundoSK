@@ -44,33 +44,51 @@ public class ArrayTablist {
     }
 
     private void sendPacket(int column, int row, EnumWrappers.PlayerInfoAction action, Collection<Player> players) {
+        Mundo.debug(this, "INTERIOR CHECKPOINT 1");
         int ping = latencies[column - 1][row - 1];
+        Mundo.debug(this, "INTERIOR CHECKPOINT 2");
         String displayName = displayNames[column - 1][row - 1];
+        Mundo.debug(this, "INTERIOR CHECKPOINT 3");
         Skin icon = heads[column - 1][row - 1];
+        Mundo.debug(this, "INTERIOR CHECKPOINT 4");
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(Tablist.colorStringToJson(displayName));
+        Mundo.debug(this, "INTERIOR CHECKPOINT 5");
         int identifier = (((column - 1) * 20) + row);
+        Mundo.debug(this, "INTERIOR CHECKPOINT 6");
         //if (identifier % 2 == 0) identifier += 79;
         UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
+        Mundo.debug(this, "INTERIOR CHECKPOINT 7");
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSK::" + (identifier < 10 ? "0" : "") + identifier);
+        Mundo.debug(this, "INTERIOR CHECKPOINT 8");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
+            Mundo.debug(this, "INTERIOR CHECKPOINT 9");
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
+            Mundo.debug(this, "INTERIOR CHECKPOINT 10");
             icon.retrieveSkinTextures(gameProfile.getProperties());
+            Mundo.debug(this, "INTERIOR CHECKPOINT 11");
         }
+        Mundo.debug(this, "INTERIOR CHECKPOINT 12");
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
-        List<PlayerInfoData> playerInfoDatas = Collections.singletonList(playerInfoData);
+        Mundo.debug(this, "INTERIOR CHECKPOINT 13");
         PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-        packetContainer.getPlayerInfoDataLists().writeSafely(0, playerInfoDatas);
+        Mundo.debug(this, "INTERIOR CHECKPOINT 14");
+        packetContainer.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
+        Mundo.debug(this, "INTERIOR CHECKPOINT 15");
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
-        players.forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player player) {
-                try {
-                    UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
-                } catch (InvocationTargetException e) {
-                    Mundo.reportException(this, e);
-                }
+        Mundo.debug(this, "INTERIOR CHECKPOINT 16");
+        try {
+            Mundo.debug(this, "INTERIOR CHECKPOINT 17");
+            for (Player player : players) {
+                Mundo.debug(this, "INTERIOR CHECKPOINT 18");
+                UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
+                Mundo.debug(this, "INTERIOR CHECKPOINT 19");
             }
-        });
+        } catch (InvocationTargetException e) {
+            Mundo.debug(this, "INTERIOR CHECKPOINT 20");
+            Mundo.reportException(this, e);
+            Mundo.debug(this, "INTERIOR CHECKPOINT 21");
+        }
+        Mundo.debug(this, "INTERIOR CHECKPOINT 22");
     }
 
     private void sendScorePacketToAll(int column, int row) {
