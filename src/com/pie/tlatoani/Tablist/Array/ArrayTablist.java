@@ -49,9 +49,9 @@ public class ArrayTablist {
         Skin icon = heads[column - 1][row - 1];
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(Tablist.colorStringToJson(displayName));
         int identifier = (((column - 1) * 20) + row);
-        if (identifier % 2 == 0) identifier += 79;
+        //if (identifier % 2 == 0) identifier += 79;
         UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
-        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSK::" + identifier);
+        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSK::" + (identifier < 10 ? "0" : "") + identifier);
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
             icon.retrieveSkinTextures(gameProfile.getProperties());
@@ -81,8 +81,8 @@ public class ArrayTablist {
         if (!tablist.areScoresEnabled()) return;
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.SCOREBOARD_SCORE);
         int identifier = (((column - 1) * 20) + row);
-        if (identifier % 2 == 0) identifier += 79;
-        packet.getStrings().writeSafely(0, "MundoSK::" + identifier);
+        //if (identifier % 2 == 0) identifier += 79;
+        packet.getStrings().writeSafely(0, "MundoSK::" + (identifier < 10 ? "0" : "") + identifier);
         packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, scores[column - 1][row - 1]);
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
@@ -109,6 +109,7 @@ public class ArrayTablist {
     public void setColumns(int columns) {
         Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", columns " + columns);
         columns = Mundo.limitToRange(0, columns, 4);
+        if (columns == this.columns) return;
         if (columns != 0) {
             tablist.simpleTablist.clear();
             tablist.hideAllPlayers();
@@ -119,8 +120,6 @@ public class ArrayTablist {
             } else {
                 setRows(getViableRowAmount(columns, this.rows));
             }
-        }
-        if (columns > this.columns) {
             for (int column = this.columns + 1; column <= columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
                     displayNames[column - 1][row - 1] = "";
@@ -128,17 +127,18 @@ public class ArrayTablist {
                     heads[column - 1][row - 1] = initialIcon;
                     scores[column - 1][row - 1] = 0;
                     sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    sendScorePacketToAll(column, row);
+                    if (tablist.areScoresEnabled()) sendScorePacketToAll(column, row);
                 }
-        } else if (columns < this.columns) {
+        } else {
             for (int column = columns + 1; column <= this.columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
+                    Mundo.debug(this, "Removing tab " + column + "," + row);
                     displayNames[column - 1][row - 1] = null;
                     latencies[column - 1][row - 1] = 5;
                     heads[column - 1][row - 1] = null;
                     scores[column - 1][row - 1] = 0;
                     sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    sendScorePacketToAll(column, row);
+                    if (tablist.areScoresEnabled()) sendScorePacketToAll(column, row);
                 }
         }
         this.columns = columns;

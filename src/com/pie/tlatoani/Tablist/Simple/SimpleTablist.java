@@ -41,7 +41,7 @@ public class SimpleTablist {
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(Tablist.colorStringToJson(displayName));
         UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8));
         Skin icon = heads.get(id);
-        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, /*"$" + id.substring(0, 15)*/ "MSK-" + id);
+        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, id + "-MSK");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
             icon.retrieveSkinTextures(gameProfile.getProperties());
@@ -70,7 +70,7 @@ public class SimpleTablist {
     private void sendScorePacket(String id, Collection<Player> players) {
         if (!tablist.areScoresEnabled()) return;
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.SCOREBOARD_SCORE);
-        packet.getStrings().writeSafely(0, "MSK-" + id);
+        packet.getStrings().writeSafely(0, id + "-MSK");
         packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, scores.get(id));
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
