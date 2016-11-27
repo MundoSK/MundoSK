@@ -108,12 +108,17 @@ public class ArrayTablist {
 
     public void setColumns(int columns) {
         columns = Mundo.limitToRange(0, columns, 4);
+        this.columns = columns;
         if (columns != 0) {
             tablist.simpleTablist.clear();
             tablist.hideAllPlayers();
         }
         if (columns > this.columns) {
-            setRows(getViableRowAmount(columns, this.rows));
+            if (this.columns == 0) {
+                this.rows = getViableRowAmount(columns, this.rows);
+            } else {
+                setRows(getViableRowAmount(columns, this.rows));
+            }
         }
         if (columns > this.columns) {
             for (int column = this.columns + 1; column <= columns; column++)
