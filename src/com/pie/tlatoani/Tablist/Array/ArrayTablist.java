@@ -32,7 +32,6 @@ public class ArrayTablist {
     }
 
     public static int getViableRowAmount(int columns, int rows) {
-        if (rows == 0) return 0;
         return columns == 1 ? Mundo.limitToRange(1,  rows, 20) :
                columns == 2 ? Mundo.limitToRange(11, rows, 20) :
                columns == 3 ? Mundo.limitToRange(14, rows, 20) :
