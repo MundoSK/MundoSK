@@ -41,7 +41,7 @@ public class SimpleTablist {
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(Tablist.colorStringToJson(displayName));
         UUID uuid = UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8));
         Skin icon = heads.get(id);
-        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, /*"$" + id.substring(0, 15)*/ "M_SK");
+        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, /*"$" + id.substring(0, 15)*/ "M-SK");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
             icon.retrieveSkinTextures(gameProfile.getProperties());
