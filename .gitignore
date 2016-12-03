@@ -46,6 +46,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+<<<<<<< HEAD
 #IntelliJ IDEA
+=======
+# IntelliJ IDEA
+>>>>>>> refs/remotes/origin/master
 .idea/
 *.iml
