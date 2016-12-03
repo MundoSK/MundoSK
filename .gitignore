@@ -47,4 +47,5 @@ Temporary Items
 .apdisk
 
 # IntelliJ IDEA
+.idea/
 *.iml
