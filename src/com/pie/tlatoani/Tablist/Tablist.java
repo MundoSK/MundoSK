@@ -415,6 +415,7 @@ public class Tablist {
     This method was coded by werter318 on Bukkit.org
      */
     public static String colorStringToJson(String original) {
+        if (original == null) throw new NullPointerException("original String cannot be null!");
         char colorChar = ChatColor.COLOR_CHAR;
 
         String template = "{text:\"TEXT\",color:COLOR,bold:BOLD,underlined:UNDERLINED,italic:ITALIC,strikethrough:STRIKETHROUGH,obfuscated:OBFUSCATED,extra:[EXTRA]}";

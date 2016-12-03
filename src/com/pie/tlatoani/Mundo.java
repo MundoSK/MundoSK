@@ -34,7 +34,6 @@ import ch.njol.yggdrasil.Fields;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 
-import com.comphenix.protocol.reflect.ObjectEnum;
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.CodeBlock.*;
@@ -148,7 +147,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
 		registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
 		//CodeBlock
-        registerSimpleType(CodeBlock.class, "codeblock");
+        registerType(CodeBlock.class, "codeblock");
         registerScope(ScopeSaveCodeBlock.class, "codeblock %object% [with (1¦constant|2¦constant %-object%|3¦constants %-objects%)] [:: %-strings%] [-> %-string%]");
         registerEffect(EffRunCodeBlock.class, "((run|execute) codeblock|codeblock (run|execute)) %codeblocks% [(2¦with %-objects%|3¦with variables %-objects%|4¦in a chain|5¦here|7¦with variables %-objects% in a chain)]");
         registerExpression(ExprFunctionCodeBlock.class, CodeBlock.class, ExpressionType.PROPERTY, "[codeblock of] function %string%");
@@ -162,9 +161,9 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprEnchantLevelInEnchBook.class,Integer.class,ExpressionType.PROPERTY,"level of %enchantmenttype% within %itemstack%");
 		registerExpression(ExprEnchantsInEnchBook.class,EnchantmentType.class,ExpressionType.PROPERTY,"enchants within %itemstack%");
 		//Generator
-        registerSimpleType(ChunkData.class, "chunkdata");
-        registerSimpleType(BiomeGrid.class, "biomegrid");
-        registerSimpleType(Random.class, "random").defaultExpression((new ExprNewRandom()).setDefault());
+        registerType(ChunkData.class, "chunkdata");
+        registerType(BiomeGrid.class, "biomegrid");
+        registerType(Random.class, "random").defaultExpression((new ExprNewRandom()).setDefault());
         registerEffect(EffSetRegionInChunkData.class,
                 "fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%",
                 "fill layer %number% in %chunkdata% with %itemstack%",
@@ -209,14 +208,9 @@ public class Mundo extends JavaPlugin{
         registerExpression(ExprNewRandom.class, Random.class, ExpressionType.PROPERTY, "new random [from seed %number%]");
         registerExpression(ExprRandomValue.class, Object.class, ExpressionType.PROPERTY, "random (0¦int|1¦long|2¦float|3¦double|4¦gaussian|5¦int less than %-number%|6¦boolean) [from [random] %random%]");
         //Json
-        Classes.registerClass(new ClassInfo<JSONObject>(JSONObject.class, "jsonobject").user(new String[]{"jsonobject"}).name("jsonobject").parser(new Parser<JSONObject>(){
-
-            public boolean canParse(final ParseContext context) {
-                return context == ParseContext.DEFAULT;
-            }
-
-            public JSONObject parse(String s, ParseContext context) {
-
+        registerType(JSONObject.class, "jsonobject").parser(new SimpleParser<JSONObject>() {
+            @Override
+            public JSONObject parse(String s, ParseContext parseContext) {
                 JSONObject result = null;
                 try {
                     result = (JSONObject) (new JSONParser()).parse(s);
@@ -224,18 +218,6 @@ public class Mundo extends JavaPlugin{
                     //If parsing to a JSONObject fails, return null
                 }
                 return result;
-            }
-
-            public String toString(JSONObject jsonObject, int flags) {
-                return jsonObject.toJSONString();
-            }
-
-            public String toVariableNameString(JSONObject jsonObject) {
-                return jsonObject.toJSONString();
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
             }
         }).serializer(new Serializer<JSONObject>() {
             @Override
@@ -284,7 +266,7 @@ public class Mundo extends JavaPlugin{
             protected boolean canBeInstantiated() {
                 return true;
             }
-        }));
+        });
         registerEffect(EffPutJsonInListVariable.class, "put json %jsonobject% in listvar %objects%", "put jsons %jsonobjects% in listvar %objects%");
         registerExpression(ExprListVariableAsJson.class, JSONObject.class, ExpressionType.PROPERTY, "json of listvar %objects%", "jsons of listvar %objects%");
         registerExpression(ExprStringAsJson.class, JSONObject.class, ExpressionType.PROPERTY, "json of string %string%");
@@ -351,6 +333,7 @@ public class Mundo extends JavaPlugin{
         registerExpression(ExprLoginResult.class, PlayerLoginEvent.Result.class, ExpressionType.SIMPLE, "(login|connect[ion]) result");
         registerExpression(ExprServerIP.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] [the] ip of server", "[mundo[sk]] [the] server's ip");
         registerExpression(ExprServerPort.class, Number.class, ExpressionType.PROPERTY, "[mundo[sk]] [the] port of server", "[mundo[sk]] [the] server's port");
+        registerExpression(ExprAllTypes.class, ClassInfo.class, ExpressionType.SIMPLE, "all types");
         registerScope(ScopeMatcher.class, "(switch|match) %object%");
         registerScope(ScopeMatches.class, "(case|matches) %object%");
         registerScope(ScopeAsync.class, "async [in %-timespan%]");
@@ -422,7 +405,7 @@ public class Mundo extends JavaPlugin{
                 info("If you are running at least version 4.1 of ProtocolLib, please post a message on MundoSK's thread on forums.skunity.com");
             }
             registerEnum(PacketType.class, "packettype", new PacketType[0], UtilPacketEvent.nametoptype.entrySet().toArray(new Map.Entry[0]));
-            registerSimpleType(PacketContainer.class, "packet");
+            registerType(PacketContainer.class, "packet");
 			registerEffect(EffSendPacket.class, "send packet %packet% to %player%", "send %player% packet %packet%");
             registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet %packet% from %player%"); //Included incorrect spelling to avoid wasted time
 			registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%");
@@ -456,9 +439,9 @@ public class Mundo extends JavaPlugin{
 		}
         //Skin
         if (isPluginEnabled("ProtocolLib")) {
-            Classes.registerClass(new ClassInfo<Skin>(Skin.class, "skin").user(new String[]{"skin", "skintexture"}).name("skin").parser(new Parser<Skin>(){
-
-                public Skin parse(String s, ParseContext context) {
+            registerType(Skin.class, "skin", "skintexture").parser(new SimpleParser<Skin>() {
+                @Override
+                public Skin parse(String s, ParseContext parseContext) {
                     if (s.equalsIgnoreCase("STEVE")) {
                         return Skin.STEVE;
                     }
@@ -466,18 +449,6 @@ public class Mundo extends JavaPlugin{
                         return Skin.ALEX;
                     }
                     return null;
-                }
-
-                public String toString(Skin skin, int flags) {
-                    return skin.toString();
-                }
-
-                public String toVariableNameString(Skin skin) {
-                    return skin.toString();
-                }
-
-                public String getVariableNamePattern() {
-                    return ".+";
                 }
             }).serializer(new Serializer<Skin>() {
                 @Override
@@ -510,7 +481,7 @@ public class Mundo extends JavaPlugin{
                 protected boolean canBeInstantiated() {
                     return false;
                 }
-            }));
+            });
             registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] with value %string% signature %string%");
             registerExpression(ExprSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] [texture] of %player%");
             registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(for %-players%|excluding %-players%)]", "%player%'s displayed skin [(for %-players%|excluding %-players%)]");
@@ -531,7 +502,7 @@ public class Mundo extends JavaPlugin{
 		//Tablist
         registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
         if (isPluginEnabled("ProtocolLib")) {
-            registerSimpleType(Tablist.class, "tablist");
+            registerType(Tablist.class, "tablist");
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onJoin(PlayerJoinEvent event) {
@@ -580,8 +551,8 @@ public class Mundo extends JavaPlugin{
 			registerExpression(ExprTCEnabled.class,Boolean.class,ExpressionType.PROPERTY,"(tc|terrain control) is enabled for %world%");
 		}
 		//Throwable
-        registerSimpleType(Throwable.class, "throwable");
-        registerSimpleType(StackTraceElement.class, "stacktraceelement");
+        registerType(Throwable.class, "throwable");
+        registerType(StackTraceElement.class, "stacktraceelement");
 		registerScope(ScopeTry.class, "try");
         registerScope(ScopeCatch.class, "catch in %object%");
 		registerEffect(EffPrintStackTrace.class, "print stack trace of %throwable%");
@@ -615,30 +586,20 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprTimeRemainingUntilBorderStabilize.class,Timespan.class,ExpressionType.PROPERTY,"time remaining until border stabilize in %world%");
 		registerExpression(ExprBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%location% is (1¦within|0¦beyond) border");
 		//WorldCreator
-		Classes.registerClass(new ClassInfo<WorldCreator>(WorldCreator.class, "creator").user(new String[]{"creator"}).name("creator").parser(new Parser<WorldCreator>(){
-
-            public boolean canParse(final ParseContext context) {
-                return false;
-            }
-
-		    public WorldCreator parse(String s, ParseContext context) {
+        registerType(WorldCreator.class, "creator").parser(new SimpleParser<WorldCreator>() {
+            @Override
+            public WorldCreator parse(String s, ParseContext parseContext) {
                 return null;
             }
 
+            @Override
             public String toString(WorldCreator creator, int flags) {
                 JSONObject jsonObject = UtilWorldLoader.getCreatorJSON(creator);
                 jsonObject.put("worldname", creator.name());
                 return jsonObject.toString();
             }
 
-            public String toVariableNameString(WorldCreator creator) {
-                return creator.toString();
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }));
+        });
         registerEnum(Environment.class, "environment", Environment.values(), new Pair<String, Environment>("END", Environment.THE_END));
         registerEnum(WorldType.class, "worldtype", WorldType.values(), new Pair<String, WorldType>("SUPERFLAT", WorldType.FLAT), new Pair<String, WorldType>("LARGE BIOMES", WorldType.LARGE_BIOMES), new Pair<String, WorldType>("VERSION 1.1", WorldType.VERSION_1_1));
 		registerExpression(ExprCreatorNamed.class,WorldCreator.class,ExpressionType.PROPERTY,"creator (with name|named) %string%");
@@ -748,7 +709,7 @@ public class Mundo extends JavaPlugin{
         Skript.registerCondition(conditionClass, patterns);
     }
 
-    public static <T> ClassInfo<T> registerSimpleType(Class<T> type, String name, String... alternateNames) {
+    public static <T> ClassInfo<T> registerType(Class<T> type, String name, String... alternateNames) {
         ArrayList<String> names = new ArrayList<String>(Arrays.asList(alternateNames));
         names.add(0, name);
         ClassInfo<T> result = new ClassInfo<T>(type, name).user(names.toArray(new String[0])).name(name).parser(new Parser<T>(){
@@ -914,6 +875,24 @@ public class Mundo extends JavaPlugin{
         public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
             whichEnum = i;
             return true;
+        }
+    }
+
+    public static abstract class SimpleParser<T> extends Parser<T> {
+
+        @Override
+        public String toString(T t, int flags) {
+            return t.toString();
+        }
+
+        @Override
+        public String toVariableNameString(T t) {
+            return toString(t, 0);
+        }
+
+        @Override
+        public String getVariableNamePattern() {
+            return ".+";
         }
     }
 

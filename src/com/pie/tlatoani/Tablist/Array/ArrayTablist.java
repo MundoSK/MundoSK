@@ -44,51 +44,29 @@ public class ArrayTablist {
     }
 
     private void sendPacket(int column, int row, EnumWrappers.PlayerInfoAction action, Collection<Player> players) {
-        Mundo.debug(this, "INTERIOR CHECKPOINT 1");
         int ping = latencies[column - 1][row - 1];
-        Mundo.debug(this, "INTERIOR CHECKPOINT 2");
         String displayName = displayNames[column - 1][row - 1];
-        Mundo.debug(this, "INTERIOR CHECKPOINT 3");
         Skin icon = heads[column - 1][row - 1];
-        Mundo.debug(this, "INTERIOR CHECKPOINT 4");
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(Tablist.colorStringToJson(displayName));
-        Mundo.debug(this, "INTERIOR CHECKPOINT 5");
         int identifier = (((column - 1) * 20) + row);
-        Mundo.debug(this, "INTERIOR CHECKPOINT 6");
         //if (identifier % 2 == 0) identifier += 79;
         UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
-        Mundo.debug(this, "INTERIOR CHECKPOINT 7");
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSK::" + (identifier < 10 ? "0" : "") + identifier);
-        Mundo.debug(this, "INTERIOR CHECKPOINT 8");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
-            Mundo.debug(this, "INTERIOR CHECKPOINT 9");
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
-            Mundo.debug(this, "INTERIOR CHECKPOINT 10");
             icon.retrieveSkinTextures(gameProfile.getProperties());
-            Mundo.debug(this, "INTERIOR CHECKPOINT 11");
         }
-        Mundo.debug(this, "INTERIOR CHECKPOINT 12");
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
-        Mundo.debug(this, "INTERIOR CHECKPOINT 13");
         PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-        Mundo.debug(this, "INTERIOR CHECKPOINT 14");
         packetContainer.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
-        Mundo.debug(this, "INTERIOR CHECKPOINT 15");
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
-        Mundo.debug(this, "INTERIOR CHECKPOINT 16");
         try {
-            Mundo.debug(this, "INTERIOR CHECKPOINT 17");
             for (Player player : players) {
-                Mundo.debug(this, "INTERIOR CHECKPOINT 18");
                 UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
-                Mundo.debug(this, "INTERIOR CHECKPOINT 19");
             }
         } catch (InvocationTargetException e) {
-            Mundo.debug(this, "INTERIOR CHECKPOINT 20");
             Mundo.reportException(this, e);
-            Mundo.debug(this, "INTERIOR CHECKPOINT 21");
         }
-        Mundo.debug(this, "INTERIOR CHECKPOINT 22");
     }
 
     private void sendScorePacketToAll(int column, int row) {
@@ -127,16 +105,13 @@ public class ArrayTablist {
     public void setColumns(int columns) {
         Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", columns " + columns);
         columns = Mundo.limitToRange(0, columns, 4);
-        Mundo.debug(this, "CHECKPOINT 1");
         if (columns == this.columns) return;
-        Mundo.debug(this, "CHECKPOINT 2");
         if (columns != 0) {
             tablist.simpleTablist.clear();
             if (!tablist.areAllPlayersHidden()) {
                 tablist.hideAllPlayers();
             }
         }
-        Mundo.debug(this, "CHECKPOINT 3");
         if (columns > this.columns) {
             if (this.columns == 0) {
                 this.rows = getViableRowAmount(columns, this.rows);
@@ -153,35 +128,22 @@ public class ArrayTablist {
                     if (tablist.areScoresEnabled()) sendScorePacketToAll(column, row);
                 }
         } else {
-            Mundo.debug(this, "CHECKPOINT 4");
             for (int column = columns + 1; column <= this.columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
-                    Mundo.debug(this, "Removing tab " + column + "," + row);
                     displayNames[column - 1][row - 1] = "";
                     latencies[column - 1][row - 1] = 5;
                     heads[column - 1][row - 1] = null;
                     scores[column - 1][row - 1] = 0;
-                    Mundo.debug(this, "CHECKPOINT 4.1");
                     sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    Mundo.debug(this, "CHECKPOINT 4.2");
                     if (tablist.areScoresEnabled()) {
-                        Mundo.debug(this, "CHECKPOINT 4.3");
                         sendScorePacketToAll(column, row);
-                        Mundo.debug(this, "CHECKPOINT 4.4");
                     }
-                    Mundo.debug(this, "CHECKPOINT 4.5");
                 }
-            Mundo.debug(this, "CHECKPOINT 5");
         }
-        Mundo.debug(this, "CHECKPOINT 6");
         this.columns = columns;
-        Mundo.debug(this, "CHECKPOINT 7");
         if (columns == 0) {
-            Mundo.debug(this, "CHECKPOINT 8");
             this.rows = 0;
-            Mundo.debug(this, "CHECKPOINT 9");
         }
-        Mundo.debug(this, "CHECKPOINT 10");
     }
 
     public void setRows(int rows) {
