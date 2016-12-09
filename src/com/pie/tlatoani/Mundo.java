@@ -843,7 +843,12 @@ public class Mundo extends JavaPlugin{
                 return parse((String) fields.getObject("value"));
             }
         }));
-        ena.add(values);
+        Set<E> allValues = new HashSet<E>();
+        allValues.addAll(Arrays.asList(values));
+        for (Map.Entry<String, E> entry : defaultPairings) {
+            allValues.add(entry.getValue());
+        }
+        ena.add(allValues.toArray(new Object[0]));
         enumNames.add(name);
         enumClasses.add(enumClass);
     }
