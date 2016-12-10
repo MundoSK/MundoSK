@@ -54,7 +54,6 @@ public class Tablist {
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
             @Override
             public void onPacketSending(PacketEvent event) {
-                /*
                 if (!event.isCancelled()) {
                     List<PlayerInfoData> playerInfoDatas = event.getPacket().getPlayerInfoDataLists().readSafely(0);
                     List<PlayerInfoData> newPlayerInfoDatas = new ArrayList<PlayerInfoData>();
@@ -70,13 +69,12 @@ public class Tablist {
                             Mundo.debug(Tablist.class, "tablistName = " + tablistName);
                             if (tablistName != null) {
                                 newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile(), playerInfoData.getLatency(), playerInfoData.getGameMode(), WrappedChatComponent.fromJson(colorStringToJson(tablistName)));
-                                newPlayerInfoDatas.add(newPlayerInfoData);
                             }
                         }
+                        newPlayerInfoDatas.add(newPlayerInfoData);
                     }
                     event.getPacket().getPlayerInfoDataLists().writeSafely(0, newPlayerInfoDatas);
                 }
-                */
             }
         });
 

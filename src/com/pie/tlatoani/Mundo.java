@@ -712,22 +712,10 @@ public class Mundo extends JavaPlugin{
     public static <T> ClassInfo<T> registerType(Class<T> type, String name, String... alternateNames) {
         ArrayList<String> names = new ArrayList<String>(Arrays.asList(alternateNames));
         names.add(0, name);
-        ClassInfo<T> result = new ClassInfo<T>(type, name).user(names.toArray(new String[0])).name(name).parser(new Parser<T>(){
-
-            public T parse(String s, ParseContext context) {
+        ClassInfo<T> result = new ClassInfo<T>(type, name).user(names.toArray(new String[0])).name(name).parser(new SimpleParser<T>() {
+            @Override
+            public T parse(String s, ParseContext parseContext) {
                 return null;
-            }
-
-            public String toString(T unused, int flags) {
-                return null;
-            }
-
-            public String toVariableNameString(T unused) {
-                return null;
-            }
-
-            public String getVariableNamePattern() {
-                return ".+";
             }
         });
         if (classInfoSafe(type, name)) {
