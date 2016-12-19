@@ -431,13 +431,8 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprJSONObjectOfPacket.class, JSONObject.class, ExpressionType.PROPERTY, "%string% pjson %number% of %packet%");
             registerExpression(ExprJSONObjectArrayOfPacket.class, JSONObject.class, ExpressionType.PROPERTY, "%string% array pjson %number% of %packet%");
             registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY,
-                    "(0¦%classinfo/string%|" + ExprObjectOfPacket.getConverterNamesPattern(true) + ") pinfo %number% of %packet%",
-                    "(0¦%classinfo/string%|" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%",
-                    "%*classinfo% pinfo %number% of %packet%",
-                    "%*classinfo% array pinfo %number% of %packet%",
-                    "%string% pinfo %number% of %packet%",
-                    "%string% array pinfo %number% of %packet%",
-                    ExprObjectOfPacket.getConverterNamesPattern(true) + " pinfo %number% of %packet%");
+                    "(0¦%-classinfo/string%|" + ExprObjectOfPacket.getConverterNamesPattern(true) + ") pinfo %number% of %packet%",
+                    "(0¦%-classinfo/string%|" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%");
             registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%");
             registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array pnum %number% of %packet%");
             registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY, "%world% pentity %number% of %packet%");
