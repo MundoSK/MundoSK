@@ -505,6 +505,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1¦player count|0¦max player count) of server with host %string% [port %-number%]");
 		//Tablist
         registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
+        /*
         if (isPluginEnabled("ProtocolLib")) {
             registerType(Tablist.class, "tablist");
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
@@ -547,8 +548,9 @@ public class Mundo extends JavaPlugin{
                 registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in (%-tablist%|%-player%'s [array] tablist)");
             }
         }
+        */
         //TerrainControl
-		if (Bukkit.getServer().getPluginManager().getPlugin("TerrainControl") != null) {
+		if (isPluginEnabled("TerrainControl")) {
 			this.getLogger().info("You uncovered the secret TerrainControl syntaxes!");
 			registerEffect(EffSpawnObject.class, "(tc|terrain control) spawn %string% at %location% with rotation %string%");
 			registerExpression(ExprBiomeAt.class,String.class,ExpressionType.PROPERTY,"(tc|terrain control) biome at %location%");
