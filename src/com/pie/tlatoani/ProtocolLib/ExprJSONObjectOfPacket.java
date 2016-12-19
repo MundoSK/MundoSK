@@ -29,7 +29,7 @@ import java.util.function.Consumer;
 /**
  * Created by Tlatoani on 5/4/16.
  */
-public class ExprJsonObjectOfPacket extends SimpleExpression<JSONObject> {
+public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
     private PacketInfoConverter<JSONObject> converter;
     private Expression<Number> index;
     private Expression<PacketContainer> packetContainerExpression;
@@ -53,7 +53,7 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JSONObject> {
                 try {
                     tojson = (JSONObject) parser.parse(fromjson);
                 } catch (ParseException | ClassCastException e) {
-                    Mundo.debug(ExprJsonObjectOfPacket.class, e);
+                    Mundo.debug(ExprJSONObjectOfPacket.class, e);
                 }
                 Mundo.debug(this, "Tojson " + tojson);
                 return tojson;
@@ -72,7 +72,7 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JSONObject> {
                 try {
                     return (JSONObject) (new JSONParser()).parse(packet.getServerPings().readSafely(0).toJson());
                 } catch (ParseException | ClassCastException e) {
-                    Mundo.reportException(ExprJsonObjectOfPacket.class, e);
+                    Mundo.reportException(ExprJSONObjectOfPacket.class, e);
                     return null;
                 }
             }

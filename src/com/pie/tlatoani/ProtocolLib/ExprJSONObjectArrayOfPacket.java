@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by Tlatoani on 5/8/16.
  */
-public class ExprJsonObjectArrayOfPacket extends SimpleExpression<JSONObject> {
+public class ExprJSONObjectArrayOfPacket extends SimpleExpression<JSONObject> {
     private Method getObjects = null;
     private PacketInfoGetter getFunction;
     private PacketInfoSetter setFunction;
