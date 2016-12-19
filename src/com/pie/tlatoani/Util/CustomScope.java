@@ -76,44 +76,9 @@ public abstract class CustomScope extends Condition {
 			try {
 				Map<Class<? extends Event>, List<Trigger>> triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
 				Mundo.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
-				triggerMap.forEach(new BiConsumer<Class<? extends Event>, List<Trigger>>() {
-					@Override
-					public void accept(Class<? extends Event> aClass, List<Trigger> triggers) {
-						triggers.forEach(new Consumer<Trigger>() {
-							@Override
-							public void accept(Trigger trigger) {
-								try {
-									TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
-									while (going != null) {
-										if (going instanceof Conditional) {
-											Condition condition1 = (Condition) CustomScope.condition.get(going);
-											if (condition1 instanceof CustomScope) {
-												((CustomScope) condition1).setScope((Conditional) going);
-											}
-										}
-										going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
-
-									}
-								} catch (IllegalAccessException e) {
-									e.printStackTrace();
-								}
-
-							}
-						});
-					}
-				});
-
-				List<Trigger> triggerList = triggerMap.get(SkriptGeneratorEvent.class);
-				if (triggerList != null) {
-					SkriptGeneratorManager.registerTriggers(triggerList);
-				}
-
-				Map<String, ScriptCommand> commandMap = (Map<String, ScriptCommand>) commands.get(null);
-				commandMap.forEach(new BiConsumer<String, ScriptCommand>() {
-					@Override
-					public void accept(String s, ScriptCommand scriptCommand) {
+				for (List<Trigger> triggers : triggerMap.values()) {
+					for (Trigger trigger : triggers) {
 						try {
-							Trigger trigger = (Trigger) commandTrigger.get(scriptCommand);
 							TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
 							while (going != null) {
 								if (going instanceof Conditional) {
@@ -129,7 +94,32 @@ public abstract class CustomScope extends Condition {
 							e.printStackTrace();
 						}
 					}
-				});
+				}
+
+				List<Trigger> triggerList = triggerMap.get(SkriptGeneratorEvent.class);
+				if (triggerList != null) {
+					SkriptGeneratorManager.registerTriggers(triggerList);
+				}
+
+				Map<String, ScriptCommand> commandMap = (Map<String, ScriptCommand>) commands.get(null);
+				for (ScriptCommand scriptCommand : commandMap.values()) {
+					try {
+						Trigger trigger = (Trigger) commandTrigger.get(scriptCommand);
+						TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
+						while (going != null) {
+							if (going instanceof Conditional) {
+								Condition condition1 = (Condition) CustomScope.condition.get(going);
+								if (condition1 instanceof CustomScope) {
+									((CustomScope) condition1).setScope((Conditional) going);
+								}
+							}
+							going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
+
+						}
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					}
+				}
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}

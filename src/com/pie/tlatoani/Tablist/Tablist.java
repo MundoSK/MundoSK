@@ -166,14 +166,11 @@ public class Tablist {
             @Override
             public void run() {
                 Set<Tablist> tablistSet = new HashSet<Tablist>(tablistMap.values());
-                tablistSet.forEach(new Consumer<Tablist>() {
-                    @Override
-                    public void accept(Tablist tablist) {
-                        if (tablist.areAllPlayersHidden()) {
-                            tablist.hidePlayers(Arrays.asList(player));
-                        }
+                for (Tablist tablist : tablistSet) {
+                    if (tablist.areAllPlayersHidden()) {
+                        tablist.hidePlayers(Arrays.asList(player));
                     }
-                });
+                }
             }
         });
     }
@@ -181,12 +178,9 @@ public class Tablist {
     public static void onQuit(Player player) {
         getTablistForPlayer(player).removePlayers(Arrays.asList(player));
         Set<Tablist> tablistSet = new HashSet<Tablist>(tablistMap.values());
-        tablistSet.forEach(new Consumer<Tablist>() {
-            @Override
-            public void accept(Tablist tablist) {
-                tablist.hiddenPlayers.remove(player);
-            }
-        });
+        for (Tablist tablist : tablistSet) {
+            tablist.hiddenPlayers.remove(player);
+        }
     }
 
     public static Tablist getTablistForPlayer(Player player) {
@@ -304,60 +298,51 @@ public class Tablist {
     //Hide/Unhide Static Methods
 
     public static void hideInTablist(Collection<? extends Player> objects, Collection<Player> subjects) {
-        objects.forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player object) {
-                PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
-                PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-                packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                try {
-                    for (Player subject : subjects) {
-                        ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
-                    }
-                } catch (InvocationTargetException e) {
-                    Mundo.reportException(Tablist.class, e);
+        for (Player object : objects) {
+            PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
+            PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+            packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+            packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+            try {
+                for (Player subject : subjects) {
+                    ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
                 }
+            } catch (InvocationTargetException e) {
+                Mundo.reportException(Tablist.class, e);
             }
-        });
+        }
     }
 
     public static void showInTablist(Collection<? extends Player> objects, Collection<Player> subjects) {
-        objects.forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player object) {
-                PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
-                PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-                packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                try {
-                    for (Player subject : subjects) {
-                        ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
-                    }
-                } catch (InvocationTargetException e) {
-                    Mundo.reportException(Tablist.class, e);
+        for (Player object : objects) {
+            PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
+            PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+            packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+            packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+            try {
+                for (Player subject : subjects) {
+                    ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
                 }
+            } catch (InvocationTargetException e) {
+                Mundo.reportException(Tablist.class, e);
             }
-        });
+        }
     }
 
     public static void updateTablistName(Collection<? extends Player> objects, Collection<Player> subjects) {
-        objects.forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player object) {
-                PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
-                PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-                packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
-                try {
-                    for (Player subject : subjects) {
-                        ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
-                    }
-                } catch (InvocationTargetException e) {
-                    Mundo.reportException(Tablist.class, e);
+        for (Player object : objects) {
+            PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
+            PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+            packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+            packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
+            try {
+                for (Player subject : subjects) {
+                    ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
                 }
+            } catch (InvocationTargetException e) {
+                Mundo.reportException(Tablist.class, e);
             }
-        });
+        }
     }
 
     public static void updateScore(Player object, Collection<Player> subjects, Integer score) {

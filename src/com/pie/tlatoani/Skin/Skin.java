@@ -86,34 +86,25 @@ public abstract class Skin {
 
 
         public JSON(JSONArray jsonArray) {
-            jsonArray.forEach(new Consumer() {
-                @Override
-                public void accept(Object o) {
-                    textures.add(new JSONObject((JSONObject) o));
-                }
-            });
+            for (Object o : jsonArray) {
+                textures.add(new JSONObject((JSONObject) o));
+            }
         }
 
         public void retrieveSkinTextures(Multimap<String, WrappedSignedProperty> multimap) {
             multimap.removeAll("textures");
-            textures.forEach(new Consumer<Object>() {
-                @Override
-                public void accept(Object o) {
-                    JSONObject jsonObject = (JSONObject) o;
-                    WrappedSignedProperty property = new WrappedSignedProperty("textures", (String) jsonObject.get("value"), (String) jsonObject.get("signature"));
-                    multimap.put("textures", property);
-                }
-            });
+            for (Object o : textures) {
+                JSONObject jsonObject = (JSONObject) o;
+                WrappedSignedProperty property = new WrappedSignedProperty("textures", (String) jsonObject.get("value"), (String) jsonObject.get("signature"));
+                multimap.put("textures", property);
+            }
         }
 
         public JSONArray toJSONArray() {
             JSONArray jsonArray = new JSONArray();
-            textures.forEach(new Consumer() {
-                @Override
-                public void accept(Object o) {
-                    jsonArray.add(new JSONObject((JSONObject) o));
-                }
-            });
+            for (Object o : textures) {
+                jsonArray.add(new JSONObject((JSONObject) o));
+            }
             return jsonArray;
         }
 
@@ -137,15 +128,12 @@ public abstract class Skin {
 
         public JSONArray toJSONArray() {
             JSONArray jsonArray = new JSONArray();
-            textures.forEach(new Consumer<WrappedSignedProperty>() {
-                @Override
-                public void accept(WrappedSignedProperty wrappedSignedProperty) {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("value", wrappedSignedProperty.getValue());
-                    jsonObject.put("signature", wrappedSignedProperty.getSignature());
-                    jsonArray.add(jsonObject);
-                }
-            });
+            for (WrappedSignedProperty wrappedSignedProperty : textures) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("value", wrappedSignedProperty.getValue());
+                jsonObject.put("signature", wrappedSignedProperty.getSignature());
+                jsonArray.add(jsonObject);
+            }
             return jsonArray;
         }
     }

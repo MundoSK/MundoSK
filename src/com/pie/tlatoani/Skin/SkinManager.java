@@ -120,18 +120,15 @@ public class SkinManager {
                     Collection<String> playerNames = event.getPacket().getSpecificModifier(Collection.class).readSafely(0);
                     Mundo.debug(SkinManager.class, "playerNames: " + playerNames);
                     List<String> addedNames = new ArrayList<String>();
-                    playerNames.forEach(new Consumer<String>() {
-                        @Override
-                        public void accept(String s) {
-                            Player player = Bukkit.getPlayerExact(s);
-                            if (player != null) {
-                                String nameTag = getNameTag(player);
-                                if (!nameTag.equals(s))
-                                    addedNames.add(nameTag);
-                                Mundo.debug(SkinManager.class, "Player " + s + ", Nametag " + nameTag);
-                            }
+                    for (String s : playerNames) {
+                        Player player = Bukkit.getPlayerExact(s);
+                        if (player != null) {
+                            String nameTag = getNameTag(player);
+                            if (!nameTag.equals(s))
+                                addedNames.add(nameTag);
+                            Mundo.debug(SkinManager.class, "Player " + s + ", Nametag " + nameTag);
                         }
-                    });
+                    }
                     Mundo.debug(SkinManager.class, "addedNames: " + addedNames);
                     Set<String> finalNames = new HashSet<String>();
                     finalNames.addAll(playerNames);
@@ -398,16 +395,13 @@ public class SkinManager {
     }
 
     private static void checkForTeamChanges() {
-        Bukkit.getOnlinePlayers().forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player player) {
-                Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
-                String fullTablistName = team == null ? getTablistName(player) : team.getPrefix() + getTablistName(player) + team.getSuffix();
-                if (!player.getPlayerListName().equals(fullTablistName)) {
-                    updateTablistName(player);
-                }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
+            String fullTablistName = team == null ? getTablistName(player) : team.getPrefix() + getTablistName(player) + team.getSuffix();
+            if (!player.getPlayerListName().equals(fullTablistName)) {
+                updateTablistName(player);
             }
-        });
+        }
     }
 
     private static void updateTablistName(Player player) {

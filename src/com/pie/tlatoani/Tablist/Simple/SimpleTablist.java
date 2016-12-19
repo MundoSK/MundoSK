@@ -51,16 +51,13 @@ public class SimpleTablist {
         PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
         packetContainer.getPlayerInfoDataLists().writeSafely(0, playerInfoDatas);
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
-        players.forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player player) {
-                try {
-                    UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
-                } catch (InvocationTargetException e) {
-                    Mundo.reportException(this, e);
-                }
+        for (Player player : players) {
+            try {
+                UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
+            } catch (InvocationTargetException e) {
+                Mundo.reportException(this, e);
             }
-        });
+        }
     }
 
     private void sendScorePacketToAll(String id) {
@@ -74,34 +71,25 @@ public class SimpleTablist {
         packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, scores.get(id));
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
-        players.forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player player) {
-                try {
-                    UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
-                } catch (InvocationTargetException e) {
-                    Mundo.reportException(this, e);
-                }
+        for (Player player : players) {
+            try {
+                UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
+            } catch (InvocationTargetException e) {
+                Mundo.reportException(this, e);
             }
-        });
+        }
     }
 
     public void addPlayers(Collection<Player> players) {
-        heads.forEach(new BiConsumer<String, Skin>() {
-            @Override
-            public void accept(String s, Skin skin) {
-                sendPacket(s, EnumWrappers.PlayerInfoAction.ADD_PLAYER, players);
-            }
-        });
+        for (String s : heads.keySet()) {
+            sendPacket(s, EnumWrappers.PlayerInfoAction.ADD_PLAYER, players);
+        }
     }
 
     public void removePlayers(Collection<Player> players) {
-        heads.forEach(new BiConsumer<String, Skin>() {
-            @Override
-            public void accept(String s, Skin skin) {
-                sendPacket(s, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, players);
-            }
-        });
+        for (String s : heads.keySet()) {
+            sendPacket(s, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, players);
+        }
     }
 
     public void clear() {

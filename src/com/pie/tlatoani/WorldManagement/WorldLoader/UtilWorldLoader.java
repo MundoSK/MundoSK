@@ -118,14 +118,7 @@ public final class UtilWorldLoader {
     }
 
     public static List<WorldCreator> getAllCreators() {
-        List<WorldCreator> result = new ArrayList<>();
-        worldLoaderSaver.forEach(new BiConsumer<String, WorldCreator>() {
-            @Override
-            public void accept(String s, WorldCreator creator) {
-                result.add(creator);
-            }
-        });
-        return result;
+        return new ArrayList<>(worldLoaderSaver.values());
     }
 
     public static void clearAllCreators() {

@@ -49,33 +49,29 @@ public final class SkriptGeneratorManager {
 
     //Registers the custom generator triggers
     public static void registerTriggers(Collection<Trigger> triggers) {
-        triggers.forEach(new Consumer<Trigger>() {
-            @Override
-            public void accept(Trigger trigger) {
-                String generatorID = ((EvtChunkGenerator) trigger.getEvent()).getGeneratorID();
-                SkriptGenerator generator = SkriptGeneratorManager.getSkriptGenerator(generatorID);
-                generator.trigger = trigger;
-                try {
-                    TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
-                    while (going != null) {
-                        if (going instanceof Conditional) {
-                            Object goingcond = condition.get((TriggerSection) going);
-                            if (goingcond instanceof ScopeGeneration) {
-                                ((ScopeGeneration) goingcond).setScope((Conditional) going);
-                                generator.generation = ((CustomScope) goingcond).getFirst();
-                            } else if (goingcond instanceof ScopePopulation) {
-                                ((ScopePopulation) goingcond).setScope((Conditional) going);
-                                generator.population = ((CustomScope) goingcond).getFirst();
-                            }
+        for (Trigger trigger : triggers) {
+            String generatorID = ((EvtChunkGenerator) trigger.getEvent()).getGeneratorID();
+            SkriptGenerator generator = SkriptGeneratorManager.getSkriptGenerator(generatorID);
+            generator.trigger = trigger;
+            try {
+                TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
+                while (going != null) {
+                    if (going instanceof Conditional) {
+                        Object goingcond = condition.get((TriggerSection) going);
+                        if (goingcond instanceof ScopeGeneration) {
+                            ((ScopeGeneration) goingcond).setScope((Conditional) going);
+                            generator.generation = ((CustomScope) goingcond).getFirst();
+                        } else if (goingcond instanceof ScopePopulation) {
+                            ((ScopePopulation) goingcond).setScope((Conditional) going);
+                            generator.population = ((CustomScope) goingcond).getFirst();
                         }
-                        going = going.getNext();
                     }
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    going = going.getNext();
                 }
-
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
-        });
+        }
         countedIDs.clear();
     }
 }

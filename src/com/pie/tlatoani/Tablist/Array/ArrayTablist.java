@@ -82,16 +82,13 @@ public class ArrayTablist {
         packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, scores[column - 1][row - 1]);
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
-        players.forEach(new Consumer<Player>() {
-            @Override
-            public void accept(Player player) {
-                try {
-                    UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
-                } catch (InvocationTargetException e) {
-                    Mundo.reportException(this, e);
-                }
+        for (Player player : players) {
+            try {
+                UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
+            } catch (InvocationTargetException e) {
+                Mundo.reportException(this, e);
             }
-        });
+        }
     }
 
     public int getColumns() {

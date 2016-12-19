@@ -162,6 +162,18 @@ public class ExprJsonObjectOfPacket extends SimpleExpression<JSONObject> {
                 packet.getWatchableCollectionModifier().writeSafely(index, wrappedWatchableObjects);
             }
         });
+
+        registerConverter("nbt", new PacketInfoConverter<JSONObject>() {
+            @Override
+            public JSONObject get(PacketContainer packet, Integer index) {
+                return null;
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, JSONObject value) {
+
+            }
+        });
     }
 
     public static void registerConverter(String name, PacketInfoConverter<JSONObject> converter) {
