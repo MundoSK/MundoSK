@@ -1073,7 +1073,8 @@ public class Mundo extends JavaPlugin{
     //Miscellanous
 
     public static boolean isPluginEnabled(String pluginName) {
-        return Bukkit.getPluginManager().isPluginEnabled(pluginName);
+        //return Bukkit.getPluginManager().isPluginEnabled(pluginName);
+        return Bukkit.getPluginManager().getPlugin(pluginName) != null;
     }
 	
 }
