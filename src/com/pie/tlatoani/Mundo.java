@@ -6,7 +6,6 @@ import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
@@ -352,7 +351,7 @@ public class Mundo extends JavaPlugin{
                     String noteName = tone.name() + (deviation == 1 ? "+" : deviation == -1 ? "-" : "") + octave;
                     notes.add(new Pair<>("n" + noteName, note));
                     if (octave == 0) notes.add(new Pair<>("n" + noteName.substring(0, noteName.length() - 1), note));
-                    if (!isPluginEnabled("RandomSK")) {
+                    if (!serverHasPlugin("RandomSK")) {
                         notes.add(new Pair<>(noteName, note));
                         if (octave == 0) notes.add(new Pair<>(noteName.substring(0, noteName.length() - 1), note));
                     }
@@ -360,7 +359,7 @@ public class Mundo extends JavaPlugin{
         Note fSharp2 = Note.sharp(2, Note.Tone.F);
         notes.add(new Pair<>("nF+2", fSharp2));
         notes.add(new Pair<>("nG-2", fSharp2));
-        if (!isPluginEnabled("RandomSK")) {
+        if (!serverHasPlugin("RandomSK")) {
             notes.add(new Pair<>("F+2", fSharp2));
             notes.add(new Pair<>("G-2", fSharp2));
         }
@@ -396,7 +395,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprRandomIndex.class,String.class,ExpressionType.PROPERTY,"random from %numbers% prob[abilitie]s");
 		registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
 		//ProtocolLib
-		if (isPluginEnabled("ProtocolLib")) {
+		if (serverHasPlugin("ProtocolLib")) {
             info("You've discovered the amazing realm of ProtocolLib packet syntaxes!");
             String pLibVersion = Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion();
             if (!pLibVersion.substring(0, 1).equals("4") || pLibVersion.substring(0, 3).equals("4.0")) {
@@ -431,14 +430,21 @@ public class Mundo extends JavaPlugin{
 			registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
             registerExpression(ExprJSONObjectOfPacket.class, JSONObject.class, ExpressionType.PROPERTY, "%string% pjson %number% of %packet%");
             registerExpression(ExprJSONObjectArrayOfPacket.class, JSONObject.class, ExpressionType.PROPERTY, "%string% array pjson %number% of %packet%");
-            registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY, "%*classinfo% pinfo %number% of %packet%", "%*classinfo% array pinfo %number% of %packet%","%string% pinfo %number% of %packet%","%string% array pinfo %number% of %packet%");
+            registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY,
+                    "(0¦%classinfo/string%|" + ExprObjectOfPacket.getConverterNamesPattern(true) + ") pinfo %number% of %packet%",
+                    "(0¦%classinfo/string%|" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%",
+                    "%*classinfo% pinfo %number% of %packet%",
+                    "%*classinfo% array pinfo %number% of %packet%",
+                    "%string% pinfo %number% of %packet%",
+                    "%string% array pinfo %number% of %packet%",
+                    ExprObjectOfPacket.getConverterNamesPattern(true) + " pinfo %number% of %packet%");
             registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%");
             registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array pnum %number% of %packet%");
             registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY, "%world% pentity %number% of %packet%");
             registerExpression(ExprEnumOfPacket.class, String.class, ExpressionType.PROPERTY, "%string% penum %number% of %packet%");
 		}
         //Skin
-        if (isPluginEnabled("ProtocolLib")) {
+        if (serverHasPlugin("ProtocolLib")) {
             registerType(Skin.class, "skin", "skintexture").parser(new SimpleParser<Skin>() {
                 @Override
                 public Skin parse(String s, ParseContext parseContext) {
@@ -501,7 +507,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1¦player count|0¦max player count) of server with host %string% [port %-number%]");
 		//Tablist
         registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
-        if (isPluginEnabled("ProtocolLib")) {
+        if (serverHasPlugin("ProtocolLib")) {
             registerType(Tablist.class, "tablist");
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
@@ -544,7 +550,7 @@ public class Mundo extends JavaPlugin{
             }
         }
         //TerrainControl
-		if (isPluginEnabled("TerrainControl")) {
+		if (serverHasPlugin("TerrainControl")) {
 			this.getLogger().info("You uncovered the secret TerrainControl syntaxes!");
 			registerEffect(EffSpawnObject.class, "(tc|terrain control) spawn %string% at %location% with rotation %string%");
 			registerExpression(ExprBiomeAt.class,String.class,ExpressionType.PROPERTY,"(tc|terrain control) biome at %location%");
@@ -600,12 +606,10 @@ public class Mundo extends JavaPlugin{
             }
 
         });
-        if (!isPluginEnabled("RandomSK")) {
-            registerEnum(Environment.class, "environment", Environment.values(), new Pair<String, Environment>("END", Environment.THE_END));
-        }
+        registerEnum(Environment.class, "dimension", Environment.values(), new Pair<String, Environment>("END", Environment.THE_END));
         registerEnum(WorldType.class, "worldtype", WorldType.values(), new Pair<String, WorldType>("SUPERFLAT", WorldType.FLAT), new Pair<String, WorldType>("LARGE BIOMES", WorldType.LARGE_BIOMES), new Pair<String, WorldType>("VERSION 1.1", WorldType.VERSION_1_1));
 		registerExpression(ExprCreatorNamed.class,WorldCreator.class,ExpressionType.PROPERTY,"creator (with name|named) %string%");
-		registerExpression(ExprCreatorWith.class,WorldCreator.class,ExpressionType.PROPERTY,"%creator%[ modified],[ name %-string%][,][ env[ironment] %-environment%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
+		registerExpression(ExprCreatorWith.class,WorldCreator.class,ExpressionType.PROPERTY,"%creator%[ modified],[ name %-string%][,][ (dimension|env[ironment]) %-dimension%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
 		registerExpression(ExprCreatorOf.class,WorldCreator.class,ExpressionType.PROPERTY,"creator of %world%");
 		registerExpression(ExprNameOfCreator.class,String.class,ExpressionType.PROPERTY,"worldname of %creator%");
 		registerExpression(ExprEnvOfCreator.class,Environment.class,ExpressionType.PROPERTY,"env[ironment] of %creator%");
@@ -626,7 +630,7 @@ public class Mundo extends JavaPlugin{
                 return worldCreator;
             }
         });
-        registerEffect(EffCreateWorld.class, "create world named %string%[,][ env[ironment] %-environment%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
+        registerEffect(EffCreateWorld.class, "create world named %string%[,][ (dimension|env[ironment]) %-dimension%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
 		registerEffect(EffCreateWorldCreator.class, "create world using %creator%");
 		registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
 		registerEffect(EffDeleteWorld.class, "delete %world%");
@@ -926,7 +930,7 @@ public class Mundo extends JavaPlugin{
                 });
             }
 
-            if (isPluginEnabled("ProtocolLib")) {
+            if (serverHasPlugin("ProtocolLib")) {
                 Graph protocolLibVersion = metrics.createGraph("ProtocolLib Version");
                 protocolLibVersion.addPlotter(new Plotter(Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion()) {
                     @Override
@@ -1072,8 +1076,7 @@ public class Mundo extends JavaPlugin{
 
     //Miscellanous
 
-    public static boolean isPluginEnabled(String pluginName) {
-        //return Bukkit.getPluginManager().isPluginEnabled(pluginName);
+    public static boolean serverHasPlugin(String pluginName) {
         return Bukkit.getPluginManager().getPlugin(pluginName) != null;
     }
 	
