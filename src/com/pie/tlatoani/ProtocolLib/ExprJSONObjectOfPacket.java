@@ -21,7 +21,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -30,17 +29,20 @@ import java.util.function.Consumer;
  * Created by Tlatoani on 5/4/16.
  */
 public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
-    private PacketInfoConverter<JSONObject> converter;
+    private PacketInfoConverter<JSONObject> singleConverter = null;
+    private PacketInfoConverter<JSONObject[]> pluralConverter = null;
     private Expression<Number> index;
     private Expression<PacketContainer> packetContainerExpression;
+    private boolean isSingle;
 
-    public static Map<String, PacketInfoConverter<JSONObject>> converterMap = new HashMap<>();
+    public static Map<String, PacketInfoConverter<JSONObject>> singleConverters = new LinkedHashMap<>();
+    public static Map<String, PacketInfoConverter<JSONObject[]>> pluralConverters = new LinkedHashMap<>();
 
     static {
 
         //Converters
 
-        registerConverter("chatcomponent", new PacketInfoConverter<JSONObject>() {
+        registerSingleConverter("chatcomponent", new PacketInfoConverter<JSONObject>() {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
                 Mundo.debug(this, "Packet :" + packet);
@@ -66,7 +68,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         });
 
-        registerConverter("serverping", new PacketInfoConverter<JSONObject>() {
+        registerSingleConverter("serverping", new PacketInfoConverter<JSONObject>() {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
                 try {
@@ -83,7 +85,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         });
 
-        registerConverter("datawatcher", new PacketInfoConverter<JSONObject>() {
+        registerSingleConverter("datawatcher", new PacketInfoConverter<JSONObject>() {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
                 JSONObject jsonObject = new JSONObject();
@@ -125,7 +127,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         });
 
-        registerConverter("watchablecollection", new PacketInfoConverter<JSONObject>() {
+        registerSingleConverter("watchablecollection", new PacketInfoConverter<JSONObject>() {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
                 JSONObject jsonObject = new JSONObject();
@@ -162,39 +164,54 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 packet.getWatchableCollectionModifier().writeSafely(index, wrappedWatchableObjects);
             }
         });
-
-        registerConverter("nbt", new PacketInfoConverter<JSONObject>() {
-            @Override
-            public JSONObject get(PacketContainer packet, Integer index) {
-                return null;
-            }
-
-            @Override
-            public void set(PacketContainer packet, Integer index, JSONObject value) {
-
-            }
-        });
     }
 
-    public static void registerConverter(String name, PacketInfoConverter<JSONObject> converter) {
-        converterMap.put(name, converter);
+    public static void registerSingleConverter(String name, PacketInfoConverter<JSONObject> converter) {
+        singleConverters.put(name, converter);
     }
 
-    public static PacketInfoConverter<JSONObject> getConverter(String name) {
-        return converterMap.get(name);
+    public static void registerPluralConverter(String name, PacketInfoConverter<JSONObject[]> converter) {
+        pluralConverters.put(name, converter);
+    }
+
+    public static PacketInfoConverter<JSONObject> getSingleConverter(String name) {
+        return singleConverters.get(name);
+    }
+
+    public static PacketInfoConverter<JSONObject[]> getPluralConverter(String name) {
+        return pluralConverters.get(name);
+    }
+
+    public static String getConverterNamesPattern(Boolean isSingle) {
+        String result = "";
+        int i = 0;
+        for (String name : isSingle ? singleConverters.keySet() : pluralConverters.keySet()) {
+            i++;
+            result += i + "¦" + name + "|";
+        }
+        return result.substring(0, result.length() - 1);
+    }
+
+    public static String getConverterNameByIndex(int index, Boolean isSingle) {
+        int i = 0;
+        for (String name : isSingle ? singleConverters.keySet() : pluralConverters.keySet()) {
+            i++;
+            if (i == index) return name;
+        }
+        return null;
     }
 
     @Override
     protected JSONObject[] get(Event event) {
         PacketContainer packet = packetContainerExpression.getSingle(event);
+        int index = this.index.getSingle(event).intValue();
         Mundo.debug(this, "Packet before calling function :" + packet);
-        JSONObject result = converter.get(packet, index.getSingle(event).intValue());
-        return new JSONObject[]{result};
+        return isSingle ? new JSONObject[]{singleConverter.get(packet, index)} : pluralConverter.get(packet, index);
     }
 
     @Override
     public boolean isSingle() {
-        return true;
+        return isSingle;
     }
 
     @Override
@@ -210,7 +227,10 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         String string;
-        if (expressions[0] instanceof Literal<?>) {
+        boolean isSingle = i == 0;
+        if (expressions[0] == null) {
+            string = getConverterNameByIndex(parseResult.mark, isSingle);
+        } else if (expressions[0] instanceof Literal<?>) {
             string = ((Literal<String>) expressions[0]).getSingle();
         } else if (expressions[0] instanceof VariableString) {
             String fullstring = ((VariableString) expressions[0]).toString();
@@ -221,8 +241,9 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
         }
         index = (Expression<Number>) expressions[1];
         packetContainerExpression = (Expression<PacketContainer>) expressions[2];
-        converter = getConverter(string.toLowerCase());
-        if (converter == null) {
+        singleConverter = getSingleConverter(string.toLowerCase());
+        pluralConverter = getPluralConverter(string.toLowerCase());
+        if (singleConverter == null && pluralConverter == null) {
             Skript.error("The string " + string + " is not a valid packetinfo!");
             return false;
         }
@@ -231,8 +252,17 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         PacketContainer packet = packetContainerExpression.getSingle(event);
+        int index = this.index.getSingle(event).intValue();
         Mundo.debug(this, "Packet before calling function :" + packet);
-        converter.set(packet, index.getSingle(event).intValue(), ((JSONObject) delta[0]));
+        if (isSingle) {
+            singleConverter.set(packet, index, ((JSONObject) delta[0]));
+        } else {
+            JSONObject[] deltaJSON = new JSONObject[delta.length];
+            for (int i = 0; i < delta.length; i++) {
+                deltaJSON[i] = (JSONObject) delta[i];
+            }
+            pluralConverter.set(packet, index, deltaJSON);
+        }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

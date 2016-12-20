@@ -428,8 +428,9 @@ public class Mundo extends JavaPlugin{
 			}, 0);
             registerExpression(ExprTypeOfPacket.class, PacketType.class, ExpressionType.SIMPLE, "packettype of %packet%", "%packet%'s packettype");
 			registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
-            registerExpression(ExprJSONObjectOfPacket.class, JSONObject.class, ExpressionType.PROPERTY, "%string% pjson %number% of %packet%");
-            registerExpression(ExprJSONObjectArrayOfPacket.class, JSONObject.class, ExpressionType.PROPERTY, "%string% array pjson %number% of %packet%");
+            registerExpression(ExprJSONObjectOfPacket.class, JSONObject.class, ExpressionType.PROPERTY,
+                    "(%-string%|" + ExprJSONObjectOfPacket.getConverterNamesPattern(true) + " pjson %number% of %packet%",
+                    "(%-string%|" + ExprJSONObjectOfPacket.getConverterNamesPattern(false) + " array pjson %number% of %packet%");
             registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY,
                     "(0¦%-classinfo/string%|" + ExprObjectOfPacket.getConverterNamesPattern(true) + ") pinfo %number% of %packet%",
                     "(0¦%-classinfo/string%|" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%");
@@ -601,10 +602,12 @@ public class Mundo extends JavaPlugin{
             }
 
         });
-        registerEnum(Environment.class, "dimension", Environment.values(), new Pair<String, Environment>("END", Environment.THE_END));
+        if (!serverHasPlugin("RandomSK")) {
+            registerEnum(Environment.class, "environment", Environment.values(), new Pair<String, Environment>("END", Environment.THE_END));
+        }
         registerEnum(WorldType.class, "worldtype", WorldType.values(), new Pair<String, WorldType>("SUPERFLAT", WorldType.FLAT), new Pair<String, WorldType>("LARGE BIOMES", WorldType.LARGE_BIOMES), new Pair<String, WorldType>("VERSION 1.1", WorldType.VERSION_1_1));
 		registerExpression(ExprCreatorNamed.class,WorldCreator.class,ExpressionType.PROPERTY,"creator (with name|named) %string%");
-		registerExpression(ExprCreatorWith.class,WorldCreator.class,ExpressionType.PROPERTY,"%creator%[ modified],[ name %-string%][,][ (dimension|env[ironment]) %-dimension%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
+		registerExpression(ExprCreatorWith.class,WorldCreator.class,ExpressionType.PROPERTY,"%creator%[ modified],[ name %-string%][,][ (environment|env[ironment]) %-environment%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
 		registerExpression(ExprCreatorOf.class,WorldCreator.class,ExpressionType.PROPERTY,"creator of %world%");
 		registerExpression(ExprNameOfCreator.class,String.class,ExpressionType.PROPERTY,"worldname of %creator%");
 		registerExpression(ExprEnvOfCreator.class,Environment.class,ExpressionType.PROPERTY,"env[ironment] of %creator%");
@@ -625,7 +628,7 @@ public class Mundo extends JavaPlugin{
                 return worldCreator;
             }
         });
-        registerEffect(EffCreateWorld.class, "create world named %string%[,][ (dimension|env[ironment]) %-dimension%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
+        registerEffect(EffCreateWorld.class, "create world named %string%[,][ (environment|env[ironment]) %-environment%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
 		registerEffect(EffCreateWorldCreator.class, "create world using %creator%");
 		registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
 		registerEffect(EffDeleteWorld.class, "delete %world%");
