@@ -228,7 +228,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         String string;
-        boolean isSingle = i == 0;
+        isSingle = i == 0;
         if (expressions[0] == null) {
             string = getConverterNameByIndex(parseResult.mark, isSingle);
         } else if (expressions[0] instanceof Literal<?>) {
@@ -240,7 +240,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             Skript.error("The string '" + expressions[0] + "' is not a literal string! Only literal strings can be used in the pjson expression!");
             return false;
         }
-        Mundo.debug(this, "String == " + string);
+        Mundo.debug(this, "String == " + string + " isSingle == " + isSingle);
         index = (Expression<Number>) expressions[1];
         packetContainerExpression = (Expression<PacketContainer>) expressions[2];
         singleConverter = getSingleConverter(string.toLowerCase());
