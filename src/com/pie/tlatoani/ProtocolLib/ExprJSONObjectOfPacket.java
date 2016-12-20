@@ -206,6 +206,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
         PacketContainer packet = packetContainerExpression.getSingle(event);
         int index = this.index.getSingle(event).intValue();
         Mundo.debug(this, "Packet before calling function :" + packet);
+        Mundo.debug(this, "Converters == " + singleConverter + " , " + pluralConverter);
         return isSingle ? new JSONObject[]{singleConverter.get(packet, index)} : pluralConverter.get(packet, index);
     }
 
