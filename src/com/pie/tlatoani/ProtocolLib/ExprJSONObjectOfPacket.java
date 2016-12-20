@@ -239,11 +239,13 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             Skript.error("The string '" + expressions[0] + "' is not a literal string! Only literal strings can be used in the pjson expression!");
             return false;
         }
+        Mundo.debug(this, "String == " + string);
         index = (Expression<Number>) expressions[1];
         packetContainerExpression = (Expression<PacketContainer>) expressions[2];
         singleConverter = getSingleConverter(string.toLowerCase());
         pluralConverter = getPluralConverter(string.toLowerCase());
-        if (singleConverter == null && pluralConverter == null) {
+        Mundo.debug(this, "Converters == " + singleConverter + " , " + pluralConverter);
+        if (isSingle ? singleConverter == null : pluralConverter == null) {
             Skript.error("The string " + string + " is not a valid packetinfo!");
             return false;
         }
