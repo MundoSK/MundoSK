@@ -27,10 +27,10 @@ import java.util.regex.Pattern;
  * Created by Tlatoani on 11/24/16.
  */
 public class Tablist {
-    public final Set<Player> players = new LinkedHashSet<>();
+    public final Set<Player> players = new HashSet<>();
     public final SimpleTablist simpleTablist = new SimpleTablist(this);
     public final ArrayTablist arrayTablist = new ArrayTablist(this);
-    private HashSet<Player> hiddenPlayers = new HashSet<>();
+    private Set<Player> hiddenPlayers = new HashSet<>();
     private HashMap<Player, String> tablistNames = new HashMap<>();
     private HashMap<Player, Integer> scores = new HashMap<>();
     private boolean allPlayersHidden = false;
@@ -219,8 +219,6 @@ public class Tablist {
     }
 
     public void hidePlayers(Collection<Player> playersToHide) {
-        playersToHide.removeAll(hiddenPlayers);
-        hideInTablist(playersToHide, players);
         hiddenPlayers.addAll(playersToHide);
     }
 
