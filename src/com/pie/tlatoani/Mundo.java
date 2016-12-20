@@ -429,8 +429,8 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprTypeOfPacket.class, PacketType.class, ExpressionType.SIMPLE, "packettype of %packet%", "%packet%'s packettype");
 			registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
             registerExpression(ExprJSONObjectOfPacket.class, JSONObject.class, ExpressionType.PROPERTY,
-                    "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(true) + " pjson %number% of %packet%",
-                    "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(false) + " array pjson %number% of %packet%");
+                    "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(true) + ") pjson %number% of %packet%",
+                    "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(false) + ") array pjson %number% of %packet%");
             registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY,
                     "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(true) + ") pinfo %number% of %packet%",
                     "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%");
