@@ -17,12 +17,9 @@ import com.pie.tlatoani.Tablist.Simple.SimpleTablist;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Team;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,7 +27,7 @@ import java.util.regex.Pattern;
  * Created by Tlatoani on 11/24/16.
  */
 public class Tablist {
-    public final HashSet<Player> players = new HashSet<>();
+    public final Set<Player> players = new LinkedHashSet<>();
     public final SimpleTablist simpleTablist = new SimpleTablist(this);
     public final ArrayTablist arrayTablist = new ArrayTablist(this);
     private HashSet<Player> hiddenPlayers = new HashSet<>();

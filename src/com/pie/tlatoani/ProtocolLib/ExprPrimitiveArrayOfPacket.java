@@ -24,6 +24,7 @@ public class ExprPrimitiveArrayOfPacket extends SimpleExpression<Number> {
     protected Number[] get(Event event) {
         if (ifint) {
             int[] ints = packetContainerExpression.getSingle(event).getIntegerArrays().readSafely(index.getSingle(event).intValue());
+            if (ints == null) return new Number[0];
             Number[] result = new Number[ints.length];
             for (int i = 0; i < ints.length; i++) {
                 result[i] = new Integer(ints[i]);
@@ -31,6 +32,7 @@ public class ExprPrimitiveArrayOfPacket extends SimpleExpression<Number> {
             return result;
         } else {
             byte[] bytes = packetContainerExpression.getSingle(event).getByteArrays().readSafely(index.getSingle(event).intValue());
+            if (bytes == null) return new Number[0];
             Number[] result = new Number[bytes.length];
             for (int i = 0; i < bytes.length; i++) {
                 result[i] = new Byte(bytes[i]);
