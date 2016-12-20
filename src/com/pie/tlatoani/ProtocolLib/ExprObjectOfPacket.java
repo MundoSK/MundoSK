@@ -230,9 +230,9 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         int i = 0;
         for (String name : isSingle ? singleConverters.keySet() : pluralConverters.keySet()) {
             i++;
-            result += i + "¦" + name + "|";
+            result += "|" + i + "¦" + name;
         }
-        return result.substring(0, result.length() - 1);
+        return result;
     }
 
     public static String getConverterNameByIndex(int index, Boolean isSingle) {
