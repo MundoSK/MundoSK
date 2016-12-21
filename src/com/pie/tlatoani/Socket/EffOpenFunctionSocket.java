@@ -2,6 +2,7 @@ package com.pie.tlatoani.Socket;
 
 import javax.annotation.Nullable;
 
+import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import ch.njol.skript.lang.Effect;
@@ -36,6 +37,8 @@ public class EffOpenFunctionSocket extends Effect{
 		if (pass != null) passarg = pass.getSingle(arg0);
 		String handlerarg = null;
 		if (handler != null) handlerarg = handler.getSingle(arg0);
+		Mundo.debug(this, "Passarg : " + passarg + ", Handlerarg : " + handlerarg);
+		Mundo.debug(this, "port : " + port + "port.getSingle : " + port.getSingle(arg0));
 		UtilFunctionSocket.openFunctionSocket(port.getSingle(arg0).intValue(), passarg, handlerarg);
 		
 	}
