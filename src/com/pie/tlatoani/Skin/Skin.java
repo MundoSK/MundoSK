@@ -39,7 +39,7 @@ public abstract class Skin {
     }
 
     public static void setSkinOfSKull(SkullMeta skullMeta, Skin skin) {
-        WrappedGameProfile wrappedGameProfile = new WrappedGameProfile(UUID.fromString("10001000-1000-3000-8000-100010001000"), "");
+        WrappedGameProfile wrappedGameProfile = new WrappedGameProfile(UUID.fromString("10001000-1000-3000-8000-100010001000"), "MundoSK-Name");
         skin.retrieveSkinTextures(wrappedGameProfile.getProperties());
         gameProfile.set(skullMeta, wrappedGameProfile.getHandle());
     }

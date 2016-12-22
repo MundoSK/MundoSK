@@ -7,8 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Skin/Skin.class" afterPath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Skin/Skin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Skin.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Skin.java" />
     </list>
     <ignored path="MundoSK.iws" />
@@ -88,8 +90,8 @@
       <file leaf-file-name="Skin.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Skin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="37" column="49" selection-start-line="37" selection-start-column="49" selection-end-line="37" selection-end-column="49" />
+            <state relative-caret-position="375">
+              <caret line="41" column="141" selection-start-line="41" selection-start-column="141" selection-end-line="41" selection-end-column="141" />
               <folding />
             </state>
           </provider>
@@ -219,8 +221,8 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprEntityCanCollide.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Skin.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Skin.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -1489,14 +1491,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Skin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="37" column="49" selection-start-line="37" selection-start-column="49" selection-end-line="37" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="557">
@@ -1504,6 +1498,14 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Skin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="41" column="141" selection-start-line="41" selection-start-column="141" selection-end-line="41" selection-end-column="141" />
+          <folding />
         </state>
       </provider>
     </entry>
