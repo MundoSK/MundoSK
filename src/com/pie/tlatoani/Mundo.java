@@ -152,7 +152,7 @@ public class Mundo extends JavaPlugin{
         registerExpression(ExprFunctionCodeBlock.class, CodeBlock.class, ExpressionType.PROPERTY, "[codeblock of] function %string%");
         //CustomEvent
         registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
-        registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "evt %strings%");
+        registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "ev[en]t %strings%");
         registerExpression(ExprIDOfCustomEvent.class,String.class,ExpressionType.PROPERTY,"id of custom event", "custom event's id");
         registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
         //EnchantedBook
@@ -333,6 +333,7 @@ public class Mundo extends JavaPlugin{
         registerExpression(ExprServerIP.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] [the] ip of server", "[mundo[sk]] [the] server's ip");
         registerExpression(ExprServerPort.class, Number.class, ExpressionType.PROPERTY, "[mundo[sk]] [the] port of server", "[mundo[sk]] [the] server's port");
         registerExpression(ExprAllTypes.class, ClassInfo.class, ExpressionType.SIMPLE, "all types");
+        registerExpression(ExprEntityCanCollide.class, Boolean.class, ExpressionType.PROPERTY, "%livingentity% is collidable");
         registerScope(ScopeMatcher.class, "(switch|match) %object%");
         registerScope(ScopeMatches.class, "(case|matches) %object%");
         registerScope(ScopeAsync.class, "async [in %-timespan%]");

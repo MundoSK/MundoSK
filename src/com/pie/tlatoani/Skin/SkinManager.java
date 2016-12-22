@@ -44,8 +44,6 @@ public class SkinManager {
 
     private static ArrayList<Player> spawnedPlayers = new ArrayList<>();
 
-    //private static ArrayList<Player> respawningPlayers = new ArrayList<>();
-
     private static UtilReflection.MethodInvoker craftPlayerGetHandle = null;
     private static UtilReflection.MethodInvoker moveToWorld = null;
 
