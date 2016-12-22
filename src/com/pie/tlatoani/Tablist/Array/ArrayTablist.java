@@ -104,8 +104,10 @@ public class ArrayTablist {
         columns = Mundo.limitToRange(0, columns, 4);
         if (columns == this.columns) return;
         if (columns != 0) {
+            Mundo.debug(this, "Columns != 0");
             tablist.simpleTablist.clear();
             if (!tablist.areAllPlayersHidden()) {
+                Mundo.debug(this, "Hiding all players");
                 tablist.hideAllPlayers();
             }
         }

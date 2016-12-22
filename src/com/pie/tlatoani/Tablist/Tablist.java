@@ -219,6 +219,8 @@ public class Tablist {
     }
 
     public void hidePlayers(Collection<Player> playersToHide) {
+        Mundo.debug(this, "Hiding all players");
+        hideInTablist(playersToHide, players);
         hiddenPlayers.addAll(playersToHide);
     }
 
@@ -234,6 +236,7 @@ public class Tablist {
     public void hideAllPlayers() {
         if (!allPlayersHidden) {
             allPlayersHidden = true;
+            Mundo.debug(this, "Hiding all players");
             hidePlayers(new ArrayList<>(Bukkit.getOnlinePlayers()));
         }
     }
