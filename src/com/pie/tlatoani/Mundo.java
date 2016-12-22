@@ -486,9 +486,10 @@ public class Mundo extends JavaPlugin{
                 }
             });
             registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] with value %string% signature %string%");
-            registerExpression(ExprSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "[player] skin [texture] of %player%", "%player%'s [player] skin [texture]");
+            //registerExpression(ExprSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "[player] skin [texture] of %player%", "%player%'s [player] skin [texture]");
+            registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin");
             registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(for %-players%|excluding %-players%)]", "%player%'s displayed skin [(for %-players%|excluding %-players%)]");
-            registerExpression(ExprSkinOfSkull.class, Skin.class, ExpressionType.PROPERTY, "[skull] skin of %itemstack%", "%itemstack%'s [skull] skin");
+            //registerExpression(ExprSkinOfSkull.class, Skin.class, ExpressionType.PROPERTY, "[skull] skin of %itemstack%", "%itemstack%'s [skull] skin");
             registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%");
             registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "%player%'s name[]tag", "name[]tag of %player%");
         }
@@ -1077,6 +1078,10 @@ public class Mundo extends JavaPlugin{
 
     public static boolean serverHasPlugin(String pluginName) {
         return Bukkit.getPluginManager().getPlugin(pluginName) != null;
+    }
+
+    public static boolean classesCompatible(Class c1, Class c2) {
+        return c1.isAssignableFrom(c2) || c2.isAssignableFrom(c1);
     }
 	
 }

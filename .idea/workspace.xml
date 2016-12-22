@@ -7,6 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
@@ -33,8 +34,8 @@
       <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="488" column="166" selection-start-line="488" selection-start-column="166" selection-end-line="488" selection-end-column="166" />
+            <state relative-caret-position="662">
+              <caret line="489" column="152" selection-start-line="489" selection-start-column="152" selection-end-line="489" selection-end-column="152" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#24841#24842#0" expanded="true" />
@@ -47,10 +48,10 @@
                 <element signature="e#28684#28685#0" expanded="true" />
                 <element signature="e#28767#28768#0" expanded="true" />
                 <element signature="e#28819#28820#0" expanded="true" />
-                <element signature="e#31526#31778#0" expanded="true" />
-                <element signature="e#31777#31778#0" expanded="true" />
-                <element signature="e#31852#32104#0" expanded="true" />
-                <element signature="e#32103#32104#0" expanded="true" />
+                <element signature="e#31686#31938#0" expanded="true" />
+                <element signature="e#31937#31938#0" expanded="true" />
+                <element signature="e#32012#32264#0" expanded="true" />
+                <element signature="e#32263#32264#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -149,7 +150,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkullFromSkin.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/MineSkinClient/MineskinClient.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilReflection.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TabListManager.java" />
@@ -198,6 +198,7 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprEntityCanCollide.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
@@ -1054,21 +1055,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprHighestSolidBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="47" column="44" selection-start-line="47" selection-start-column="44" selection-end-line="47" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprAllPacketTypes.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/EffChangePlayerVisibility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffDeleteTab.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -1450,10 +1436,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOfSkull.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="25" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOfPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="47">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1174#1175#0" expanded="true" />
+            <element signature="e#1201#1202#0" expanded="true" />
+            <element signature="e#1267#1268#0" expanded="true" />
+            <element signature="e#1300#1301#0" expanded="true" />
+            <element signature="e#1368#1369#0" expanded="true" />
+            <element signature="e#1413#1414#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="488" column="166" selection-start-line="488" selection-start-column="166" selection-end-line="488" selection-end-column="166" />
+        <state relative-caret-position="662">
+          <caret line="489" column="152" selection-start-line="489" selection-start-column="152" selection-end-line="489" selection-end-column="152" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#24841#24842#0" expanded="true" />
@@ -1466,10 +1484,10 @@
             <element signature="e#28684#28685#0" expanded="true" />
             <element signature="e#28767#28768#0" expanded="true" />
             <element signature="e#28819#28820#0" expanded="true" />
-            <element signature="e#31526#31778#0" expanded="true" />
-            <element signature="e#31777#31778#0" expanded="true" />
-            <element signature="e#31852#32104#0" expanded="true" />
-            <element signature="e#32103#32104#0" expanded="true" />
+            <element signature="e#31686#31938#0" expanded="true" />
+            <element signature="e#31937#31938#0" expanded="true" />
+            <element signature="e#32012#32264#0" expanded="true" />
+            <element signature="e#32263#32264#0" expanded="true" />
           </folding>
         </state>
       </provider>
