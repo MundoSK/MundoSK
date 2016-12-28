@@ -35,6 +35,7 @@ public abstract class CustomScope extends Condition {
 	public static Field commandTrigger;
 	private static boolean getScopesWasRun = true;
 
+	protected boolean canStandFree = false;
 	protected TriggerSection scopeParent;
 	protected TriggerItem scopeNext;
 	protected Conditional scope = null;
@@ -216,7 +217,9 @@ public abstract class CustomScope extends Condition {
 
 	@Override
 	public TriggerItem setNext(TriggerItem next) {
-		Skript.error("Custom scopes cannot be used as free standing conditions!");
+		if (!canStandFree) {
+			Skript.error("Custom scopes cannot be used as free standing conditions!");
+		}
 		return super.setNext(next);
 	}
 

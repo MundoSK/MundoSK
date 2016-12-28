@@ -15,10 +15,14 @@ import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.nbt.NbtBase;
 import com.comphenix.protocol.wrappers.nbt.NbtCompound;
+import com.comphenix.protocol.wrappers.nbt.NbtFactory;
+import com.comphenix.protocol.wrappers.nbt.NbtType;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
@@ -39,10 +43,13 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     private static Map<String, PacketInfoConverter> singleConverters = new LinkedHashMap<>();
     private static Map<String, PacketInfoConverter<Object[]>> pluralConverters = new LinkedHashMap<>();
 
-    //Util
+    /*
 
-    public static Object fromNBTBase(NbtBase nbtBase) {
-        JSONObject result = null;
+    public static JSONObject fromNBTBase(NbtBase nbtBase) {
+        JSONObject result = new JSONObject();
+        if (nbtBase.getType() != NbtType.TAG_COMPOUND) {
+            result.put("type", nbtBase.getType().toString().substring(4).toLowerCase());
+        }
         if (nbtBase != null)  {
             switch (nbtBase.getType()) {
                 case TAG_BYTE:
@@ -52,7 +59,8 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 case TAG_FLOAT:
                 case TAG_DOUBLE:
                 case TAG_STRING:
-                    return nbtBase.getValue();
+                    result.put("value", nbtBase.getValue());
+                    return result;
                 case TAG_BYTE_ARRAY:
                     result = new JSONObject();
                     for (int i = 0; i < ((byte[]) nbtBase.getValue()).length; i++) {
@@ -76,6 +84,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 case TAG_COMPOUND:
                     result = new JSONObject();
                     for (NbtBase member : (NbtCompound) nbtBase) {
+                        if (member.getType() == NbtType.TAG_END) continue;
                         result.put(member.getName(), fromNBTBase(member));
                     }
             }
@@ -83,7 +92,88 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         return result;
     }
 
-    public static void toNBTBase(Object value, NbtBase nbtBase) {
+    public static NbtBase toNBTBase(JSONObject value, String name) {
+        Object maybeType = value.get("type");
+        if (maybeType instanceof String) {
+            try {
+                NbtType type = NbtType.valueOf("TAG_" + ((String) maybeType).toUpperCase());
+                Object val = value.get("value");
+                Number number = val instanceof Number ? (Number) val : 0;
+                switch (type) {
+                    case TAG_BYTE:
+                        return NbtFactory.of(name, number.byteValue());
+                    case TAG_SHORT:
+                        return NbtFactory.of(name, number.shortValue());
+                    case TAG_INT:
+                        return NbtFactory.of(name, number.intValue());
+                    case TAG_LONG:
+                        return NbtFactory.of(name, number.longValue());
+                    case TAG_FLOAT:
+                        return NbtFactory.of(name, number.floatValue());
+                    case TAG_DOUBLE:
+                        return NbtFactory.of(name, number.doubleValue());
+                    case TAG_STRING:
+                        return NbtFactory.of(name, val instanceof String ? (String) val : null);
+                    case TAG_BYTE_ARRAY:
+                        ArrayList<Number> byteList = new ArrayList<>();
+                        value.forEach(new BiConsumer() {
+                            @Override
+                            public void accept(Object o, Object o2) {
+                                try {
+                                    byteList.set(Integer.parseInt((String) o) - 1, (Number) o2);
+                                } catch (NumberFormatException | ClassCastException e) {}
+                            }
+                        });
+                        byte[] bytes = new byte[byteList.size()];
+                        for (int i = 0; i < bytes.length; i++) {
+                            bytes[i] = byteList.get(i).byteValue();
+                        }
+                        return NbtFactory.of(name, bytes);
+                    case TAG_INT_ARRAY:
+                        ArrayList<Number> intList = new ArrayList<>();
+                        value.forEach(new BiConsumer() {
+                            @Override
+                            public void accept(Object o, Object o2) {
+                                try {
+                                    intList.set(Integer.parseInt((String) o) - 1, (Number) o2);
+                                } catch (NumberFormatException | ClassCastException e) {}
+                            }
+                        });
+                        byte[] ints = new byte[intList.size()];
+                        for (int i = 0; i < ints.length; i++) {
+                            ints[i] = intList.get(i).byteValue();
+                        }
+                        return NbtFactory.of(name, ints);
+                    case TAG_LIST:
+                        ArrayList<NbtBase> nbtBases = new ArrayList<>();
+                        value.forEach(new BiConsumer() {
+                            @Override
+                            public void accept(Object o, Object o2) {
+                                try {
+                                    nbtBases.set(Integer.parseInt((String) o) - 1, toNBTBase((JSONObject) o2, ""));
+                                } catch (NumberFormatException | ClassCastException e) {}
+                            }
+                        });
+                        return NbtFactory.ofList(name, nbtBases);
+                    case TAG_END:
+                        throw new IllegalArgumentException("TAG_END base");
+                }
+            } catch (IllegalArgumentException e) {}
+            ArrayList<NbtBase> nbtBases = new ArrayList<>();
+            value.forEach(new BiConsumer() {
+                @Override
+                public void accept(Object o, Object o2) {
+                    try {
+                        nbtBases.add(toNBTBase((JSONObject) o2, (String) o));
+                    } catch (ClassCastException e) {}
+                }
+            });
+            return NbtFactory.ofCompound(name, nbtBases);
+        }
+    }
+
+
+    public static void setNBTBase(Object value, NbtBase nbtBase) {
         if (nbtBase != null && value != null) {
             switch (nbtBase.getType()) {
                 case TAG_BYTE:
@@ -139,17 +229,17 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                     int i = 0;
                     for (NbtBase member : (List<NbtBase>) nbtBase.getValue()) {
                         i++;
-                        toNBTBase(((JSONObject) value).get("" + i), member);
+                        setNBTBase(((JSONObject) value).get("" + i), member);
                     }
                     break;
                 case TAG_COMPOUND:
                     for (NbtBase member : (NbtCompound) nbtBase) {
-                        toNBTBase(((JSONObject) value).get(member.getName()), member);
+                        setNBTBase(((JSONObject) value).get(member.getName()), member);
                     }
             }
         }
     }
-
+    */
     static {
 
         //Single Converters
@@ -183,17 +273,17 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             }
         });
 
-        registerSingleConverter("nbt", new PacketInfoConverter<Object>() {
+        registerSingleConverter("material", new PacketInfoConverter<ItemStack>() {
             @Override
-            public Object get(PacketContainer packet, Integer index) {
-                return fromNBTBase(packet.getNbtModifier().readSafely(index));
+            public ItemStack get(PacketContainer packet, Integer index) {
+                Material material = packet.getBlocks().readSafely(index);
+                return material == null ? null : new ItemStack(material);
             }
 
             @Override
-            public void set(PacketContainer packet, Integer index, Object value) {
-                NbtBase nbtBase = packet.getNbtModifier().readSafely(index);
-                toNBTBase(value, nbtBase);
-                packet.getNbtModifier().writeSafely(index, nbtBase);
+            public void set(PacketContainer packet, Integer index, ItemStack value) {
+                Material material = value.getType();
+                packet.getBlocks().writeSafely(index, material);
             }
         });
 

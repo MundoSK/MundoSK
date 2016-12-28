@@ -14,9 +14,13 @@ import org.bukkit.event.Event;
 public class ScopeAsync extends CustomScope {
     Expression<Timespan> delay;
 
+    public ScopeAsync() {
+        canStandFree = true;
+    }
+
     @Override
     public String getString() {
-        return "async";
+        return "async" + (delay == null ? "" : " in " + delay);
     }
 
     @Override
@@ -48,13 +52,6 @@ public class ScopeAsync extends CustomScope {
     public boolean init() {
         delay = (Expression<Timespan>) exprs[0];
         return true;
-    }
-
-    //Work as free standing condition
-
-    @Override
-    public TriggerItem setNext(TriggerItem next) {
-        return super.setNext(next);
     }
 
     @Override

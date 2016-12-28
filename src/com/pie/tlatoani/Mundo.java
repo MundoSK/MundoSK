@@ -485,7 +485,7 @@ public class Mundo extends JavaPlugin{
                     return false;
                 }
             });
-            registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] with value %string% signature %string%");
+            registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%");
             //registerExpression(ExprSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "[player] skin [texture] of %player%", "%player%'s [player] skin [texture]");
             registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin");
             registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(for %-players%|excluding %-players%)]", "%player%'s displayed skin [(for %-players%|excluding %-players%)]");
