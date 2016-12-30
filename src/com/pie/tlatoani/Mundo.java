@@ -123,6 +123,11 @@ public class Mundo extends JavaPlugin{
             info("If you would like to disable debug_mode, simply go to your 'plugins' folder, go to the 'MundoSK' folder, open 'config.yml', and where it says 'debug_mode', replace 'true' with 'false'");
         }
 
+        //Allow MundoSK 'conditions' to work in absence of SkQuery, which provides a condition like the below
+        if (!serverHasPlugin("SkQuery")) {
+            registerCondition(CondBoolean.class, "%boolean%");
+        }
+        //Achievements
         registerEnum(Achievement.class, "achievement", Achievement.values());
 		registerEffect(EffAwardAch.class, "award achieve[ment] %achievement% to %player%");
 		registerEffect(EffRemoveAch.class, "remove achieve[ment] %achievement% from %player%");
