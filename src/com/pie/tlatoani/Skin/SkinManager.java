@@ -64,6 +64,7 @@ public class SkinManager {
             public void onPacketSending(PacketEvent event) {
                 if (!event.isCancelled() && event.getPlayer() != null) {
                     if (event.getPacket().getPlayerInfoAction().read(0) == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
+                        Mundo.debug(SkinManager.class, "EVENT.GETPLAYER = " + event.getPlayer().getName());
                         List<PlayerInfoData> playerInfoDatas = event.getPacket().getPlayerInfoDataLists().readSafely(0);
                         List<PlayerInfoData> newPlayerInfoDatas = new ArrayList<PlayerInfoData>();
                         for (PlayerInfoData playerInfoData : playerInfoDatas) {

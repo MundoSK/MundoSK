@@ -80,7 +80,7 @@ public class Tablist {
             public void onPacketSending(PacketEvent event) {
                 Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
                 if (player != null && event.getPlayer() != null && getTablistForPlayer(event.getPlayer()).isPlayerHidden(player) && !event.isCancelled()) {
-                    Mundo.debug(Tablist.class, "Player is hidden");
+                    Mundo.debug(Tablist.class, "Player is hidden, event.getplayer = " + event.getPlayer().getName() + ", player = " + player.getName());
                     PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                     packet.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
