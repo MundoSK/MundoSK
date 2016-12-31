@@ -82,18 +82,18 @@ public class Tablist {
                 if (player != null && event.getPlayer() != null && getTablistForPlayer(event.getPlayer()).isPlayerHidden(player) && !event.isCancelled()) {
                     Mundo.debug(Tablist.class, "Player is hidden, event.getplayer = " + event.getPlayer().getName() + ", player = " + player.getName());
                     PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
-                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                    packet.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
-                    packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+                    PacketContainer addPacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                    addPacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
+                    addPacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
                     try {
-                        ProtocolLibrary.getProtocolManager().sendServerPacket(event.getPlayer(), packet);
+                        ProtocolLibrary.getProtocolManager().sendServerPacket(event.getPlayer(), addPacket);
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
                     }
                     PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                     removePacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
                     removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    Mundo.sync(new PacketSender(removePacket, event.getPlayer()));
+                    Mundo.syncDelay(1, new PacketSender(removePacket, event.getPlayer()));
                 }
             }
         });
