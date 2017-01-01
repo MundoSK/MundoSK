@@ -49,108 +49,112 @@ public class SkinManager {
 
     static {
 
-        //Reflection stuff
-        try {
-            craftPlayerGetHandle = UtilReflection.getTypedMethod(UtilReflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", UtilReflection.getMinecraftClass("EntityPlayer"));
-            moveToWorld = UtilReflection.getMethod(UtilReflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld", UtilReflection.getMinecraftClass("EntityPlayer"), int.class, boolean.class, Location.class, boolean.class);
-        } catch (Exception e) {
-            Mundo.reportException(SkinManager.class, e);
+        if (Mundo.implementPacketStuff) {
+            //Reflection stuff
+            try {
+                craftPlayerGetHandle = UtilReflection.getTypedMethod(UtilReflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", UtilReflection.getMinecraftClass("EntityPlayer"));
+                moveToWorld = UtilReflection.getMethod(UtilReflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld", UtilReflection.getMinecraftClass("EntityPlayer"), int.class, boolean.class, Location.class, boolean.class);
+            } catch (Exception e) {
+                Mundo.reportException(SkinManager.class, e);
+            }
+
+            //Packet stuff
+
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
+                @Override
+                public void onPacketSending(PacketEvent event) {
+                    if (!event.isCancelled() && event.getPlayer() != null) {
+                        if (event.getPacket().getPlayerInfoAction().read(0) == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
+                            Mundo.debug(SkinManager.class, "EVENT.GETPLAYER = " + event.getPlayer().getName());
+                            List<PlayerInfoData> playerInfoDatas = event.getPacket().getPlayerInfoDataLists().readSafely(0);
+                            List<PlayerInfoData> newPlayerInfoDatas = new ArrayList<PlayerInfoData>();
+                            for (PlayerInfoData playerInfoData : playerInfoDatas) {
+                                Player player = Bukkit.getPlayer(playerInfoData.getProfile().getUUID());
+                                PlayerInfoData newPlayerInfoData = playerInfoData;
+
+                                if (player != null && !spawnedPlayers.contains(player)) {
+                                    Mundo.debug(SkinManager.class, "NEW PLAYER !");
+                                    spawnedPlayers.add(player);
+                                    if (!actualSkins.containsKey(player)) {
+                                        if (!actualSkins.containsKey(player)) {
+                                            Skin skin = new Skin.Collected(playerInfoData.getProfile().getProperties().get("textures"));
+                                            Mundo.debug(SkinManager.class, "ALTERNATIVE SKINTEXTURE FOUND IN PACKET = " + skin);
+                                            if (!skin.toString().equals("[]")) {
+
+                                                actualSkins.put(player, skin);
+                                                displayedSkins.put(player, skin);
+                                            }
+                                        }
+
+                                    }
+                                }
+
+                                if (player != null) {
+                                    Mundo.debug(SkinManager.class, "Pre Namtatg: " + playerInfoData.getProfile().getName());
+                                    //Team team = player.getScoreboard().getEntryTeam(player.getName());
+                                    //String nameTag = team == null ? getNameTag(player) : team.getPrefix() + getNameTag(player) + team.getSuffix();
+                                    String nameTag = getNameTag(player);
+                                    String tabName = player.getPlayerListName();
+                                    newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTag), playerInfoData.getLatency(), playerInfoData.getGameMode(), nameTag.equals(tabName) ? null : WrappedChatComponent.fromText(player.getPlayerListName()));
+                                    Mundo.debug(SkinManager.class, "Post Namtatg: " + newPlayerInfoData.getProfile().getName());
+
+                                    Skin skin = getPersonalDisplayedSkin(player, event.getPlayer());
+                                    Mundo.debug(SkinManager.class, "PLAYER ACTUAL NAME: " + player.getName());
+                                    Mundo.debug(SkinManager.class, "SKINTEXTURE REPLACEMENT (MAY OR MAY NOT EXIST): " + skin);
+                                    if (skin != null) {
+                                        skin.retrieveSkinTextures(newPlayerInfoData.getProfile().getProperties());
+                                    }
+                                }
+                                newPlayerInfoDatas.add(newPlayerInfoData);
+                            }
+                            event.getPacket().getPlayerInfoDataLists().writeSafely(0, newPlayerInfoDatas);
+                        }
+                    }
+                }
+            });
+
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.SCOREBOARD_TEAM) {
+                @Override
+                public void onPacketSending(PacketEvent event) {
+                    if (!event.isCancelled() && event.getPlayer() != null) {
+                        Collection<String> playerNames = event.getPacket().getSpecificModifier(Collection.class).readSafely(0);
+                        Mundo.debug(SkinManager.class, "playerNames: " + playerNames);
+                        List<String> addedNames = new ArrayList<String>();
+                        for (String s : playerNames) {
+                            Player player = Bukkit.getPlayerExact(s);
+                            if (player != null) {
+                                String nameTag = getNameTag(player);
+                                if (!nameTag.equals(s))
+                                    addedNames.add(nameTag);
+                                Mundo.debug(SkinManager.class, "Player " + s + ", Nametag " + nameTag);
+                            }
+                        }
+                        Mundo.debug(SkinManager.class, "addedNames: " + addedNames);
+                        Set<String> finalNames = new HashSet<String>();
+                        finalNames.addAll(playerNames);
+                        finalNames.addAll(addedNames);
+                        Mundo.debug(SkinManager.class, "finalNames: " + finalNames);
+                        event.getPacket().getSpecificModifier(Collection.class).writeSafely(0, finalNames);
+                        checkForTeamChanges();
+                    }
+                }
+            });
+
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.SCOREBOARD_SCORE) {
+                @Override
+                public void onPacketSending(PacketEvent event) {
+                    StructureModifier<String> stringStructureModifier = event.getPacket().getStrings();
+                    String actualString = stringStructureModifier.read(0);
+                    Player player = actualString == null ? null : Bukkit.getPlayerExact(actualString);
+                    if (player != null) {
+                        stringStructureModifier.writeSafely(0, getNameTag(player));
+                        Mundo.debug(SkinManager.class, "REPLACING SCORE IN NAME " + actualString);
+                    }
+                }
+            });
         }
 
-        //Packet stuff
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                if (!event.isCancelled() && event.getPlayer() != null) {
-                    if (event.getPacket().getPlayerInfoAction().read(0) == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
-                        Mundo.debug(SkinManager.class, "EVENT.GETPLAYER = " + event.getPlayer().getName());
-                        List<PlayerInfoData> playerInfoDatas = event.getPacket().getPlayerInfoDataLists().readSafely(0);
-                        List<PlayerInfoData> newPlayerInfoDatas = new ArrayList<PlayerInfoData>();
-                        for (PlayerInfoData playerInfoData : playerInfoDatas) {
-                            Player player = Bukkit.getPlayer(playerInfoData.getProfile().getUUID());
-                            PlayerInfoData newPlayerInfoData = playerInfoData;
-
-                            if (player != null && !spawnedPlayers.contains(player)) {
-                                Mundo.debug(SkinManager.class, "NEW PLAYER !");
-                                spawnedPlayers.add(player);
-                                if (!actualSkins.containsKey(player)) {
-                                    if (!actualSkins.containsKey(player)) {
-                                        Skin skin = new Skin.Collected(playerInfoData.getProfile().getProperties().get("textures"));
-                                        Mundo.debug(SkinManager.class, "ALTERNATIVE SKINTEXTURE FOUND IN PACKET = " + skin);
-                                        if (!skin.toString().equals("[]")) {
-
-                                            actualSkins.put(player, skin);
-                                            displayedSkins.put(player, skin);
-                                        }
-                                    }
-
-                                }
-                            }
-
-                            if (player != null) {
-                                Mundo.debug(SkinManager.class, "Pre Namtatg: " + playerInfoData.getProfile().getName());
-                                //Team team = player.getScoreboard().getEntryTeam(player.getName());
-                                //String nameTag = team == null ? getNameTag(player) : team.getPrefix() + getNameTag(player) + team.getSuffix();
-                                String nameTag = getNameTag(player);
-                                String tabName = player.getPlayerListName();
-                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTag), playerInfoData.getLatency(), playerInfoData.getGameMode(), nameTag.equals(tabName) ? null : WrappedChatComponent.fromText(player.getPlayerListName()));
-                                Mundo.debug(SkinManager.class, "Post Namtatg: " + newPlayerInfoData.getProfile().getName());
-
-                                Skin skin = getPersonalDisplayedSkin(player, event.getPlayer());
-                                Mundo.debug(SkinManager.class, "PLAYER ACTUAL NAME: " + player.getName());
-                                Mundo.debug(SkinManager.class, "SKINTEXTURE REPLACEMENT (MAY OR MAY NOT EXIST): " + skin);
-                                if (skin != null) {
-                                    skin.retrieveSkinTextures(newPlayerInfoData.getProfile().getProperties());
-                                }
-                            }
-                            newPlayerInfoDatas.add(newPlayerInfoData);
-                        }
-                        event.getPacket().getPlayerInfoDataLists().writeSafely(0, newPlayerInfoDatas);
-                    }
-                }
-            }
-        });
-
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.SCOREBOARD_TEAM) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                if (!event.isCancelled() && event.getPlayer() != null) {
-                    Collection<String> playerNames = event.getPacket().getSpecificModifier(Collection.class).readSafely(0);
-                    Mundo.debug(SkinManager.class, "playerNames: " + playerNames);
-                    List<String> addedNames = new ArrayList<String>();
-                    for (String s : playerNames) {
-                        Player player = Bukkit.getPlayerExact(s);
-                        if (player != null) {
-                            String nameTag = getNameTag(player);
-                            if (!nameTag.equals(s))
-                                addedNames.add(nameTag);
-                            Mundo.debug(SkinManager.class, "Player " + s + ", Nametag " + nameTag);
-                        }
-                    }
-                    Mundo.debug(SkinManager.class, "addedNames: " + addedNames);
-                    Set<String> finalNames = new HashSet<String>();
-                    finalNames.addAll(playerNames);
-                    finalNames.addAll(addedNames);
-                    Mundo.debug(SkinManager.class, "finalNames: " + finalNames);
-                    event.getPacket().getSpecificModifier(Collection.class).writeSafely(0, finalNames);
-                    checkForTeamChanges();
-                }
-            }
-        });
-
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.SCOREBOARD_SCORE) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                StructureModifier<String> stringStructureModifier = event.getPacket().getStrings();
-                String actualString = stringStructureModifier.read(0);
-                Player player = actualString == null ? null : Bukkit.getPlayerExact(actualString);
-                if (player != null) {
-                    stringStructureModifier.writeSafely(0, getNameTag(player));
-                    Mundo.debug(SkinManager.class, "REPLACING SCORE IN NAME " + actualString);
-                }
-            }
-        });
 
     }
 

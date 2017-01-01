@@ -48,89 +48,93 @@ public class Tablist {
 
     static {
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                if (!event.isCancelled()) {
-                    List<PlayerInfoData> playerInfoDatas = event.getPacket().getPlayerInfoDataLists().readSafely(0);
-                    List<PlayerInfoData> newPlayerInfoDatas = new ArrayList<PlayerInfoData>();
-                    for (PlayerInfoData playerInfoData : playerInfoDatas) {
-                        Player player = Bukkit.getPlayer(playerInfoData.getProfile().getUUID());
-                        PlayerInfoData newPlayerInfoData = playerInfoData;
-                        if (player != null && event.getPlayer() != null) {
-                            Tablist tablist = getTablistForPlayer(event.getPlayer());
-                            Mundo.debug(Tablist.class, "getTablistForPlayer = " + tablist);
-                            HashMap<Player, String> tablistNames = tablist.tablistNames;
-                            Mundo.debug(Tablist.class, "tablistNames = " + tablistNames);
-                            String tablistName = tablist.tablistNames.get(player);
-                            Mundo.debug(Tablist.class, "tablistName = " + tablistName);
-                            if (tablistName != null) {
-                                newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile(), playerInfoData.getLatency(), playerInfoData.getGameMode(), WrappedChatComponent.fromJson(colorStringToJson(tablistName)));
+        if (Mundo.implementPacketStuff) {
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
+                @Override
+                public void onPacketSending(PacketEvent event) {
+                    if (!event.isCancelled()) {
+                        List<PlayerInfoData> playerInfoDatas = event.getPacket().getPlayerInfoDataLists().readSafely(0);
+                        List<PlayerInfoData> newPlayerInfoDatas = new ArrayList<PlayerInfoData>();
+                        for (PlayerInfoData playerInfoData : playerInfoDatas) {
+                            Player player = Bukkit.getPlayer(playerInfoData.getProfile().getUUID());
+                            PlayerInfoData newPlayerInfoData = playerInfoData;
+                            if (player != null && event.getPlayer() != null) {
+                                Tablist tablist = getTablistForPlayer(event.getPlayer());
+                                Mundo.debug(Tablist.class, "getTablistForPlayer = " + tablist);
+                                HashMap<Player, String> tablistNames = tablist.tablistNames;
+                                Mundo.debug(Tablist.class, "tablistNames = " + tablistNames);
+                                String tablistName = tablist.tablistNames.get(player);
+                                Mundo.debug(Tablist.class, "tablistName = " + tablistName);
+                                if (tablistName != null) {
+                                    newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile(), playerInfoData.getLatency(), playerInfoData.getGameMode(), WrappedChatComponent.fromJson(colorStringToJson(tablistName)));
+                                }
                             }
+                            newPlayerInfoDatas.add(newPlayerInfoData);
                         }
-                        newPlayerInfoDatas.add(newPlayerInfoData);
+                        event.getPacket().getPlayerInfoDataLists().writeSafely(0, newPlayerInfoDatas);
                     }
-                    event.getPacket().getPlayerInfoDataLists().writeSafely(0, newPlayerInfoDatas);
                 }
-            }
-        });
+            });
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
-                if (player != null && event.getPlayer() != null && getTablistForPlayer(event.getPlayer()).isPlayerHidden(player) && !event.isCancelled()) {
-                    Mundo.debug(Tablist.class, "Player is hidden, event.getplayer = " + event.getPlayer().getName() + ", player = " + player.getName());
-                    PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
-                    PacketContainer addPacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                    addPacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
-                    addPacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    try {
-                        ProtocolLibrary.getProtocolManager().sendServerPacket(event.getPlayer(), addPacket);
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
+                @Override
+                public void onPacketSending(PacketEvent event) {
+                    Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
+                    if (player != null && event.getPlayer() != null && getTablistForPlayer(event.getPlayer()).isPlayerHidden(player) && !event.isCancelled()) {
+                        Mundo.debug(Tablist.class, "Player is hidden, event.getplayer = " + event.getPlayer().getName() + ", player = " + player.getName());
+                        PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
+                        PacketContainer addPacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                        addPacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
+                        addPacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+                        try {
+                            ProtocolLibrary.getProtocolManager().sendServerPacket(event.getPlayer(), addPacket);
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                        PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                        removePacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
+                        removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                        Mundo.syncDelay(5, new PacketSender(removePacket, event.getPlayer()));
                     }
-                    PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                    removePacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
-                    removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    Mundo.syncDelay(5, new PacketSender(removePacket, event.getPlayer()));
                 }
-            }
-        });
+            });
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.RESPAWN) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                Player player = event.getPlayer();
-                if (player != null && getTablistForPlayer(event.getPlayer()).isPlayerHidden(player) && !playersRespawning.contains(player.getUniqueId()) && !event.isCancelled()) {
-                    Mundo.debug(Tablist.class, "Player is hidden = " + player.getName());
-                    playersRespawning.add(player.getUniqueId());
-                    PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
-                    PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                    packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-                    packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    try {
-                        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                    PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-                    removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-                    removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    Mundo.syncDelay(5, new Runnable() {
-                        @Override
-                        public void run() {
-                            playersRespawning.remove(player.getUniqueId());
-                            try {
-                                ProtocolLibrary.getProtocolManager().sendServerPacket(player, removePacket);
-                            } catch (InvocationTargetException e) {
-                                Mundo.reportException(Tablist.class, e);
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.RESPAWN) {
+                @Override
+                public void onPacketSending(PacketEvent event) {
+                    Player player = event.getPlayer();
+                    if (player != null && getTablistForPlayer(event.getPlayer()).isPlayerHidden(player) && !playersRespawning.contains(player.getUniqueId()) && !event.isCancelled()) {
+                        Mundo.debug(Tablist.class, "Player is hidden = " + player.getName());
+                        playersRespawning.add(player.getUniqueId());
+                        PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
+                        PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                        packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                        packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+                        try {
+                            ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                        PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+                        removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
+                        removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                        Mundo.syncDelay(5, new Runnable() {
+                            @Override
+                            public void run() {
+                                playersRespawning.remove(player.getUniqueId());
+                                try {
+                                    ProtocolLibrary.getProtocolManager().sendServerPacket(player, removePacket);
+                                } catch (InvocationTargetException e) {
+                                    Mundo.reportException(Tablist.class, e);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
+
+
     }
 
     public static class PacketSender implements Runnable {

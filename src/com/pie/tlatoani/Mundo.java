@@ -93,6 +93,7 @@ public class Mundo extends JavaPlugin{
 	public static Mundo instance;
     public static String pluginFolder;
     public static Boolean debugMode;
+    public static Boolean implementPacketStuff;
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
 
@@ -104,8 +105,10 @@ public class Mundo extends JavaPlugin{
         pluginFolder = getDataFolder().getAbsolutePath();
         FileConfiguration config = getConfig();
         config.addDefault("debug_mode", false);
+        config.addDefault("enable_custom_skin_and_tablist", true);
         config.options().copyDefaults(true);
         debugMode = config.getBoolean("debug_mode");
+        implementPacketStuff = config.getBoolean("enable_custom_skin_and_tablist");
         saveConfig();
         instance = this;
         UtilWorldLoader.load();
@@ -446,7 +449,7 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprEnumOfPacket.class, String.class, ExpressionType.PROPERTY, "%string% penum %number% of %packet%");
 		}
         //Skin
-        if (serverHasPlugin("ProtocolLib")) {
+        if (serverHasPlugin("ProtocolLib") && implementPacketStuff) {
             registerType(Skin.class, "skin", "skintexture").parser(new SimpleParser<Skin>() {
                 @Override
                 public Skin parse(String s, ParseContext parseContext) {
@@ -509,8 +512,8 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprMotdOfServer.class,String.class,ExpressionType.COMBINED,"motd of server with host %string% [port %-number%]");
 		registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1¦player count|0¦max player count) of server with host %string% [port %-number%]");
 		//Tablist
-        registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
-        if (serverHasPlugin("ProtocolLib")) {
+        if (serverHasPlugin("ProtocolLib") && implementPacketStuff) {
+            registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
             registerType(Tablist.class, "tablist");
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
