@@ -106,7 +106,7 @@ public class ArrayTablist {
         if (columns != 0) {
             Mundo.debug(this, "Columns != 0");
             tablist.simpleTablist.clear();
-            if (!tablist.areAllPlayersHidden()) {
+            if (columns != 4 && !tablist.areAllPlayersHidden()) {
                 Mundo.debug(this, "Hiding all players");
                 tablist.hideAllPlayers();
             }
@@ -148,6 +148,11 @@ public class ArrayTablist {
     public void setRows(int rows) {
         Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
         rows = getViableRowAmount(columns, rows);
+        if (rows == this.rows) return;
+        if (!tablist.areAllPlayersHidden()) {
+            Mundo.debug(this, "Rows != 20, Hiding all players");
+            tablist.hideAllPlayers();
+        }
         if (rows > this.rows) {
             for (int column = 1; column <= this.columns; column++)
                 for (int row = this.rows + 1; row <= rows; row++) {
@@ -158,7 +163,7 @@ public class ArrayTablist {
                     sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
                     sendScorePacketToAll(column, row);
                 }
-        } else if (rows < this.rows) {
+        } else {
             for (int column = 1; column <= this.columns; column++)
                 for (int row = rows + 1; row <= this.rows; row++) {
                     displayNames[column - 1][row - 1] = "";

@@ -98,7 +98,7 @@ public class SkinManager {
                                 Mundo.debug(SkinManager.class, "Post Namtatg: " + newPlayerInfoData.getProfile().getName());
 
                                 Skin skin = getPersonalDisplayedSkin(player, event.getPlayer());
-                                Mundo.debug(SkinManager.class, "PLAYER ACTUAL NAME: " + (player != null ? player.getName() : "NOT A REAL PLAYER"));
+                                Mundo.debug(SkinManager.class, "PLAYER ACTUAL NAME: " + player.getName());
                                 Mundo.debug(SkinManager.class, "SKINTEXTURE REPLACEMENT (MAY OR MAY NOT EXIST): " + skin);
                                 if (skin != null) {
                                     skin.retrieveSkinTextures(newPlayerInfoData.getProfile().getProperties());

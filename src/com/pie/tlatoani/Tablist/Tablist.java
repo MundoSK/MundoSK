@@ -93,7 +93,7 @@ public class Tablist {
                     PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                     removePacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
                     removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    Mundo.syncDelay(15, new PacketSender(removePacket, event.getPlayer()));
+                    Mundo.syncDelay(5, new PacketSender(removePacket, event.getPlayer()));
                 }
             }
         });
@@ -103,7 +103,7 @@ public class Tablist {
             public void onPacketSending(PacketEvent event) {
                 Player player = event.getPlayer();
                 if (player != null && getTablistForPlayer(event.getPlayer()).isPlayerHidden(player) && !playersRespawning.contains(player.getUniqueId()) && !event.isCancelled()) {
-                    Mundo.debug(Tablist.class, "Player is hidden");
+                    Mundo.debug(Tablist.class, "Player is hidden = " + player.getName());
                     playersRespawning.add(player.getUniqueId());
                     PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
                     PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
@@ -117,7 +117,7 @@ public class Tablist {
                     PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                     removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                     removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    Mundo.syncDelay(2, new Runnable() {
+                    Mundo.syncDelay(5, new Runnable() {
                         @Override
                         public void run() {
                             playersRespawning.remove(player.getUniqueId());
@@ -225,7 +225,7 @@ public class Tablist {
     }
 
     public void showPlayers(Collection<Player> playersToShow) {
-        if (allPlayersHidden) {
+        if (allPlayersHidden && (arrayTablist.getColumns() != 4 || arrayTablist.getRows() != 20)) {
             arrayTablist.setColumns(0);
         }
         allPlayersHidden = false;
@@ -242,7 +242,9 @@ public class Tablist {
     }
 
     public void showAllPlayers() {
-        arrayTablist.setColumns(0);
+        if (arrayTablist.getColumns() != 4 || arrayTablist.getRows() != 20) {
+            arrayTablist.setColumns(0);
+        }
         allPlayersHidden = false;
         showInTablist(Bukkit.getOnlinePlayers(), players);
         hiddenPlayers.clear();
