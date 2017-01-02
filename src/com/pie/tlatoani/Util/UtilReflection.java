@@ -35,10 +35,9 @@ public final class UtilReflection {
 
     static {
         try {
-            Bukkit.getLogger().info("MUNDOSK EARLY DEBUG OF Bukkit.getServer().getClass().getPackage().getName() = " + Bukkit.getServer().getClass().getPackage().getName());
             nmsServer = UtilReflection.getTypedMethod(UtilReflection.getCraftBukkitClass("CraftServer"), "getHandle", UtilReflection.getMinecraftClass("DedicatedPlayerList")).invoke(Bukkit.getServer());
         } catch (Exception e) {
-            Mundo.reportException(UtilReflection.class, e);
+            e.printStackTrace();
         }
     }
 
