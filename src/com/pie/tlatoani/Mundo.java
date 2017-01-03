@@ -342,6 +342,7 @@ public class Mundo extends JavaPlugin{
         registerExpression(ExprServerPort.class, Number.class, ExpressionType.PROPERTY, "[mundo[sk]] [the] port of server", "[mundo[sk]] [the] server's port");
         registerExpression(ExprAllTypes.class, ClassInfo.class, ExpressionType.SIMPLE, "all types");
         registerExpression(ExprEntityCanCollide.class, Boolean.class, ExpressionType.PROPERTY, "%livingentity% is collidable");
+        registerExpression(ExprTreeAtLoc.class, Block.class, ExpressionType.PROPERTY, "tree at %location%");
         registerScope(ScopeMatcher.class, "(switch|match) %object%");
         registerScope(ScopeMatches.class, "(case|matches) %object%");
         registerScope(ScopeAsync.class, "async [in %-timespan%]");
