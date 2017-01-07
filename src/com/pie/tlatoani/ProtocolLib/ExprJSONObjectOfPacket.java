@@ -132,16 +132,8 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             public JSONObject get(PacketContainer packet, Integer index) {
                 JSONObject jsonObject = new JSONObject();
                 Collection<WrappedWatchableObject> wrappedWatchableObjects = packet.getWatchableCollectionModifier().readSafely(index);
-                if (wrappedWatchableObjects != null) {
-                    wrappedWatchableObjects.forEach(new Consumer<WrappedWatchableObject>() {
-                        int i = 0;
-
-                        @Override
-                        public void accept(WrappedWatchableObject wrappedWatchableObject) {
-                            jsonObject.put("" + i, wrappedWatchableObject.getValue());
-                            i++;
-                        }
-                    });
+                for (WrappedWatchableObject wrappedWatchableObject : wrappedWatchableObjects) {
+                    jsonObject.put("" + wrappedWatchableObject.getIndex(), wrappedWatchableObject.getValue());
                 }
                 return jsonObject;
             }

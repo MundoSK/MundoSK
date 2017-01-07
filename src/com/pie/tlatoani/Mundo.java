@@ -343,6 +343,7 @@ public class Mundo extends JavaPlugin{
         registerExpression(ExprAllTypes.class, ClassInfo.class, ExpressionType.SIMPLE, "all types");
         registerExpression(ExprEntityCanCollide.class, Boolean.class, ExpressionType.PROPERTY, "%livingentity% is collidable");
         registerExpression(ExprTreeAtLoc.class, Block.class, ExpressionType.PROPERTY, "tree at %location%");
+        registerExpression(ExprThatAre.class, Object.class, ExpressionType.COMBINED, "%objects% that are %object%");
         registerScope(ScopeMatcher.class, "(switch|match) %object%");
         registerScope(ScopeMatches.class, "(case|matches) %object%");
         registerScope(ScopeAsync.class, "async [in %-timespan%]");
@@ -1092,5 +1093,7 @@ public class Mundo extends JavaPlugin{
     public static boolean classesCompatible(Class c1, Class c2) {
         return c1.isAssignableFrom(c2) || c2.isAssignableFrom(c1);
     }
+
+    public static boolean settableTo(Expression settee) {return false;}
 	
 }

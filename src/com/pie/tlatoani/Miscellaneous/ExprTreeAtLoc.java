@@ -5,6 +5,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 
@@ -21,7 +22,7 @@ public class ExprTreeAtLoc extends SimpleExpression<Block> {
 
     public static Collection<Block> treeAt(Location location) {
         Block block = location.getBlock();
-        if (!isPartOfTree(block)) {
+        if (block.getType() != Material.LOG && block.getType() != Material.LOG_2) {
             return Collections.emptyList();
         }
         ArrayList<Block> blocks = new ArrayList<>();
@@ -37,24 +38,16 @@ public class ExprTreeAtLoc extends SimpleExpression<Block> {
                     currentBlock.getRelative(0, 0, -1)
             };
             for (Block adjacentBlock : adjacentBlocks) {
-                if (isPartOfTree(adjacentBlock) && !blocks.contains(adjacentBlock)) {
+                if ((adjacentBlock.getType() == Material.LOG || adjacentBlock.getType() == Material.LOG_2) && !blocks.contains(adjacentBlock)) {
                     blocks.add(adjacentBlock);
+                } else if ((adjacentBlock.getType() == Material.LEAVES || adjacentBlock.getType() == Material.LEAVES_2) && !blocks.contains(adjacentBlock)) {
+                    for (Block log : blocks) {
+                        //if ((log.getType() == Material.LOG || log.getType() == Material.LOG_2) &&
+                    }
                 }
             }
         }
         return blocks;
-    }
-
-    public static boolean isPartOfTree(Block block) {
-        switch (block.getType()) {
-            case LOG:
-            case LOG_2:
-            case LEAVES:
-            case LEAVES_2:
-                return true;
-            default:
-                return false;
-        }
     }
 
     @Override
