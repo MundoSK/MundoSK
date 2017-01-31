@@ -16,10 +16,12 @@ import com.pie.tlatoani.Tablist.Array.ArrayTablist;
 import com.pie.tlatoani.Tablist.Simple.SimpleTablist;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,7 +96,7 @@ public class Tablist {
                         PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                         removePacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
                         removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                        Mundo.syncDelay(5, new PacketSender(removePacket, event.getPlayer()));
+                        Mundo.syncDelay(Mundo.tablistRemoveTabDelaySpawn, new PacketSender(removePacket, event.getPlayer()));
                     }
                 }
             });
@@ -118,7 +120,7 @@ public class Tablist {
                         PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                         removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                         removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                        Mundo.syncDelay(5, new Runnable() {
+                        Mundo.syncDelay(Mundo.tablistRemoveTabDelayRespawn, new Runnable() {
                             @Override
                             public void run() {
                                 playersRespawning.remove(player.getUniqueId());
@@ -177,7 +179,7 @@ public class Tablist {
     }
 
     public static void onQuit(Player player) {
-        getTablistForPlayer(player).removePlayers(Arrays.asList(player));
+        getTablistForPlayer(player).removePlayer(player);
         Set<Tablist> tablistSet = new HashSet<Tablist>(tablistMap.values());
         for (Tablist tablist : tablistSet) {
             tablist.hiddenPlayers.remove(player);
@@ -191,7 +193,7 @@ public class Tablist {
     public static void setTablistForPlayer(Collection<Player> players, Tablist newTablist) {
         for (Player player : players) {
             Tablist oldTablist = getTablistForPlayer(player);
-            if (oldTablist != null) oldTablist.removePlayers(Arrays.asList(player));
+            if (oldTablist != null) oldTablist.removePlayer(player);
             tablistMap.put(player, newTablist);
         }
         newTablist.addPlayers(players);
@@ -214,12 +216,12 @@ public class Tablist {
         }
     }
 
-    private void removePlayers(Collection<Player> players) {
-        this.players.removeAll(players);
-        simpleTablist.removePlayers(players);
-        arrayTablist.removePlayers(players);
-        showInTablist(hiddenPlayers, players);
-        if (scoresEnabled) disableTablistObjective(players);
+    private void removePlayer(Player player) {
+        this.players.remove(player);
+        simpleTablist.removePlayer(player);
+        arrayTablist.removePlayer(player);
+        showInTablist(hiddenPlayers, Collections.singleton(player));
+        if (scoresEnabled) disableTablistObjective(Collections.singleton(player));
     }
 
     public void hidePlayers(Collection<Player> playersToHide) {
@@ -279,7 +281,7 @@ public class Tablist {
     }
 
     public String getTablistName(Player player) {
-        return tablistNames.getOrDefault(player, SkinManager.getTablistName(player));
+        return tablistNames.get(player);
     }
 
     public void setTablistName(Player player, String value) {
@@ -299,14 +301,43 @@ public class Tablist {
         updateScore(player, players, score);
     }
 
-    //Hide/Unhide Static Methods
+    //Static Utility Methods
+
+    public static PacketContainer playerInfoPacket(
+            String displayName,
+            Integer latency,
+            GameMode gameMode,
+            String name,
+            UUID uuid,
+            Skin skin,
+            EnumWrappers.PlayerInfoAction action
+    ) {
+        PacketContainer result = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+        WrappedGameProfile profile = new WrappedGameProfile(uuid, name);
+        if (skin != null) {
+            skin.retrieveSkinTextures(profile.getProperties());
+        } else if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
+            skin = DEFAULT_SKIN_TEXTURE;
+            skin.retrieveSkinTextures(profile.getProperties());
+        }
+        PlayerInfoData playerInfoData = new PlayerInfoData(
+                profile,
+                Mundo.firstNotNull(latency, 5),
+                Mundo.firstNotNull(EnumWrappers.NativeGameMode.fromBukkit(gameMode), EnumWrappers.NativeGameMode.NOT_SET),
+                WrappedChatComponent.fromJson(colorStringToJson(Mundo.firstNotNull(displayName, "")))
+        );
+        result.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
+        result.getPlayerInfoAction().writeSafely(0, action);
+        return result;
+    }
 
     public static void hideInTablist(Collection<? extends Player> objects, Collection<Player> subjects) {
         for (Player object : objects) {
-            PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
-            PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-            packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-            packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+            //PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
+            //PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
+            //packet.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
+            //packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+            PacketContainer packet = playerInfoPacket(object.getPlayerListName(), 5, object.getGameMode(), object.getName(), object.getUniqueId(), null, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             try {
                 for (Player subject : subjects) {
                     ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
@@ -319,10 +350,11 @@ public class Tablist {
 
     public static void showInTablist(Collection<? extends Player> objects, Collection<Player> subjects) {
         for (Player object : objects) {
-            PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
+            /*PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
             PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
             packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-            packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+            packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);*/
+            PacketContainer packet = playerInfoPacket(object.getPlayerListName(), 5, object.getGameMode(), object.getName(), object.getUniqueId(), SkinManager.getActualSkin(object), EnumWrappers.PlayerInfoAction.ADD_PLAYER);
             try {
                 for (Player subject : subjects) {
                     ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
@@ -335,10 +367,11 @@ public class Tablist {
 
     public static void updateTablistName(Collection<? extends Player> objects, Collection<Player> subjects) {
         for (Player object : objects) {
-            PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
+            /*PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(object), 5, EnumWrappers.NativeGameMode.fromBukkit(object.getGameMode()), WrappedChatComponent.fromJson(Tablist.colorStringToJson(object.getPlayerListName())));
             PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
             packet.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
-            packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
+            packet.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);*/
+            PacketContainer packet = playerInfoPacket(object.getPlayerListName(), 5, object.getGameMode(), object.getName(), object.getUniqueId(), null, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
             try {
                 for (Player subject : subjects) {
                     ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);

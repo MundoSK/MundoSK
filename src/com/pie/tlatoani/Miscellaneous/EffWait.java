@@ -31,12 +31,7 @@ public class EffWait extends Effect {
         if (timeout == 0 || condition.getSingle(event) == until) {
             walk(getNext(), event);
         } else {
-            Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
-                @Override
-                public void run() {
-                    check(event, timeout - 1);
-                }
-            }, 1);
+            Mundo.syncDelay(1, () -> check(event, timeout - 1));
         }
     }
 

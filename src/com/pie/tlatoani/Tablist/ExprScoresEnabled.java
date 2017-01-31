@@ -14,12 +14,10 @@ import org.bukkit.event.Event;
  */
 public class ExprScoresEnabled extends SimpleExpression<Boolean> {
     private Expression<Tablist> tablistExpression;
-    private Expression<Player> playerExpression;
 
     @Override
     protected Boolean[] get(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        return new Boolean[]{tablist.areScoresEnabled()};
+        return new Boolean[]{tablistExpression.getSingle(event).areScoresEnabled()};
     }
 
     @Override
@@ -34,19 +32,17 @@ public class ExprScoresEnabled extends SimpleExpression<Boolean> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "scores enabled";
+        return "scores enabled in " + tablistExpression;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         tablistExpression = (Expression<Tablist>) expressions[0];
-        playerExpression = (Expression<Player>) expressions[1];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        tablist.setScoresEnabled((Boolean) delta[0]);
+        tablistExpression.getSingle(event).setScoresEnabled((Boolean) delta[0]);
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

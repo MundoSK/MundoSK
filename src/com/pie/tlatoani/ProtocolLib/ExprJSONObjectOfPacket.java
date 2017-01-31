@@ -10,11 +10,10 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import com.comphenix.protocol.wrappers.WrappedServerPing;
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
+import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Skin.Skin;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.json.simple.JSONObject;
@@ -24,6 +23,7 @@ import org.json.simple.parser.ParseException;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Created by Tlatoani on 5/4/16.
@@ -154,6 +154,76 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                     }
                 });
                 packet.getWatchableCollectionModifier().writeSafely(index, wrappedWatchableObjects);
+            }
+        });
+
+        Function<WrappedGameProfile, JSONObject> gameProfileToJSON = new Function<WrappedGameProfile, JSONObject>() {
+            @Override
+            public JSONObject apply(WrappedGameProfile gameProfile) {
+                JSONObject result = new JSONObject();
+                result.put("name", gameProfile.getName());
+                result.put("uuid", gameProfile.getUUID());
+                result.put("skin", new Skin.Collected(gameProfile.getProperties().get("textures")));
+                return result;
+            }
+        };
+        Function<JSONObject, WrappedGameProfile> gameProfileFromJSON = new Function<JSONObject, WrappedGameProfile>() {
+            @Override
+            public WrappedGameProfile apply(JSONObject value) {
+                WrappedGameProfile gameProfile = new WrappedGameProfile(UUID.fromString((String) value.get("uuid")), (String) value.get("name"));
+                ((Skin) value.get("skin")).retrieveSkinTextures(gameProfile.getProperties());
+                return gameProfile;
+            }
+        };
+
+        registerSingleConverter("gameprofile", new PacketInfoConverter<JSONObject>() {
+
+            @Override
+            public JSONObject get(PacketContainer packet, Integer index) {
+                return gameProfileToJSON.apply(packet.getGameProfiles().readSafely(index));
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, JSONObject value) {
+                packet.getGameProfiles().writeSafely(index, gameProfileFromJSON.apply(value));
+            }
+        });
+
+        //Plural
+
+        registerPluralConverter("playerinfodata", new PacketInfoConverter<JSONObject[]>() {
+            @Override
+            public JSONObject[] get(PacketContainer packet, Integer index) {
+                try {
+                    List<PlayerInfoData> playerInfoDatas = packet.getPlayerInfoDataLists().readSafely(index);
+                    JSONObject[] result = new JSONObject[playerInfoDatas.size()];
+                    for (int i = 0; i < result.length; i++) {
+                        PlayerInfoData playerInfoData = playerInfoDatas.get(index);
+                        result[i] = new JSONObject();
+                        result[i].put("displayname", (new JSONParser()).parse(playerInfoData.getDisplayName().getJson()));
+                        result[i].put("gamemode", playerInfoData.getGameMode().toBukkit());
+                        result[i].put("latency", playerInfoData.getLatency());
+                        result[i].put("gameprofile", gameProfileToJSON.apply(playerInfoData.getProfile()));
+                    }
+                    return result;
+                } catch (ParseException e) {
+                    Mundo.reportException(ExprJSONObjectOfPacket.class, e);
+                    return new JSONObject[0];
+                }
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, JSONObject[] value) {
+                ArrayList<PlayerInfoData> playerInfoDatas = new ArrayList<PlayerInfoData>();
+                for (JSONObject jsonObject : value) {
+                    playerInfoDatas.add(new PlayerInfoData(
+                            gameProfileFromJSON.apply((JSONObject) jsonObject.get("gameprofile")),
+                            ((Number) jsonObject.get("latency")).intValue(),
+                            EnumWrappers.NativeGameMode.fromBukkit((GameMode) jsonObject.get("gamemode")),
+                            WrappedChatComponent.fromJson(jsonObject.get("displayname").toString())
+                    ));
+                }
+                packet.getPlayerInfoDataLists().writeSafely(index, playerInfoDatas);
             }
         });
     }

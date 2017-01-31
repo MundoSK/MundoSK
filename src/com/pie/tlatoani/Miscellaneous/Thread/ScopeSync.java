@@ -30,19 +30,9 @@ public class ScopeSync extends CustomScope {
     @Override
     public boolean go(Event event) {
         if (delay == null) {
-            Mundo.scheduler.runTask(Mundo.instance, new Runnable() {
-                @Override
-                public void run() {
-                    TriggerItem.walk(first, event);
-                }
-            });
+            Mundo.sync(() -> TriggerItem.walk(first, event));
         } else {
-            Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
-                @Override
-                public void run() {
-                    TriggerItem.walk(first, event);
-                }
-            }, delay.getSingle(event).getTicks_i());
+            Mundo.syncDelay(((Long) delay.getSingle(event).getTicks_i()).intValue(), () -> TriggerItem.walk(first, event));
         }
         return false;
     }

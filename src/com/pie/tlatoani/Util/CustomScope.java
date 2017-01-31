@@ -131,12 +131,7 @@ public abstract class CustomScope extends Condition {
 	public static void querySetScope() {
 		if (getScopesWasRun) {
 			getScopesWasRun = false;
-			Mundo.scheduler.runTask(Mundo.instance, new Runnable() {
-				@Override
-				public void run() {
-					CustomScope.getScopes();
-				}
-			});
+			Mundo.sync(CustomScope::getScopes);
 		}
 	}
 

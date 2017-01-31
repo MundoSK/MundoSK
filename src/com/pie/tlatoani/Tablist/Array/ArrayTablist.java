@@ -6,12 +6,12 @@ import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Skin.Skin;
+import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * Created by Tlatoani on 7/15/16.
@@ -26,6 +26,8 @@ public class ArrayTablist {
     private int columns = 0;
     private int rows = 0;
     public Skin initialIcon = Tablist.DEFAULT_SKIN_TEXTURE;
+
+    private final Tab[][] tabs = new Tab[4][20];
 
     public ArrayTablist(Tablist tablist) {
         this.tablist = tablist;
@@ -119,24 +121,34 @@ public class ArrayTablist {
             }
             for (int column = this.columns + 1; column <= columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
-                    displayNames[column - 1][row - 1] = "";
+                    /*displayNames[column - 1][row - 1] = "";
                     latencies[column - 1][row - 1] = 5;
                     heads[column - 1][row - 1] = initialIcon;
                     scores[column - 1][row - 1] = 0;
                     sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    if (tablist.areScoresEnabled()) sendScorePacketToAll(column, row);
+                    if (tablist.areScoresEnabled()) sendScorePacketToAll(column, row);*/
+                    int identifier = (((column - 1) * 20) + row);
+                    String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
+                    UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
+                    Tab tab = new Tab(tablist, name, uuid, "", (byte) 5, initialIcon, 0);
+                    tab.add(null);
+                    setTab(column, row, tab);
                 }
         } else {
             for (int column = columns + 1; column <= this.columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
-                    displayNames[column - 1][row - 1] = "";
+                    /*displayNames[column - 1][row - 1] = "";
                     latencies[column - 1][row - 1] = 5;
                     heads[column - 1][row - 1] = null;
                     scores[column - 1][row - 1] = 0;
                     sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
                     if (tablist.areScoresEnabled()) {
                         sendScorePacketToAll(column, row);
-                    }
+                    }*/
+                    Tab tab = getTab(column, row);
+                    tab.remove(null);
+                    tab.setScore(null, null);
+                    setTab(column, row, null);
                 }
         }
         this.columns = columns;
@@ -148,48 +160,82 @@ public class ArrayTablist {
     public void setRows(int rows) {
         Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
         rows = getViableRowAmount(columns, rows);
-        if (rows == this.rows) return;
-        if (!tablist.areAllPlayersHidden()) {
+        if (rows != 20 && !tablist.areAllPlayersHidden()) {
             Mundo.debug(this, "Rows != 20, Hiding all players");
             tablist.hideAllPlayers();
         }
         if (rows > this.rows) {
             for (int column = 1; column <= this.columns; column++)
                 for (int row = this.rows + 1; row <= rows; row++) {
-                    displayNames[column - 1][row - 1] = "";
+                    /*displayNames[column - 1][row - 1] = "";
                     latencies[column - 1][row - 1] = 5;
                     heads[column - 1][row - 1] = initialIcon;
                     scores[column - 1][row - 1] = 0;
                     sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    sendScorePacketToAll(column, row);
+                    sendScorePacketToAll(column, row);*/
+                    int identifier = (((column - 1) * 20) + row);
+                    String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
+                    UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
+                    Tab tab = new Tab(tablist, name, uuid, "", (byte) 5, initialIcon, 0);
+                    tab.add(null);
+                    setTab(column, row, tab);
                 }
         } else {
             for (int column = 1; column <= this.columns; column++)
                 for (int row = rows + 1; row <= this.rows; row++) {
-                    displayNames[column - 1][row - 1] = "";
+                    /*displayNames[column - 1][row - 1] = "";
                     latencies[column - 1][row - 1] = 5;
                     heads[column - 1][row - 1] = null;
                     scores[column - 1][row - 1] = 0;
-                    sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+                    sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);*/
+                    Tab tab = getTab(column, row);
+                    tab.remove(null);
+                    tab.setScore(null, null);
+                    setTab(column, row, null);
                 }
         }
         this.rows = rows;
     }
 
+    public void maximize() {
+        if (columns == 0) {
+            columns = 4;
+        } else {
+            setColumns(4);
+        }
+        setRows(20);
+    }
+
     public void addPlayers(Collection<Player> players) {
         for (int column = 1; column <= columns; column++)
             for (int row = 1; row <= rows; row++) {
-                sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER, players);
-                sendScorePacketToAll(column, row);
+                //sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER, players);
+                //sendScorePacketToAll(column, row);
+                Tab tab = getTab(column, row);
+                for (Player player : players) {
+                    tab.add(player);
+                }
             }
     }
 
-    public void removePlayers(Collection<Player> players) {
+    public void removePlayer(Player player) {
         for (int column = 1; column <= columns; column++)
             for (int row = 1; row <= rows; row++) {
-                sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, players);
+                //sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, players);
+                Tab tab = getTab(column, row);
+                tab.remove(player);
             }
     }
+
+    public Tab getTab(int column, int row) {
+        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? tabs[column - 1][row - 1] : null;
+    }
+
+    private void setTab(int column, int row, Tab tab) {
+        tabs[column][row] = tab;
+    }
+
+    //All code after here will be removed
 
     public String getDisplayName(int column, int row) {
         return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? displayNames[column - 1][row - 1] : null;

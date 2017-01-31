@@ -15,12 +15,11 @@ import java.util.Arrays;
 public class EffChangePlayerVisibility extends Effect {
     private boolean visible;
     private Expression<Tablist> tablistExpression;
-    private Expression<Player> playerExpression;
     private Expression<Player> objects;
 
     @Override
     protected void execute(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        Tablist tablist = tablistExpression.getSingle(event);
         if (visible)
             tablist.showPlayers(Arrays.asList(objects.getArray(event)));
         else
@@ -29,14 +28,13 @@ public class EffChangePlayerVisibility extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return null;
+        return (visible ? "show " : "hide ") + objects + " in " + tablistExpression;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         visible = parseResult.mark == 0;
         tablistExpression = (Expression<Tablist>) expressions[1];
-        playerExpression = (Expression<Player>) expressions[2];
         objects = (Expression<Player>) expressions[0];
         return true;
     }

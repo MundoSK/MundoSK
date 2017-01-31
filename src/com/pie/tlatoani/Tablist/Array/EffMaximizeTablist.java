@@ -1,36 +1,32 @@
-package com.pie.tlatoani.Tablist;
+package com.pie.tlatoani.Tablist.Array;
 
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import java.util.Arrays;
-
 /**
- * Created by Tlatoani on 11/25/16.
+ * Created by Tlatoani on 1/14/17.
  */
-public class EffSetTablist extends Effect {
-    private Expression<Player> playersExpression;
+public class EffMaximizeTablist extends Effect {
     private Expression<Tablist> tablistExpression;
-
 
     @Override
     protected void execute(Event event) {
-        Tablist.setTablistForPlayer(Arrays.asList(playersExpression.getArray(event)), tablistExpression.getSingle(event));
+        tablistExpression.getSingle(event).arrayTablist.maximize();
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "set tablist of " + playersExpression + " to " + tablistExpression;
+        return "maximize array tablist " + tablistExpression;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        playersExpression = (Expression<Player>) expressions[0];
-        tablistExpression = (Expression<Tablist>) expressions[1];
+        tablistExpression = (Expression<Tablist>) expressions[0];
         return true;
     }
 }

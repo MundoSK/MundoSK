@@ -6,14 +6,13 @@ import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Skin.Skin;
+import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * Created by Tlatoani on 7/15/16.
@@ -25,11 +24,15 @@ public class SimpleTablist {
     private final HashMap<String, Skin> heads = new HashMap<>();
     private final HashMap<String, Integer> scores = new HashMap<>();
 
+    private final HashMap<String, Tab.VariablyVisible> tabs = new HashMap<>();
+
     public static final Charset UTF_8 = Charset.forName("UTF-8");
 
     public SimpleTablist(Tablist tablist) {
         this.tablist = tablist;
     }
+
+    //The following four methods no longer needed when SimpleTab
 
     private void sendPacketToAll(String id, EnumWrappers.PlayerInfoAction action) {
         sendPacket(id, action, tablist.players);
@@ -80,24 +83,44 @@ public class SimpleTablist {
         }
     }
 
+    //The following three methods have been modified to use SimpleTab, remove commented code later
+
     public void addPlayers(Collection<Player> players) {
-        for (String s : heads.keySet()) {
+        /*for (String s : heads.keySet()) {
             sendPacket(s, EnumWrappers.PlayerInfoAction.ADD_PLAYER, players);
+        }*/
+        for (Tab.VariablyVisible tab : tabs.values()) {
+            if (tab.visibleFor(null)) {
+                for (Player player : players) {
+                    tab.showFor(player, null, null, null, null);
+                }
+            }
         }
     }
 
-    public void removePlayers(Collection<Player> players) {
-        for (String s : heads.keySet()) {
-            sendPacket(s, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, players);
+    public void removePlayer(Player player) {
+        /*for (String s : heads.keySet()) {
+            sendPacket(s, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, Collections.singleton(player));
+        }*/
+        for (Tab.VariablyVisible tab : tabs.values()) {
+            if (tab.visibleFor(player)) {
+                tab.hideFor(player);
+            }
         }
     }
 
     public void clear() {
-        String[] ids = displayNames.keySet().toArray(new String[0]);
+        /*String[] ids = displayNames.keySet().toArray(new String[0]);
         for (int i = 0; i < ids.length; i++) {
             deleteTab(ids[i]);
+        }*/
+        for (Tab.VariablyVisible tab : tabs.values()) {
+            tab.remove(null); //remove() is used rather than hideFor() because the latter only serves to record information in the tab which will be forgotten in this instance
         }
+        tabs.clear();
     }
+
+    //These two methods no longer needed when SimpleTab
 
     public boolean tabExists(String id) {
         return id.length() <= 12 && displayNames.containsKey(id);
@@ -116,6 +139,37 @@ public class SimpleTablist {
             if (score != 0) sendScorePacketToAll(id);
         }
     }
+
+    public void newCreateTab(Player player, String id, String displayName, Byte ping, Skin icon, Integer score) {
+        if (id == null || id.length() > 12) {
+            return;
+        }
+        Tab.VariablyVisible tab = tabs.get(id);
+        if (tab == null) {
+            tab = new Tab.VariablyVisible(tablist, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)), null, null, null, null);
+            tabs.put(id, tab);
+        }
+        tab.showFor(player, displayName, ping, icon, score);
+    }
+
+    //The following two methods newly created for SimpleTab
+
+    public void newDeleteTab(Player player, String id) {
+        Tab.VariablyVisible tab = tabs.get(id);
+        if (tab != null) {
+            tab.hideFor(player);
+            if (!tab.visibleForAnyone()) {
+                tabs.remove(id);
+            }
+        }
+    }
+
+    public Tab.VariablyVisible getTabIfVisibleFor(Player player, String id) {
+        Tab.VariablyVisible result = tabs.get(id);
+        return result != null && result.visibleFor(player) ? result : null;
+    }
+
+    //All following methods no longer needed when SimpleTab
 
     public void deleteTab(String id) {
         if (tabExists(id)) {

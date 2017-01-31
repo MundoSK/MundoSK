@@ -93,7 +93,7 @@ public class SkinManager {
                                     Mundo.debug(SkinManager.class, "Pre Namtatg: " + playerInfoData.getProfile().getName());
                                     //Team team = player.getScoreboard().getEntryTeam(player.getName());
                                     //String nameTag = team == null ? getNameTag(player) : team.getPrefix() + getNameTag(player) + team.getSuffix();
-                                    String nameTag = getNameTag(player);
+                                    String nameTag = Optional.ofNullable(nameTags.get(player)).orElse(playerInfoData.getProfile().getName());
                                     String tabName = player.getPlayerListName();
                                     newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTag), playerInfoData.getLatency(), playerInfoData.getGameMode(), nameTag.equals(tabName) ? null : WrappedChatComponent.fromText(player.getPlayerListName()));
                                     Mundo.debug(SkinManager.class, "Post Namtatg: " + newPlayerInfoData.getProfile().getName());
@@ -163,9 +163,7 @@ public class SkinManager {
     //Join/Leave Events
 
     public static void onJoin(Player player) {
-        nameTags.put(player, player.getName());
         getActualSkin(player);
-        getNameTag(player);
         getTablistName(player);
     }
 
@@ -256,7 +254,6 @@ public class SkinManager {
         String nameTag = nameTags.get(player);
         if (nameTag == null) {
             nameTag = player.getName();
-            nameTags.put(player, nameTag);
         }
         return nameTag;
     }
@@ -273,12 +270,7 @@ public class SkinManager {
         Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
         if (team != null) {
             team.removeEntry(player.getName());
-            Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
-                @Override
-                public void run() {
-                    team.addEntry(player.getName());
-                }
-            }, 1);
+            Mundo.syncDelay(1, () -> team.addEntry(player.getName()));
         }
         Objective objective = player.getScoreboard() != null ? player.getScoreboard().getObjective(DisplaySlot.BELOW_NAME) : null;
         Score score = null;
@@ -301,12 +293,7 @@ public class SkinManager {
                     Team team1 = nameTagOwner.getScoreboard() != null ? nameTagOwner.getScoreboard().getEntryTeam(nameTagOwner.getName()) : null;
                     if (team1 != null) {
                         team1.removeEntry(nameTagOwner.getName());
-                        Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
-                            @Override
-                            public void run() {
-                                team1.addEntry(nameTagOwner.getName());
-                            }
-                        }, 1);
+                        Mundo.syncDelay(1, () -> team1.addEntry(nameTagOwner.getName()));
                     }
 
                 }
@@ -319,7 +306,6 @@ public class SkinManager {
         String tablistName = tabNames.get(player);
         if (tablistName == null) {
             tablistName = player.getName();
-            tabNames.put(player, tablistName);
         }
         return tablistName;
     }

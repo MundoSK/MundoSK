@@ -14,12 +14,10 @@ import org.bukkit.event.Event;
  */
 public class ExprTablistContainsPlayers extends SimpleExpression<Boolean> {
     private Expression<Tablist> tablistExpression;
-    private Expression<Player> playerExpression;
 
     @Override
     protected Boolean[] get(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        return new Boolean[]{!tablist.areAllPlayersHidden()};
+        return new Boolean[]{!tablistExpression.getSingle(event).areAllPlayersHidden()};
     }
 
     @Override
@@ -34,18 +32,17 @@ public class ExprTablistContainsPlayers extends SimpleExpression<Boolean> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return playerExpression + "'s tablist contains players";
+        return tablistExpression + " contains players";
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         tablistExpression = (Expression<Tablist>) expressions[0];
-        playerExpression = (Expression<Player>) expressions[1];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        Tablist tablist = tablistExpression.getSingle(event);
         if ((Boolean) delta[0])
             tablist.showAllPlayers();
         else

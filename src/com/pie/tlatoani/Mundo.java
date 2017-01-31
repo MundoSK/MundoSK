@@ -6,6 +6,7 @@ import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
@@ -52,6 +53,8 @@ import com.pie.tlatoani.ProtocolLib.*;
 import com.pie.tlatoani.Skin.*;
 import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.Tablist.*;
+import com.pie.tlatoani.Tablist.Array.EffMaximizeTablist;
+import com.pie.tlatoani.Tablist.Array.EffMinimizeTablist;
 import com.pie.tlatoani.Tablist.Array.EffSetArrayTablist;
 import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
 import com.pie.tlatoani.TerrainControl.*;
@@ -92,25 +95,36 @@ import org.json.simple.parser.ParseException;
 public class Mundo extends JavaPlugin{
 	public static Mundo instance;
     public static String pluginFolder;
-    public static Boolean debugMode;
-    public static Boolean implementPacketStuff;
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
 
+    //Enum Registration
     public static ArrayList<Object[]> ena = new ArrayList<>();
     public static ArrayList<String> enumNames = new ArrayList<>();
     public static ArrayList<Class<?>> enumClasses = new ArrayList<>();
+
+    //Config
+    public static List<String> debug;
+    public static Boolean implementPacketStuff;
+    public static int tablistRemoveTabDelaySpawn;
+    public static int tablistRemoveTabDelayRespawn;
 	
 	public void onEnable() {
-        pluginFolder = getDataFolder().getAbsolutePath();
-        FileConfiguration config = getConfig();
-        config.addDefault("debug_mode", false);
-        config.addDefault("enable_custom_skin_and_tablist", true);
-        config.options().copyDefaults(true);
-        debugMode = config.getBoolean("debug_mode");
-        implementPacketStuff = config.getBoolean("enable_custom_skin_and_tablist");
-        saveConfig();
         instance = this;
+        pluginFolder = getDataFolder().getAbsolutePath();
+
+        FileConfiguration config = getConfig();
+        config.addDefault("debug", Arrays.asList(new String[0]));
+        config.addDefault("enable_custom_skin_and_tablist", true);
+        config.addDefault("tablist_remove_tab_delay_spawn", 5);
+        config.addDefault("tablist_remove_tab_delay_respawn", 5);
+        config.options().copyDefaults(true);
+        debug = config.getStringList("debug");
+        implementPacketStuff = config.getBoolean("enable_custom_skin_and_tablist");
+        tablistRemoveTabDelaySpawn = config.getInt("tablist_remove_tab_delay_spawn");
+        tablistRemoveTabDelayRespawn = config.getInt("tablist_remove_tab_delay_respawn");
+        saveConfig();
+
         UtilWorldLoader.load();
 		Skript.registerAddon(this);
         scheduler = Bukkit.getScheduler();
@@ -119,11 +133,11 @@ public class Mundo extends JavaPlugin{
             info("You are currently running a BETA version of MundoSK");
             info("You should only run BETA versions of MundoSK on test servers unless Tlatoani or another reliable source has recommended otherwise");
         }
-        if (debugMode) {
-            info("You have enabled debug_mode in MundoSK config");
-            info("debug_mode should only be enabled when you are trying to fix a bug or assist someone else with fixing a bug in MundoSK");
-            info("By having debug_mode enabled, you will have tons of random annoying spam in your console");
-            info("If you would like to disable debug_mode, simply go to your 'plugins' folder, go to the 'MundoSK' folder, open 'config.yml', and where it says 'debug_mode', replace 'true' with 'false'");
+        if (!debug.isEmpty()) {
+            info("You have enabled debug for parts of MundoSK");
+            info("Debug should only be enabled when you are trying to fix a bug or assist someone else with fixing a bug in MundoSK");
+            info("By having debug enabled, you may have tons of random annoying spam in your console");
+            info("If you would like to disable debug, simply go to your 'plugins' folder, go to the 'MundoSK' folder, open 'config.yml', and clear all the text after 'debug:'");
         }
 
         //Allow MundoSK 'conditions' to work in absence of SkQuery, which provides a condition like the below
@@ -308,6 +322,12 @@ public class Mundo extends JavaPlugin{
             }
         }, 0);
         registerEvent("Armor Stand Interact Event", SimpleEvent.class, PlayerArmorStandManipulateEvent.class, "armor stand (manipulate|interact)");
+        Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onManipulate(PlayerArmorStandManipulateEvent event) {
+                Mundo.debug(this, "ARMOR STAND MANIPULATE = " + event);
+            }
+        }, this);
         EventValues.registerEventValue(PlayerArmorStandManipulateEvent.class, Entity.class, new Getter<Entity, PlayerArmorStandManipulateEvent>() {
             @Override
             public Entity get(PlayerArmorStandManipulateEvent playerArmorStandManipulateEvent) {
@@ -531,13 +551,13 @@ public class Mundo extends JavaPlugin{
                     SkinManager.onQuit(event.getPlayer());
                 }
             }, this);
-            registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "(%-tablist%|%-player%'s tablist) contains players");
+            registerExpression(ExprTablist.class, Tablist.class, ExpressionType.PROPERTY, "tablist of %player%", "%player%'s tablist");
+            registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "%tablist% contains players");
             registerExpression(ExprNewTablist.class, Tablist.class, ExpressionType.SIMPLE, "new tablist");
-            registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores enabled in (%-tablist%|%-player%'s tablist)");
+            registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores enabled in %tablist%");
             registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "tablist name of %player% (in %-tablist%|for %-player%)", "%player%'s tablist name (in %-tablist%|for %-player%)");
             registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "tablist score of %player% (in %-tablist%|for %-player%)", "%player%'s tablist score (in %-tablist%|for %-player%)");
-            registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% in (%-tablist%|tab[list] of %player%)");
-            registerEffect(EffSetTablist.class, "set tablist of %players% to %tablist%", "set %player%'s tablist to %tablist%");
+            registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% in %tablist%");
             {
                 //Simple
                 registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% (in %-tablist%|for %-player%) with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skin%] [score %-number%]");
@@ -550,6 +570,8 @@ public class Mundo extends JavaPlugin{
             } {
                 //Array
                 registerEffect(EffSetArrayTablist.class, "deactivate array tablist for %player%", "activate array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skin%]]");
+                registerEffect(EffMaximizeTablist.class, "maximize array tablist %tablist%");
+                registerEffect(EffMinimizeTablist.class, "minimize array tablist %tablist%");
                 registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% (in %-tablist%|for %-player%)");
                 registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% (in %-tablist%|for %-player%)");
                 registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% (in %-tablist%|for %-player%)", "initial icon of (%-tablist%|%player%'s [array] tablist)");
@@ -625,7 +647,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprEnvOfCreator.class,Environment.class,ExpressionType.PROPERTY,"env[ironment] of %creator%");
 		registerExpression(ExprSeedOfCreator.class,String.class,ExpressionType.PROPERTY,"seed of %creator%");
 		registerExpression(ExprGenOfCreator.class,String.class,ExpressionType.PROPERTY,"gen[erator] of %creator%");
-		registerExpression(ExprGenSettingsOfCreator.class,String.class,ExpressionType.PROPERTY,"gen[erator] setSafely[tings] of %creator%");
+		registerExpression(ExprGenSettingsOfCreator.class,String.class,ExpressionType.PROPERTY,"gen[erator] set[tings] of %creator%");
 		registerExpression(ExprTypeOfCreator.class,WorldType.class,ExpressionType.PROPERTY,"worldtype of %creator%");
 		registerExpression(ExprStructOfCreator.class,Boolean.class,ExpressionType.PROPERTY,"struct[ure(s| settings)] of %creator%");
 		//WorldManagement
@@ -663,8 +685,7 @@ public class Mundo extends JavaPlugin{
 			classinfos.setAccessible(true);
 			@SuppressWarnings("unchecked")
 			List<ClassInfo<?>> classes = (List<ClassInfo<?>>) classinfos.get(null);
-			for (int i = 0; i < classes.size(); i++)
-				registerCustomEventValue(classes.get(i));
+            classes.forEach(Mundo::registerCustomEventValue);
 		} catch (Exception e1) {
 			reportException(this, e1);
 		}
@@ -674,12 +695,7 @@ public class Mundo extends JavaPlugin{
         ListUtil.register();
         ExprEventSpecificValue.register();
 		info("Awesome syntaxes have been registered!");
-        scheduler.runTask(this, new Runnable() {
-            @Override
-            public void run() {
-                Mundo.enableMetrics();
-            }
-        });
+        Mundo.sync(Mundo::enableMetrics);
 	}
 
     @Override
@@ -902,7 +918,7 @@ public class Mundo extends JavaPlugin{
         }
     }
 
-    //Metrics Util
+    //Metrics
 
     public static void enableMetrics() {
         try {
@@ -958,6 +974,8 @@ public class Mundo extends JavaPlugin{
         }
     }
 
+
+
     //Logging Util
 
     public static void info(String s) {
@@ -972,21 +990,23 @@ public class Mundo extends JavaPlugin{
 	}
 	
 	public static void debug(Object obj, String msg) {
-        if (debugMode) {
-            info("DEBUG " + (obj instanceof Class ? (Class) obj : obj.getClass()).getSimpleName() + ": " + msg);
+	    Class c = obj instanceof Class ? (Class) obj : obj.getClass();
+	    if (debug.contains(c.getName().split(".")[3])) {
+            info("DEBUG " + c.getSimpleName() + ": " + msg);
         }
 	}
 
     public static void debug(Object obj, Exception e) {
-		if (debugMode) {
+        Class c = obj instanceof Class ? (Class) obj : obj.getClass();
+		if (debug.contains(c.getName().split(".")[3])) {
 			reportException(obj, e);
             info("DEBUG");
-            info("An exception was reported for debugging while debug_mode was activated in the config");
-            info("If you were told to activate debug_mode to help fix bugs in MundoSK on forums.skunity.com, then please copy and paste this message along with the full stack trace of the following error to hastebin.com and give the hastebin link to whoever is helping you fix this bug");
+            info("An exception was reported for debugging while debug was activated in the config");
+            info("If you were told to activate debug to help fix bugs in MundoSK on forums.skunity.com, then please copy and paste this message along with the full stack trace of the following error to hastebin.com and give the hastebin link to whoever is helping you fix this bug");
             info("If you are trying to fix a problem in MundoSK yourself, good luck :)");
-            info("Otherwise, if you do not know why you are seeing this error here, go to the MundoSK config, set debug_mode to false, and restart your server");
+            info("Otherwise, if you do not know why you are seeing this error here, go to the MundoSK config, clear everything after 'debug:', and restart your server");
             info("For help, go to the MundoSK thread on forums.skunity.com");
-            info("Exception debugged at " + (obj instanceof Class ? (Class) obj : obj.getClass()).getSimpleName());
+            info("Exception debugged at " + c.getSimpleName());
             e.printStackTrace();
 		}
 	}
@@ -1084,6 +1104,40 @@ public class Mundo extends JavaPlugin{
         scheduler.runTaskLaterAsynchronously(Mundo.instance, runnable, ticks);
     }
 
+    public static void syncRepeatWhile(int ticks, Supplier<Boolean> task) {
+	    syncDelay(ticks, () -> {
+	        if (task.get()) {
+                syncRepeatWhile(ticks, task);
+            }
+	    });
+    }
+
+    public static void asyncRepeatWhile(int ticks, Supplier<Boolean> task) {
+        asyncDelay(ticks, () -> {
+            if (task.get()) {
+                asyncRepeatWhile(ticks, task);
+            }
+        });
+    }
+
+    //Maps with Default at Null Key (Only currently used in Tablist.Tab)
+
+    public static <K, V> void setInMap(Map<K, V> map, K key, V value) {
+        if (key == null) {
+            map.clear();
+        }
+        if (value != null) {
+            map.put(key, value);
+        } else if (key != null) {
+            map.remove(key);
+        }
+    }
+
+    public static <K, V> V getOrDefault(Map<K, V> map, K key) {
+        V value = map.get(key);
+        return key == null || value != null ? value : map.get(null);
+    }
+
     //Miscellanous
 
     public static boolean serverHasPlugin(String pluginName) {
@@ -1094,6 +1148,26 @@ public class Mundo extends JavaPlugin{
         return c1.isAssignableFrom(c2) || c2.isAssignableFrom(c1);
     }
 
-    public static boolean settableTo(Expression settee) {return false;}
+
+    //This method returns null if the input can be directly casted to an output class, and throws an IllegalArgumentException if no converter can be found
+    public static Converter getConverter(Class input, Class... outputs) {
+        for (Class output : outputs) {
+            if (classesCompatible(input, output)) return null;
+        }
+        for (Class output : outputs) {
+            Converter converter = Converters.getConverter(input, output);
+            if (converter != null) return converter;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public static <T> T firstNotNull(T... posNulls) {
+	    for (T posNull : posNulls) {
+	        if (posNull != null) {
+	            return posNull;
+            }
+        }
+        return null;
+    }
 	
 }
