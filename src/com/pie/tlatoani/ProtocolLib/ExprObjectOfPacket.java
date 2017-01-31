@@ -10,6 +10,7 @@ import ch.njol.skript.lang.VariableString;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
@@ -25,6 +26,7 @@ import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONObject;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -335,28 +337,65 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     }
 
     private static PacketInfoConverter createConverter(Method method) {
-        return new PacketInfoConverter() {
-            @Override
-            public Object get(PacketContainer packet, Integer index) {
-                try {
-                    StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
-                    return structureModifier.readSafely(index);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    Mundo.debug(this, e);
-                    return null;
-                }
-            }
+        PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.CHAT);
+        try {
+            StructureModifier tempStructureModifier = (StructureModifier) method.invoke(packetContainer);
+            if (!tempStructureModifier.getFieldType().isArray()) {
+                return new PacketInfoConverter() {
+                    @Override
+                    public Object get(PacketContainer packet, Integer index) {
+                        try {
+                            StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
+                            return structureModifier.readSafely(index);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            Mundo.debug(this, e);
+                            return null;
+                        }
+                    }
 
-            @Override
-            public void set(PacketContainer packet, Integer index, Object value) {
-                try {
-                    StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
-                    structureModifier.writeSafely(index, value);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    Mundo.debug(this, e);
-                }
+                    @Override
+                    public void set(PacketContainer packet, Integer index, Object value) {
+                        try {
+                            StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
+                            structureModifier.writeSafely(index, value);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            Mundo.debug(this, e);
+                        }
+                    }
+                };
+            } else {
+                return new PacketInfoConverter() {
+                    @Override
+                    public Object get(PacketContainer packet, Integer index) {
+                        try {
+                            StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
+                            return structureModifier.readSafely(index);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            Mundo.debug(this, e);
+                            return null;
+                        }
+                    }
+
+                    @Override
+                    public void set(PacketContainer packet, Integer index, Object value) {
+                        try {
+                            StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
+                            Object[] valueArray = (Object[]) value;
+                            Object[] result = (Object[]) Array.newInstance(structureModifier.getFieldType().getComponentType(), valueArray.length);
+                            for (int i = 0; i < valueArray.length; i++) {
+                                result[i] = valueArray[i];
+                            }
+                            structureModifier.writeSafely(index, result);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            Mundo.debug(this, e);
+                        }
+                    }
+                };
             }
-        };
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            Mundo.reportException(ExprObjectOfPacket.class, e);
+            return null;
+        }
     }
 
     @Override
@@ -403,7 +442,6 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             Mundo.debug(this, "Class simple name: " + classname);
             if (!isSingle) {
                 methodGetName = classname + "Arrays";
-                isSingle = false;
             } else if (classname.substring(classname.length() - 1).equals("y")) {
                 methodGetName = classname.substring(0, classname.length() - 1) + "ies";
             } else {
