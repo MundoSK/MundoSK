@@ -44,7 +44,7 @@ public class ExprTablist extends SimpleExpression<Tablist> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist.setTablistForPlayer(Collections.singleton(playerExpression.getSingle(event)), (Tablist) delta[0]);
+        Tablist.setTablistOfPlayer(playerExpression.getSingle(event), (Tablist) delta[0]);
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

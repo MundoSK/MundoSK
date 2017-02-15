@@ -536,7 +536,15 @@ public class Mundo extends JavaPlugin{
 		//Tablist
         if (serverHasPlugin("ProtocolLib") && implementPacketStuff) {
             registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
-            registerType(Tablist.class, "tablist");
+            registerType(Tablist.class, "tablist").parser(new SimpleParser<Tablist>() {
+                @Override
+                public Tablist parse(String s, ParseContext parseContext) {
+                    if (s.equals("global tablist")) {
+                        return Tablist.GLOBAL;
+                    }
+                    return null;
+                }
+            });
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onJoin(PlayerJoinEvent event) {
@@ -557,7 +565,7 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores enabled in %tablist%");
             registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "tablist name of %player% (in %-tablist%|for %-player%)", "%player%'s tablist name (in %-tablist%|for %-player%)");
             registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "tablist score of %player% (in %-tablist%|for %-player%)", "%player%'s tablist score (in %-tablist%|for %-player%)");
-            registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% in %tablist%");
+            registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% (in %-tablist%|for %-player% in tablist)");
             {
                 //Simple
                 registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% (in %-tablist%|for %-player%) with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skin%] [score %-number%]");
@@ -1096,16 +1104,16 @@ public class Mundo extends JavaPlugin{
         scheduler.runTaskAsynchronously(instance, runnable);
     }
 
-    public static void syncDelay(int ticks, Runnable runnable) {
-        scheduler.runTaskLater(Mundo.instance, runnable, ticks);
+    public static void sync(int tickDelay, Runnable runnable) {
+        scheduler.runTaskLater(Mundo.instance, runnable, tickDelay);
     }
 
-    public static void asyncDelay(int ticks, Runnable runnable) {
-        scheduler.runTaskLaterAsynchronously(Mundo.instance, runnable, ticks);
+    public static void async(int tickDelay, Runnable runnable) {
+        scheduler.runTaskLaterAsynchronously(Mundo.instance, runnable, tickDelay);
     }
 
     public static void syncRepeatWhile(int ticks, Supplier<Boolean> task) {
-	    syncDelay(ticks, () -> {
+	    sync(ticks, () -> {
 	        if (task.get()) {
                 syncRepeatWhile(ticks, task);
             }
@@ -1113,29 +1121,11 @@ public class Mundo extends JavaPlugin{
     }
 
     public static void asyncRepeatWhile(int ticks, Supplier<Boolean> task) {
-        asyncDelay(ticks, () -> {
+        async(ticks, () -> {
             if (task.get()) {
                 asyncRepeatWhile(ticks, task);
             }
         });
-    }
-
-    //Maps with Default at Null Key (Only currently used in Tablist.Tab)
-
-    public static <K, V> void setInMap(Map<K, V> map, K key, V value) {
-        if (key == null) {
-            map.clear();
-        }
-        if (value != null) {
-            map.put(key, value);
-        } else if (key != null) {
-            map.remove(key);
-        }
-    }
-
-    public static <K, V> V getOrDefault(Map<K, V> map, K key) {
-        V value = map.get(key);
-        return key == null || value != null ? value : map.get(null);
     }
 
     //Miscellanous

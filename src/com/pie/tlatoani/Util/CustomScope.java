@@ -72,12 +72,24 @@ public abstract class CustomScope extends Condition {
 		}
 	}
 
+	private static Map<Class<? extends Event>, List<Trigger>> triggerMap = null;
+
+	public static Map<Class<? extends Event>, List<Trigger>> getTriggerMap() {
+	    if (triggerMap == null) {
+	        try {
+	            triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
+                Mundo.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
+            } catch (IllegalAccessException e) {
+                Mundo.reportException(CustomScope.class, e);
+            }
+        }
+        return triggerMap;
+    }
+
 	public static void getScopes() {
 		if (!getScopesWasRun) {
 			try {
-				Map<Class<? extends Event>, List<Trigger>> triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
-				Mundo.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
-				for (List<Trigger> triggers : triggerMap.values()) {
+				for (List<Trigger> triggers : getTriggerMap().values()) {
 					for (Trigger trigger : triggers) {
 						try {
 							TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
@@ -192,10 +204,11 @@ public abstract class CustomScope extends Condition {
 		this.arg2 = arg2;
 		this.arg3 = arg3;
 		int currentSectionsSize = ScriptLoader.currentSections.size();
-		if (currentSectionsSize > 0)
+		if (currentSectionsSize > 0) {
 			scopeParent = ScriptLoader.currentSections.get(currentSectionsSize - 1);
-		else
+		} else {
 			querySetScope();
+		}
 		return init();
 	}
 

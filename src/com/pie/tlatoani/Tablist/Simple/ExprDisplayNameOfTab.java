@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -21,7 +22,13 @@ public class ExprDisplayNameOfTab extends SimpleExpression<String> {
     @Override
     protected String[] get(Event event) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        return new String[]{tablist.simpleTablist.getDisplayName(id.getSingle(event))};
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        String id = this.id.getSingle(event);
+        Tab tab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
+        if (tab == null) {
+            return new String[0];
+        }
+        return new String[]{tab.getDisplayName(player)};
     }
 
     @Override
@@ -49,7 +56,12 @@ public class ExprDisplayNameOfTab extends SimpleExpression<String> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        tablist.simpleTablist.setDisplayName(id.getSingle(event), (String) delta[0]);
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        String id = this.id.getSingle(event);
+        Tab tab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
+        if (tab != null) {
+            tab.setDisplayName(player, (String) delta[0]);
+        }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

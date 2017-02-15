@@ -24,8 +24,8 @@ public class EffCreateNewTab extends Effect {
     @Override
     protected void execute(Event event) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        tablist.simpleTablist.createTab(id.getSingle(event), displayName.getSingle(event), (ping == null ? 5 : ping.getSingle(event).intValue()), (iconExpression == null ? Tablist.DEFAULT_SKIN_TEXTURE : iconExpression.getSingle(event)), (score == null ? 0 : score.getSingle(event).intValue()));
-
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        tablist.simpleTablist.createTab(player, id.getSingle(event), displayName.getSingle(event), (ping == null ? 5 : ping.getSingle(event).byteValue()), (iconExpression == null ? Tablist.DEFAULT_SKIN_TEXTURE : iconExpression.getSingle(event)), (score == null ? 0 : score.getSingle(event).intValue()));
     }
 
     @Override

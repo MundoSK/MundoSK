@@ -32,8 +32,9 @@ public class SimpleTablist {
         this.tablist = tablist;
     }
 
-    //The following four methods no longer needed when SimpleTab
+    //The following five methods no longer needed when SimpleTab
 
+    /*
     private void sendPacketToAll(String id, EnumWrappers.PlayerInfoAction action) {
         sendPacket(id, action, tablist.players);
     }
@@ -83,17 +84,19 @@ public class SimpleTablist {
         }
     }
 
-    //The following three methods have been modified to use SimpleTab, remove commented code later
 
     public void addPlayers(Collection<Player> players) {
-        /*for (String s : heads.keySet()) {
+        for (String s : heads.keySet()) {
             sendPacket(s, EnumWrappers.PlayerInfoAction.ADD_PLAYER, players);
-        }*/
+        }
+    }*/
+
+    //The following three methods have been modified to use SimpleTab, remove commented code later
+
+    public void addPlayer(Player player) {
         for (Tab.VariablyVisible tab : tabs.values()) {
             if (tab.visibleFor(null)) {
-                for (Player player : players) {
-                    tab.showFor(player, null, null, null, null);
-                }
+                tab.showFor(player, null, null, null, null);
             }
         }
     }
@@ -109,19 +112,19 @@ public class SimpleTablist {
         }
     }
 
-    public void clear() {
+    public void clear(Player player) {
         /*String[] ids = displayNames.keySet().toArray(new String[0]);
         for (int i = 0; i < ids.length; i++) {
             deleteTab(ids[i]);
         }*/
-        for (Tab.VariablyVisible tab : tabs.values()) {
-            tab.remove(null); //remove() is used rather than hideFor() because the latter only serves to record information in the tab which will be forgotten in this instance
+        for (String id : tabs.keySet()) {
+            deleteTab(player, id);
         }
-        tabs.clear();
     }
 
     //These two methods no longer needed when SimpleTab
 
+    /*
     public boolean tabExists(String id) {
         return id.length() <= 12 && displayNames.containsKey(id);
     }
@@ -138,23 +141,21 @@ public class SimpleTablist {
             sendPacketToAll(id, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
             if (score != 0) sendScorePacketToAll(id);
         }
-    }
+    }*/
 
-    public void newCreateTab(Player player, String id, String displayName, Byte ping, Skin icon, Integer score) {
+    public void createTab(Player player, String id, String displayName, Byte ping, Skin icon, Integer score) {
         if (id == null || id.length() > 12) {
             return;
         }
         Tab.VariablyVisible tab = tabs.get(id);
         if (tab == null) {
-            tab = new Tab.VariablyVisible(tablist, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)), null, null, null, null);
+            tab = new Tab.VariablyVisible(tablist, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)), null, null, null, null, false);
             tabs.put(id, tab);
         }
         tab.showFor(player, displayName, ping, icon, score);
     }
 
-    //The following two methods newly created for SimpleTab
-
-    public void newDeleteTab(Player player, String id) {
+    public void deleteTab(Player player, String id) {
         Tab.VariablyVisible tab = tabs.get(id);
         if (tab != null) {
             tab.hideFor(player);
@@ -171,6 +172,7 @@ public class SimpleTablist {
 
     //All following methods no longer needed when SimpleTab
 
+    /*
     public void deleteTab(String id) {
         if (tabExists(id)) {
             sendPacketToAll(id, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
@@ -224,5 +226,6 @@ public class SimpleTablist {
             sendScorePacketToAll(id);
         }
     }
+    */
 
 }

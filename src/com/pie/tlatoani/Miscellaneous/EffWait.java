@@ -31,7 +31,7 @@ public class EffWait extends Effect {
         if (timeout == 0 || condition.getSingle(event) == until) {
             walk(getNext(), event);
         } else {
-            Mundo.syncDelay(1, () -> check(event, timeout - 1));
+            Mundo.sync(1, () -> check(event, timeout - 1));
         }
     }
 

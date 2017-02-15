@@ -33,7 +33,7 @@ public class ScopeWhen extends CustomScope {
         if (condition.getSingle(event)) {
             TriggerItem.walk(first, event);
         } else {
-            Mundo.syncDelay(1, () -> go(event));
+            Mundo.sync(1, () -> go(event));
         }
         return false;
     }

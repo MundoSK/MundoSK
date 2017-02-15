@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -21,7 +22,13 @@ public class ExprScoreOfTab extends SimpleExpression<Number> {
     @Override
     protected Number[] get(Event event) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        return new Number[]{tablist.simpleTablist.getScore(id.getSingle(event))};
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        String id = this.id.getSingle(event);
+        Tab tab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
+        if (tab == null) {
+            return new Number[0];
+        }
+        return new Number[]{tab.getScore(player)};
     }
 
     @Override
@@ -49,7 +56,12 @@ public class ExprScoreOfTab extends SimpleExpression<Number> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        tablist.simpleTablist.setScore(id.getSingle(event), ((Number) delta[0]).intValue());
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        String id = this.id.getSingle(event);
+        Tab tab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
+        if (tab != null) {
+            tab.setScore(player, ((Number) delta[0]).intValue());
+        }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

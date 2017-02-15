@@ -15,6 +15,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -27,6 +28,18 @@ public class UtilPacketEvent extends Event implements Cancellable{
     private PacketType packetType;
     private PacketContainer packet;
     private Player player;
+
+    //Packet sending utility
+
+    public static void sendPacket(PacketContainer packet, Object exceptLocation, Player... recipients) {
+        for (Player recipient : recipients) {
+            try {
+                ProtocolLibrary.getProtocolManager().sendServerPacket(recipient, packet);
+            } catch (InvocationTargetException e) {
+                Mundo.reportException(exceptLocation, e);
+            }
+        }
+    }
 
     //PacketType Stuff
 

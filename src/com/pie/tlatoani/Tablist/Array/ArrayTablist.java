@@ -41,6 +41,7 @@ public class ArrayTablist {
                           0;
     }
 
+    /*
     private void sendPacketToAll(int column, int row, EnumWrappers.PlayerInfoAction action) {
         sendPacket(column, row, action, tablist.players);
     }
@@ -91,7 +92,7 @@ public class ArrayTablist {
                 Mundo.reportException(this, e);
             }
         }
-    }
+    }*/
 
     public int getColumns() {
         return columns;
@@ -206,6 +207,7 @@ public class ArrayTablist {
         setRows(20);
     }
 
+    /*
     public void addPlayers(Collection<Player> players) {
         for (int column = 1; column <= columns; column++)
             for (int row = 1; row <= rows; row++) {
@@ -216,14 +218,20 @@ public class ArrayTablist {
                     tab.add(player);
                 }
             }
+    }*/
+
+    public void addPlayer(Player player) {
+        for (int column = 1; column <= columns; column++)
+            for (int row = 1; row <= rows; row++) {
+                getTab(column, row).add(player);
+            }
     }
 
     public void removePlayer(Player player) {
         for (int column = 1; column <= columns; column++)
             for (int row = 1; row <= rows; row++) {
                 //sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, players);
-                Tab tab = getTab(column, row);
-                tab.remove(player);
+                getTab(column, row).remove(player);
             }
     }
 
@@ -237,6 +245,7 @@ public class ArrayTablist {
 
     //All code after here will be removed
 
+    /*
     public String getDisplayName(int column, int row) {
         return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? displayNames[column - 1][row - 1] : null;
     }
@@ -280,5 +289,5 @@ public class ArrayTablist {
             scores[column - 1][row - 1] = ping;
             sendScorePacketToAll(column, row);
         }
-    }
+    }*/
 }

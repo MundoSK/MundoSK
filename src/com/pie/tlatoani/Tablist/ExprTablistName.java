@@ -21,7 +21,10 @@ public class ExprTablistName extends SimpleExpression<String> {
     @Override
     protected String[] get(Event event) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        return new String[]{tablist.getTablistName(object.getSingle(event))};
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        Player object = this.object.getSingle(event);
+        Tab tab = tablist.getTab(object);
+        return new String[]{tab == null ? null : tab.getDisplayName(player)};
     }
 
     @Override
@@ -49,11 +52,10 @@ public class ExprTablistName extends SimpleExpression<String> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        String name = null;
-        if (mode == Changer.ChangeMode.SET) {
-            name = (String) delta[0];
-        }
-        tablist.setTablistName(object.getSingle(event), name);
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        Player object = this.object.getSingle(event);
+        Tab tab = tablist.getTab(object);
+        tab.setDisplayName(player, mode == Changer.ChangeMode.SET ? (String) delta[0] : null);
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

@@ -28,16 +28,6 @@ public class ScopeSync extends CustomScope {
     }
 
     @Override
-    public boolean go(Event event) {
-        if (delay == null) {
-            Mundo.sync(() -> TriggerItem.walk(first, event));
-        } else {
-            Mundo.syncDelay(((Long) delay.getSingle(event).getTicks_i()).intValue(), () -> TriggerItem.walk(first, event));
-        }
-        return false;
-    }
-
-    @Override
     public boolean init() {
         delay = (Expression<Timespan>) exprs[0];
         return true;
@@ -45,12 +35,12 @@ public class ScopeSync extends CustomScope {
 
     @Override
     public TriggerItem walk(Event event) {
-        Mundo.sync(new Runnable() {
-            @Override
-            public void run() {
-                TriggerItem.walk(getNext(), event);
-            }
-        });
+        Runnable runnable = () -> TriggerItem.walk(scope == null ? getNext() : first, event);
+        if (delay == null) {
+            Mundo.sync(runnable);
+        } else {
+            Mundo.sync(new Long(delay.getSingle(event).getTicks_i()).intValue(), runnable);
+        }
         return null;
     }
 }

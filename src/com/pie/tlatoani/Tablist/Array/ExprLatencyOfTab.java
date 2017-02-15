@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -22,7 +23,9 @@ public class ExprLatencyOfTab extends SimpleExpression<Number> {
     @Override
     protected Number[] get(Event event) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        return new Number[]{tablist.arrayTablist.getLatency(column.getSingle(event).intValue(), row.getSingle(event).intValue())};
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        Tab tab = tablist.arrayTablist.getTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
+        return new Number[]{tab.getLatency(player)};
     }
 
     @Override
@@ -51,7 +54,9 @@ public class ExprLatencyOfTab extends SimpleExpression<Number> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        tablist.arrayTablist.setLatency(column.getSingle(event).intValue(), row.getSingle(event).intValue(), ((Number) delta[0]).intValue());
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        Tab tab = tablist.arrayTablist.getTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
+        tab.setLatency(player, ((Number) delta[0]).byteValue());
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

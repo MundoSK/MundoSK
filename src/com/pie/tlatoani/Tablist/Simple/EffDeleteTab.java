@@ -19,7 +19,8 @@ public class EffDeleteTab extends Effect {
     @Override
     protected void execute(Event event) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        tablist.simpleTablist.deleteTab(id.getSingle(event));
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        tablist.simpleTablist.deleteTab(player, id.getSingle(event));
     }
 
     @Override

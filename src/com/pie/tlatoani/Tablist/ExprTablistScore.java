@@ -20,7 +20,10 @@ public class ExprTablistScore extends SimpleExpression<Number> {
     @Override
     protected Number[] get(Event event) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        return new Number[]{tablist.getScore(object.getSingle(event))};
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        Player object = this.object.getSingle(event);
+        Tab tab = tablist.getTab(object);
+        return new Number[]{tab == null ? null : tab.getScore(player)};
     }
 
     @Override
@@ -48,7 +51,12 @@ public class ExprTablistScore extends SimpleExpression<Number> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        tablist.setScore(object.getSingle(event), ((Number) delta[0]).intValue());
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        Player object = this.object.getSingle(event);
+        Tab tab = tablist.getTab(object);
+        if (tab != null) {
+            tab.setScore(player, mode == Changer.ChangeMode.SET ? ((Number) delta[0]).intValue() : null);
+        }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

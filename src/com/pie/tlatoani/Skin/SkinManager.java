@@ -10,7 +10,6 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.google.common.base.Supplier;
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.pie.tlatoani.Mundo;
@@ -25,7 +24,6 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * Created by Tlatoani on 9/18/16.
@@ -270,7 +268,7 @@ public class SkinManager {
         Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
         if (team != null) {
             team.removeEntry(player.getName());
-            Mundo.syncDelay(1, () -> team.addEntry(player.getName()));
+            Mundo.sync(1, () -> team.addEntry(player.getName()));
         }
         Objective objective = player.getScoreboard() != null ? player.getScoreboard().getObjective(DisplaySlot.BELOW_NAME) : null;
         Score score = null;
@@ -293,7 +291,7 @@ public class SkinManager {
                     Team team1 = nameTagOwner.getScoreboard() != null ? nameTagOwner.getScoreboard().getEntryTeam(nameTagOwner.getName()) : null;
                     if (team1 != null) {
                         team1.removeEntry(nameTagOwner.getName());
-                        Mundo.syncDelay(1, () -> team1.addEntry(nameTagOwner.getName()));
+                        Mundo.sync(1, () -> team1.addEntry(nameTagOwner.getName()));
                     }
 
                 }
@@ -346,7 +344,7 @@ public class SkinManager {
                 target.hidePlayer(player);
             }
         }
-        Mundo.syncDelay(1, new Runnable() {
+        Mundo.sync(1, new Runnable() {
             @Override
             public void run() {
                 for (Player target : targets) {

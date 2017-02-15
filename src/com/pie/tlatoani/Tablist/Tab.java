@@ -5,13 +5,13 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Skin.Skin;
+import com.pie.tlatoani.Util.DefaultHashMap;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 /**
  * Created by Tlatoani on 1/20/17.
@@ -20,10 +20,11 @@ public class Tab {
     public final Tablist tablist;
     public final String name;
     public final UUID uuid;
-    protected HashMap<Player, String> displayNames = new HashMap<>();
-    protected HashMap<Player, Byte> latencies = new HashMap<>();
-    protected HashMap<Player, Skin> icons = new HashMap<>();
-    protected HashMap<Player, Integer> scores = new HashMap<>();
+    //DefaultHashMap are used for
+    protected DefaultHashMap<Player, String> displayNames = new DefaultHashMap<>();
+    protected DefaultHashMap<Player, Byte> latencies = new DefaultHashMap<>();
+    protected DefaultHashMap<Player, Skin> icons = new DefaultHashMap<>();
+    protected DefaultHashMap<Player, Integer> scores = new DefaultHashMap<>();
 
     public Tab(Tablist tablist, String name, UUID uuid, String displayName, Byte latency, Skin icon, Integer score) {
         this.tablist = tablist;
@@ -43,25 +44,12 @@ public class Tab {
         }
     }
 
-    private void sendPacket(Player player, EnumWrappers.PlayerInfoAction action, String displayName, Byte latency, Skin icon) {
+    protected void sendPacket(Player target, EnumWrappers.PlayerInfoAction action, String displayName, Byte latency, Skin icon) {
         PacketContainer packet = Tablist.playerInfoPacket(displayName, latency == null ? null : latency.intValue(), null, name, uuid, icon, action);
-        if (player != null) {
-            try {
-                ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
-            } catch (InvocationTargetException e) {
-                Mundo.reportException(this, e);
-            }
+        if (target != null) {
+            UtilPacketEvent.sendPacket(packet, this, target);
         } else {
-            tablist.players.forEach(new Consumer<Player>() {
-                @Override
-                public void accept(Player player1) {
-                    try {
-                        ProtocolLibrary.getProtocolManager().sendServerPacket(player1, packet);
-                    } catch (InvocationTargetException e) {
-                        Mundo.reportException(this, e);
-                    }
-                }
-            });
+            UtilPacketEvent.sendPacket(packet, this, tablist.players.toArray(new Player[0]));
         }
     }
 
@@ -85,9 +73,9 @@ public class Tab {
     }
 
     public void add(Player player) {
-        sendPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER, Mundo.getOrDefault(displayNames, player), Mundo.getOrDefault(latencies, player), Mundo.getOrDefault(icons, player));
+        sendPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER, displayNames.getOrDefault(player), latencies.getOrDefault(player), icons.getOrDefault(player));
         if (tablist.areScoresEnabled()) {
-            Integer score = Mundo.getOrDefault(scores, player);
+            Integer score = scores.getOrDefault(player);
             if (score != null) {
                 updateScore(player, score);
             }
@@ -118,47 +106,51 @@ public class Tab {
     }
 
     public void setDisplayName(Player player, String value) {
-        Mundo.setInMap(displayNames, player, value);
+        displayNames.put(player, value);
         sendPacket(player, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME, value, null, null);
     }
 
     public void setLatency(Player player, Byte value) {
-        Mundo.setInMap(latencies, player, value);
+        latencies.put(player, value);
         sendPacket(player, EnumWrappers.PlayerInfoAction.UPDATE_LATENCY, null, value, null);
     }
 
     public void setIcon(Player player, Skin value) {
-        Mundo.setInMap(icons, player, value);
+        icons.put(player, value);
         remove(player);
-        Mundo.syncDelay(1, () -> add(player));
+        Mundo.sync(1, () -> add(player));
     }
 
     public void setScore(Player player, Integer value) {
-        Mundo.setInMap(scores, player, value);
+        scores.put(player, value);
         if (tablist.areScoresEnabled()) {
             updateScore(player, Mundo.firstNotNull(value, 0));
         }
     }
 
     public static class VariablyVisible extends Tab {
+        protected DefaultHashMap<Player, Boolean> visibility = new DefaultHashMap<>();
 
-        public VariablyVisible(Tablist tablist, String name, UUID uuid, String displayName, Byte latency, Skin icon, Integer score) {
+        public VariablyVisible(Tablist tablist, String name, UUID uuid, String displayName, Byte latency, Skin icon, Integer score, boolean initialVisibility) {
             super(tablist, name, uuid, displayName, latency, icon, score);
+            visibility.put(null, initialVisibility);
         }
 
         public boolean visibleForAnyone() {
-            return !icons.isEmpty();
+            return visibility.containsValue(true);
         }
 
         public boolean visibleFor(Player player) {
-            return Mundo.getOrDefault(icons, player) != null;
+            return visibility.getOrDefault(player);
         }
 
         public void showFor(Player player, String displayName, Byte latency, Skin icon, Integer score) {
             if (!visibleFor(player) || icon != null) {
-                Mundo.setInMap(displayNames, player, displayName);
-                Mundo.setInMap(latencies, player, latency);
-                Mundo.setInMap(icons, player, Mundo.firstNotNull(icon, Tablist.DEFAULT_SKIN_TEXTURE));
+                displayNames.put(player, displayName);
+                latencies.put(player, latency);
+                icons.put(player, icon);
+                scores.put(player, score);
+                visibility.put(player, true);
                 if (player != null ? visibleFor(player) : visibleForAnyone()) {
                     remove(player);
                 }
@@ -170,11 +162,19 @@ public class Tab {
         }
 
         public void hideFor(Player player) {
-            Mundo.setInMap(displayNames, player, null);
-            Mundo.setInMap(latencies, player, null);
-            Mundo.setInMap(icons, player, null);
-            Mundo.setInMap(scores, player, null);
+            displayNames.put(player, null);
+            latencies.put(player, null);
+            icons.put(player, null);
+            scores.put(player, null);
+            visibility.put(player, false);
             remove(player);
+        }
+
+        @Override
+        public void setIcon(Player player, Skin value) {
+            if (visibleFor(player)) {
+                super.setIcon(player, value);
+            }
         }
     }
 

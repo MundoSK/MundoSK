@@ -18,7 +18,8 @@ public class EffRemoveAllIDTabs extends Effect {
     @Override
     protected void execute(Event event) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        tablist.simpleTablist.clear();
+        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
+        tablist.simpleTablist.clear(player);
     }
 
     @Override
