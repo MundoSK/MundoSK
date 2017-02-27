@@ -6,6 +6,9 @@ import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
@@ -35,6 +38,7 @@ import com.comphenix.protocol.events.PacketContainer;
 
 import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
+import com.pie.tlatoani.Chunk.*;
 import com.pie.tlatoani.CodeBlock.*;
 import com.pie.tlatoani.CustomEvent.*;
 import com.pie.tlatoani.EnchantedBook.*;
@@ -153,6 +157,22 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprBook.class,ItemStack.class,ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] pages %strings%");
 		registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
 		registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
+		//Chunk
+        registerEffect(EffLoadChunk.class, "(0¦load|1¦unload) chunk %chunk%");
+        registerExpression(ExprChunk.class, Chunk.class, ExpressionType.COMBINED,
+                "chunk %number%, %number% [in %world%]",
+                "chunks [from] %number%, %number% to %number%, %number% [in %world%]");
+        registerExpression(ExprChunkBlock.class, Block.class, ExpressionType.PROPERTY,
+                "block %number%, %number%, %number% (of|in) %chunk%",
+                "(0¦layer %-number%|1¦top|2¦bottom|3¦sea level) (0¦south|4¦north)(0¦east|8¦west) (0¦center|16¦corner) of %chunk%");
+        registerExpression(ExprChunkBlocks.class, Block.class, ExpressionType.PROPERTY,
+                "[all] blocks (of|in) %chunk%",
+                "blocks [from] %number%, %number%, %number% to %number%, %number%, %number% (of|in) %chunk%",
+                "(0¦layer %-number%|1¦top|2¦bottom|3¦sea level) (of|in) %chunk%",
+                "[from] (0¦layer %-number%|1¦top|2¦bottom|3¦sea level) to (0¦layer %-number%|4¦top|8¦bottom|12¦sea level) (of|in) %chunk%",
+                "layers [from] %number% to %number% (of|in) %chunk%"
+        );
+        registerExpression(CondSlimey.class, Boolean.class, ExpressionType.PROPERTY, "%chunk% is slimey");
 		//CodeBlock
         registerType(CodeBlock.class, "codeblock");
         registerScope(ScopeSaveCodeBlock.class, "codeblock %object% [with (1¦constant|2¦constant %-object%|3¦constants %-objects%)] [:: %-strings%] [-> %-string%]");
@@ -1094,6 +1114,36 @@ public class Mundo extends JavaPlugin{
         return c1.isAssignableFrom(c2) || c2.isAssignableFrom(c1);
     }
 
+    public static Class commonSuperClass(Class... classes) {
+	    switch (classes.length) {
+            case 0: return Object.class;
+            case 1: return classes[0];
+            case 2: {
+                while (!classes[0].isAssignableFrom(classes[1])) {
+                    classes[0] = classes[0].getSuperclass();
+                }
+                return classes[0];
+            }
+        }
+        Class[] classesTail = new Class[classes.length - 1];
+	    System.arraycopy(classes, 0, classesTail, 0, classes.length - 1);
+        return commonSuperClass(classes[0], commonSuperClass(classesTail));
+    }
+
     public static boolean settableTo(Expression settee) {return false;}
+
+    //Reflection Util
+
+    public static Object getStaticField(Class<?> location, String name) throws NoSuchFieldException, IllegalAccessException {
+	    Field field = location.getField(name);
+	    field.setAccessible(true);
+	    return field.get(null);
+    }
+
+    //Functional Util
+
+    public static <T, R> R[] mapArray(Function<T, R> function, T[] input) {
+        return (R[]) Stream.of(input).map(function).collect(Collectors.toList()).toArray();
+    }
 	
 }

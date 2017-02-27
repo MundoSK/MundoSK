@@ -31,23 +31,29 @@ public final class SkriptGeneratorManager {
     To include the triggers that do the actual generating
      */
     public static SkriptGenerator getSkriptGenerator(String id) {
-        if (!skriptGeneratorMap.containsKey(id)) {
-            skriptGeneratorMap.put(id, new SkriptGenerator());
-        }
-        return skriptGeneratorMap.get(id);
+        return skriptGeneratorMap.computeIfAbsent(id, k -> new SkriptGenerator());
     }
 
-    //Determines whether a generatorID has already been added, to avoid multiple generators with the same ID
-    public static boolean addID(String id) {
+    static void unregisterAllSkriptGenerators() {
+        skriptGeneratorMap.forEach((id, generator) -> {
+            generator.trigger = null;
+            generator.generation = null;
+            generator.population = null;
+        });
+    }
+
+    /*public static boolean addID(String id) {
         if (countedIDs.contains(id)) {
             return false;
         }
         countedIDs.add(id);
-        CustomScope.querySetScope();
         return true;
     }
 
-    //Registers the custom generator triggers
+    public static void finalizeID(String id) {
+        countedIDs.remove(id);
+    }
+
     public static void registerTriggers(Collection<Trigger> triggers) {
         for (Trigger trigger : triggers) {
             String generatorID = ((EvtChunkGenerator) trigger.getEvent()).getGeneratorID();
@@ -73,5 +79,5 @@ public final class SkriptGeneratorManager {
             }
         }
         countedIDs.clear();
-    }
+    }*/
 }

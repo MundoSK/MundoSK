@@ -229,10 +229,11 @@ public class SkinManager {
 
     public static void setPersonalDisplayedSkin(Player player, Collection<Player> targets, Skin value) {
         for (Player target : targets) {
-            if (value != null)
+            if (value != null) {
                 personalDisplayedSkins.put(player, target, value);
-            else
+            } else {
                 personalDisplayedSkins.remove(player, target);
+            }
         }
         if (spawnedPlayers.contains(player)) {
             specificallyRefreshPlayer(player, targets);
@@ -246,7 +247,11 @@ public class SkinManager {
         Skin oldSkin = displayedSkins.get(player);
         for (Player exclude : excludes) {
             if (!personalDisplayedSkins.contains(player, exclude)) {
-                personalDisplayedSkins.put(player, exclude, oldSkin);
+                if (oldSkin != null) {
+                    personalDisplayedSkins.put(player, exclude, oldSkin);
+                } else {
+                    personalDisplayedSkins.remove(player, exclude);
+                }
             }
         }
         setDisplayedSkin(player, value);

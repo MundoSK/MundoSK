@@ -5,10 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import org.bukkit.event.Event;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Tlatoani on 6/10/16.
@@ -74,6 +71,15 @@ public final class ListUtil {
         return null;
     }*/
 
+    //Returns the transformer options, ex. "0¦(elem|element|item)|1¦page"
+    public static String getTransformerOptions() {
+        String[] withIndexes = new String[patternlist.size()];
+        for (int i = 0; i < patternlist.size(); i++) {
+            withIndexes[i] = i + "¦" + patternlist.get(i);
+        }
+        return String.join("|", withIndexes);
+    }
+
     public static void register() {
         List<String> insertItem = new ArrayList<>();
         List<String> item = new ArrayList<>();
@@ -89,7 +95,7 @@ public final class ListUtil {
             someItems.add(j + "s %number% to (%-number%|last) (of|in) %" + possessorClassInfo + "%");
             itemCount.add(j + " count (of|in) %" + possessorClassInfo + "%");
         }
-        String j = "item";
+        String j = "(element|elem|item)";
         String possessorClassInfo = "objects";
         insertItem.add("(add|insert) %objects% (1¦before|0¦after) (" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");
         item.add("(" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");

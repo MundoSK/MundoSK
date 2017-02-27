@@ -38,13 +38,16 @@ public class ExprTreeAtLoc extends SimpleExpression<Block> {
                     currentBlock.getRelative(0, 0, -1)
             };
             for (Block adjacentBlock : adjacentBlocks) {
-                if ((adjacentBlock.getType() == Material.LOG || adjacentBlock.getType() == Material.LOG_2) && !blocks.contains(adjacentBlock)) {
+                if ((adjacentBlock.getType() == Material.LOG || adjacentBlock.getType() == Material.LOG_2 || adjacentBlock.getType() == Material.LEAVES || adjacentBlock.getType() == Material.LEAVES_2) && !blocks.contains(adjacentBlock)) {
                     blocks.add(adjacentBlock);
-                } else if ((adjacentBlock.getType() == Material.LEAVES || adjacentBlock.getType() == Material.LEAVES_2) && !blocks.contains(adjacentBlock)) {
-                    for (Block log : blocks) {
-                        //if ((log.getType() == Material.LOG || log.getType() == Material.LOG_2) &&
+                } /*else if ((adjacentBlock.getType() == Material.LEAVES || adjacentBlock.getType() == Material.LEAVES_2) && !blocks.contains(adjacentBlock)) {
+                    for (int j = blocks.size() - 1; j >= 0; j--) {
+                        Block log = blocks.get(j);
+                        if (log.getType() == Material.LOG || log.getType() == Material.LOG_2) {
+
+                        }
                     }
-                }
+                }*/
             }
         }
         return blocks;

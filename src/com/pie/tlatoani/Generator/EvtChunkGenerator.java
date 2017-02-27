@@ -1,43 +1,54 @@
 package com.pie.tlatoani.Generator;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.lang.Literal;
-import ch.njol.skript.lang.SkriptEvent;
-import ch.njol.skript.lang.SkriptParser;
-import ch.njol.skript.lang.TriggerItem;
+import ch.njol.skript.lang.*;
 import org.bukkit.event.Event;
 
 /**
  * Created by Tlatoani on 8/21/16.
  */
-public class EvtChunkGenerator extends SkriptEvent {
+public class EvtChunkGenerator extends SelfRegisteringSkriptEvent {
     private String generatorID = null;
-
-    public TriggerItem generation;
-    public TriggerItem creation;
-    public TriggerItem loading;
+    private SkriptGenerator generator = null;
 
     public String getGeneratorID() {
         return generatorID;
     }
 
-    @Override
-    public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
-        generatorID = ((Literal<String>) literals[0]).getSingle();
-        if (SkriptGeneratorManager.addID(generatorID)) {
-            return true;
-        }
-        Skript.error("A world generator is already registered with the name '" + generatorID + "'!");
-        return false;
-    }
-
-    @Override
-    public boolean check(Event event) {
-        return false;
+    public SkriptGenerator getGenerator() {
+        return generator;
     }
 
     @Override
     public String toString(Event event, boolean b) {
         return "world generator " + generatorID;
+    }
+
+    @Override
+    public void register(Trigger trigger) {
+        generator.trigger = trigger;
+    }
+
+    @Override
+    public void unregister(Trigger trigger) {
+        generator.trigger = null;
+        generator.generation = null;
+        generator.population = null;
+    }
+
+    @Override
+    public void unregisterAll() {
+        SkriptGeneratorManager.unregisterAllSkriptGenerators();
+    }
+
+    @Override
+    public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
+        generatorID = ((Literal<String>) literals[0]).getSingle();
+        generator = SkriptGeneratorManager.getSkriptGenerator(generatorID);
+        if (generator.trigger == null) {
+            return true;
+        }
+        Skript.error("A world generator is already registered with the name '" + generatorID + "'!");
+        return false;
     }
 }

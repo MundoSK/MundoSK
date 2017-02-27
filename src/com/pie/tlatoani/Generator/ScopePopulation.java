@@ -25,11 +25,13 @@ public class ScopePopulation extends CustomScope {
 
     @Override
     public void setScope() {
-        if (!(scopeParent instanceof Trigger)) {
-            Skript.error("The 'population' scope should be immediately under the event scope, not below any further scopes!");
-        }
-        else if (scope.getNext() != null) {
-            Skript.error("The 'population' scope should be the last item in a custom generator!");
+        if (!(scopeParent instanceof Trigger) || !(((Trigger) scopeParent).getEvent() instanceof EvtChunkGenerator)) {
+            Skript.error("The 'population' scope should be immediately under the 'custom generator' event scope, not below any further scopes!");
+        } else {
+            if (scope.getNext() != null) {
+                Skript.error("The 'population' scope should be the last item in a custom generator!");
+            }
+            ((EvtChunkGenerator) ((Trigger) scopeParent).getEvent()).getGenerator().population = first;
         }
     }
 }

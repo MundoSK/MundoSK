@@ -12,11 +12,10 @@ import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -33,6 +32,7 @@ public abstract class CustomScope extends Condition {
 	public static Method walkmethod;
 	public static Method runmethod;
 	public static Field commandTrigger;
+	public static Method getTriggersMethod;
 	private static boolean getScopesWasRun = true;
 
 	protected boolean canStandFree = false;
@@ -63,6 +63,8 @@ public abstract class CustomScope extends Condition {
 			commandTrigger.setAccessible(true);
 			commands = Commands.class.getDeclaredField("commands");
 			commands.setAccessible(true);
+			getTriggersMethod = SkriptEventHandler.class.getDeclaredMethod("getTriggers", Class.class);
+			getTriggersMethod.setAccessible(true);
 			walkmethod = TriggerItem.class.getDeclaredMethod("walk", Event.class);
 			walkmethod.setAccessible(true);
 			runmethod = TriggerItem.class.getDeclaredMethod("run", Event.class);
@@ -97,10 +99,10 @@ public abstract class CustomScope extends Condition {
 					}
 				}
 
-				List<Trigger> triggerList = triggerMap.get(SkriptGeneratorEvent.class);
+				/*List<Trigger> triggerList = triggerMap.get(SkriptGeneratorEvent.class);
 				if (triggerList != null) {
 					SkriptGeneratorManager.registerTriggers(triggerList);
-				}
+				}*/
 
 				Map<String, ScriptCommand> commandMap = (Map<String, ScriptCommand>) commands.get(null);
 				for (ScriptCommand scriptCommand : commandMap.values()) {
@@ -122,7 +124,7 @@ public abstract class CustomScope extends Condition {
 					}
 				}
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				Mundo.reportException(CustomScope.class, e);
 			}
 			getScopesWasRun = true;
 		}
@@ -151,7 +153,7 @@ public abstract class CustomScope extends Condition {
 				this.first = (TriggerItem) firstitem.get(scope);
 				this.last = (TriggerItem) lastitem.get(scope);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Mundo.reportException(this, e);
 			}
 			Mundo.debug(this, "GUTEN ROUNDEN:: " + first);
 			if (scopeParent == null) {
@@ -227,15 +229,15 @@ public abstract class CustomScope extends Condition {
 
 	public abstract String getString();
 
-	public boolean go(Event e) {
+	protected boolean go(Event e) {
 		return false;
 	}
 
-	public boolean init() {
+	protected boolean init() {
 		return true;
 	}
 	
-	public void setScope() {}
+	protected void setScope() {}
 
 	//Public Utility Methods
 

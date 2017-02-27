@@ -29,26 +29,6 @@ public class ScopeAsync extends CustomScope {
     }
 
     @Override
-    public boolean go(Event event) {
-        if (delay == null) {
-            Mundo.scheduler.runTaskAsynchronously(Mundo.instance, new Runnable() {
-                @Override
-                public void run() {
-                    TriggerItem.walk(first, event);
-                }
-            });
-        } else {
-            Mundo.scheduler.runTaskLaterAsynchronously(Mundo.instance, new Runnable() {
-                @Override
-                public void run() {
-                    TriggerItem.walk(first, event);
-                }
-            }, delay.getSingle(event).getTicks_i());
-        }
-        return false;
-    }
-
-    @Override
     public boolean init() {
         delay = (Expression<Timespan>) exprs[0];
         return true;
@@ -56,12 +36,12 @@ public class ScopeAsync extends CustomScope {
 
     @Override
     public TriggerItem walk(Event event) {
-        Mundo.async(new Runnable() {
-            @Override
-            public void run() {
-                TriggerItem.walk(getNext(), event);
-            }
-        });
+        Runnable runnable = () -> TriggerItem.walk(scope == null ? getNext() : first, event);
+        if (delay == null) {
+            Mundo.async(runnable);
+        } else {
+            Mundo.asyncDelay(new Long(delay.getSingle(event).getTicks_i()).intValue(), runnable);
+        }
         return null;
     }
 }
