@@ -67,6 +67,8 @@ import com.pie.tlatoani.WorldManagement.*;
 import com.pie.tlatoani.WorldManagement.WorldLoader.*;
 import com.pie.tlatoani.Metrics.*;
 
+import com.pie.tlatoani.ZExperimental.CustomEffect;
+import com.pie.tlatoani.ZExperimental.CustomElementEvent;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
@@ -467,7 +469,9 @@ public class Mundo extends JavaPlugin{
                     "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%");
             registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%");
             registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array pnum %number% of %packet%");
-            registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY, "%world% pentity %number% of %packet%");
+            registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY,
+                    "%world% pentity %number% of %packet%",
+                    "%world% pentity array %number% of %packet%");
             registerExpression(ExprEnumOfPacket.class, String.class, ExpressionType.PROPERTY, "%string% penum %number% of %packet%");
 		}
         //Skin
@@ -672,6 +676,8 @@ public class Mundo extends JavaPlugin{
 
         registerExpression(ExprAllAutomaticCreators.class, WorldCreator.class, ExpressionType.SIMPLE, "[all] automatic creators");
         registerExpression(ExprAutomaticCreator.class, WorldCreator.class, ExpressionType.SIMPLE, "automatic creator %string%");
+        //ZExperimental - The Z is for mystery (it's so that it appears last in the package list)
+        registerEvent("Custom Element Event", CustomEffect.class, CustomElementEvent.class, "[mundosk] [new] [custom] effect %string%");
         //
         ArrayList<String> patterns = new ArrayList<>();
         for (String s : enumNames) {

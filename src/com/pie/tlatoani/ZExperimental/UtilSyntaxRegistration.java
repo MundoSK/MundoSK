@@ -34,6 +34,11 @@ public class UtilSyntaxRegistration {
         }
     }
 
+    public static void onLoad() {
+        EffCustom.onLoad();
+        ExprExpr.onLoad();
+    }
+
     public static void setPatterns(SyntaxElementInfo<?> syntaxElementInfo, String... patterns) {
         try {
             patternsField.set(syntaxElementInfo, patterns);
