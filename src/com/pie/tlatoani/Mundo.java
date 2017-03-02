@@ -330,12 +330,6 @@ public class Mundo extends JavaPlugin{
             }
         }, 0);
         registerEvent("Armor Stand Interact Event", SimpleEvent.class, PlayerArmorStandManipulateEvent.class, "armor stand (manipulate|interact)");
-        EventValues.registerEventValue(PlayerArmorStandManipulateEvent.class, Entity.class, new Getter<Entity, PlayerArmorStandManipulateEvent>() {
-            @Override
-            public Entity get(PlayerArmorStandManipulateEvent playerArmorStandManipulateEvent) {
-                return playerArmorStandManipulateEvent.getRightClicked();
-            }
-        }, 0);
         EventValues.registerEventValue(PlayerArmorStandManipulateEvent.class, ItemStack.class, new Getter<ItemStack, PlayerArmorStandManipulateEvent>() {
             @Override
             public ItemStack get(PlayerArmorStandManipulateEvent playerArmorStandManipulateEvent) {

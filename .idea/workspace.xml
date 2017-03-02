@@ -7,11 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprEntityOfPacket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprEntityOfPacket.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilSyntaxRegistration.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilSyntaxRegistration.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,11 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="679" column="133" lean-forward="false" selection-start-line="679" selection-start-column="133" selection-end-line="679" selection-end-column="133" />
+            <state relative-caret-position="300">
+              <caret line="331" column="147" lean-forward="false" selection-start-line="331" selection-start-column="147" selection-end-line="331" selection-end-column="147" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -54,11 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="37" lean-forward="true" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
+            <state relative-caret-position="45">
+              <caret line="3" column="25" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -186,6 +183,7 @@
       <find>SkriptGeneratorManager</find>
       <find>registerScope</find>
       <find>registerCond</find>
+      <find>Manipul</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -247,8 +245,8 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunkBlocks.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprEntityOfPacket.java" />
-        <option value="$PROJECT_DIR$/plugin.yml" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilSyntaxRegistration.java" />
+        <option value="$PROJECT_DIR$/plugin.yml" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
       </list>
     </option>
@@ -1112,7 +1110,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32423207" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32423207" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1638,21 +1636,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+    <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="679" column="133" lean-forward="false" selection-start-line="679" selection-start-column="133" selection-end-line="679" selection-end-column="133" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="45">
+          <caret line="3" column="25" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plugin.yml">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="37" lean-forward="true" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
-          <folding />
+        <state relative-caret-position="300">
+          <caret line="331" column="147" lean-forward="false" selection-start-line="331" selection-start-column="147" selection-end-line="331" selection-end-column="147" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
