@@ -86,9 +86,11 @@ public abstract class Skin {
         private JSONArray textures = new JSONArray();
 
 
-        public JSON(JSONArray jsonArray) {
-            for (Object o : jsonArray) {
-                textures.add(new JSONObject((JSONObject) o));
+        public JSON(JSONArray... jsonArrays) {
+            for (JSONArray jsonArray : jsonArrays) {
+                for (Object o : jsonArray) {
+                    textures.add(new JSONObject((JSONObject) o));
+                }
             }
         }
 
