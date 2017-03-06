@@ -7,42 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/DefaultHashMap.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/Tablist$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/Tablist$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/Tablist$3$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/Tablist$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/Tablist$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/Tablist$PacketSender.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Tablist/Tablist.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/EffWait.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/EffWait.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ScopeWhen.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ScopeWhen.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/Thread/ScopeAsync.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/Thread/ScopeAsync.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/Thread/ScopeSync.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/Thread/ScopeSync.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDisplayNameOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDisplayNameOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprLatencyOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprLatencyOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprScoreOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprScoreOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/EffChangePlayerVisibility.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/EffChangePlayerVisibility.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTablist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTablistName.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTablistName.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTablistScore.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTablistScore.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateNewTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateNewTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffDeleteTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffDeleteTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffRemoveAllIDTabs.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffRemoveAllIDTabs.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprDisplayNameOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprDisplayNameOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprIconOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprIconOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprLatencyOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprLatencyOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprScoreOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprScoreOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTablist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tablist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/DefaultHashMap.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/DefaultHashMap.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,56 +28,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1111" column="80" lean-forward="false" selection-start-line="1111" selection-start-column="80" selection-end-line="1111" selection-end-column="80" />
-              <folding>
-                <element signature="e#12606#13077#0" expanded="true" />
-                <element signature="e#13076#13077#0" expanded="true" />
-                <element signature="e#16597#16967#0" expanded="true" />
-                <element signature="e#16966#16967#0" expanded="true" />
-                <element signature="e#17184#17435#0" expanded="true" />
-                <element signature="e#17434#17435#0" expanded="true" />
-                <element signature="e#17650#17866#0" expanded="true" />
-                <element signature="e#17865#17866#0" expanded="true" />
-                <element signature="e#17967#18239#0" expanded="true" />
-                <element signature="e#18238#18239#0" expanded="true" />
-                <element signature="e#18340#18620#0" expanded="true" />
-                <element signature="e#18619#18620#0" expanded="true" />
-                <element signature="e#18716#19110#0" expanded="true" />
-                <element signature="e#19109#19110#0" expanded="true" />
-                <element signature="e#26724#26858#0" expanded="true" />
-                <element signature="e#26857#26858#0" expanded="true" />
-                <element signature="e#28613#29041#0" expanded="true" />
-                <element signature="e#29040#29041#0" expanded="true" />
-                <element signature="e#33224#33543#0" expanded="true" />
-                <element signature="e#33542#33543#0" expanded="true" />
-                <element signature="e#33611#33863#0" expanded="true" />
-                <element signature="e#33862#33863#0" expanded="true" />
-                <element signature="e#33937#34189#0" expanded="true" />
-                <element signature="e#34188#34189#0" expanded="true" />
-                <element signature="e#40555#40699#0" expanded="true" />
-                <element signature="e#40698#40699#0" expanded="true" />
-                <element signature="e#46363#46393#1" expanded="true" />
-                <element signature="e#48657#48665#0" expanded="true" />
-                <element signature="e#58803#58964#0" expanded="true" />
-                <element signature="e#58841#58871#0" expanded="true" />
-                <element signature="e#58963#58964#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="EffWait.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/EffWait.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="345">
               <caret line="30" column="29" lean-forward="false" selection-start-line="30" selection-start-column="29" selection-end-line="30" selection-end-column="29" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -162,25 +83,12 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="525">
               <caret line="46" column="43" lean-forward="false" selection-start-line="46" selection-start-column="43" selection-end-line="46" selection-end-column="43" />
-              <folding>
-                <element signature="e#3629#3630#0" expanded="false" />
-                <element signature="e#3676#3677#0" expanded="false" />
-                <element signature="e#3721#3722#0" expanded="false" />
-                <element signature="e#3765#3766#0" expanded="false" />
-                <element signature="e#3807#3808#0" expanded="false" />
-                <element signature="e#3847#3848#0" expanded="false" />
-                <element signature="e#3893#3894#0" expanded="false" />
-                <element signature="e#3934#3935#0" expanded="false" />
-                <element signature="e#5197#5198#0" expanded="false" />
-                <element signature="e#5258#5259#0" expanded="false" />
-                <element signature="e#5310#5311#0" expanded="false" />
-                <element signature="e#5372#5373#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CustomScope.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CustomScope.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="270">
@@ -190,27 +98,39 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="DefaultHashMap.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/DefaultHashMap.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="600">
+              <caret line="110" column="35" lean-forward="true" selection-start-line="110" selection-start-column="35" selection-end-line="110" selection-end-column="35" />
+              <folding>
+                <element signature="e#419#420#0" expanded="true" />
+                <element signature="e#461#462#0" expanded="true" />
+                <element signature="e#500#501#0" expanded="true" />
+                <element signature="e#586#587#0" expanded="true" />
+                <element signature="e#632#633#0" expanded="true" />
+                <element signature="e#709#710#0" expanded="true" />
+                <element signature="e#2179#2180#0" expanded="true" />
+                <element signature="e#2215#2216#0" expanded="true" />
+                <element signature="e#3255#3256#0" expanded="true" />
+                <element signature="e#3290#3291#0" expanded="true" />
+                <element signature="e#3326#3327#0" expanded="true" />
+                <element signature="e#3380#3381#0" expanded="true" />
+                <marker date="1488746944000" expanded="false" signature="3951:3962" ph=" { " />
+                <marker date="1488746944000" expanded="false" signature="4022:4028" ph=" }" />
+                <marker date="1488746944000" expanded="false" signature="4060:4071" ph=" { " />
+                <marker date="1488746944000" expanded="false" signature="4091:4097" ph=" }" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SimpleTablist.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTablist.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
               <caret line="36" column="6" lean-forward="false" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
-              <folding>
-                <element signature="e#1094#1095#0" expanded="false" />
-                <element signature="e#1132#1133#0" expanded="false" />
-                <marker date="1486426345000" expanded="false" signature="2865:2876" ph=" { " />
-                <marker date="1486426345000" expanded="false" signature="2913:2919" ph=" }" />
-                <marker date="1486426345000" expanded="false" signature="4984:4995" ph=" { " />
-                <marker date="1486426345000" expanded="false" signature="5052:5058" ph=" }" />
-                <marker date="1486426345000" expanded="false" signature="7020:7031" ph=" { " />
-                <marker date="1486426345000" expanded="false" signature="7059:7065" ph=" }" />
-                <marker date="1486426345000" expanded="false" signature="7107:7118" ph=" { " />
-                <marker date="1486426345000" expanded="false" signature="7143:7149" ph=" }" />
-                <marker date="1486426345000" expanded="false" signature="7185:7196" ph=" { " />
-                <marker date="1486426345000" expanded="false" signature="7217:7223" ph=" }" />
-                <marker date="1486426345000" expanded="false" signature="7263:7274" ph=" { " />
-                <marker date="1486426345000" expanded="false" signature="7296:7302" ph=" }" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -220,18 +140,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="600">
               <caret line="65" column="70" lean-forward="false" selection-start-line="65" selection-start-column="70" selection-end-line="70" selection-end-column="13" />
-              <folding>
-                <element signature="e#15952#15953#0" expanded="false" />
-                <element signature="e#15997#15998#0" expanded="false" />
-                <element signature="e#20473#20474#0" expanded="false" />
-                <element signature="e#20512#20513#0" expanded="false" />
-                <element signature="e#20601#20602#0" expanded="false" />
-                <element signature="e#20637#20638#0" expanded="false" />
-                <marker date="1486833164000" expanded="false" signature="21035:21046" ph=" { " />
-                <marker date="1486833164000" expanded="false" signature="21078:21084" ph=" }" />
-                <marker date="1486833164000" expanded="false" signature="21358:21369" ph=" { " />
-                <marker date="1486833164000" expanded="false" signature="21407:21413" ph=" }" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -318,7 +227,6 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/SyncGetter.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/DefaultHashMap.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDisplayNameOfTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprLatencyOfTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprScoreOfTab.java" />
@@ -341,6 +249,7 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/Thread/ScopeSync.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/DefaultHashMap.java" />
       </list>
     </option>
   </component>
@@ -371,7 +280,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -892,7 +801,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1416,13 +1325,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/DefaultHashMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="44" column="58" lean-forward="false" selection-start-line="44" selection-start-column="58" selection-end-line="44" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/EffSetArrayTablist.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1558,41 +1460,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
+        <state relative-caret-position="14055">
           <caret line="1111" column="80" lean-forward="false" selection-start-line="1111" selection-start-column="80" selection-end-line="1111" selection-end-column="80" />
-          <folding>
-            <element signature="e#12606#13077#0" expanded="true" />
-            <element signature="e#13076#13077#0" expanded="true" />
-            <element signature="e#16597#16967#0" expanded="true" />
-            <element signature="e#16966#16967#0" expanded="true" />
-            <element signature="e#17184#17435#0" expanded="true" />
-            <element signature="e#17434#17435#0" expanded="true" />
-            <element signature="e#17650#17866#0" expanded="true" />
-            <element signature="e#17865#17866#0" expanded="true" />
-            <element signature="e#17967#18239#0" expanded="true" />
-            <element signature="e#18238#18239#0" expanded="true" />
-            <element signature="e#18340#18620#0" expanded="true" />
-            <element signature="e#18619#18620#0" expanded="true" />
-            <element signature="e#18716#19110#0" expanded="true" />
-            <element signature="e#19109#19110#0" expanded="true" />
-            <element signature="e#26724#26858#0" expanded="true" />
-            <element signature="e#26857#26858#0" expanded="true" />
-            <element signature="e#28613#29041#0" expanded="true" />
-            <element signature="e#29040#29041#0" expanded="true" />
-            <element signature="e#33224#33543#0" expanded="true" />
-            <element signature="e#33542#33543#0" expanded="true" />
-            <element signature="e#33611#33863#0" expanded="true" />
-            <element signature="e#33862#33863#0" expanded="true" />
-            <element signature="e#33937#34189#0" expanded="true" />
-            <element signature="e#34188#34189#0" expanded="true" />
-            <element signature="e#40555#40699#0" expanded="true" />
-            <element signature="e#40698#40699#0" expanded="true" />
-            <element signature="e#46363#46393#1" expanded="true" />
-            <element signature="e#48657#48665#0" expanded="true" />
-            <element signature="e#58803#58964#0" expanded="true" />
-            <element signature="e#58841#58871#0" expanded="true" />
-            <element signature="e#58963#58964#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1600,9 +1470,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="30" column="29" lean-forward="false" selection-start-line="30" selection-start-column="29" selection-end-line="30" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1642,20 +1510,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
           <caret line="46" column="43" lean-forward="false" selection-start-line="46" selection-start-column="43" selection-end-line="46" selection-end-column="43" />
-          <folding>
-            <element signature="e#3629#3630#0" expanded="false" />
-            <element signature="e#3676#3677#0" expanded="false" />
-            <element signature="e#3721#3722#0" expanded="false" />
-            <element signature="e#3765#3766#0" expanded="false" />
-            <element signature="e#3807#3808#0" expanded="false" />
-            <element signature="e#3847#3848#0" expanded="false" />
-            <element signature="e#3893#3894#0" expanded="false" />
-            <element signature="e#3934#3935#0" expanded="false" />
-            <element signature="e#5197#5198#0" expanded="false" />
-            <element signature="e#5258#5259#0" expanded="false" />
-            <element signature="e#5310#5311#0" expanded="false" />
-            <element signature="e#5372#5373#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1663,22 +1518,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="36" column="6" lean-forward="false" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
-          <folding>
-            <element signature="e#1094#1095#0" expanded="false" />
-            <element signature="e#1132#1133#0" expanded="false" />
-            <marker date="1486426345000" expanded="false" signature="2865:2876" ph=" { " />
-            <marker date="1486426345000" expanded="false" signature="2913:2919" ph=" }" />
-            <marker date="1486426345000" expanded="false" signature="4984:4995" ph=" { " />
-            <marker date="1486426345000" expanded="false" signature="5052:5058" ph=" }" />
-            <marker date="1486426345000" expanded="false" signature="7020:7031" ph=" { " />
-            <marker date="1486426345000" expanded="false" signature="7059:7065" ph=" }" />
-            <marker date="1486426345000" expanded="false" signature="7107:7118" ph=" { " />
-            <marker date="1486426345000" expanded="false" signature="7143:7149" ph=" }" />
-            <marker date="1486426345000" expanded="false" signature="7185:7196" ph=" { " />
-            <marker date="1486426345000" expanded="false" signature="7217:7223" ph=" }" />
-            <marker date="1486426345000" expanded="false" signature="7263:7274" ph=" { " />
-            <marker date="1486426345000" expanded="false" signature="7296:7302" ph=" }" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1686,18 +1526,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="600">
           <caret line="65" column="70" lean-forward="false" selection-start-line="65" selection-start-column="70" selection-end-line="70" selection-end-column="13" />
-          <folding>
-            <element signature="e#15952#15953#0" expanded="false" />
-            <element signature="e#15997#15998#0" expanded="false" />
-            <element signature="e#20473#20474#0" expanded="false" />
-            <element signature="e#20512#20513#0" expanded="false" />
-            <element signature="e#20601#20602#0" expanded="false" />
-            <element signature="e#20637#20638#0" expanded="false" />
-            <marker date="1486833164000" expanded="false" signature="21035:21046" ph=" { " />
-            <marker date="1486833164000" expanded="false" signature="21078:21084" ph=" }" />
-            <marker date="1486833164000" expanded="false" signature="21358:21369" ph=" { " />
-            <marker date="1486833164000" expanded="false" signature="21407:21413" ph=" }" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1706,6 +1535,31 @@
         <state relative-caret-position="270">
           <caret line="91" column="61" lean-forward="false" selection-start-line="91" selection-start-column="61" selection-end-line="91" selection-end-column="61" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/DefaultHashMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="110" column="35" lean-forward="true" selection-start-line="110" selection-start-column="35" selection-end-line="110" selection-end-column="35" />
+          <folding>
+            <element signature="e#419#420#0" expanded="true" />
+            <element signature="e#461#462#0" expanded="true" />
+            <element signature="e#500#501#0" expanded="true" />
+            <element signature="e#586#587#0" expanded="true" />
+            <element signature="e#632#633#0" expanded="true" />
+            <element signature="e#709#710#0" expanded="true" />
+            <element signature="e#2179#2180#0" expanded="true" />
+            <element signature="e#2215#2216#0" expanded="true" />
+            <element signature="e#3255#3256#0" expanded="true" />
+            <element signature="e#3290#3291#0" expanded="true" />
+            <element signature="e#3326#3327#0" expanded="true" />
+            <element signature="e#3380#3381#0" expanded="true" />
+            <marker date="1488746944000" expanded="false" signature="3951:3962" ph=" { " />
+            <marker date="1488746944000" expanded="false" signature="4022:4028" ph=" }" />
+            <marker date="1488746944000" expanded="false" signature="4060:4071" ph=" { " />
+            <marker date="1488746944000" expanded="false" signature="4091:4097" ph=" }" />
+          </folding>
         </state>
       </provider>
     </entry>
