@@ -3,6 +3,7 @@ package com.pie.tlatoani.Skin;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.EnumWrappers;
@@ -13,6 +14,7 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Util.UtilReflection;
 import org.bukkit.*;
@@ -318,7 +320,6 @@ public class SkinManager {
     //Private Methods
 
     private static void refreshPlayer(Player player) {
-        Mundo.debug(SkinManager.class, "Now hiding player " + player.getName());
         for (Player target : Bukkit.getOnlinePlayers()) {
             if (!target.equals(player)) {
                 target.hidePlayer(player);
@@ -328,7 +329,6 @@ public class SkinManager {
             @Override
             public void run() {
 
-                Mundo.debug(SkinManager.class, "Now showing player " + player.getName());
                 for (Player target : Bukkit.getOnlinePlayers()) {
                     if (!target.equals(player)){
                         target.showPlayer(player);
@@ -339,25 +339,32 @@ public class SkinManager {
     }
 
     private static void specificallyRefreshPlayer(Player player, Collection<Player> targets) {
+        Mundo.debug(SkinManager.class, "Now hiding player " + player.getName());
         for (Player target : targets) {
             if (!target.equals(player)) {
                 target.hidePlayer(player);
             }
         }
-        Mundo.sync(1, new Runnable() {
-            @Override
-            public void run() {
-                for (Player target : targets) {
-                    if (!target.equals(player)){
-                        target.showPlayer(player);
-                    }
+        Mundo.sync(1, () -> {
+            Mundo.debug(SkinManager.class, "Now showing player " + player.getName());
+            for (Player target : targets) {
+                if (!target.equals(player)){
+                    target.showPlayer(player);
+                }
+            }
+        });
+        Mundo.sync(2, () -> {
+            PacketContainer packet = Tablist.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+            for (Player target : targets) {
+                if (Tablist.isPlayerHiddenFor(player, target)) {
+                    UtilPacketEvent.sendPacket(packet, SkinManager.class, target);
                 }
             }
         });
     }
 
     private static void respawnPlayer(Player player) {
-        boolean playerHidden = Tablist.getTablistForPlayer(player).isPlayerHidden(player);
+        boolean playerHidden = Tablist.isPlayerHiddenFor(player, player);
         if (!playerHidden) {
             List<Player> singlePlayer = Collections.singletonList(player);
             Tablist.hideInTablist(singlePlayer, singlePlayer);

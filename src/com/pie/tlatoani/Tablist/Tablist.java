@@ -288,6 +288,11 @@ public class Tablist {
         tablistMap.put(player, newTablist);
     }
 
+    public static boolean isPlayerHiddenFor(Player player, Player target) {
+        PlayerTab tab = getTablistForPlayer(target).getTab(player);
+        return tab == null || !tab.visibleFor(target);
+    }
+
     //New tablist method
     public PlayerTab getTab(Player player) {
         if (hiddenPlayers.contains(player)) {
