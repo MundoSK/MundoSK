@@ -3,6 +3,7 @@ package com.pie.tlatoani.Skin;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.EnumWrappers;
@@ -339,40 +340,29 @@ public class SkinManager {
     //Private Methods
 
     private static void refreshPlayer(Player player) {
-        Mundo.debug(SkinManager.class, "Now hiding player " + player.getName());
-        for (Player target : Bukkit.getOnlinePlayers()) {
-            if (!target.equals(player)) {
-                target.hidePlayer(player);
-            }
-        }
-        Mundo.scheduler.scheduleSyncDelayedTask(Mundo.instance, new Runnable() {
-            @Override
-            public void run() {
-
-                Mundo.debug(SkinManager.class, "Now showing player " + player.getName());
-                for (Player target : Bukkit.getOnlinePlayers()) {
-                    if (!target.equals(player)){
-                        target.showPlayer(player);
-                    }
-                }
-            }
-        }, 1);
+        specificallyRefreshPlayer(player, Bukkit.getOnlinePlayers());
     }
 
-    private static void specificallyRefreshPlayer(Player player, Collection<Player> targets) {
+    private static void specificallyRefreshPlayer(Player player, Collection<? extends Player> targets) {
+        Mundo.debug(SkinManager.class, "Now hiding player " + player.getName());
         for (Player target : targets) {
             if (!target.equals(player)) {
                 target.hidePlayer(player);
             }
         }
-        Mundo.syncDelay(1, new Runnable() {
-            @Override
-            public void run() {
-                for (Player target : targets) {
-                    if (!target.equals(player)){
-                        target.showPlayer(player);
+        Mundo.syncDelay(1, () ->  {
+            Mundo.debug(SkinManager.class, "Now hiding player " + player.getName());
+            ArrayList<Player> targetsToRemoveFrom = new ArrayList<>();
+            for (Player target : targets) {
+                if (!target.equals(player)){
+                    target.showPlayer(player);
+                    if (Tablist.getTablistForPlayer(target).isPlayerHidden(player)) {
+                        targetsToRemoveFrom.add(target);
                     }
                 }
+            }
+            if (!targets.isEmpty()) {
+                Tablist.hideInTablist(Collections.singleton(player), targetsToRemoveFrom);
             }
         });
     }

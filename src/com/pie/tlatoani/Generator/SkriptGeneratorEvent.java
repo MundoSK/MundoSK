@@ -4,6 +4,9 @@ import ch.njol.skript.lang.TriggerItem;
 import com.pie.tlatoani.Util.BaseEvent;
 import org.bukkit.Chunk;
 import org.bukkit.World;
+import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.world.ChunkEvent;
+import org.bukkit.event.world.WorldEvent;
 import org.bukkit.generator.ChunkGenerator;
 
 import java.util.Random;

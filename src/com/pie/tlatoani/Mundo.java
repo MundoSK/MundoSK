@@ -30,6 +30,7 @@ import ch.njol.skript.util.Slot;
 
 import ch.njol.skript.variables.SerializedVariable;
 import ch.njol.skript.variables.Variables;
+import ch.njol.util.Checker;
 import ch.njol.util.Kleenean;
 import ch.njol.util.Pair;
 import ch.njol.yggdrasil.Fields;
@@ -141,16 +142,7 @@ public class Mundo extends JavaPlugin{
 		registerEffect(EffAwardAch.class, "award achieve[ment] %achievement% to %player%");
 		registerEffect(EffRemoveAch.class, "remove achieve[ment] %achievement% from %player%");
 		registerEvent("Achievement Award", EvtAchAward.class, PlayerAchievementAwardedEvent.class, "achieve[ment] [%-achievement%] award", "award of achieve[ment] [%-achievement%]");
-		EventValues.registerEventValue(PlayerAchievementAwardedEvent.class, Player.class, new Getter<Player, PlayerAchievementAwardedEvent>() {
-			public Player get(PlayerAchievementAwardedEvent e) {
-				return e.getPlayer();
-			}
-		}, 0);
-		EventValues.registerEventValue(PlayerAchievementAwardedEvent.class, Achievement.class, new Getter<Achievement, PlayerAchievementAwardedEvent>() {
-			public Achievement get(PlayerAchievementAwardedEvent e) {
-				return e.getAchievement();
-			}
-		}, 0);
+		registerEventValue(PlayerAchievementAwardedEvent.class, Achievement.class, PlayerAchievementAwardedEvent::getAchievement);
 		registerExpression(ExprParentAch.class,Achievement.class,ExpressionType.PROPERTY,"parent of achieve[ment] %achievement%");
 		registerExpression(ExprAllAch.class,Achievement.class,ExpressionType.PROPERTY,"achieve[ment]s of %player%", "%player%'s achieve[ment]s");
 		registerExpression(ExprHasAch.class,Boolean.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %achievement%");
@@ -174,7 +166,8 @@ public class Mundo extends JavaPlugin{
                 "[from] (0¦layer %-number%|1¦top|2¦bottom|3¦sea level) to (0¦layer %-number%|4¦top|8¦bottom|12¦sea level) (of|in) %chunk%",
                 "layers [from] %number% to %number% (of|in) %chunk%"
         );
-        registerExpression(CondSlimey.class, Boolean.class, ExpressionType.PROPERTY, "%chunk% is slimey");
+        registerExpression(CondSlimey.class, Boolean.class, ExpressionType.PROPERTY, "%chunks% (is|are) slimey");
+        registerExpression(CondChunkLoaded.class, Boolean.class, ExpressionType.PROPERTY, "[chunk[s]] %chunks% (is|are) loaded");
 		//CodeBlock
         registerType(CodeBlock.class, "codeblock");
         registerScope(ScopeSaveCodeBlock.class, "codeblock %object% [with (1¦constant|2¦constant %-object%|3¦constants %-objects%)] [:: %-strings%] [-> %-string%]");
@@ -204,30 +197,10 @@ public class Mundo extends JavaPlugin{
                 return skriptGeneratorEvent.world;
             }
         }, 0);
-        EventValues.registerEventValue(SkriptGeneratorEvent.class, ChunkData.class, new Getter<ChunkData, SkriptGeneratorEvent>() {
-            @Override
-            public ChunkData get(SkriptGeneratorEvent skriptGeneratorEvent) {
-                return skriptGeneratorEvent.chunkData;
-            }
-        }, 0);
-        EventValues.registerEventValue(SkriptGeneratorEvent.class, Random.class, new Getter<Random, SkriptGeneratorEvent>() {
-            @Override
-            public Random get(SkriptGeneratorEvent skriptGeneratorEvent) {
-                return skriptGeneratorEvent.random;
-            }
-        }, 0);
-        EventValues.registerEventValue(SkriptGeneratorEvent.class, BiomeGrid.class, new Getter<BiomeGrid, SkriptGeneratorEvent>() {
-            @Override
-            public BiomeGrid get(SkriptGeneratorEvent skriptGeneratorEvent) {
-                return skriptGeneratorEvent.biomeGrid;
-            }
-        }, 0);
-        EventValues.registerEventValue(SkriptGeneratorEvent.class, Chunk.class, new Getter<Chunk, SkriptGeneratorEvent>() {
-            @Override
-            public Chunk get(SkriptGeneratorEvent skriptGeneratorEvent) {
-                return skriptGeneratorEvent.chunk;
-            }
-        }, 0);
+        registerEventValue(SkriptGeneratorEvent.class, World.class, e -> e.world);
+        registerEventValue(SkriptGeneratorEvent.class, Random.class, e -> e.random);
+        registerEventValue(SkriptGeneratorEvent.class, BiomeGrid.class, e -> e.biomeGrid);
+        registerEventValue(SkriptGeneratorEvent.class, Chunk.class, e -> e.chunk);
         registerExpression(ExprCurrentChunkCoordinate.class, Number.class, ExpressionType.SIMPLE, "current x", "current z");
         registerExpression(ExprMaterialInChunkData.class, ItemStack.class, ExpressionType.PROPERTY, "material at %number%, %number%, %number% in %chunkdata%");
         registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%");
@@ -306,42 +279,15 @@ public class Mundo extends JavaPlugin{
         registerEnum(PlayerLoginEvent.Result.class, "playerloginresult", PlayerLoginEvent.Result.values());
         registerEffect(EffWait.class, "wait (0¦until|1¦while) %boolean% [for %-timespan%]");
 		registerEvent("Hang Event", SimpleEvent.class, HangingPlaceEvent.class, "hang");
-		EventValues.registerEventValue(HangingPlaceEvent.class, Block.class, new Getter<Block, HangingPlaceEvent>() {
-			@Override
-			public Block get(HangingPlaceEvent hangingPlaceEvent) {
-				return hangingPlaceEvent.getBlock();
-			}
-		}, 0);
+		registerEventValue(HangingPlaceEvent.class, Block.class, HangingPlaceEvent::getBlock);
 		registerEvent("Unhang Event", SimpleEvent.class, HangingBreakEvent.class, "unhang");
-        EventValues.registerEventValue(HangingBreakEvent.class, Entity.class, new Getter<Entity, HangingBreakEvent>() {
-            @Override
-            public Entity get(HangingBreakEvent hangingBreakEvent) {
-                if (hangingBreakEvent instanceof HangingBreakByEntityEvent) {
-                    return ((HangingBreakByEntityEvent) hangingBreakEvent).getRemover();
-                }
-                return null;
-            }
-        }, 0);
+		registerEventValue(HangingBreakByEntityEvent.class, Entity.class, HangingBreakByEntityEvent::getRemover);
         registerEvent("Chat Tab Complete Event", SimpleEvent.class, PlayerChatTabCompleteEvent.class, "chat tab complete");
-        EventValues.registerEventValue(PlayerChatTabCompleteEvent.class, String.class, new Getter<String, PlayerChatTabCompleteEvent>() {
-            @Override
-            public String get(PlayerChatTabCompleteEvent playerChatTabCompleteEvent) {
-                return playerChatTabCompleteEvent.getChatMessage();
-            }
-        }, 0);
+        registerEventValue(PlayerChatTabCompleteEvent.class, String.class, PlayerChatTabCompleteEvent::getChatMessage);
         registerEvent("Armor Stand Interact Event", SimpleEvent.class, PlayerArmorStandManipulateEvent.class, "armor stand (manipulate|interact)");
-        EventValues.registerEventValue(PlayerArmorStandManipulateEvent.class, ItemStack.class, new Getter<ItemStack, PlayerArmorStandManipulateEvent>() {
-            @Override
-            public ItemStack get(PlayerArmorStandManipulateEvent playerArmorStandManipulateEvent) {
-                return playerArmorStandManipulateEvent.getArmorStandItem();
-            }
-        }, 0);
-        EventValues.registerEventValue(PlayerArmorStandManipulateEvent.class, Slot.class, new Getter<Slot, PlayerArmorStandManipulateEvent>() {
-            @Override
-            public Slot get(PlayerArmorStandManipulateEvent playerArmorStandManipulateEvent) {
-                return new ArmorStandEquipmentSlot(playerArmorStandManipulateEvent.getRightClicked(), ArmorStandEquipmentSlot.EquipSlot.getByEquipmentSlot(playerArmorStandManipulateEvent.getSlot()));
-            }
-        }, 0);
+        registerEventValue(PlayerArmorStandManipulateEvent.class, ItemStack.class, PlayerArmorStandManipulateEvent::getArmorStandItem);
+        registerEventValue(PlayerArmorStandManipulateEvent.class, Slot.class, e ->
+                new ArmorStandEquipmentSlot(e.getRightClicked(), ArmorStandEquipmentSlot.EquipSlot.getByEquipmentSlot(e.getSlot())));
         registerEvent("Armor Stand Place Event", EvtArmorStandPlace.class, EntitySpawnEvent.class, "armor stand place");
         registerExpression(ExprLastToken.class, String.class, ExpressionType.SIMPLE, "last token");
         registerExpression(ExprHangedEntity.class,Entity.class,ExpressionType.SIMPLE,"hanged entity");
@@ -394,31 +340,13 @@ public class Mundo extends JavaPlugin{
         registerEnum(Instrument.class, "instrument", Instrument.values());
         registerEffect(EffPlayNoteBlock.class, "play [[%-note% with] %-instrument% on] noteblock %block%");
         registerEvent("Note Play", SimpleEvent.class, NotePlayEvent.class, "note play");
-        EventValues.registerEventValue(NotePlayEvent.class, Note.class, new Getter<Note, NotePlayEvent>(){
-
-            @Override
-            public Note get(NotePlayEvent notePlayEvent) {
-                return notePlayEvent.getNote();
-            }
-        }, 0);
-        EventValues.registerEventValue(NotePlayEvent.class, Instrument.class, new Getter<Instrument, NotePlayEvent>(){
-
-            @Override
-            public Instrument get(NotePlayEvent notePlayEvent) {
-                return notePlayEvent.getInstrument();
-            }
-        }, 0);
-        EventValues.registerEventValue(NotePlayEvent.class, Block.class, new Getter<Block, NotePlayEvent>(){
-
-            @Override
-            public Block get(NotePlayEvent notePlayEvent) {
-                return notePlayEvent.getBlock();
-            }
-        }, 0);
+        registerEventValue(NotePlayEvent.class, Note.class, NotePlayEvent::getNote);
+        registerEventValue(NotePlayEvent.class, Instrument.class, NotePlayEvent::getInstrument);
+        registerEventValue(NotePlayEvent.class, Block.class, NotePlayEvent::getBlock);
         registerExpression(ExprNoteOfBlock.class, Note.class, ExpressionType.PROPERTY, "note of %block%", "%block%'s note");
         //Probability
 		registerScope(ScopeProbability.class, "prob[ability]", "random chance");
-		registerCondition(CondProbabilityValue.class, "%number%[1¦\\%] prob[ability]");
+		registerCondition(CondProbabilityValue.class, "%number% prob[ability]");
 		registerExpression(ExprRandomIndex.class,String.class,ExpressionType.PROPERTY,"random from %numbers% prob[abilitie]s");
 		registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
 		//ProtocolLib
@@ -435,24 +363,9 @@ public class Mundo extends JavaPlugin{
 			registerEffect(EffSendPacket.class, "send packet %packet% to %player%", "send %player% packet %packet%");
             registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet %packet% from %player%"); //Included incorrect spelling to avoid wasted time
 			registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%");
-			EventValues.registerEventValue(UtilPacketEvent.class, PacketContainer.class, new Getter<PacketContainer, UtilPacketEvent>() {
-				@Override
-				public PacketContainer get(UtilPacketEvent e) {
-					return e.getPacket();
-				}
-			}, 0);
-			EventValues.registerEventValue(UtilPacketEvent.class, PacketType.class, new Getter<PacketType, UtilPacketEvent>() {
-				@Override
-				public PacketType get(UtilPacketEvent e) {
-					return e.getPacketType();
-				}
-			}, 0);
-			EventValues.registerEventValue(UtilPacketEvent.class, Player.class, new Getter<Player, UtilPacketEvent>() {
-				@Override
-				public Player get(UtilPacketEvent e) {
-					return e.getPlayer();
-				}
-			}, 0);
+			registerEventValue(UtilPacketEvent.class, PacketContainer.class, UtilPacketEvent::getPacket);
+			registerEventValue(UtilPacketEvent.class, PacketType.class, UtilPacketEvent::getPacketType);
+			registerEventValue(UtilPacketEvent.class, Player.class, UtilPacketEvent::getPlayer);
             registerExpression(ExprTypeOfPacket.class, PacketType.class, ExpressionType.SIMPLE, "packettype of %packet%", "%packet%'s packettype");
 			registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
             registerExpression(ExprJSONObjectOfPacket.class, JSONObject.class, ExpressionType.PROPERTY,
@@ -516,7 +429,7 @@ public class Mundo extends JavaPlugin{
             registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%");
             //registerExpression(ExprSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "[player] skin [texture] of %player%", "%player%'s [player] skin [texture]");
             registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin");
-            registerExpression(ExprCombinedSkin.class, Skin.class, ExpressionType.PROPERTY, "(combined skin|skin combination) of %skins%", "%skins%'s (combined skin|skin combination)");
+            registerExpression(ExprCombinedSkin.class, Skin.class, ExpressionType.PROPERTY, "(combined skin|skin combination) (from|of) %skins%", "%skins%'s (combined skin|skin combination)");
             registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(for %-players%|excluding %-players%)]", "%player%'s displayed skin [(for %-players%|excluding %-players%)]");
             //registerExpression(ExprSkinOfSkull.class, Skin.class, ExpressionType.PROPERTY, "[skull] skin of %itemstack%", "%itemstack%'s [skull] skin");
             registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%");
@@ -603,12 +516,7 @@ public class Mundo extends JavaPlugin{
 		//WorldBorder
 		registerEffect(EffResetBorder.class, "reset %world%");
 		registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilizeEvent.class, "border stabilize [in %-world%]");
-		EventValues.registerEventValue(UtilBorderStabilizeEvent.class, World.class, new Getter<World, UtilBorderStabilizeEvent>() {
-			@Override
-			public World get(UtilBorderStabilizeEvent e) {
-				return e.getWorld();
-			}
-		}, 0);
+		registerEventValue(UtilBorderStabilizeEvent.class, World.class, UtilBorderStabilizeEvent::getWorld);
 		registerExpression(ExprSizeOfBorder.class,Double.class,ExpressionType.PROPERTY,"size of %world% [over %-timespan%]");
 		registerExpression(ExprCenterOfBorder.class,Location.class,ExpressionType.PROPERTY,"center of %world%");
 		registerExpression(ExprDamageAmountOfBorder.class,Double.class,ExpressionType.PROPERTY,"damage amount of %world%");
@@ -617,7 +525,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprWarningTimeOfBorder.class,Integer.class,ExpressionType.PROPERTY,"warning time of %world%");
 		registerExpression(ExprFinalSizeOfBorder.class,Double.class,ExpressionType.PROPERTY,"final size of %world%");
 		registerExpression(ExprTimeRemainingUntilBorderStabilize.class,Timespan.class,ExpressionType.PROPERTY,"time remaining until border stabilize in %world%");
-		registerExpression(ExprBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%location% is (1¦within|0¦beyond) border");
+		registerExpression(CondBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%locations% (is|are) (0¦within|1¦beyond) border");
 		//WorldCreator
         registerType(WorldCreator.class, "creator").parser(new SimpleParser<WorldCreator>() {
             @Override
@@ -741,6 +649,15 @@ public class Mundo extends JavaPlugin{
 
     public static void registerScope(Class<? extends CustomScope> conditionClass, String... patterns) {
         Skript.registerCondition(conditionClass, patterns);
+    }
+
+    public static <T extends Event, R> void registerEventValue(Class<T> tClass, Class<R> rClass, Function<T, R> function) {
+	    EventValues.registerEventValue(tClass, rClass, new Getter<R, T>() {
+            @Override
+            public R get(T t) {
+                return function.apply(t);
+            }
+        }, 0);
     }
 
     public static <T> ClassInfo<T> registerType(Class<T> type, String name, String... alternateNames) {
@@ -979,6 +896,17 @@ public class Mundo extends JavaPlugin{
         }
     }
 
+    //Checker Util
+
+    public static <T> boolean check(Expression<T> expression, Event event, Function<T, Boolean> function) {
+	    return expression.check(event, new Checker<T>() {
+            @Override
+            public boolean check(T t) {
+                return function.apply(t);
+            }
+        });
+    }
+
     //Logging Util
 
     public static void info(String s) {
@@ -1046,7 +974,7 @@ public class Mundo extends JavaPlugin{
         return num;
     }
 
-    public static boolean isInRange(int min, int num, int max) {
+    public static boolean isInRange(double min, double num, double max) {
         return !(num > max || num < min);
     }
 
