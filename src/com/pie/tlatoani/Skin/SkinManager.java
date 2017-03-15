@@ -352,13 +352,17 @@ public class SkinManager {
         }
         Mundo.syncDelay(1, () ->  {
             Mundo.debug(SkinManager.class, "Now hiding player " + player.getName());
-            ArrayList<Player> targetsToRemoveFrom = new ArrayList<>();
             for (Player target : targets) {
                 if (!target.equals(player)){
                     target.showPlayer(player);
-                    if (Tablist.getTablistForPlayer(target).isPlayerHidden(player)) {
-                        targetsToRemoveFrom.add(target);
-                    }
+                }
+            }
+        });
+        Mundo.syncDelay(2, () -> {
+            ArrayList<Player> targetsToRemoveFrom = new ArrayList<>();
+            for (Player target : targets) {
+                if (Tablist.getTablistForPlayer(target).isPlayerHidden(player)) {
+                    targetsToRemoveFrom.add(target);
                 }
             }
             if (!targets.isEmpty()) {
