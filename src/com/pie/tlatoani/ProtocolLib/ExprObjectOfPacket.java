@@ -12,6 +12,7 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.reflect.EquivalentConverter;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.nbt.NbtBase;
@@ -19,6 +20,7 @@ import com.comphenix.protocol.wrappers.nbt.NbtCompound;
 import com.comphenix.protocol.wrappers.nbt.NbtFactory;
 import com.comphenix.protocol.wrappers.nbt.NbtType;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.UtilReflection;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -288,6 +290,60 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 packet.getBlocks().writeSafely(index, material);
             }
         });
+
+        //Thanks to ashcr0w for help with the following converter
+
+        try {
+            Class nmsItemClass = UtilReflection.getMinecraftClass("Item");
+            UtilReflection.MethodInvoker asNMSCopy = UtilReflection.getTypedMethod(
+                    UtilReflection.getCraftBukkitClass("inventory.CraftItemStack"),
+                    "asNMSCopy",
+                    UtilReflection.getMinecraftClass("ItemStack"),
+                    ItemStack.class
+            );
+            UtilReflection.MethodInvoker getNMSItem = UtilReflection.getTypedMethod(
+                    UtilReflection.getMinecraftClass("ItemStack"),
+                    "getItem",
+                    nmsItemClass
+            );
+            UtilReflection.MethodInvoker asNewCraftStack = UtilReflection.getTypedMethod(
+                    UtilReflection.getCraftBukkitClass("inventory.CraftItemStack"),
+                    "asNewCraftStack",
+                    UtilReflection.getCraftBukkitClass("inventory.CraftItemStack"),
+                    nmsItemClass
+            );
+            EquivalentConverter<ItemStack> itemConvert = new EquivalentConverter<ItemStack>() {
+                @Override
+                public ItemStack getSpecific(Object o) {
+                    return (ItemStack) asNewCraftStack.invoke(null, o);
+                }
+
+                @Override
+                public Object getGeneric(Class<?> aClass, ItemStack itemStack) {
+                    return getNMSItem.invoke(asNMSCopy.invoke(null, itemStack));
+                }
+
+                @Override
+                public Class<ItemStack> getSpecificType() {
+                    return ItemStack.class;
+                }
+            };
+            registerSingleConverter("item", new PacketInfoConverter<ItemStack>() {
+                @Override
+                public ItemStack get(PacketContainer packet, Integer index) {
+                    StructureModifier<ItemStack> structureModifier = packet.getModifier().withType(nmsItemClass, itemConvert);
+                    return structureModifier.readSafely(index);
+                }
+
+                @Override
+                public void set(PacketContainer packet, Integer index, ItemStack value) {
+                    StructureModifier<ItemStack> structureModifier = packet.getModifier().withType(nmsItemClass, itemConvert);
+                    structureModifier.writeSafely(index, value);
+                }
+            });
+        } catch (Exception e) {
+            Mundo.reportException(ExprObjectOfPacket.class, e);
+        }
 
         //Plural Converters
 

@@ -1,6 +1,7 @@
 package com.pie.tlatoani.Util;
 
 import ch.njol.skript.lang.Expression;
+import com.google.common.collect.Iterators;
 import org.bukkit.event.Event;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class UtilWhileClock implements Iterator {
 
     public UtilWhileClock(ArrayList<?> list, Event event, Expression<Boolean> booleanExpression) {
         this.infiniteIterator = new CircularIterator(list);
+        Iterators.cycle(list);
         this.event = event;
         this.booleanExpression = booleanExpression;
     }

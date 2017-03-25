@@ -15,10 +15,12 @@ import java.util.List;
  */
 public class EvtPacketEvent extends SkriptEvent{
     private List<PacketType> packetTypes;
+    private String packetTypesToString;
 
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
         PacketType[] packetTypeArray = ((Literal<PacketType>) literals[0]).getAll();
+        packetTypesToString = literals[0].toString();
         UtilPacketEvent.addListener(packetTypeArray);
         packetTypes = Arrays.asList(packetTypeArray);
         return true;
@@ -36,6 +38,6 @@ public class EvtPacketEvent extends SkriptEvent{
 
     @Override
     public String toString(Event event, boolean b) {
-        return "packet event %packettypes%";
+        return "packet event " + packetTypesToString;
     }
 }

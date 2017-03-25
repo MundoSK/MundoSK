@@ -4,28 +4,34 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import ch.njol.util.coll.CollectionUtils;
 import org.bukkit.event.Event;
+
+import java.util.function.Function;
 
 /**
  * Created by Tlatoani on 6/11/16.
  */
-public abstract class ConsumerExpression<T, U> extends SimpleExpression<T> {
-    private Expression<U> expression;
+public class ExpressionModifier<T, R> extends SimpleExpression<R> {
+    private Expression<T> expression;
+    private Function<T, R> function;
 
-    public ConsumerExpression(Expression<U> expression) {
+    public ExpressionModifier(Expression<T> expression, Function<T, R> function) {
         this.expression = expression;
+        this.function = function;
     }
 
     @Override
-    protected T[] get(Event event) {
-        return consume(expression.getSingle(event));
+    protected R[] get(Event event) {
+        //return consume(expression.getSingle(event));
+        return CollectionUtils.array(function.apply(expression.getSingle(event)));
     }
 
-    protected abstract T[] consume(U arg);
+    //protected abstract T[] consume(U arg);
 
-    protected T[] array(T... elements) {
-        return elements;
-    }
+    //protected R[] array(R... elements) {
+    //    return elements;
+    //}
 
     @Override
     public boolean isSingle() {
@@ -33,7 +39,7 @@ public abstract class ConsumerExpression<T, U> extends SimpleExpression<T> {
     }
 
     @Override
-    public Class<? extends T> getReturnType() {
+    public Class<? extends R> getReturnType() {
         return null;
     }
 

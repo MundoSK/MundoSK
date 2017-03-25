@@ -96,7 +96,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class Mundo extends JavaPlugin{
+public class Mundo extends JavaPlugin {
 	public static Mundo instance;
     public static String pluginFolder;
     public static Boolean debugMode;
@@ -107,7 +107,8 @@ public class Mundo extends JavaPlugin{
     public static ArrayList<Object[]> ena = new ArrayList<>();
     public static ArrayList<String> enumNames = new ArrayList<>();
     public static ArrayList<Class<?>> enumClasses = new ArrayList<>();
-	
+
+    @Override
 	public void onEnable() {
         pluginFolder = getDataFolder().getAbsolutePath();
         FileConfiguration config = getConfig();
@@ -306,6 +307,7 @@ public class Mundo extends JavaPlugin{
         registerExpression(ExprEntityCanCollide.class, Boolean.class, ExpressionType.PROPERTY, "%livingentity% is collidable");
         registerExpression(ExprTreeAtLoc.class, Block.class, ExpressionType.PROPERTY, "tree at %location%");
         registerExpression(ExprThatAre.class, Object.class, ExpressionType.COMBINED, "%objects% that are %object%");
+        registerExpression(ExprRespawnLocation.class, Location.class, ExpressionType.SIMPLE, "respawn location");
         registerScope(ScopeMatcher.class, "(switch|match) %object%");
         registerScope(ScopeMatches.class, "(case|matches) %object%");
         registerScope(ScopeAsync.class, "async [in %-timespan%]");
@@ -509,7 +511,7 @@ public class Mundo extends JavaPlugin{
 		registerExpression(ExprLineNumberOfSTE.class,Integer.class,ExpressionType.PROPERTY,"line number of %stacktraceelement%", "%stacktraceelement%'s line number");
 		//Util
         registerEffect(EffScope.class, "$ scope");
-        registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% while %boolean%");
+        registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% (0¦while|1¦until|2¦if|3¦unless) %boolean%");
         registerExpression(ExprTreeOfListVariable.class, Object.class, ExpressionType.PROPERTY, "tree of %objects%");
         registerExpression(ExprIndexesOfListVariable.class, String.class, ExpressionType.PROPERTY, "[all [of]] [the] indexes (of|in) [value] %objects%");
         registerExpression(ExprBranch.class, String.class, ExpressionType.PROPERTY, "branch");
@@ -959,13 +961,7 @@ public class Mundo extends JavaPlugin{
     //Math Util
 
     public static int intMod(int number, int mod) {
-        if (number > mod) {
-            return intMod(number - mod, mod);
-        } else if (number < 0) {
-            return intMod(number + mod, mod);
-        } else {
-            return number;
-        }
+        return (number % mod) + (number >= 0 ? 0 : mod);
     }
 
     public static int limitToRange(int min, int num, int max) {
@@ -984,6 +980,15 @@ public class Mundo extends JavaPlugin{
 
     public static int divideNoRemainder(int dividend, int divisor) {
         return (dividend - (dividend % divisor)) / divisor;
+    }
+
+    public static int digitsInBase(int num, int base) {
+        int result = 0;
+        while (num > 0) {
+            num /= base;
+            result++;
+        }
+        return result;
     }
 
     //ListVariable Util
