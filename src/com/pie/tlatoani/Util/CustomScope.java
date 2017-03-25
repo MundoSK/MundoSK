@@ -41,6 +41,7 @@ public abstract class CustomScope extends Condition {
 	private static boolean getScopesWasRun = true;
 
 	protected boolean canStandFree = false;
+	protected ScriptFunction function = null;
 	protected TriggerSection scopeParent;
 	protected Conditional scope = null;
 	protected TriggerItem first;
@@ -183,7 +184,7 @@ public abstract class CustomScope extends Condition {
 		if (currentSectionsSize > 0) {
 		    scopeParent = ScriptLoader.currentSections.get(currentSectionsSize - 1);
         } else if (Functions.currentFunction != null) {
-		    scopeParent = scriptFunctionTrigger.get(Functions.currentFunction);
+		    function = Functions.currentFunction;
         } else {
             querySetScope();
         }
@@ -193,10 +194,14 @@ public abstract class CustomScope extends Condition {
 	@Override
 	public boolean check(Event e) {
 		if (scope == null) {
-			if (scopeParent != null)
-				getScope();
-			else
-				getScopes();
+		    if (function != null) {
+                scopeParent = scriptFunctionTrigger.get(function);
+            }
+			if (scopeParent != null) {
+                getScope();
+            } else {
+                getScopes();
+            }
 		}
 		Mundo.debug(this, "Go");
 		return go(e);
