@@ -1,6 +1,7 @@
 package com.pie.tlatoani.ProtocolLib;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.aliases.ItemType;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.lang.Expression;
@@ -275,6 +276,11 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 BlockPosition blockPosition = new BlockPosition(value.toVector());
                 structureModifier.writeSafely(index, blockPosition);
             }
+
+            @Override
+            public Class<Location> getType() {
+                return Location.class;
+            }
         });
 
         registerSingleConverter("material", new PacketInfoConverter<ItemStack>() {
@@ -288,6 +294,11 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             public void set(PacketContainer packet, Integer index, ItemStack value) {
                 Material material = value.getType();
                 packet.getBlocks().writeSafely(index, material);
+            }
+
+            @Override
+            public Class<ItemStack> getType() {
+                return ItemStack.class;
             }
         });
 
@@ -337,8 +348,21 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
                 @Override
                 public void set(PacketContainer packet, Integer index, ItemStack value) {
+                    /*ItemStack itemStack;
+                    if (value instanceof ItemStack) {
+                        itemStack = (ItemStack) value;
+                    } else if (value instanceof ItemType) {
+                        itemStack = ((ItemType) value).getRandom();
+                    } else {
+                        itemStack = null;
+                    }*/
                     StructureModifier<ItemStack> structureModifier = packet.getModifier().withType(nmsItemClass, itemConvert);
                     structureModifier.writeSafely(index, value);
+                }
+
+                @Override
+                public Class<ItemStack> getType() {
+                    return ItemStack.class;
                 }
             });
         } catch (Exception e) {
@@ -515,7 +539,8 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         }
         converter = getConverter(key, isSingle);
         if (converter != null) {
-            Mundo.debug(this, "Converter to PLib type: " + key);
+            aClass = Optional.ofNullable(converter.getType()).orElse(aClass);
+            Mundo.debug(this, "Converter to PLib type: " + key + ", aClass = " + aClass);
             return true;
         }
         try {

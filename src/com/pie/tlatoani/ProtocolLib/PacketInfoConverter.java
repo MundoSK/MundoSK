@@ -5,9 +5,13 @@ import com.comphenix.protocol.events.PacketContainer;
 /**
  * Created by Tlatoani on 8/13/16.
  */
-public interface PacketInfoConverter<T> {
+public abstract class PacketInfoConverter<T> {
 
-    T get(PacketContainer packet, Integer index);
+    public abstract T get(PacketContainer packet, Integer index);
 
-    void set(PacketContainer packet, Integer index, T value);
+    public abstract void set(PacketContainer packet, Integer index, T value);
+
+    public Class<T> getType() {
+        return null;
+    }
 }
