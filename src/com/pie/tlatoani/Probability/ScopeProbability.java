@@ -40,7 +40,7 @@ public class ScopeProbability extends CustomScope {
 		}
 		CondProbabilityValue start = probs.get(j);
 		TriggerItem.walk(start.getTriggerItem(), e);
-        scope.setNext(scopeNext);
+        scope.setNext(scope.getNext());
 		return false;
 	}
 	

@@ -32,7 +32,7 @@ public class ScopeTry extends CustomScope {
 		if (scopeCatch != null) {;
 			scopeCatch.catchThrowable(e, ((caught != null) ? caught.getCause() : null));
 		}
-		scope.setNext(scopeNext);
+		scope.setNext(scope.getNext());
 		return false;
 	}
 

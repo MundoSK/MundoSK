@@ -32,11 +32,11 @@ public class ScopeGeneration extends CustomScope {
             Skript.error("The 'generation' scope should be immediately under the 'custom generator' event scope, not below any further scopes!");
         } else {
             if (scope.getNext() != null) {
-                if (!(scopeNext instanceof Conditional)) {
+                if (!(scope.getNext() instanceof Conditional)) {
                     Skript.error("The 'generation' scope should either be right before the 'population' scope or be the last item in a custom generator!");
                 } else {
                     try {
-                        Condition condition = (Condition) CustomScope.condition.get(scopeNext);
+                        Condition condition = (Condition) CustomScope.condition.get(scope.getNext());
                         if (!(condition instanceof ScopePopulation)) {
                             Skript.error("The 'generation' scope should either be right before the 'population' scope or be the last item in a custom generator!");
                         }
