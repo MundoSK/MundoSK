@@ -12,7 +12,7 @@ import org.bukkit.event.Event;
  * Created by Tlatoani on 8/25/16.
  */
 public class ScopeAsync extends CustomScope {
-    Expression<Timespan> delay;
+    private Expression<Timespan> delay;
 
     public ScopeAsync() {
         canStandFree = true;
@@ -36,12 +36,18 @@ public class ScopeAsync extends CustomScope {
 
     @Override
     public TriggerItem walk(Event event) {
+        go(event);
+        return null;
+    }
+
+    @Override
+    public boolean go(Event event) {
         Runnable runnable = () -> TriggerItem.walk(scope == null ? getNext() : first, event);
         if (delay == null) {
             Mundo.async(runnable);
         } else {
             Mundo.asyncDelay(new Long(delay.getSingle(event).getTicks_i()).intValue(), runnable);
         }
-        return null;
+        return false;
     }
 }

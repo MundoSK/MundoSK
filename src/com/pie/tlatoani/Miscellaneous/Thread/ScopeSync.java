@@ -11,7 +11,7 @@ import org.bukkit.event.Event;
  * Created by Tlatoani on 8/25/16.
  */
 public class ScopeSync extends CustomScope {
-    Expression<Timespan> delay;
+    private Expression<Timespan> delay;
 
     public ScopeSync() {
         canStandFree = true;
@@ -35,12 +35,18 @@ public class ScopeSync extends CustomScope {
 
     @Override
     public TriggerItem walk(Event event) {
+        go(event);
+        return null;
+    }
+
+    @Override
+    public boolean go(Event event) {
         Runnable runnable = () -> TriggerItem.walk(scope == null ? getNext() : first, event);
         if (delay == null) {
             Mundo.sync(runnable);
         } else {
             Mundo.syncDelay(new Long(delay.getSingle(event).getTicks_i()).intValue(), runnable);
         }
-        return null;
+        return false;
     }
 }
