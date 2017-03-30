@@ -128,6 +128,7 @@ public abstract class SyntaxPiece {
     public static class Varying extends SyntaxPiece {
         public final ImmutableList<SyntaxPiece> options;
         public final Optional<String> variable;
+        public final boolean isOptional = isOptional();
 
         public Varying(ImmutableList<SyntaxPiece> options, Optional<String> variable) {
             this.options = options;
@@ -174,7 +175,7 @@ public abstract class SyntaxPiece {
 
         @Override
         public String readableSyntax() {
-            StringJoiner joiner = new StringJoiner("|", isOptional() ? "[" : "(", isOptional() ? "]" : ")");
+            StringJoiner joiner = new StringJoiner("|", isOptional ? "[" : "(", isOptional ? "]" : ")");
             for (SyntaxPiece syntaxPiece : options) {
                 if (!syntaxPiece.equals(Literal.EMPTY)) {
                     joiner.add(syntaxPiece.readableSyntax());
@@ -185,7 +186,10 @@ public abstract class SyntaxPiece {
 
         @Override
         public String actualSyntax(int prevMarkLength) {
-            StringJoiner joiner = new StringJoiner("|", isOptional() ? "[(" : "(", isOptional() ? ")]" : ")");
+            if (isOptional && options.size() == 2) {
+                return "[" + options.get(1).actualSyntax(prevMarkLength) + "]";
+            }
+            StringJoiner joiner = new StringJoiner("|", isOptional ? "[(" : "(", isOptional ? ")]" : ")");
             if (containsVariables()) {
                 String markSuffix = String.join("", Collections.nCopies(prevMarkLength, "0"));
                 for (int i = isOptional() ? 1 : 0; i < options.size(); i++) {
@@ -290,7 +294,11 @@ public abstract class SyntaxPiece {
         public String toString(int mark) {
             String result = "";
             for (SyntaxPiece syntaxPiece : pieces) {
-                result = result + syntaxPiece.toString(mark % (2 ^ syntaxPiece.markLength));
+                String curr = syntaxPiece.toString(mark % (2 ^ syntaxPiece.markLength));
+                if (result.length() > 0 && result.charAt(result.length() - 1) == ' ' && curr.length() > 0 && curr.charAt(0) == ' ') {
+                    curr = curr.substring(1);
+                }
+                result += curr;
                 mark >>= syntaxPiece.markLength;
             }
             return result;

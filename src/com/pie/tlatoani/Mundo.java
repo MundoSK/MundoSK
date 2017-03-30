@@ -101,6 +101,8 @@ public class Mundo extends JavaPlugin {
     public static String pluginFolder;
     public static Boolean debugMode;
     public static Boolean implementPacketStuff;
+    public static int tablistRemoveTabDelaySpawn;
+    public static int tablistRemoveTabDelayRespawn;
     public static String hexDigits = "0123456789abcdef";
     public static BukkitScheduler scheduler;
 
@@ -114,9 +116,13 @@ public class Mundo extends JavaPlugin {
         FileConfiguration config = getConfig();
         config.addDefault("debug_mode", false);
         config.addDefault("enable_custom_skin_and_tablist", true);
+        config.addDefault("tablist_remove_tab_delay_spawn", 5);
+        config.addDefault("tablist_remove_tab_delay_respawn", 5);
         config.options().copyDefaults(true);
         debugMode = config.getBoolean("debug_mode");
         implementPacketStuff = config.getBoolean("enable_custom_skin_and_tablist");
+        tablistRemoveTabDelaySpawn = config.getInt("tablist_remove_tab_delay_spawn");
+        tablistRemoveTabDelayRespawn = config.getInt("tablist_remove_tab_delay_respawn");
         saveConfig();
         instance = this;
         UtilWorldLoader.load();
@@ -278,6 +284,7 @@ public class Mundo extends JavaPlugin {
         //Miscellaneous
         registerEnum(Difficulty.class, "difficulty", Difficulty.values());
         registerEnum(PlayerLoginEvent.Result.class, "playerloginresult", PlayerLoginEvent.Result.values());
+        registerEffect(EffWaitAsync.class, "async wait %timespan%");
         registerEffect(EffWait.class, "wait (0¦until|1¦while) %boolean% [for %-timespan%]");
 		registerEvent("Hang Event", SimpleEvent.class, HangingPlaceEvent.class, "hang");
 		registerEventValue(HangingPlaceEvent.class, Block.class, HangingPlaceEvent::getBlock);

@@ -94,7 +94,7 @@ public class Tablist {
                         PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                         removePacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
                         removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                        Mundo.syncDelay(5, new PacketSender(removePacket, event.getPlayer()));
+                        Mundo.syncDelay(Mundo.tablistRemoveTabDelaySpawn, new PacketSender(removePacket, event.getPlayer()));
                     }
                 }
             });
@@ -118,7 +118,7 @@ public class Tablist {
                         PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                         removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                         removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                        Mundo.syncDelay(5, new Runnable() {
+                        Mundo.syncDelay(Mundo.tablistRemoveTabDelayRespawn, new Runnable() {
                             @Override
                             public void run() {
                                 playersRespawning.remove(player.getUniqueId());
