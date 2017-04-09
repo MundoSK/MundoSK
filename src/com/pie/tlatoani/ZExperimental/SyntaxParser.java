@@ -1,6 +1,9 @@
 package com.pie.tlatoani.ZExperimental;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +13,7 @@ import java.util.Optional;
 public class SyntaxParser {
 
     public enum Symbol {
+        VARIABLE_IDENTIFIER('='),
         EXPRESSION_IDENTIFIER('%'),
         VARYING_OPENER('('),
         VARYING_CLOSER(')'),
@@ -22,106 +26,211 @@ public class SyntaxParser {
         Symbol(char chara) {
             this.chara = chara;
         }
-    }
 
-    public static abstract class StringSymbolAlternating {
-        public final Optional<? extends StringSymbolAlternating> next;
-
-        protected StringSymbolAlternating(Optional<? extends StringSymbolAlternating> next) {
-            this.next = next;
+        public static Optional<Symbol> fromChar(char chara) {
+            for (Symbol symbol : values()) {
+                if (symbol.chara == chara) {
+                    return Optional.of(symbol);
+                }
+            }
+            return Optional.empty();
         }
-
-        public abstract boolean consume(AlternatingConsumer consumer);
     }
 
-    public final static class FromString extends StringSymbolAlternating {
-        public final String string;
+    public static class ParsingIterator {
+        private String string;
 
-        public FromString(String string, Optional<FromSymbol> next) {
-            super(next);
+        public ParsingIterator(String string) {
             this.string = string;
         }
 
-        @Override
-        public boolean consume(AlternatingConsumer consumer) {
-            return consumer.consumeString(string, next);
-        }
-    }
-
-    public final static class FromSymbol extends StringSymbolAlternating {
-        public final Symbol symbol;
-
-        public FromSymbol(Symbol symbol, Optional<FromString> next) {
-            super(next);
-            this.symbol = symbol;
+        public boolean hasNext() {
+            return !string.isEmpty();
         }
 
-        @Override
-        public boolean consume(AlternatingConsumer consumer) {
-            return consumer.consumeSymbol(symbol, next);
-        }
-    }
-
-    public static Optional<? extends StringSymbolAlternating> deconstruct(StringSymbolAlternating alternating, AlternatingConsumer consumer) {
-        if (alternating.consume(consumer)) {
-            return alternating.next.flatMap(next -> deconstruct(next, consumer));
-        }
-        return alternating.next;
-    }
-
-    public interface AlternatingConsumer {
-        boolean consumeString(String string, Optional<? extends StringSymbolAlternating> next);
-        boolean consumeSymbol(Symbol symbol, Optional<? extends StringSymbolAlternating> next);
-    }
-
-    public static class ConsumeResult {
-        public final SyntaxPiece result;
-        public final Optional<StringSymbolAlternating> next;
-        public final String error;
-
-        private ConsumeResult(SyntaxPiece result, Optional<StringSymbolAlternating> next, String error) {
-            this.result = result;
-            this.next = next;
-            this.error = error;
-        }
-
-        public static ConsumeResult success(SyntaxPiece result, Optional<StringSymbolAlternating> next) {
-            return new ConsumeResult(result, next, null);
-        }
-
-        public static ConsumeResult failure(String error) {
-            return new ConsumeResult(null, null, error);
-        }
-
-        public boolean successful() {
-            return error == null;
-        }
-    }
-
-    public ConsumeResult untilSymbols(StringSymbolAlternating alternating, Symbol... terminators) {
-        final List<SyntaxPiece> syntaxPieces = new ArrayList<SyntaxPiece>();
-        final boolean[] terminated = {false};
-        AlternatingConsumer consumer = new AlternatingConsumer() {
-
-            @Override
-            public boolean consumeString(String string) {
-                syntaxPieces.add(new SyntaxPiece.Literal(string));
-                return true;
-            }
-
-            @Override
-            public boolean consumeSymbol(Symbol symbol) {
-                for (Symbol terminator : terminators) {
-                    if (terminator == symbol) {
-                        terminated[0] = true;
-                        return false;
-                    }
+        public void next(ParsingConsumer consumer) {
+            if (string.charAt(0) == '\\') {
+                consumer.consumeChar(string.charAt(1));
+                string = string.substring(2);
+            } else {
+                Optional<Symbol> symbolOptional = Symbol.fromChar(string.charAt(0));
+                if (symbolOptional.isPresent()) {
+                    consumer.consumeSymbol(symbolOptional.get());
+                } else {
+                    consumer.consumeChar(string.charAt(0));
                 }
-                return true;
+                string = string.substring(1);
             }
-        };
-        while (!terminated[0]) {
-
         }
     }
+
+    public interface ParsingConsumer {
+        void consumeChar(char chara);
+        void consumeSymbol(Symbol symbol);
+    }
+
+    public static SyntaxPiece concatenate(List<SyntaxPiece> pieces) {
+        if (pieces.size() == 1) {
+            return pieces.get(0);
+        }
+        return new SyntaxPiece.Concatenation(ImmutableList.copyOf(pieces));
+    }
+
+    public static SyntaxPiece parse(String string) {
+        return new ParsingConsumer() {
+            ArrayList<SyntaxPiece> syntaxPieces = new ArrayList<>();
+            StringBuilder literalBuilder = new StringBuilder();
+            ParsingIterator parsingIterator = new ParsingIterator(string);
+
+            public SyntaxPiece parse() {
+                while (parsingIterator.hasNext()) {
+                    parsingIterator.next(this);
+                }
+                return concatenate(syntaxPieces);
+            }
+
+            @Override
+            public void consumeChar(char chara) {
+                literalBuilder.append(chara);
+            }
+
+            @Override
+            public void consumeSymbol(Symbol symbol) {
+                if (literalBuilder.length() > 0) {
+                    syntaxPieces.add(new SyntaxPiece.Literal(literalBuilder.toString()));
+                    literalBuilder = new StringBuilder();
+                }
+                switch (symbol) {
+                    case EXPRESSION_IDENTIFIER:
+                        syntaxPieces.add(parseExpression(parsingIterator));
+                        break;
+                    case VARYING_OPENER:
+                    case OPTIONAL_OPENER:
+                        syntaxPieces.add(parseVarying(parsingIterator, symbol == Symbol.OPTIONAL_OPENER));
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Illegal " + symbol + " found");
+                }
+            }
+        }.parse();
+    }
+
+    public static SyntaxPiece.Expression parseExpression(ParsingIterator parsingIterator) {
+        String variable = new ParsingConsumer() {
+            StringBuilder stringBuilder = new StringBuilder();
+            boolean continu = true;
+
+            public String extract() {
+                while (continu) {
+                    parsingIterator.next(this);
+                }
+                return stringBuilder.toString();
+            }
+
+            @Override
+            public void consumeChar(char chara) {
+                stringBuilder.append(chara);
+            }
+
+            @Override
+            public void consumeSymbol(Symbol symbol) {
+                if (symbol == Symbol.VARIABLE_IDENTIFIER) {
+                    continu = false;
+                } else {
+                    throw new IllegalArgumentException("Baaaad");
+                }
+            }
+        }.extract();
+        String exprInfo = new ParsingConsumer() {
+            StringBuilder stringBuilder = new StringBuilder();
+            boolean continu = true;
+
+            public String extract() {
+                while (continu) {
+                    parsingIterator.next(this);
+                }
+                return stringBuilder.toString();
+            }
+
+            @Override
+            public void consumeChar(char chara) {
+                stringBuilder.append(chara);
+            }
+
+            @Override
+            public void consumeSymbol(Symbol symbol) {
+                if (symbol == Symbol.EXPRESSION_IDENTIFIER) {
+                    continu = false;
+                } else {
+                    throw new IllegalArgumentException("Baaaad");
+                }
+            }
+        }.extract();
+        return new SyntaxPiece.Expression(variable, exprInfo);
+    }
+
+    public static SyntaxPiece.Varying parseVarying(ParsingIterator parsingIterator, boolean optional) {
+        return new ParsingConsumer() {
+            ArrayList<SyntaxPiece> options = new ArrayList<SyntaxPiece>();
+            ArrayList<SyntaxPiece> syntaxPieces = new ArrayList<>();
+            StringBuilder literalBuilder = new StringBuilder();
+            Optional<String> variable = Optional.empty();
+            boolean continu;
+
+            public SyntaxPiece.Varying parse() {
+                if (optional) {
+                    options.add(SyntaxPiece.Literal.EMPTY);
+                }
+                while (parsingIterator.hasNext() && continu) {
+                    parsingIterator.next(this);
+                }
+                if (continu) {
+                    throw new IllegalArgumentException("Varying never terminated");
+                }
+                return new SyntaxPiece.Varying(ImmutableList.copyOf(options), variable);
+            }
+
+            @Override
+            public void consumeChar(char chara) {
+                literalBuilder.append(chara);
+            }
+
+            @Override
+            public void consumeSymbol(Symbol symbol) {
+                if (literalBuilder.length() > 0 && symbol != Symbol.VARIABLE_IDENTIFIER) {
+                    syntaxPieces.add(new SyntaxPiece.Literal(literalBuilder.toString()));
+                    literalBuilder = new StringBuilder();
+                }
+                switch (symbol) {
+                    case EXPRESSION_IDENTIFIER:
+                        syntaxPieces.add(parseExpression(parsingIterator));
+                        break;
+                    case VARYING_OPENER:
+                    case OPTIONAL_OPENER:
+                        syntaxPieces.add(parseVarying(parsingIterator, symbol == Symbol.OPTIONAL_OPENER));
+                        break;
+                    case VARIABLE_IDENTIFIER:
+                        if (variable.isPresent() || !syntaxPieces.isEmpty() || !options.isEmpty()) {
+                            throw new IllegalArgumentException("Illegal " + symbol + "found");
+                        } else {
+                            variable = Optional.of(literalBuilder.toString());
+                            literalBuilder = new StringBuilder();
+                        }
+                        break;
+                    case VARYING_SEPARATOR:
+                        options.add(concatenate(syntaxPieces));
+                        syntaxPieces = new ArrayList<>();
+                        break;
+                    default:
+                        options.add(concatenate(syntaxPieces));
+                        if ((symbol == Symbol.OPTIONAL_CLOSER) == optional) {
+                            continu = false;
+                        } else {
+                            throw new IllegalArgumentException("Illegal closer: " + symbol);
+                        }
+                }
+            }
+        }.parse();
+    }
+
 }

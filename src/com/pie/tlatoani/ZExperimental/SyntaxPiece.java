@@ -1,6 +1,7 @@
 package com.pie.tlatoani.ZExperimental;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.pie.tlatoani.Mundo;
 
 import java.util.*;
@@ -18,6 +19,8 @@ public abstract class SyntaxPiece {
     public abstract int markLength();
 
     public abstract int expressionAmount();
+
+    public abstract void setConstraints(ExpressionConstraints.Collective constraints);
 
     public abstract String readableSyntax();
 
@@ -62,6 +65,9 @@ public abstract class SyntaxPiece {
         }
 
         @Override
+        public void setConstraints(ExpressionConstraints.Collective constraints) {}
+
+        @Override
         public String readableSyntax() {
             return text;
         }
@@ -83,10 +89,12 @@ public abstract class SyntaxPiece {
     public static class Expression extends SyntaxPiece {
         public final String variable;
         public final String exprInfo;
+        public final ExpressionConstraints constraints;
 
         public Expression(String variable, String exprInfo) {
             this.variable = variable;
             this.exprInfo = exprInfo;
+            this.constraints = ExpressionConstraints.fromString(exprInfo);
         }
 
         @Override
@@ -102,6 +110,11 @@ public abstract class SyntaxPiece {
         @Override
         public int expressionAmount() {
             return 1;
+        }
+
+        @Override
+        public void setConstraints(ExpressionConstraints.Collective constraints) {
+            constraints.addConstraints(variable, this.constraints);
         }
 
         @Override
@@ -171,6 +184,13 @@ public abstract class SyntaxPiece {
                 result += syntaxPiece.expressionAmount;
             }
             return result;
+        }
+
+        @Override
+        public void setConstraints(ExpressionConstraints.Collective constraints) {
+            for (SyntaxPiece option : options) {
+                option.setConstraints(constraints);
+            }
         }
 
         @Override
@@ -260,6 +280,13 @@ public abstract class SyntaxPiece {
                 result += syntaxPiece.expressionAmount;
             }
             return result;
+        }
+
+        @Override
+        public void setConstraints(ExpressionConstraints.Collective constraints) {
+            for (SyntaxPiece piece : pieces) {
+                piece.setConstraints(constraints);
+            }
         }
 
         @Override

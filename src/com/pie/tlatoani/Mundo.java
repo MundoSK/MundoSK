@@ -70,6 +70,7 @@ import com.pie.tlatoani.Metrics.*;
 
 import com.pie.tlatoani.ZExperimental.CustomEffect;
 import com.pie.tlatoani.ZExperimental.CustomElementEvent;
+import com.pie.tlatoani.ZExperimental.SyntaxPiece;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
@@ -285,7 +286,7 @@ public class Mundo extends JavaPlugin {
         registerEnum(Difficulty.class, "difficulty", Difficulty.values());
         registerEnum(PlayerLoginEvent.Result.class, "playerloginresult", PlayerLoginEvent.Result.values());
         registerEffect(EffWaitAsync.class, "async wait %timespan%");
-        registerEffect(EffWait.class, "wait (0¦until|1¦while) %boolean% [for %-timespan%]");
+        registerEffect(EffWait.class, "[(2¦async)] wait (0¦until|1¦while) %boolean% [for %-timespan%]");
 		registerEvent("Hang Event", SimpleEvent.class, HangingPlaceEvent.class, "hang");
 		registerEventValue(HangingPlaceEvent.class, Block.class, HangingPlaceEvent::getBlock);
 		registerEvent("Unhang Event", SimpleEvent.class, HangingBreakEvent.class, "unhang");
