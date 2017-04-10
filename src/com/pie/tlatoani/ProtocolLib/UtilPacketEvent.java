@@ -31,7 +31,15 @@ public class UtilPacketEvent extends Event implements Cancellable{
 
     //Packet sending utility
 
-    public static void sendPacket(PacketContainer packet, Object exceptLocation, Player... recipients) {
+    public static void sendPacket(PacketContainer packet, Object exceptLocation, Player recipient) {
+        try {
+            ProtocolLibrary.getProtocolManager().sendServerPacket(recipient, packet);
+        } catch (InvocationTargetException e) {
+            Mundo.reportException(exceptLocation, e);
+        }
+    }
+
+    public static void sendPacket(PacketContainer packet, Object exceptLocation, Collection<Player> recipients) {
         for (Player recipient : recipients) {
             try {
                 ProtocolLibrary.getProtocolManager().sendServerPacket(recipient, packet);

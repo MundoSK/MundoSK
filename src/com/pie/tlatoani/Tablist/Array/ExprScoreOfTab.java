@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Tablist.Tab;
+import com.pie.tlatoani.Tablist.OldTab;
 import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -24,8 +24,8 @@ public class ExprScoreOfTab extends SimpleExpression<Number> {
     protected Number[] get(Event event) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
-        Tab tab = tablist.arrayTablist.getTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
-        return new Number[]{tab.getScore(player)};
+        OldTab oldTab = tablist.arrayTablist.getTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
+        return new Number[]{oldTab.getScore(player)};
     }
 
     @Override
@@ -55,8 +55,8 @@ public class ExprScoreOfTab extends SimpleExpression<Number> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
-        Tab tab = tablist.arrayTablist.getTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
-        tab.setScore(player, ((Number) delta[0]).intValue());
+        OldTab oldTab = tablist.arrayTablist.getTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
+        oldTab.setScore(player, ((Number) delta[0]).intValue());
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

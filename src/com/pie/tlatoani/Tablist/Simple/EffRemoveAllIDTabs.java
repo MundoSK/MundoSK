@@ -24,7 +24,7 @@ public class EffRemoveAllIDTabs extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "delete all id tabs for " + playerExpression;
+        return "delete all id personalTabs for " + playerExpression;
     }
 
     @Override

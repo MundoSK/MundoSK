@@ -7,8 +7,6 @@ import ch.njol.util.Kleenean;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import java.util.Arrays;
-
 /**
  * Created by Tlatoani on 10/20/16.
  */
@@ -29,7 +27,7 @@ public class EffChangePlayerVisibility extends Effect {
             }
         } else {
             for (Player object : objects) {
-                Tablist.PlayerTab tab = tablist.getTab(object);
+                Tablist.PlayerOldTab tab = tablist.getTab(object);
                 if (tab != null) {
                     tab.hideFor(player);
                 }

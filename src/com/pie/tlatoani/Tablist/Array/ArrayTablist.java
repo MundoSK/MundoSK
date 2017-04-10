@@ -1,16 +1,11 @@
 package com.pie.tlatoani.Tablist.Array;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.*;
 import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Tablist.Tab;
+import com.pie.tlatoani.Tablist.OldTab;
 import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -27,7 +22,7 @@ public class ArrayTablist {
     private int rows = 0;
     public Skin initialIcon = Tablist.DEFAULT_SKIN_TEXTURE;
 
-    private final Tab[][] tabs = new Tab[4][20];
+    private final OldTab[][] oldTabs = new OldTab[4][20];
 
     public ArrayTablist(Tablist tablist) {
         this.tablist = tablist;
@@ -131,9 +126,9 @@ public class ArrayTablist {
                     int identifier = (((column - 1) * 20) + row);
                     String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
                     UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
-                    Tab tab = new Tab(tablist, name, uuid, "", (byte) 5, initialIcon, 0);
-                    tab.add(null);
-                    setTab(column, row, tab);
+                    OldTab oldTab = new OldTab(tablist, name, uuid, "", (byte) 5, initialIcon, 0);
+                    oldTab.add(null);
+                    setTab(column, row, oldTab);
                 }
         } else {
             for (int column = columns + 1; column <= this.columns; column++)
@@ -146,9 +141,9 @@ public class ArrayTablist {
                     if (tablist.areScoresEnabled()) {
                         sendScorePacketToAll(column, row);
                     }*/
-                    Tab tab = getTab(column, row);
-                    tab.remove(null);
-                    tab.setScore(null, null);
+                    OldTab oldTab = getTab(column, row);
+                    oldTab.remove(null);
+                    oldTab.setScore(null, null);
                     setTab(column, row, null);
                 }
         }
@@ -177,9 +172,9 @@ public class ArrayTablist {
                     int identifier = (((column - 1) * 20) + row);
                     String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
                     UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
-                    Tab tab = new Tab(tablist, name, uuid, "", (byte) 5, initialIcon, 0);
-                    tab.add(null);
-                    setTab(column, row, tab);
+                    OldTab oldTab = new OldTab(tablist, name, uuid, "", (byte) 5, initialIcon, 0);
+                    oldTab.add(null);
+                    setTab(column, row, oldTab);
                 }
         } else {
             for (int column = 1; column <= this.columns; column++)
@@ -189,9 +184,9 @@ public class ArrayTablist {
                     heads[column - 1][row - 1] = null;
                     scores[column - 1][row - 1] = 0;
                     sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);*/
-                    Tab tab = getTab(column, row);
-                    tab.remove(null);
-                    tab.setScore(null, null);
+                    OldTab oldTab = getTab(column, row);
+                    oldTab.remove(null);
+                    oldTab.setScore(null, null);
                     setTab(column, row, null);
                 }
         }
@@ -235,12 +230,12 @@ public class ArrayTablist {
             }
     }
 
-    public Tab getTab(int column, int row) {
-        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? tabs[column - 1][row - 1] : null;
+    public OldTab getTab(int column, int row) {
+        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? oldTabs[column - 1][row - 1] : null;
     }
 
-    private void setTab(int column, int row, Tab tab) {
-        tabs[column][row] = tab;
+    private void setTab(int column, int row, OldTab oldTab) {
+        oldTabs[column][row] = oldTab;
     }
 
     //All code after here will be removed

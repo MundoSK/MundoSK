@@ -7,7 +7,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Tablist.Tab;
+import com.pie.tlatoani.Tablist.OldTab;
 import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -25,11 +25,11 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         String id = this.id.getSingle(event);
-        Tab tab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
-        if (tab == null) {
+        OldTab oldTab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
+        if (oldTab == null) {
             return new Skin[0];
         }
-        return new Skin[]{tab.getIcon(player)};
+        return new Skin[]{oldTab.getIcon(player)};
     }
 
     @Override
@@ -59,9 +59,9 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         String id = this.id.getSingle(event);
-        Tab tab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
-        if (tab != null) {
-            tab.setIcon(player, (Skin) delta[0]);
+        OldTab oldTab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
+        if (oldTab != null) {
+            oldTab.setIcon(player, (Skin) delta[0]);
         }
     }
 

@@ -49,12 +49,12 @@ public class Tablist {
     private static final HashMap<Player, Tablist> tablistMap = new HashMap<>();
     private static final ArrayList<Player> playersRespawning = new ArrayList<>();
 
-    private WeakHashMap<Player, PlayerTab> tabs;
+    private WeakHashMap<Player, PlayerOldTab> tabs;
 
-    public static class PlayerTab extends Tab.VariablyVisible {
+    public static class PlayerOldTab extends OldTab.VariablyVisible {
         private final Player player;
 
-        public PlayerTab(Tablist tablist, Player player, boolean initialVisibility) {
+        public PlayerOldTab(Tablist tablist, Player player, boolean initialVisibility) {
             super(tablist, player.getName(), player.getUniqueId(), null, null, null, null, initialVisibility);
             this.player = player;
             this.icons = null;
@@ -140,16 +140,16 @@ public class Tablist {
                             if (player != null && event.getPlayer() != null) {
                                 Tablist tablist = getTablistForPlayer(event.getPlayer());
                                 Mundo.debug(Tablist.class, "getTablistForPlayer = " + tablist);
-                                Tab tab = tablist.getTab(player);
-                                Mundo.debug(Tablist.class, "getTab = " + tab);
-                                if (tab == null) {
+                                OldTab oldTab = tablist.getTab(player);
+                                Mundo.debug(Tablist.class, "getTab = " + oldTab);
+                                if (oldTab == null) {
                                     continue;
                                 }
                                 //HashMap<Player, String> tablistNames = tablist.tablistNames;
                                 //Mundo.debug(Tablist.class, "tablistNames = " + tablistNames);
                                 //String tablistName = tablist.tablistNames.get(player);
                                 //Mundo.debug(Tablist.class, "tablistName = " + tablistName);
-                                String tablistName = Mundo.firstNotNull(tab.getDisplayName(event.getPlayer()), tab.getDisplayName(null));
+                                String tablistName = Mundo.firstNotNull(oldTab.getDisplayName(event.getPlayer()), oldTab.getDisplayName(null));
                                 if (tablistName != null) {
                                     newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile(), playerInfoData.getLatency(), playerInfoData.getGameMode(), WrappedChatComponent.fromJson(colorStringToJson(tablistName)));
                                 }
@@ -169,7 +169,7 @@ public class Tablist {
                     if (event.isCancelled() || player == null || event.getPlayer() == null) {
                         return;
                     }
-                    PlayerTab tab = getTablistForPlayer(event.getPlayer()).getTab(player);
+                    PlayerOldTab tab = getTablistForPlayer(event.getPlayer()).getTab(player);
                     if (tab == null || !tab.visibleFor(event.getPlayer())) {
                         Mundo.debug(Tablist.class, "Player is hidden, event.getplayer = " + event.getPlayer().getName() + ", player = " + player.getName());
                         /*PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
@@ -199,7 +199,7 @@ public class Tablist {
                     if (event.isCancelled() || player == null || playersRespawning.contains(player)) {
                         return;
                     }
-                    PlayerTab tab = getTablistForPlayer(player).getTab(player);
+                    PlayerOldTab tab = getTablistForPlayer(player).getTab(player);
                     if (tab == null || !tab.visibleFor(player)) {
                         Mundo.debug(Tablist.class, "Player is hidden = " + player.getName());
                         playersRespawning.add(player);
@@ -249,7 +249,7 @@ public class Tablist {
             for (Tablist tablist : tablistSet) {
                 if (tablist.areAllPlayersHidden()) {
                     //tablist.hidePlayers(Arrays.asList(player));
-                    PlayerTab tab = tablist.getTab(player);
+                    PlayerOldTab tab = tablist.getTab(player);
                     if (tab != null) {
                         tab.hideFor(null);
                     }
@@ -289,18 +289,18 @@ public class Tablist {
     }
 
     public static boolean isPlayerHiddenFor(Player player, Player target) {
-        PlayerTab tab = getTablistForPlayer(target).getTab(player);
+        PlayerOldTab tab = getTablistForPlayer(target).getTab(player);
         return tab == null || !tab.visibleFor(target);
     }
 
     //New tablist method
-    public PlayerTab getTab(Player player) {
+    public PlayerOldTab getTab(Player player) {
         if (hiddenPlayers.contains(player)) {
             return null;
         }
-        PlayerTab playerTab = tabs.get(player);
+        PlayerOldTab playerTab = tabs.get(player);
         if (playerTab == null) {
-            playerTab = new PlayerTab(this, player, true);
+            playerTab = new PlayerOldTab(this, player, true);
             tabs.put(player, playerTab);
         }
         return playerTab;
@@ -308,9 +308,9 @@ public class Tablist {
 
     //New tablist method
     public void showTab(Player tabOf, Player target) {
-        PlayerTab tab = getTab(tabOf);
+        PlayerOldTab tab = getTab(tabOf);
         if (tab == null) {
-            tab = new PlayerTab(this, tabOf, false);
+            tab = new PlayerOldTab(this, tabOf, false);
             tab.showFor(target, null, null, null, null);
             tabs.put(tabOf, tab);
         }
@@ -384,7 +384,7 @@ public class Tablist {
         if (!allPlayersHidden) {
             allPlayersHidden = true;
             Mundo.debug(this, "Hiding all players");
-            List<PlayerTab> tempTabs = new ArrayList<>(tabs.values());
+            List<PlayerOldTab> tempTabs = new ArrayList<>(tabs.values());
             tempTabs.forEach(tab -> tab.hideFor(null));
         }
     }
@@ -490,6 +490,15 @@ public class Tablist {
         result.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
         result.getPlayerInfoAction().writeSafely(0, action);
         return result;
+    }
+
+    public static PacketContainer scorePacket(String scoreName, String objectiveName, Integer score, EnumWrappers.ScoreboardAction action) {
+        PacketContainer packet = new PacketContainer(PacketType.Play.Server.SCOREBOARD_SCORE);
+        packet.getStrings().writeSafely(0, scoreName);
+        packet.getStrings().writeSafely(1, objectiveName);
+        packet.getIntegers().writeSafely(0, Mundo.firstNotNull(score, 0));
+        packet.getScoreboardActions().writeSafely(0, action);
+        return packet;
     }
 
     public static void hideInTablist(Collection<? extends Player> objects, Collection<Player> subjects) {
