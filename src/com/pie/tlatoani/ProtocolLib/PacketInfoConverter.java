@@ -11,7 +11,7 @@ public abstract class PacketInfoConverter<T> {
 
     public abstract void set(PacketContainer packet, Integer index, T value);
 
-    public Class<T> getType() {
+    public Class<? extends T> getType() {
         return null;
     }
 }

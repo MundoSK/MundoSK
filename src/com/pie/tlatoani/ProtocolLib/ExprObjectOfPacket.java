@@ -23,6 +23,8 @@ import com.comphenix.protocol.wrappers.nbt.NbtFactory;
 import com.comphenix.protocol.wrappers.nbt.NbtType;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.UtilReflection;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -42,9 +44,9 @@ import java.util.function.BiConsumer;
 public class ExprObjectOfPacket extends SimpleExpression<Object> {
     private Expression<Number> index;
     private Expression<PacketContainer> packetContainerExpression;
-    private boolean isSingle = true;
-    private Class aClass = Object.class;
-    private PacketInfoConverter converter = null;
+    private boolean isSingle;
+    private Class aClass;
+    private PacketInfoConverter converter;
 
     private static Map<String, PacketInfoConverter> singleConverters = new LinkedHashMap<>();
     private static Map<String, PacketInfoConverter<Object[]>> pluralConverters = new LinkedHashMap<>();
@@ -384,6 +386,38 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 packet.getSpecificModifier(Collection.class).writeSafely(index, Arrays.asList(value));
             }
         });
+
+        UtilReflection.ConstructorInvoker packetDataSerializerConstructor = UtilReflection.getConstructor(
+                UtilReflection.getMinecraftClass("PacketDataSerializer"), ByteBuf.class);
+
+        registerPluralConverter("bytebuffer", new PacketInfoConverter<Object[]>() {
+            @Override
+            public Object[] get(PacketContainer packet, Integer index) {
+                ByteBuf byteBuf = packet.getSpecificModifier(ByteBuf.class).readSafely(index);
+                byte[] bytes = byteBuf.array();
+                Object[] result = new Object[bytes.length];
+                for (int i = 0; i < bytes.length; i++) {
+                    result[i] = bytes[i];
+                }
+                return result;
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, Object[] value) {
+                byte[] bytes = new byte[value.length];
+                for (int i = 0; i < value.length; i++) {
+                    bytes[i] = ((Number) value[i]).byteValue();
+                }
+                ByteBuf byteBuf = Unpooled.wrappedBuffer(bytes);
+                ByteBuf packetDataSerializer = (ByteBuf) packetDataSerializerConstructor.invoke(byteBuf);
+                packet.getSpecificModifier(ByteBuf.class).writeSafely(index, packetDataSerializer);
+            }
+
+            @Override
+            public Class<Number[]> getType() {
+                return Number[].class;
+            }
+        });
     }
 
     private static <T> void registerSingleConverter(String key, PacketInfoConverter<T> converter) {
@@ -510,6 +544,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         index = (Expression<Number>) expressions[1];
         packetContainerExpression = (Expression<PacketContainer>) expressions[2];
         isSingle = i % 2 == 0;
+        aClass = isSingle ? Object.class : Object[].class;
         String key;
         String methodGetName;
         if (expressions[0] == null) {
@@ -568,7 +603,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             if (isSingle) {
                 return CollectionUtils.array(aClass);
             } else {
-                return CollectionUtils.array(Object[].class);
+                return CollectionUtils.array(aClass);
             }
         }
         return null;
