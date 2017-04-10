@@ -17,6 +17,7 @@ import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -42,14 +43,13 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
 
         //Converters
 
+        //Single
+
         registerSingleConverter("chatcomponent", new PacketInfoConverter<JSONObject>() {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
-                Mundo.debug(this, "Packet :" + packet);
-                Mundo.debug(this, "ChatComponents :" + packet.getChatComponents());
                 WrappedChatComponent chatComponent = packet.getChatComponents().readSafely(index);
                 String fromjson = chatComponent.getJson();
-                Mundo.debug(this, "Fromjson: " + fromjson);
                 JSONParser parser = new JSONParser();
                 JSONObject tojson = null;
                 try {
@@ -57,7 +57,6 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 } catch (ParseException | ClassCastException e) {
                     Mundo.debug(ExprJSONObjectOfPacket.class, e);
                 }
-                Mundo.debug(this, "Tojson " + tojson);
                 return tojson;
             }
 
@@ -154,6 +153,38 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                     }
                 });
                 packet.getWatchableCollectionModifier().writeSafely(index, wrappedWatchableObjects);
+            }
+        });
+
+        //Plural
+
+        registerPluralConverter("chatcomponent", new PacketInfoConverter<JSONObject[]>() {
+            @Override
+            public JSONObject[] get(PacketContainer packet, Integer index) {
+                WrappedChatComponent[] chatComponents = packet.getChatComponentArrays().readSafely(index);
+                JSONObject[] result = new JSONObject[chatComponents.length];
+                for (int i = 0; i < chatComponents.length; i++) {
+                    WrappedChatComponent chatComponent = chatComponents[i];
+                    String fromjson = chatComponent.getJson();
+                    JSONParser parser = new JSONParser();
+                    JSONObject tojson = null;
+                    try {
+                        tojson = (JSONObject) parser.parse(fromjson);
+                    } catch (ParseException | ClassCastException e) {
+                        Mundo.debug(ExprJSONObjectOfPacket.class, e);
+                    }
+                    result[i] = tojson;
+                }
+                return result;
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, JSONObject[] value) {
+                WrappedChatComponent[] result = new WrappedChatComponent[value.length];
+                for (int i = 0; i < value.length; i++) {
+                    result[i] = WrappedChatComponent.fromJson(value[i].toJSONString());
+                }
+                packet.getChatComponentArrays().writeSafely(index, result);
             }
         });
     }
