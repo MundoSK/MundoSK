@@ -116,6 +116,7 @@ public class Mundo extends JavaPlugin {
 	public void onEnable() {
         pluginFolder = getDataFolder().getAbsolutePath();
         FileConfiguration config = getConfig();
+        config.addDefault("debug", Arrays.asList(new String[0]));
         //config.addDefault("debug_mode", false);
         config.addDefault("enable_custom_skin_and_tablist", true);
         config.addDefault("tablist_remove_tab_delay_spawn", 5);
