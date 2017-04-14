@@ -24,7 +24,7 @@ public class ExprDisplayNameOfTab extends SimpleExpression<String> {
     protected String[] get(Event event) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
-        OldTab oldTab = tablist.arrayTablist.getTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
+        OldTab oldTab = tablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
         return new String[]{oldTab.getDisplayName(player)};
     }
 
@@ -55,7 +55,7 @@ public class ExprDisplayNameOfTab extends SimpleExpression<String> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
-        OldTab oldTab = tablist.arrayTablist.getTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
+        OldTab oldTab = tablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
         oldTab.setDisplayName(player, (String) delta[0]);
     }
 

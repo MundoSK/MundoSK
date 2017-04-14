@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Tablist.Simple;
 
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Tablist.OldTab;
+import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 
@@ -13,12 +13,13 @@ import java.util.*;
  */
 public class SimpleTablist {
     private final Tablist tablist;
-    private final HashMap<String, String> displayNames = new HashMap<>();
+
+    /*private final HashMap<String, String> displayNames = new HashMap<>();
     private final HashMap<String, Integer> latencies = new HashMap<>();
     private final HashMap<String, Skin> heads = new HashMap<>();
-    private final HashMap<String, Integer> scores = new HashMap<>();
+    private final HashMap<String, Integer> scores = new HashMap<>();*/
 
-    private final HashMap<String, OldTab.VariablyVisible> tabs = new HashMap<>();
+    private final HashMap<String, Tab> tabs = new HashMap<>();
 
     public static final Charset UTF_8 = Charset.forName("UTF-8");
 
@@ -88,9 +89,9 @@ public class SimpleTablist {
     //The following three methods have been modified to use SimpleTab, remove commented code later
 
     public void addPlayer(Player player) {
-        for (OldTab.VariablyVisible tab : tabs.values()) {
-            if (tab.visibleFor(null)) {
-                tab.showFor(player, null, null, null, null);
+        for (Tab tab : tabs.values()) {
+            if (!(tab instanceof Tab.Personalizable) || ((Tab.Personalizable) tab).isVisibleByDefault()) {
+                tab.send(tab.showPacket(), player);
             }
         }
     }
@@ -99,21 +100,27 @@ public class SimpleTablist {
         /*for (String s : heads.keySet()) {
             sendPacket(s, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, Collections.singleton(player));
         }*/
-        for (OldTab.VariablyVisible tab : tabs.values()) {
-            if (tab.visibleFor(player)) {
-                tab.hideFor(player);
+        for (Tab tab : tabs.values()) {
+            if (!(tab instanceof Tab.Personalizable) || ((Tab.Personalizable) tab).visibleFor(player)) {
+                tab.send(tab.hidePacket(), player);
             }
         }
     }
 
+    /*
     public void clear(Player player) {
-        /*String[] ids = displayNames.keySet().toArray(new String[0]);
+        String[] ids = displayNames.keySet().toArray(new String[0]);
         for (int i = 0; i < ids.length; i++) {
             deleteTab(ids[i]);
-        }*/
-        for (String id : tabs.keySet()) {
-            deleteTab(player, id);
         }
+    }
+    */
+
+    public void clear() {
+        for (Tab tab : tabs.values()) {
+            tab.send(tab.hidePacket());
+        }
+        tabs.clear();
     }
 
     //These two methods no longer needed when SimpleTab
@@ -137,31 +144,101 @@ public class SimpleTablist {
         }
     }*/
 
-    public void createTab(Player player, String id, String displayName, Byte ping, Skin icon, Integer score) {
+    public Tab createTab(String id, String displayName, Byte latency, Skin icon, Integer score) {
         if (id == null || id.length() > 12) {
-            return;
+            throw new IllegalArgumentException("Invalid id = " + id);
         }
-        OldTab.VariablyVisible tab = tabs.get(id);
-        if (tab == null) {
-            tab = new OldTab.VariablyVisible(tablist, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)), null, null, null, null, false);
-            tabs.put(id, tab);
-        }
-        tab.showFor(player, displayName, ping, icon, score);
+        Tab tab = new Tab(tablist, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)), displayName, latency, icon, score);
+        tab.send(tab.showPacket());
+        tabs.put(id, tab);
+        return tab;
     }
 
-    public void deleteTab(Player player, String id) {
-        OldTab.VariablyVisible tab = tabs.get(id);
-        if (tab != null) {
-            tab.hideFor(player);
-            if (!tab.visibleForAnyone()) {
+    public Tab.Personal createTab(Player player, String id, String displayName, Byte latency, Skin icon, Integer score) {
+        Tab.Personalizable personalizableTab = getPersonalizableTab(id);
+        if (personalizableTab == null) {
+            personalizableTab = createPersonalizable(id);
+            tabs.put(id, personalizableTab);
+        }
+        Tab.Personal personalTab = personalizableTab.showFor(player, displayName, latency, icon);
+        personalTab.setScore(score);
+        return personalTab;
+    }
+
+    public Tab getTab(String id) {
+        return tabs.get(id);
+    }
+
+    public Tab.Personalizable getPersonalizableTab(String id) {
+        Tab tab = getTab(id);
+        if (tab instanceof Tab.Personalizable || tab == null) {
+            return (Tab.Personalizable) tab;
+        }
+        Tab.Personalizable personalizableTab = createPersonalizable(id, tab);
+        tabs.put(id, personalizableTab);
+        return personalizableTab;
+    }
+
+    public void deleteTab(String id) {
+        Tab tab = tabs.get(id);
+        tab.send(tab.hidePacket());
+        tabs.remove(id);
+    }
+
+    private Tab.Personalizable createPersonalizable(String id) {
+        return new Tab.Personalizable(tablist, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8))) {
+            @Override
+            public void hideForAll() {
+                super.hideForAll();
                 tabs.remove(id);
             }
-        }
+
+            @Override
+            public void hideFor(Player player) {
+                super.hideFor(player);
+                if (!visibleByDefault && isUniform()) {
+                    tabs.remove(id);
+                }
+            }
+
+            @Override
+            public void removeIfApplicable(Personal personal) {
+                super.removeIfApplicable(personal);
+                if (isUniform()) {
+                    tabs.put(id, new Tab(this));
+                }
+            }
+        };
     }
 
-    public OldTab.VariablyVisible getTabIfVisibleFor(Player player, String id) {
-        OldTab.VariablyVisible result = tabs.get(id);
-        return result != null && result.visibleFor(player) ? result : null;
+    private Tab.Personalizable createPersonalizable(String id, Tab prev) {
+        return new Tab.Personalizable(prev) {
+            @Override
+            public void hideForAll() {
+                super.hideForAll();
+                tabs.remove(id);
+            }
+
+            @Override
+            public void hideFor(Player player) {
+                super.hideFor(player);
+                if (!visibleByDefault && isUniform()) {
+                    tabs.remove(id);
+                }
+            }
+
+            @Override
+            public void removeIfApplicable(Personal personal) {
+                super.removeIfApplicable(personal);
+                if (isUniform()) {
+                    if (visibleByDefault) {
+                        tabs.put(id, new Tab(this));
+                    } else {
+                        tabs.remove(id);
+                    }
+                }
+            }
+        };
     }
 
     //All following methods no longer needed when SimpleTab

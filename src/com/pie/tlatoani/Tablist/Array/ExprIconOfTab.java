@@ -29,7 +29,7 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
         if (pattern == 0) {
             return new Skin[]{tablist.arrayTablist.initialIcon};
         } else {
-            OldTab oldTab = tablist.arrayTablist.getTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
+            OldTab oldTab = tablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
             return new Skin[]{oldTab.getIcon(player)};
         }
     }
@@ -67,7 +67,7 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
         Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         if (pattern == 0) {
-            OldTab oldTab = tablist.arrayTablist.getTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
+            OldTab oldTab = tablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
             oldTab.setIcon(player, (Skin) delta[0]);
         } else {
             tablist.arrayTablist.initialIcon = (Skin) delta[0];

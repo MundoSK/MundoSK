@@ -8,7 +8,6 @@ import com.pie.tlatoani.Skin.Skin;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,35 +19,53 @@ public class Tab {
     public final String name;
     public final UUID uuid;
 
-    protected String displayName = null;
-    protected Byte latency = null;
-    protected Skin icon = null;
-    protected Integer score = null;
+    protected String displayName;
+    protected Byte latency;
+    protected Skin icon;
+    protected Integer score;
 
-    public Tab(Tablist tablist, String name, UUID uuid) {
+    public Tab(Tablist tablist, String name, UUID uuid, String displayName, Byte latency, Skin icon, Integer score) {
         this.tablist = tablist;
         this.name = name;
         this.uuid = uuid;
+        this.displayName = displayName;
+        this.latency = latency;
+        this.icon = icon;
+        this.score = score;
     }
 
-    protected void sendPacket(EnumWrappers.PlayerInfoAction action, String displayName, Byte latency, Skin icon) {
-        PacketContainer packet = Tablist.playerInfoPacket(displayName, latency == null ? null : latency.intValue(), null, name, uuid, icon, action);
+    public Tab(Tab prev) {
+        this.tablist = prev.tablist;
+        this.name = prev.name;
+        this.uuid = prev.uuid;
+        this.displayName = prev.displayName;
+        this.latency = prev.latency;
+        this.icon = prev.icon;
+        this.score = prev.score;
+    }
+
+    public PacketContainer playerInfoPacket(EnumWrappers.PlayerInfoAction action, String displayName, Byte latency, Skin icon) {
+        return Tablist.playerInfoPacket(displayName, latency == null ? null : latency.intValue(), null, name, uuid, icon, action);
+    }
+
+    public PacketContainer showPacket() {
+        return playerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER, displayName, latency, icon);
+    }
+
+    public PacketContainer hidePacket() {
+        return playerInfoPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, null, null, null);
+    }
+
+    public PacketContainer updateScorePacket(Integer score) {
+        return Tablist.scorePacket(name, Tablist.OBJECTIVE_NAME, score, EnumWrappers.ScoreboardAction.CHANGE);
+    }
+
+    public void send(PacketContainer packet) {
         UtilPacketEvent.sendPacket(packet, this, tablist.players);
     }
 
-    protected void sendPacket(Player target, EnumWrappers.PlayerInfoAction action, String displayName, Byte latency, Skin icon) {
-        PacketContainer packet = Tablist.playerInfoPacket(displayName, latency == null ? null : latency.intValue(), null, name, uuid, icon, action);
-        UtilPacketEvent.sendPacket(packet, this, target);
-    }
-
-    protected void updateScore(Integer score) {
-        PacketContainer packet = Tablist.scorePacket(name, Tablist.OBJECTIVE_NAME, score, EnumWrappers.ScoreboardAction.CHANGE);
-        UtilPacketEvent.sendPacket(packet, this, tablist.players);
-    }
-
-    protected void updateScore(Player player, Integer score) {
-        PacketContainer packet = Tablist.scorePacket(name, Tablist.OBJECTIVE_NAME, score, EnumWrappers.ScoreboardAction.CHANGE);
-        UtilPacketEvent.sendPacket(packet, this, player);
+    public void send(PacketContainer packet, Player to) {
+        UtilPacketEvent.sendPacket(packet, this, to);
     }
 
     public String getDisplayName() {
@@ -69,33 +86,58 @@ public class Tab {
 
     public void setDisplayName(String value) {
         displayName = value;
-        sendPacket(EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME, value, null, null);
+        send(playerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME, value, null, null));
     }
 
     public void setLatency(Byte value) {
         latency = value;
-        sendPacket(EnumWrappers.PlayerInfoAction.UPDATE_LATENCY, null, value, null);
+        send(playerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_LATENCY, null, value, null));
     }
 
     public void setIcon(Skin value) {
         icon = value;
-        sendPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, null, null, null);
-        Mundo.sync(1, () -> sendPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER, displayName, latency, icon));
+        send(hidePacket());
+        Mundo.sync(1, () -> send(showPacket()));
     }
 
     public void setScore(Integer value) {
         score = value;
         if (tablist.areScoresEnabled()) {
-            updateScore(value);
+            send(updateScorePacket(value));
         }
     }
 
     public static class Personalizable extends Tab {
-        public HashMap<Player, Optional<Personal>> personalTabs = new HashMap<>();
-        public HashSet<Player> blindPlayers = new HashSet<>();
+        protected HashMap<Player, Optional<Personal>> personalTabs = new HashMap<>();
+        protected boolean visibleByDefault;
 
         public Personalizable(Tablist tablist, String name, UUID uuid) {
-            super(tablist, name, uuid);
+            super(tablist, name, uuid, null, null, null, null);
+            visibleByDefault = false;
+        }
+
+        public Personalizable(Tab prev) {
+            super(prev);
+            visibleByDefault = true;
+        }
+
+        public boolean isUniform() {
+            return personalTabs.isEmpty();
+        }
+
+        public boolean isVisibleByDefault() {
+            return visibleByDefault;
+        }
+
+        public void showForAll() {
+            visibleByDefault = true;
+            send(showPacket());
+        }
+
+        public void hideForAll() {
+            visibleByDefault = false;
+            personalTabs.clear();
+            send(hidePacket());
         }
 
         public Personal forPlayer(Player player) {
@@ -109,71 +151,135 @@ public class Tab {
 
         public boolean visibleFor(Player player) {
             Optional<Personal> personalOptional = personalTabs.get(player);
-            return personalOptional == null || personalOptional.isPresent();
+            if (personalOptional == null) {
+                return visibleByDefault;
+            }
+            return personalOptional.isPresent();
         }
 
         public void showFor(Player player) {
             Optional<Personal> personalOptional = personalTabs.get(player);
-            if (!personalOptional.isPresent()) {
-                personalTabs.remove(player);
-                sendPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER, displayName, latency, icon);
+            if (personalOptional == null) {
+                if (!visibleByDefault) {
+                    personalTabs.put(player, Optional.of(new Personal(this, player)));
+                    send(showPacket(), player);
+                }
+            } else if (!personalOptional.isPresent()) {
+                if (visibleByDefault) {
+                    personalTabs.remove(player);
+                } else {
+                    personalTabs.put(player, Optional.of(new Personal(this, player)));
+                }
+                send(showPacket(), player);
+            }
+        }
+
+        public Personal showFor(Player player, String displayName, Byte latency, Skin icon) {
+            Optional<Personal> personalOptional = personalTabs.get(player);
+            if (personalOptional != null && personalOptional.isPresent()) {
+                Personal personal = personalOptional.get();
+                personal.setIcon(icon);
+                return personal;
+            } else {
+                Personal personal = new Personal(this, player);
+                if (personalOptional == null && visibleByDefault) {
+                    personal.send(personal.hidePacket());
+                }
+                personal.displayName = displayName;
+                personal.latency = latency;
+                personal.icon = icon;
+                personal.send(personal.showPacket());
+                personalTabs.put(player, Optional.of(personal));
+                return personal;
             }
         }
 
         public void hideFor(Player player) {
-            sendPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, null, null, null);
-            personalTabs.put(player, Optional.empty());
+            send(playerInfoPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, null, null, null), player);
+            if (visibleByDefault) {
+                personalTabs.put(player, Optional.empty());
+            } else {
+                personalTabs.remove(player);
+            }
         }
 
-        public boolean isUniform() {
-            return personalTabs.isEmpty() && blindPlayers.isEmpty();
+        protected void putIfNecessary(Personal personal) {
+            if (personal.displayName != null
+                    || personal.latency != null
+                    || personal.icon != null
+                    || personal.score != null) {
+                personal.stored = true;
+                personalTabs.put(personal.player, Optional.of(personal));
+            }
+        }
+
+        protected void removeIfApplicable(Personal personal) {
+            if (visibleByDefault
+                    && personal.displayName == null
+                    && personal.latency == null
+                    && personal.icon == null
+                    && personal.score == null) {
+                personal.stored = false;
+                personalTabs.remove(personal.player);
+            }
         }
 
         public void setDisplayName(String value) {
+            if (!visibleByDefault) {
+                return;
+            }
             super.setDisplayName(value);
             for (Optional<Personal> personalOptional : personalTabs.values()) {
                 personalOptional.ifPresent(tab -> {
                     tab.displayName = null;
-                    tab.checkStored();
+                    removeIfApplicable(tab);
                 });
             }
         }
 
         public void setLatency(Byte value) {
+            if (!visibleByDefault) {
+                return;
+            }
             super.setLatency(value);
             for (Optional<Personal> personalOptional : personalTabs.values()) {
                 personalOptional.ifPresent(tab -> {
                     tab.latency = null;
-                    tab.checkStored();
+                    removeIfApplicable(tab);
                 });
             }
         }
 
         public void setIcon(Skin value) {
+            if (!visibleByDefault) {
+                return;
+            }
             icon = value;
-            sendPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, null, null, null);
+            send(playerInfoPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, null, null, null));
             Mundo.sync(1, () -> {
                 for (Player player : tablist.players) {
                     Optional<Personal> personalOptional = personalTabs.get(player);
                     if (personalOptional == null) {
-                        sendPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER, displayName, latency, icon);
+                        send(showPacket(), player);
                     } else {
-                        personalOptional.ifPresent(tab -> sendPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER,
-                                tab.getDisplayName(),
-                                tab.getLatency(),
-                                tab.getIcon()
-                        ));
+                        personalOptional.ifPresent(tab -> {
+                            send(tab.showPacket(), player);
+                            removeIfApplicable(tab);
+                        });
                     }
                 }
             });
         }
 
         public void setScore(Integer value) {
+            if (!visibleByDefault) {
+                return;
+            }
             super.setScore(value);
             for (Optional<Personal> personalOptional : personalTabs.values()) {
                 personalOptional.ifPresent(tab -> {
                     tab.score = null;
-                    tab.checkStored();
+                    removeIfApplicable(tab);
                 });
             }
         }
@@ -185,33 +291,22 @@ public class Tab {
         private boolean stored = false;
 
         public Personal(Personalizable parent, Player player) {
-            super(parent.tablist, parent.name, parent.uuid);
+            super(parent.tablist, parent.name, parent.uuid, null, null, null, null);
             this.parent = parent;
             this.player = player;
         }
 
         private void checkStored() {
             if (stored) {
-                if (displayName == null && latency == null && icon == null && score == null) {
-                    stored = false;
-                    parent.personalTabs.remove(player);
-                }
+                parent.removeIfApplicable(this);
             } else {
-                if (displayName != null || latency != null || icon != null || score != null) {
-                    stored = true;
-                    parent.personalTabs.put(player, Optional.of(this));
-                }
+                parent.putIfNecessary(this);
             }
         }
 
         @Override
-        protected void sendPacket(EnumWrappers.PlayerInfoAction action, String displayName, Byte latency, Skin icon) {
-            sendPacket(player, action, displayName, latency, icon);
-        }
-
-        @Override
-        protected void updateScore(Integer score) {
-            updateScore(player, score);
+        public void send(PacketContainer packet) {
+            send(packet, player);
         }
 
         @Override
@@ -236,40 +331,43 @@ public class Tab {
 
         @Override
         public void setDisplayName(String value) {
-            displayName = value;
-            if (value == null) {
-                value = parent.displayName;
+            if (value == null && displayName == null) {
+                return;
             }
-            sendPacket(EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME, value, null, null);
+            displayName = value;
+            send(playerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME, value == null ? parent.displayName : value, null, null));
             checkStored();
         }
 
         @Override
         public void setLatency(Byte value) {
-            latency = value;
-            if (value == null) {
-                value = parent.latency;
+            if (value == null && latency == null) {
+                return;
             }
-            sendPacket(EnumWrappers.PlayerInfoAction.UPDATE_LATENCY, null, value, null);
+            latency = value;
+            send(playerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_LATENCY, null, value == null ? parent.latency : value, null));
             checkStored();
         }
 
         @Override
         public void setIcon(Skin value) {
+            if (value == null && icon == null) {
+                return;
+            }
             icon = value;
-            sendPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, null, null, null);
-            Mundo.sync(1, () -> sendPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER, displayName, latency, icon));
+            send(hidePacket());
+            Mundo.sync(1, () -> send(showPacket()));
             checkStored();
         }
 
         @Override
         public void setScore(Integer value) {
-            score = value;
-            if (value == null) {
-                value = parent.score;
+            if (value == null && score == null) {
+                return;
             }
+            score = value;
             if (tablist.areScoresEnabled()) {
-                updateScore(value);
+                send(updateScorePacket(value == null ? parent.score : value));
             }
             checkStored();
         }

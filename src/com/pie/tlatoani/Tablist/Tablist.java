@@ -141,7 +141,7 @@ public class Tablist {
                                 Tablist tablist = getTablistForPlayer(event.getPlayer());
                                 Mundo.debug(Tablist.class, "getTablistForPlayer = " + tablist);
                                 OldTab oldTab = tablist.getTab(player);
-                                Mundo.debug(Tablist.class, "getTab = " + oldTab);
+                                Mundo.debug(Tablist.class, "getOldTab = " + oldTab);
                                 if (oldTab == null) {
                                     continue;
                                 }
