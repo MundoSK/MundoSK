@@ -57,6 +57,7 @@ import com.pie.tlatoani.ProtocolLib.*;
 import com.pie.tlatoani.Skin.*;
 import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.Tablist.*;
+import com.pie.tlatoani.Tablist.Array.ArrayTablist;
 import com.pie.tlatoani.Tablist.Array.EffSetArrayTablist;
 import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
 import com.pie.tlatoani.TerrainControl.*;
@@ -494,6 +495,7 @@ public class Mundo extends JavaPlugin {
                 registerExpression(com.pie.tlatoani.Tablist.Simple.ExprScoreOfTab.class, Number.class, ExpressionType.PROPERTY, "score of tab id %string% (in %-tablist%|for %-player%)");
             } {
                 //Array
+                debug(this, "ArrayTablist.class = " + ArrayTablist.class);
                 registerEffect(EffSetArrayTablist.class, "deactivate array tablist for %player%", "activate array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skin%]]");
                 registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% (in %-tablist%|for %-player%)");
                 registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% (in %-tablist%|for %-player%)");
