@@ -100,7 +100,8 @@ import org.json.simple.parser.ParseException;
 public class Mundo extends JavaPlugin {
 	public static Mundo instance;
     public static String pluginFolder;
-    public static Boolean debugMode;
+    public static List<String> debugPackages;
+    //public static Boolean debugMode;
     public static Boolean implementPacketStuff;
     public static int tablistRemoveTabDelaySpawn;
     public static int tablistRemoveTabDelayRespawn;
@@ -115,12 +116,13 @@ public class Mundo extends JavaPlugin {
 	public void onEnable() {
         pluginFolder = getDataFolder().getAbsolutePath();
         FileConfiguration config = getConfig();
-        config.addDefault("debug_mode", false);
+        //config.addDefault("debug_mode", false);
         config.addDefault("enable_custom_skin_and_tablist", true);
         config.addDefault("tablist_remove_tab_delay_spawn", 5);
         config.addDefault("tablist_remove_tab_delay_respawn", 5);
         config.options().copyDefaults(true);
-        debugMode = config.getBoolean("debug_mode");
+        debugPackages = config.getStringList("debug");
+        //debugMode = config.getBoolean("debug_mode");
         implementPacketStuff = config.getBoolean("enable_custom_skin_and_tablist");
         tablistRemoveTabDelaySpawn = config.getInt("tablist_remove_tab_delay_spawn");
         tablistRemoveTabDelayRespawn = config.getInt("tablist_remove_tab_delay_respawn");
@@ -134,11 +136,11 @@ public class Mundo extends JavaPlugin {
             info("You are currently running a BETA version of MundoSK");
             info("You should only run BETA versions of MundoSK on test servers unless Tlatoani or another reliable source has recommended otherwise");
         }
-        if (debugMode) {
-            info("You have enabled debug_mode in MundoSK config");
-            info("debug_mode should only be enabled when you are trying to fix a bug or assist someone else with fixing a bug in MundoSK");
-            info("By having debug_mode enabled, you will have tons of random annoying spam in your console");
-            info("If you would like to disable debug_mode, simply go to your 'plugins' folder, go to the 'MundoSK' folder, open 'config.yml', and where it says 'debug_mode', replace 'true' with 'false'");
+        if (!debugPackages.isEmpty()) {
+            info("You have enabled debug for certain packages in MundoSK config");
+            info("Debug should only be enabled when you are trying to fix a bug or assist someone else with fixing a bug in MundoSK");
+            info("By having debug enabled, you will have tons of random annoying spam in your console");
+            info("If you would like to disable debug, simply go to your 'plugins' folder, go to the 'MundoSK' folder, open 'config.yml', and where it says 'debug', remove all following text");
         }
 
         //Allow MundoSK 'conditions' to work in absence of SkQuery, which provides a condition like the below
@@ -919,6 +921,10 @@ public class Mundo extends JavaPlugin {
 
     //Logging Util
 
+    public static boolean classDebugs(Class c) {
+        return debugPackages.contains(c.getName().split("\\.")[3]);
+    }
+
     public static void info(String s) {
         Mundo.instance.getLogger().info(s);
     }
@@ -931,13 +937,15 @@ public class Mundo extends JavaPlugin {
 	}
 	
 	public static void debug(Object obj, String msg) {
-        if (debugMode) {
-            info("DEBUG " + (obj instanceof Class ? (Class) obj : obj.getClass()).getSimpleName() + ": " + msg);
+        Class debugClass = obj instanceof Class ? (Class) obj : obj.getClass();
+        if (classDebugs(debugClass)) {
+            info("DEBUG " + debugClass.getSimpleName() + ": " + msg);
         }
 	}
 
     public static void debug(Object obj, Exception e) {
-		if (debugMode) {
+        Class debugClass = obj instanceof Class ? (Class) obj : obj.getClass();
+		if (classDebugs(debugClass)) {
 			reportException(obj, e);
             info("DEBUG");
             info("An exception was reported for debugging while debug_mode was activated in the config");
@@ -945,7 +953,7 @@ public class Mundo extends JavaPlugin {
             info("If you are trying to fix a problem in MundoSK yourself, good luck :)");
             info("Otherwise, if you do not know why you are seeing this error here, go to the MundoSK config, set debug_mode to false, and restart your server");
             info("For help, go to the MundoSK thread on forums.skunity.com");
-            info("Exception debugged at " + (obj instanceof Class ? (Class) obj : obj.getClass()).getSimpleName());
+            info("Exception debugged at " + debugClass.getSimpleName());
             e.printStackTrace();
 		}
 	}

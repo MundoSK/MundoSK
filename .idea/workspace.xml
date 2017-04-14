@@ -7,10 +7,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Miscellaneous/Thread/ScopeSync.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Skin/SkinManager$5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Skin/SkinManager$6$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Skin/SkinManager$6.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Skin/SkinManager$7.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/Skin/SkinManager.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketInfoConverter.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketInfoConverter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,9 +39,12 @@
       <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-295">
-              <caret line="253" column="21" lean-forward="false" selection-start-line="253" selection-start-column="21" selection-end-line="253" selection-end-column="21" />
-              <folding />
+            <state relative-caret-position="-10515">
+              <caret line="139" column="81" lean-forward="true" selection-start-line="139" selection-start-column="81" selection-end-line="139" selection-end-column="81" />
+              <folding>
+                <element signature="e#55491#55492#0" expanded="true" />
+                <element signature="e#55565#55566#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,7 +62,7 @@
       <file leaf-file-name="UtilReflection.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilReflection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
+            <state relative-caret-position="3930">
               <caret line="275" column="29" lean-forward="false" selection-start-line="275" selection-start-column="18" selection-end-line="275" selection-end-column="29" />
               <folding />
             </state>
@@ -64,12 +72,9 @@
       <file leaf-file-name="ExprObjectOfPacket.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="767">
+            <state relative-caret-position="527">
               <caret line="412" column="99" lean-forward="false" selection-start-line="412" selection-start-column="99" selection-end-line="412" selection-end-column="99" />
-              <folding>
-                <element signature="e#18371#18372#0" expanded="true" />
-                <element signature="e#18424#18425#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -197,9 +202,9 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/EffWait.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketInfoConverter.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -230,7 +235,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -475,8 +482,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1064,14 +1069,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-295">
-          <caret line="253" column="21" lean-forward="false" selection-start-line="253" selection-start-column="21" selection-end-line="253" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketInfoConverter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -1085,7 +1082,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilReflection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
+        <state relative-caret-position="3930">
           <caret line="275" column="29" lean-forward="false" selection-start-line="275" selection-start-column="18" selection-end-line="275" selection-end-column="29" />
           <folding />
         </state>
@@ -1093,11 +1090,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="767">
+        <state relative-caret-position="527">
           <caret line="412" column="99" lean-forward="false" selection-start-line="412" selection-start-column="99" selection-end-line="412" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10515">
+          <caret line="139" column="81" lean-forward="true" selection-start-line="139" selection-start-column="81" selection-end-line="139" selection-end-column="81" />
           <folding>
-            <element signature="e#18371#18372#0" expanded="true" />
-            <element signature="e#18424#18425#0" expanded="true" />
+            <element signature="e#55491#55492#0" expanded="true" />
+            <element signature="e#55565#55566#0" expanded="true" />
           </folding>
         </state>
       </provider>
