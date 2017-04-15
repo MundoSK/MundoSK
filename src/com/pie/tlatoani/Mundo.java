@@ -376,7 +376,8 @@ public class Mundo extends JavaPlugin {
             registerType(PacketContainer.class, "packet");
 			registerEffect(EffSendPacket.class, "send packet %packet% to %player%", "send %player% packet %packet%");
             registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet %packet% from %player%"); //Included incorrect spelling to avoid wasted time
-			registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%");
+			registerEffect(EffPacketInfo.class, "packet info %packet%");
+            registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%");
 			registerEventValue(UtilPacketEvent.class, PacketContainer.class, UtilPacketEvent::getPacket);
 			registerEventValue(UtilPacketEvent.class, PacketType.class, UtilPacketEvent::getPacketType);
 			registerEventValue(UtilPacketEvent.class, Player.class, UtilPacketEvent::getPlayer);
