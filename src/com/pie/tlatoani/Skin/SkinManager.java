@@ -15,7 +15,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
-import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.OldTablist;
 import com.pie.tlatoani.Util.UtilReflection;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -354,9 +354,9 @@ public class SkinManager {
             }
         });
         Mundo.sync(2, () -> {
-            PacketContainer packet = Tablist.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+            PacketContainer packet = OldTablist.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             for (Player target : targets) {
-                if (Tablist.isPlayerHiddenFor(player, target)) {
+                if (OldTablist.isPlayerHiddenFor(player, target)) {
                     UtilPacketEvent.sendPacket(packet, SkinManager.class, target);
                 }
             }
@@ -364,11 +364,11 @@ public class SkinManager {
     }
 
     private static void respawnPlayer(Player player) {
-        boolean playerHidden = Tablist.isPlayerHiddenFor(player, player);
+        boolean playerHidden = OldTablist.isPlayerHiddenFor(player, player);
         if (!playerHidden) {
             List<Player> singlePlayer = Collections.singletonList(player);
-            Tablist.hideInTablist(singlePlayer, singlePlayer);
-            Tablist.showInTablist(singlePlayer, singlePlayer);
+            OldTablist.hideInTablist(singlePlayer, singlePlayer);
+            OldTablist.showInTablist(singlePlayer, singlePlayer);
         }
         Location playerLoc = player.getLocation();
         Mundo.debug(SkinManager.class, "playerLoc1 = " + playerLoc);

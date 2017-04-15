@@ -15,7 +15,7 @@ import java.util.UUID;
  * Created by Tlatoani on 4/9/17.
  */
 public class Tab {
-    public final Tablist tablist;
+    public final OldTablist oldTablist;
     public final String name;
     public final UUID uuid;
 
@@ -24,8 +24,8 @@ public class Tab {
     protected Skin icon;
     protected Integer score;
 
-    public Tab(Tablist tablist, String name, UUID uuid, String displayName, Byte latency, Skin icon, Integer score) {
-        this.tablist = tablist;
+    public Tab(OldTablist oldTablist, String name, UUID uuid, String displayName, Byte latency, Skin icon, Integer score) {
+        this.oldTablist = oldTablist;
         this.name = name;
         this.uuid = uuid;
         this.displayName = displayName;
@@ -35,7 +35,7 @@ public class Tab {
     }
 
     public Tab(Tab prev) {
-        this.tablist = prev.tablist;
+        this.oldTablist = prev.oldTablist;
         this.name = prev.name;
         this.uuid = prev.uuid;
         this.displayName = prev.displayName;
@@ -45,7 +45,7 @@ public class Tab {
     }
 
     public PacketContainer playerInfoPacket(EnumWrappers.PlayerInfoAction action, String displayName, Byte latency, Skin icon) {
-        return Tablist.playerInfoPacket(displayName, latency == null ? null : latency.intValue(), null, name, uuid, icon, action);
+        return OldTablist.playerInfoPacket(displayName, latency == null ? null : latency.intValue(), null, name, uuid, icon, action);
     }
 
     public PacketContainer showPacket() {
@@ -57,11 +57,11 @@ public class Tab {
     }
 
     public PacketContainer updateScorePacket(Integer score) {
-        return Tablist.scorePacket(name, Tablist.OBJECTIVE_NAME, score, EnumWrappers.ScoreboardAction.CHANGE);
+        return OldTablist.scorePacket(name, OldTablist.OBJECTIVE_NAME, score, EnumWrappers.ScoreboardAction.CHANGE);
     }
 
     public void send(PacketContainer packet) {
-        UtilPacketEvent.sendPacket(packet, this, tablist.players);
+        UtilPacketEvent.sendPacket(packet, this, oldTablist.players);
     }
 
     public void send(PacketContainer packet, Player to) {
@@ -102,17 +102,24 @@ public class Tab {
 
     public void setScore(Integer value) {
         score = value;
-        if (tablist.areScoresEnabled()) {
+        if (oldTablist.areScoresEnabled()) {
             send(updateScorePacket(value));
         }
+    }
+
+    public boolean containsValue() {
+        return displayName != null
+                || latency != null
+                || icon != null
+                || score != null;
     }
 
     public static class Personalizable extends Tab {
         protected HashMap<Player, Optional<Personal>> personalTabs = new HashMap<>();
         protected boolean visibleByDefault;
 
-        public Personalizable(Tablist tablist, String name, UUID uuid) {
-            super(tablist, name, uuid, null, null, null, null);
+        public Personalizable(OldTablist oldTablist, String name, UUID uuid) {
+            super(oldTablist, name, uuid, null, null, null, null);
             visibleByDefault = false;
         }
 
@@ -135,15 +142,30 @@ public class Tab {
         }
 
         public void hideForAll() {
-            visibleByDefault = false;
-            personalTabs.clear();
-            send(hidePacket());
+            if (visibleByDefault) {
+                visibleByDefault = false;
+                personalTabs.clear();
+                send(hidePacket());
+            } else if (!isUniform()) {
+                UtilPacketEvent.sendPacket(hidePacket(), this, personalTabs.keySet());
+            }
         }
 
         public Personal forPlayer(Player player) {
             Optional<Personal> personalOptional = personalTabs.get(player);
             if (personalOptional == null) {
-                return new Personal(this, player);
+                return null;
+            } else {
+                return personalOptional.orElse(null);
+            }
+        }
+
+        public Personal forceForPlayer(Player player) {
+            Optional<Personal> personalOptional = personalTabs.get(player);
+            if (personalOptional == null) {
+                Personal personal = new Personal(this, player);
+                personalTabs.put(player, Optional.of(personal));
+                return personal;
             } else {
                 return personalOptional.orElse(null);
             }
@@ -203,13 +225,15 @@ public class Tab {
             }
         }
 
-        protected void putIfNecessary(Personal personal) {
-            if (personal.displayName != null
-                    || personal.latency != null
-                    || personal.icon != null
-                    || personal.score != null) {
-                personal.stored = true;
-                personalTabs.put(personal.player, Optional.of(personal));
+        public void removePlayer(Player player) {
+            Optional<Personal> personalOptional = personalTabs.get(player);
+            if (personalOptional == null) {
+                if (visibleByDefault) {
+                    send(hidePacket(), player);
+                }
+            } else {
+                personalOptional.ifPresent(__ -> send(hidePacket(), player));
+                personalTabs.remove(player);
             }
         }
 
@@ -219,7 +243,6 @@ public class Tab {
                     && personal.latency == null
                     && personal.icon == null
                     && personal.score == null) {
-                personal.stored = false;
                 personalTabs.remove(personal.player);
             }
         }
@@ -257,7 +280,7 @@ public class Tab {
             icon = value;
             send(playerInfoPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, null, null, null));
             Mundo.sync(1, () -> {
-                for (Player player : tablist.players) {
+                for (Player player : oldTablist.players) {
                     Optional<Personal> personalOptional = personalTabs.get(player);
                     if (personalOptional == null) {
                         send(showPacket(), player);
@@ -288,20 +311,11 @@ public class Tab {
     public static class Personal extends Tab {
         public final Player player;
         public final Personalizable parent;
-        private boolean stored = false;
 
         public Personal(Personalizable parent, Player player) {
-            super(parent.tablist, parent.name, parent.uuid, null, null, null, null);
+            super(parent.oldTablist, parent.name, parent.uuid, null, null, null, null);
             this.parent = parent;
             this.player = player;
-        }
-
-        private void checkStored() {
-            if (stored) {
-                parent.removeIfApplicable(this);
-            } else {
-                parent.putIfNecessary(this);
-            }
         }
 
         @Override
@@ -336,7 +350,7 @@ public class Tab {
             }
             displayName = value;
             send(playerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME, value == null ? parent.displayName : value, null, null));
-            checkStored();
+            parent.removeIfApplicable(this);
         }
 
         @Override
@@ -346,7 +360,7 @@ public class Tab {
             }
             latency = value;
             send(playerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_LATENCY, null, value == null ? parent.latency : value, null));
-            checkStored();
+            parent.removeIfApplicable(this);
         }
 
         @Override
@@ -357,7 +371,7 @@ public class Tab {
             icon = value;
             send(hidePacket());
             Mundo.sync(1, () -> send(showPacket()));
-            checkStored();
+            parent.removeIfApplicable(this);
         }
 
         @Override
@@ -366,10 +380,10 @@ public class Tab {
                 return;
             }
             score = value;
-            if (tablist.areScoresEnabled()) {
+            if (oldTablist.areScoresEnabled()) {
                 send(updateScorePacket(value == null ? parent.score : value));
             }
-            checkStored();
+            parent.removeIfApplicable(this);
         }
     }
 }

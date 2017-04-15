@@ -17,7 +17,7 @@ import java.util.UUID;
  * Created by Tlatoani on 1/20/17.
  */
 public class OldTab {
-    public final Tablist tablist;
+    public final OldTablist oldTablist;
     public final String name;
     public final UUID uuid;
     //DefaultHashMap are used for
@@ -26,8 +26,8 @@ public class OldTab {
     protected DefaultHashMap<Player, Skin> icons = new DefaultHashMap<>();
     protected DefaultHashMap<Player, Integer> scores = new DefaultHashMap<>();
 
-    public OldTab(Tablist tablist, String name, UUID uuid, String displayName, Byte latency, Skin icon, Integer score) {
-        this.tablist = tablist;
+    public OldTab(OldTablist oldTablist, String name, UUID uuid, String displayName, Byte latency, Skin icon, Integer score) {
+        this.oldTablist = oldTablist;
         this.name = name;
         this.uuid = uuid;
         if (displayName != null) {
@@ -45,36 +45,36 @@ public class OldTab {
     }
 
     protected void sendPacket(Player target, EnumWrappers.PlayerInfoAction action, String displayName, Byte latency, Skin icon) {
-        PacketContainer packet = Tablist.playerInfoPacket(displayName, latency == null ? null : latency.intValue(), null, name, uuid, icon, action);
+        PacketContainer packet = OldTablist.playerInfoPacket(displayName, latency == null ? null : latency.intValue(), null, name, uuid, icon, action);
         if (target != null) {
             UtilPacketEvent.sendPacket(packet, this, target);
         } else {
-            UtilPacketEvent.sendPacket(packet, this, tablist.players.toArray(new Player[0]));
+            UtilPacketEvent.sendPacket(packet, this, oldTablist.players.toArray(new Player[0]));
         }
     }
 
     protected void updateScore(Player player, Integer score) {
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.SCOREBOARD_SCORE);
         packet.getStrings().writeSafely(0, name);
-        packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
+        packet.getStrings().writeSafely(1, OldTablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, Mundo.firstNotNull(score, 0));
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
         try {
             if (player != null) {
                 ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
             } else {
-                for (Player player1 : tablist.players) {
+                for (Player player1 : oldTablist.players) {
                     ProtocolLibrary.getProtocolManager().sendServerPacket(player1, packet);
                 }
             }
         } catch (InvocationTargetException e) {
-            Mundo.reportException(Tablist.class, e);
+            Mundo.reportException(OldTablist.class, e);
         }
     }
 
     public void add(Player player) {
         sendPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER, displayNames.getOrDefault(player), latencies.getOrDefault(player), icons.getOrDefault(player));
-        if (tablist.areScoresEnabled()) {
+        if (oldTablist.areScoresEnabled()) {
             Integer score = scores.getOrDefault(player);
             if (score != null) {
                 updateScore(player, score);
@@ -84,7 +84,7 @@ public class OldTab {
 
     public void remove(Player player) {
         sendPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, null, null, null);
-        if (tablist.areScoresEnabled()) {
+        if (oldTablist.areScoresEnabled()) {
             updateScore(player, null);
         }
     }
@@ -123,7 +123,7 @@ public class OldTab {
 
     public void setScore(Player player, Integer value) {
         scores.put(player, value);
-        if (tablist.areScoresEnabled()) {
+        if (oldTablist.areScoresEnabled()) {
             updateScore(player, Mundo.firstNotNull(value, 0));
         }
     }
@@ -131,8 +131,8 @@ public class OldTab {
     public static class VariablyVisible extends OldTab {
         protected DefaultHashMap<Player, Boolean> visibility = new DefaultHashMap<>();
 
-        public VariablyVisible(Tablist tablist, String name, UUID uuid, String displayName, Byte latency, Skin icon, Integer score, boolean initialVisibility) {
-            super(tablist, name, uuid, displayName, latency, icon, score);
+        public VariablyVisible(OldTablist oldTablist, String name, UUID uuid, String displayName, Byte latency, Skin icon, Integer score, boolean initialVisibility) {
+            super(oldTablist, name, uuid, displayName, latency, icon, score);
             visibility.put(null, initialVisibility);
         }
 
@@ -155,7 +155,7 @@ public class OldTab {
                     remove(player);
                 }
                 add(player);
-                if (tablist.areScoresEnabled()) {
+                if (oldTablist.areScoresEnabled()) {
                     setScore(player, score);
                 }
             }

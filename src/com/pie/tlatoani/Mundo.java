@@ -6,6 +6,8 @@ import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import ch.njol.skript.Skript;
@@ -536,11 +538,11 @@ public class Mundo extends JavaPlugin{
 		//Tablist
         if (serverHasPlugin("ProtocolLib") && implementPacketStuff) {
             registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
-            registerType(Tablist.class, "tablist").parser(new SimpleParser<Tablist>() {
+            registerType(OldTablist.class, "tablist").parser(new SimpleParser<OldTablist>() {
                 @Override
-                public Tablist parse(String s, ParseContext parseContext) {
+                public OldTablist parse(String s, ParseContext parseContext) {
                     if (s.equals("global tablist")) {
-                        return Tablist.GLOBAL;
+                        return OldTablist.GLOBAL;
                     }
                     return null;
                 }
@@ -548,20 +550,20 @@ public class Mundo extends JavaPlugin{
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onJoin(PlayerJoinEvent event) {
-                    Tablist.onJoin(event.getPlayer());
+                    OldTablist.onJoin(event.getPlayer());
                     SkinManager.onJoin(event.getPlayer());
                 }
             }, this);
             Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
                 @EventHandler
                 public void onQuit(PlayerQuitEvent event) {
-                    Tablist.onQuit(event.getPlayer());
+                    OldTablist.onQuit(event.getPlayer());
                     SkinManager.onQuit(event.getPlayer());
                 }
             }, this);
-            registerExpression(ExprTablist.class, Tablist.class, ExpressionType.PROPERTY, "tablist of %player%", "%player%'s tablist");
+            registerExpression(ExprTablist.class, OldTablist.class, ExpressionType.PROPERTY, "tablist of %player%", "%player%'s tablist");
             registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "%tablist% contains players");
-            registerExpression(ExprNewTablist.class, Tablist.class, ExpressionType.SIMPLE, "new tablist");
+            registerExpression(ExprNewTablist.class, OldTablist.class, ExpressionType.SIMPLE, "new tablist");
             registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores enabled in %tablist%");
             registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "tablist name of %player% (in %-tablist%|for %-player%)", "%player%'s tablist name (in %-tablist%|for %-player%)");
             registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "tablist score of %player% (in %-tablist%|for %-player%)", "%player%'s tablist score (in %-tablist%|for %-player%)");
@@ -1158,6 +1160,22 @@ public class Mundo extends JavaPlugin{
             }
         }
         return null;
+    }
+
+    public static <T> void optionalCase(Optional<T> optional, Consumer<T> ifPresent, Runnable otherwise) {
+	    if (optional.isPresent()) {
+	        ifPresent.accept(optional.get());
+        } else {
+	        otherwise.run();
+        }
+    }
+
+    public static <T, R> R optionalCase(Optional<T> optional, Function<T, R> ifPresent, Supplier<R> otherwise) {
+	    if (optional.isPresent()) {
+	        return ifPresent.apply(optional.get());
+        } else {
+	        return otherwise.get();
+        }
     }
 	
 }

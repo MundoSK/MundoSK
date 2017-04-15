@@ -8,7 +8,7 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.OldTab;
-import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.OldTablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -16,7 +16,7 @@ import org.bukkit.event.Event;
  * Created by Tlatoani on 7/25/16.
  */
 public class ExprIconOfTab extends SimpleExpression<Skin> {
-    private Expression<Tablist> tablistExpression;
+    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
     private Expression<Number> column;
     private Expression<Number> row;
@@ -24,12 +24,12 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
 
     @Override
     protected Skin[] get(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         if (pattern == 0) {
-            return new Skin[]{tablist.arrayTablist.initialIcon};
+            return new Skin[]{oldTablist.arrayTablist.initialIcon};
         } else {
-            OldTab oldTab = tablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
+            OldTab oldTab = oldTablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
             return new Skin[]{oldTab.getIcon(player)};
         }
     }
@@ -54,23 +54,23 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
         if ((pattern = i) == 0) {
             column = (Expression<Number>) expressions[0];
             row = (Expression<Number>) expressions[1];
-            tablistExpression = (Expression<Tablist>) expressions[2];
+            tablistExpression = (Expression<OldTablist>) expressions[2];
             playerExpression = (Expression<Player>) expressions[3];
         } else {
-            tablistExpression = (Expression<Tablist>) expressions[0];
+            tablistExpression = (Expression<OldTablist>) expressions[0];
             playerExpression = (Expression<Player>) expressions[1];
         }
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         if (pattern == 0) {
-            OldTab oldTab = tablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
+            OldTab oldTab = oldTablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
             oldTab.setIcon(player, (Skin) delta[0]);
         } else {
-            tablist.arrayTablist.initialIcon = (Skin) delta[0];
+            oldTablist.arrayTablist.initialIcon = (Skin) delta[0];
         }
     }
 

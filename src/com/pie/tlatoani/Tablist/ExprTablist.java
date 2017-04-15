@@ -9,17 +9,15 @@ import ch.njol.util.coll.CollectionUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import java.util.Collections;
-
 /**
  * Created by Tlatoani on 1/17/17.
  */
-public class ExprTablist extends SimpleExpression<Tablist> {
+public class ExprTablist extends SimpleExpression<OldTablist> {
     Expression<Player> playerExpression;
 
     @Override
-    protected Tablist[] get(Event event) {
-        return new Tablist[]{Tablist.getTablistForPlayer(playerExpression.getSingle(event))};
+    protected OldTablist[] get(Event event) {
+        return new OldTablist[]{OldTablist.getTablistForPlayer(playerExpression.getSingle(event))};
     }
 
     @Override
@@ -28,8 +26,8 @@ public class ExprTablist extends SimpleExpression<Tablist> {
     }
 
     @Override
-    public Class<? extends Tablist> getReturnType() {
-        return Tablist.class;
+    public Class<? extends OldTablist> getReturnType() {
+        return OldTablist.class;
     }
 
     @Override
@@ -44,12 +42,12 @@ public class ExprTablist extends SimpleExpression<Tablist> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist.setTablistOfPlayer(playerExpression.getSingle(event), (Tablist) delta[0]);
+        OldTablist.setTablistOfPlayer(playerExpression.getSingle(event), (OldTablist) delta[0]);
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            return CollectionUtils.array(Tablist.class);
+            return CollectionUtils.array(OldTablist.class);
         }
         return null;
     }

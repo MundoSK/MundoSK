@@ -6,7 +6,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.OldTablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -24,7 +24,7 @@ public class EffSetArrayTablist extends Effect {
     @Override
     protected void execute(Event event) {
         Player player = playerExpression.getSingle(event);
-        ArrayTablist arrayTablist = Tablist.getTablistForPlayer(player).arrayTablist;
+        ArrayTablist arrayTablist = OldTablist.getTablistForPlayer(player).arrayTablist;
         if (matchedPattern == 0) {
             arrayTablist.setColumns(0);
         } else if (matchedPattern == 1) {

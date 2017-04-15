@@ -5,7 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.OldTablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -14,7 +14,7 @@ import org.bukkit.event.Event;
  */
 public class EffCreateNewTab extends Effect {
     private Expression<String> id;
-    private Expression<Tablist> tablistExpression;
+    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
     private Expression<String> displayName;
     private Expression<Number> ping;
@@ -23,9 +23,9 @@ public class EffCreateNewTab extends Effect {
 
     @Override
     protected void execute(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
-        tablist.simpleTablist.createTab(player, id.getSingle(event), displayName.getSingle(event), (ping == null ? 5 : ping.getSingle(event).byteValue()), (iconExpression == null ? Tablist.DEFAULT_SKIN_TEXTURE : iconExpression.getSingle(event)), (score == null ? 0 : score.getSingle(event).intValue()));
+        oldTablist.simpleTablist.createTab(player, id.getSingle(event), displayName.getSingle(event), (ping == null ? 5 : ping.getSingle(event).byteValue()), (iconExpression == null ? OldTablist.DEFAULT_SKIN_TEXTURE : iconExpression.getSingle(event)), (score == null ? 0 : score.getSingle(event).intValue()));
     }
 
     @Override
@@ -36,7 +36,7 @@ public class EffCreateNewTab extends Effect {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         id = (Expression<String>) expressions[0];
-        tablistExpression = (Expression<Tablist>) expressions[1];
+        tablistExpression = (Expression<OldTablist>) expressions[1];
         playerExpression = (Expression<Player>) expressions[2];
         displayName = (Expression<String>) expressions[3];
         ping = (Expression<Number>) expressions[4];

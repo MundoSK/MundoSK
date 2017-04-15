@@ -12,22 +12,22 @@ import org.bukkit.event.Event;
  */
 public class EffChangePlayerVisibility extends Effect {
     private boolean visible;
-    private Expression<Tablist> tablistExpression;
+    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
     private Expression<Player> objectsExpression;
 
     @Override
     protected void execute(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         Player[] objects = objectsExpression.getArray(event);
         if (visible) {
             for (Player object : objects) {
-                tablist.showTab(object, player);
+                oldTablist.showTab(object, player);
             }
         } else {
             for (Player object : objects) {
-                Tablist.PlayerOldTab tab = tablist.getTab(object);
+                OldTablist.PlayerOldTab tab = oldTablist.getTab(object);
                 if (tab != null) {
                     tab.hideFor(player);
                 }
@@ -43,7 +43,7 @@ public class EffChangePlayerVisibility extends Effect {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         visible = parseResult.mark == 0;
-        tablistExpression = (Expression<Tablist>) expressions[1];
+        tablistExpression = (Expression<OldTablist>) expressions[1];
         playerExpression = (Expression<Player>) expressions[2];
         objectsExpression = (Expression<Player>) expressions[0];
         return true;

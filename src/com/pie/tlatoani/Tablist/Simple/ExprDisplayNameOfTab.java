@@ -7,7 +7,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Tablist.OldTab;
-import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.OldTablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -16,15 +16,15 @@ import org.bukkit.event.Event;
  */
 public class ExprDisplayNameOfTab extends SimpleExpression<String> {
     private Expression<String> id;
-    private Expression<Tablist> tablistExpression;
+    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected String[] get(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         String id = this.id.getSingle(event);
-        OldTab oldTab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
+        OldTab oldTab = oldTablist.simpleTablist.getTabIfVisibleFor(player, id);
         if (oldTab == null) {
             return new String[0];
         }
@@ -49,16 +49,16 @@ public class ExprDisplayNameOfTab extends SimpleExpression<String> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         id = (Expression<String>) expressions[0];
-        tablistExpression = (Expression<Tablist>) expressions[1];
+        tablistExpression = (Expression<OldTablist>) expressions[1];
         playerExpression = (Expression<Player>) expressions[2];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         String id = this.id.getSingle(event);
-        OldTab oldTab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
+        OldTab oldTab = oldTablist.simpleTablist.getTabIfVisibleFor(player, id);
         if (oldTab != null) {
             oldTab.setDisplayName(player, (String) delta[0]);
         }

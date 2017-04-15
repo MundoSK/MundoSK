@@ -8,7 +8,7 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.OldTab;
-import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.OldTablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -17,15 +17,15 @@ import org.bukkit.event.Event;
  */
 public class ExprIconOfTab extends SimpleExpression<Skin> {
     private Expression<String> id;
-    private Expression<Tablist> tablistExpression;
+    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected Skin[] get(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         String id = this.id.getSingle(event);
-        OldTab oldTab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
+        OldTab oldTab = oldTablist.simpleTablist.getTabIfVisibleFor(player, id);
         if (oldTab == null) {
             return new Skin[0];
         }
@@ -50,16 +50,16 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         id = (Expression<String>) expressions[0];
-        tablistExpression = (Expression<Tablist>) expressions[1];
+        tablistExpression = (Expression<OldTablist>) expressions[1];
         playerExpression = (Expression<Player>) expressions[2];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         String id = this.id.getSingle(event);
-        OldTab oldTab = tablist.simpleTablist.getTabIfVisibleFor(player, id);
+        OldTab oldTab = oldTablist.simpleTablist.getTabIfVisibleFor(player, id);
         if (oldTab != null) {
             oldTab.setIcon(player, (Skin) delta[0]);
         }

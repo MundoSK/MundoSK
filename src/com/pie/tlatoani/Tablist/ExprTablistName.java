@@ -15,15 +15,15 @@ import org.bukkit.event.Event;
  */
 public class ExprTablistName extends SimpleExpression<String> {
     private Expression<Player> object;
-    private Expression<Tablist> tablistExpression;
+    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected String[] get(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         Player object = this.object.getSingle(event);
-        OldTab oldTab = tablist.getTab(object);
+        OldTab oldTab = oldTablist.getTab(object);
         return new String[]{oldTab == null ? null : oldTab.getDisplayName(player)};
     }
 
@@ -45,16 +45,16 @@ public class ExprTablistName extends SimpleExpression<String> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         object = (Expression<Player>) expressions[0];
-        tablistExpression = (Expression<Tablist>) expressions[1];
+        tablistExpression = (Expression<OldTablist>) expressions[1];
         playerExpression = (Expression<Player>) expressions[2];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
+        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
         Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         Player object = this.object.getSingle(event);
-        OldTab oldTab = tablist.getTab(object);
+        OldTab oldTab = oldTablist.getTab(object);
         oldTab.setDisplayName(player, mode == Changer.ChangeMode.SET ? (String) delta[0] : null);
     }
 

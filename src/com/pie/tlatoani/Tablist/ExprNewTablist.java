@@ -9,10 +9,10 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 11/25/16.
  */
-public class ExprNewTablist extends SimpleExpression<Tablist> {
+public class ExprNewTablist extends SimpleExpression<OldTablist> {
     @Override
-    protected Tablist[] get(Event event) {
-        return new Tablist[]{new Tablist()};
+    protected OldTablist[] get(Event event) {
+        return new OldTablist[]{new OldTablist()};
     }
 
     @Override
@@ -21,8 +21,8 @@ public class ExprNewTablist extends SimpleExpression<Tablist> {
     }
 
     @Override
-    public Class<? extends Tablist> getReturnType() {
-        return Tablist.class;
+    public Class<? extends OldTablist> getReturnType() {
+        return OldTablist.class;
     }
 
     @Override

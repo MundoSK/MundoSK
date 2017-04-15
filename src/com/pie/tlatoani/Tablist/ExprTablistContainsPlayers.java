@@ -6,14 +6,13 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 /**
  * Created by Tlatoani on 8/11/16.
  */
 public class ExprTablistContainsPlayers extends SimpleExpression<Boolean> {
-    private Expression<Tablist> tablistExpression;
+    private Expression<OldTablist> tablistExpression;
 
     @Override
     protected Boolean[] get(Event event) {
@@ -37,16 +36,16 @@ public class ExprTablistContainsPlayers extends SimpleExpression<Boolean> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        tablistExpression = (Expression<Tablist>) expressions[0];
+        tablistExpression = (Expression<OldTablist>) expressions[0];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist tablist = tablistExpression.getSingle(event);
+        OldTablist oldTablist = tablistExpression.getSingle(event);
         if ((Boolean) delta[0])
-            tablist.showAllPlayers();
+            oldTablist.showAllPlayers();
         else
-            tablist.hideAllPlayers();
+            oldTablist.hideAllPlayers();
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
