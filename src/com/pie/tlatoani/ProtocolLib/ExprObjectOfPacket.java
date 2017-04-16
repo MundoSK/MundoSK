@@ -16,6 +16,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.reflect.EquivalentConverter;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
+import com.comphenix.protocol.wrappers.WrappedBlockData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.nbt.NbtBase;
 import com.comphenix.protocol.wrappers.nbt.NbtCompound;
@@ -30,6 +31,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.json.simple.JSONObject;
 
 import java.lang.reflect.Array;
@@ -351,14 +353,6 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
                 @Override
                 public void set(PacketContainer packet, Integer index, ItemStack value) {
-                    /*ItemStack itemStack;
-                    if (value instanceof ItemStack) {
-                        itemStack = (ItemStack) value;
-                    } else if (value instanceof ItemType) {
-                        itemStack = ((ItemType) value).getRandom();
-                    } else {
-                        itemStack = null;
-                    }*/
                     StructureModifier<ItemStack> structureModifier = packet.getModifier().withType(nmsItemClass, itemConvert);
                     structureModifier.writeSafely(index, value);
                 }
@@ -371,6 +365,27 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         } catch (Exception e) {
             Mundo.reportException(ExprObjectOfPacket.class, e);
         }
+
+        registerSingleConverter("blockdata", new PacketInfoConverter<ItemStack>() {
+            @Override
+            public ItemStack get(PacketContainer packet, Integer index) {
+                WrappedBlockData blockData = packet.getBlockData().readSafely(index);
+                ItemStack itemStack = new ItemStack(blockData.getType());
+                itemStack.setData(new MaterialData(blockData.getType(), new Integer(blockData.getData()).byteValue()));
+                return itemStack;
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, ItemStack value) {
+                WrappedBlockData blockData = WrappedBlockData.createData(value.getType(), value.getData().getData());
+                packet.getBlockData().writeSafely(index, blockData);
+            }
+
+            @Override
+            public Class<ItemStack> getType() {
+                return ItemStack.class;
+            }
+        });
 
         //Plural Converters
 
