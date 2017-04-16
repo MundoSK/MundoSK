@@ -146,7 +146,7 @@ public class Tab {
                 visibleByDefault = false;
                 personalTabs.clear();
                 send(hidePacket());
-            } else if (!isUniform()) {
+            } else {
                 UtilPacketEvent.sendPacket(hidePacket(), this, personalTabs.keySet());
             }
         }

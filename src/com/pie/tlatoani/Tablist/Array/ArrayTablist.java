@@ -181,6 +181,7 @@ public class ArrayTablist {
         this.columns = columns;
         if (columns == 0) {
             this.rows = 0;
+            //tablist.minimizeArrayTablist();
         }
     }
 
@@ -271,7 +272,7 @@ public class ArrayTablist {
         return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? tabs[column - 1][row - 1] : null;
     }
 
-    public Tab.Personalizable getPersonalizableTab(int column, int row) {
+    public Tab.Personalizable forcePersonalizable(int column, int row) {
         Tab tab = Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? tabs[column - 1][row - 1] : null;
         if (tab instanceof Tab.Personalizable || tab == null) {
             return (Tab.Personalizable) tab;

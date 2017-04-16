@@ -25,28 +25,31 @@ public class SimpleTablist {
 
     public static class SimplePersonalizable extends Tab.Personalizable {
         public final String id;
+        public final SimpleTablist simpleTablist;
 
         public SimplePersonalizable(OldTablist oldTablist, String id) {
             super(oldTablist, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)));
             this.id = id;
+            this.simpleTablist = oldTablist.simpleTablist;
         }
 
         public SimplePersonalizable(String id, Tab prev) {
             super(prev);
             this.id = id;
+            this.simpleTablist = prev.oldTablist.simpleTablist;
         }
 
         @Override
         public void hideForAll() {
             super.hideForAll();
-            oldTablist.simpleTablist.tabs.remove(id);
+            simpleTablist.removeTab(id);
         }
 
         @Override
         public void hideFor(Player player) {
             super.hideFor(player);
             if (!visibleByDefault && isUniform()) {
-                oldTablist.simpleTablist.tabs.remove(id);
+                simpleTablist.removeTab(id);
             }
         }
 
@@ -55,9 +58,9 @@ public class SimpleTablist {
             super.removeIfApplicable(personal);
             if (isUniform()) {
                 if (visibleByDefault) {
-                    oldTablist.simpleTablist.tabs.put(id, new Tab(this));
+                    simpleTablist.tabs.put(id, new Tab(this));
                 } else {
-                    oldTablist.simpleTablist.tabs.remove(id);
+                    simpleTablist.removeTab(id);
                 }
             }
         }
@@ -158,11 +161,16 @@ public class SimpleTablist {
     }
     */
 
+    public boolean isEmpty() {
+        return tabs.isEmpty();
+    }
+
     public void clear() {
         for (Tab tab : tabs.values()) {
             tab.send(tab.hidePacket());
         }
         tabs.clear();
+        //tablist.clearSimpleTablist();
     }
 
     //These two methods no longer needed when SimpleTab
@@ -224,7 +232,14 @@ public class SimpleTablist {
     public void deleteTab(String id) {
         Tab tab = tabs.get(id);
         tab.send(tab.hidePacket());
+        removeTab(id);
+    }
+
+    private void removeTab(String id) {
         tabs.remove(id);
+        if (isEmpty()) {
+            //tablist.clearSimpleTablist();
+        }
     }
 
     //All following methods no longer needed when SimpleTab

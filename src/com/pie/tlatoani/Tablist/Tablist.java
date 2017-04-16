@@ -12,53 +12,58 @@ import java.util.Optional;
  * Created by Tlatoani on 4/15/17.
  */
 public class Tablist {
-    private Either<PlayerTablist, Boolean> playerTablistOrVisibility = Either.right(true);
-    private Optional<ArrayTablist> arrayTablistOptional = Optional.empty();
-    private Optional<SimpleTablist> simpleTablistOptional = Optional.empty();
+    private Storage storage = new Storage();
+
+    public static class Storage {
+        public Either<PlayerTablist, Boolean> playerTablistOrVisibility = Either.right(true);
+        public Optional<ArrayTablist> arrayTablistOptional = Optional.empty();
+        public Optional<SimpleTablist> simpleTablistOptional = Optional.empty();
+    }
 
     public Either<PlayerTablist, Boolean> getPlayerTablistOrVisibility() {
-        return playerTablistOrVisibility;
+        return storage.playerTablistOrVisibility;
     }
 
     public PlayerTablist forcePlayerTablist() {
-        return playerTablistOrVisibility.map(playerTablist -> playerTablist, visibility -> {
+        return storage.playerTablistOrVisibility.map(playerTablist -> playerTablist, visibility -> {
             showAllPlayers();
             PlayerTablist playerTablist = null;
-            playerTablistOrVisibility = Either.left(playerTablist);
+            storage.playerTablistOrVisibility = Either.left(playerTablist);
             return playerTablist;
         });
     }
 
     public void showAllPlayers() {
-        if (playerTablistOrVisibility.getRight().orElse(false)) {
+        if (storage.playerTablistOrVisibility.getRight().orElse(false)) {
             return;
         }
-        playerTablistOrVisibility = Either.right(true);
+        storage.playerTablistOrVisibility = Either.right(true);
         //add stuff
     }
 
     public void hideAllPlayers() {
-        if (!playerTablistOrVisibility.getRight().orElse(true)) {
+        if (!storage.playerTablistOrVisibility.getRight().orElse(true)) {
             return;
         }
-        playerTablistOrVisibility = Either.right(false);
+        storage.playerTablistOrVisibility = Either.right(false);
         //add stuff
     }
 
     public Optional<ArrayTablist> getArrayTablistOptional() {
-        return arrayTablistOptional;
+        return storage.arrayTablistOptional;
     }
 
     public ArrayTablist showArrayTablist(int columns, int rows) {
-        ArrayTablist arrayTablist = arrayTablistOptional.orElseGet(() -> {
+        ArrayTablist arrayTablist = storage.arrayTablistOptional.orElseGet(() -> {
             boolean canShowPlayers = columns == 4 && rows == 20;
             if (canShowPlayers) {
                 showAllPlayers();
             } else {
                 hideAllPlayers();
             }
+            clearSimpleTablist();
             ArrayTablist newArrayTablist = null;
-            arrayTablistOptional = Optional.of(newArrayTablist);
+            storage.arrayTablistOptional = Optional.of(newArrayTablist);
             return newArrayTablist;
         });
         arrayTablist.setColumns(Mundo.limitToRange(1, columns, 4));
@@ -67,22 +72,27 @@ public class Tablist {
     }
 
     public void minimizeArrayTablist() {
-        arrayTablistOptional.ifPresent(arrayTablist -> {
-            if (arrayTablist.getColumns() > 0) {
-                arrayTablist.setColumns(0);
-            }
+        storage.arrayTablistOptional.ifPresent(arrayTablist -> {
+            arrayTablist.setColumns(0);
         });
     }
 
     public Optional<SimpleTablist> getSimpleTablistOptional() {
-        return simpleTablistOptional;
+        return storage.simpleTablistOptional;
     }
 
     public SimpleTablist forceSimpleTablist() {
-        return simpleTablistOptional.orElseGet(() -> {
+        return storage.simpleTablistOptional.orElseGet(() -> {
             SimpleTablist newSimpleTablist = null;
-            simpleTablistOptional = Optional.of(newSimpleTablist);
+            storage.simpleTablistOptional = Optional.of(newSimpleTablist);
+            minimizeArrayTablist();
             return newSimpleTablist;
+        });
+    }
+
+    public void clearSimpleTablist() {
+        storage.simpleTablistOptional.ifPresent(simpleTablist -> {
+            simpleTablist.clear();
         });
     }
 

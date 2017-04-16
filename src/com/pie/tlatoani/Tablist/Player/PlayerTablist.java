@@ -22,45 +22,90 @@ public class PlayerTablist {
     public final OldTablist oldTablist;
 
     public static class PlayerTab extends Tab {
+        public final Player player;
+        public final PlayerTablist playerTablist;
 
         public PlayerTab(OldTablist oldTablist, Player player) {
             super(oldTablist, player.getName(), player.getUniqueId(), null, null, null, null);
+            this.player = player;
+            this.playerTablist = oldTablist.playerTablist;
         }
 
-        public PlayerTab(Tab prev) {
+        public PlayerTab(Player player, Tab prev) {
             super(prev);
+            this.player = player;
+            this.playerTablist = prev.oldTablist.playerTablist;
+        }
+
+        private void checkContainsValue() {
+            if (!containsValue()) {
+                playerTablist.removePlayer(player);
+            }
         }
 
         @Override
-        public void setIcon(Skin icon) {
+        public void setDisplayName(String value) {
+            super.setDisplayName(value);
+            checkContainsValue();
+        }
+
+        @Override
+        public void setLatency(Byte value) {
+            super.setLatency(value);
+            checkContainsValue();
+        }
+
+        @Override
+        public void setIcon(Skin value) {
             throw new IllegalArgumentException("PlayerTablist does not allow you to change skin icons, as that would change the player's own skin");
+        }
+
+        @Override
+        public void setScore(Integer value) {
+            super.setScore(value);
+            checkContainsValue();
         }
     }
 
     public static class PlayerPersonalizable extends Tab.Personalizable {
         public final Player player;
+        public final PlayerTablist playerTablist;
 
         public PlayerPersonalizable(OldTablist oldTablist, Player player) {
             super(oldTablist, player.getName(), player.getUniqueId());
             this.player = player;
+            this.playerTablist = oldTablist.playerTablist;
         }
 
         public PlayerPersonalizable(Player player, Tab prev) {
             super(prev);
             this.player = player;
+            this.playerTablist = oldTablist.playerTablist;
         }
 
         @Override
         public void hideForAll() {
             super.hideForAll();
-            oldTablist.playerTablist.tabs.put(player, Optional.empty());
+            playerTablist.tabs.put(player, Optional.empty());
+        }
+
+        @Override
+        public void showFor(Player player) {
+            super.showFor(player);
+            if (isUniform()) {
+                if (containsValue()) {
+                    playerTablist.tabs.put(player, Optional.of(new PlayerTab(player, this)));
+                } else {
+                    playerTablist.removePlayer(player);
+                }
+            }
         }
 
         @Override
         public void hideFor(Player player) {
             super.hideFor(player);
-            if (!visibleByDefault && isUniform()) {
-                oldTablist.playerTablist.tabs.put(player, Optional.empty());
+            if (isUniform()) {
+                playerTablist.tabs.put(player, Optional.empty());
             }
         }
 
@@ -97,16 +142,44 @@ public class PlayerTablist {
             super.removeIfApplicable(personal);
             if (isUniform()) {
                 if (visibleByDefault) {
-                    oldTablist.playerTablist.tabs.put(player, Optional.of(new PlayerTab(this)));
+                    if (containsValue()) {
+                        playerTablist.tabs.put(player, Optional.of(new PlayerTab(player, this)));
+                    } else {
+                        playerTablist.removePlayer(player);
+                    }
                 } else {
-                    oldTablist.playerTablist.tabs.put(player, Optional.empty());
+                    playerTablist.tabs.put(player, Optional.empty());
                 }
             }
         }
 
+        private void checkContainsValue() {
+            if (!containsValue()) {
+                playerTablist.removePlayer(player);
+            }
+        }
+
         @Override
-        public void setIcon(Skin icon) {
+        public void setDisplayName(String value) {
+            super.setDisplayName(value);
+            checkContainsValue();
+        }
+
+        @Override
+        public void setLatency(Byte value) {
+            super.setLatency(value);
+            checkContainsValue();
+        }
+
+        @Override
+        public void setIcon(Skin value) {
             throw new IllegalArgumentException("PlayerTablist does not allow you to change skin icons, as that would change the player's own skin");
+        }
+
+        @Override
+        public void setScore(Integer value) {
+            super.setScore(value);
+            checkContainsValue();
         }
     }
 
@@ -190,5 +263,10 @@ public class PlayerTablist {
                 UtilPacketEvent.sendPacket(showPacket, PlayerTablist.class, player);
             });
         }));
+    }
+
+    private void removeTab(Player player) {
+        tabs.remove(player);
+        //stuff
     }
 }
