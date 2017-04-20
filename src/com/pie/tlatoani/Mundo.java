@@ -1177,5 +1177,13 @@ public class Mundo extends JavaPlugin{
 	        return otherwise.get();
         }
     }
+
+    public static <T, R extends T> Optional<R> cast(T value) {
+	    try {
+	        return Optional.of((R) value);
+        } catch (ClassCastException __) {
+	        return Optional.empty();
+        }
+    }
 	
 }

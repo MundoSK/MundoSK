@@ -3,7 +3,7 @@ package com.pie.tlatoani.Tablist.Array;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tab;
-import com.pie.tlatoani.Tablist.OldTablist;
+import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -12,51 +12,26 @@ import java.util.*;
  * Created by Tlatoani on 7/15/16.
  */
 public class ArrayTablist {
-    private final OldTablist oldTablist;
+    public final Tablist tablist;
+    private final Tablist.Storage storage;
 
     /*private final String[][] displayNames = new String[4][20];
     private final int[][] latencies = new int[4][20];
     private final Skin[][] heads = new Skin[4][20];
     private final int[][] scores = new int[4][20];*/
 
-    private final static String uuidbeginning = "10001000-1000-3000-8000-10001000";
+    public final static String UUID_BEGINNING = "10001000-1000-3000-8000-10001000";
     private int columns = 0;
     private int rows = 0;
-    public Skin initialIcon = OldTablist.DEFAULT_SKIN_TEXTURE;
+    public Skin initialIcon = Tablist.DEFAULT_SKIN_TEXTURE;
 
     private final Tab[][] tabs = new Tab[4][20];
 
-    public static class ArrayPersonalizable extends Tab.Personalizable {
-        public final int column;
-        public final int row;
 
-        public ArrayPersonalizable(Tab prev, int column, int row) {
-            super(prev);
-            this.column = column;
-            this.row = row;
-        }
 
-        @Override
-        public void hideForAll() {
-            throw new UnsupportedOperationException("ArrayTablist does not allow you to hide individual tabs!");
-        }
-
-        @Override
-        public void hideFor(Player player) {
-            throw new UnsupportedOperationException("ArrayTablist does not allow you to hide individual tabs!");
-        }
-
-        @Override
-        public void removeIfApplicable(Personal personal) {
-            super.removeIfApplicable(personal);
-            if (isUniform()) {
-                oldTablist.arrayTablist.setTab(column, row, new Tab(this));
-            }
-        }
-    }
-
-    public ArrayTablist(OldTablist oldTablist) {
-        this.oldTablist = oldTablist;
+    public ArrayTablist(Tablist.Storage storage) {
+        this.tablist = storage.tablist;
+        this.storage = storage;
     }
 
     public static int getViableRowAmount(int columns, int rows) {
@@ -79,7 +54,7 @@ public class ArrayTablist {
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(Tablist.colorStringToJson(displayName));
         int identifier = (((column - 1) * 20) + row);
         //if (identifier % 2 == 0) identifier += 79;
-        UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
+        UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSK::" + (identifier < 10 ? "0" : "") + identifier);
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
@@ -132,14 +107,6 @@ public class ArrayTablist {
         Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", columns " + columns);
         columns = Mundo.limitToRange(0, columns, 4);
         if (columns == this.columns) return;
-        if (columns != 0) {
-            Mundo.debug(this, "Columns != 0");
-            oldTablist.simpleTablist.clear();
-            if (columns != 4 && !oldTablist.areAllPlayersHidden()) {
-                Mundo.debug(this, "Hiding all players");
-                oldTablist.hideAllPlayers();
-            }
-        }
         if (columns > this.columns) {
             if (this.columns == 0) {
                 this.rows = getViableRowAmount(columns, this.rows);
@@ -156,8 +123,8 @@ public class ArrayTablist {
                     if (tablist.areScoresEnabled()) sendScorePacketToAll(column, row);*/
                     int identifier = (((column - 1) * 20) + row);
                     String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
-                    UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
-                    Tab tab = new Tab(oldTablist, name, uuid, "", (byte) 5, initialIcon, 0);
+                    UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
+                    Tab tab = new Tab(storage, name, uuid, "", (byte) 5, initialIcon, 0);
                     tab.send(tab.showPacket());
                     setTab(column, row, tab);
                 }
@@ -181,16 +148,22 @@ public class ArrayTablist {
         this.columns = columns;
         if (columns == 0) {
             this.rows = 0;
-            //tablist.minimizeArrayTablist();
+            storage.arrayTablistOptional = Optional.empty();
+        } else {
+            Mundo.debug(this, "Columns != 0");
+            if (columns == 4 && rows == 20) {
+                tablist.showAllPlayers();
+            } else {
+                tablist.hideAllPlayers();
+            }
         }
     }
 
     public void setRows(int rows) {
         Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
         rows = getViableRowAmount(columns, rows);
-        if (rows != 20 && !oldTablist.areAllPlayersHidden()) {
-            Mundo.debug(this, "Rows != 20, Hiding all players");
-            oldTablist.hideAllPlayers();
+        if (rows == this.rows) {
+            return;
         }
         if (rows > this.rows) {
             for (int column = 1; column <= this.columns; column++)
@@ -203,8 +176,8 @@ public class ArrayTablist {
                     sendScorePacketToAll(column, row);*/
                     int identifier = (((column - 1) * 20) + row);
                     String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
-                    UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
-                    Tab tab = new Tab(oldTablist, name, uuid, "", (byte) 5, initialIcon, 0);
+                    UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
+                    Tab tab = new Tab(storage, name, uuid, "", (byte) 5, initialIcon, 0);
                     tab.send(tab.showPacket());
                     setTab(column, row, tab);
                 }
@@ -223,6 +196,11 @@ public class ArrayTablist {
                 }
         }
         this.rows = rows;
+        if (columns == 4 && rows == 20) {
+            tablist.showAllPlayers();
+        } else {
+            tablist.hideAllPlayers();
+        }
     }
 
     public void maximize() {
@@ -269,15 +247,22 @@ public class ArrayTablist {
     }
 
     public Tab getTab(int column, int row) {
-        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? tabs[column - 1][row - 1] : null;
+        if (!Mundo.isInRange(1, column, columns)) {
+            throw new IllegalArgumentException("Column = " + column + " out of range 1 to " + columns);
+        }
+        if (!Mundo.isInRange(1, row, rows)) {
+            throw new IllegalArgumentException("Row = " + row + " out of range 1 to " + rows);
+
+        }
+        return tabs[column - 1][row - 1];
     }
 
     public Tab.Personalizable forcePersonalizable(int column, int row) {
-        Tab tab = Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? tabs[column - 1][row - 1] : null;
+        Tab tab = getTab(column, row);
         if (tab instanceof Tab.Personalizable || tab == null) {
             return (Tab.Personalizable) tab;
         }
-        Tab.Personalizable personalizableTab = new ArrayPersonalizable(tab, column, row);
+        Tab.Personalizable personalizableTab = new ArrayPersonalizable(this, tab, column, row);
         setTab(column, row, personalizableTab);
         return personalizableTab;
     }
@@ -333,4 +318,37 @@ public class ArrayTablist {
             sendScorePacketToAll(column, row);
         }
     }*/
+
+    //Tab Class Modifications
+
+    public static class ArrayPersonalizable extends Tab.Personalizable {
+        public final ArrayTablist arrayTablist;
+        public final int column;
+        public final int row;
+
+        public ArrayPersonalizable(ArrayTablist arrayTablist, Tab prev, int column, int row) {
+            super(prev);
+            this.arrayTablist = arrayTablist;
+            this.column = column;
+            this.row = row;
+        }
+
+        @Override
+        public void hideForAll() {
+            throw new UnsupportedOperationException("ArrayTablist does not allow you to hide individual tabs!");
+        }
+
+        @Override
+        public void hideFor(Player player) {
+            throw new UnsupportedOperationException("ArrayTablist does not allow you to hide individual tabs!");
+        }
+
+        @Override
+        public void removeIfApplicable(Personal personal) {
+            super.removeIfApplicable(personal);
+            if (isUniform()) {
+                arrayTablist.setTab(column, row, new Tab(this));
+            }
+        }
+    }
 }

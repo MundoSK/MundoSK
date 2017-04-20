@@ -16,6 +16,7 @@ import com.google.common.collect.Tables;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Tablist.OldTablist;
+import com.pie.tlatoani.Tablist.TablistManager;
 import com.pie.tlatoani.Util.UtilReflection;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -354,7 +355,7 @@ public class SkinManager {
             }
         });
         Mundo.sync(2, () -> {
-            PacketContainer packet = OldTablist.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
+            PacketContainer packet = TablistManager.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             for (Player target : targets) {
                 if (OldTablist.isPlayerHiddenFor(player, target)) {
                     UtilPacketEvent.sendPacket(packet, SkinManager.class, target);

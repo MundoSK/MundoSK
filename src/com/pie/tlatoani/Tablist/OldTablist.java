@@ -277,8 +277,8 @@ public class OldTablist {
     /*
     public static void setTablistForPlayer(Collection<Player> players, Tablist newTablist) {
         for (Player player : players) {
-            Tablist oldTablist = getTablistForPlayer(player);
-            if (oldTablist != null) oldTablist.removePlayer(player);
+            Tablist tablist = getTablistForPlayer(player);
+            if (tablist != null) tablist.removePlayer(player);
             tablistMap.put(player, newTablist);
         }
         newTablist.addPlayers(players);

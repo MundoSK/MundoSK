@@ -2,7 +2,7 @@ package com.pie.tlatoani.Tablist.Simple;
 
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tab;
-import com.pie.tlatoani.Tablist.OldTablist;
+import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 
 import java.nio.charset.Charset;
@@ -12,7 +12,8 @@ import java.util.*;
  * Created by Tlatoani on 7/15/16.
  */
 public class SimpleTablist {
-    private final OldTablist oldTablist;
+    public final Tablist tablist;
+    private final Tablist.Storage storage;
 
     /*private final HashMap<String, String> displayNames = new HashMap<>();
     private final HashMap<String, Integer> latencies = new HashMap<>();
@@ -23,51 +24,9 @@ public class SimpleTablist {
 
     public static final Charset UTF_8 = Charset.forName("UTF-8");
 
-    public static class SimplePersonalizable extends Tab.Personalizable {
-        public final String id;
-        public final SimpleTablist simpleTablist;
-
-        public SimplePersonalizable(OldTablist oldTablist, String id) {
-            super(oldTablist, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)));
-            this.id = id;
-            this.simpleTablist = oldTablist.simpleTablist;
-        }
-
-        public SimplePersonalizable(String id, Tab prev) {
-            super(prev);
-            this.id = id;
-            this.simpleTablist = prev.oldTablist.simpleTablist;
-        }
-
-        @Override
-        public void hideForAll() {
-            super.hideForAll();
-            simpleTablist.removeTab(id);
-        }
-
-        @Override
-        public void hideFor(Player player) {
-            super.hideFor(player);
-            if (!visibleByDefault && isUniform()) {
-                simpleTablist.removeTab(id);
-            }
-        }
-
-        @Override
-        public void removeIfApplicable(Personal personal) {
-            super.removeIfApplicable(personal);
-            if (isUniform()) {
-                if (visibleByDefault) {
-                    simpleTablist.tabs.put(id, new Tab(this));
-                } else {
-                    simpleTablist.removeTab(id);
-                }
-            }
-        }
-    }
-
-    public SimpleTablist(OldTablist oldTablist) {
-        this.oldTablist = oldTablist;
+    public SimpleTablist(Tablist.Storage storage) {
+        this.tablist = storage.tablist;
+        this.storage = storage;
     }
 
     //The following five methods no longer needed when SimpleTab
@@ -170,7 +129,7 @@ public class SimpleTablist {
             tab.send(tab.hidePacket());
         }
         tabs.clear();
-        //tablist.clearSimpleTablist();
+        storage.simpleTablistOptional = Optional.empty();
     }
 
     //These two methods no longer needed when SimpleTab
@@ -198,39 +157,47 @@ public class SimpleTablist {
         if (id == null || id.length() > 12) {
             throw new IllegalArgumentException("Invalid id = " + id);
         }
-        Tab tab = new Tab(oldTablist, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)), displayName, latency, icon, score);
-        tab.send(tab.showPacket());
-        tabs.put(id, tab);
-        return tab;
-    }
-
-    public Tab.Personal createTab(Player player, String id, String displayName, Byte latency, Skin icon, Integer score) {
-        SimplePersonalizable personalizableTab = getPersonalizableTab(id);
-        if (personalizableTab == null) {
-            personalizableTab = new SimplePersonalizable(oldTablist, id);
-            tabs.put(id, personalizableTab);
+        Tab tab = getTab(id);
+        if (tab instanceof SimplePersonalizable) {
+            ((SimplePersonalizable) tab).hideForAll();
+            tab = new Tab(storage, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)), displayName, latency, icon, score);
+            tab.send(tab.showPacket());
+            tabs.put(id, tab);
+        } else {
+            if (tab != null && icon == null && tab.getIcon() == null) {
+                tab.setDisplayName(displayName);
+                tab.setLatency(latency);
+                tab.setScore(score);
+            } else {
+                tab = new Tab(storage, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)), displayName, latency, icon, score);
+                tab.send(tab.showPacket());
+                tabs.put(id, tab);
+            }
         }
-        Tab.Personal personalTab = personalizableTab.showFor(player, displayName, latency, icon);
-        personalTab.setScore(score);
-        return personalTab;
+        return tab;
     }
 
     public Tab getTab(String id) {
         return tabs.get(id);
     }
 
-    public SimplePersonalizable getPersonalizableTab(String id) {
+    public SimplePersonalizable forcePersonalizableTab(String id) {
         Tab tab = getTab(id);
-        if (tab instanceof SimplePersonalizable || tab == null) {
+        if (tab instanceof SimplePersonalizable) {
             return (SimplePersonalizable) tab;
         }
-        SimplePersonalizable personalizableTab = new SimplePersonalizable(id, tab);
+        SimplePersonalizable personalizableTab;
+        if (tab == null) {
+            personalizableTab = new SimplePersonalizable(this, id);
+        } else {
+            personalizableTab = new SimplePersonalizable(this, id, tab);
+        }
         tabs.put(id, personalizableTab);
         return personalizableTab;
     }
 
     public void deleteTab(String id) {
-        Tab tab = tabs.get(id);
+        Tab tab = getTab(id);
         tab.send(tab.hidePacket());
         removeTab(id);
     }
@@ -299,5 +266,75 @@ public class SimpleTablist {
         }
     }
     */
+
+    //Tab Class Modifications
+
+    public static class SimplePersonalizable extends Tab.Personalizable {
+        public final String id;
+        public final SimpleTablist simpleTablist;
+
+        public SimplePersonalizable(SimpleTablist simpleTablist, String id) {
+            super(simpleTablist.storage, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)));
+            this.id = id;
+            this.simpleTablist = simpleTablist;
+        }
+
+        public SimplePersonalizable(SimpleTablist simpleTablist, String id, Tab prev) {
+            super(prev);
+            this.id = id;
+            this.simpleTablist = simpleTablist;
+        }
+
+        @Override
+        public void hideForAll() {
+            super.hideForAll();
+            simpleTablist.removeTab(id);
+        }
+
+        @Override
+        public void hideFor(Player player) {
+            super.hideFor(player);
+            if (!visibleByDefault && isUniform()) {
+                simpleTablist.removeTab(id);
+            }
+        }
+
+        @Override
+        public void removeIfApplicable(Personal personal) {
+            super.removeIfApplicable(personal);
+            if (isUniform()) {
+                if (visibleByDefault) {
+                    simpleTablist.tabs.put(id, new Tab(this));
+                } else {
+                    simpleTablist.removeTab(id);
+                }
+            }
+        }
+
+        @Override
+        public void setDisplayName(String value) {
+            super.setDisplayName(value);
+            if (isUniform() && visibleByDefault) {
+                simpleTablist.tabs.put(id, new Tab(this));
+            }
+        }
+
+        @Override
+        public void setLatency(Byte value) {
+            super.setLatency(value);
+            if (isUniform() && visibleByDefault) {
+                simpleTablist.tabs.put(id, new Tab(this));
+            }
+        }
+
+        @Override
+        public void setScore(Integer value) {
+            super.setScore(value);
+            if (isUniform() && visibleByDefault) {
+                simpleTablist.tabs.put(id, new Tab(this));
+            }
+        }
+
+    }
 
 }

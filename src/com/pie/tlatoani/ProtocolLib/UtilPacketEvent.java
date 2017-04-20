@@ -3,10 +3,7 @@ package com.pie.tlatoani.ProtocolLib;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.reflect.ObjectEnum;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.Bukkit;
@@ -14,9 +11,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Created by Tlatoani on 4/29/16.
@@ -29,7 +28,7 @@ public class UtilPacketEvent extends Event implements Cancellable{
     private PacketContainer packet;
     private Player player;
 
-    //Packet sending utility
+    //Packet Sending Utility
 
     public static void sendPacket(PacketContainer packet, Object exceptLocation, Player recipient) {
         try {
@@ -47,6 +46,17 @@ public class UtilPacketEvent extends Event implements Cancellable{
                 Mundo.reportException(exceptLocation, e);
             }
         }
+    }
+
+    //Packet Intercepting Utility
+
+    public static void onPacketSend(PacketType packetType, Consumer<PacketEvent> handler) {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, packetType) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                handler.accept(event);
+            }
+        });
     }
 
     //PacketType Stuff
