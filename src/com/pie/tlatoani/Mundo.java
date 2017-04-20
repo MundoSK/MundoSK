@@ -313,13 +313,15 @@ public class Mundo extends JavaPlugin {
 		registerExpression(ExprLoadedScripts.class,String.class,ExpressionType.SIMPLE, "loaded script[ name]s");
         registerExpression(ExprCompletions.class,String.class,ExpressionType.SIMPLE,"completions");
         registerExpression(ExprLoginResult.class, PlayerLoginEvent.Result.class, ExpressionType.SIMPLE, "(login|connect[ion]) result");
-        registerExpression(ExprServerIP.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] [the] ip of server", "[mundo[sk]] [the] server's ip");
-        registerExpression(ExprServerPort.class, Number.class, ExpressionType.PROPERTY, "[mundo[sk]] [the] port of server", "[mundo[sk]] [the] server's port");
+        registerExpression(ExprServerIP.class, String.class, ExpressionType.SIMPLE, "[mundo[sk]] [the] ip of server", "[mundo[sk]] [the] server's ip");
+        registerExpression(ExprServerPort.class, Number.class, ExpressionType.SIMPLE, "[mundo[sk]] [the] port of server", "[mundo[sk]] [the] server's port");
         registerExpression(ExprAllTypes.class, ClassInfo.class, ExpressionType.SIMPLE, "all types");
         registerExpression(ExprEntityCanCollide.class, Boolean.class, ExpressionType.PROPERTY, "%livingentity% is collidable");
         registerExpression(ExprTreeAtLoc.class, Block.class, ExpressionType.PROPERTY, "tree at %location%");
         registerExpression(ExprThatAre.class, Object.class, ExpressionType.COMBINED, "%objects% that are %object%");
         registerExpression(ExprRespawnLocation.class, Location.class, ExpressionType.SIMPLE, "respawn location");
+        registerExpression(ExprDestination.class, Location.class, ExpressionType.SIMPLE, "destination");
+        registerExpression(ExprNewPortal.class, Location.class, ExpressionType.PROPERTY, "new nether portal within [[a] radius of] %number% (block|meter)s of %location%");
         registerScope(ScopeMatcher.class, "(switch|match) %object%");
         registerScope(ScopeMatches.class, "(case|matches) %object%");
         registerScope(ScopeAsync.class, "async [in %-timespan%]");
