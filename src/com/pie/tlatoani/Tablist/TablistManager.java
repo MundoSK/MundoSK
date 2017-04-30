@@ -10,6 +10,7 @@ import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Player.PlayerTablist;
+import com.pie.tlatoani.Tablist.Tab.Tab;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -27,11 +28,11 @@ public class TablistManager {
 
     private static final ArrayList<Player> playersRespawning = new ArrayList<>();
 
-    public static final Tablist GLOBAL_TABLIST = new Tablist();
+    public static final Tablist DEFAULT_TABLIST = new Tablist();
 
     static {
         if (Mundo.implementPacketStuff) {
-            activeTablists.add(GLOBAL_TABLIST);
+            activeTablists.add(DEFAULT_TABLIST);
 
             UtilPacketEvent.onPacketSend(PacketType.Play.Server.PLAYER_INFO, event -> {
                 Player player = event.getPlayer();
@@ -52,14 +53,12 @@ public class TablistManager {
                         if (tab == null) {
                             return oldPlayerInfoData;
                         }
-                        if (tab instanceof PlayerTablist.PlayerPersonalizable) {
-                            Optional<Tab.Personal> personalOptional = ((PlayerTablist.PlayerPersonalizable) tab).forPlayer(player);
-                            if (personalOptional != null) {
-                                if (personalOptional.isPresent()) {
-                                    tab = personalOptional.get();
-                                } else {
-                                    return oldPlayerInfoData;
-                                }
+                        if (tab instanceof PlayerTablist.PlayerOldPersonalizable) {
+                            Optional<? extends Tab> personalOptional = ((PlayerTablist.PlayerOldPersonalizable) tab).viewForPlayer(player);
+                            if (personalOptional.isPresent()) {
+                                tab = personalOptional.get();
+                            } else {
+                                return oldPlayerInfoData;
                             }
                         }
                         return new PlayerInfoData(
@@ -113,7 +112,6 @@ public class TablistManager {
         }
     }
 
-
     private TablistManager() {}
 
     public static Tablist getTablistOfPlayer(Player player) {
@@ -125,11 +123,11 @@ public class TablistManager {
         tablistMap.put(player, tablist);
         if (prevTablist != null) {
             prevTablist.removePlayer(player);
-            if (!prevTablist.containsPlayers() && prevTablist != GLOBAL_TABLIST) {
+            if (!prevTablist.containsPlayers() && prevTablist != DEFAULT_TABLIST) {
                 activeTablists.remove(prevTablist);
             }
         }
-        if (!tablist.containsPlayers() && tablist != GLOBAL_TABLIST) {
+        if (!tablist.containsPlayers() && tablist != DEFAULT_TABLIST) {
             activeTablists.add(tablist);
         }
         tablist.addPlayer(player);
@@ -137,14 +135,14 @@ public class TablistManager {
 
     public static void onJoin(Player player) {
         if (getTablistOfPlayer(player) == null) {
-            setTablistOfPlayer(player, GLOBAL_TABLIST);
+            setTablistOfPlayer(player, DEFAULT_TABLIST);
         }
     }
 
     public static void onQuit(Player player) {
         Tablist tablist = getTablistOfPlayer(player);
         tablist.removePlayer(player);
-        if (!tablist.containsPlayers() && tablist != GLOBAL_TABLIST) {
+        if (!tablist.containsPlayers() && tablist != DEFAULT_TABLIST) {
             activeTablists.remove(tablist);
         }
     }

@@ -5,7 +5,7 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Tablist.Tab;
+import com.pie.tlatoani.Tablist.Tab.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.TablistManager;
 import com.pie.tlatoani.Util.Either;
@@ -43,7 +43,7 @@ public class PlayerTablist {
     public Tab forceTab(Player player) {
         Optional<Tab> tabOptional = tabs.get(player);
         if (tabOptional == null) {
-            Tab tab = new PlayerTab(this, player);
+            Tab tab = new PlayerBase(storage, player);
             tabs.put(player, Optional.of(tab));
             return tab;
         } else {
@@ -51,16 +51,16 @@ public class PlayerTablist {
         }
     }
 
-    public PlayerPersonalizable forcePersonalizable(Player player) {
+    public PlayerOldPersonalizable forcePersonalizable(Player player) {
         return tabs.get(player).map(tab -> {
-            if (tab instanceof PlayerPersonalizable) {
-                return (PlayerPersonalizable) tab;
+            if (tab instanceof PlayerOldPersonalizable) {
+                return (PlayerOldPersonalizable) tab;
             }
-            PlayerPersonalizable personalizable1 = new PlayerPersonalizable(this, player, tab);
+            PlayerOldPersonalizable personalizable1 = new PlayerOldPersonalizable(this, player, (PlayerBase) tab);
             tabs.put(player, Optional.of(personalizable1));
             return personalizable1;
         }).orElseGet(() -> {
-            PlayerPersonalizable personalizable1 = new PlayerPersonalizable(this, player);
+            PlayerOldPersonalizable personalizable1 = new PlayerOldPersonalizable(this, player);
             tabs.put(player, Optional.of(personalizable1));
             return personalizable1;
         });
@@ -72,8 +72,8 @@ public class PlayerTablist {
             return true;
         }
         return tabOptional.map(tab -> {
-            if (tab instanceof PlayerPersonalizable) {
-                return ((PlayerPersonalizable) tab).visibleFor(target);
+            if (tab instanceof PlayerOldPersonalizable) {
+                return ((PlayerOldPersonalizable) tab).visibleFor(target);
             } else {
                 return true;
             }
@@ -84,8 +84,8 @@ public class PlayerTablist {
         storage.playerTablistOrVisibility = Either.right(true);
         tabs.forEach((player, tabOptional) -> {
             Mundo.optionalCase(tabOptional, tab -> {
-                if (tab instanceof PlayerPersonalizable) {
-                    ((PlayerPersonalizable) tab).showForAll();
+                if (tab instanceof PlayerOldPersonalizable) {
+                    ((PlayerOldPersonalizable) tab).showForAll();
                 }
             }, () -> {
                 UtilPacketEvent.sendPacket(TablistManager.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), PlayerTablist.class, storage.players);
@@ -101,8 +101,8 @@ public class PlayerTablist {
                 UtilPacketEvent.sendPacket(TablistManager.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), PlayerTablist.class, storage.players);
             } else {
                 tabOptional.ifPresent(tab -> {
-                    if (tab instanceof PlayerPersonalizable) {
-                        ((PlayerPersonalizable) tab).hideForAll();
+                    if (tab instanceof PlayerOldPersonalizable) {
+                        ((PlayerOldPersonalizable) tab).hideForAll();
                     } else {
                         tab.send(tab.hidePacket());
                     }
@@ -115,7 +115,7 @@ public class PlayerTablist {
     public void addPlayer(Player player) {
         tabs.forEach(((objPlayer, tabOptional) -> {
             Mundo.optionalCase(tabOptional, tab -> {
-                if (tab instanceof PlayerPersonalizable && !((PlayerPersonalizable) tab).isVisibleByDefault()) {
+                if (tab instanceof PlayerOldPersonalizable && !((PlayerOldPersonalizable) tab).isVisibleByDefault()) {
                     tab.send(tab.hidePacket(), player);
                 } else {
                     if (tab.getDisplayName() != null) {
@@ -138,8 +138,8 @@ public class PlayerTablist {
     public void removePlayer(Player player) {
         tabs.forEach(((objPlayer, tabOptional) -> {
             Mundo.optionalCase(tabOptional, tab -> {
-                if (tab instanceof PlayerPersonalizable) {
-                    ((PlayerPersonalizable) tab).removePlayer(player);
+                if (tab instanceof PlayerOldPersonalizable) {
+                    ((PlayerOldPersonalizable) tab).removePlayer(player);
                 } else {
                     if (tab.getDisplayName() != null) {
                         tab.send(tab.playerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME, null, null, null), player);
@@ -164,20 +164,17 @@ public class PlayerTablist {
 
     //Tab Class Modifications
 
-    public static class PlayerTab extends Tab {
+    public static class PlayerBase extends Tab.Base {
         public final Player player;
-        public final PlayerTablist playerTablist;
 
-        public PlayerTab(PlayerTablist playerTablist, Player player) {
-            super(playerTablist.storage, player.getName(), player.getUniqueId(), null, null, null, null);
+        public PlayerBase(Tablist.Storage storage, Player player) {
+            super(storage, player.getName(), player.getUniqueId(), null, null, null, null);
             this.player = player;
-            this.playerTablist = playerTablist;
         }
 
-        public PlayerTab(PlayerTablist playerTablist, Player player, Tab prev) {
+        public PlayerBase(Player player, Base prev) {
             super(prev);
             this.player = player;
-            this.playerTablist = playerTablist;
         }
 
         //The packet intercepter will make the required changes
@@ -186,48 +183,24 @@ public class PlayerTablist {
             return TablistManager.playerInfoPacket(player, action);
         }
 
-        private void checkContainsValue() {
-            if (!containsValue()) {
-                playerTablist.removePlayer(player);
-            }
-        }
-
-        @Override
-        public void setDisplayName(String value) {
-            super.setDisplayName(value);
-            checkContainsValue();
-        }
-
-        @Override
-        public void setLatency(Byte value) {
-            super.setLatency(value);
-            checkContainsValue();
-        }
-
         @Override
         public void setIcon(Skin value) {
             throw new UnsupportedOperationException("PlayerTablist does not allow you to change skin icons, as that would change the player's own skin");
         }
-
-        @Override
-        public void setScore(Integer value) {
-            super.setScore(value);
-            checkContainsValue();
-        }
     }
 
-    public static class PlayerPersonalizable extends Tab.Personalizable {
+    public static class PlayerOldPersonalizable extends Tab.OldPersonalizable {
         public final Player player;
         public final PlayerTablist playerTablist;
 
-        public PlayerPersonalizable(PlayerTablist playerTablist, Player player) {
+        public PlayerOldPersonalizable(PlayerTablist playerTablist, Player player) {
             super(playerTablist.storage, player.getName(), player.getUniqueId());
             this.player = player;
             this.playerTablist = playerTablist;
         }
 
-        public PlayerPersonalizable(PlayerTablist playerTablist, Player player, Tab prev) {
-            super(prev);
+        public PlayerOldPersonalizable(PlayerTablist playerTablist, Player player, Base base) {
+            super(base);
             this.player = player;
             this.playerTablist = playerTablist;
         }
@@ -245,26 +218,6 @@ public class PlayerTablist {
         }
 
         @Override
-        public void forceForPlayer(Player player) {
-            super.forceForPlayer(player);
-            if (isUniform()) {
-                if (containsValue()) {
-                    playerTablist.tabs.put(player, Optional.of(new PlayerTab(playerTablist, player, this)));
-                } else {
-                    playerTablist.removePlayer(player);
-                }
-            }
-        }
-
-        @Override
-        public void hideFor(Player player) {
-            super.hideFor(player);
-            if (isUniform()) {
-                playerTablist.tabs.put(player, Optional.empty());
-            }
-        }
-
-        @Override
         public void removePlayer(Player player) {
             Optional<Personal> personalOptional = forPlayer(player);
             if (personalOptional == null) {
@@ -279,7 +232,6 @@ public class PlayerTablist {
                     send(showPacket(), player);
                 }
             } else {
-                personalOptional.ifPresent(__ -> send(hidePacket(), player));
                 personalTabs.remove(player);
                 Mundo.optionalCase(personalOptional, personal -> {
                     if (personal.getDisplayName() != null) {
@@ -293,53 +245,8 @@ public class PlayerTablist {
         }
 
         @Override
-        public void removeIfApplicable(Personal personal) {
-            super.removeIfApplicable(personal);
-            if (isUniform()) {
-                if (visibleByDefault) {
-                    if (containsValue()) {
-                        playerTablist.tabs.put(player, Optional.of(new PlayerTab(playerTablist, player, this)));
-                    } else {
-                        playerTablist.removePlayer(player);
-                    }
-                } else {
-                    playerTablist.tabs.put(player, Optional.empty());
-                }
-            }
-        }
-
-        private void checkContainsValue() {
-            if (isUniform()) {
-                if (containsValue()) {
-                    playerTablist.tabs.put(player, Optional.of(new PlayerTab(playerTablist, player, this)));
-                } else {
-                    playerTablist.removePlayer(player);
-                }
-            }
-
-        }
-
-        @Override
-        public void setDisplayName(String value) {
-            super.setDisplayName(value);
-            checkContainsValue();
-        }
-
-        @Override
-        public void setLatency(Byte value) {
-            super.setLatency(value);
-            checkContainsValue();
-        }
-
-        @Override
         public void setIcon(Skin value) {
             throw new UnsupportedOperationException("PlayerTablist does not allow you to change skin icons, as that would change the player's own skin");
-        }
-
-        @Override
-        public void setScore(Integer value) {
-            super.setScore(value);
-            checkContainsValue();
         }
     }
 }

@@ -2,7 +2,10 @@ package com.pie.tlatoani.Tablist.Array;
 
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Tablist.Tab;
+import com.pie.tlatoani.Tablist.Tab.BaseTab;
+import com.pie.tlatoani.Tablist.Tab.PersonalizableTab;
+import com.pie.tlatoani.Tablist.Tab.Tab;
+import com.pie.tlatoani.Tablist.Tab.VisibleByDefaultTab;
 import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 
@@ -124,7 +127,7 @@ public class ArrayTablist {
                     int identifier = (((column - 1) * 20) + row);
                     String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
                     UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
-                    Tab tab = new Tab(storage, name, uuid, "", (byte) 5, initialIcon, 0);
+                    Tab tab = new BaseTab(storage, name, uuid, "", (byte) 5, initialIcon, 0);
                     tab.send(tab.showPacket());
                     setTab(column, row, tab);
                 }
@@ -177,7 +180,7 @@ public class ArrayTablist {
                     int identifier = (((column - 1) * 20) + row);
                     String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
                     UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
-                    Tab tab = new Tab(storage, name, uuid, "", (byte) 5, initialIcon, 0);
+                    Tab tab = new BaseTab(storage, name, uuid, "", (byte) 5, initialIcon, 0);
                     tab.send(tab.showPacket());
                     setTab(column, row, tab);
                 }
@@ -238,8 +241,8 @@ public class ArrayTablist {
             for (int row = 1; row <= rows; row++) {
                 //sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, players);
                 Tab tab = getTab(column, row);
-                if (tab instanceof Tab.Personalizable) {
-                    ((Tab.Personalizable) tab).removePlayer(player);
+                if (tab instanceof Tab.OldPersonalizable) {
+                    ((Tab.OldPersonalizable) tab).removePlayer(player);
                 } else {
                     tab.send(tab.hidePacket(), player);
                 }
@@ -257,12 +260,12 @@ public class ArrayTablist {
         return tabs[column - 1][row - 1];
     }
 
-    public Tab.Personalizable forcePersonalizable(int column, int row) {
+    public PersonalizableTab forcePersonalizable(int column, int row) {
         Tab tab = getTab(column, row);
-        if (tab instanceof Tab.Personalizable || tab == null) {
-            return (Tab.Personalizable) tab;
+        if (tab instanceof ArrayPersonalizable || tab == null) {
+            return (PersonalizableTab) tab;
         }
-        Tab.Personalizable personalizableTab = new ArrayPersonalizable(this, tab, column, row);
+        PersonalizableTab personalizableTab = new ArrayPersonalizable((BaseTab) tab);
         setTab(column, row, personalizableTab);
         return personalizableTab;
     }
@@ -321,34 +324,15 @@ public class ArrayTablist {
 
     //Tab Class Modifications
 
-    public static class ArrayPersonalizable extends Tab.Personalizable {
-        public final ArrayTablist arrayTablist;
-        public final int column;
-        public final int row;
+    public static class ArrayPersonalizable extends VisibleByDefaultTab {
 
-        public ArrayPersonalizable(ArrayTablist arrayTablist, Tab prev, int column, int row) {
-            super(prev);
-            this.arrayTablist = arrayTablist;
-            this.column = column;
-            this.row = row;
-        }
-
-        @Override
-        public void hideForAll() {
-            throw new UnsupportedOperationException("ArrayTablist does not allow you to hide individual tabs!");
+        public ArrayPersonalizable(BaseTab base) {
+            super(base);
         }
 
         @Override
         public void hideFor(Player player) {
             throw new UnsupportedOperationException("ArrayTablist does not allow you to hide individual tabs!");
-        }
-
-        @Override
-        public void removeIfApplicable(Personal personal) {
-            super.removeIfApplicable(personal);
-            if (isUniform()) {
-                arrayTablist.setTab(column, row, new Tab(this));
-            }
         }
     }
 }
