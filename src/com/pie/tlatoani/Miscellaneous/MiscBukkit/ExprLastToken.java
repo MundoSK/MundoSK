@@ -1,25 +1,24 @@
-package com.pie.tlatoani.Util;
+package com.pie.tlatoani.Miscellaneous.MiscBukkit;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.Loop;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import org.bukkit.event.Event;
-
-import java.util.List;
+import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 
 /**
- * Created by Tlatoani on 5/7/16.
+ * Created by Tlatoani on 6/16/16.
  */
-public class ExprBranch extends SimpleExpression<String> {
-    private ExprTreeOfListVariable exprTreeOfListVariable = null;
-
+public class ExprLastToken extends SimpleExpression<String> {
     @Override
     protected String[] get(Event event) {
-        return new String[]{exprTreeOfListVariable.getBranch(event)};
+        if (event instanceof PlayerChatTabCompleteEvent) {
+            return new String[]{((PlayerChatTabCompleteEvent) event).getLastToken()};
+        }
+        return null;
     }
 
     @Override
@@ -34,18 +33,13 @@ public class ExprBranch extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "branch";
+        return "last token";
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        for (Loop loop : ScriptLoader.currentLoops) {
-            if (loop.getLoopedExpression() instanceof ExprTreeOfListVariable) {
-                exprTreeOfListVariable = (ExprTreeOfListVariable) loop.getLoopedExpression();
-            }
-        }
-        if (exprTreeOfListVariable == null) {
-            Skript.error("'branch' can only be used within a 'loop tree of %objects%' expression!");
+        if (!ScriptLoader.isCurrentEvent(PlayerChatTabCompleteEvent.class)) {
+            Skript.error("The 'last token' expression can only be used in the 'on chat tab complete' event!");
             return false;
         }
         return true;

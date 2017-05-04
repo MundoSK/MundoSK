@@ -118,8 +118,9 @@ public class UtilFunctionSocket implements Runnable {
 						socket.close();
 						debug("At Function Socket on port " + port + ", a connection was successfully closed");
 					} else debug("At Function Socket on port " + port + ", the function " + funcmsg + "did not return a value or was not found");
-					
-				} else debug("At Function Socket on port " + port + ", the password was incorrect, or the socket closed early.");
+				} else {
+					debug("At Function Socket on port " + port + ", the password was incorrect, or the socket closed early.");
+				}
 			} catch(Exception e) {e.printStackTrace();} finally {
 				try {
 					socket.close();

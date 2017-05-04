@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Util;
+package com.pie.tlatoani.Miscellaneous;
 
 import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;

@@ -5,9 +5,12 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptEventHandler;
 import ch.njol.skript.command.Commands;
 import ch.njol.skript.command.ScriptCommand;
+import ch.njol.skript.config.Node;
+import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.function.Functions;
 import ch.njol.skript.lang.function.ScriptFunction;
+import ch.njol.skript.log.SkriptLogger;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
@@ -180,13 +183,21 @@ public abstract class CustomScope extends Condition {
 		this.arg1 = arg1;
 		this.arg2 = arg2;
 		this.arg3 = arg3;
-		int currentSectionsSize = ScriptLoader.currentSections.size();
-		if (currentSectionsSize > 0) {
-		    scopeParent = ScriptLoader.currentSections.get(currentSectionsSize - 1);
-        } else if (Functions.currentFunction != null) {
-		    function = Functions.currentFunction;
+        Node node = SkriptLogger.getNode();
+        if (node instanceof SectionNode) {
+            int currentSectionsSize = ScriptLoader.currentSections.size();
+            if (currentSectionsSize > 0) {
+                scopeParent = ScriptLoader.currentSections.get(currentSectionsSize - 1);
+            } else if (Functions.currentFunction != null) {
+                function = Functions.currentFunction;
+            } else {
+                querySetScope();
+            }
         } else {
-            querySetScope();
+            if (!canStandFree) {
+                Skript.error("This scope cannot stand free!");
+                return false;
+            }
         }
 		return init();
 	}

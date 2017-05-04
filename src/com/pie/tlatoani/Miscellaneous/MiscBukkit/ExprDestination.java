@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Miscellaneous;
+package com.pie.tlatoani.Miscellaneous.MiscBukkit;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;

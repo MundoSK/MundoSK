@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Miscellaneous;
+package com.pie.tlatoani.Miscellaneous.MiscBukkit;
 
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;

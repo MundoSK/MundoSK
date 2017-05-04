@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Util;
+package com.pie.tlatoani.Miscellaneous;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
@@ -9,6 +9,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.TreeIterator;
 import org.bukkit.event.Event;
 
 import java.util.Iterator;

@@ -50,6 +50,7 @@ import com.pie.tlatoani.ListUtil.*;
 import com.pie.tlatoani.Miscellaneous.*;
 import com.pie.tlatoani.Miscellaneous.ArmorStand.*;
 import com.pie.tlatoani.Miscellaneous.Matcher.*;
+import com.pie.tlatoani.Miscellaneous.MiscBukkit.*;
 import com.pie.tlatoani.Miscellaneous.Thread.*;
 import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
@@ -71,7 +72,6 @@ import com.pie.tlatoani.Metrics.*;
 
 import com.pie.tlatoani.ZExperimental.CustomEffect;
 import com.pie.tlatoani.ZExperimental.CustomElementEvent;
-import com.pie.tlatoani.ZExperimental.SyntaxPiece;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
@@ -526,7 +526,6 @@ public class Mundo extends JavaPlugin {
 		registerExpression(ExprPropertyNameOfSTE.class,String.class,ExpressionType.PROPERTY,"(0¦class|1¦file|2¦method) name of %stacktraceelement%", "%stacktraceelement%'s (0¦class|1¦file|2¦method) name");
 		registerExpression(ExprLineNumberOfSTE.class,Integer.class,ExpressionType.PROPERTY,"line number of %stacktraceelement%", "%stacktraceelement%'s line number");
 		//Util
-        registerEffect(EffScope.class, "$ scope");
         registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% (0¦while|1¦until|2¦if|3¦unless) %boolean%");
         registerExpression(ExprTreeOfListVariable.class, Object.class, ExpressionType.PROPERTY, "tree of %objects%");
         registerExpression(ExprIndexesOfListVariable.class, String.class, ExpressionType.PROPERTY, "[all [of]] [the] indexes (of|in) [value] %objects%");

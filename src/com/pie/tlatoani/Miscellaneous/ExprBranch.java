@@ -3,22 +3,21 @@ package com.pie.tlatoani.Miscellaneous;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.Loop;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 
 /**
- * Created by Tlatoani on 6/16/16.
+ * Created by Tlatoani on 5/7/16.
  */
-public class ExprLastToken extends SimpleExpression<String> {
+public class ExprBranch extends SimpleExpression<String> {
+    private ExprTreeOfListVariable exprTreeOfListVariable = null;
+
     @Override
     protected String[] get(Event event) {
-        if (event instanceof PlayerChatTabCompleteEvent) {
-            return new String[]{((PlayerChatTabCompleteEvent) event).getLastToken()};
-        }
-        return null;
+        return new String[]{exprTreeOfListVariable.getBranch(event)};
     }
 
     @Override
@@ -33,13 +32,18 @@ public class ExprLastToken extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "last token";
+        return "branch";
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        if (!ScriptLoader.isCurrentEvent(PlayerChatTabCompleteEvent.class)) {
-            Skript.error("The 'last token' expression can only be used in the 'on chat tab complete' event!");
+        for (Loop loop : ScriptLoader.currentLoops) {
+            if (loop.getLoopedExpression() instanceof ExprTreeOfListVariable) {
+                exprTreeOfListVariable = (ExprTreeOfListVariable) loop.getLoopedExpression();
+            }
+        }
+        if (exprTreeOfListVariable == null) {
+            Skript.error("'branch' can only be used within a 'loop tree of %objects%' expression!");
             return false;
         }
         return true;
