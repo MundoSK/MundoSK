@@ -88,7 +88,7 @@ public class ExprPrimitiveArrayOfPacket extends SimpleExpression<Number> {
         if (ifint) {
             int[] ints = new int[delta.length];
             for (int i = 0; i < ints.length; i++) {
-                ints[i] = ((Number) delta[i]).byteValue();
+                ints[i] = ((Number) delta[i]).intValue();
             }
             packetContainerExpression.getSingle(event).getIntegerArrays().writeSafely(index.getSingle(event).intValue(), ints);
         } else {

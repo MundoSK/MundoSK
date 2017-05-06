@@ -7,6 +7,7 @@ import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.log.SkriptLogger;
 import com.pie.tlatoani.Util.UtilScope;
+import com.pie.tlatoani.WebSocket.Events.*;
 import org.bukkit.event.Event;
 
 /**
@@ -48,42 +49,42 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
                     Skript.error("You cannot have two 'on start' sections here!");
                     return false;
                 }
-                ScriptLoader.setCurrentEvent("WebSocketServerStart", WebSocketEvent.ServerStart.class);
+                ScriptLoader.setCurrentEvent("WebSocketServerStart", WebSocketServerStartEvent.class);
                 serverFunctionality.onStart = UtilScope.loadSectionNode(subNode, null);
             } else if (subNode.getKey().equals("on stop")) {
                 if (serverFunctionality.onStop != null) {
                     Skript.error("You cannot have two 'on stop' sections here!");
                     return false;
                 }
-                ScriptLoader.setCurrentEvent("WebSocketServerStop", WebSocketEvent.ServerStop.class);
+                ScriptLoader.setCurrentEvent("WebSocketServerStop", WebSocketServerStopEvent.class);
                 serverFunctionality.onStop = UtilScope.loadSectionNode(subNode, null);
             } else if (subNode.getKey().equals("on open")) {
                 if (serverFunctionality.onOpen != null) {
                     Skript.error("You cannot have two 'on open' sections here!");
                     return false;
                 }
-                ScriptLoader.setCurrentEvent("WebSocketServerOpen", WebSocketEvent.ServerOpen.class);
+                ScriptLoader.setCurrentEvent("WebSocketServerOpen", WebSocketOpenEvent.Server.class);
                 serverFunctionality.onOpen = UtilScope.loadSectionNode(subNode, null);
             } else if (subNode.getKey().equals("on close")) {
                 if (serverFunctionality.onClose != null) {
                     Skript.error("You cannot have two 'on close' sections here!");
                     return false;
                 }
-                ScriptLoader.setCurrentEvent("WebSocketServerClose", WebSocketEvent.ServerClose.class);
+                ScriptLoader.setCurrentEvent("WebSocketServerClose", WebSocketCloseEvent.Server.class);
                 serverFunctionality.onClose = UtilScope.loadSectionNode(subNode, null);
             } else if (subNode.getKey().equals("on message")) {
                 if (serverFunctionality.onMessage != null) {
                     Skript.error("You cannot have two 'on message' sections here!");
                     return false;
                 }
-                ScriptLoader.setCurrentEvent("WebSocketServerMessage", WebSocketEvent.ServerMessage.class);
+                ScriptLoader.setCurrentEvent("WebSocketServerMessage", WebSocketMessageEvent.Server.class);
                 serverFunctionality.onMessage = UtilScope.loadSectionNode(subNode, null);
             } else if (subNode.getKey().equals("on error")) {
                 if (serverFunctionality.onError != null) {
                     Skript.error("You cannot have two 'on error' sections here!");
                     return false;
                 }
-                ScriptLoader.setCurrentEvent("WebSocketServerError", WebSocketEvent.ServerError.class);
+                ScriptLoader.setCurrentEvent("WebSocketServerError", WebSocketErrorEvent.Server.class);
                 serverFunctionality.onError = UtilScope.loadSectionNode(subNode, null);
             } else {
                 Skript.error("The only sections allowed under 'websocket server' are 'on start', 'on stop', 'on open', 'on close', 'on message', and 'on error'!");

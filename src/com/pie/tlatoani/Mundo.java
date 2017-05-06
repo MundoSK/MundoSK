@@ -64,6 +64,8 @@ import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
 import com.pie.tlatoani.TerrainControl.*;
 import com.pie.tlatoani.Throwable.*;
 import com.pie.tlatoani.Util.*;
+//import com.pie.tlatoani.WebSocket.*;
+//import com.pie.tlatoani.WebSocket.Events.*;
 import com.pie.tlatoani.WorldBorder.*;
 import com.pie.tlatoani.WorldCreator.*;
 import com.pie.tlatoani.WorldManagement.*;
@@ -72,6 +74,7 @@ import com.pie.tlatoani.Metrics.*;
 
 import com.pie.tlatoani.ZExperimental.CustomEffect;
 import com.pie.tlatoani.ZExperimental.CustomElementEvent;
+//import mundosk_libraries.org.java_websocket.WebSocket;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
@@ -530,7 +533,19 @@ public class Mundo extends JavaPlugin {
         registerExpression(ExprTreeOfListVariable.class, Object.class, ExpressionType.PROPERTY, "tree of %objects%");
         registerExpression(ExprIndexesOfListVariable.class, String.class, ExpressionType.PROPERTY, "[all [of]] [the] indexes (of|in) [value] %objects%");
         registerExpression(ExprBranch.class, String.class, ExpressionType.PROPERTY, "branch");
-		//WorldBorder
+		//WebSocket
+        /*registerType(WebSocket.class, "websocket");
+        registerEffect(EffCloseWebSocket.class, "close websocket %websocket%");
+        registerEffect(EffWebSocketSendMessage.class, "websocket send %string% [through %-websockets]");
+        registerEffect(EffStartWebSocketServer.class, "start websocket server %string% at port %number%");
+        registerEffect(EffStopWebSocketServer.class, "stop websocket server at port %number% [with timeout %-number%]");
+        registerEventValue(WebSocketEvent.class, WebSocket.class, event -> event.webSocket);
+        registerEventValue(WebSocketMessageEvent.class, String.class, event -> event.message);
+        registerEventValue(WebSocketErrorEvent.class, Throwable.class, event -> event.error);
+        registerExpression(ExprWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "websocket %string% connected to uri %string%");
+        registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket port");
+        registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all websockets [of server at port %number%");*/
+        //WorldBorder
 		registerEffect(EffResetBorder.class, "reset %world%");
 		registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilizeEvent.class, "border stabilize [in %-world%]");
 		registerEventValue(UtilBorderStabilizeEvent.class, World.class, UtilBorderStabilizeEvent::getWorld);
@@ -668,11 +683,11 @@ public class Mundo extends JavaPlugin {
         Skript.registerCondition(conditionClass, patterns);
     }
 
-    public static <T extends Event, R> void registerEventValue(Class<T> tClass, Class<R> rClass, Function<T, R> function) {
-	    EventValues.registerEventValue(tClass, rClass, new Getter<R, T>() {
+    public static <E extends Event, R> void registerEventValue(Class<E> tClass, Class<R> rClass, Function<E, R> function) {
+	    EventValues.registerEventValue(tClass, rClass, new Getter<R, E>() {
             @Override
-            public R get(T t) {
-                return function.apply(t);
+            public R get(E event) {
+                return function.apply(event);
             }
         }, 0);
     }

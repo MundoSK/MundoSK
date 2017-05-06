@@ -7,6 +7,10 @@ import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.log.SkriptLogger;
 import com.pie.tlatoani.Util.UtilScope;
+import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
+import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
+import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
+import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
 import org.bukkit.event.Event;
 
 /**
@@ -48,28 +52,28 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
                     Skript.error("You cannot have two 'on open' sections here!");
                     return false;
                 }
-                ScriptLoader.setCurrentEvent("WebSocketClientOpen", WebSocketEvent.Open.class);
+                ScriptLoader.setCurrentEvent("WebSocketClientOpen", WebSocketOpenEvent.class);
                 clientFunctionality.onOpen = UtilScope.loadSectionNode(subNode, null);
             } else if (subNode.getKey().equals("on close")) {
                 if (clientFunctionality.onClose != null) {
                     Skript.error("You cannot have two 'on close' sections here!");
                     return false;
                 }
-                ScriptLoader.setCurrentEvent("WebSocketClientClose", WebSocketEvent.Close.class);
+                ScriptLoader.setCurrentEvent("WebSocketClientClose", WebSocketCloseEvent.class);
                 clientFunctionality.onClose = UtilScope.loadSectionNode(subNode, null);
             } else if (subNode.getKey().equals("on message")) {
                 if (clientFunctionality.onMessage != null) {
                     Skript.error("You cannot have two 'on message' sections here!");
                     return false;
                 }
-                ScriptLoader.setCurrentEvent("WebSocketClientMessage", WebSocketEvent.Message.class);
+                ScriptLoader.setCurrentEvent("WebSocketClientMessage", WebSocketMessageEvent.class);
                 clientFunctionality.onMessage = UtilScope.loadSectionNode(subNode, null);
             } else if (subNode.getKey().equals("on error")) {
                 if (clientFunctionality.onError != null) {
                     Skript.error("You cannot have two 'on error' sections here!");
                     return false;
                 }
-                ScriptLoader.setCurrentEvent("WebSocketClientError", WebSocketEvent.Error.class);
+                ScriptLoader.setCurrentEvent("WebSocketClientError", WebSocketErrorEvent.class);
                 clientFunctionality.onError = UtilScope.loadSectionNode(subNode, null);
             } else {
                 Skript.error("The only sections allowed under 'websocket client' are 'on open', 'on close', 'on message', and 'on error'!");

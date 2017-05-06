@@ -6,6 +6,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/src/com/pie/tlatoani/Json/API" />
       <excludeFolder url="file://$MODULE_DIR$/src/com/pie/tlatoani/Json/Implementation" />
+      <excludeFolder url="file://$MODULE_DIR$/src/com/pie/tlatoani/WebSocket" />
+      <excludeFolder url="file://$MODULE_DIR$/src/mundosk_libraries/org/java_websocket" />
+      <excludeFolder url="file://$MODULE_DIR$/src/mundosk_libraries/org/mineskin" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
