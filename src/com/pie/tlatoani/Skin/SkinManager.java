@@ -276,12 +276,7 @@ public class SkinManager {
         Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
         if (team != null) {
             team.removeEntry(player.getName());
-            Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
-                @Override
-                public void run() {
-                    team.addEntry(player.getName());
-                }
-            }, 1);
+            Mundo.syncDelay(1, () -> team.addEntry(player.getName()));
         }
         Objective objective = player.getScoreboard() != null ? player.getScoreboard().getObjective(DisplaySlot.BELOW_NAME) : null;
         Score score = null;

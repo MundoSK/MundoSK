@@ -2,6 +2,7 @@ package com.pie.tlatoani.Socket;
 
 import javax.annotation.Nullable;
 
+import com.pie.tlatoani.Mundo;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 
@@ -48,8 +49,8 @@ public class EffWriteToSocket extends Effect{
 		}
 		if (timeout != null && timeout.getSingle(arg0).getMilliSeconds() < Integer.MAX_VALUE) timeoutarg = (int) timeout.getSingle(arg0).getMilliSeconds();
 		UtilWriterSocket exec = new UtilWriterSocket(msgs.getArray(arg0), ip.getSingle(arg0), port.getSingle(arg0).intValue(), redirectarg, reportarg, timeoutarg);
-		Bukkit.getServer().getScheduler().runTaskAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("MundoSK"), exec);
-	}
+        Mundo.async(exec);
+    }
 	
 
 }

@@ -24,7 +24,7 @@ public abstract class SyncGetter<T> implements Runnable {
 
     public T getSync() {
         countDownLatch = new CountDownLatch(1);
-        scheduler.runTask(Mundo.instance, this);
+        Mundo.sync(this);
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {

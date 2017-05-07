@@ -1,6 +1,6 @@
 package com.pie.tlatoani.WebSocket.Events;
 
-import mundosk_libraries.org.java_websocket.server.WebSocketServer;
+import mundosk_libraries.java_websocket.server.WebSocketServer;
 
 /**
  * Created by Tlatoani on 5/5/17.

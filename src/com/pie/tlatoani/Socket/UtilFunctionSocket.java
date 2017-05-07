@@ -44,7 +44,7 @@ public class UtilFunctionSocket implements Runnable {
 		try {
 			sock = new ServerSocket(port);
 			sock.setReuseAddress(true);
-			Bukkit.getServer().getScheduler().runTaskAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("MundoSK"), this);
+			Mundo.async(this);
 			debug("Function Socket on port " + port + " successfully initialized");
 			return true;
 		} catch (Exception e) {
@@ -65,7 +65,7 @@ public class UtilFunctionSocket implements Runnable {
 				if (status) Mundo.reportException(this, e);
 			} finally {
 				if (status) {
-					Bukkit.getServer().getScheduler().runTaskAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("MundoSK"), this);
+					Mundo.async(this);
 					debug("At Function Socket on port " + port + ", running task to accept new connections");
 				}
 			}

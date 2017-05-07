@@ -7,7 +7,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.WebSocket.Events.WebSocketServerEvent;
-import mundosk_libraries.org.java_websocket.WebSocket;
+import mundosk_libraries.java_websocket.WebSocket;
 import org.bukkit.event.Event;
 
 /**

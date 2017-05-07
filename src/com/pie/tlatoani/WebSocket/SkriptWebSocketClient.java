@@ -5,8 +5,8 @@ import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
-import mundosk_libraries.org.java_websocket.client.WebSocketClient;
-import mundosk_libraries.org.java_websocket.handshake.ServerHandshake;
+import mundosk_libraries.java_websocket.client.WebSocketClient;
+import mundosk_libraries.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 

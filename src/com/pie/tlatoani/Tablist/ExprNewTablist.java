@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Tablist;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
@@ -32,6 +33,7 @@ public class ExprNewTablist extends SimpleExpression<Tablist> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+        Skript.warning("The 'new tablist' expression will be removed in a future beta, it is recommended that you stop using it");
         return true;
     }
 }

@@ -4,8 +4,8 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import mundosk_libraries.org.java_websocket.WebSocket;
-import mundosk_libraries.org.java_websocket.framing.CloseFrame;
+import mundosk_libraries.java_websocket.WebSocket;
+import mundosk_libraries.java_websocket.framing.CloseFrame;
 import org.bukkit.event.Event;
 
 /**

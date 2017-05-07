@@ -74,7 +74,7 @@ import com.pie.tlatoani.Metrics.*;
 
 import com.pie.tlatoani.ZExperimental.CustomEffect;
 import com.pie.tlatoani.ZExperimental.CustomElementEvent;
-//import mundosk_libraries.org.java_websocket.WebSocket;
+//import mundosk_libraries.java_websocket.WebSocket;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
@@ -543,8 +543,10 @@ public class Mundo extends JavaPlugin {
         registerEventValue(WebSocketMessageEvent.class, String.class, event -> event.message);
         registerEventValue(WebSocketErrorEvent.class, Throwable.class, event -> event.error);
         registerExpression(ExprWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "websocket %string% connected to uri %string%");
-        registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket port");
-        registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all websockets [of server at port %number%");*/
+        registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket [server] port");
+        registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all websockets [of server at port %number%");
+        registerExpression(ExprWebSocketHost.class, String.class, ExpressionType.PROPERTY, "local host of %websocket%", "(remote|external) host of %websocket%");
+        registerExpression(ExprWebSocketPort.class, Number.class, ExpressionType.PROPERTY, "local port of %websocket%", "(remote|external) port of %websocket%");*/
         //WorldBorder
 		registerEffect(EffResetBorder.class, "reset %world%");
 		registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilizeEvent.class, "border stabilize [in %-world%]");
@@ -612,7 +614,7 @@ public class Mundo extends JavaPlugin {
         registerExpression(ExprAllAutomaticCreators.class, WorldCreator.class, ExpressionType.SIMPLE, "[all] automatic creators");
         registerExpression(ExprAutomaticCreator.class, WorldCreator.class, ExpressionType.SIMPLE, "automatic creator %string%");
         //ZExperimental - The Z is for mystery (it's so that it appears last in the package list)
-        registerEvent("Custom Element Event", CustomEffect.class, CustomElementEvent.class, "[mundosk] [new] [custom] effect %string%");
+        registerEvent("Custom Element Event", CustomEffect.class, CustomElementEvent.class, "[jsoup_light] [new] [custom] effect %string%");
         //
         ArrayList<String> patterns = new ArrayList<>();
         for (String s : enumNames) {
@@ -635,12 +637,7 @@ public class Mundo extends JavaPlugin {
         ListUtil.register();
         ExprEventSpecificValue.register();
 		info("Awesome syntaxes have been registered!");
-        scheduler.runTask(this, new Runnable() {
-            @Override
-            public void run() {
-                Mundo.enableMetrics();
-            }
-        });
+        sync(Mundo::enableMetrics);
 	}
 
     @Override

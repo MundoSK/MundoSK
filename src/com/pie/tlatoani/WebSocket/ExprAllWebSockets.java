@@ -7,8 +7,8 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.WebSocket.Events.WebSocketServerEvent;
-import mundosk_libraries.org.java_websocket.WebSocket;
-import mundosk_libraries.org.java_websocket.server.WebSocketServer;
+import mundosk_libraries.java_websocket.WebSocket;
+import mundosk_libraries.java_websocket.server.WebSocketServer;
 import org.bukkit.event.Event;
 
 import java.util.Iterator;
