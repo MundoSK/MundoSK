@@ -28,7 +28,7 @@ public class TablistManager {
 
     private static final ArrayList<Player> playersRespawning = new ArrayList<>();
 
-    public static final Tablist DEFAULT_TABLIST = new Tablist();
+    public static final Tablist DEFAULT_TABLIST = new Tablist(target);
 
     static {
         if (Mundo.implementPacketStuff) {

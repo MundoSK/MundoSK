@@ -22,59 +22,43 @@ import java.util.Optional;
  */
 public class Tablist {
     private Storage storage = new Storage(this);
+    public final Player target;
+
     public static final Skin DEFAULT_SKIN_TEXTURE = Skin.WHITE;
     public static final String OBJECTIVE_NAME = "MundoSK_Tablist";
+
+    public Tablist(Player target) {
+        this.target = target;
+    }
 
     public static class Storage {
         public final Tablist tablist;
         public final ArrayList<Player> players = new ArrayList<>();
         public boolean scoresEnabled;
-        public Either<PlayerTablist, Boolean> playerTablistOrVisibility = Either.right(true);
+        public Optional<PlayerTablist> playerTablistOptional = Optional.of(new PlayerTablist(this));
         public Optional<ArrayTablist> arrayTablistOptional = Optional.empty();
-        public Optional<SimpleTablist> simpleTablistOptional = Optional.empty();
+        public SimpleTablist simpleTablist = new SimpleTablist(this);
 
         public Storage(Tablist tablist) {
             this.tablist = tablist;
         }
     }
 
-    public boolean containsPlayers() {
-        return !storage.players.isEmpty();
-    }
-
-    public Either<PlayerTablist, Boolean> getPlayerTablistOrVisibility() {
-        return storage.playerTablistOrVisibility;
-    }
-
-    public PlayerTablist forcePlayerTablist() {
-        return storage.playerTablistOrVisibility.map(playerTablist -> playerTablist, visibility -> {
-            showAllPlayers();
-            PlayerTablist playerTablist = null;
-            storage.playerTablistOrVisibility = Either.left(playerTablist);
-            return playerTablist;
-        });
+    public Optional<PlayerTablist> getPlayerTablistOptional() {
+        return storage.playerTablistOptional;
     }
 
     public void showAllPlayers() {
-        storage.playerTablistOrVisibility.consume(PlayerTablist::showAllPlayers, visibility -> {
-            if (!visibility) {
-                storage.playerTablistOrVisibility = Either.right(true);
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    UtilPacketEvent.sendPacket(TablistManager.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), Tablist.class, storage.players);
-                }
+        Mundo.optionalCase(storage.playerTablistOptional, PlayerTablist::showAllPlayers, () -> {
+            storage.playerTablistOptional = Optional.of(new PlayerTablist(storage));
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                UtilPacketEvent.sendPacket(TablistManager.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), Tablist.class, storage.players);
             }
         });
     }
 
     public void hideAllPlayers() {
-        storage.playerTablistOrVisibility.consume(PlayerTablist::hideAllPlayers, visibility -> {
-            if (visibility) {
-                storage.playerTablistOrVisibility = Either.right(false);
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    UtilPacketEvent.sendPacket(TablistManager.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), Tablist.class, storage.players);
-                }
-            }
-        });
+        storage.playerTablistOptional.ifPresent(PlayerTablist::hideAllPlayers);
     }
 
     public Optional<ArrayTablist> getArrayTablistOptional() {
@@ -97,7 +81,7 @@ public class Tablist {
         if (columns == 4 & rows == 20) {
             arrayTablist.maximize();
         } else {
-            arrayTablist.setColumns(Mundo.limitToRange(1, columns, 4));
+            arrayTablist.setColumns(columns);
             arrayTablist.setRows(rows);
         }
         return arrayTablist;
