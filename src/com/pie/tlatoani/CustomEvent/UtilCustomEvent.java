@@ -9,7 +9,7 @@ import org.bukkit.event.HandlerList;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
 
-public class UtilCustomEvent extends Event{
+public class UtilCustomEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
 	private String id;
 	private Object[] args;
