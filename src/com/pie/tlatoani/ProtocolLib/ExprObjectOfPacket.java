@@ -291,12 +291,17 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         registerSingleConverter("uuid", new PacketInfoConverter<String>() {
             @Override
             public String get(PacketContainer packet, Integer index) {
-                return packet.getUUIDs().readSafely(index).toString();
+                return Optional.ofNullable(packet.getUUIDs().readSafely(index)).map(UUID::toString).orElse(null);
             }
 
             @Override
             public void set(PacketContainer packet, Integer index, String value) {
                 packet.getUUIDs().writeSafely(index, UUID.fromString(value));
+            }
+
+            @Override
+            public Class<String> getType() {
+                return String.class;
             }
         });
 
