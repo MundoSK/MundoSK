@@ -7,6 +7,7 @@ import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.lang.TriggerSection;
 import ch.njol.skript.log.SkriptLogger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,5 +28,17 @@ public class UtilScope {
             ScriptLoader.currentSections.remove(parent);
         }
         return triggerItems.isEmpty() ? null : triggerItems.get(0);
+    }
+
+    public static Node[] getSection() {
+        SectionNode sectionNode = (SectionNode) SkriptLogger.getNode();
+        Node[] nodes = new Node[sectionNode.size()];
+        int i = 0;
+        for (Node node : sectionNode) {
+            nodes[i] = node;
+            sectionNode.remove(node);
+            i++;
+        }
+        return nodes;
     }
 }

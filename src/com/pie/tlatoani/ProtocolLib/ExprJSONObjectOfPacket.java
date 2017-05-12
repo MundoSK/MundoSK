@@ -91,15 +91,9 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 WrappedDataWatcher dataWatcher = packet.getDataWatcherModifier().readSafely(index);
                 jsonObject.put("entity", dataWatcher.getEntity());
                 if (dataWatcher != null) {
-                    dataWatcher.forEach(new Consumer<WrappedWatchableObject>() {
-                        int i = 0;
-
-                        @Override
-                        public void accept(WrappedWatchableObject wrappedWatchableObject) {
-                            jsonObject.put("" + i, wrappedWatchableObject.getValue());
-                            i++;
-                        }
-                    });
+                    for (WrappedWatchableObject wrappedWatchableObject : dataWatcher) {
+                        jsonObject.put(wrappedWatchableObject.getIndex() + "", wrappedWatchableObject.getValue());
+                    }
                 }
                 return jsonObject;
             }

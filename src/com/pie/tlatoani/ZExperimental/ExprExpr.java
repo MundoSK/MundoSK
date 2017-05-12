@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class ExprExpr extends SimpleExpression<Object> {
     private static String[] exprNames = null;
     private static HashMap<String, Pair<Class, Boolean>> guarantees = null;
-    private static final ExpressionInfo<ExprExpr, Object> exprInfo = new ExpressionInfo<>(new String[0], Object.class, ExprExpr.class);
+    private static final ModifiableExpressionInfo<ExprExpr, Object> exprInfo = new ModifiableExpressionInfo<>(new String[0], Object.class, ExprExpr.class);
 
     private String exprName;
     private Class guaranteedClass;
@@ -38,13 +38,14 @@ public class ExprExpr extends SimpleExpression<Object> {
             exprNamesWithIndex[i] = i + "¦" + exprNames[i];
         }
         String syntax = "expr-(" + String.join("|", exprNamesWithIndex) + ")";
-        UtilSyntaxRegistration.setPatterns(exprInfo, syntax);
+        exprInfo.setPatterns(syntax);
     }
 
     public static void disable() {
         exprNames = null;
         guarantees = null;
-        UtilSyntaxRegistration.setPatterns(exprInfo);
+        exprInfo.setPatterns();
+
     }
 
     @Override

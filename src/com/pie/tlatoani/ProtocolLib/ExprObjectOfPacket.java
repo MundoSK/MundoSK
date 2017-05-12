@@ -288,6 +288,18 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             }
         });
 
+        registerSingleConverter("uuid", new PacketInfoConverter<String>() {
+            @Override
+            public String get(PacketContainer packet, Integer index) {
+                return packet.getUUIDs().readSafely(index).toString();
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, String value) {
+                packet.getUUIDs().writeSafely(index, UUID.fromString(value));
+            }
+        });
+
         registerSingleConverter("material", new PacketInfoConverter<ItemStack>() {
             @Override
             public ItemStack get(PacketContainer packet, Integer index) {

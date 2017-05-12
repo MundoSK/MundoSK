@@ -39,14 +39,6 @@ public class UtilSyntaxRegistration {
         ExprExpr.onLoad();
     }
 
-    public static void setPatterns(SyntaxElementInfo<?> syntaxElementInfo, String... patterns) {
-        try {
-            patternsField.set(syntaxElementInfo, patterns);
-        } catch (IllegalAccessException e) {
-            Mundo.reportException(UtilSyntaxRegistration.class, e);
-        }
-    }
-
     public static void registerEffect(SyntaxElementInfo<? extends Effect> effectInfo) {
         effects.add(effectInfo);
         statements.add(effectInfo);

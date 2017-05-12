@@ -14,7 +14,7 @@ import java.util.HashMap;
  * Created by Tlatoani on 2/25/17.
  */
 public class EffCustom extends Effect {
-    private static final SyntaxElementInfo<EffCustom> info = new SyntaxElementInfo<>(new String[0], EffCustom.class);
+    private static final ModifiableSyntaxElementInfo<EffCustom> info = new ModifiableSyntaxElementInfo<>(new String[0], EffCustom.class);
     private static final ArrayList<CustomEffect> customEffects = new ArrayList<>();
 
     private CustomEffect customEffect;
@@ -30,7 +30,7 @@ public class EffCustom extends Effect {
         String[] newPatterns = new String[info.patterns.length + 1];
         newPatterns[info.patterns.length] = customEffect.getSyntax();
         System.arraycopy(info.patterns, 0, newPatterns, 0, info.patterns.length);
-        UtilSyntaxRegistration.setPatterns(info, newPatterns);
+        info.setPatterns(newPatterns);
     }
 
     public static void unregisterEffect(CustomEffect customEffect) {
@@ -42,12 +42,12 @@ public class EffCustom extends Effect {
         String[] newPatterns = new String[info.patterns.length - 1];
         System.arraycopy(info.patterns, 0, newPatterns, 0, index);
         System.arraycopy(info.patterns, index + 1, newPatterns, index, newPatterns.length - index);
-        UtilSyntaxRegistration.setPatterns(info, newPatterns);
+        info.setPatterns(newPatterns);
     }
 
     public static void unregisterAllEffects() {
         customEffects.clear();
-        UtilSyntaxRegistration.setPatterns(info, new String[0]);
+        info.setPatterns();
     }
 
     @Override
