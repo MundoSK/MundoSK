@@ -26,7 +26,7 @@ public class TransDefault implements Transformer {
         isSettable = false;
         Class[] types = expression.acceptChange(Changer.ChangeMode.SET);
         if (types != null) {
-            Class arrayclass = Array.newInstance(returnType).getClass();
+            Class arrayclass = Array.newInstance(returnType, 0).getClass();
             for (int i = 0; i < types.length; i++) {
                 if (arrayclass.isAssignableFrom(types[i])) {
                     isSettable = true;

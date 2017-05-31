@@ -7,9 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscBukkit/EvtUnhang.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/RegistryPreColorUpdate.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/VersionSpecificRegistry.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/RegistryFromCombatUpdate.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/TransDefault.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/TransDefault.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,40 +34,70 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1560">
+              <caret line="104" column="38" lean-forward="true" selection-start-line="104" selection-start-column="38" selection-end-line="104" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RegistryFromCombatUpdate.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/RegistryFromCombatUpdate.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TransDefault.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/TransDefault.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="28" column="62" lean-forward="false" selection-start-line="28" selection-start-column="62" selection-end-line="28" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RegistryPreColorUpdate.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/RegistryPreColorUpdate.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EvtUnhang.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscBukkit/EvtUnhang.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="28" column="77" lean-forward="false" selection-start-line="28" selection-start-column="77" selection-end-line="28" selection-end-column="77" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
               <caret line="3" column="25" lean-forward="false" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UtilScope.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilScope.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="33" column="71" lean-forward="false" selection-start-line="33" selection-start-column="71" selection-end-line="33" selection-end-column="71" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScopeWebSocketServer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="33" column="108" lean-forward="false" selection-start-line="33" selection-start-column="108" selection-end-line="33" selection-end-column="108" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#660#661#0" expanded="false" />
-                <element signature="e#703#704#0" expanded="false" />
-                <element signature="e#752#753#0" expanded="false" />
-                <element signature="e#813#814#0" expanded="false" />
-                <element signature="e#4469#4470#0" expanded="false" />
-                <element signature="e#4545#4546#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -89,10 +123,13 @@
       <file leaf-file-name="ScopeCustomEvent.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CustomEventNew/ScopeCustomEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
+            <state relative-caret-position="165">
               <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#649#650#0" expanded="false" />
+                <element signature="e#677#678#0" expanded="false" />
+                <element signature="e#745#746#0" expanded="false" />
+                <element signature="e#772#773#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -130,9 +167,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>connect(</find>
-      <find>close</find>
-      <find>inet</find>
       <find>stop</find>
       <find>websockets</find>
       <find>addConnec</find>
@@ -160,6 +194,9 @@
       <find>Jsoup</find>
       <find>processResponseHeaders</find>
       <find>runTask</find>
+      <find>HangingBreakEvent.RemoveCause</find>
+      <find>register</find>
+      <find>Registr</find>
     </findStrings>
     <replaceStrings>
       <replace>public</replace>
@@ -174,7 +211,6 @@
       <replace>onStop</replace>
       <replace>ebSocketServer</replace>
       <replace>WebSocketServer</replace>
-      <replace>public</replace>
       <replace>WebSocketServerFunctionality</replace>
       <replace>clientFunctionality.onC</replace>
       <replace>server</replace>
@@ -188,6 +224,7 @@
       <replace>serverFunctionality.onE</replace>
       <replace>HttpConnection</replace>
       <replace>Number</replace>
+      <replace>Mundo.register</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -201,10 +238,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketServerPort.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprAllWebSockets.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/EffWebSocketSendMessage.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprPrimitiveArrayOfPacket.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketHost.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketPort.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprRetrievedSkinFromFile.java" />
@@ -236,7 +269,6 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Socket/UtilWriterSocket.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/CustomScope.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/SyncGetter.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/EffCallCustomEvent.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/UtilCustomEvent.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/BaseTriggerSection.java" />
@@ -251,6 +283,11 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketClient.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscBukkit/EvtUnhang.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/TransDefault.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/RegistryFromCombatUpdate.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/RegistryPreColorUpdate.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -281,8 +318,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -381,28 +419,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WebSocket" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tlatoani" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="Util" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -426,6 +442,76 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="ProtocolLib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tlatoani" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Miscellaneous" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tlatoani" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Miscellaneous" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MiscBukkit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tlatoani" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ListUtil" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -475,7 +561,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -764,7 +849,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32423207" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32423207" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -823,34 +908,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketServerPort.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="118" lean-forward="false" selection-start-line="37" selection-start-column="118" selection-end-line="44" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mundosk_libraries/java_websocket/WebSocket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-660">
-          <caret line="40" column="21" lean-forward="false" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketHost.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="41" lean-forward="false" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketPort.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="41" lean-forward="false" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Excluded.java" />
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/MineSkin/SkinCallbackImp.java" />
     <entry file="file://$PROJECT_DIR$/src/mundosk_libraries/org/jsoup/Jsoup.java" />
@@ -1036,88 +1093,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="76" column="2" lean-forward="false" selection-start-line="76" selection-start-column="2" selection-end-line="76" selection-end-column="2" />
-          <folding>
-            <element signature="e#11900#11901#0" expanded="false" />
-            <element signature="e#11965#11966#0" expanded="false" />
-            <element signature="e#15754#15755#0" expanded="false" />
-            <element signature="e#15798#15799#0" expanded="false" />
-            <element signature="e#15873#15874#0" expanded="false" />
-            <element signature="e#15916#15917#0" expanded="false" />
-            <element signature="e#28652#28653#0" expanded="false" />
-            <element signature="e#28704#28705#0" expanded="false" />
-            <element signature="e#28787#28788#0" expanded="false" />
-            <element signature="e#28839#28840#0" expanded="false" />
-            <element signature="e#41613#41614#0" expanded="false" />
-            <element signature="e#41656#41657#0" expanded="false" />
-            <element signature="e#48625#48626#0" expanded="false" />
-            <element signature="e#48685#48686#0" expanded="false" />
-            <element signature="e#49151#49152#0" expanded="false" />
-            <element signature="e#49194#49195#0" expanded="false" />
-            <element signature="e#51118#51119#0" expanded="false" />
-            <element signature="e#51171#51172#0" expanded="false" />
-            <element signature="e#51247#51248#0" expanded="false" />
-            <element signature="e#51290#51291#0" expanded="false" />
-            <element signature="e#53130#53131#0" expanded="false" />
-            <element signature="e#53174#53175#0" expanded="false" />
-            <element signature="e#53249#53250#0" expanded="false" />
-            <element signature="e#53293#53294#0" expanded="false" />
-            <element signature="e#53994#53995#0" expanded="false" />
-            <element signature="e#54049#54050#0" expanded="false" />
-            <element signature="e#54104#54105#0" expanded="false" />
-            <element signature="e#54140#54141#0" expanded="false" />
-            <element signature="e#54216#54217#0" expanded="false" />
-            <element signature="e#54273#54274#0" expanded="false" />
-            <element signature="e#54349#54350#0" expanded="false" />
-            <element signature="e#54419#54420#0" expanded="false" />
-            <element signature="e#54767#54768#0" expanded="false" />
-            <element signature="e#54810#54811#0" expanded="false" />
-            <element signature="e#54879#54880#0" expanded="false" />
-            <element signature="e#54924#54925#0" expanded="false" />
-            <element signature="e#54992#54993#0" expanded="false" />
-            <element signature="e#55027#55028#0" expanded="false" />
-            <element signature="e#55477#55478#0" expanded="false" />
-            <element signature="e#55525#55526#0" expanded="false" />
-            <element signature="e#55907#55908#0" expanded="false" />
-            <element signature="e#55963#55964#0" expanded="false" />
-            <element signature="e#56349#56350#0" expanded="false" />
-            <element signature="e#56405#56406#0" expanded="false" />
-            <element signature="e#56793#56794#0" expanded="false" />
-            <element signature="e#56849#56850#0" expanded="false" />
-            <element signature="e#57352#57353#0" expanded="false" />
-            <element signature="e#57408#57409#0" expanded="false" />
-            <element signature="e#57496#57497#0" expanded="false" />
-            <element signature="e#57570#57571#0" expanded="false" />
-            <element signature="e#57611#57612#0" expanded="false" />
-            <element signature="e#57661#57662#0" expanded="false" />
-            <element signature="e#59578#59579#0" expanded="false" />
-            <element signature="e#59617#59618#0" expanded="false" />
-            <element signature="e#59868#59869#0" expanded="false" />
-            <element signature="e#59931#59932#0" expanded="false" />
-            <element signature="e#60167#60168#0" expanded="false" />
-            <element signature="e#60215#60216#0" expanded="false" />
-            <element signature="e#60261#60262#0" expanded="false" />
-            <element signature="e#60310#60311#0" expanded="false" />
-            <element signature="e#61835#61836#0" expanded="false" />
-            <element signature="e#61888#61889#0" expanded="false" />
-            <element signature="e#61939#61940#0" expanded="false" />
-            <element signature="e#62006#62007#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/EffCallCustomEvent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="36" column="4" lean-forward="false" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#829#830#0" expanded="false" />
-            <element signature="e#862#863#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1125,7 +1104,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="11" column="43" lean-forward="false" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1134,7 +1112,7 @@
         <state relative-caret-position="255">
           <caret line="17" column="33" lean-forward="false" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
             <element signature="e#305#306#0" expanded="false" />
             <element signature="e#345#346#0" expanded="false" />
             <element signature="e#413#414#0" expanded="false" />
@@ -1147,7 +1125,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1179,9 +1156,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1189,9 +1163,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="21" column="49" lean-forward="true" selection-start-line="21" selection-start-column="49" selection-end-line="28" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1199,7 +1170,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
           <caret line="33" column="71" lean-forward="false" selection-start-line="33" selection-start-column="71" selection-end-line="33" selection-end-column="71" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1243,6 +1216,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CustomEventNew/ScopeCustomEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding>
+            <element signature="e#649#650#0" expanded="false" />
+            <element signature="e#677#678#0" expanded="false" />
+            <element signature="e#745#746#0" expanded="false" />
+            <element signature="e#772#773#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -1251,10 +1237,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/CustomEventNew/ScopeCustomEvent.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscBukkit/EvtUnhang.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state relative-caret-position="420">
+          <caret line="28" column="77" lean-forward="false" selection-start-line="28" selection-start-column="77" selection-end-line="28" selection-end-column="77" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/TransDefault.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="28" column="62" lean-forward="false" selection-start-line="28" selection-start-column="62" selection-end-line="28" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/RegistryFromCombatUpdate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/RegistryPreColorUpdate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1560">
+          <caret line="104" column="38" lean-forward="true" selection-start-line="104" selection-start-column="38" selection-end-line="104" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

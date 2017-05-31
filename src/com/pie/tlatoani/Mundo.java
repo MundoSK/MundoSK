@@ -37,7 +37,6 @@ import ch.njol.yggdrasil.Fields;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 
-import com.pie.tlatoani.Achievement.*;
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.Chunk.*;
 import com.pie.tlatoani.CodeBlock.*;
@@ -152,15 +151,6 @@ public class Mundo extends JavaPlugin {
         if (!serverHasPlugin("SkQuery")) {
             registerCondition(CondBoolean.class, "%boolean%");
         }
-        //Achievements
-        registerEnum(Achievement.class, "achievement", Achievement.values());
-		registerEffect(EffAwardAch.class, "award achieve[ment] %achievement% to %player%");
-		registerEffect(EffRemoveAch.class, "remove achieve[ment] %achievement% from %player%");
-		registerEvent("Achievement Award", EvtAchAward.class, PlayerAchievementAwardedEvent.class, "achieve[ment] [%-achievement%] award", "award of achieve[ment] [%-achievement%]");
-		registerEventValue(PlayerAchievementAwardedEvent.class, Achievement.class, PlayerAchievementAwardedEvent::getAchievement);
-		registerExpression(ExprParentAch.class,Achievement.class,ExpressionType.PROPERTY,"parent of achieve[ment] %achievement%");
-		registerExpression(ExprAllAch.class,Achievement.class,ExpressionType.PROPERTY,"achieve[ment]s of %player%", "%player%'s achieve[ment]s");
-		registerExpression(ExprHasAch.class,Boolean.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %achievement%");
 		//Book
         ListUtil.registerTransformer("itemstack", TransBookPages.class, "page");
 		registerExpression(ExprBook.class,ItemStack.class,ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] pages %strings%");
@@ -291,13 +281,15 @@ public class Mundo extends JavaPlugin {
         registerEffect(EffMoveItem.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
         //Miscellaneous
         registerEnum(Difficulty.class, "difficulty", Difficulty.values());
-        registerEnum(PlayerLoginEvent.Result.class, "playerloginresult", PlayerLoginEvent.Result.values());
+        registerEnum(PlayerLoginEvent.Result.class, "playerloginresult", PlayerLoginEvent.Result.values ());
+        registerEnum(HangingBreakEvent.RemoveCause.class, "hangingremovecause", HangingBreakEvent.RemoveCause.values());
         registerEffect(EffWaitAsync.class, "async wait %timespan%");
         registerEffect(EffWait.class, "[(2¦async)] wait (0¦until|1¦while) %boolean% [for %-timespan%]");
 		registerEvent("Hang Event", SimpleEvent.class, HangingPlaceEvent.class, "hang");
 		registerEventValue(HangingPlaceEvent.class, Block.class, HangingPlaceEvent::getBlock);
-		registerEvent("Unhang Event", SimpleEvent.class, HangingBreakEvent.class, "unhang");
+		registerEvent("Unhang Event", EvtUnhang.class, HangingBreakEvent.class, "unhang [due to %-hangingremovecauses%]");
 		registerEventValue(HangingBreakByEntityEvent.class, Entity.class, HangingBreakByEntityEvent::getRemover);
+		registerEventValue(HangingBreakEvent.class, HangingBreakEvent.RemoveCause.class, HangingBreakEvent::getCause);
         registerEvent("Chat Tab Complete Event", SimpleEvent.class, PlayerChatTabCompleteEvent.class, "chat tab complete");
         registerEventValue(PlayerChatTabCompleteEvent.class, String.class, PlayerChatTabCompleteEvent::getChatMessage);
         registerEvent("Armor Stand Interact Event", SimpleEvent.class, PlayerArmorStandManipulateEvent.class, "armor stand (manipulate|interact)");
@@ -631,8 +623,11 @@ public class Mundo extends JavaPlugin {
 		} catch (Exception e1) {
 			reportException(this, e1);
 		}
-        if (Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10")) {
-            VersionSpecificRegistry.register();
+        if (Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11")) {
+		    RegistryPreColorUpdate.register();
+        }
+        if (Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11") || Bukkit.getVersion().contains("1.12")) {
+            RegistryFromCombatUpdate.register();
         }
         ListUtil.register();
         ExprEventSpecificValue.register();
