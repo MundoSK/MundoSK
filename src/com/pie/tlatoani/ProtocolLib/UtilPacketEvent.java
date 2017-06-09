@@ -7,7 +7,6 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.reflect.ObjectEnum;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -33,8 +32,7 @@ public class UtilPacketEvent extends Event implements Cancellable{
     public static Map<String, PacketType> nametoptype = new HashMap<String, PacketType>();
     //private static Map<PacketType, Boolean> ptypetoboolean = new HashMap<PacketType, Boolean>();
 
-    private static void addPacketTypes(ObjectEnum<PacketType> packetTypes, String prefix, Boolean isServer) {
-        Iterator<PacketType> packetTypeIterator = packetTypes.iterator();
+    private static void addPacketTypes(Iterator<PacketType> packetTypeIterator, String prefix, Boolean isServer) {
         while (packetTypeIterator.hasNext()) {
             PacketType current = packetTypeIterator.next();
             String fullname = prefix + "_" + (isServer ? "SERVER" : "CLIENT") + "_" + current.name().toUpperCase();
@@ -44,14 +42,14 @@ public class UtilPacketEvent extends Event implements Cancellable{
     }
 
     static {
-        addPacketTypes(PacketType.Play.Server.getInstance(), "PLAY", true);
-        addPacketTypes(PacketType.Play.Client.getInstance(), "PLAY", false);
-        addPacketTypes(PacketType.Handshake.Server.getInstance(), "HANDSHAKE", true);
-        addPacketTypes(PacketType.Handshake.Client.getInstance(), "HANDSHAKE", false);
-        addPacketTypes(PacketType.Login.Server.getInstance(), "LOGIN", true);
-        addPacketTypes(PacketType.Login.Client.getInstance(), "LOGIN", false);
-        addPacketTypes(PacketType.Status.Server.getInstance(), "STATUS", true);
-        addPacketTypes(PacketType.Status.Client.getInstance(), "STATUS", false);
+        addPacketTypes(PacketType.Play.Server.getInstance().iterator(), "PLAY", true);
+        addPacketTypes(PacketType.Play.Client.getInstance().iterator(), "PLAY", false);
+        addPacketTypes(PacketType.Handshake.Server.getInstance().iterator(), "HANDSHAKE", true);
+        addPacketTypes(PacketType.Handshake.Client.getInstance().iterator(), "HANDSHAKE", false);
+        addPacketTypes(PacketType.Login.Server.getInstance().iterator(), "LOGIN", true);
+        addPacketTypes(PacketType.Login.Client.getInstance().iterator(), "LOGIN", false);
+        addPacketTypes(PacketType.Status.Server.getInstance().iterator(), "STATUS", true);
+        addPacketTypes(PacketType.Status.Client.getInstance().iterator(), "STATUS", false);
     }
 
     private static List<PacketType> listeners = new ArrayList<PacketType>();

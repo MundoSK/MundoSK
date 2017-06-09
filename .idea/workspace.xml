@@ -7,13 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscBukkit/EvtUnhang.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/RegistryPreColorUpdate.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/VersionSpecificRegistry.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/RegistryFromCombatUpdate.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/TransDefault.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/TransDefault.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -102,19 +98,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScopeWebSocketClient.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketClient.java">
+      <file leaf-file-name="UtilPacketEvent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="960">
-              <caret line="79" column="9" lean-forward="false" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="9" />
+            <state relative-caret-position="825">
+              <caret line="55" column="62" lean-forward="true" selection-start-line="55" selection-start-column="62" selection-end-line="55" selection-end-column="62" />
               <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#865#866#0" expanded="false" />
-                <element signature="e#908#909#0" expanded="false" />
-                <element signature="e#957#958#0" expanded="false" />
-                <element signature="e#1018#1019#0" expanded="false" />
-                <element signature="e#3742#3743#0" expanded="false" />
-                <element signature="e#3818#3819#0" expanded="false" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -167,7 +157,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>stop</find>
       <find>websockets</find>
       <find>addConnec</find>
       <find>connections</find>
@@ -197,6 +186,7 @@
       <find>HangingBreakEvent.RemoveCause</find>
       <find>register</find>
       <find>Registr</find>
+      <find>getInstance()</find>
     </findStrings>
     <replaceStrings>
       <replace>public</replace>
@@ -225,6 +215,7 @@
       <replace>HttpConnection</replace>
       <replace>Number</replace>
       <replace>Mundo.register</replace>
+      <replace>getInstance().iterator()</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -238,7 +229,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketHost.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketPort.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprRetrievedSkinFromFile.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Excluded/ExprRetrievedSkinFromFile.java" />
@@ -288,6 +278,7 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/RegistryFromCombatUpdate.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/RegistryPreColorUpdate.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -908,7 +899,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Excluded.java" />
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/MineSkin/SkinCallbackImp.java" />
     <entry file="file://$PROJECT_DIR$/src/mundosk_libraries/org/jsoup/Jsoup.java" />
     <entry file="file://$PROJECT_DIR$/src/mundosk_libraries/jsoup_light/Validate.java">
@@ -1104,6 +1094,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="11" column="43" lean-forward="false" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1279,6 +1270,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1560">
           <caret line="104" column="38" lean-forward="true" selection-start-line="104" selection-start-column="38" selection-end-line="104" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="55" column="62" lean-forward="true" selection-start-line="55" selection-start-column="62" selection-end-line="55" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
