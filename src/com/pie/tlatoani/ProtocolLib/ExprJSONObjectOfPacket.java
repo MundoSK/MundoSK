@@ -49,6 +49,9 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
                 WrappedChatComponent chatComponent = packet.getChatComponents().readSafely(index);
+                if (chatComponent == null) {
+                    return null;
+                }
                 String fromjson = chatComponent.getJson();
                 JSONParser parser = new JSONParser();
                 JSONObject tojson = null;
@@ -71,7 +74,11 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
                 try {
-                    return (JSONObject) (new JSONParser()).parse(packet.getServerPings().readSafely(0).toJson());
+                    WrappedServerPing serverPing = packet.getServerPings().readSafely(0);
+                    if (serverPing == null) {
+                        return null;
+                    }
+                    return (JSONObject) (new JSONParser()).parse(serverPing.toJson());
                 } catch (ParseException | ClassCastException e) {
                     Mundo.reportException(ExprJSONObjectOfPacket.class, e);
                     return null;
@@ -89,6 +96,9 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             public JSONObject get(PacketContainer packet, Integer index) {
                 JSONObject jsonObject = new JSONObject();
                 WrappedDataWatcher dataWatcher = packet.getDataWatcherModifier().readSafely(index);
+                if (dataWatcher == null) {
+                    return null;
+                }
                 jsonObject.put("entity", dataWatcher.getEntity());
                 if (dataWatcher != null) {
                     for (WrappedWatchableObject wrappedWatchableObject : dataWatcher) {
@@ -123,8 +133,11 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
         registerSingleConverter("watchablecollection", new PacketInfoConverter<JSONObject>() {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
-                JSONObject jsonObject = new JSONObject();
                 Collection<WrappedWatchableObject> wrappedWatchableObjects = packet.getWatchableCollectionModifier().readSafely(index);
+                if (wrappedWatchableObjects == null) {
+                    return null;
+                }
+                JSONObject jsonObject = new JSONObject();
                 for (WrappedWatchableObject wrappedWatchableObject : wrappedWatchableObjects) {
                     jsonObject.put("" + wrappedWatchableObject.getIndex(), wrappedWatchableObject.getValue());
                 }
@@ -156,6 +169,9 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             @Override
             public JSONObject[] get(PacketContainer packet, Integer index) {
                 WrappedChatComponent[] chatComponents = packet.getChatComponentArrays().readSafely(index);
+                if (chatComponents == null) {
+                    return null;
+                }
                 JSONObject[] result = new JSONObject[chatComponents.length];
                 for (int i = 0; i < chatComponents.length; i++) {
                     WrappedChatComponent chatComponent = chatComponents[i];
