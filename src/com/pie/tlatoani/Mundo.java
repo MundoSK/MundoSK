@@ -50,6 +50,9 @@ import com.pie.tlatoani.Miscellaneous.*;
 import com.pie.tlatoani.Miscellaneous.ArmorStand.*;
 import com.pie.tlatoani.Miscellaneous.Matcher.*;
 import com.pie.tlatoani.Miscellaneous.MiscBukkit.*;
+import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprAmountOfPlayers;
+import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprIP;
+import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprMotd;
 import com.pie.tlatoani.Miscellaneous.Thread.*;
 import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
@@ -88,6 +91,7 @@ import org.bukkit.event.block.NotePlayEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.hanging.*;
 import org.bukkit.event.player.*;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.ChunkGenerator.*;
 import org.bukkit.inventory.ItemStack;
@@ -322,6 +326,13 @@ public class Mundo extends JavaPlugin {
         registerScope(ScopeAsync.class, "async [in %-timespan%]");
         registerScope(ScopeSync.class, "(sync|in %-timespan%)");
         registerScope(ScopeWhen.class, "when %boolean%");
+        {
+            //ServerListPing
+            registerEvent("Server List Ping", SimpleEvent.class, ServerListPingEvent.class, "[[(server|player)] list] ping");
+            registerExpression(ExprAmountOfPlayers.class, Number.class, ExpressionType.SIMPLE, "(shown|sent) (0¦amount of|1¦max [amount of]) players");
+            registerExpression(ExprMotd.class, String.class, ExpressionType.SIMPLE, "(shown|sent) motd");
+            registerExpression(ExprIP.class, String.class, ExpressionType.SIMPLE, "pinger's ip");
+        }
         //NoteBlock
         ArrayList<Pair<String, Note>> notes = new ArrayList<>();
         for (int octave : new int[]{0, 1})
