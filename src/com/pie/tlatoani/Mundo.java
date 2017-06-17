@@ -321,6 +321,7 @@ public class Mundo extends JavaPlugin {
         registerExpression(ExprRespawnLocation.class, Location.class, ExpressionType.SIMPLE, "respawn location");
         registerExpression(ExprDestination.class, Location.class, ExpressionType.SIMPLE, "destination");
         registerExpression(ExprNewPortal.class, Location.class, ExpressionType.PROPERTY, "new nether portal within [[a] radius of] %number% (block|meter)s of %location%");
+        registerExpression(ExprFlying.class, Boolean.class, ExpressionType.PROPERTY, "[%player% is] flying");
         registerScope(ScopeMatcher.class, "(switch|match) %object%");
         registerScope(ScopeMatches.class, "(case|matches) %object%");
         registerScope(ScopeAsync.class, "async [in %-timespan%]");

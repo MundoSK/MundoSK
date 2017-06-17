@@ -24,6 +24,7 @@ public class EffPacketInfo extends Effect {
         int i = 0;
         for (Object value : packet.getModifier().getValues()) {
             Mundo.info("Field " + i + ", Class = " + value.getClass() + ": " + value);
+            i++;
         }
         Mundo.info("Packet Info End");
     }
