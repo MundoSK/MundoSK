@@ -244,7 +244,9 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                         Mundo.debug(ExprJSONObjectOfPacket.class, "PlayerInfoData: " + playerInfoData);
                         Mundo.debug(ExprJSONObjectOfPacket.class, "PlayerInfoData.getDisplayName(): " + playerInfoData.getDisplayName());
                         result[i] = new JSONObject();
-                        result[i].put("displayname", (new JSONParser()).parse(playerInfoData.getDisplayName().getJson()));
+                        if (playerInfoData.getDisplayName() != null) {
+                            result[i].put("displayname", (new JSONParser()).parse(playerInfoData.getDisplayName().getJson()));
+                        }
                         result[i].put("gamemode", playerInfoData.getGameMode().toBukkit());
                         result[i].put("latency", playerInfoData.getLatency());
                         result[i].put("gameprofile", gameProfileToJSON.apply(playerInfoData.getProfile()));
@@ -260,11 +262,12 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             public void set(PacketContainer packet, Integer index, JSONObject[] value) {
                 ArrayList<PlayerInfoData> playerInfoDatas = new ArrayList<PlayerInfoData>();
                 for (JSONObject jsonObject : value) {
+                    Object displayName = jsonObject.get("displayname");
                     playerInfoDatas.add(new PlayerInfoData(
                             gameProfileFromJSON.apply((JSONObject) jsonObject.get("gameprofile")),
                             ((Number) jsonObject.get("latency")).intValue(),
                             EnumWrappers.NativeGameMode.fromBukkit((GameMode) jsonObject.get("gamemode")),
-                            WrappedChatComponent.fromJson(jsonObject.get("displayname").toString())
+                            displayName == null ? null : WrappedChatComponent.fromJson(displayName.toString())
                     ));
                 }
                 packet.getPlayerInfoDataLists().writeSafely(index, playerInfoDatas);
