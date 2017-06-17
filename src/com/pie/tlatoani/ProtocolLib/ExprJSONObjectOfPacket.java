@@ -94,11 +94,11 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
         registerSingleConverter("datawatcher", new PacketInfoConverter<JSONObject>() {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
-                JSONObject jsonObject = new JSONObject();
                 WrappedDataWatcher dataWatcher = packet.getDataWatcherModifier().readSafely(index);
                 if (dataWatcher == null) {
                     return null;
                 }
+                JSONObject jsonObject = new JSONObject();
                 jsonObject.put("entity", dataWatcher.getEntity());
                 if (dataWatcher != null) {
                     for (WrappedWatchableObject wrappedWatchableObject : dataWatcher) {
@@ -235,9 +235,14 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             public JSONObject[] get(PacketContainer packet, Integer index) {
                 try {
                     List<PlayerInfoData> playerInfoDatas = packet.getPlayerInfoDataLists().readSafely(index);
+                    if (playerInfoDatas == null) {
+                        return null;
+                    }
                     JSONObject[] result = new JSONObject[playerInfoDatas.size()];
                     for (int i = 0; i < result.length; i++) {
-                        PlayerInfoData playerInfoData = playerInfoDatas.get(index);
+                        PlayerInfoData playerInfoData = playerInfoDatas.get(i);
+                        Mundo.debug(ExprJSONObjectOfPacket.class, "PlayerInfoData: " + playerInfoData);
+                        Mundo.debug(ExprJSONObjectOfPacket.class, "PlayerInfoData.getDisplayName(): " + playerInfoData.getDisplayName());
                         result[i] = new JSONObject();
                         result[i].put("displayname", (new JSONParser()).parse(playerInfoData.getDisplayName().getJson()));
                         result[i].put("gamemode", playerInfoData.getGameMode().toBukkit());

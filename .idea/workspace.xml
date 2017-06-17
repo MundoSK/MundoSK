@@ -7,13 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ServerListPing/ExprAmountOfPlayers.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ServerListPing/ExprIP.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ServerListPing/ExprMotd.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" />
     </list>
     <ignored path="MundoSK.iws" />
@@ -92,10 +86,10 @@
       <file leaf-file-name="ExprJSONObjectOfPacket.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3285">
-              <caret line="243" column="14" lean-forward="false" selection-start-line="243" selection-start-column="14" selection-end-line="243" selection-end-column="14" />
+            <state relative-caret-position="290">
+              <caret line="244" column="135" lean-forward="false" selection-start-line="244" selection-start-column="135" selection-end-line="244" selection-end-column="135" />
               <folding>
-                <element signature="e#11969#11985#0" expanded="true" />
+                <element signature="e#12317#12333#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -283,13 +277,13 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/RegistryPreColorUpdate.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/UtilPacketEvent.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ServerListPing/ExprMotd.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ServerListPing/ExprPort.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ServerListPing/ExprAmountOfPlayers.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ServerListPing/ExprIP.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" />
       </list>
     </option>
   </component>
@@ -1356,10 +1350,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3285">
-          <caret line="243" column="14" lean-forward="false" selection-start-line="243" selection-start-column="14" selection-end-line="243" selection-end-column="14" />
+        <state relative-caret-position="290">
+          <caret line="244" column="135" lean-forward="false" selection-start-line="244" selection-start-column="135" selection-end-line="244" selection-end-column="135" />
           <folding>
-            <element signature="e#11969#11985#0" expanded="true" />
+            <element signature="e#12317#12333#0" expanded="true" />
           </folding>
         </state>
       </provider>
