@@ -13,8 +13,7 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 7/13/16.
  */
-@Deprecated
-public class EffSetArrayTablist extends Effect {
+public class EffEnableArrayTablist extends Effect {
     private Expression<Player> playerExpression;
     private int matchedPattern;
     private Expression<Number> columns;
@@ -39,7 +38,7 @@ public class EffSetArrayTablist extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "activate array tablist for " + playerExpression;
+        return "enable array tablist for " + playerExpression;
     }
 
     @Override
@@ -51,7 +50,6 @@ public class EffSetArrayTablist extends Effect {
             rows = (Expression<Number>) expressions[2];
             iconExpression = (Expression<Skin>) expressions[3];
         }
-        Skript.warning("The 'activate array tablist' effect is deprecated and will be removed in a future version! It is recommended to instead use the specific effects for setting initial icon, column, and row in that order!");
         return true;
     }
 }
