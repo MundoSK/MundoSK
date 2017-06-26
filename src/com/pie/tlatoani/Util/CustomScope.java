@@ -150,13 +150,14 @@ public abstract class CustomScope extends Condition {
 		}
 	}
 
-	private void getScope() {
+	private void retrieveScope() {
 		setScope(getScope(scopeParent, this));
 	}
 
 	public static Conditional getScope(TriggerSection parent, CustomScope scope) {
 	    TriggerItem going = TRIGGER_SECTION_FIRST.get(parent);
-	    while (true) {
+	    TriggerItem next = parent.getNext();
+	    while (going != null && going != next) {
 	        Mundo.debug(CustomScope.class, "GOING :: " + going);
 	        if (going instanceof Conditional) {
 	            Condition condition = CONDITIONAL_COND.get(going);
@@ -167,6 +168,7 @@ public abstract class CustomScope extends Condition {
             }
             going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
         }
+        throw new IllegalStateException("Unable to find the correct scope for CustomScope = " + scope + ", Parent = " + parent);
     }
 
 	//Overriden methods
@@ -208,7 +210,7 @@ public abstract class CustomScope extends Condition {
                 scopeParent = SCRIPT_FUNCTION_TRIGGER.get(function);
             }
 			if (scopeParent != null) {
-                getScope();
+                retrieveScope();
             } else {
                 getScopes();
             }
