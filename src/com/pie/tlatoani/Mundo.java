@@ -165,7 +165,9 @@ public class Mundo extends JavaPlugin {
         registerEffect(EffLoadChunk.class, "(0¦load|1¦unload) chunk %chunk%");
         registerExpression(ExprChunk.class, Chunk.class, ExpressionType.COMBINED,
                 "chunk %number%, %number% [in %world%]",
-                "chunks [from] %number%, %number% to %number%, %number% [in %world%]");
+                "chunks [from] %number%, %number% to %number%, %number% [in %world%]",
+                "chunk at %location%",
+                "chunks from %location% to %location%");
         registerExpression(ExprChunkBlock.class, Block.class, ExpressionType.PROPERTY,
                 "block %number%, %number%, %number% (of|in) %chunk%",
                 "(0¦layer %-number%|1¦top|2¦bottom|3¦sea level) (0¦south|4¦north)(0¦east|8¦west) (0¦center|16¦corner) of %chunk%");

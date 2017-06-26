@@ -19,18 +19,21 @@ public class ScopeTry extends CustomScope {
 	}
 
 	@Override
-	public boolean go(Event e) {
+	public boolean go(Event event) {
 		Exception caught = null;
 		scope.setNext(null);
 		try {
-			TriggerItem.walk(first, e);
+			TriggerItem go = first;
+			while (go != null) {
+			    go = (TriggerItem) CustomScope.TRIGGER_ITEM_WALK.invoke(go, event);
+            }
 		} catch (Exception e1) {
 			caught = e1;
 			Mundo.debug(this, "Exception caught");
 			Mundo.debug(this, e1);
 		}
-		if (scopeCatch != null) {;
-			scopeCatch.catchThrowable(e, ((caught != null) ? caught.getCause() : null));
+		if (scopeCatch != null && caught != null) {;
+			scopeCatch.catchThrowable(event, caught.getCause());
 		}
 		scope.setNext(scope.getNext());
 		return false;
@@ -48,7 +51,7 @@ public class ScopeTry extends CustomScope {
 					Skript.warning("It is recommended to use a catch statement after a try statement");
 				}
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				Mundo.reportException(this, e);
 			}
 		} else {
 			Skript.warning("It is recommended to use a catch statement after a try statement");

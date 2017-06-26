@@ -36,10 +36,12 @@ public abstract class CustomScope extends Condition {
 	public static Field commandTrigger;
 	public static Method getTriggersMethod;
 
-	public static UtilReflection.FieldAccessor<TriggerItem> triggerSectionFirst;
-    public static UtilReflection.FieldAccessor<TriggerItem> triggerSectionLast;
-	public static UtilReflection.FieldAccessor<Condition> conditionalCond;
-	public static UtilReflection.FieldAccessor<Trigger> scriptFunctionTrigger;
+	public static UtilReflection.FieldAccessor<TriggerItem> TRIGGER_SECTION_FIRST;
+    public static UtilReflection.FieldAccessor<TriggerItem> TRIGGER_SECTION_LAST;
+	public static UtilReflection.FieldAccessor<Condition> CONDITIONAL_COND;
+	public static UtilReflection.FieldAccessor<Trigger> SCRIPT_FUNCTION_TRIGGER;
+
+	public static UtilReflection.MethodInvoker TRIGGER_ITEM_WALK;
 
 	private static boolean getScopesWasRun = true;
 
@@ -78,20 +80,22 @@ public abstract class CustomScope extends Condition {
 			runmethod = TriggerItem.class.getDeclaredMethod("run", Event.class);
 			runmethod.setAccessible(true);
 
-			triggerSectionFirst = UtilReflection.getField(TriggerSection.class, "first", TriggerItem.class);
-            triggerSectionLast = UtilReflection.getField(TriggerSection.class, "last", TriggerItem.class);
-			conditionalCond = UtilReflection.getField(Conditional.class, "cond", Condition.class);
-			scriptFunctionTrigger = UtilReflection.getField(ScriptFunction.class, "trigger", Trigger.class);
+			TRIGGER_SECTION_FIRST = UtilReflection.getField(TriggerSection.class, "first", TriggerItem.class);
+            TRIGGER_SECTION_LAST = UtilReflection.getField(TriggerSection.class, "last", TriggerItem.class);
+			CONDITIONAL_COND = UtilReflection.getField(Conditional.class, "cond", Condition.class);
+			SCRIPT_FUNCTION_TRIGGER = UtilReflection.getField(ScriptFunction.class, "trigger", Trigger.class);
+
+			TRIGGER_ITEM_WALK = UtilReflection.getMethod(TriggerItem.class, "walk", Event.class);
 		} catch (Exception e) {
 			Mundo.reportException(CustomScope.class, e);
 		}
 	}
 
 	public static void registerImmediateScopes(Trigger trigger) {
-        TriggerItem going = triggerSectionFirst.get(trigger);
+        TriggerItem going = TRIGGER_SECTION_FIRST.get(trigger);
         while (going != null) {
             if (going instanceof Conditional) {
-                Condition condition1 = conditionalCond.get(going);
+                Condition condition1 = CONDITIONAL_COND.get(going);
                 if (condition1 instanceof CustomScope) {
                     ((CustomScope) condition1).setScope((Conditional) going);
                 }
@@ -136,8 +140,8 @@ public abstract class CustomScope extends Condition {
 	public void setScope(Conditional scope) {
 		if (scope != null) {
 			this.scope = scope;
-            this.first = triggerSectionFirst.get(scope);
-            this.last = triggerSectionLast.get(scope);
+            this.first = TRIGGER_SECTION_FIRST.get(scope);
+            this.last = TRIGGER_SECTION_LAST.get(scope);
 			Mundo.debug(this, "GUTEN ROUNDEN:: " + first);
 			if (scopeParent == null) {
 				scopeParent = scope.getParent();
@@ -151,11 +155,11 @@ public abstract class CustomScope extends Condition {
 	}
 
 	public static Conditional getScope(TriggerSection parent, CustomScope scope) {
-	    TriggerItem going = triggerSectionFirst.get(parent);
+	    TriggerItem going = TRIGGER_SECTION_FIRST.get(parent);
 	    while (true) {
 	        Mundo.debug(CustomScope.class, "GOING :: " + going);
 	        if (going instanceof Conditional) {
-	            Condition condition = conditionalCond.get(going);
+	            Condition condition = CONDITIONAL_COND.get(going);
 	            if (scope == condition) {
                     Mundo.debug(CustomScope.class, "FOUND THE CONDITIONAL :: " + going);
 	                return (Conditional) going;
@@ -201,7 +205,7 @@ public abstract class CustomScope extends Condition {
 	public boolean check(Event e) {
 		if (scope == null) {
 		    if (function != null) {
-                scopeParent = scriptFunctionTrigger.get(function);
+                scopeParent = SCRIPT_FUNCTION_TRIGGER.get(function);
             }
 			if (scopeParent != null) {
                 getScope();

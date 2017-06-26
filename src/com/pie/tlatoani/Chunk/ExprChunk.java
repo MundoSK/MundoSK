@@ -4,9 +4,10 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import com.google.common.collect.Iterators;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 
 import java.util.Iterator;
@@ -14,6 +15,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Created by Tlatoani on 2/25/17.
+ * Note: If the two locations in the from %location% to %location% syntax have different worlds, no chunks are returned
  */
 public class ExprChunk extends SimpleExpression<Chunk> {
     private Expression<Number> x1Expr;
@@ -22,19 +24,43 @@ public class ExprChunk extends SimpleExpression<Chunk> {
     private Expression<Number> z2Expr;
     private Expression<World> worldExpression;
 
+    private Expression<Location> loc1Expr;
+    private Expression<Location> loc2Expr;
+
     private boolean single;
-    private boolean explicitWorld;
+    private boolean coords;
 
     @Override
     protected Chunk[] get(Event event) {
-        int x1 = x1Expr.getSingle(event).intValue();
-        int z1 = z1Expr.getSingle(event).intValue();
-        World world = worldExpression.getSingle(event);
+        int x1;
+        int z1;
+        World world;
+        if (coords) {
+            x1 = x1Expr.getSingle(event).intValue();
+            z1 = z1Expr.getSingle(event).intValue();
+            world = worldExpression.getSingle(event);
+        } else {
+            Location loc1 = loc1Expr.getSingle(event);
+            x1 = loc1.getBlockX() >> 2;
+            z1 = loc1.getBlockZ() >> 2;
+            world = loc1.getWorld();
+        }
         if (single) {
             return new Chunk[]{world.getChunkAt(x1, z1)};
         } else {
-            int x2 = x2Expr.getSingle(event).intValue();
-            int z2 = z2Expr.getSingle(event).intValue();
+            int x2;
+            int z2;
+            if (coords) {
+                x2 = x2Expr.getSingle(event).intValue();
+                z2 = z2Expr.getSingle(event).intValue();
+            } else {
+                Location loc2 = loc2Expr.getSingle(event);
+                if (!world.equals(loc2.getWorld())) {
+                    return new Chunk[0];
+                }
+                x2 = loc2.getBlockX() >> 2;
+                z2 = loc2.getBlockZ() >> 2;
+            }
             int xmin = Math.min(x1, x2);
             int xmax = Math.max(x1, x2);
             int zmin = Math.min(z1, z2);
@@ -51,11 +77,30 @@ public class ExprChunk extends SimpleExpression<Chunk> {
 
     @Override
     public Iterator<Chunk> iterator(Event event) {
-        World world = worldExpression.getSingle(event);
-        int x1 = x1Expr.getSingle(event).intValue();
-        int z1 = z1Expr.getSingle(event).intValue();
-        int x2 = x2Expr.getSingle(event).intValue();
-        int z2 = z2Expr.getSingle(event).intValue();
+        World world;
+        int x1;
+        int z1;
+        int x2;
+        int z2;
+        if (coords) {
+            world = worldExpression.getSingle(event);
+            x1 = x1Expr.getSingle(event).intValue();
+            z1 = z1Expr.getSingle(event).intValue();
+            x2 = x2Expr.getSingle(event).intValue();
+            z2 = z2Expr.getSingle(event).intValue();
+        } else {
+            Location loc1 = loc1Expr.getSingle(event);
+            Location loc2 = loc2Expr.getSingle(event);
+            if (!loc1.getWorld().equals(loc2.getWorld())) {
+                return Iterators.emptyIterator();
+            }
+            world = loc1.getWorld();
+            x1 = loc1.getBlockX() >> 2;
+            z1 = loc1.getBlockZ() >> 2;
+            x2 = loc2.getBlockX() >> 2;
+            z2 = loc2.getBlockZ() >> 2;
+
+        }
         int xmin = Math.min(x1, x2);
         int xmax = Math.max(x1, x2);
         int zmin = Math.min(z1, z2);
@@ -98,25 +143,43 @@ public class ExprChunk extends SimpleExpression<Chunk> {
 
     @Override
     public String toString(Event event, boolean b) {
-        if (single) {
-            return "chunk " + x1Expr + ", " + z1Expr + (explicitWorld ? " in " + worldExpression : "");
+        if (coords) {
+            if (single) {
+                return "chunk " + x1Expr + ", " + z1Expr + " in " + worldExpression;
+            } else {
+                return "chunks from " + x1Expr + ", " + z1Expr + " to " + x2Expr + ", " + z2Expr + " in " + worldExpression;
+            }
         } else {
-            return "chunks from " + x1Expr + ", " + z1Expr + " to " + x2Expr + ", " + z2Expr + (explicitWorld ? " in " + worldExpression : "");
+            if (single) {
+                return "chunk at " + loc1Expr;
+            } else {
+                return "chunks from " + loc1Expr + " to " + loc2Expr;
+            }
         }
+
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         single = i == 0;
-        x1Expr = (Expression<Number>) expressions[0];
-        z1Expr = (Expression<Number>) expressions[1];
-        if (single) {
-            worldExpression = (Expression<World>) expressions[2];
+        coords = i < 2;
+        if (coords) {
+            x1Expr = (Expression<Number>) expressions[0];
+            z1Expr = (Expression<Number>) expressions[1];
+            if (single) {
+                worldExpression = (Expression<World>) expressions[2];
+            } else {
+                x2Expr = (Expression<Number>) expressions[2];
+                z2Expr = (Expression<Number>) expressions[3];
+                worldExpression = (Expression<World>) expressions[4];
+            }
         } else {
-            x2Expr = (Expression<Number>) expressions[2];
-            z2Expr = (Expression<Number>) expressions[3];
-            worldExpression = (Expression<World>) expressions[4];
+            loc1Expr = (Expression<Location>) expressions[0];
+            if (!single) {
+                loc2Expr = (Expression<Location>) expressions[1];
+            }
         }
+
         return true;
     }
 }
