@@ -35,6 +35,16 @@ public class ScopeCatch extends CustomScope {
 
     public void catchThrowable(Event event, Throwable caught) {
         container.change(event, new Throwable[]{caught}, Changer.ChangeMode.SET);
+        if (scope == null) {
+            if (function != null) {
+                scopeParent = SCRIPT_FUNCTION_TRIGGER.get(function);
+            }
+            if (scopeParent != null) {
+                retrieveScope();
+            } else {
+                getScopes();
+            }
+        }
         TriggerItem going = first;
         TriggerItem next = scope.getNext();
         Mundo.debug(this, "First: " + first);

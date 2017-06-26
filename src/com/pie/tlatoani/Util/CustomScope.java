@@ -150,7 +150,7 @@ public abstract class CustomScope extends Condition {
 		}
 	}
 
-	private void retrieveScope() {
+	protected void retrieveScope() {
 		setScope(getScope(scopeParent, this));
 	}
 
