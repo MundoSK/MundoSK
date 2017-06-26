@@ -16,14 +16,12 @@ import com.pie.tlatoani.Skin.Skin;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -112,16 +110,14 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             public void set(PacketContainer packet, Integer index, JSONObject value) {
                 List<WrappedWatchableObject> wrappedWatchableObjects = new ArrayList<WrappedWatchableObject>();
                 Entity entity = (Entity) value.get("entity");
-                value.forEach(new BiConsumer() {
-                    @Override
-                    public void accept(Object o, Object o2) {
-                        try {
-                            String key = (String) o;
-                            int i = Integer.parseInt(key);
-                            WrappedWatchableObject watchableObject = new WrappedWatchableObject(i, o2);
-                            wrappedWatchableObjects.add(watchableObject);
-
-                        } catch (ClassCastException | NumberFormatException e) {}
+                value.forEach((keyO, valueO) -> {
+                    try {
+                        String key = (String) keyO;
+                        int i = Integer.parseInt(key);
+                        WrappedWatchableObject watchableObject = new WrappedWatchableObject(i, valueO);
+                        wrappedWatchableObjects.add(watchableObject);
+                    } catch (ClassCastException | NumberFormatException e) {
+                        Mundo.debug(ExprJSONObjectOfPacket.class, e);
                     }
                 });
                 WrappedDataWatcher dataWatcher = new WrappedDataWatcher(wrappedWatchableObjects);
@@ -139,6 +135,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 }
                 JSONObject jsonObject = new JSONObject();
                 for (WrappedWatchableObject wrappedWatchableObject : wrappedWatchableObjects) {
+                    Mundo.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject, Index = " + wrappedWatchableObject.getIndex() + ", Value = " + wrappedWatchableObject.getValue());
                     jsonObject.put("" + wrappedWatchableObject.getIndex(), wrappedWatchableObject.getValue());
                 }
                 return jsonObject;
@@ -147,16 +144,15 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             @Override
             public void set(PacketContainer packet, Integer index, JSONObject value) {
                 List<WrappedWatchableObject> wrappedWatchableObjects = new ArrayList<WrappedWatchableObject>();
-                value.forEach(new BiConsumer() {
-                    @Override
-                    public void accept(Object o, Object o2) {
-                        try {
-                            String key = (String) o;
-                            int i = Integer.parseInt(key);
-                            WrappedWatchableObject watchableObject = new WrappedWatchableObject(i, o2);
-                            wrappedWatchableObjects.add(watchableObject);
-
-                        } catch (ClassCastException | NumberFormatException e) {}
+                value.forEach((keyO, valueO) -> {
+                    try {
+                        String key = (String) keyO;
+                        int i = Integer.parseInt(key);
+                        Mundo.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject creation, Index = " + i + ", Value = " + valueO);
+                        WrappedWatchableObject watchableObject = new WrappedWatchableObject(i, valueO);
+                        wrappedWatchableObjects.add(watchableObject);
+                    } catch (ClassCastException | NumberFormatException e) {
+                        Mundo.debug(ExprJSONObjectOfPacket.class, e);
                     }
                 });
                 packet.getWatchableCollectionModifier().writeSafely(index, wrappedWatchableObjects);
