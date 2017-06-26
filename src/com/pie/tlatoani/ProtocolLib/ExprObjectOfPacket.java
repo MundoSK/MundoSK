@@ -590,7 +590,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             } else {
                 aClass = Array.newInstance(classInfo.getC(), 0).getClass();
             }
-            String classname = aClass.getSimpleName();
+            String classname = classInfo.getC().getSimpleName();
             Mundo.debug(this, "Class simple name: " + classname);
             if (!isSingle) {
                 methodGetName = classname + "Arrays";
