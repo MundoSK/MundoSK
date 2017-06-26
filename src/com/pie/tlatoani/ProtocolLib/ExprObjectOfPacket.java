@@ -585,7 +585,11 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         } else if (expressions[0] instanceof Literal && expressions[0].getReturnType() == ClassInfo.class) {
             ClassInfo classInfo = ((Literal<ClassInfo<?>>) expressions[0]).getSingle();
             key = classInfo.getCodeName();
-            aClass = classInfo.getC();
+            if (isSingle) {
+                aClass = classInfo.getC();
+            } else {
+                aClass = Array.newInstance(classInfo.getC(), 0).getClass();
+            }
             String classname = aClass.getSimpleName();
             Mundo.debug(this, "Class simple name: " + classname);
             if (!isSingle) {
@@ -613,7 +617,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         }
         try {
             Method method = PacketContainer.class.getMethod("get" + methodGetName);
-            Mundo.debug(this, "Method: " + method.toString());
+            Mundo.debug(this, "Method: " + method.toString() + ", aClass = " + aClass);
             converter = createConverter(method);
             return true;
         } catch (NoSuchMethodException e) {
@@ -621,7 +625,6 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         }
         Skript.error(key + " is not applicable for the '%type/string% pinfo [array] %number% of %packet%' expression.");
         return false;
-
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
@@ -632,11 +635,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            if (isSingle) {
-                return CollectionUtils.array(aClass);
-            } else {
-                return CollectionUtils.array(aClass);
-            }
+            return CollectionUtils.array(aClass);
         }
         return null;
     }

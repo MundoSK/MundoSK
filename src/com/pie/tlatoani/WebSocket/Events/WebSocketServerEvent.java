@@ -8,4 +8,5 @@ import mundosk_libraries.java_websocket.server.WebSocketServer;
 public interface WebSocketServerEvent {
 
     WebSocketServer getWebSocketServer();
+
 }

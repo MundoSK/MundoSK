@@ -40,4 +40,5 @@ public class SkriptWebSocketClient extends WebSocketClient {
     public void onError(Exception ex) {
         TriggerItem.walk(functionality.onError, new WebSocketErrorEvent(this, ex));
     }
+
 }

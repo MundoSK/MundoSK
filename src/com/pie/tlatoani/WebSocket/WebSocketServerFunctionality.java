@@ -1,6 +1,7 @@
 package com.pie.tlatoani.WebSocket;
 
 import ch.njol.skript.lang.TriggerItem;
+import com.pie.tlatoani.Mundo;
 
 /**
  * Created by Tlatoani on 5/4/17.
@@ -26,5 +27,16 @@ public class WebSocketServerFunctionality {
         onClose = null;
         onMessage = null;
         onError = null;
+    }
+
+    public void debugTriggerItems() {
+        Mundo.debug(this, "TriggerItems: " +
+                onStart + "," +
+                onStop + "," +
+                onOpen + "," +
+                onClose + "," +
+                onMessage + "," +
+                onError
+        );
     }
 }

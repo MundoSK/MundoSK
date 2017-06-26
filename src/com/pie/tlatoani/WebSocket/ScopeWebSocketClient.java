@@ -5,7 +5,6 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.*;
-import ch.njol.skript.log.SkriptLogger;
 import com.pie.tlatoani.Util.UtilScope;
 import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
@@ -78,6 +77,7 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
                 return false;
             }
         }
+        clientFunctionality.debugTriggerItems();
         return true;
     }
 

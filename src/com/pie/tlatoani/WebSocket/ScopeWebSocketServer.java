@@ -89,6 +89,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
                 return false;
             }
         }
+        serverFunctionality.debugTriggerItems();
         return true;
     }
 

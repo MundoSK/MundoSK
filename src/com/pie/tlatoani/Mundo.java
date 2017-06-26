@@ -66,8 +66,8 @@ import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
 import com.pie.tlatoani.TerrainControl.*;
 import com.pie.tlatoani.Throwable.*;
 import com.pie.tlatoani.Util.*;
-//import com.pie.tlatoani.WebSocket.*;
-//import com.pie.tlatoani.WebSocket.Events.*;
+import com.pie.tlatoani.WebSocket.*;
+import com.pie.tlatoani.WebSocket.Events.*;
 import com.pie.tlatoani.WorldBorder.*;
 import com.pie.tlatoani.WorldCreator.*;
 import com.pie.tlatoani.WorldManagement.*;
@@ -77,6 +77,7 @@ import com.pie.tlatoani.Metrics.*;
 import com.pie.tlatoani.ZExperimental.CustomEffect;
 import com.pie.tlatoani.ZExperimental.CustomElementEvent;
 //import mundosk_libraries.java_websocket.WebSocket;
+import mundosk_libraries.java_websocket.WebSocket;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
@@ -538,7 +539,7 @@ public class Mundo extends JavaPlugin {
         registerExpression(ExprIndexesOfListVariable.class, String.class, ExpressionType.PROPERTY, "[all [of]] [the] indexes (of|in) [value] %objects%");
         registerExpression(ExprBranch.class, String.class, ExpressionType.PROPERTY, "branch");
 		//WebSocket
-        /*registerType(WebSocket.class, "websocket");
+        registerType(WebSocket.class, "websocket");
         registerEffect(EffCloseWebSocket.class, "close websocket %websocket%");
         registerEffect(EffWebSocketSendMessage.class, "websocket send %string% [through %-websockets]");
         registerEffect(EffStartWebSocketServer.class, "start websocket server %string% at port %number%");
@@ -550,7 +551,7 @@ public class Mundo extends JavaPlugin {
         registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket [server] port");
         registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all websockets [of server at port %number%");
         registerExpression(ExprWebSocketHost.class, String.class, ExpressionType.PROPERTY, "local host of %websocket%", "(remote|external) host of %websocket%");
-        registerExpression(ExprWebSocketPort.class, Number.class, ExpressionType.PROPERTY, "local port of %websocket%", "(remote|external) port of %websocket%");*/
+        registerExpression(ExprWebSocketPort.class, Number.class, ExpressionType.PROPERTY, "local port of %websocket%", "(remote|external) port of %websocket%");
         //WorldBorder
 		registerEffect(EffResetBorder.class, "reset %world%");
 		registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilizeEvent.class, "border stabilize [in %-world%]");
