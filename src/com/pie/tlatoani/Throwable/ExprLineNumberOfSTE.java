@@ -31,7 +31,7 @@ public class ExprLineNumberOfSTE extends SimpleExpression<Integer>{
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		return "line number";
+		return "line number of " + ste;
 	}
 
 	@Override

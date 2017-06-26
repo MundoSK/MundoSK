@@ -31,7 +31,7 @@ public class ExprCause extends SimpleExpression<Throwable>{
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		return "cause";
+		return "thrwoable cause of " + thr;
 	}
 
 	@Override

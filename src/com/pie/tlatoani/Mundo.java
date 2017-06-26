@@ -958,7 +958,7 @@ public class Mundo extends JavaPlugin {
 	
 	public static void reportException(Object obj, Exception e) {
 		info("An exception has occured within MundoSK");
-		info("Please report this to the MundoSK thread on forums.skunity.com");
+		info("Please report this to the MundoSK page on forums.skunity.com");
 		info("Exception at " + (obj instanceof Class ? (Class) obj : obj.getClass()).getSimpleName());
 		e.printStackTrace();
 	}
@@ -973,13 +973,12 @@ public class Mundo extends JavaPlugin {
     public static void debug(Object obj, Exception e) {
         Class debugClass = obj instanceof Class ? (Class) obj : obj.getClass();
 		if (classDebugs(debugClass)) {
-			reportException(obj, e);
             info("DEBUG");
             info("An exception was reported for debugging while debug_mode was activated in the config");
             info("If you were told to activate debug_mode to help fix bugs in MundoSK on forums.skunity.com, then please copy and paste this message along with the full stack trace of the following error to hastebin.com and give the hastebin link to whoever is helping you fix this bug");
             info("If you are trying to fix a problem in MundoSK yourself, good luck :)");
             info("Otherwise, if you do not know why you are seeing this error here, go to the MundoSK config, set debug_mode to false, and restart your server");
-            info("For help, go to the MundoSK thread on forums.skunity.com");
+            info("For help, go to the MundoSK page on forums.skunity.com");
             info("Exception debugged at " + debugClass.getSimpleName());
             e.printStackTrace();
 		}

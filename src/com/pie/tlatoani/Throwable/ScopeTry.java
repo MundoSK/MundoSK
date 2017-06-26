@@ -33,7 +33,7 @@ public class ScopeTry extends CustomScope {
 			Mundo.debug(this, e1);
 		}
 		if (scopeCatch != null && caught != null) {;
-			scopeCatch.catchThrowable(event, caught.getCause());
+			scopeCatch.catchThrowable(event, caught.getCause().getCause());
 		}
 		scope.setNext(scope.getNext());
 		return false;

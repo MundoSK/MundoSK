@@ -33,7 +33,7 @@ public class ExprStackTrace extends SimpleExpression<StackTraceElement>{
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		return "stack trace";
+		return "stack trace of " + thr;
 	}
 
 	@Override

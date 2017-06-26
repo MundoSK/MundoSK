@@ -33,7 +33,14 @@ public class ExprPropertyNameOfSTE extends SimpleExpression<String>{
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		return "(class|file|method) name";
+		String property;
+		switch (mark) {
+            case 0: property = "class"; break;
+            case 1: property = "file"; break;
+            case 2: property = "method"; break;
+            default: throw new IllegalStateException("Mark = " + mark + ", should be 0, 1, 2");
+        }
+		return property + " name of " + ste;
 	}
 
 	@Override

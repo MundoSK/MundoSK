@@ -31,7 +31,7 @@ public class ExprDetails extends SimpleExpression<String>{
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		return "catch";
+		return "details of " + thr;
 	}
 
 	@Override
