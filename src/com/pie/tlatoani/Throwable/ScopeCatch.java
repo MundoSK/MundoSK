@@ -36,17 +36,12 @@ public class ScopeCatch extends CustomScope {
     public void catchThrowable(Event event, Throwable caught) {
         container.change(event, new Throwable[]{caught}, Changer.ChangeMode.SET);
         TriggerItem going = first;
-        TriggerItem end = scope.getNext();
+        TriggerItem next = scope.getNext();
         Mundo.debug(this, "First: " + first);
-        Mundo.debug(this, "End: " + end);
-        while (going != null && going != end) {
-            try {
-                going = (TriggerItem) walkmethod.invoke(going, event);
-                Mundo.debug(this, "going: " + going);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-                going = null;
-            }
+        Mundo.debug(this, "Next: " + next);
+        while (going != null && going != next) {
+            going = (TriggerItem) TRIGGER_ITEM_WALK.invoke(going, event);
+            Mundo.debug(this, "going: " + going);
         }
     }
 }

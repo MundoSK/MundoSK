@@ -21,21 +21,23 @@ public class ScopeTry extends CustomScope {
 	@Override
 	public boolean go(Event event) {
 		Exception caught = null;
-		scope.setNext(null);
 		try {
-			TriggerItem go = first;
-			while (go != null) {
-			    go = (TriggerItem) CustomScope.TRIGGER_ITEM_WALK.invoke(go, event);
+			TriggerItem going = first;
+            TriggerItem next = scope.getNext();
+            Mundo.debug(this, "First: " + first);
+            Mundo.debug(this, "Next: " + next);
+			while (going != null && going != next) {
+			    going = (TriggerItem) TRIGGER_ITEM_WALK.invoke(going, event);
+                Mundo.debug(this, "going: " + going);
             }
-		} catch (Exception e1) {
-			caught = e1;
+		} catch (Exception e) {
+			caught = e;
 			Mundo.debug(this, "Exception caught");
-			Mundo.debug(this, e1);
+			Mundo.debug(this, e);
 		}
 		if (scopeCatch != null && caught != null) {;
 			scopeCatch.catchThrowable(event, caught.getCause().getCause());
 		}
-		scope.setNext(scope.getNext());
 		return false;
 	}
 
