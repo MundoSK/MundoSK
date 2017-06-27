@@ -18,6 +18,14 @@ public class WebSocketClientFunctionality {
         this.id = id;
     }
 
+    public boolean isEmpty() {
+        return
+                onOpen == null &&
+                onClose == null &&
+                onMessage == null &&
+                onError == null;
+    }
+
     public void clear() {
         onOpen = null;
         onClose = null;

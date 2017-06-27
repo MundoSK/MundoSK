@@ -20,6 +20,16 @@ public class WebSocketServerFunctionality {
         this.id = id;
     }
 
+    public boolean isEmpty() {
+        return
+                onStart == null &&
+                onStop == null &&
+                onOpen == null &&
+                onClose == null &&
+                onMessage == null &&
+                onError == null;
+    }
+
     public void clear() {
         onStart = null;
         onStop = null;
