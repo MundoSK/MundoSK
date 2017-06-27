@@ -36,8 +36,10 @@ public class UtilScope {
         int i = 0;
         for (Node node : sectionNode) {
             nodes[i] = node;
-            sectionNode.remove(node);
             i++;
+        }
+        for (Node node : nodes) { //Prevents ConcurrentModificationException
+            sectionNode.remove(node);
         }
         return nodes;
     }

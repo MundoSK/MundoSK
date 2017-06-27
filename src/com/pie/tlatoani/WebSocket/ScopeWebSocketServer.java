@@ -6,6 +6,7 @@ import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.log.SkriptLogger;
+import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.UtilScope;
 import com.pie.tlatoani.WebSocket.Events.*;
 import org.bukkit.event.Event;
@@ -34,12 +35,14 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
         serverFunctionality = new WebSocketServerFunctionality(((Literal<String>) literals[0]).getSingle());
         Node[] nodes = UtilScope.getSection();
         if (nodes.length == 0) {
-            Skript.error("This 'server websocket' is empty!");
+            Skript.error("This 'websocket server' is empty!");
             return false;
         }
         for (Node node : nodes) {
+            SkriptLogger.setNode(node);
+            Mundo.debug(this, "Current node: " + node.getKey());
             if (!(node instanceof SectionNode)) {
-                Skript.error("'server websocket' should only have sections directly under it!");
+                Skript.error("'websocket server' should only have sections directly under it!");
                 return false;
             }
             SectionNode subNode = (SectionNode) node;

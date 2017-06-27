@@ -5,6 +5,8 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.*;
+import ch.njol.skript.log.SkriptLogger;
+import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.UtilScope;
 import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
@@ -36,12 +38,14 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
         clientFunctionality = WebSocketManager.getClientFunctionality(((Literal<String>) literals[0]).getSingle());
         Node[] nodes = UtilScope.getSection();
         if (nodes.length == 0) {
-            Skript.error("This 'client websocket' is empty!");
+            Skript.error("This 'websocket client' is empty!");
             return false;
         }
         for (Node node : nodes) {
+            SkriptLogger.setNode(node);
+            Mundo.debug(this, "Current node: " + node.getKey());
             if (!(node instanceof SectionNode)) {
-                Skript.error("'client websocket' should only have sections directly under it!");
+                Skript.error("'websocket client' should only have sections directly under it!");
                 return false;
             }
             SectionNode subNode = (SectionNode) node;
