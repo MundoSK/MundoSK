@@ -546,6 +546,8 @@ public class Mundo extends JavaPlugin {
         registerEffect(EffWebSocketSendMessage.class, "websocket send %string% [through %-websockets]");
         registerEffect(EffStartWebSocketServer.class, "start websocket server %string% at port %number%");
         registerEffect(EffStopWebSocketServer.class, "stop websocket server at port %number% [with timeout %-number%]");
+        registerEvent("WebSocket Client", ScopeWebSocketClient.class, WebSocketEvent.class);
+        registerEvent("WebSocket Server", ScopeWebSocketServer.class, WebSocketEvent.class);
         registerEventValue(WebSocketEvent.class, WebSocket.class, event -> event.webSocket);
         registerEventValue(WebSocketMessageEvent.class, String.class, event -> event.message);
         registerEventValue(WebSocketErrorEvent.class, Throwable.class, event -> event.error);

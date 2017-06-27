@@ -34,7 +34,12 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
         clientFunctionality = WebSocketManager.getClientFunctionality(((Literal<String>) literals[0]).getSingle());
-        for (Node node : UtilScope.getSection()) {
+        Node[] nodes = UtilScope.getSection();
+        if (nodes.length == 0) {
+            Skript.error("This 'client websocket' is empty!");
+            return false;
+        }
+        for (Node node : nodes) {
             if (!(node instanceof SectionNode)) {
                 Skript.error("'client websocket' should only have sections directly under it!");
                 return false;

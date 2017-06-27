@@ -32,7 +32,12 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
         serverFunctionality = new WebSocketServerFunctionality(((Literal<String>) literals[0]).getSingle());
-        for (Node node : UtilScope.getSection()) {
+        Node[] nodes = UtilScope.getSection();
+        if (nodes.length == 0) {
+            Skript.error("This 'server websocket' is empty!");
+            return false;
+        }
+        for (Node node : nodes) {
             if (!(node instanceof SectionNode)) {
                 Skript.error("'server websocket' should only have sections directly under it!");
                 return false;
