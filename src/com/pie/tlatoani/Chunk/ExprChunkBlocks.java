@@ -34,6 +34,7 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
     public static final int ALT_MULTIPLE_LAYER = 4;
 
     public static Block[] region(Chunk chunk, int x1, int y1, int z1, int x2, int y2, int z2) {
+        Mundo.debug(ExprChunkBlocks.class, "Coordsses: " + x1 + "," + y1 + "," + z1 + " " + x2 + "," + y2 + "," + z2);
         int xn = 1 + x2 - x1;
         int yn = 1 + y2 - y1;
         int zn = 1 + z2 - z1;
@@ -42,6 +43,7 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
         for (int x = x1; x <= x2; x++)
             for (int y = y1; y <= y2; y++)
                 for (int z = z1; z <= z2; z++) {
+                    Mundo.debug(ExprChunkBlocks.class, "x:" + x + " y:" + y + " z:" + z);
                     blocks[i] = chunk.getBlock(x, y, z);
                     i++;
                 }
@@ -49,6 +51,7 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
     }
 
     public static Iterator<Block> regionIterator(Chunk chunk, int x1, int y1, int z1, int x2, int y2, int z2) {
+        Mundo.debug(ExprChunkBlocks.class, "Coordsses: " + x1 + "," + y1 + "," + z1 + " " + x2 + "," + y2 + "," + z2);
         return new Iterator<Block>() {
             int x = x1;
             int y = y1;
@@ -64,6 +67,7 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
                 if (x > x2) {
                     throw new NoSuchElementException();
                 }
+                Mundo.debug(ExprChunkBlocks.class, "x:" + x + " y:" + y + " z:" + z);
                 Block result = chunk.getBlock(x, y, z);
                 if (z < z2) {
                     z++;
@@ -103,7 +107,6 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
                 y2 = y1;
                 break;
         }
-        Mundo.debug(this, "Coordsses: " + x1 + "," + y1 + "," + z1 + " " + x2 + "," + y2 + "," + z2);
         return region(chunkExpression.getSingle(event), Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2), Math.max(x1, x2) + 1, Math.max(y1, y2) + 1, Math.max(z1, z2) + 1);
     }
 
@@ -130,7 +133,6 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
                 y2 = y1;
                 break;
         }
-        Mundo.debug(this, "Coordsses: " + x1 + "," + y1 + "," + z1 + " " + x2 + "," + y2 + "," + z2);
         return regionIterator(chunkExpression.getSingle(event), Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2), Math.max(x1, x2) + 1, Math.max(y1, y2) + 1, Math.max(z1, z2) + 1);
     }
 
