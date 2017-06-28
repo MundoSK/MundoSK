@@ -1,9 +1,7 @@
 package com.pie.tlatoani.WebSocket;
 
-import ch.njol.skript.lang.TriggerItem;
 import com.pie.tlatoani.Mundo;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +18,7 @@ public class WebSocketManager {
     }
 
     public static void clearClientFunctionalities() {
-        clientFunctionalities.values().forEach(WebSocketClientFunctionality::clear);
+        clientFunctionalities.values().forEach(WebSocketClientFunctionality::unload);
     }
 
     public static WebSocketServerFunctionality getServerFunctionality(String id) {
@@ -28,7 +26,7 @@ public class WebSocketManager {
     }
 
     public static void clearServerFunctionalities() {
-        serverFunctionalities.values().forEach(WebSocketServerFunctionality::clear);
+        serverFunctionalities.values().forEach(WebSocketServerFunctionality::unload);
     }
 
     public static SkriptWebSocketServer getServer(int port) {

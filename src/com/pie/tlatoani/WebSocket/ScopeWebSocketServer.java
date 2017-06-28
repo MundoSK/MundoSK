@@ -18,13 +18,16 @@ import java.util.Optional;
  */
 public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
     private WebSocketServerFunctionality serverFunctionality;
+    private WebSocketServerFunctionality.Nebula nebula;
 
     @Override
-    public void register(Trigger trigger) {}
+    public void register(Trigger trigger) {
+        serverFunctionality.load(nebula);
+    }
 
     @Override
     public void unregister(Trigger trigger) {
-        serverFunctionality.clear();
+        serverFunctionality.unload();
     }
 
     @Override
@@ -35,9 +38,10 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
         serverFunctionality = new WebSocketServerFunctionality(((Literal<String>) literals[0]).getSingle());
+        nebula = new WebSocketServerFunctionality.Nebula();
         SectionNode topNode = (SectionNode) SkriptLogger.getNode();
         try {
-            if (!serverFunctionality.isEmpty()) {
+            if (serverFunctionality.isLoaded()) {
                 Skript.error("You cannot have two 'websocket server' instances with the same id!");
                 return false;
             }
@@ -46,61 +50,47 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
                 Mundo.debug(this, "Current node: " + node.getKey());
                 if (!(node instanceof SectionNode)) {
                     Skript.error("'websocket server' should only have sections directly under it!");
-                    serverFunctionality.clear();
                     return false;
                 }
                 SectionNode subNode = (SectionNode) node;
                 if (subNode.getKey().equals("on start")) {
-                    if (serverFunctionality.onStart.isPresent()) {
+                    if (nebula.onStart.isPresent()) {
                         Skript.error("You cannot have two 'on start' sections here!");
-                        serverFunctionality.clear();
                         return false;
                     }
-                    ScriptLoader.setCurrentEvent("WebSocketServerStart", WebSocketServerStartEvent.class);
-                    serverFunctionality.onStart = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
+                    nebula.onStart = Optional.of(subNode);
                 } else if (subNode.getKey().equals("on stop")) {
-                    if (serverFunctionality.onStop.isPresent()) {
+                    if (nebula.onStop.isPresent()) {
                         Skript.error("You cannot have two 'on stop' sections here!");
-                        serverFunctionality.clear();
                         return false;
                     }
-                    ScriptLoader.setCurrentEvent("WebSocketServerStop", WebSocketServerStopEvent.class);
-                    serverFunctionality.onStop = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
+                    nebula.onStop = Optional.of(subNode);
                 } else if (subNode.getKey().equals("on open")) {
-                    if (serverFunctionality.onOpen.isPresent()) {
+                    if (nebula.onOpen.isPresent()) {
                         Skript.error("You cannot have two 'on open' sections here!");
-                        serverFunctionality.clear();
                         return false;
                     }
-                    ScriptLoader.setCurrentEvent("WebSocketServerOpen", WebSocketOpenEvent.Server.class);
-                    serverFunctionality.onOpen = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
+                    nebula.onOpen = Optional.of(subNode);
                 } else if (subNode.getKey().equals("on close")) {
-                    if (serverFunctionality.onClose.isPresent()) {
+                    if (nebula.onClose.isPresent()) {
                         Skript.error("You cannot have two 'on close' sections here!");
-                        serverFunctionality.clear();
                         return false;
                     }
-                    ScriptLoader.setCurrentEvent("WebSocketServerClose", WebSocketCloseEvent.Server.class);
-                    serverFunctionality.onClose = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
+                    nebula.onClose = Optional.of(subNode);
                 } else if (subNode.getKey().equals("on message")) {
-                    if (serverFunctionality.onMessage.isPresent()) {
+                    if (nebula.onMessage.isPresent()) {
                         Skript.error("You cannot have two 'on message' sections here!");
-                        serverFunctionality.clear();
                         return false;
                     }
-                    ScriptLoader.setCurrentEvent("WebSocketServerMessage", WebSocketMessageEvent.Server.class);
-                    serverFunctionality.onMessage = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
+                    nebula.onMessage = Optional.of(subNode);
                 } else if (subNode.getKey().equals("on error")) {
-                    if (serverFunctionality.onError.isPresent()) {
+                    if (nebula.onError.isPresent()) {
                         Skript.error("You cannot have two 'on error' sections here!");
-                        serverFunctionality.clear();
                         return false;
                     }
-                    ScriptLoader.setCurrentEvent("WebSocketServerError", WebSocketErrorEvent.Server.class);
-                    serverFunctionality.onError = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
+                    nebula.onError = Optional.of(subNode);
                 } else {
                     Skript.error("The only sections allowed under 'websocket server' are 'on start', 'on stop', 'on open', 'on close', 'on message', and 'on error'!");
-                    serverFunctionality.clear();
                     return false;
                 }
             }
