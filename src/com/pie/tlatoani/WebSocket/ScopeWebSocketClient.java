@@ -26,6 +26,7 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
     @Override
     public void register(Trigger trigger) {
         clientFunctionality.load(nebula);
+        clientFunctionality.debugTriggerItems();
     }
 
     @Override
@@ -85,7 +86,6 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
                     return false;
                 }
             }
-            clientFunctionality.debugTriggerItems();
             return true;
         } finally {
             UtilScope.removeSubNodes(topNode);
