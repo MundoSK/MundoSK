@@ -103,6 +103,7 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
                 y2 = y1;
                 break;
         }
+        Mundo.debug(this, "Coordsses: " + x1 + "," + y1 + "," + z1 + " " + x2 + "," + y2 + "," + z2);
         return region(chunkExpression.getSingle(event), Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2), Math.max(x1, x2) + 1, Math.max(y1, y2) + 1, Math.max(z1, z2) + 1);
     }
 
@@ -129,6 +130,7 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
                 y2 = y1;
                 break;
         }
+        Mundo.debug(this, "Coordsses: " + x1 + "," + y1 + "," + z1 + " " + x2 + "," + y2 + "," + z2);
         return regionIterator(chunkExpression.getSingle(event), Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2), Math.max(x1, x2) + 1, Math.max(y1, y2) + 1, Math.max(z1, z2) + 1);
     }
 
