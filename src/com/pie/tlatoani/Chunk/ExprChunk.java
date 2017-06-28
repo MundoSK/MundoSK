@@ -111,7 +111,7 @@ public class ExprChunk extends SimpleExpression<Chunk> {
 
             @Override
             public boolean hasNext() {
-                return x > xmax;
+                return x <= xmax;
             }
 
             @Override

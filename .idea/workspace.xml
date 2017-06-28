@@ -8,7 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunkBlocks.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunkBlocks.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,7 +32,7 @@
       <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
+            <state relative-caret-position="11843">
               <caret line="1007" column="49" lean-forward="true" selection-start-line="1007" selection-start-column="49" selection-end-line="1007" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -120,10 +120,12 @@
       <file leaf-file-name="ExprChunk.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="62" column="13" lean-forward="true" selection-start-line="62" selection-start-column="13" selection-end-line="66" selection-end-column="40" />
+            <state relative-caret-position="630">
+              <caret line="113" column="27" lean-forward="false" selection-start-line="113" selection-start-column="27" selection-end-line="113" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3750#3751#0" expanded="true" />
+                <element signature="e#3798#3799#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -167,10 +169,10 @@
       <find>Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));</find>
       <find>&gt;&gt; 2</find>
       <find>xmax</find>
-      <find>intMod</find>
       <find>= Mundo.intMod(</find>
       <find>(), 16);</find>
       <find>intM</find>
+      <find>intMod</find>
     </findStrings>
     <replaceStrings>
       <replace>serverFunctionality.onE</replace>
@@ -261,11 +263,11 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketServer.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketClient.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocket.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldCreator/ExprCreatorOf.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldLoader/EffLoadWorldAutomatically.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunkBlocks.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -1494,28 +1496,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="62" column="13" lean-forward="true" selection-start-line="62" selection-start-column="13" selection-end-line="66" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="1007" column="49" lean-forward="true" selection-start-line="1007" selection-start-column="49" selection-end-line="1007" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#60828#60829#0" expanded="true" />
-            <element signature="e#60891#60892#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketClientFunctionality.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-178">
@@ -1553,6 +1533,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="47" column="30" lean-forward="false" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunkBlock.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
@@ -1561,11 +1549,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocket.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="47" column="30" lean-forward="false" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
-          <folding />
+        <state relative-caret-position="11843">
+          <caret line="1007" column="49" lean-forward="true" selection-start-line="1007" selection-start-column="49" selection-end-line="1007" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#60828#60829#0" expanded="true" />
+            <element signature="e#60891#60892#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="113" column="27" lean-forward="false" selection-start-line="113" selection-start-column="27" selection-end-line="113" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3750#3751#0" expanded="true" />
+            <element signature="e#3798#3799#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
