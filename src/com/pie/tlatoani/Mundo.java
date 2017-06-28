@@ -175,7 +175,7 @@ public class Mundo extends JavaPlugin {
                 "[all] blocks (of|in) %chunk%",
                 "blocks [from] %number%, %number%, %number% to %number%, %number%, %number% (of|in) %chunk%",
                 "(0¦layer %-number%|1¦top|2¦bottom|3¦sea level) (of|in) %chunk%",
-                "[from] (0¦layer %-number%|1¦top|2¦bottom|3¦sea level) to (0¦layer %-number%|4¦top|8¦bottom|12¦sea level) (of|in) %chunk%",
+                "[[blocks] from] (0¦layer %-number%|1¦top|2¦bottom|3¦sea level) to (0¦layer %-number%|4¦top|8¦bottom|12¦sea level) (of|in) %chunk%",
                 "layers [from] %number% to %number% (of|in) %chunk%"
         );
         registerExpression(CondSlimey.class, Boolean.class, ExpressionType.PROPERTY, "%chunks% (is|are) slimey");
@@ -610,13 +610,14 @@ public class Mundo extends JavaPlugin {
                 return worldCreator;
             }
         });
-        registerEffect(EffCreateWorld.class, "create world named %string%[,][ (environment|env[ironment]) %-environment%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
+        registerEffect(EffCreateWorld.class, "create [new] world named %string%[( with|,)][ (environment|env[ironment]) %-environment%][,] [seed %-string%][,] [type %-worldtype%][,] [gen[erator] %-string%][,] [gen[erator] settings %-string%][,] [struct[ures] %-boolean%]");
 		registerEffect(EffCreateWorldCreator.class, "create world using %creator%");
 		registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
 		registerEffect(EffDeleteWorld.class, "delete %world%");
 		registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");
         registerExpression(ExprCurrentWorlds.class,World.class,ExpressionType.SIMPLE,"[all] current worlds");
         //WorldLoader
+        registerEffect(EffLoadWorldAutomatically.class, "[(1¦don't|1¦do not)] load %world% automatically");
         registerEffect(EffRunCreatorOnStart.class, "run %creator% on start"); //Will be removed in a future version
         registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start"); //Will be removed in a future version
 

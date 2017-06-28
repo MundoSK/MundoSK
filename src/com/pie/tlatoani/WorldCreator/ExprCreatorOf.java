@@ -15,6 +15,15 @@ import ch.njol.util.Kleenean;
 public class ExprCreatorOf extends SimpleExpression<WorldCreator>{
 	private Expression<World> world;
 
+	public static WorldCreator getCreatorOfWorld(World world) {
+        WorldCreator worldCreator = new WorldCreator(world.getName());
+        worldCreator.copy(world);
+        worldCreator.type(world.getWorldType());
+        worldCreator.generateStructures(world.canGenerateStructures());
+        worldCreator.generatorSettings("");
+	    return worldCreator;
+    }
+
 	@Override
 	public Class<? extends WorldCreator> getReturnType() {
 		// TODO Auto-generated method stub
@@ -44,12 +53,8 @@ public class ExprCreatorOf extends SimpleExpression<WorldCreator>{
 	@Nullable
 	protected WorldCreator[] get(Event arg0) {
 		World world = this.world.getSingle(arg0);
-		WorldCreator worldCreator = new WorldCreator(world.getName());
-		worldCreator.copy(world);
-		worldCreator.type(world.getWorldType());
-		worldCreator.generateStructures(world.canGenerateStructures());
-		worldCreator.generatorSettings("");
-		return new WorldCreator[]{worldCreator};
+		return new WorldCreator[]{getCreatorOfWorld(world)};
 	}
+
 
 }

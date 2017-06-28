@@ -16,12 +16,12 @@ import java.util.NoSuchElementException;
  * Created by Tlatoani on 2/25/17.
  */
 public class ExprChunkBlocks extends SimpleExpression<Block> {
-    private Expression<Number> x1Expression;
-    private Expression<Number> y1Expression;
-    private Expression<Number> z1Expression;
-    private Expression<Number> x2Expression;
-    private Expression<Number> y2Expression;
-    private Expression<Number> z2Expression;
+    private Expression<Number> x1Expression = null;
+    private Expression<Number> y1Expression = null;
+    private Expression<Number> z1Expression = null;
+    private Expression<Number> x2Expression = null;
+    private Expression<Number> y2Expression = null;
+    private Expression<Number> z2Expression = null;
     private Expression<Chunk> chunkExpression;
     private int matchedPattern;
     private int level1;
@@ -38,10 +38,12 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
         int yn = 1 + y1 - y2;
         int zn = 1 + z1 - z2;
         Block[] blocks = new Block[xn * yn * zn];
+        int i = 0;
         for (int x = x1; x <= x2; x++)
             for (int y = y1; y <= y2; y++)
                 for (int z = z1; z <= z2; z++) {
-                    blocks[((x - x1) * yn * zn) + ((y - y1) * yn) + (z - z1)] = chunk.getBlock(x, y, z);
+                    blocks[i] = chunk.getBlock(x, y, z);
+                    i++;
                 }
         return blocks;
     }
@@ -94,11 +96,11 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
                 z2 = Mundo.intMod(z2Expression.getSingle(event).intValue(), 16);
             case MULTIPLE_LAYER:
                 y1 = ExprChunkBlock.getLevel(level1, y1Expression, event);
-                y2 = y2Expression.getSingle(event).intValue();
+                y2 = ExprChunkBlock.getLevel(level2, y2Expression, event);
                 break;
             case SINGLE_LAYER:
                 y1 = ExprChunkBlock.getLevel(level1, y1Expression, event);
-                y2 = ExprChunkBlock.getLevel(level2, y2Expression, event);
+                y2 = y1;
                 break;
         }
         return region(chunkExpression.getSingle(event), Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2), Math.max(x1, x2) + 1, Math.max(y1, y2) + 1, Math.max(z1, z2) + 1);
@@ -119,11 +121,11 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
                 x2 = Mundo.intMod(x2Expression.getSingle(event).intValue(), 16);
                 z2 = Mundo.intMod(z2Expression.getSingle(event).intValue(), 16);
             case MULTIPLE_LAYER:
-                y1 = y1Expression.getSingle(event).intValue();
-                y2 = y2Expression.getSingle(event).intValue();
+                y1 = ExprChunkBlock.getLevel(level1, y1Expression, event);
+                y2 = ExprChunkBlock.getLevel(level2, y2Expression, event);
                 break;
             case SINGLE_LAYER:
-                y1 = y1Expression.getSingle(event).intValue();
+                y1 = ExprChunkBlock.getLevel(level1, y1Expression, event);
                 y2 = y1;
                 break;
         }
