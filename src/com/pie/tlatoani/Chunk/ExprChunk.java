@@ -161,7 +161,7 @@ public class ExprChunk extends SimpleExpression<Chunk> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        single = i == 0;
+        single = (i % 2) == 0;
         coords = i < 2;
         if (coords) {
             x1Expr = (Expression<Number>) expressions[0];
