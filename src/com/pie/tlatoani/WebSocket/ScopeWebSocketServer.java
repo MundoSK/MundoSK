@@ -35,13 +35,13 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
         serverFunctionality = new WebSocketServerFunctionality(((Literal<String>) literals[0]).getSingle());
-        Node[] nodes = UtilScope.getSection();
+        SectionNode topNode = (SectionNode) SkriptLogger.getNode();
         try {
             if (!serverFunctionality.isEmpty()) {
                 Skript.error("You cannot have two 'websocket server' instances with the same id!");
                 return false;
             }
-            for (Node node : nodes) {
+            for (Node node : topNode) {
                 SkriptLogger.setNode(node);
                 Mundo.debug(this, "Current node: " + node.getKey());
                 if (!(node instanceof SectionNode)) {
@@ -107,9 +107,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
             serverFunctionality.debugTriggerItems();
             return true;
         } finally {
-            for (Node node : nodes) {
-                node.remove();
-            }
+            UtilScope.removeSubNodes(topNode);
         }
 
     }

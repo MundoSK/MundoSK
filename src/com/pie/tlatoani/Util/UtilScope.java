@@ -35,20 +35,9 @@ public class UtilScope {
         return loadSectionNode(sectionNode, parent).orElse(new DummyTriggerItem());
     }
 
-    public static Node[] getSection() {
-        SectionNode sectionNode = (SectionNode) SkriptLogger.getNode();
-        Node[] nodes = new Node[sectionNode.size()];
-        int i = 0;
+    public static void removeSubNodes(SectionNode sectionNode) {
         for (Node node : sectionNode) {
-            nodes[i] = node;
-            i++;
-        }
-        return nodes;
-    }
-
-    public static void removeNodes(Node... nodes) {
-        for (Node node : nodes) {
-            node.remove();
+            sectionNode.remove(node);
         }
     }
 }

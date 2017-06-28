@@ -38,13 +38,13 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
         clientFunctionality = WebSocketManager.getClientFunctionality(((Literal<String>) literals[0]).getSingle());
-        Node[] nodes = UtilScope.getSection();
+        SectionNode topNode = (SectionNode) SkriptLogger.getNode();
         try {
             if (!clientFunctionality.isEmpty()) {
                 Skript.error("You cannot have two 'websocket client' instances with the same id!");
                 return false;
             }
-            for (Node node : nodes) {
+            for (Node node : topNode) {
                 SkriptLogger.setNode(node);
                 Mundo.debug(this, "Current node: " + node.getKey());
                 if (!(node instanceof SectionNode)) {
@@ -94,7 +94,7 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
             clientFunctionality.debugTriggerItems();
             return true;
         } finally {
-            UtilScope.removeNodes(nodes);
+            UtilScope.removeSubNodes(topNode);
         }
 
     }
