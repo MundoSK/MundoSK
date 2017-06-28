@@ -36,7 +36,13 @@ public class UtilScope {
     }
 
     public static void removeSubNodes(SectionNode sectionNode) {
+        Node[] nodes = new Node[sectionNode.size()];
+        int i = 0;
         for (Node node : sectionNode) {
+            nodes[i] = node;
+            i++;
+        }
+        for (Node node : nodes) {
             sectionNode.remove(node);
         }
     }
