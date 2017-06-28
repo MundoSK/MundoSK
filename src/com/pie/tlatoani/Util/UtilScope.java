@@ -9,13 +9,14 @@ import ch.njol.skript.log.SkriptLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Tlatoani on 5/4/17.
  */
 public class UtilScope {
 
-    public static TriggerItem loadSectionNode(SectionNode sectionNode, TriggerSection parent) {
+    public static Optional<TriggerItem> loadSectionNode(SectionNode sectionNode, TriggerSection parent) {
         if (parent != null) {
             ScriptLoader.currentSections.add(parent);
         }
@@ -27,7 +28,11 @@ public class UtilScope {
             }
             ScriptLoader.currentSections.remove(parent);
         }
-        return triggerItems.isEmpty() ? null : triggerItems.get(0);
+        return triggerItems.isEmpty() ? Optional.empty() : Optional.of(triggerItems.get(0));
+    }
+
+    public static TriggerItem loadSectionNodeOrDummy(SectionNode sectionNode, TriggerSection parent) {
+        return loadSectionNode(sectionNode, parent).orElse(new DummyTriggerItem());
     }
 
     public static Node[] getSection() {

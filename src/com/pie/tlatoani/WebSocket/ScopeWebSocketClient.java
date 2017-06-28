@@ -14,6 +14,8 @@ import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
 import org.bukkit.event.Event;
 
+import java.util.Optional;
+
 /**
  * Created by Tlatoani on 5/4/17.
  */
@@ -42,11 +44,6 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
                 Skript.error("You cannot have two 'websocket client' instances with the same id!");
                 return false;
             }
-            if (nodes.length == 0) {
-                Skript.error("This 'websocket client' is empty!");
-                clientFunctionality.clear();
-                return false;
-            }
             for (Node node : nodes) {
                 SkriptLogger.setNode(node);
                 Mundo.debug(this, "Current node: " + node.getKey());
@@ -56,43 +53,38 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
                     return false;
                 }
                 SectionNode subNode = (SectionNode) node;
-                if (subNode.isEmpty()) {
-                    Skript.error("Empty section!");
-                    clientFunctionality.clear();
-                    return false;
-                }
                 if (subNode.getKey().equals("on open")) {
-                    if (clientFunctionality.onOpen != null) {
+                    if (!clientFunctionality.onOpen.isPresent()) {
                         Skript.error("You cannot have two 'on open' sections here!");
                         clientFunctionality.clear();
                         return false;
                     }
                     ScriptLoader.setCurrentEvent("WebSocketClientOpen", WebSocketOpenEvent.class);
-                    clientFunctionality.onOpen = UtilScope.loadSectionNode(subNode, null);
+                    clientFunctionality.onOpen = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on close")) {
-                    if (clientFunctionality.onClose != null) {
+                    if (!clientFunctionality.onClose.isPresent()) {
                         Skript.error("You cannot have two 'on close' sections here!");
                         clientFunctionality.clear();
                         return false;
                     }
                     ScriptLoader.setCurrentEvent("WebSocketClientClose", WebSocketCloseEvent.class);
-                    clientFunctionality.onClose = UtilScope.loadSectionNode(subNode, null);
+                    clientFunctionality.onClose = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on message")) {
-                    if (clientFunctionality.onMessage != null) {
+                    if (!clientFunctionality.onMessage.isPresent()) {
                         Skript.error("You cannot have two 'on message' sections here!");
                         clientFunctionality.clear();
                         return false;
                     }
                     ScriptLoader.setCurrentEvent("WebSocketClientMessage", WebSocketMessageEvent.class);
-                    clientFunctionality.onMessage = UtilScope.loadSectionNode(subNode, null);
+                    clientFunctionality.onMessage = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on error")) {
-                    if (clientFunctionality.onError != null) {
+                    if (!clientFunctionality.onError.isPresent()) {
                         Skript.error("You cannot have two 'on error' sections here!");
                         clientFunctionality.clear();
                         return false;
                     }
                     ScriptLoader.setCurrentEvent("WebSocketClientError", WebSocketErrorEvent.class);
-                    clientFunctionality.onError = UtilScope.loadSectionNode(subNode, null);
+                    clientFunctionality.onError = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else {
                     Skript.error("The only sections allowed under 'websocket client' are 'on open', 'on close', 'on message', and 'on error'!");
                     clientFunctionality.clear();

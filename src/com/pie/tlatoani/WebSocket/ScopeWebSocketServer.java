@@ -11,6 +11,8 @@ import com.pie.tlatoani.Util.UtilScope;
 import com.pie.tlatoani.WebSocket.Events.*;
 import org.bukkit.event.Event;
 
+import java.util.Optional;
+
 /**
  * Created by Tlatoani on 5/4/17.
  */
@@ -39,11 +41,6 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
                 Skript.error("You cannot have two 'websocket server' instances with the same id!");
                 return false;
             }
-            if (nodes.length == 0) {
-                Skript.error("This 'websocket server' is empty!");
-                serverFunctionality.clear();
-                return false;
-            }
             for (Node node : nodes) {
                 SkriptLogger.setNode(node);
                 Mundo.debug(this, "Current node: " + node.getKey());
@@ -53,59 +50,54 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
                     return false;
                 }
                 SectionNode subNode = (SectionNode) node;
-                if (subNode.isEmpty()) {
-                    Skript.error("Empty section!");
-                    serverFunctionality.clear();
-                    return false;
-                }
                 if (subNode.getKey().equals("on start")) {
-                    if (serverFunctionality.onStart != null) {
+                    if (!serverFunctionality.onStart.isPresent()) {
                         Skript.error("You cannot have two 'on start' sections here!");
                         serverFunctionality.clear();
                         return false;
                     }
                     ScriptLoader.setCurrentEvent("WebSocketServerStart", WebSocketServerStartEvent.class);
-                    serverFunctionality.onStart = UtilScope.loadSectionNode(subNode, null);
+                    serverFunctionality.onStart = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on stop")) {
-                    if (serverFunctionality.onStop != null) {
+                    if (!serverFunctionality.onStop.isPresent()) {
                         Skript.error("You cannot have two 'on stop' sections here!");
                         serverFunctionality.clear();
                         return false;
                     }
                     ScriptLoader.setCurrentEvent("WebSocketServerStop", WebSocketServerStopEvent.class);
-                    serverFunctionality.onStop = UtilScope.loadSectionNode(subNode, null);
+                    serverFunctionality.onStop = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on open")) {
-                    if (serverFunctionality.onOpen != null) {
+                    if (!serverFunctionality.onOpen.isPresent()) {
                         Skript.error("You cannot have two 'on open' sections here!");
                         serverFunctionality.clear();
                         return false;
                     }
                     ScriptLoader.setCurrentEvent("WebSocketServerOpen", WebSocketOpenEvent.Server.class);
-                    serverFunctionality.onOpen = UtilScope.loadSectionNode(subNode, null);
+                    serverFunctionality.onOpen = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on close")) {
-                    if (serverFunctionality.onClose != null) {
+                    if (!serverFunctionality.onClose.isPresent()) {
                         Skript.error("You cannot have two 'on close' sections here!");
                         serverFunctionality.clear();
                         return false;
                     }
                     ScriptLoader.setCurrentEvent("WebSocketServerClose", WebSocketCloseEvent.Server.class);
-                    serverFunctionality.onClose = UtilScope.loadSectionNode(subNode, null);
+                    serverFunctionality.onClose = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on message")) {
-                    if (serverFunctionality.onMessage != null) {
+                    if (!serverFunctionality.onMessage.isPresent()) {
                         Skript.error("You cannot have two 'on message' sections here!");
                         serverFunctionality.clear();
                         return false;
                     }
                     ScriptLoader.setCurrentEvent("WebSocketServerMessage", WebSocketMessageEvent.Server.class);
-                    serverFunctionality.onMessage = UtilScope.loadSectionNode(subNode, null);
+                    serverFunctionality.onMessage = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on error")) {
-                    if (serverFunctionality.onError != null) {
+                    if (!serverFunctionality.onError.isPresent()) {
                         Skript.error("You cannot have two 'on error' sections here!");
                         serverFunctionality.clear();
                         return false;
                     }
                     ScriptLoader.setCurrentEvent("WebSocketServerError", WebSocketErrorEvent.Server.class);
-                    serverFunctionality.onError = UtilScope.loadSectionNode(subNode, null);
+                    serverFunctionality.onError = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else {
                     Skript.error("The only sections allowed under 'websocket server' are 'on start', 'on stop', 'on open', 'on close', 'on message', and 'on error'!");
                     serverFunctionality.clear();

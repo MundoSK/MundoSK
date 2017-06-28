@@ -20,7 +20,10 @@ public class ExprWebSocket extends SimpleExpression<WebSocket> {
 
     @Override
     protected WebSocket[] get(Event event) {
-        WebSocketClientFunctionality functionality = WebSocketManager.getClientFunctionality(idExpr.getSingle(event));
+        WebSocketClientFunctionality functionality =
+                idExpr == null
+                ? new WebSocketClientFunctionality()
+                : WebSocketManager.getClientFunctionality(idExpr.getSingle(event));
         URI uri;
         try {
             uri = new URI(uriExpr.getSingle(event));
@@ -45,7 +48,7 @@ public class ExprWebSocket extends SimpleExpression<WebSocket> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "websocket " + idExpr + " connected to uriExpr " + uriExpr;
+        return "websocket " + (idExpr == null ? "connected to uriExpr " : idExpr + " connected to uriExpr ") + uriExpr;
     }
 
     @Override

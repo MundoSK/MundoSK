@@ -551,7 +551,7 @@ public class Mundo extends JavaPlugin {
         registerEventValue(WebSocketEvent.class, WebSocket.class, event -> event.webSocket);
         registerEventValue(WebSocketMessageEvent.class, String.class, event -> event.message);
         registerEventValue(WebSocketErrorEvent.class, Throwable.class, event -> event.error);
-        registerExpression(ExprWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "websocket %string% connected to uri %string%");
+        registerExpression(ExprWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "websocket [%-string%] connected to uri %string%");
         registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket [server] port");
         registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all websockets [of server at port %number%");
         registerExpression(ExprWebSocketHost.class, String.class, ExpressionType.PROPERTY, "local host of %websocket%", "(remote|external) host of %websocket%");

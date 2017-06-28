@@ -3,39 +3,42 @@ package com.pie.tlatoani.WebSocket;
 import ch.njol.skript.lang.TriggerItem;
 import com.pie.tlatoani.Mundo;
 
+import java.util.Optional;
+
 /**
  * Created by Tlatoani on 5/4/17.
  */
 public class WebSocketServerFunctionality {
     public final String id;
 
-    public TriggerItem onStart = null;
-    public TriggerItem onStop = null;
-    public TriggerItem onOpen = null;
-    public TriggerItem onClose = null;
-    public TriggerItem onMessage = null;
-    public TriggerItem onError = null;
+    public Optional<TriggerItem> onStart = Optional.empty();
+    public Optional<TriggerItem> onStop = Optional.empty();
+    public Optional<TriggerItem> onOpen = Optional.empty();
+    public Optional<TriggerItem> onClose = Optional.empty();
+    public Optional<TriggerItem> onMessage = Optional.empty();
+    public Optional<TriggerItem> onError = Optional.empty();
 
     public WebSocketServerFunctionality(String id) {
         this.id = id;
     }
 
     public boolean isEmpty() {
-        return
-                onStart == null &&
-                onStop == null &&
-                onOpen == null &&
-                onClose == null &&
-                onMessage == null &&
-                onError == null;
+        return !(
+                onStart.isPresent() ||
+                onStop.isPresent() ||
+                onOpen.isPresent() ||
+                onClose.isPresent() ||
+                onMessage.isPresent() ||
+                onError.isPresent()
+        );
     }
 
     public void clear() {
-        onStart = null;
-        onStop = null;
-        onOpen = null;
-        onClose = null;
-        onMessage = null;
+        onStart = Optional.empty();
+        onStop = Optional.empty();
+        onOpen = Optional.empty();
+        onClose = Optional.empty();
+        onMessage = Optional.empty();
         onError = null;
     }
 

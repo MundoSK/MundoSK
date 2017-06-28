@@ -23,22 +23,22 @@ public class SkriptWebSocketClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        TriggerItem.walk(functionality.onOpen, new WebSocketOpenEvent(this));
+        functionality.onOpen.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketOpenEvent(this)));
     }
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        TriggerItem.walk(functionality.onClose, new WebSocketCloseEvent(this));
+        functionality.onClose.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketCloseEvent(this)));
     }
 
     @Override
     public void onMessage(String message) {
-        TriggerItem.walk(functionality.onMessage, new WebSocketMessageEvent(this, message));
+        functionality.onMessage.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketMessageEvent(this, message)));
     }
 
     @Override
     public void onError(Exception ex) {
-        TriggerItem.walk(functionality.onError, new WebSocketErrorEvent(this, ex));
+        functionality.onError.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketErrorEvent(this, ex)));
     }
 
 }

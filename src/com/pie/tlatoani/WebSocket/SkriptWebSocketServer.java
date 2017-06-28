@@ -21,32 +21,32 @@ public class SkriptWebSocketServer extends WebSocketServer {
 
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-        TriggerItem.walk(functionality.onOpen, new WebSocketOpenEvent.Server(this, conn));
+        functionality.onOpen.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketOpenEvent.Server(this, conn)));
     }
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        TriggerItem.walk(functionality.onClose, new WebSocketCloseEvent.Server(this, conn));
+        functionality.onClose.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketCloseEvent.Server(this, conn)));
     }
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-        TriggerItem.walk(functionality.onMessage, new WebSocketMessageEvent.Server(this, conn, message));
+        functionality.onMessage.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketMessageEvent.Server(this, conn, message)));
     }
 
     @Override
     public void onError(WebSocket conn, Exception ex) {
-        TriggerItem.walk(functionality.onError, new WebSocketErrorEvent.Server(this, conn, ex));
+        functionality.onError.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketErrorEvent.Server(this, conn, ex)));
     }
 
     @Override
     public void onStart() {
-        TriggerItem.walk(functionality.onStart, new WebSocketServerStartEvent(this));
+        functionality.onStart.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketServerStartEvent(this)));
     }
 
     @Override
     public void stop(int timeout) throws InterruptedException {
         super.stop(timeout);
-        TriggerItem.walk(functionality.onStop, new WebSocketServerStopEvent(this));
+        functionality.onStop.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketServerStopEvent(this)));
     }
 }
