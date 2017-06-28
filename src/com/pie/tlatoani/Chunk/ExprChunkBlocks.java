@@ -34,9 +34,9 @@ public class ExprChunkBlocks extends SimpleExpression<Block> {
     public static final int ALT_MULTIPLE_LAYER = 4;
 
     public static Block[] region(Chunk chunk, int x1, int y1, int z1, int x2, int y2, int z2) {
-        int xn = 1 + x1 - x2;
-        int yn = 1 + y1 - y2;
-        int zn = 1 + z1 - z2;
+        int xn = 1 + x2 - x1;
+        int yn = 1 + y2 - y1;
+        int zn = 1 + z2 - z1;
         Block[] blocks = new Block[xn * yn * zn];
         int i = 0;
         for (int x = x1; x <= x2; x++)
