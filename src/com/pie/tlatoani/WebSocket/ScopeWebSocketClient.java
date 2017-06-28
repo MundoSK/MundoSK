@@ -54,7 +54,7 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
                 }
                 SectionNode subNode = (SectionNode) node;
                 if (subNode.getKey().equals("on open")) {
-                    if (!clientFunctionality.onOpen.isPresent()) {
+                    if (clientFunctionality.onOpen.isPresent()) {
                         Skript.error("You cannot have two 'on open' sections here!");
                         clientFunctionality.clear();
                         return false;
@@ -62,7 +62,7 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
                     ScriptLoader.setCurrentEvent("WebSocketClientOpen", WebSocketOpenEvent.class);
                     clientFunctionality.onOpen = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on close")) {
-                    if (!clientFunctionality.onClose.isPresent()) {
+                    if (clientFunctionality.onClose.isPresent()) {
                         Skript.error("You cannot have two 'on close' sections here!");
                         clientFunctionality.clear();
                         return false;
@@ -70,7 +70,7 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
                     ScriptLoader.setCurrentEvent("WebSocketClientClose", WebSocketCloseEvent.class);
                     clientFunctionality.onClose = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on message")) {
-                    if (!clientFunctionality.onMessage.isPresent()) {
+                    if (clientFunctionality.onMessage.isPresent()) {
                         Skript.error("You cannot have two 'on message' sections here!");
                         clientFunctionality.clear();
                         return false;
@@ -78,7 +78,7 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
                     ScriptLoader.setCurrentEvent("WebSocketClientMessage", WebSocketMessageEvent.class);
                     clientFunctionality.onMessage = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on error")) {
-                    if (!clientFunctionality.onError.isPresent()) {
+                    if (clientFunctionality.onError.isPresent()) {
                         Skript.error("You cannot have two 'on error' sections here!");
                         clientFunctionality.clear();
                         return false;

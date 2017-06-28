@@ -51,7 +51,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
                 }
                 SectionNode subNode = (SectionNode) node;
                 if (subNode.getKey().equals("on start")) {
-                    if (!serverFunctionality.onStart.isPresent()) {
+                    if (serverFunctionality.onStart.isPresent()) {
                         Skript.error("You cannot have two 'on start' sections here!");
                         serverFunctionality.clear();
                         return false;
@@ -59,7 +59,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
                     ScriptLoader.setCurrentEvent("WebSocketServerStart", WebSocketServerStartEvent.class);
                     serverFunctionality.onStart = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on stop")) {
-                    if (!serverFunctionality.onStop.isPresent()) {
+                    if (serverFunctionality.onStop.isPresent()) {
                         Skript.error("You cannot have two 'on stop' sections here!");
                         serverFunctionality.clear();
                         return false;
@@ -67,7 +67,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
                     ScriptLoader.setCurrentEvent("WebSocketServerStop", WebSocketServerStopEvent.class);
                     serverFunctionality.onStop = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on open")) {
-                    if (!serverFunctionality.onOpen.isPresent()) {
+                    if (serverFunctionality.onOpen.isPresent()) {
                         Skript.error("You cannot have two 'on open' sections here!");
                         serverFunctionality.clear();
                         return false;
@@ -75,7 +75,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
                     ScriptLoader.setCurrentEvent("WebSocketServerOpen", WebSocketOpenEvent.Server.class);
                     serverFunctionality.onOpen = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on close")) {
-                    if (!serverFunctionality.onClose.isPresent()) {
+                    if (serverFunctionality.onClose.isPresent()) {
                         Skript.error("You cannot have two 'on close' sections here!");
                         serverFunctionality.clear();
                         return false;
@@ -83,7 +83,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
                     ScriptLoader.setCurrentEvent("WebSocketServerClose", WebSocketCloseEvent.Server.class);
                     serverFunctionality.onClose = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on message")) {
-                    if (!serverFunctionality.onMessage.isPresent()) {
+                    if (serverFunctionality.onMessage.isPresent()) {
                         Skript.error("You cannot have two 'on message' sections here!");
                         serverFunctionality.clear();
                         return false;
@@ -91,7 +91,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
                     ScriptLoader.setCurrentEvent("WebSocketServerMessage", WebSocketMessageEvent.Server.class);
                     serverFunctionality.onMessage = Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));
                 } else if (subNode.getKey().equals("on error")) {
-                    if (!serverFunctionality.onError.isPresent()) {
+                    if (serverFunctionality.onError.isPresent()) {
                         Skript.error("You cannot have two 'on error' sections here!");
                         serverFunctionality.clear();
                         return false;

@@ -7,18 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/DummyTriggerItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilScope.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilScope.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocket.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketClient.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketServer.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketClient.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketServer.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketClientFunctionality.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketClientFunctionality.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketServerFunctionality.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketServerFunctionality.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -59,6 +51,30 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="ScopeWebSocketClient.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="536">
+              <caret line="62" column="97" lean-forward="true" selection-start-line="62" selection-start-column="97" selection-end-line="62" selection-end-column="97" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScopeWebSocketServer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="977">
+              <caret line="93" column="43" lean-forward="false" selection-start-line="93" selection-start-column="20" selection-end-line="93" selection-end-column="43" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -71,8 +87,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>mimeBound</find>
-      <find>cross</find>
       <find>void registerEventValue(</find>
       <find>DataUtil</find>
       <find>Parser</find>
@@ -101,10 +115,10 @@
       <find>!= null) {</find>
       <find>TriggerItem.walk(</find>
       <find>));</find>
+      <find>(!clientFunctionality</find>
+      <find>if (!serverFunctionality</find>
     </findStrings>
     <replaceStrings>
-      <replace>WebSocketServerFunctionality</replace>
-      <replace>clientFunctionality.onC</replace>
       <replace>server</replace>
       <replace>mundosk_libraries.org.java_websocket</replace>
       <replace>clientFunctionality.onE</replace>
@@ -133,6 +147,8 @@
       <replace>.isPresent()) {</replace>
       <replace>.ifPresent(triggerItem -&gt; TriggerItem.walk(triggerItem</replace>
       <replace>)));</replace>
+      <replace>(clientFunctionality</replace>
+      <replace>if (serverFunctionality</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -192,10 +208,10 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketServerFunctionality.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/DummyTriggerItem.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilScope.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketClient.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketServer.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketClient.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketServer.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketClient.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketServer.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -1344,28 +1360,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="722">
-          <caret line="86" column="77" lean-forward="false" selection-start-line="86" selection-start-column="77" selection-end-line="86" selection-end-column="77" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="872">
-          <caret line="80" column="65" lean-forward="false" selection-start-line="80" selection-start-column="52" selection-end-line="80" selection-end-column="65" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#924#925#0" expanded="true" />
-            <element signature="e#967#968#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketServerFunctionality.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -1416,6 +1410,26 @@
         <state relative-caret-position="270">
           <caret line="27" column="13" lean-forward="false" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="977">
+          <caret line="93" column="43" lean-forward="false" selection-start-line="93" selection-start-column="20" selection-end-line="93" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="536">
+          <caret line="62" column="97" lean-forward="true" selection-start-line="62" selection-start-column="97" selection-end-line="62" selection-end-column="97" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
