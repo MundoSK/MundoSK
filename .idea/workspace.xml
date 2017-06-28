@@ -7,6 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java" />
     </list>
@@ -103,8 +104,8 @@
       <file leaf-file-name="ExprChunk.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="159" column="5" lean-forward="true" selection-start-line="159" selection-start-column="5" selection-end-line="159" selection-end-column="5" />
+            <state relative-caret-position="645">
+              <caret line="43" column="37" lean-forward="false" selection-start-line="43" selection-start-column="37" selection-end-line="43" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -124,7 +125,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>isW</find>
       <find>StringUtil</find>
       <find>Jsoup</find>
       <find>processResponseHeaders</find>
@@ -154,6 +154,7 @@
       <find>if (serverFunctionality.on</find>
       <find>serverFunctionality.on</find>
       <find>Optional.of(UtilScope.loadSectionNodeOrDummy(subNode, null));</find>
+      <find>&gt;&gt; 2</find>
     </findStrings>
     <replaceStrings>
       <replace>Event.Server.class</replace>
@@ -1467,8 +1468,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ExprChunk.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="159" column="5" lean-forward="true" selection-start-line="159" selection-start-column="5" selection-end-line="159" selection-end-column="5" />
+        <state relative-caret-position="645">
+          <caret line="43" column="37" lean-forward="false" selection-start-line="43" selection-start-column="37" selection-end-line="43" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

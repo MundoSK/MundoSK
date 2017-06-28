@@ -41,8 +41,8 @@ public class ExprChunk extends SimpleExpression<Chunk> {
             world = worldExpression.getSingle(event);
         } else {
             Location loc1 = loc1Expr.getSingle(event);
-            x1 = loc1.getBlockX() >> 2;
-            z1 = loc1.getBlockZ() >> 2;
+            x1 = loc1.getBlockX() >> 4;
+            z1 = loc1.getBlockZ() >> 4;
             world = loc1.getWorld();
         }
         if (single) {
@@ -58,8 +58,8 @@ public class ExprChunk extends SimpleExpression<Chunk> {
                 if (!world.equals(loc2.getWorld())) {
                     return new Chunk[0];
                 }
-                x2 = loc2.getBlockX() >> 2;
-                z2 = loc2.getBlockZ() >> 2;
+                x2 = loc2.getBlockX() >> 4;
+                z2 = loc2.getBlockZ() >> 4;
             }
             int xmin = Math.min(x1, x2);
             int xmax = Math.max(x1, x2);
@@ -95,10 +95,10 @@ public class ExprChunk extends SimpleExpression<Chunk> {
                 return Iterators.emptyIterator();
             }
             world = loc1.getWorld();
-            x1 = loc1.getBlockX() >> 2;
-            z1 = loc1.getBlockZ() >> 2;
-            x2 = loc2.getBlockX() >> 2;
-            z2 = loc2.getBlockZ() >> 2;
+            x1 = loc1.getBlockX() >> 4;
+            z1 = loc1.getBlockZ() >> 4;
+            x2 = loc2.getBlockX() >> 4;
+            z2 = loc2.getBlockZ() >> 4;
 
         }
         int xmin = Math.min(x1, x2);
