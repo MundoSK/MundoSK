@@ -974,6 +974,8 @@ public class Mundo extends JavaPlugin {
 	public static void reportException(Object obj, Exception e) {
 		info("An exception has occured within MundoSK");
 		info("Please report this to the MundoSK page on forums.skunity.com");
+		info("Bukkit/Spigot version: " + Bukkit.getVersion());
+		info("Skript version: " + Skript.getVersion());
 		info("MundoSK version: " + instance.getDescription().getVersion());
 		info("Exception at " + (obj instanceof Class ? (Class) obj : obj.getClass()).getSimpleName());
 		e.printStackTrace();
@@ -995,6 +997,8 @@ public class Mundo extends JavaPlugin {
             info("If you are trying to fix a problem in MundoSK yourself, good luck :)");
             info("Otherwise, if you do not know why you are seeing this error here, go to the MundoSK config, set debug_mode to false, and restart your server");
             info("For help, go to the MundoSK page on forums.skunity.com");
+            info("Bukkit/Spigot version: " + Bukkit.getVersion());
+            info("Skript version: " + Skript.getVersion());
             info("MundoSK version: " + instance.getDescription().getVersion());
             info("Exception debugged at " + debugClass.getSimpleName());
             e.printStackTrace();
