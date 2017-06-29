@@ -8,6 +8,7 @@ import ch.njol.util.Kleenean;
 import com.pie.tlatoani.ListUtil.ListExpression;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
+import org.bukkit.event.server.TabCompleteEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,8 @@ public class ExprCompletions extends ListExpression<String> {
     protected String[] get(Event event) {
         if (event instanceof PlayerChatTabCompleteEvent) {
             return ((PlayerChatTabCompleteEvent) event).getTabCompletions().toArray(new String[0]);
+        } else if (event instanceof TabCompleteEvent) {
+            return ((TabCompleteEvent) event).getCompletions().toArray(new String[0]);
         }
         return new String[0];
     }
@@ -37,8 +40,8 @@ public class ExprCompletions extends ListExpression<String> {
 
     @Override
     public boolean subInit(Expression<?>[] expression, int matchedPattern, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        if (!ScriptLoader.isCurrentEvent(PlayerChatTabCompleteEvent.class)) {
-            Skript.error("The 'completions' expression can only be used in the 'on chat tab complete' event!");
+        if (!ScriptLoader.isCurrentEvent(PlayerChatTabCompleteEvent.class) && !ScriptLoader.isCurrentEvent(TabCompleteEvent.class)) {
+            Skript.error("The 'completions' expression can only be used in the 'on chat tab complete' event or the 'on tab complete' event!");
             return false;
         }
         return true;
@@ -65,6 +68,8 @@ public class ExprCompletions extends ListExpression<String> {
             for (int i = 0; i < newcompletions.size(); i++) {
                 completions.add(newcompletions.get(i));
             }
+        } else if (event instanceof TabCompleteEvent) {
+            ((TabCompleteEvent) event).setCompletions(Arrays.asList(value));
         }
     }
 

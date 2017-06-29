@@ -93,6 +93,7 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.hanging.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.ChunkGenerator.*;
 import org.bukkit.inventory.ItemStack;
@@ -305,6 +306,8 @@ public class Mundo extends JavaPlugin {
 		registerEventValue(HangingBreakEvent.class, HangingBreakEvent.RemoveCause.class, HangingBreakEvent::getCause);
         registerEvent("Chat Tab Complete Event", SimpleEvent.class, PlayerChatTabCompleteEvent.class, "chat tab complete");
         registerEventValue(PlayerChatTabCompleteEvent.class, String.class, PlayerChatTabCompleteEvent::getChatMessage);
+        registerEvent("Tab Complete Event", SimpleEvent.class, TabCompleteEvent.class, "tab complete");
+        registerEventValue(TabCompleteEvent.class, String.class, TabCompleteEvent::getBuffer);
         registerEvent("Armor Stand Interact Event", SimpleEvent.class, PlayerArmorStandManipulateEvent.class, "armor stand (manipulate|interact)");
         registerEventValue(PlayerArmorStandManipulateEvent.class, ItemStack.class, PlayerArmorStandManipulateEvent::getArmorStandItem);
         registerEventValue(PlayerArmorStandManipulateEvent.class, Slot.class, e ->
