@@ -19,7 +19,11 @@ public class ExprLastToken extends SimpleExpression<String> {
         if (event instanceof PlayerChatTabCompleteEvent) {
             return new String[]{((PlayerChatTabCompleteEvent) event).getLastToken()};
         } else if (event instanceof TabCompleteEvent) {
-            String[] tokens = ((TabCompleteEvent) event).getBuffer().split(" ");
+            String buffer = ((TabCompleteEvent) event).getBuffer();
+            if (buffer.endsWith(" ")) {
+                return new String[]{""};
+            }
+            String[] tokens = buffer.split(" ");
             return new String[]{tokens[tokens.length - 1]};
         }
         return null;
