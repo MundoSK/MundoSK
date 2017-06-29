@@ -163,6 +163,12 @@ public class Mundo extends JavaPlugin {
 		registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
 		//Chunk
         registerEffect(EffLoadChunk.class, "(0¦load|1¦unload) chunk %chunk%");
+        registerExpression(ExprChunkCoordinate.class, Number.class, ExpressionType.PROPERTY,
+                "chunk( |-)(0¦x|1¦z)[( |-)coord] of %chunk%",
+                "%chunk%'s chunk( |-)(0¦x|1¦z)[( |-)coord]");
+        registerExpression(ExprChunkWorld.class, World.class, ExpressionType.PROPERTY,
+                "chunk world of %chunk%",
+                "%chunk%'s chunk world");
         registerExpression(ExprChunk.class, Chunk.class, ExpressionType.COMBINED,
                 "chunk %number%, %number% [in %world%]",
                 "chunks [from] %number%, %number% to %number%, %number% [in %world%]",
