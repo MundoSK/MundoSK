@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.pie.tlatoani.Mundo;
 import org.bukkit.Bukkit;
 
 /*
@@ -31,11 +30,11 @@ public final class UtilReflection {
 
     //MUNDOSK START
 
-    public static Object nmsServer = null;
+    public static Object NMS_SERVER = null;
 
     static {
         try {
-            nmsServer = UtilReflection.getTypedMethod(UtilReflection.getCraftBukkitClass("CraftServer"), "getHandle", UtilReflection.getMinecraftClass("DedicatedPlayerList")).invoke(Bukkit.getServer());
+            NMS_SERVER = UtilReflection.getTypedMethod(UtilReflection.getCraftBukkitClass("CraftServer"), "getHandle", UtilReflection.getMinecraftClass("DedicatedPlayerList")).invoke(Bukkit.getServer());
         } catch (Exception e) {
             e.printStackTrace();
         }

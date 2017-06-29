@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -67,8 +68,8 @@ public abstract class Skin {
         private String signature;
 
         public Simple(String value, String signature) {
-            this.value = value;
-            this.signature = signature;
+            this.value = Optional.ofNullable(value).orElse("");
+            this.signature = Optional.ofNullable(signature).orElse("");
         }
 
         public void retrieveSkinTextures(Multimap<String, WrappedSignedProperty> multimap) {

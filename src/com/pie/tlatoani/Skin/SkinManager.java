@@ -42,16 +42,16 @@ public class SkinManager {
 
     private static ArrayList<Player> spawnedPlayers = new ArrayList<>();
 
-    private static UtilReflection.MethodInvoker craftPlayerGetHandle = null;
-    private static UtilReflection.MethodInvoker moveToWorld = null;
+    private static UtilReflection.MethodInvoker CRAFT_PLAYER_GET_HANDLE = null;
+    private static UtilReflection.MethodInvoker MOVE_TO_WORLD = null;
 
     static {
 
         if (Mundo.implementPacketStuff) {
             //Reflection stuff
             try {
-                craftPlayerGetHandle = UtilReflection.getTypedMethod(UtilReflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", UtilReflection.getMinecraftClass("EntityPlayer"));
-                moveToWorld = UtilReflection.getMethod(UtilReflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld", UtilReflection.getMinecraftClass("EntityPlayer"), int.class, boolean.class, Location.class, boolean.class);
+                CRAFT_PLAYER_GET_HANDLE = UtilReflection.getTypedMethod(UtilReflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", UtilReflection.getMinecraftClass("EntityPlayer"));
+                MOVE_TO_WORLD = UtilReflection.getMethod(UtilReflection.getMinecraftClass("DedicatedPlayerList"), "MOVE_TO_WORLD", UtilReflection.getMinecraftClass("EntityPlayer"), int.class, boolean.class, Location.class, boolean.class);
             } catch (Exception e) {
                 Mundo.reportException(SkinManager.class, e);
             }
@@ -176,6 +176,11 @@ public class SkinManager {
         }
         personalDisplayedSkins.remove(player, player);
         nameTags.remove(player);
+        spawnedPlayers.remove(player);
+    }
+
+    public static void onRespawn(Player player) {
+
     }
 
     //Public Methods
@@ -376,10 +381,10 @@ public class SkinManager {
         if (mainWorld.getName().equals(player.getWorld().getName())) {
             try {
                 //Replace direct CraftBukkit accessing code with reflection
-                //((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().moveToWorld(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
-                moveToWorld.invoke(UtilReflection.nmsServer, craftPlayerGetHandle.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, playerLoc, true);
+                //((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().MOVE_TO_WORLD(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
+                MOVE_TO_WORLD.invoke(UtilReflection.NMS_SERVER, CRAFT_PLAYER_GET_HANDLE.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, playerLoc, true);
             } catch (Exception e) {
-                Mundo.debug(SkinManager.class, "Failed to make player see his skin change");
+                Mundo.debug(SkinManager.class, "Failed to make player see his skin change: " + player.getName());
                 Mundo.reportException(SkinManager.class, e);
             }
         } else {

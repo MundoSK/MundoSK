@@ -496,6 +496,12 @@ public class Mundo extends JavaPlugin {
                     SkinManager.onQuit(event.getPlayer());
                 }
             }, this);
+            Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
+                @EventHandler
+                public void onRespawn(PlayerRespawnEvent event) {
+                    SkinManager.onRespawn(event.getPlayer());
+                }
+            }, this);
             registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "(%-tablist%|%-player%'s tablist) contains players");
             registerExpression(ExprNewTablist.class, Tablist.class, ExpressionType.SIMPLE, "new tablist");
             registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores enabled in (%-tablist%|%-player%'s tablist)");
