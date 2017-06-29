@@ -63,6 +63,8 @@ public abstract class Skin {
         return other instanceof Skin && toString().equals(other.toString());
     }
 
+
+
     public static class Simple extends Skin {
         private String value;
         private String signature;

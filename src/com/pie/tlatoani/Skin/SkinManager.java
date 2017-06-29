@@ -51,7 +51,7 @@ public class SkinManager {
             //Reflection stuff
             try {
                 CRAFT_PLAYER_GET_HANDLE = UtilReflection.getTypedMethod(UtilReflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", UtilReflection.getMinecraftClass("EntityPlayer"));
-                MOVE_TO_WORLD = UtilReflection.getMethod(UtilReflection.getMinecraftClass("DedicatedPlayerList"), "MOVE_TO_WORLD", UtilReflection.getMinecraftClass("EntityPlayer"), int.class, boolean.class, Location.class, boolean.class);
+                MOVE_TO_WORLD = UtilReflection.getMethod(UtilReflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld", UtilReflection.getMinecraftClass("EntityPlayer"), int.class, boolean.class, Location.class, boolean.class);
             } catch (Exception e) {
                 Mundo.reportException(SkinManager.class, e);
             }
@@ -382,6 +382,9 @@ public class SkinManager {
             try {
                 //Replace direct CraftBukkit accessing code with reflection
                 //((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().MOVE_TO_WORLD(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
+                Mundo.debug(SkinManager.class, "MOVE_TO_WORLD: " + MOVE_TO_WORLD);
+                Mundo.debug(SkinManager.class, "NMS_SERVER: " + MOVE_TO_WORLD);
+                Mundo.debug(SkinManager.class, "MOVE_TO_WORLD: " + MOVE_TO_WORLD);
                 MOVE_TO_WORLD.invoke(UtilReflection.NMS_SERVER, CRAFT_PLAYER_GET_HANDLE.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, playerLoc, true);
             } catch (Exception e) {
                 Mundo.debug(SkinManager.class, "Failed to make player see his skin change: " + player.getName());
