@@ -53,6 +53,10 @@ import com.pie.tlatoani.Miscellaneous.MiscBukkit.*;
 import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprAmountOfPlayers;
 import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprIP;
 import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprMotd;
+import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprCompletions;
+import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprCompletionsOld;
+import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprLastToken;
+import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprLastTokenOld;
 import com.pie.tlatoani.Miscellaneous.Thread.*;
 import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
@@ -304,16 +308,11 @@ public class Mundo extends JavaPlugin {
 		registerEvent("Unhang Event", EvtUnhang.class, HangingBreakEvent.class, "unhang [due to %-hangingremovecauses%]");
 		registerEventValue(HangingBreakByEntityEvent.class, Entity.class, HangingBreakByEntityEvent::getRemover);
 		registerEventValue(HangingBreakEvent.class, HangingBreakEvent.RemoveCause.class, HangingBreakEvent::getCause);
-        registerEvent("Chat Tab Complete Event", SimpleEvent.class, PlayerChatTabCompleteEvent.class, "chat tab complete");
-        registerEventValue(PlayerChatTabCompleteEvent.class, String.class, PlayerChatTabCompleteEvent::getChatMessage);
-        registerEvent("Tab Complete Event", SimpleEvent.class, TabCompleteEvent.class, "tab complete");
-        registerEventValue(TabCompleteEvent.class, String.class, TabCompleteEvent::getBuffer);
         registerEvent("Armor Stand Interact Event", SimpleEvent.class, PlayerArmorStandManipulateEvent.class, "armor stand (manipulate|interact)");
         registerEventValue(PlayerArmorStandManipulateEvent.class, ItemStack.class, PlayerArmorStandManipulateEvent::getArmorStandItem);
         registerEventValue(PlayerArmorStandManipulateEvent.class, Slot.class, e ->
                 new ArmorStandEquipmentSlot(e.getRightClicked(), ArmorStandEquipmentSlot.EquipSlot.getByEquipmentSlot(e.getSlot())));
         registerEvent("Armor Stand Place Event", EvtArmorStandPlace.class, EntitySpawnEvent.class, "armor stand place");
-        registerExpression(ExprLastToken.class, String.class, ExpressionType.SIMPLE, "last token");
         registerExpression(ExprHangedEntity.class,Entity.class,ExpressionType.SIMPLE,"hanged entity");
 		registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
 		registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
@@ -322,7 +321,6 @@ public class Mundo extends JavaPlugin {
 		registerExpression(ExprReturnTypeOfFunction.class,ClassInfo.class,ExpressionType.PROPERTY,"return type of function %string%");
         registerExpression(ExprRemainingAir.class,Timespan.class,ExpressionType.PROPERTY,"breath of %livingentity%", "%livingentity%'s breath", "max breath of %livingentity%", "%livingentity%'s max breath");
 		registerExpression(ExprLoadedScripts.class,String.class,ExpressionType.SIMPLE, "loaded script[ name]s");
-        registerExpression(ExprCompletions.class,String.class,ExpressionType.SIMPLE,"completions");
         registerExpression(ExprLoginResult.class, PlayerLoginEvent.Result.class, ExpressionType.SIMPLE, "(login|connect[ion]) result");
         registerExpression(ExprServerIP.class, String.class, ExpressionType.SIMPLE, "[mundo[sk]] [the] ip of server", "[mundo[sk]] [the] server's ip");
         registerExpression(ExprServerPort.class, Number.class, ExpressionType.SIMPLE, "[mundo[sk]] [the] port of server", "[mundo[sk]] [the] server's port");
@@ -340,6 +338,18 @@ public class Mundo extends JavaPlugin {
         registerScope(ScopeSync.class, "(sync|in %-timespan%)");
         registerScope(ScopeWhen.class, "when %boolean%");
         {
+            //TabCompletion
+            registerEvent("Chat Tab Complete Event", SimpleEvent.class, PlayerChatTabCompleteEvent.class, "chat tab complete");
+            registerEventValue(PlayerChatTabCompleteEvent.class, String.class, PlayerChatTabCompleteEvent::getChatMessage);
+            if (classExists("org.bukkit.event.server.TabCompleteEvent")) {
+                registerEvent("Tab Complete Event", SimpleEvent.class, TabCompleteEvent.class, "tab complete");
+                registerEventValue(TabCompleteEvent.class, String.class, TabCompleteEvent::getBuffer);
+                registerExpression(ExprCompletions.class,String.class,ExpressionType.SIMPLE,"completions");
+                registerExpression(ExprLastToken.class, String.class, ExpressionType.SIMPLE, "last token");
+            } else {
+                registerExpression(ExprCompletionsOld.class,String.class,ExpressionType.SIMPLE,"completions");
+                registerExpression(ExprLastTokenOld.class, String.class, ExpressionType.SIMPLE, "last token");
+            }
             //ServerListPing
             registerEvent("Server List Ping", SimpleEvent.class, ServerListPingEvent.class, "[[(server|player)] list] ping");
             registerExpression(ExprAmountOfPlayers.class, Number.class, ExpressionType.SIMPLE, "(shown|sent) (0¦amount of|1¦max [amount of]) players");
@@ -1145,6 +1155,15 @@ public class Mundo extends JavaPlugin {
 	    Field field = location.getField(name);
 	    field.setAccessible(true);
 	    return field.get(null);
+    }
+
+    public static boolean classExists(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
     //Functional Util

@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Miscellaneous.MiscBukkit;
+package com.pie.tlatoani.Miscellaneous.TabCompletion;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
