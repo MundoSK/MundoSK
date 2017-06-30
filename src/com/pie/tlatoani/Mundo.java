@@ -62,6 +62,7 @@ import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
 import com.pie.tlatoani.ProtocolLib.*;
 import com.pie.tlatoani.Skin.*;
+import com.pie.tlatoani.Skin.MineSkin.ExprRetrievedSkinFromFile;
 import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.Tablist.*;
 import com.pie.tlatoani.Tablist.Array.ArrayTablist;
@@ -480,12 +481,11 @@ public class Mundo extends JavaPlugin {
                 }
             });
             registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%");
-            //registerExpression(ExprSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "[player] skin [texture] of %player%", "%player%'s [player] skin [texture]");
             registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin");
             registerExpression(ExprCombinedSkin.class, Skin.class, ExpressionType.PROPERTY, "(combined skin|skin combination) (from|of) %skins%", "%skins%'s (combined skin|skin combination)");
             registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(for %-players%|excluding %-players%)]", "%player%'s displayed skin [(for %-players%|excluding %-players%)]");
-            //registerExpression(ExprSkinOfSkull.class, Skin.class, ExpressionType.PROPERTY, "[skull] skin of %itemstack%", "%itemstack%'s [skull] skin");
             registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%");
+            registerExpression(ExprRetrievedSkinFromFile.class, Skin.class, ExpressionType.PROPERTY, "retrieved skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%)");
             registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "%player%'s name[]tag", "name[]tag of %player%");
         }
         //Socket

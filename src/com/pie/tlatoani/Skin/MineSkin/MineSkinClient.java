@@ -10,6 +10,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.UUID;
 
 /**
  * Created by Tlatoani on 5/7/17.
@@ -19,6 +20,7 @@ public class MineSkinClient {
     public static final String SKIN_OPTIONS = "name=&model=DEFAULT&visibility=PUBLIC";
     public static final String URL_FORMAT = "https://api.mineskin.org/generate/url?url=%s&%s";
     public static final String UPLOAD_FORMAT = "https://api.mineskin.org/generate/upload?%s";
+    private static final String USER_FORMAT   = "https://api.mineskin.org/generate/user/%s?%s";
     public static final String USER_AGENT = "MineSkin-JavaClient";
 
     public static String rawStringFromURL(String url) {
@@ -52,16 +54,29 @@ public class MineSkinClient {
         }
     }
 
+    public static String rawStringFromUUID(UUID uuid) {
+        try {
+            Connection connection = HttpConnection
+                    .connect(String.format(USER_FORMAT, uuid.toString(), SKIN_OPTIONS))
+                    .userAgent(USER_AGENT)
+                    .method(Connection.Method.GET)
+                    .ignoreContentType(true)
+                    .ignoreHttpErrors(true)
+                    .timeout(10000);
+            return connection.execute().body();
+        } catch (Exception e) {
+            Mundo.debug(MineSkinClient.class, e);
+            return null;
+        }
+    }
+
     public static Skin fromRawString(String string) {
         try {
             JSONObject jsonObject = (JSONObject) new JSONParser().parse(string);
             JSONObject subJSON = (JSONObject) (
                     (JSONObject) jsonObject.get("data")
             ).get("texture");
-            Skin skin = new Skin(
-                    (String) subJSON.get("value"),
-                    (String) subJSON.get("signature"));
-            return skin;
+            return Skin.fromJSON(subJSON);
         } catch (ParseException | ClassCastException e) {
             Mundo.debug(MineSkinClient.class, e);
             return null;
