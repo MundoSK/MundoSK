@@ -15,5 +15,10 @@ public class RegistryFromCombatUpdate {
     public static void register() {
         //Miscellaneous
         Mundo.registerEvent("Player Swap Hands Event", SimpleEvent.class, PlayerSwapHandItemsEvent.class, "player swap hands");
+        try {
+            Class.forName("org.bukkit.event.server.TabCompleteEvent");
+        } catch (ClassNotFoundException e) {
+
+        }
     }
 }

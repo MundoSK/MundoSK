@@ -19,7 +19,7 @@ public class ExprSkullFromSkin extends SimpleExpression<ItemStack> {
     protected ItemStack[] get(Event event) {
         ItemStack result = new ItemStack(Material.SKULL_ITEM);
         SkullMeta skullMeta = (SkullMeta) result.getItemMeta();
-        Skin.setSkinOfSKull(skullMeta, skinExpression.getSingle(event));
+        Skin.setSkinOfSkull(skullMeta, skinExpression.getSingle(event));
         result.setItemMeta(skullMeta);
         return new ItemStack[]{result};
     }

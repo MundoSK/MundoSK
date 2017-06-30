@@ -54,7 +54,7 @@ public class ArrayTablist {
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSK::" + (identifier < 10 ? "0" : "") + identifier);
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
-            icon.retrieveSkinTextures(gameProfile.getProperties());
+            gameProfile.getProperties().put(Skin.MULTIMAP_KEY, icon.toWrappedSignedProperty());
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);

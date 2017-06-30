@@ -44,7 +44,7 @@ public class SimpleTablist {
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, id + "-MSK");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
-            icon.retrieveSkinTextures(gameProfile.getProperties());
+            gameProfile.getProperties().put(Skin.MULTIMAP_KEY, icon.toWrappedSignedProperty());
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         List<PlayerInfoData> playerInfoDatas = Arrays.asList(playerInfoData);

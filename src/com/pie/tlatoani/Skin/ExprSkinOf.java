@@ -60,7 +60,7 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
             Skin skinDelta = (Skin) delta[0];
             ItemMeta meta = ((ItemStack) value).getItemMeta();
             if (meta instanceof SkullMeta)
-                Skin.setSkinOfSKull((SkullMeta) meta, skinDelta);
+                Skin.setSkinOfSkull((SkullMeta) meta, skinDelta);
             ((ItemStack) value).setItemMeta(meta);
         }
 

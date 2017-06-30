@@ -434,7 +434,7 @@ public class Mundo extends JavaPlugin {
                 @Override
                 public Fields serialize(Skin skin) throws NotSerializableException {
                     Fields fields = new Fields();
-                    fields.putObject("value", skin.toJSONArray().toJSONString());
+                    fields.putObject("value", skin.toString());
                     return fields;
                 }
 
@@ -446,7 +446,14 @@ public class Mundo extends JavaPlugin {
                 @Override
                 public Skin deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
                     try {
-                        return new Skin.JSON((JSONArray) (new JSONParser()).parse((String) fields.getObject("value")));
+                        Object parsedObject = new JSONParser().parse((String) fields.getObject("value"));
+                        JSONObject jsonObject;
+                        if (parsedObject instanceof JSONObject) {
+                            jsonObject = (JSONObject) parsedObject;
+                        } else {
+                            jsonObject = (JSONObject) ((JSONArray) parsedObject).get(0);
+                        }
+                        return Skin.fromJSON(jsonObject);
                     } catch (ParseException | ClassCastException e) {
                         throw new StreamCorruptedException();
                     }

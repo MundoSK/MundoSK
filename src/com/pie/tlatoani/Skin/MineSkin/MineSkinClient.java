@@ -58,7 +58,7 @@ public class MineSkinClient {
             JSONObject subJSON = (JSONObject) (
                     (JSONObject) jsonObject.get("data")
             ).get("texture");
-            Skin skin = new Skin.Simple(
+            Skin skin = new Skin(
                     (String) subJSON.get("value"),
                     (String) subJSON.get("signature"));
             return skin;

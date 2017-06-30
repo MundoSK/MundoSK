@@ -75,7 +75,7 @@ public class SkinManager {
                                     spawnedPlayers.add(player);
                                     if (!actualSkins.containsKey(player)) {
                                         if (!actualSkins.containsKey(player)) {
-                                            Skin skin = new Skin.Collected(playerInfoData.getProfile().getProperties().get("textures"));
+                                            Skin skin = Skin.fromGameProfile(playerInfoData.getProfile());
                                             Mundo.debug(SkinManager.class, "ALTERNATIVE SKINTEXTURE FOUND IN PACKET = " + skin);
                                             if (!skin.toString().equals("[]")) {
 
@@ -100,7 +100,7 @@ public class SkinManager {
                                     Mundo.debug(SkinManager.class, "PLAYER ACTUAL NAME: " + player.getName());
                                     Mundo.debug(SkinManager.class, "SKINTEXTURE REPLACEMENT (MAY OR MAY NOT EXIST): " + skin);
                                     if (skin != null) {
-                                        skin.retrieveSkinTextures(newPlayerInfoData.getProfile().getProperties());
+                                        newPlayerInfoData.getProfile().getProperties().put(Skin.MULTIMAP_KEY, skin.toWrappedSignedProperty());
                                     }
                                 }
                                 newPlayerInfoDatas.add(newPlayerInfoData);
@@ -188,7 +188,7 @@ public class SkinManager {
     public static Skin getActualSkin(Player player) {
         Skin skin = actualSkins.get(player);
         if (skin == null) {
-            skin = new Skin.Collected(WrappedGameProfile.fromPlayer(player).getProperties().get("textures"));
+            skin = Skin.fromGameProfile(WrappedGameProfile.fromPlayer(player));
             Mundo.debug(SkinManager.class, "SKINTEXTURE GIVEN BY PROTOCOLLIB FOR PLAYER " + player.getName() + " = " + skin);
             if (!skin.toString().equals("[]")) {
                 actualSkins.put(player, skin);
