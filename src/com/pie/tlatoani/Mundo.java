@@ -656,7 +656,7 @@ public class Mundo extends JavaPlugin {
         registerExpression(ExprAllAutomaticCreators.class, WorldCreator.class, ExpressionType.SIMPLE, "[all] automatic creators");
         registerExpression(ExprAutomaticCreator.class, WorldCreator.class, ExpressionType.SIMPLE, "automatic creator %string%");
         //ZExperimental - The Z is for mystery (it's so that it appears last in the package list)
-        registerEvent("Custom Element Event", CustomEffect.class, CustomElementEvent.class, "[jsoup_light] [new] [custom] effect %string%");
+        registerEvent("Custom Element Event", CustomEffect.class, CustomElementEvent.class, "[light_jsoup] [new] [custom] effect %string%");
         //
         ArrayList<String> patterns = new ArrayList<>();
         for (String s : enumNames) {

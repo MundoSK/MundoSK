@@ -2,8 +2,8 @@ package com.pie.tlatoani.Skin.MineSkin;
 
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Skin.Skin;
-import mundosk_libraries.jsoup_light.Connection;
-import mundosk_libraries.jsoup_light.HttpConnection;
+import mundosk_libraries.jsoup.Connection;
+import mundosk_libraries.jsoup.helper.HttpConnection;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
