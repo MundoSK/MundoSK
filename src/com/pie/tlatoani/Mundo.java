@@ -62,6 +62,7 @@ import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
 import com.pie.tlatoani.ProtocolLib.*;
 import com.pie.tlatoani.Skin.*;
+import com.pie.tlatoani.Skin.MineSkin.EffTestMineSkin;
 import com.pie.tlatoani.Skin.MineSkin.ExprRetrievedSkinFromFile;
 import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.Tablist.*;
@@ -480,6 +481,7 @@ public class Mundo extends JavaPlugin {
                     return false;
                 }
             });
+            registerEffect(EffTestMineSkin.class, "test mineskin %string%");
             registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%");
             registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin");
             registerExpression(ExprCombinedSkin.class, Skin.class, ExpressionType.PROPERTY, "(combined skin|skin combination) (from|of) %skins%", "%skins%'s (combined skin|skin combination)");

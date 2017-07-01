@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import mundosk_libraries.jsoup_light.Connection;
-import mundosk_libraries.jsoup_light.HttpConnection;
+import mundosk_libraries.jsoup.Connection;
+import mundosk_libraries.jsoup.helper.HttpConnection;
 import mundosk_libraries.mineskin.data.Skin;
 import mundosk_libraries.mineskin.data.SkinCallback;
 
