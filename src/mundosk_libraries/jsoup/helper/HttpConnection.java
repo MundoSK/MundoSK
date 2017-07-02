@@ -1,5 +1,6 @@
 package mundosk_libraries.jsoup.helper;
 
+import com.pie.tlatoani.Mundo;
 import mundosk_libraries.jsoup.*;
 import mundosk_libraries.jsoup.nodes.Document;
 import mundosk_libraries.jsoup.parser.Parser;
@@ -13,6 +14,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -646,6 +648,16 @@ public class HttpConnection implements Connection {
                 mimeBoundary = setOutputContentType(req);
 
             HttpURLConnection conn = createConnection(req);
+            //MUNDOSK START
+            /*if (conn instanceof HttpsURLConnection) {
+                try {
+                    HttpsURLConnection httpsConn = (HttpsURLConnection) conn;
+                    SSLContext sslContext = SSLContext.getInstance("SSL");
+                } catch (NoSuchAlgorithmException | KeyManagementException e) {
+                    Mundo.debug(HttpConnection.class, e);
+                }
+            }*/
+            //MUNDOSK END
             Response res;
             try {
                 conn.connect();

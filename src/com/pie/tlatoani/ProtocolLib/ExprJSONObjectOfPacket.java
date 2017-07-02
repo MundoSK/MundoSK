@@ -21,7 +21,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
@@ -47,18 +46,28 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
                 WrappedChatComponent chatComponent = packet.getChatComponents().readSafely(index);
+                Mundo.debug(ExprJSONObjectOfPacket.class, "ChatComponent: " + chatComponent);
                 if (chatComponent == null) {
                     return null;
                 }
-                String fromjson = chatComponent.getJson();
+                String fromJson = chatComponent.getJson();
+                Mundo.debug(ExprJSONObjectOfPacket.class,"FromJson: " + fromJson);
                 JSONParser parser = new JSONParser();
-                JSONObject tojson = null;
+                JSONObject toJson = null;
                 try {
-                    tojson = (JSONObject) parser.parse(fromjson);
-                } catch (ParseException | ClassCastException e) {
+                    Object parsedJson = parser.parse(fromJson);
+                    if (parsedJson instanceof JSONObject) {
+                        toJson = (JSONObject) parsedJson;
+                    } else if (parsedJson instanceof String) {
+                        toJson = new JSONObject();
+                        toJson.put("text", parsedJson);
+                    } else {
+                        throw new IllegalStateException("The json: " + fromJson + "; is neither a jsonobject nor a string");
+                    }
+                } catch (ParseException | IllegalStateException e) {
                     Mundo.debug(ExprJSONObjectOfPacket.class, e);
                 }
-                return tojson;
+                return toJson;
             }
 
             @Override
