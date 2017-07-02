@@ -9,6 +9,7 @@ import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 
 /**
  * Created by Tlatoani on 4/15/17.
@@ -23,7 +24,7 @@ public class EffPacketInfo extends Effect {
         Mundo.info("PacketType = " + packet.getType());
         int i = 0;
         for (Object value : packet.getModifier().getValues()) {
-            Mundo.info("Field " + i + ", Class = " + value.getClass() + ": " + value);
+            Mundo.info("Field " + i + ", Class = " + Optional.ofNullable(value).map(Object::getClass).orElse(null) + ": " + value);
             i++;
         }
         Mundo.info("Packet Info End");

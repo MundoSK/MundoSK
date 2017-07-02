@@ -36,6 +36,13 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
     public static Map<String, PacketInfoConverter<JSONObject>> singleConverters = new LinkedHashMap<>();
     public static Map<String, PacketInfoConverter<JSONObject[]>> pluralConverters = new LinkedHashMap<>();
 
+    public abstract static class PacketJSONConverter extends PacketInfoConverter<JSONObject> {
+
+        protected PacketJSONConverter() {
+            super(JSONObject.class);
+        }
+    }
+
     static {
 
         //Converters
@@ -77,7 +84,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         });
 
-        registerSingleConverter("serverping", new PacketInfoConverter<JSONObject>() {
+        registerSingleConverter("serverping", new PacketInfoConverter<JSONObject>(JSONObject.class) {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
                 try {
@@ -98,7 +105,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         });
 
-        registerSingleConverter("datawatcher", new PacketInfoConverter<JSONObject>() {
+        registerSingleConverter("datawatcher", new PacketInfoConverter<JSONObject>(JSONObject.class) {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
                 WrappedDataWatcher dataWatcher = packet.getDataWatcherModifier().readSafely(index);
@@ -135,7 +142,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         });
 
-        registerSingleConverter("watchablecollection", new PacketInfoConverter<JSONObject>() {
+        registerSingleConverter("watchablecollection", new PacketInfoConverter<JSONObject>(JSONObject.class) {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
                 Collection<WrappedWatchableObject> wrappedWatchableObjects = packet.getWatchableCollectionModifier().readSafely(index);
@@ -187,7 +194,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         };
 
-        registerSingleConverter("gameprofile", new PacketInfoConverter<JSONObject>() {
+        registerSingleConverter("gameprofile", new PacketInfoConverter<JSONObject>(JSONObject.class) {
 
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
@@ -202,7 +209,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
 
         //Plural
 
-        registerPluralConverter("chatcomponent", new PacketInfoConverter<JSONObject[]>() {
+        registerPluralConverter("chatcomponent", new PacketInfoConverter<JSONObject[]>(JSONObject[].class) {
             @Override
             public JSONObject[] get(PacketContainer packet, Integer index) {
                 WrappedChatComponent[] chatComponents = packet.getChatComponentArrays().readSafely(index);
@@ -235,7 +242,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         });
 
-        registerPluralConverter("playerinfodata", new PacketInfoConverter<JSONObject[]>() {
+        registerPluralConverter("playerinfodata", new PacketInfoConverter<JSONObject[]>(JSONObject[].class) {
             @Override
             public JSONObject[] get(PacketContainer packet, Integer index) {
                 try {

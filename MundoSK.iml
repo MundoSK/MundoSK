@@ -9,6 +9,7 @@
       <excludeFolder url="file://$MODULE_DIR$/src/com/pie/tlatoani/Json/Implementation" />
       <excludeFolder url="file://$MODULE_DIR$/src/com/pie/tlatoani/Skin/MineSkin" />
       <excludeFolder url="file://$MODULE_DIR$/src/mundosk_libraries/jsoup" />
+      <excludeFolder url="file://$MODULE_DIR$/src/mundosk_libraries/light_jsoup" />
       <excludeFolder url="file://$MODULE_DIR$/src/mundosk_libraries/mineskin" />
       <excludeFolder url="file://$MODULE_DIR$/src/mundosk_libraries/org/jsoup" />
     </content>

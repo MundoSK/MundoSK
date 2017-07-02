@@ -1,7 +1,6 @@
 package com.pie.tlatoani.ProtocolLib;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.aliases.ItemType;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.lang.Expression;
@@ -17,11 +16,6 @@ import com.comphenix.protocol.reflect.EquivalentConverter;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.nbt.NbtBase;
-import com.comphenix.protocol.wrappers.nbt.NbtCompound;
-import com.comphenix.protocol.wrappers.nbt.NbtFactory;
-import com.comphenix.protocol.wrappers.nbt.NbtType;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.UtilReflection;
 import io.netty.buffer.ByteBuf;
@@ -32,13 +26,11 @@ import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
-import org.json.simple.JSONObject;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.function.BiConsumer;
 
 /**
  * Created by Tlatoani on 5/2/16.
@@ -266,7 +258,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             }
         });
 
-        registerSingleConverter("location", new PacketInfoConverter<Location>() {
+        registerSingleConverter("location", new PacketInfoConverter<Location>(Location.class) {
             @Override
             public Location get(PacketContainer packet, Integer index) {
                 StructureModifier<BlockPosition> structureModifier = packet.getBlockPositionModifier();
@@ -281,14 +273,9 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 BlockPosition blockPosition = new BlockPosition(value.toVector());
                 structureModifier.writeSafely(index, blockPosition);
             }
-
-            @Override
-            public Class<Location> getType() {
-                return Location.class;
-            }
         });
 
-        registerSingleConverter("uuid", new PacketInfoConverter<String>() {
+        registerSingleConverter("uuid", new PacketInfoConverter<String>(String.class) {
             @Override
             public String get(PacketContainer packet, Integer index) {
                 return Optional.ofNullable(packet.getUUIDs().readSafely(index)).map(UUID::toString).orElse(null);
@@ -298,14 +285,9 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             public void set(PacketContainer packet, Integer index, String value) {
                 packet.getUUIDs().writeSafely(index, UUID.fromString(value));
             }
-
-            @Override
-            public Class<String> getType() {
-                return String.class;
-            }
         });
 
-        registerSingleConverter("material", new PacketInfoConverter<ItemStack>() {
+        registerSingleConverter("material", new PacketInfoConverter<ItemStack>(ItemStack.class) {
             @Override
             public ItemStack get(PacketContainer packet, Integer index) {
                 Material material = packet.getBlocks().readSafely(index);
@@ -316,11 +298,6 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             public void set(PacketContainer packet, Integer index, ItemStack value) {
                 Material material = value.getType();
                 packet.getBlocks().writeSafely(index, material);
-            }
-
-            @Override
-            public Class<ItemStack> getType() {
-                return ItemStack.class;
             }
         });
 
@@ -361,7 +338,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                     return ItemStack.class;
                 }
             };
-            registerSingleConverter("item", new PacketInfoConverter<ItemStack>() {
+            registerSingleConverter("item", new PacketInfoConverter<ItemStack>(ItemStack.class) {
                 @Override
                 public ItemStack get(PacketContainer packet, Integer index) {
                     StructureModifier<ItemStack> structureModifier = packet.getModifier().withType(nmsItemClass, itemConvert);
@@ -373,17 +350,12 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                     StructureModifier<ItemStack> structureModifier = packet.getModifier().withType(nmsItemClass, itemConvert);
                     structureModifier.writeSafely(index, value);
                 }
-
-                @Override
-                public Class<ItemStack> getType() {
-                    return ItemStack.class;
-                }
             });
         } catch (Exception e) {
             Mundo.reportException(ExprObjectOfPacket.class, e);
         }
 
-        registerSingleConverter("blockdata", new PacketInfoConverter<ItemStack>() {
+        registerSingleConverter("blockdata", new PacketInfoConverter<ItemStack>(ItemStack.class) {
             @Override
             public ItemStack get(PacketContainer packet, Integer index) {
                 WrappedBlockData blockData = packet.getBlockData().readSafely(index);
@@ -396,11 +368,6 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             public void set(PacketContainer packet, Integer index, ItemStack value) {
                 WrappedBlockData blockData = WrappedBlockData.createData(value.getType(), value.getData().getData());
                 packet.getBlockData().writeSafely(index, blockData);
-            }
-
-            @Override
-            public Class<ItemStack> getType() {
-                return ItemStack.class;
             }
         });
 
@@ -422,7 +389,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         UtilReflection.ConstructorInvoker packetDataSerializerConstructor = UtilReflection.getConstructor(
                 UtilReflection.getMinecraftClass("PacketDataSerializer"), ByteBuf.class);
 
-        registerPluralConverter("bytebuffer", new PacketInfoConverter<Object[]>() {
+        registerPluralConverter("bytebuffer", new PacketInfoConverter<Object[]>(Number[].class) {
             @Override
             public Object[] get(PacketContainer packet, Integer index) {
                 ByteBuf byteBuf = packet.getSpecificModifier(ByteBuf.class).readSafely(index);
@@ -443,11 +410,6 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 ByteBuf byteBuf = Unpooled.wrappedBuffer(bytes);
                 ByteBuf packetDataSerializer = (ByteBuf) packetDataSerializerConstructor.invoke(byteBuf);
                 packet.getSpecificModifier(ByteBuf.class).writeSafely(index, packetDataSerializer);
-            }
-
-            @Override
-            public Class<Number[]> getType() {
-                return Number[].class;
             }
         });
     }
@@ -611,7 +573,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         }
         converter = getConverter(key, isSingle);
         if (converter != null) {
-            aClass = Optional.ofNullable(converter.getType()).orElse(aClass);
+            aClass = Optional.ofNullable(converter.type).orElse(aClass);
             Mundo.debug(this, "Converter to PLib type: " + key + ", aClass = " + aClass);
             return true;
         }
