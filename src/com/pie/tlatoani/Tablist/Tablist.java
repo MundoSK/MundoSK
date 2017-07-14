@@ -156,7 +156,9 @@ public class Tablist {
     }
 
     public static void onJoin(Player player) {
-        getTablistForPlayer(player);
+        if (!tablistMap.containsKey(player)) {
+            setTablistForPlayer(Collections.singleton(player), new Tablist());
+        }
         Mundo.syncDelay(1, new Runnable() {
             @Override
             public void run() {
@@ -179,11 +181,7 @@ public class Tablist {
     }
 
     public static Tablist getTablistForPlayer(Player player) {
-        return tablistMap.computeIfAbsent(player, __ -> {
-            Tablist tablist = new Tablist();
-            tablist.addPlayers(Collections.singleton(player));
-            return tablist;
-        });
+        return tablistMap.get(player);
     }
 
     public static void setTablistForPlayer(Collection<Player> players, Tablist newTablist) {
