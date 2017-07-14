@@ -179,7 +179,11 @@ public class Tablist {
     }
 
     public static Tablist getTablistForPlayer(Player player) {
-        return tablistMap.computeIfAbsent(player, __ -> new Tablist());
+        return tablistMap.computeIfAbsent(player, __ -> {
+            Tablist tablist = new Tablist();
+            tablist.addPlayers(Collections.singleton(player));
+            return tablist;
+        });
     }
 
     public static void setTablistForPlayer(Collection<Player> players, Tablist newTablist) {
