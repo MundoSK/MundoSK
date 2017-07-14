@@ -49,7 +49,6 @@ public class ArrayTablist {
         Skin icon = heads[column - 1][row - 1];
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(Tablist.colorStringToJson(displayName));
         int identifier = (((column - 1) * 20) + row);
-        //if (identifier % 2 == 0) identifier += 79;
         UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSK::" + (identifier < 10 ? "0" : "") + identifier);
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
@@ -62,6 +61,7 @@ public class ArrayTablist {
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
         try {
             for (Player player : players) {
+                Mundo.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action);
                 UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
             }
         } catch (InvocationTargetException e) {
@@ -112,6 +112,7 @@ public class ArrayTablist {
             }
         }
         if (columns > this.columns) {
+            Mundo.debug(this, "columns > this.columns");
             if (this.columns == 0) {
                 this.rows = getViableRowAmount(columns, this.rows);
             } else {
@@ -119,6 +120,7 @@ public class ArrayTablist {
             }
             for (int column = this.columns + 1; column <= columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
+                    Mundo.debug(this, "col: " + column + ", ro: " + row);
                     displayNames[column - 1][row - 1] = "";
                     latencies[column - 1][row - 1] = 5;
                     heads[column - 1][row - 1] = initialIcon;

@@ -3,18 +3,20 @@ package com.pie.tlatoani.CustomEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
 
-public class UtilCustomEvent extends Event {
+public class UtilCustomEvent extends Event implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	private String id;
 	private Object[] args;
 	@SuppressWarnings("rawtypes")
 	private Map<ClassInfo, Object> details = new HashMap<ClassInfo, Object>();
+	private boolean cancelled;
 	
 	public UtilCustomEvent(String id, Object[] details, Object[] args) {
 		this.id = id;
@@ -44,4 +46,13 @@ public class UtilCustomEvent extends Event {
 		return args;
 	}
 
+	@Override
+	public boolean isCancelled() {
+		return cancelled;
+	}
+
+	@Override
+	public void setCancelled(boolean b) {
+	    cancelled = b;
+	}
 }
