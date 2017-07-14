@@ -44,6 +44,7 @@ public class ArrayTablist {
     }
 
     private void sendPacket(int column, int row, EnumWrappers.PlayerInfoAction action, Collection<Player> players) {
+        Mundo.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action);
         int ping = latencies[column - 1][row - 1];
         String displayName = displayNames[column - 1][row - 1];
         Skin icon = heads[column - 1][row - 1];
@@ -61,7 +62,7 @@ public class ArrayTablist {
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
         try {
             for (Player player : players) {
-                Mundo.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action);
+                Mundo.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action + ", player = " + player);
                 UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
             }
         } catch (InvocationTargetException e) {
