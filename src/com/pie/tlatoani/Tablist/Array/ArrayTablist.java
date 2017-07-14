@@ -44,22 +44,26 @@ public class ArrayTablist {
     }
 
     private void sendPacket(int column, int row, EnumWrappers.PlayerInfoAction action, Collection<Player> players) {
-        Mundo.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action);
+        Mundo.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action + "players = " + players);
         int ping = latencies[column - 1][row - 1];
         String displayName = displayNames[column - 1][row - 1];
         Skin icon = heads[column - 1][row - 1];
+        Mundo.debug(this, "SP 1");
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(Tablist.colorStringToJson(displayName));
         int identifier = (((column - 1) * 20) + row);
         UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSK::" + (identifier < 10 ? "0" : "") + identifier);
+        Mundo.debug(this, "SP 2");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
             gameProfile.getProperties().put(Skin.MULTIMAP_KEY, icon.toWrappedSignedProperty());
         }
+        Mundo.debug(this, "SP 3");
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
         packetContainer.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
+        Mundo.debug(this, "SP 4");
         try {
             for (Player player : players) {
                 Mundo.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action + ", player = " + player);
