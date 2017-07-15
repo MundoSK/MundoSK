@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.SkriptAPIException;
 import ch.njol.skript.SkriptAddon;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Converter;
@@ -200,6 +201,7 @@ public class Mundo extends JavaPlugin {
         registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "ev[en]t %strings%");
         registerExpression(ExprIDOfCustomEvent.class,String.class,ExpressionType.PROPERTY,"id of custom event", "custom event's id");
         registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
+        registerExpression(ExprLastCustomEventCancelled.class, Boolean.class, ExpressionType.SIMPLE, "last [called] custom event (0¦was|1¦wasn't) cancelled");
         //EnchantedBook
 		registerExpression(ExprEnchBookWithEnch.class,ItemStack.class,ExpressionType.PROPERTY,"%itemstack% containing %enchantmenttypes%");
 		registerExpression(ExprEnchantLevelInEnchBook.class,Integer.class,ExpressionType.PROPERTY,"level of %enchantmenttype% within %itemstack%");
@@ -653,7 +655,7 @@ public class Mundo extends JavaPlugin {
         registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start"); //Will be removed in a future version
 
         registerExpression(ExprAllAutomaticCreators.class, WorldCreator.class, ExpressionType.SIMPLE, "[all] automatic creators");
-        registerExpression(ExprAutomaticCreator.class, WorldCreator.class, ExpressionType.SIMPLE, "automatic creator %string%");
+        registerExpression(ExprAutomaticCreator.class, WorldCreator.class, ExpressionType.SIMPLE, "automatic creator [for world [named]] %string%");
         //ZExperimental - The Z is for mystery (it's so that it appears last in the package list)
         registerEvent("Custom Element Event", CustomEffect.class, CustomElementEvent.class, "[light_jsoup] [new] [custom] effect %string%");
         //

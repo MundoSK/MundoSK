@@ -10,6 +10,7 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 public class EvtCustomEvent extends SkriptEvent {
 	private List<String> ids = new ArrayList<String>();

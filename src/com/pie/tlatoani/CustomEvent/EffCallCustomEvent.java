@@ -37,6 +37,7 @@ public class EffCallCustomEvent extends Effect{
 		Object[] args = this.args != null ? this.args.getArray(arg0) : new Object[0];
 		UtilCustomEvent event = new UtilCustomEvent(id, details, args);
 		Bukkit.getServer().getPluginManager().callEvent(event);
+		UtilCustomEvent.lastCustomEvents.put(arg0, event);
 	}
 
 }

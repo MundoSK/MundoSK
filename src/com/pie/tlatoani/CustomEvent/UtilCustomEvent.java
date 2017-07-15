@@ -2,6 +2,7 @@ package com.pie.tlatoani.CustomEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -17,6 +18,8 @@ public class UtilCustomEvent extends Event implements Cancellable {
 	@SuppressWarnings("rawtypes")
 	private Map<ClassInfo, Object> details = new HashMap<ClassInfo, Object>();
 	private boolean cancelled;
+
+	static final WeakHashMap<Event, UtilCustomEvent> lastCustomEvents = new WeakHashMap<>();
 	
 	public UtilCustomEvent(String id, Object[] details, Object[] args) {
 		this.id = id;
