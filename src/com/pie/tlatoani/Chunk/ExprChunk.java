@@ -92,7 +92,7 @@ public class ExprChunk extends SimpleExpression<Chunk> {
             Location loc1 = loc1Expr.getSingle(event);
             Location loc2 = loc2Expr.getSingle(event);
             if (!loc1.getWorld().equals(loc2.getWorld())) {
-                return Iterators.emptyIterator();
+                return null;
             }
             world = loc1.getWorld();
             x1 = loc1.getBlockX() >> 4;

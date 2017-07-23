@@ -304,6 +304,9 @@ public class Mundo extends JavaPlugin {
         registerEnum(HangingBreakEvent.RemoveCause.class, "hangingremovecause", HangingBreakEvent.RemoveCause.values());
         registerEffect(EffWaitAsync.class, "async wait %timespan%");
         registerEffect(EffWait.class, "[(2¦async)] wait (0¦until|1¦while) %boolean% [for %-timespan%]");
+        if (methodExists(Entity.class, "addPassenger", Entity.class)) {
+            registerEffect(EffMountVehicle.class, "mount %entities% on %entity%");
+        }
 		registerEvent("Hang Event", SimpleEvent.class, HangingPlaceEvent.class, "hang");
 		registerEventValue(HangingPlaceEvent.class, Block.class, HangingPlaceEvent::getBlock);
 		registerEvent("Unhang Event", EvtUnhang.class, HangingBreakEvent.class, "unhang [due to %-hangingremovecauses%]");
@@ -1163,6 +1166,15 @@ public class Mundo extends JavaPlugin {
             Class.forName(className);
             return true;
         } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    public static boolean methodExists(Class c, String methodName, Class... params) {
+        try {
+            c.getMethod(methodName, params);
+            return true;
+        } catch (NoSuchMethodException e) {
             return false;
         }
     }
