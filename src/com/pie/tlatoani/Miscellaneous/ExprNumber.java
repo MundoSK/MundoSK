@@ -14,17 +14,18 @@ import org.bukkit.event.Event;
 public class ExprNumber extends SimpleExpression<Number> {
     private Number value;
     private String toString;
-    private static char[] chars = {'b', 'd', 'f', 's', 'l'};
+    private static String[] numberTypes = {"byte", "int", "double", "float", "short", "long"};
 
-    public static Number getValue(Number number, char ch) {
-        switch (ch) {
-            case 'b': return number.byteValue();
-            case 'd': return number.doubleValue();
-            case 'f': return number.floatValue();
-            case 's': return number.shortValue();
-            case 'l': return number.longValue();
+    public static Number getValue(Number number, String numberType) {
+        switch (numberType) {
+            case "byte": return number.byteValue();
+            case "int": return number.intValue();
+            case "double": return number.doubleValue();
+            case "float": return number.floatValue();
+            case "short": return number.shortValue();
+            case "long": return number.longValue();
         }
-        throw new IllegalArgumentException("Illegal char: " + ch);
+        throw new IllegalArgumentException("Illegal numberType: " + numberType);
     }
 
     @Override
@@ -50,10 +51,10 @@ public class ExprNumber extends SimpleExpression<Number> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         int index = parseResult.mark;
-        char ch = chars[index];
+        String numberType = numberTypes[index];
         Number preValue = ((Literal<Number>) expressions[0]).getSingle();
-        value = getValue(preValue, ch);
-        toString = preValue + "" + ch;
+        value = getValue(preValue, numberType);
+        toString = preValue + " " + numberType;
         return false;
     }
 }
