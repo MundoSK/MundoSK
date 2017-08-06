@@ -29,7 +29,10 @@ public class ExprSomeItems extends SimpleExpression implements ListUtil.Transfor
         Integer index1 = this.index1.getSingle(event).intValue() - 1;
         Integer index2 = this.index2.getSingle(event).intValue() - 1;
         Object[] original = transformer.get(event);
-        if (index1 > index2 || index2 >= original.length || index1 < 0) {
+        if (index2 > original.length) {
+            index2 = original.length;
+        }
+        if (index1 > index2 || index1 < 0) {
             return new Object[0];
         }
         Object[] result = new Object[index2 - index1 + 1];
