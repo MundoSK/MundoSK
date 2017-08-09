@@ -1,6 +1,11 @@
 package com.pie.tlatoani.WebSocket;
 
+import ch.njol.skript.lang.ExpressionType;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
+import com.pie.tlatoani.WebSocket.Events.WebSocketEvent;
+import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
+import mundosk_libraries.java_websocket.WebSocket;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +17,24 @@ public class WebSocketManager {
     private static Map<String, WebSocketClientFunctionality> clientFunctionalities = new HashMap<>();
     private static Map<String, WebSocketServerFunctionality> serverFunctionalities = new HashMap<>();
     private static Map<Integer, SkriptWebSocketServer> servers = new HashMap<>();
+    
+    public static void load() {
+        Mundo.registerType(WebSocket.class, "websocket");
+        Mundo.registerEffect(EffCloseWebSocket.class, "close websocket %websocket%");
+        Mundo.registerEffect(EffWebSocketSendMessage.class, "websocket send %string% [through %-websockets]");
+        Mundo.registerEffect(EffStartWebSocketServer.class, "start websocket server %string% at port %number%");
+        Mundo.registerEffect(EffStopWebSocketServer.class, "stop websocket server at port %number% [with timeout %-number%]");
+        Mundo.registerEvent("WebSocket Client", ScopeWebSocketClient.class, WebSocketEvent.class, "websocket client %string%");
+        Mundo.registerEvent("WebSocket Server", ScopeWebSocketServer.class, WebSocketEvent.class, "websocket server %string%");
+        Mundo.registerEventValue(WebSocketEvent.class, WebSocket.class, event -> event.webSocket);
+        Mundo.registerEventValue(WebSocketMessageEvent.class, String.class, event -> event.message);
+        Mundo.registerEventValue(WebSocketErrorEvent.class, Throwable.class, event -> event.error);
+        Mundo.registerExpression(ExprWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "websocket %string% connected to uri %string%");
+        Mundo.registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket [server] port");
+        Mundo.registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all websockets [of server at port %number%");
+        Mundo.registerExpression(ExprWebSocketHost.class, String.class, ExpressionType.PROPERTY, "local host of %websocket%", "(remote|external) host of %websocket%");
+        Mundo.registerExpression(ExprWebSocketPort.class, Number.class, ExpressionType.PROPERTY, "local port of %websocket%", "(remote|external) port of %websocket%");
+    }
 
     public static WebSocketClientFunctionality getClientFunctionality(String id) {
         return clientFunctionalities.computeIfAbsent(id, __ -> new WebSocketClientFunctionality(id));

@@ -11,32 +11,20 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.SkriptAPIException;
 import ch.njol.skript.SkriptAddon;
 import ch.njol.skript.classes.ClassInfo;
-import ch.njol.skript.classes.Converter;
 import ch.njol.skript.classes.Parser;
 import ch.njol.skript.classes.Serializer;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.registrations.Classes;
-import ch.njol.skript.registrations.Converters;
 import ch.njol.skript.registrations.EventValues;
-import ch.njol.skript.util.EnchantmentType;
 import ch.njol.skript.util.Getter;
-import ch.njol.skript.util.Timespan;
 import ch.njol.skript.lang.*;
-import ch.njol.skript.lang.util.SimpleEvent;
-import ch.njol.skript.util.Slot;
-
-import ch.njol.skript.variables.SerializedVariable;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Checker;
 import ch.njol.util.Kleenean;
-import ch.njol.util.Pair;
 import ch.njol.yggdrasil.Fields;
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketContainer;
 
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.Chunk.*;
@@ -44,71 +32,32 @@ import com.pie.tlatoani.CodeBlock.*;
 import com.pie.tlatoani.CustomEvent.*;
 import com.pie.tlatoani.EnchantedBook.*;
 import com.pie.tlatoani.Generator.*;
-import com.pie.tlatoani.Generator.Seed.*;
 import com.pie.tlatoani.Json.*;
 import com.pie.tlatoani.ListUtil.*;
 import com.pie.tlatoani.Miscellaneous.*;
-import com.pie.tlatoani.Miscellaneous.ArmorStand.*;
-import com.pie.tlatoani.Miscellaneous.Matcher.*;
-import com.pie.tlatoani.Miscellaneous.MiscBukkit.*;
-import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprAmountOfPlayers;
-import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprIP;
-import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprMotd;
-import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprCompletions;
-import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprCompletionsOld;
-import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprLastToken;
-import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprLastTokenOld;
-import com.pie.tlatoani.Miscellaneous.Thread.*;
 import com.pie.tlatoani.NoteBlock.*;
 import com.pie.tlatoani.Probability.*;
 import com.pie.tlatoani.ProtocolLib.*;
 import com.pie.tlatoani.Skin.*;
 import com.pie.tlatoani.Socket.*;
 import com.pie.tlatoani.Tablist.*;
-import com.pie.tlatoani.Tablist.Array.ArrayTablist;
-import com.pie.tlatoani.Tablist.Array.EffEnableArrayTablist;
-import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
 import com.pie.tlatoani.TerrainControl.*;
 import com.pie.tlatoani.Throwable.*;
 import com.pie.tlatoani.Util.*;
 import com.pie.tlatoani.WebSocket.*;
-import com.pie.tlatoani.WebSocket.Events.*;
 import com.pie.tlatoani.WorldBorder.*;
 import com.pie.tlatoani.WorldCreator.*;
 import com.pie.tlatoani.WorldManagement.*;
 import com.pie.tlatoani.WorldManagement.WorldLoader.*;
 import com.pie.tlatoani.Metrics.*;
-
-import com.pie.tlatoani.ZExperimental.CustomEffect;
-import com.pie.tlatoani.ZExperimental.CustomElementEvent;
-import mundosk_libraries.java_websocket.WebSocket;
+import com.pie.tlatoani.ZExperimental.ZExperimentalMundo;
 import org.bukkit.*;
-import org.bukkit.World.Environment;
-import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.NotePlayEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.hanging.*;
-import org.bukkit.event.player.*;
-import org.bukkit.event.server.ServerListPingEvent;
-import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.generator.ChunkGenerator.*;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class Mundo extends JavaPlugin {
 	public static Mundo instance;
@@ -161,507 +110,34 @@ public class Mundo extends JavaPlugin {
         if (!serverHasPlugin("SkQuery")) {
             registerCondition(CondBoolean.class, "%boolean%");
         }
-		//Book
-        ListUtil.registerTransformer("itemstack", TransBookPages.class, "page");
-		registerExpression(ExprBook.class,ItemStack.class,ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] pages %strings%");
-		registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
-		registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
-		//Chunk
-        registerEffect(EffLoadChunk.class, "(0¦load|1¦unload) chunk %chunk%");
-        registerExpression(ExprChunkCoordinate.class, Number.class, ExpressionType.PROPERTY,
-                "chunk( |-)(0¦x|1¦z)[( |-)coord] of %chunk%",
-                "%chunk%'s chunk( |-)(0¦x|1¦z)[( |-)coord]");
-        registerExpression(ExprChunkWorld.class, World.class, ExpressionType.PROPERTY,
-                "chunk world of %chunk%",
-                "%chunk%'s chunk world");
-        registerExpression(ExprChunk.class, Chunk.class, ExpressionType.COMBINED,
-                "chunk %number%, %number% [in %world%]",
-                "chunks [from] %number%, %number% to %number%, %number% [in %world%]",
-                "chunk at %location%",
-                "chunks from %location% to %location%");
-        registerExpression(ExprChunkBlock.class, Block.class, ExpressionType.PROPERTY,
-                "block %number%, %number%, %number% (of|in) %chunk%",
-                "(0¦layer %-number%|1¦top|2¦bottom|3¦sea level) (0¦south|4¦north)(0¦east|8¦west) (0¦center|16¦corner) of %chunk%");
-        registerExpression(ExprChunkBlocks.class, Block.class, ExpressionType.PROPERTY,
-                "[all] blocks (of|in) %chunk%",
-                "blocks [from] %number%, %number%, %number% to %number%, %number%, %number% (of|in) %chunk%",
-                "(0¦layer %-number%|1¦top|2¦bottom|3¦sea level) (of|in) %chunk%",
-                "[[blocks] from] (0¦layer %-number%|1¦top|2¦bottom|3¦sea level) to (0¦layer %-number%|4¦top|8¦bottom|12¦sea level) (of|in) %chunk%",
-                "layers [from] %number% to %number% (of|in) %chunk%"
-        );
-        registerExpression(CondSlimey.class, Boolean.class, ExpressionType.PROPERTY, "%chunks% (is|are) slimey");
-        registerExpression(CondChunkLoaded.class, Boolean.class, ExpressionType.PROPERTY, "[chunk[s]] %chunks% (is|are) loaded");
-		//CodeBlock
-        registerType(CodeBlock.class, "codeblock");
-        registerScope(ScopeSaveCodeBlock.class, "codeblock %object% [with (1¦constant|2¦constant %-object%|3¦constants %-objects%)] [:: %-strings%] [-> %-string%]");
-        registerEffect(EffRunCodeBlock.class, "((run|execute) codeblock|codeblock (run|execute)) %codeblocks% [(2¦with %-objects%|3¦with variables %-objects%|4¦in a chain|5¦here|7¦with variables %-objects% in a chain)]");
-        registerExpression(ExprFunctionCodeBlock.class, CodeBlock.class, ExpressionType.PROPERTY, "[codeblock of] function %string%");
-        //CustomEvent
-        registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
-        registerEvent("Custom Event", EvtCustomEvent.class, UtilCustomEvent.class, "ev[en]t %strings%");
-        registerExpression(ExprIDOfCustomEvent.class,String.class,ExpressionType.PROPERTY,"id of custom event", "custom event's id");
-        registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
-        registerExpression(ExprLastCustomEventCancelled.class, Boolean.class, ExpressionType.SIMPLE, "last [called] custom event (0¦was|1¦wasn't) cancelled");
-        //EnchantedBook
-		registerExpression(ExprEnchBookWithEnch.class,ItemStack.class,ExpressionType.PROPERTY,"%itemstack% containing %enchantmenttypes%");
-		registerExpression(ExprEnchantLevelInEnchBook.class,Integer.class,ExpressionType.PROPERTY,"level of %enchantmenttype% within %itemstack%");
-		registerExpression(ExprEnchantsInEnchBook.class,EnchantmentType.class,ExpressionType.PROPERTY,"enchants within %itemstack%");
-		//Generator
-        registerType(ChunkData.class, "chunkdata");
-        registerType(BiomeGrid.class, "biomegrid");
-        registerType(Random.class, "random").defaultExpression((new ExprNewRandom()).setDefault());
-        registerEffect(EffSetRegionInChunkData.class,
-                "fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%",
-                "fill layer %number% in %chunkdata% with %itemstack%",
-                "fill layers %number% to %number% in %chunkdata% with %itemstack%");
-        registerEvent("World Generator", EvtChunkGenerator.class, SkriptGeneratorEvent.class, "[custom] [(world|chunk)] generator %string%");
-        EventValues.registerEventValue(SkriptGeneratorEvent.class, World.class, new Getter<World, SkriptGeneratorEvent>() {
-            @Override
-            public World get(SkriptGeneratorEvent skriptGeneratorEvent) {
-                return skriptGeneratorEvent.world;
-            }
-        }, 0);
-        registerEventValue(SkriptGeneratorEvent.class, World.class, e -> e.world);
-        registerEventValue(SkriptGeneratorEvent.class, Random.class, e -> e.random);
-        registerEventValue(SkriptGeneratorEvent.class, BiomeGrid.class, e -> e.biomeGrid);
-        registerEventValue(SkriptGeneratorEvent.class, Chunk.class, e -> e.chunk);
-        registerExpression(ExprCurrentChunkCoordinate.class, Number.class, ExpressionType.SIMPLE, "current x", "current z");
-        registerExpression(ExprMaterialInChunkData.class, ItemStack.class, ExpressionType.PROPERTY, "material at %number%, %number%, %number% in %chunkdata%");
-        registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%");
-        registerScope(ScopeGeneration.class, "generation");
-        registerScope(ScopePopulation.class, "population");
-        //Random
-        registerExpression(ExprNewRandom.class, Random.class, ExpressionType.PROPERTY, "new random [from seed %number%]");
-        registerExpression(ExprRandomValue.class, Object.class, ExpressionType.PROPERTY, "random (0¦int|1¦long|2¦float|3¦double|4¦gaussian|5¦int less than %-number%|6¦boolean) [from [random] %random%]");
-        //Json
-        registerType(JSONObject.class, "jsonobject").parser(new SimpleParser<JSONObject>() {
-            @Override
-            public JSONObject parse(String s, ParseContext parseContext) {
-                JSONObject result = null;
-                try {
-                    result = (JSONObject) (new JSONParser()).parse(s);
-                } catch (ParseException | ClassCastException e) {
-                    //If parsing to a JSONObject fails, return null
-                }
-                return result;
-            }
-        }).serializer(new Serializer<JSONObject>() {
-            @Override
-            public Fields serialize(JSONObject jsonObject) throws NotSerializableException {
-                JSONObject toBecomeString = new JSONObject();
-                jsonObject.forEach(new BiConsumer() {
-                    @Override
-                    public void accept(Object o, Object o2) {
-                        SerializedVariable.Value value = Classes.serialize(o2);
-                        if (value != null) {
-                            JSONObject valueJSON = new JSONObject();
-                            valueJSON.put("type", value.type);
-                            valueJSON.put("Data", new String(value.data));
-                            toBecomeString.put(o, valueJSON);
-                        }
-                    }
-                });
-                Fields fields = new Fields();
-                fields.putObject("value", toBecomeString.toJSONString());
-                return fields;
-            }
-
-            @Override
-            public void deserialize(JSONObject jsonObject, Fields fields) throws StreamCorruptedException, NotSerializableException {
-                try {
-                    JSONObject fromString = (JSONObject) (new JSONParser()).parse((String) fields.getObject("value"));
-                    fromString.forEach(new BiConsumer() {
-                        @Override
-                        public void accept(Object o, Object o2) {
-                            JSONObject valueJSON = (JSONObject) o2;
-                            Object value = Classes.deserialize((String) valueJSON.get("type"), ((String) valueJSON.get("Data")).getBytes());
-                            jsonObject.put(o, value);
-                        }
-                    });
-                } catch (ParseException | ClassCastException e) {
-                    throw new StreamCorruptedException();
-                }
-            }
-
-            @Override
-            public boolean mustSyncDeserialization() {
-                return false;
-            }
-
-            @Override
-            protected boolean canBeInstantiated() {
-                return true;
-            }
-        });
-        registerEffect(EffPutJsonInListVariable.class, "put json %jsonobject% in listvar %objects%", "put jsons %jsonobjects% in listvar %objects%");
-        registerExpression(ExprListVariableAsJson.class, JSONObject.class, ExpressionType.PROPERTY, "json (of|from) (listvar|list variable) %objects%", "jsons (of|from) (listvar|list variable) %objects%");
-        registerExpression(ExprStringAsJson.class, JSONObject.class, ExpressionType.PROPERTY, "json of string %string%");
-        //ListUtil
-        registerEffect(EffMoveItem.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
-        //Miscellaneous
-        registerEnum(Difficulty.class, "difficulty", Difficulty.values());
-        registerEnum(PlayerLoginEvent.Result.class, "playerloginresult", PlayerLoginEvent.Result.values ());
-        registerEnum(HangingBreakEvent.RemoveCause.class, "hangingremovecause", HangingBreakEvent.RemoveCause.values());
-        registerEffect(EffWaitAsync.class, "async wait %timespan%");
-        registerEffect(EffWait.class, "[(2¦async)] wait (0¦until|1¦while) %boolean% [for %-timespan%]");
-        if (methodExists(Entity.class, "addPassenger", Entity.class)) {
-            registerEffect(EffMountVehicle.class, "mount %entities% on %entity%");
-        }
-		registerEvent("Hang Event", SimpleEvent.class, HangingPlaceEvent.class, "hang");
-		registerEventValue(HangingPlaceEvent.class, Block.class, HangingPlaceEvent::getBlock);
-		registerEvent("Unhang Event", EvtUnhang.class, HangingBreakEvent.class, "unhang [due to %-hangingremovecauses%]");
-		registerEventValue(HangingBreakByEntityEvent.class, Entity.class, HangingBreakByEntityEvent::getRemover);
-		registerEventValue(HangingBreakEvent.class, HangingBreakEvent.RemoveCause.class, HangingBreakEvent::getCause);
-        registerEvent("Armor Stand Interact Event", SimpleEvent.class, PlayerArmorStandManipulateEvent.class, "armor stand (manipulate|interact)");
-        registerEventValue(PlayerArmorStandManipulateEvent.class, ItemStack.class, PlayerArmorStandManipulateEvent::getArmorStandItem);
-        registerEventValue(PlayerArmorStandManipulateEvent.class, Slot.class, e ->
-                new ArmorStandEquipmentSlot(e.getRightClicked(), ArmorStandEquipmentSlot.EquipSlot.getByEquipmentSlot(e.getSlot())));
-        registerEvent("Armor Stand Place Event", EvtArmorStandPlace.class, EntitySpawnEvent.class, "armor stand place");
-        registerExpression(ExprHangedEntity.class,Entity.class,ExpressionType.SIMPLE,"hanged entity");
-		registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
-		registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
-		registerExpression(ExprDifficulty.class,Difficulty.class,ExpressionType.PROPERTY,"difficulty of %world%");
-		registerExpression(ExprGameRule.class,String.class,ExpressionType.PROPERTY,"value of [game]rule %string% in %world%");
-		registerExpression(ExprReturnTypeOfFunction.class,ClassInfo.class,ExpressionType.PROPERTY,"return type of function %string%");
-        registerExpression(ExprRemainingAir.class,Timespan.class,ExpressionType.PROPERTY,"breath of %livingentity%", "%livingentity%'s breath", "max breath of %livingentity%", "%livingentity%'s max breath");
-		registerExpression(ExprLoadedScripts.class,String.class,ExpressionType.SIMPLE, "loaded script[ name]s");
-        registerExpression(ExprLoginResult.class, PlayerLoginEvent.Result.class, ExpressionType.SIMPLE, "(login|connect[ion]) result");
-        registerExpression(ExprServerIP.class, String.class, ExpressionType.SIMPLE, "[mundo[sk]] [the] ip of server", "[mundo[sk]] [the] server's ip");
-        registerExpression(ExprServerPort.class, Number.class, ExpressionType.SIMPLE, "[mundo[sk]] [the] port of server", "[mundo[sk]] [the] server's port");
-        registerExpression(ExprAllTypes.class, ClassInfo.class, ExpressionType.SIMPLE, "all types");
-        registerExpression(ExprEntityCanCollide.class, Boolean.class, ExpressionType.PROPERTY, "%livingentity% is collidable");
-        registerExpression(ExprTreeAtLoc.class, Block.class, ExpressionType.PROPERTY, "tree at %location%");
-        registerExpression(ExprThatAre.class, Object.class, ExpressionType.COMBINED, "%objects% that are %object%");
-        registerExpression(ExprRespawnLocation.class, Location.class, ExpressionType.SIMPLE, "respawn location");
-        registerExpression(ExprDestination.class, Location.class, ExpressionType.SIMPLE, "destination");
-        registerExpression(ExprNewPortal.class, Location.class, ExpressionType.PROPERTY, "new nether portal within [[a] radius of] %number% (block|meter)s of %location%");
-        registerExpression(ExprFlying.class, Boolean.class, ExpressionType.PROPERTY, "[%player% is] flying");
-        registerExpression(ExprNumber.class, Number.class, ExpressionType.PROPERTY, "%*number%[ ](0¦b|1¦d|2¦f|3¦s|4¦l)");
-        registerScope(ScopeMatcher.class, "(switch|match) %object%");
-        registerScope(ScopeMatches.class, "(case|matches) %object%");
-        registerScope(ScopeAsync.class, "async [in %-timespan%]");
-        registerScope(ScopeSync.class, "(sync|in %-timespan%)");
-        registerScope(ScopeWhen.class, "when %boolean%");
-        {
-            //TabCompletion
-            registerEvent("Chat Tab Complete Event", SimpleEvent.class, PlayerChatTabCompleteEvent.class, "chat tab complete");
-            registerEventValue(PlayerChatTabCompleteEvent.class, String.class, PlayerChatTabCompleteEvent::getChatMessage);
-            if (classExists("org.bukkit.event.server.TabCompleteEvent")) {
-                registerEvent("Tab Complete Event", SimpleEvent.class, TabCompleteEvent.class, "tab complete");
-                registerEventValue(TabCompleteEvent.class, String.class, TabCompleteEvent::getBuffer);
-                registerExpression(ExprCompletions.class,String.class,ExpressionType.SIMPLE,"completions");
-                registerExpression(ExprLastToken.class, String.class, ExpressionType.SIMPLE, "last token");
-            } else {
-                registerExpression(ExprCompletionsOld.class,String.class,ExpressionType.SIMPLE,"completions");
-                registerExpression(ExprLastTokenOld.class, String.class, ExpressionType.SIMPLE, "last token");
-            }
-            //ServerListPing
-            registerEvent("Server List Ping", SimpleEvent.class, ServerListPingEvent.class, "[[(server|player)] list] ping");
-            registerExpression(ExprAmountOfPlayers.class, Number.class, ExpressionType.SIMPLE, "(shown|sent) (0¦amount of|1¦max [amount of]) players");
-            registerExpression(ExprMotd.class, String.class, ExpressionType.SIMPLE, "(shown|sent) motd");
-            registerExpression(ExprIP.class, String.class, ExpressionType.SIMPLE, "pinger's ip");
-        }
-        //NoteBlock
-        ArrayList<Pair<String, Note>> notes = new ArrayList<>();
-        for (int octave : new int[]{0, 1})
-            for (Note.Tone tone : Note.Tone.values())
-                for (int deviation : new int[]{-1, 0, 1}) {
-                    if (deviation == 1 && (tone == Note.Tone.B || tone == Note.Tone.E)) continue;
-                    if (deviation == -1 && (tone == Note.Tone.C || tone == Note.Tone.F)) continue;
-                    Note note = Note.natural(octave, tone);
-                    if (deviation == 1) note = note.sharped();
-                    else if (deviation == -1) note = note.flattened();
-                    String noteName = tone.name() + (deviation == 1 ? "+" : deviation == -1 ? "-" : "") + octave;
-                    notes.add(new Pair<>("n" + noteName, note));
-                    if (octave == 0) notes.add(new Pair<>("n" + noteName.substring(0, noteName.length() - 1), note));
-                    if (!serverHasPlugin("RandomSK")) {
-                        notes.add(new Pair<>(noteName, note));
-                        if (octave == 0) notes.add(new Pair<>(noteName.substring(0, noteName.length() - 1), note));
-                    }
-                }
-        Note fSharp2 = Note.sharp(2, Note.Tone.F);
-        notes.add(new Pair<>("nF+2", fSharp2));
-        notes.add(new Pair<>("nG-2", fSharp2));
-        if (!serverHasPlugin("RandomSK")) {
-            notes.add(new Pair<>("F+2", fSharp2));
-            notes.add(new Pair<>("G-2", fSharp2));
-        }
-        registerEnum(Note.class, "note", new Note[0], notes.toArray(new Pair[0]));
-        registerEnum(Instrument.class, "instrument", Instrument.values());
-        registerEffect(EffPlayNoteBlock.class, "play [[%-note% with] %-instrument% on] noteblock %block%");
-        registerEvent("Note Play", SimpleEvent.class, NotePlayEvent.class, "note play");
-        registerEventValue(NotePlayEvent.class, Note.class, NotePlayEvent::getNote);
-        registerEventValue(NotePlayEvent.class, Instrument.class, NotePlayEvent::getInstrument);
-        registerEventValue(NotePlayEvent.class, Block.class, NotePlayEvent::getBlock);
-        registerExpression(ExprNoteOfBlock.class, Note.class, ExpressionType.PROPERTY, "note of %block%", "%block%'s note");
-        //Probability
-		registerScope(ScopeProbability.class, "prob[ability]", "random chance");
-		registerCondition(CondProbabilityValue.class, "%number% prob[ability]");
-		registerExpression(ExprRandomIndex.class,String.class,ExpressionType.PROPERTY,"random from %numbers% prob[abilitie]s");
-		registerExpression(ExprRandomNumberIndex.class,Integer.class,ExpressionType.PROPERTY,"random number from %numbers% prob[abilitie]s");
-		//ProtocolLib
+		BookMundo.load();
+        ChunkMundo.load();
+        CodeBlockMundo.load();
+        CustomEventMundo.load();
+        EnchantedBookMundo.load();
+		GeneratorMundo.load();
+        JSONMundo.load();
+        MiscMundo.load();
+        NoteBlockMundo.load();
+        ProbabilityMundo.load();
+        SocketMundo.load();
+        ThrowableMundo.load();
+        WebSocketManager.load();
+        WorldBorderMundo.load();
+        WorldCreatorMundo.load();
+        WorldManagementMundo.load();
 		if (serverHasPlugin("ProtocolLib")) {
-            info("You've discovered the amazing realm of ProtocolLib packet syntaxes!");
-            String pLibVersion = Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion();
-            if (!pLibVersion.substring(0, 1).equals("4") || pLibVersion.substring(0, 3).equals("4.0")) {
-                info("Your version of ProtocolLib is " + pLibVersion);
-                info("MundoSK requires that you run at least version 4.1 of ProtocolLib");
-                info("If you are running at least version 4.1 of ProtocolLib, please post a message on MundoSK's thread on forums.skunity.com");
+		    PacketManager.load();
+		    if (implementPacketStuff) {
+		        SkinMundo.load();
+		        TablistMundo.load();
             }
-            registerEnum(PacketType.class, "packettype", new PacketType[0], UtilPacketEvent.nametoptype.entrySet().toArray(new Map.Entry[0]));
-            registerType(PacketContainer.class, "packet");
-			registerEffect(EffSendPacket.class, "send packet %packet% to %player%", "send %player% packet %packet%");
-            registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet %packet% from %player%"); //Included incorrect spelling to avoid wasted time
-			registerEffect(EffPacketInfo.class, "packet info %packet%");
-            registerEvent("Packet Event", EvtPacketEvent.class, UtilPacketEvent.class, "packet event %packettypes%");
-			registerEventValue(UtilPacketEvent.class, PacketContainer.class, UtilPacketEvent::getPacket);
-			registerEventValue(UtilPacketEvent.class, PacketType.class, UtilPacketEvent::getPacketType);
-			registerEventValue(UtilPacketEvent.class, Player.class, UtilPacketEvent::getPlayer);
-            registerExpression(ExprTypeOfPacket.class, PacketType.class, ExpressionType.SIMPLE, "packettype of %packet%", "%packet%'s packettype");
-			registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
-            registerExpression(ExprJSONObjectOfPacket.class, JSONObject.class, ExpressionType.PROPERTY,
-                    "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(true) + ") pjson %number% of %packet%",
-                    "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(false) + ") array pjson %number% of %packet%");
-            registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY,
-                    "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(true) + ") pinfo %number% of %packet%",
-                    "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%");
-            registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%");
-            registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array pnum %number% of %packet%");
-            registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY,
-                    "%world% pentity %number% of %packet%",
-                    "%world% pentity array %number% of %packet%");
-            registerExpression(ExprEnumOfPacket.class, String.class, ExpressionType.PROPERTY, "%string% penum %number% of %packet%");
 		}
-        //Skin
-        if (serverHasPlugin("ProtocolLib") && implementPacketStuff) {
-            registerType(Skin.class, "skin", "skintexture").parser(new SimpleParser<Skin>() {
-                @Override
-                public Skin parse(String s, ParseContext parseContext) {
-                    if (s.equalsIgnoreCase("STEVE")) {
-                        return Skin.STEVE;
-                    }
-                    if (s.equalsIgnoreCase("ALEX")) {
-                        return Skin.ALEX;
-                    }
-                    return null;
-                }
-            }).serializer(new Serializer<Skin>() {
-                @Override
-                public Fields serialize(Skin skin) throws NotSerializableException {
-                    Fields fields = new Fields();
-                    fields.putObject("value", skin.toString());
-                    return fields;
-                }
-
-                @Override
-                public void deserialize(Skin skin, Fields fields) throws StreamCorruptedException, NotSerializableException {
-                    throw new UnsupportedOperationException("Skin does not have a nullary constructor!");
-                }
-
-                @Override
-                public Skin deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
-                    try {
-                        Object parsedObject = new JSONParser().parse((String) fields.getObject("value"));
-                        JSONObject jsonObject;
-                        if (parsedObject instanceof JSONObject) {
-                            jsonObject = (JSONObject) parsedObject;
-                        } else {
-                            jsonObject = (JSONObject) ((JSONArray) parsedObject).get(0);
-                        }
-                        return Skin.fromJSON(jsonObject);
-                    } catch (ParseException | ClassCastException e) {
-                        throw new StreamCorruptedException();
-                    }
-                }
-
-                @Override
-                public boolean mustSyncDeserialization() {
-                    return false;
-                }
-
-                @Override
-                protected boolean canBeInstantiated() {
-                    return false;
-                }
-            });
-            //registerEffect(EffTestMineSkin.class, "test mineskin %string%");
-            registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%");
-            registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin");
-            registerExpression(ExprCombinedSkin.class, Skin.class, ExpressionType.PROPERTY, "(combined skin|skin combination) (from|of) %skins%", "%skins%'s (combined skin|skin combination)");
-            registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(for %-players%|excluding %-players%)]", "%player%'s displayed skin [(for %-players%|excluding %-players%)]");
-            registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%");
-            //registerExpression(ExprRetrievedSkinFromFile.class, Skin.class, ExpressionType.PROPERTY, "retrieved skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%)");
-            registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "%player%'s name[]tag", "name[]tag of %player%");
-        }
-        //Socket
-		registerEffect(EffWriteToSocket.class, "write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]");
-		registerEffect(EffOpenFunctionSocket.class, "open function socket at port %number% [with password %-string%] [through function %-string%]");
-		registerEffect(EffCloseFunctionSocket.class, "close function socket at port %number%");
-		registerExpression(ExprPassOfFunctionSocket.class,String.class,ExpressionType.PROPERTY,"pass[word] of function socket at port %number%");
-		registerExpression(ExprHandlerOfFunctionSocket.class,String.class,ExpressionType.PROPERTY,"handler [function] of function socket at port %number%");
-		registerExpression(ExprFunctionSocketIsOpen.class,Boolean.class,ExpressionType.PROPERTY,"function socket is open at port %number%");
-		registerExpression(ExprServerSocketIsOpen.class,Boolean.class,ExpressionType.COMBINED,"server socket is open at host %string% port %number% [with timeout of %-timespan%]");
-		registerExpression(ExprMotdOfServer.class,String.class,ExpressionType.COMBINED,"motd of server with host %string% [port %-number%]");
-		registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1¦player count|0¦max player count) of server with host %string% [port %-number%]");
-		//Tablist
-        if (serverHasPlugin("ProtocolLib") && implementPacketStuff) {
-            registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
-            registerType(Tablist.class, "tablist");
-            Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
-                @EventHandler
-                public void onJoin(PlayerJoinEvent event) {
-                    Tablist.onJoin(event.getPlayer());
-                    SkinManager.onJoin(event.getPlayer());
-                }
-            }, this);
-            Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
-                @EventHandler
-                public void onQuit(PlayerQuitEvent event) {
-                    Tablist.onQuit(event.getPlayer());
-                    SkinManager.onQuit(event.getPlayer());
-                }
-            }, this);
-            Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
-                @EventHandler
-                public void onRespawn(PlayerRespawnEvent event) {
-                    SkinManager.onRespawn(event.getPlayer());
-                }
-            }, this);
-            registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "(%-tablist%|%-player%'s tablist) contains players");
-            registerExpression(ExprNewTablist.class, Tablist.class, ExpressionType.SIMPLE, "new tablist");
-            registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores enabled in (%-tablist%|%-player%'s tablist)");
-            registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "tablist name of %player% (in %-tablist%|for %-player%)", "%player%'s tablist name (in %-tablist%|for %-player%)");
-            registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "tablist score of %player% (in %-tablist%|for %-player%)", "%player%'s tablist score (in %-tablist%|for %-player%)");
-            registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% in (%-tablist%|tab[list] of %player%)");
-            registerEffect(EffSetTablist.class, "set tablist of %players% to %tablist%", "set %player%'s tablist to %tablist%");
-            {
-                //Simple
-                registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create tab id %string% (in %-tablist%|for %-player%) with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skin%] [score %-number%]");
-                registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete tab id %string% (in %-tablist%|for %-player%)");
-                registerEffect(com.pie.tlatoani.Tablist.Simple.EffRemoveAllIDTabs.class, "delete all id tabs (in %-tablist%|for %-player%)");
-                registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab id %string% (in %-tablist%|for %-player%)");
-                registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab id %string% (in %-tablist%|for %-player%)");
-                registerExpression(ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab id %string% (in %-tablist%|for %-player%)");
-                registerExpression(com.pie.tlatoani.Tablist.Simple.ExprScoreOfTab.class, Number.class, ExpressionType.PROPERTY, "score of tab id %string% (in %-tablist%|for %-player%)");
-            } {
-                //Array
-                debug(this, "ArrayTablist.class = " + ArrayTablist.class);
-                registerEffect(EffEnableArrayTablist.class, "(disable|deactivate) array tablist for %player%", "(enable|activate) array tablist for %player% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skin%]]");
-                registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of tab %number%, %number% (in %-tablist%|for %-player%)");
-                registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of tab %number%, %number% (in %-tablist%|for %-player%)");
-                registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of tab %number%, %number% (in %-tablist%|for %-player%)", "initial icon of (%-tablist%|%player%'s [array] tablist)");
-                registerExpression(com.pie.tlatoani.Tablist.Array.ExprScoreOfTab.class, Number.class, ExpressionType.PROPERTY, "score of tab %number%, %number% (in %-tablist%|for %-player%)");
-                registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in (%-tablist%|%-player%'s [array] tablist)");
-            }
-        }
-        //TerrainControl
 		if (serverHasPlugin("TerrainControl")) {
-			this.getLogger().info("You uncovered the secret TerrainControl syntaxes!");
-			registerEffect(EffSpawnObject.class, "(tc|terrain control) spawn %string% at %location% with rotation %string%");
-			registerExpression(ExprBiomeAt.class,String.class,ExpressionType.PROPERTY,"(tc|terrain control) biome at %location%");
-			registerExpression(ExprTCEnabled.class,Boolean.class,ExpressionType.PROPERTY,"(tc|terrain control) is enabled for %world%");
+		    TerrainControlMundo.load();
 		}
-		//Throwable
-        registerType(Throwable.class, "throwable");
-        registerType(StackTraceElement.class, "stacktraceelement");
-		registerScope(ScopeTry.class, "try");
-        registerScope(ScopeCatch.class, "catch in %object%");
-		registerEffect(EffPrintStackTrace.class, "print stack trace of %throwable%");
-		registerExpression(ExprCause.class,Throwable.class,ExpressionType.PROPERTY,"throwable cause of %throwable%", "%throwable%'s throwable cause");
-		registerExpression(ExprDetails.class,String.class,ExpressionType.PROPERTY,"details of %throwable%", "%throwable%'s details");
-		registerExpression(ExprStackTrace.class,StackTraceElement.class,ExpressionType.PROPERTY,"stack trace of %throwable%", "%throwable%'s stack trace");
-		registerExpression(ExprPropertyNameOfSTE.class,String.class,ExpressionType.PROPERTY,"(0¦class|1¦file|2¦method) name of %stacktraceelement%", "%stacktraceelement%'s (0¦class|1¦file|2¦method) name");
-		registerExpression(ExprLineNumberOfSTE.class,Integer.class,ExpressionType.PROPERTY,"line number of %stacktraceelement%", "%stacktraceelement%'s line number");
-		//Util
-        registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% (0¦while|1¦until|2¦if|3¦unless) %boolean%");
-        registerExpression(ExprTreeOfListVariable.class, Object.class, ExpressionType.PROPERTY, "tree of %objects%");
-        registerExpression(ExprIndexesOfListVariable.class, String.class, ExpressionType.PROPERTY, "[all [of]] [the] indexes (of|in) [value] %objects%");
-        registerExpression(ExprBranch.class, String.class, ExpressionType.PROPERTY, "branch");
-		//WebSocket
-        registerType(WebSocket.class, "websocket");
-        registerEffect(EffCloseWebSocket.class, "close websocket %websocket%");
-        registerEffect(EffWebSocketSendMessage.class, "websocket send %string% [through %-websockets]");
-        registerEffect(EffStartWebSocketServer.class, "start websocket server %string% at port %number%");
-        registerEffect(EffStopWebSocketServer.class, "stop websocket server at port %number% [with timeout %-number%]");
-        registerEvent("WebSocket Client", ScopeWebSocketClient.class, WebSocketEvent.class, "websocket client %string%");
-        registerEvent("WebSocket Server", ScopeWebSocketServer.class, WebSocketEvent.class, "websocket server %string%");
-        registerEventValue(WebSocketEvent.class, WebSocket.class, event -> event.webSocket);
-        registerEventValue(WebSocketMessageEvent.class, String.class, event -> event.message);
-        registerEventValue(WebSocketErrorEvent.class, Throwable.class, event -> event.error);
-        registerExpression(ExprWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "websocket %string% connected to uri %string%");
-        registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket [server] port");
-        registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all websockets [of server at port %number%");
-        registerExpression(ExprWebSocketHost.class, String.class, ExpressionType.PROPERTY, "local host of %websocket%", "(remote|external) host of %websocket%");
-        registerExpression(ExprWebSocketPort.class, Number.class, ExpressionType.PROPERTY, "local port of %websocket%", "(remote|external) port of %websocket%");
-        //WorldBorder
-		registerEffect(EffResetBorder.class, "reset %world%");
-		registerEvent("Border Stabilize", EvtBorderStabilize.class, UtilBorderStabilizeEvent.class, "border stabilize [in %-world%]");
-		registerEventValue(UtilBorderStabilizeEvent.class, World.class, UtilBorderStabilizeEvent::getWorld);
-		registerExpression(ExprSizeOfBorder.class,Double.class,ExpressionType.PROPERTY,"(size|diameter) of %world% [over %-timespan%]");
-		registerExpression(ExprCenterOfBorder.class,Location.class,ExpressionType.PROPERTY,"center of %world%");
-		registerExpression(ExprDamageAmountOfBorder.class,Double.class,ExpressionType.PROPERTY,"damage amount of %world%");
-		registerExpression(ExprDamageBufferOfBorder.class,Double.class,ExpressionType.PROPERTY,"damage buffer of %world%");
-		registerExpression(ExprWarningDistanceOfBorder.class,Integer.class,ExpressionType.PROPERTY,"warning distance of %world%");
-		registerExpression(ExprWarningTimeOfBorder.class,Integer.class,ExpressionType.PROPERTY,"warning time of %world%");
-		registerExpression(ExprFinalSizeOfBorder.class,Double.class,ExpressionType.PROPERTY,"final size of %world%");
-		registerExpression(ExprTimeRemainingUntilBorderStabilize.class,Timespan.class,ExpressionType.PROPERTY,"time remaining until border stabilize in %world%");
-		registerExpression(CondBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%locations% (is|are) (0¦within|1¦beyond) border");
-		//WorldCreator
-        registerType(WorldCreator.class, "creator").parser(new SimpleParser<WorldCreator>() {
-            @Override
-            public WorldCreator parse(String s, ParseContext parseContext) {
-                return null;
-            }
-
-            @Override
-            public String toString(WorldCreator creator, int flags) {
-                JSONObject jsonObject = UtilWorldLoader.getCreatorJSON(creator);
-                jsonObject.put("worldname", creator.name());
-                return jsonObject.toString();
-            }
-
-        });
-        if (!serverHasPlugin("RandomSK")) {
-            registerEnum(Environment.class, "environment", Environment.values(), new Pair<String, Environment>("END", Environment.THE_END));
-        }
-        registerEnum(WorldType.class, "worldtype", WorldType.values(), new Pair<String, WorldType>("SUPERFLAT", WorldType.FLAT), new Pair<String, WorldType>("LARGE BIOMES", WorldType.LARGE_BIOMES), new Pair<String, WorldType>("VERSION 1.1", WorldType.VERSION_1_1));
-		registerExpression(ExprCreatorNamed.class,WorldCreator.class,ExpressionType.PROPERTY,"creator (with name|named) %string%");
-		registerExpression(ExprCreatorWith.class,WorldCreator.class,ExpressionType.PROPERTY,"%creator%[ modified],[ name %-string%][,][ (environment|env[ironment]) %-environment%][,][ seed %-string%][,][ type %-worldtype%][,][ gen[erator] %-string%][,][ gen[erator] settings %-string%][,][ struct[ures] %-boolean%]");
-		registerExpression(ExprCreatorOf.class,WorldCreator.class,ExpressionType.PROPERTY,"creator of %world%");
-		registerExpression(ExprNameOfCreator.class,String.class,ExpressionType.PROPERTY,"worldname of %creator%");
-		registerExpression(ExprEnvOfCreator.class,Environment.class,ExpressionType.PROPERTY,"env[ironment] of %creator%");
-		registerExpression(ExprSeedOfCreator.class,String.class,ExpressionType.PROPERTY,"seed of %creator%");
-		registerExpression(ExprGenOfCreator.class,String.class,ExpressionType.PROPERTY,"gen[erator] of %creator%");
-		registerExpression(ExprGenSettingsOfCreator.class,String.class,ExpressionType.PROPERTY,"gen[erator] setSafely[tings] of %creator%");
-		registerExpression(ExprTypeOfCreator.class,WorldType.class,ExpressionType.PROPERTY,"worldtype of %creator%");
-		registerExpression(ExprStructOfCreator.class,Boolean.class,ExpressionType.PROPERTY,"struct[ure(s| settings)] of %creator%");
-		//WorldManagement
-        Converters.registerConverter(World.class, WorldCreator.class, new Converter<World, WorldCreator>() {
-            @Override
-            public WorldCreator convert(World world) {
-                WorldCreator worldCreator = new WorldCreator(world.getName());
-                worldCreator.copy(world);
-                worldCreator.type(world.getWorldType());
-                worldCreator.generateStructures(world.canGenerateStructures());
-                worldCreator.generatorSettings("");
-                return worldCreator;
-            }
-        });
-        registerEffect(EffCreateWorld.class, "create [new] world named %string%[( with|,)][ (environment|env[ironment]) %-environment%][,] [seed %-string%][,] [type %-worldtype%][,] [gen[erator] %-string%][,] [gen[erator] settings %-string%][,] [struct[ures] %-boolean%]");
-		registerEffect(EffCreateWorldCreator.class, "create world using %creator%");
-		registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
-		registerEffect(EffDeleteWorld.class, "delete %world%");
-		registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");
-        registerExpression(ExprCurrentWorlds.class,World.class,ExpressionType.SIMPLE,"[all] current worlds");
-        //WorldLoader
-        registerEffect(EffLoadWorldAutomatically.class, "[(1¦don't|1¦do not)] load %world% automatically");
-        registerEffect(EffRunCreatorOnStart.class, "run %creator% on start"); //Will be removed in a future version
-        registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start"); //Will be removed in a future version
-
-        registerExpression(ExprAllAutomaticCreators.class, WorldCreator.class, ExpressionType.SIMPLE, "[all] automatic creators");
-        registerExpression(ExprAutomaticCreator.class, WorldCreator.class, ExpressionType.SIMPLE, "automatic creator [for world [named]] %string%");
-        //ZExperimental - The Z is for mystery (it's so that it appears last in the package list)
-        registerEvent("Custom Element Event", CustomEffect.class, CustomElementEvent.class, "[light_jsoup] [new] [custom] effect %string%");
+        //ZExperimental ~ The Z is for mystery (it's so that it appears last in the package list)
+        ZExperimentalMundo.load();
         //
         ArrayList<String> patterns = new ArrayList<>();
         for (String s : enumNames) {

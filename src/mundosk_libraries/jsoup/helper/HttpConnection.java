@@ -676,6 +676,8 @@ public class HttpConnection implements Connection {
                 } catch (NoSuchAlgorithmException | KeyManagementException e) {
                     Mundo.debug(HttpConnection.class, e);
                 }
+            } else {
+                Mundo.info("conn not instance of HttpsURLConnection: " + conn.getClass() + ", " + conn);
             }
             //MUNDOSK END
             Response res;

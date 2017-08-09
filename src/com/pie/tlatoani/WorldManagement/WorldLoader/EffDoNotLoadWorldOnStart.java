@@ -11,6 +11,7 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 7/2/16.
  */
+@Deprecated
 public class EffDoNotLoadWorldOnStart extends Effect {
     Expression<String> worldname;
 
