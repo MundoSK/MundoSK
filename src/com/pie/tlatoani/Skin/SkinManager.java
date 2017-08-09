@@ -15,6 +15,7 @@ import com.google.common.collect.Tables;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Util.UtilReflection;
+import com.pie.tlatoani.Util.WorldLockedLocation;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -375,10 +376,10 @@ public class SkinManager {
             Tablist.hideInTablist(singlePlayer, singlePlayer);
             Tablist.showInTablist(singlePlayer, singlePlayer);
         }
-        Location playerLoc = player.getLocation();
+        Location playerLoc = new WorldLockedLocation(player.getLocation());
         Mundo.debug(SkinManager.class, "playerLoc1 = " + playerLoc);
-        World mainWorld = Bukkit.getWorlds().get(0);
-        if (mainWorld.getName().equals(player.getWorld().getName())) {
+        //World mainWorld = Bukkit.getWorlds().get(0);
+        //if (mainWorld.getName().equals(player.getWorld().getName())) {
             try {
                 //Replace direct CraftBukkit accessing code with reflection
                 //((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().DEDICATED_PLAYER_LIST_MOVE_TO_WORLD(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
@@ -390,10 +391,10 @@ public class SkinManager {
                 Mundo.debug(SkinManager.class, "Failed to make player see his skin change: " + player.getName());
                 Mundo.reportException(SkinManager.class, e);
             }
-        } else {
-            player.teleport(mainWorld.getHighestBlockAt(mainWorld.getSpawnLocation()).getLocation());
-            player.teleport(playerLoc);
-        }
+        //} else {
+        //    player.teleport(mainWorld.getHighestBlockAt(mainWorld.getSpawnLocation()).getLocation());
+        //    player.teleport(playerLoc);
+        //}
     }
 
     private static void checkForTeamChanges() {
