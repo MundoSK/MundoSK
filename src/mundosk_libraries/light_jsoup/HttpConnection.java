@@ -1,5 +1,7 @@
 package mundosk_libraries.light_jsoup;
 
+import com.pie.tlatoani.Mundo;
+
 import javax.net.ssl.*;
 import java.io.*;
 import java.net.*;
@@ -8,6 +10,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -641,6 +645,37 @@ public class HttpConnection implements Connection {
                 mimeBoundary = setOutputContentType(req);
 
             HttpURLConnection conn = createConnection(req);
+            //MUNDOSK START
+            if (conn instanceof HttpsURLConnection) {
+                try {
+                    HttpsURLConnection httpsConn = (HttpsURLConnection) conn;
+                    SSLContext sslContext = SSLContext.getInstance("SSL");
+                    sslContext.init(null, new TrustManager[]{new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {}
+
+                        @Override
+                        public void checkServerTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {}
+
+                        @Override
+                        public X509Certificate[] getAcceptedIssuers() {
+                            return new X509Certificate[0];
+                        }
+                    }}, new SecureRandom());
+                    httpsConn.setSSLSocketFactory(sslContext.getSocketFactory());
+                    httpsConn.setHostnameVerifier(new HostnameVerifier() {
+                        @Override
+                        public boolean verify(String s, SSLSession sslSession) {
+                            return true;
+                        }
+                    });
+                } catch (NoSuchAlgorithmException | KeyManagementException e) {
+                    Mundo.debug(HttpConnection.class, e);
+                }
+            } else {
+                Mundo.info("conn not instance of HttpsURLConnection: " + conn.getClass() + ", " + conn);
+            }
+            //MUNDOSK END
             Response res;
             try {
                 conn.connect();

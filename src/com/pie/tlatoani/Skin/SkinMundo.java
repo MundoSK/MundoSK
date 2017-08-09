@@ -71,13 +71,13 @@ public class SkinMundo {
                 return false;
             }
         });
-        Mundo.registerEffect(EffTestMineSkin.class, "test mineskin %string%");
+        //Mundo.registerEffect(EffTestMineSkin.class, "test mineskin %string%");
         Mundo.registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%");
         Mundo.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin");
         Mundo.registerExpression(ExprCombinedSkin.class, Skin.class, ExpressionType.PROPERTY, "(combined skin|skin combination) (from|of) %skins%", "%skins%'s (combined skin|skin combination)");
         Mundo.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(for %-players%|excluding %-players%)]", "%player%'s displayed skin [(for %-players%|excluding %-players%)]");
         Mundo.registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%");
-        Mundo.registerExpression(ExprRetrievedSkinFromFile.class, Skin.class, ExpressionType.PROPERTY, "retrieved skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%)");
+        Mundo.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY, "retrieved skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%)");
         Mundo.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "%player%'s name[]tag", "name[]tag of %player%");
     }
 }

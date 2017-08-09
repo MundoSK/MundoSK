@@ -2,8 +2,8 @@ package com.pie.tlatoani.Skin.MineSkin;
 
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Skin.Skin;
-import mundosk_libraries.jsoup.Connection;
-import mundosk_libraries.jsoup.helper.HttpConnection;
+import mundosk_libraries.light_jsoup.Connection;
+import mundosk_libraries.light_jsoup.HttpConnection;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -77,7 +77,7 @@ public class MineSkinClient {
                     (JSONObject) jsonObject.get("data")
             ).get("texture");
             return Skin.fromJSON(subJSON);
-        } catch (ParseException | ClassCastException e) {
+        } catch (NullPointerException | ParseException | ClassCastException e) {
             Mundo.debug(MineSkinClient.class, e);
             return null;
         }

@@ -6,7 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/src/com/pie/tlatoani/Json/API" />
       <excludeFolder url="file://$MODULE_DIR$/src/com/pie/tlatoani/Json/Implementation" />
-      <excludeFolder url="file://$MODULE_DIR$/src/mundosk_libraries/light_jsoup" />
+      <excludeFolder url="file://$MODULE_DIR$/src/mundosk_libraries/jsoup" />
+      <excludeFolder url="file://$MODULE_DIR$/src/mundosk_libraries/mineskin" />
       <excludeFolder url="file://$MODULE_DIR$/src/mundosk_libraries/org/jsoup" />
     </content>
     <orderEntry type="inheritedJdk" />
