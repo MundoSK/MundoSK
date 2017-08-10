@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import mundosk_libraries.java_websocket.WebSocket;
 import org.bukkit.event.Event;
 
@@ -25,7 +25,7 @@ public class ExprWebSocket extends SimpleExpression<WebSocket> {
         try {
             uri = new URI(uriExpr.getSingle(event));
         } catch (URISyntaxException e) {
-            Mundo.reportException(this, e);
+            Logging.reportException(this, e);
             return null;
         }
         SkriptWebSocketClient webSocket = new SkriptWebSocketClient(functionality, uri);

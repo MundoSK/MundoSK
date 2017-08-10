@@ -17,7 +17,7 @@ public class ExprAutomaticCreator extends SimpleExpression<WorldCreator> {
 
     @Override
     protected WorldCreator[] get(Event event) {
-        return new WorldCreator[]{UtilWorldLoader.getCreator(stringExpression.getSingle(event))};
+        return new WorldCreator[]{WorldLoader.getCreator(stringExpression.getSingle(event))};
     }
 
     @Override
@@ -44,9 +44,9 @@ public class ExprAutomaticCreator extends SimpleExpression<WorldCreator> {
     public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
         if (mode == Changer.ChangeMode.SET) {
             WorldCreator creator = (new WorldCreator(stringExpression.getSingle(arg0))).copy((WorldCreator) delta[0]);
-            UtilWorldLoader.setCreator(creator);
+            WorldLoader.setCreator(creator);
         } else if (mode == Changer.ChangeMode.DELETE) {
-            UtilWorldLoader.removeCreator(stringExpression.getSingle(arg0));
+            WorldLoader.removeCreator(stringExpression.getSingle(arg0));
         }
     }
 

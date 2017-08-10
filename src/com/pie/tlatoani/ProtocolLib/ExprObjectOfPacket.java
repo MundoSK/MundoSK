@@ -16,8 +16,8 @@ import com.comphenix.protocol.reflect.EquivalentConverter;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
-import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Util.UtilReflection;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Reflection;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.bukkit.Bukkit;
@@ -304,22 +304,22 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         //Thanks to ashcr0w for help with the following converter
 
         try {
-            Class nmsItemClass = UtilReflection.getMinecraftClass("Item");
-            UtilReflection.MethodInvoker asNMSCopy = UtilReflection.getTypedMethod(
-                    UtilReflection.getCraftBukkitClass("inventory.CraftItemStack"),
+            Class nmsItemClass = Reflection.getMinecraftClass("Item");
+            Reflection.MethodInvoker asNMSCopy = Reflection.getTypedMethod(
+                    Reflection.getCraftBukkitClass("inventory.CraftItemStack"),
                     "asNMSCopy",
-                    UtilReflection.getMinecraftClass("ItemStack"),
+                    Reflection.getMinecraftClass("ItemStack"),
                     ItemStack.class
             );
-            UtilReflection.MethodInvoker getNMSItem = UtilReflection.getTypedMethod(
-                    UtilReflection.getMinecraftClass("ItemStack"),
+            Reflection.MethodInvoker getNMSItem = Reflection.getTypedMethod(
+                    Reflection.getMinecraftClass("ItemStack"),
                     "getItem",
                     nmsItemClass
             );
-            UtilReflection.MethodInvoker asNewCraftStack = UtilReflection.getTypedMethod(
-                    UtilReflection.getCraftBukkitClass("inventory.CraftItemStack"),
+            Reflection.MethodInvoker asNewCraftStack = Reflection.getTypedMethod(
+                    Reflection.getCraftBukkitClass("inventory.CraftItemStack"),
                     "asNewCraftStack",
-                    UtilReflection.getCraftBukkitClass("inventory.CraftItemStack"),
+                    Reflection.getCraftBukkitClass("inventory.CraftItemStack"),
                     nmsItemClass
             );
             EquivalentConverter<ItemStack> itemConvert = new EquivalentConverter<ItemStack>() {
@@ -352,7 +352,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 }
             });
         } catch (Exception e) {
-            Mundo.reportException(ExprObjectOfPacket.class, e);
+            Logging.reportException(ExprObjectOfPacket.class, e);
         }
 
         registerSingleConverter("blockdata", new PacketInfoConverter<ItemStack>(ItemStack.class) {
@@ -386,8 +386,8 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             }
         });
 
-        UtilReflection.ConstructorInvoker packetDataSerializerConstructor = UtilReflection.getConstructor(
-                UtilReflection.getMinecraftClass("PacketDataSerializer"), ByteBuf.class);
+        Reflection.ConstructorInvoker packetDataSerializerConstructor = Reflection.getConstructor(
+                Reflection.getMinecraftClass("PacketDataSerializer"), ByteBuf.class);
 
         registerPluralConverter("bytebuffer", new PacketInfoConverter<Object[]>(Number[].class) {
             @Override
@@ -457,7 +457,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                             StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
                             return structureModifier.readSafely(index);
                         } catch (IllegalAccessException | InvocationTargetException e) {
-                            Mundo.debug(this, e);
+                            Logging.debug(this, e);
                             return null;
                         }
                     }
@@ -468,7 +468,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                             StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
                             structureModifier.writeSafely(index, value);
                         } catch (IllegalAccessException | InvocationTargetException e) {
-                            Mundo.debug(this, e);
+                            Logging.debug(this, e);
                         }
                     }
                 };
@@ -480,7 +480,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                             StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
                             return structureModifier.readSafely(index);
                         } catch (IllegalAccessException | InvocationTargetException e) {
-                            Mundo.debug(this, e);
+                            Logging.debug(this, e);
                             return null;
                         }
                     }
@@ -496,13 +496,13 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                             }
                             structureModifier.writeSafely(index, result);
                         } catch (IllegalAccessException | InvocationTargetException e) {
-                            Mundo.debug(this, e);
+                            Logging.debug(this, e);
                         }
                     }
                 };
             }
         } catch (IllegalAccessException | InvocationTargetException e) {
-            Mundo.reportException(ExprObjectOfPacket.class, e);
+            Logging.reportException(ExprObjectOfPacket.class, e);
             return null;
         }
     }
@@ -553,7 +553,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 aClass = Array.newInstance(classInfo.getC(), 0).getClass();
             }
             String classname = classInfo.getC().getSimpleName();
-            Mundo.debug(this, "Class simple name: " + classname);
+            Logging.debug(this, "Class simple name: " + classname);
             if (!isSingle) {
                 methodGetName = classname + "Arrays";
             } else if (classname.substring(classname.length() - 1).equals("y")) {
@@ -574,16 +574,16 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         converter = getConverter(key, isSingle);
         if (converter != null) {
             aClass = Optional.ofNullable(converter.type).orElse(aClass);
-            Mundo.debug(this, "Converter to PLib type: " + key + ", aClass = " + aClass);
+            Logging.debug(this, "Converter to PLib type: " + key + ", aClass = " + aClass);
             return true;
         }
         try {
             Method method = PacketContainer.class.getMethod("get" + methodGetName);
-            Mundo.debug(this, "Method: " + method.toString() + ", aClass = " + aClass);
+            Logging.debug(this, "Method: " + method.toString() + ", aClass = " + aClass);
             converter = createConverter(method);
             return true;
         } catch (NoSuchMethodException e) {
-            Mundo.debug(this, e);
+            Logging.debug(this, e);
         }
         Skript.error(key + " is not applicable for the '%type/string% pinfo [array] %number% of %packet%' expression.");
         return false;

@@ -5,7 +5,7 @@ import ch.njol.skript.SkriptAPIException;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.util.Pair;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.event.Event;
 
 import java.util.ArrayList;
@@ -117,10 +117,10 @@ public class CustomEffect extends SelfRegisteringSkriptEvent {
                         return false;
                     }
                 }
-                Class commonSuperClass = Mundo.commonSuperClass(classes.toArray(new Class[0]));
+                Class commonSuperClass = MundoUtil.commonSuperClass(classes.toArray(new Class[0]));
                 exprNames.add(exprName);
                 Pair<Class, Boolean> pair = guarantees.get(exprName);
-                guarantees.put(exprName, new Pair<>(Mundo.commonSuperClass(commonSuperClass, pair.getFirst()), alwaysSingle && pair.getSecond()));
+                guarantees.put(exprName, new Pair<>(MundoUtil.commonSuperClass(commonSuperClass, pair.getFirst()), alwaysSingle && pair.getSecond()));
                 syntax = syntax + focus + suffix + "%";
                 j += focus.length() + suffix.length() + 1;
             }

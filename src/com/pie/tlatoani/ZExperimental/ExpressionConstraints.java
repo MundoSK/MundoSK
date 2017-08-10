@@ -4,7 +4,7 @@ import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.util.Kleenean;
 import com.google.common.collect.ImmutableSet;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.MundoUtil;
 
 import java.util.HashMap;
 
@@ -93,7 +93,7 @@ public class ExpressionConstraints {
             classes[i] = type.classInfo.getC();
             i++;
         }
-        return Mundo.commonSuperClass(classes);
+        return MundoUtil.commonSuperClass(classes);
     }
 
     public static class Collective {

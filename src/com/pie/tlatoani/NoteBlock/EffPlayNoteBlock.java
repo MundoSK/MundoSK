@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.Instrument;
 import org.bukkit.Note;
 import org.bukkit.block.Block;
@@ -26,8 +26,8 @@ public class EffPlayNoteBlock extends Effect {
         if (instrumentExpression == null) {
             noteBlock.play();
         } else {
-            Mundo.debug(this, "Instrument: " + instrumentExpression.getSingle(event));
-            Mundo.debug(this, "Note: " + (noteExpression == null ? noteBlock.getNote() : noteExpression.getSingle(event)));
+            Logging.debug(this, "Instrument: " + instrumentExpression.getSingle(event));
+            Logging.debug(this, "Note: " + (noteExpression == null ? noteBlock.getNote() : noteExpression.getSingle(event)));
             noteBlock.play(instrumentExpression.getSingle(event), (noteExpression == null ? noteBlock.getNote() : noteExpression.getSingle(event)));
         }
     }

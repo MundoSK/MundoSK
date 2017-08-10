@@ -1,5 +1,10 @@
 package com.pie.tlatoani.Socket;
 
+import ch.njol.skript.lang.function.Function;
+import ch.njol.skript.lang.function.Functions;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Scheduling;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -8,11 +13,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
-
-import ch.njol.skript.lang.function.Function;
-import com.pie.tlatoani.Mundo;
-
-import ch.njol.skript.lang.function.Functions;
 
 public class UtilWriterSocket implements Runnable{
 	private String[] msgs;
@@ -70,7 +70,7 @@ public class UtilWriterSocket implements Runnable{
 				args[1] = argsinfo;
 				Function handler = Functions.getFunction(redirect);
 				if (handler != null) {
-					Mundo.sync(() -> handler.execute(args));
+					Scheduling.sync(() -> handler.execute(args));
 					debug("Writer Socket with host" + host + ", port" + port + " successfully found function " + redirect);
 				} else debug("Writer Socket with host" + host + ", port" + port + " didn't find function " + redirect);
 			}
@@ -84,7 +84,7 @@ public class UtilWriterSocket implements Runnable{
 	}
 	
 	private static void debug(String msg) {
-		Mundo.debug(UtilWriterSocket.class, msg);
+		Logging.debug(UtilWriterSocket.class, msg);
 	}
 
 }

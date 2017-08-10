@@ -2,18 +2,19 @@ package com.pie.tlatoani.Tablist.Simple;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.*;
-import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.comphenix.protocol.wrappers.PlayerInfoData;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.pie.tlatoani.ProtocolLib.PacketEvent;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * Created by Tlatoani on 7/15/16.
@@ -53,9 +54,9 @@ public class SimpleTablist {
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
         for (Player player : players) {
             try {
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
+                PacketEvent.protocolManager.sendServerPacket(player, packetContainer);
             } catch (InvocationTargetException e) {
-                Mundo.reportException(this, e);
+                Logging.reportException(this, e);
             }
         }
     }
@@ -73,9 +74,9 @@ public class SimpleTablist {
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
         for (Player player : players) {
             try {
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
+                PacketEvent.protocolManager.sendServerPacket(player, packet);
             } catch (InvocationTargetException e) {
-                Mundo.reportException(this, e);
+                Logging.reportException(this, e);
             }
         }
     }

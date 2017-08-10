@@ -19,9 +19,9 @@ public class EffLoadWorldAutomatically extends Effect {
     protected void execute(Event event) {
         World world = worldExpression.getSingle(event);
         if (load) {
-            UtilWorldLoader.setCreator(ExprCreatorOf.getCreatorOfWorld(world));
+            WorldLoader.setCreator(ExprCreatorOf.getCreatorOfWorld(world));
         } else {
-            UtilWorldLoader.removeCreator(world.getName());
+            WorldLoader.removeCreator(world.getName());
         }
     }
 

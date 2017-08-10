@@ -5,9 +5,8 @@ import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Conditional;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.registrations.Comparators;
-import com.pie.tlatoani.Miscellaneous.Matcher.ScopeMatcher;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 /**
@@ -40,7 +39,7 @@ public class ScopeMatches extends CustomScope {
             try {
                 condition = (Condition) CustomScope.condition.get(scope.getParent());
             } catch (IllegalAccessException e) {
-                Mundo.reportException(this, e);
+                Logging.reportException(this, e);
             }
             if (condition instanceof ScopeMatcher) {
                 object2Expression = ((ScopeMatcher) condition).objectExpression;

@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Skin.MineSkin;
 
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Skin.Skin;
+import com.pie.tlatoani.Util.Logging;
 import mundosk_libraries.light_jsoup.Connection;
 import mundosk_libraries.light_jsoup.HttpConnection;
 import org.json.simple.JSONObject;
@@ -33,7 +33,7 @@ public class MineSkinClient {
                     .timeout(10000);
             return connection.execute().body();
         } catch (Exception e) {
-            Mundo.debug(MineSkinClient.class, e);
+            Logging.debug(MineSkinClient.class, e);
             return null;
         }
     }
@@ -49,7 +49,7 @@ public class MineSkinClient {
                     .timeout(10000);
             return connection.execute().body();
         } catch (Exception e) {
-            Mundo.debug(MineSkinClient.class, e);
+            Logging.debug(MineSkinClient.class, e);
             return null;
         }
     }
@@ -65,7 +65,7 @@ public class MineSkinClient {
                     .timeout(10000);
             return connection.execute().body();
         } catch (Exception e) {
-            Mundo.debug(MineSkinClient.class, e);
+            Logging.debug(MineSkinClient.class, e);
             return null;
         }
     }
@@ -78,7 +78,7 @@ public class MineSkinClient {
             ).get("texture");
             return Skin.fromJSON(subJSON);
         } catch (NullPointerException | ParseException | ClassCastException e) {
-            Mundo.debug(MineSkinClient.class, e);
+            Logging.debug(MineSkinClient.class, e);
             return null;
         }
     }

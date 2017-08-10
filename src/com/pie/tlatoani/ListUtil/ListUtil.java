@@ -3,7 +3,7 @@ package com.pie.tlatoani.ListUtil;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Registration;
 import org.bukkit.event.Event;
 
 import java.util.*;
@@ -108,7 +108,7 @@ public final class ListUtil {
         Skript.registerExpression(ExprSomeItems.class,String.class,ExpressionType.PROPERTY,someItems.toArray(new String[0]));
         Skript.registerExpression(ExprItemCount.class,Number.class,ExpressionType.PROPERTY,itemCount.toArray(new String[0]));
 
-        Mundo.registerEffect(EffMoveItem.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
+        Registration.registerEffect(EffMoveItem.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
     }
 
     public interface TransformerUser {

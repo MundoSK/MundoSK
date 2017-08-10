@@ -4,11 +4,10 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 /**
@@ -47,11 +46,11 @@ public class ScopeCatch extends CustomScope {
         }
         TriggerItem going = first;
         TriggerItem next = scope.getNext();
-        Mundo.debug(this, "First: " + first);
-        Mundo.debug(this, "Next: " + next);
+        Logging.debug(this, "First: " + first);
+        Logging.debug(this, "Next: " + next);
         while (going != null && going != next) {
             going = (TriggerItem) TRIGGER_ITEM_WALK.invoke(going, event);
-            Mundo.debug(this, "going: " + going);
+            Logging.debug(this, "going: " + going);
         }
     }
 }

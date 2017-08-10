@@ -1,8 +1,7 @@
 package com.pie.tlatoani.ZExperimental;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.MathUtil;
 
 import java.util.*;
 
@@ -172,7 +171,7 @@ public abstract class SyntaxPiece {
                 result = Math.max(result, syntaxPiece.markLength());
             }
             if (containsVariables()) {
-                result += Mundo.digitsInBase(options.size() - 1, 2);
+                result += MathUtil.digitsInBase(options.size() - 1, 2);
             }
             return result;
         }

@@ -5,7 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.comphenix.protocol.events.PacketContainer;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -21,9 +21,9 @@ public class EffReceivePacket extends Effect{
     @Override
     protected void execute(Event event) {
         try {
-            UtilPacketEvent.protocolManager.recieveClientPacket(playerExpression.getSingle(event), packetContainerExpression.getSingle(event));
+            PacketEvent.protocolManager.recieveClientPacket(playerExpression.getSingle(event), packetContainerExpression.getSingle(event));
         } catch (IllegalAccessException | InvocationTargetException e) {
-            Mundo.reportException(this, e);
+            Logging.reportException(this, e);
         }
     }
 

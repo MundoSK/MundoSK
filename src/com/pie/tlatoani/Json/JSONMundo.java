@@ -6,7 +6,7 @@ import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.variables.SerializedVariable;
 import ch.njol.yggdrasil.Fields;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Registration;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -21,7 +21,7 @@ import java.util.function.BiConsumer;
 public class JSONMundo {
     
     public static void load() {
-        Mundo.registerType(JSONObject.class, "jsonobject").parser(new Mundo.SimpleParser<JSONObject>() {
+        Registration.registerType(JSONObject.class, "jsonobject").parser(new Registration.SimpleParser<JSONObject>() {
             @Override
             public JSONObject parse(String s, ParseContext parseContext) {
                 JSONObject result = null;
@@ -80,8 +80,8 @@ public class JSONMundo {
                 return true;
             }
         });
-        Mundo.registerEffect(EffPutJsonInListVariable.class, "put json %jsonobject% in listvar %objects%", "put jsons %jsonobjects% in listvar %objects%");
-        Mundo.registerExpression(ExprListVariableAsJson.class, JSONObject.class, ExpressionType.PROPERTY, "json (of|from) (listvar|list variable) %objects%", "jsons (of|from) (listvar|list variable) %objects%");
-        Mundo.registerExpression(ExprStringAsJson.class, JSONObject.class, ExpressionType.PROPERTY, "json of string %string%");
+        Registration.registerEffect(EffPutJsonInListVariable.class, "put json %jsonobject% in listvar %objects%", "put jsons %jsonobjects% in listvar %objects%");
+        Registration.registerExpression(ExprListVariableAsJson.class, JSONObject.class, ExpressionType.PROPERTY, "json (of|from) (listvar|list variable) %objects%", "jsons (of|from) (listvar|list variable) %objects%");
+        Registration.registerExpression(ExprStringAsJson.class, JSONObject.class, ExpressionType.PROPERTY, "json of string %string%");
     }
 }

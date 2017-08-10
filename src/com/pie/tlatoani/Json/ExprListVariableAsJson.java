@@ -7,7 +7,7 @@ import ch.njol.skript.lang.Variable;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -63,29 +63,29 @@ public class ExprListVariableAsJson extends SimpleExpression<JSONObject> {
         treeMap.forEach(new BiConsumer<String, Object>() {
             public void accept(String key, Object val) {
                 if (val instanceof String) {
-                    Mundo.debug(ExprListVariableAsJson.class, "String found");
-                    Mundo.debug(ExprListVariableAsJson.class, "Key: " + key);
-                    Mundo.debug(ExprListVariableAsJson.class, "Value: " + val);
+                    Logging.debug(ExprListVariableAsJson.class, "String found");
+                    Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
+                    Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
                     builder.add(key, (String) val);
                 } else if (val instanceof Number) {
-                    Mundo.debug(ExprListVariableAsJson.class, "Number found");
-                    Mundo.debug(ExprListVariableAsJson.class, "Key: " + key);
-                    Mundo.debug(ExprListVariableAsJson.class, "Value: " + val);
+                    Logging.debug(ExprListVariableAsJson.class, "Number found");
+                    Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
+                    Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
                     builder.add(key, ((Number) val).doubleValue());
                 } else if (val instanceof TreeMap) {
                     if (((TreeMap) val).containsKey("1")) {
-                        Mundo.debug(ExprListVariableAsJson.class, "JSONArray found");
-                        Mundo.debug(ExprListVariableAsJson.class, "Key: " + key);
-                        Mundo.debug(ExprListVariableAsJson.class, "Value: " + val);
+                        Logging.debug(ExprListVariableAsJson.class, "JSONArray found");
+                        Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
+                        Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
                         JsonArray valarray = getJsonArray((TreeMap<String, Object>) val);
-                        Mundo.debug(ExprListVariableAsJson.class, "Polished Val: " + valarray);
+                        Logging.debug(ExprListVariableAsJson.class, "Polished Val: " + valarray);
                         builder.add(key, valarray);
                     } else {
-                        Mundo.debug(ExprListVariableAsJson.class, "JSONObject found");
-                        Mundo.debug(ExprListVariableAsJson.class, "Key: " + key);
-                        Mundo.debug(ExprListVariableAsJson.class, "Value: " + val);
+                        Logging.debug(ExprListVariableAsJson.class, "JSONObject found");
+                        Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
+                        Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
                         JsonObject valobject = getJsonObject((TreeMap<String, Object>) val);
-                        Mundo.debug(ExprListVariableAsJson.class, "Polished Val: " + valobject);
+                        Logging.debug(ExprListVariableAsJson.class, "Polished Val: " + valobject);
                         builder.add(key, valobject);
                     }
                 }
@@ -100,29 +100,29 @@ public class ExprListVariableAsJson extends SimpleExpression<JSONObject> {
         treeMap.forEach(new BiConsumer<String, Object>() {
             public void accept(String key, Object val) {
                 if (val instanceof String) {
-                    Mundo.debug(ExprListVariableAsJson.class, "String found");
-                    Mundo.debug(ExprListVariableAsJson.class, "Key: " + key);
-                    Mundo.debug(ExprListVariableAsJson.class, "Value: " + val);
+                    Logging.debug(ExprListVariableAsJson.class, "String found");
+                    Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
+                    Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
                     builder.add((String) val);
                 } else if (val instanceof Number) {
-                    Mundo.debug(ExprListVariableAsJson.class, "Number found");
-                    Mundo.debug(ExprListVariableAsJson.class, "Key: " + key);
-                    Mundo.debug(ExprListVariableAsJson.class, "Value: " + val);
+                    Logging.debug(ExprListVariableAsJson.class, "Number found");
+                    Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
+                    Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
                     builder.add(((Number) val).doubleValue());
                 } else if (val instanceof TreeMap) {
                     if (((TreeMap) val).containsKey("1")) {
-                        Mundo.debug(ExprListVariableAsJson.class, "JSONArray found");
-                        Mundo.debug(ExprListVariableAsJson.class, "Key: " + key);
-                        Mundo.debug(ExprListVariableAsJson.class, "Value: " + val);
+                        Logging.debug(ExprListVariableAsJson.class, "JSONArray found");
+                        Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
+                        Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
                         JsonArray valarray = getJsonArray((TreeMap<String, Object>) val);
-                        Mundo.debug(ExprListVariableAsJson.class, "Polished Val: " + valarray);
+                        Logging.debug(ExprListVariableAsJson.class, "Polished Val: " + valarray);
                         builder.add(valarray);
                     } else {
-                        Mundo.debug(ExprListVariableAsJson.class, "JSONObject found");
-                        Mundo.debug(ExprListVariableAsJson.class, "Key: " + key);
-                        Mundo.debug(ExprListVariableAsJson.class, "Value: " + val);
+                        Logging.debug(ExprListVariableAsJson.class, "JSONObject found");
+                        Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
+                        Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
                         JsonObject valobject = getJsonObject((TreeMap<String, Object>) val);
-                        Mundo.debug(ExprListVariableAsJson.class, "Polished Val: " + valobject);
+                        Logging.debug(ExprListVariableAsJson.class, "Polished Val: " + valobject);
                         builder.add(valobject);
                     }
                 }
@@ -139,7 +139,7 @@ public class ExprListVariableAsJson extends SimpleExpression<JSONObject> {
             return result.toArray(new JSONObject[0]);
         } else {
             JSONObject result = getJSONObject(treeMap);
-            Mundo.debug(this, "Final Json: " + result);
+            Logging.debug(this, "Final Json: " + result);
             return new JSONObject[] {result};
         }
 

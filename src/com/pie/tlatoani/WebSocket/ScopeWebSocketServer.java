@@ -1,14 +1,15 @@
 package com.pie.tlatoani.WebSocket;
 
-import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
-import ch.njol.skript.lang.*;
+import ch.njol.skript.lang.Literal;
+import ch.njol.skript.lang.SelfRegisteringSkriptEvent;
+import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.log.SkriptLogger;
-import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Util.UtilScope;
-import com.pie.tlatoani.WebSocket.Events.*;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.ScopeUtil;
 import org.bukkit.event.Event;
 
 import java.util.Optional;
@@ -48,7 +49,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
             }
             for (Node node : topNode) {
                 SkriptLogger.setNode(node);
-                Mundo.debug(this, "Current node: " + node.getKey());
+                Logging.debug(this, "Current node: " + node.getKey());
                 if (!(node instanceof SectionNode)) {
                     Skript.error("'websocket server' should only have sections directly under it!");
                     return false;
@@ -97,7 +98,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
             }
             return true;
         } finally {
-            UtilScope.removeSubNodes(topNode);
+            ScopeUtil.removeSubNodes(topNode);
         }
 
     }

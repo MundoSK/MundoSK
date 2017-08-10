@@ -1,7 +1,7 @@
 package com.pie.tlatoani.ListUtil;
 
 import ch.njol.skript.lang.Expression;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Array;
@@ -24,7 +24,7 @@ public interface Transformer<T> {
         for (int i = 0; i < value.length; i++) {
             result[i] = (T) value[i];
         }
-        Mundo.debug(this, "VALUE = " + value + ", RESULT = " + result);
+        Logging.debug(this, "VALUE = " + value + ", RESULT = " + result);
         set(event, result);
     }
 

@@ -25,35 +25,35 @@ public class TreeIterator implements Iterator {
     @Override
     public boolean hasNext() {
         if (next != null) {
-            Mundo.debug(this, "Next was not null");
-            Mundo.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
+            Logging.debug(this, "Next was not null");
+            Logging.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
             return true;
         }
         if (subIterator != null) {
             if (subIterator.hasNext()) {
                 next = subIterator.next();
                 nextIndex = currentPrefix + "::" + subIterator.currentIndex();
-                Mundo.debug(this, "The sub iterator had another one!");
-                Mundo.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
+                Logging.debug(this, "The sub iterator had another one!");
+                Logging.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
                 return true;
             }
             subIterator = null;
             currentPrefix = null;
-            Mundo.debug(this, "End of sub iterator");
+            Logging.debug(this, "End of sub iterator");
         }
         if (baseIterator.hasNext()) {
             Map.Entry<String, Object> entry = baseIterator.next();
             if (entry.getValue() instanceof TreeMap) {
                 currentPrefix = entry.getKey();
                 subIterator = new TreeIterator((TreeMap<String, Object>) entry.getValue());
-                Mundo.debug(this, "Found a new sub iterator!");
-                Mundo.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
+                Logging.debug(this, "Found a new sub iterator!");
+                Logging.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
                 return hasNext();
             }
             nextIndex = entry.getKey();
             next = entry.getValue();
-            Mundo.debug(this, "Found a non-iterator value");
-            Mundo.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
+            Logging.debug(this, "Found a non-iterator value");
+            Logging.debug(this, "Next: " + next + ", nextIndex: " + nextIndex);
             return true;
         }
         return false;
@@ -72,8 +72,8 @@ public class TreeIterator implements Iterator {
     }
 
     public String currentIndex() {
-        Mundo.debug(this, "Current index: " + currentIndex);
-        Mundo.debug(this, "Next index: " + nextIndex);
+        Logging.debug(this, "Current index: " + currentIndex);
+        Logging.debug(this, "Next index: " + nextIndex);
         return currentIndex;
     }
 }

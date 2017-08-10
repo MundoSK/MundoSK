@@ -14,6 +14,8 @@ import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Skin.SkinManager;
 import com.pie.tlatoani.Tablist.Array.ArrayTablist;
 import com.pie.tlatoani.Tablist.Simple.SimpleTablist;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -57,11 +59,11 @@ public class Tablist {
                             PlayerInfoData newPlayerInfoData = playerInfoData;
                             if (player != null && event.getPlayer() != null) {
                                 Tablist tablist = getTablistForPlayer(event.getPlayer());
-                                Mundo.debug(Tablist.class, "getTablistForPlayer = " + tablist);
+                                Logging.debug(Tablist.class, "getTablistForPlayer = " + tablist);
                                 HashMap<Player, String> tablistNames = tablist.tablistNames;
-                                Mundo.debug(Tablist.class, "tablistNames = " + tablistNames);
+                                Logging.debug(Tablist.class, "tablistNames = " + tablistNames);
                                 String tablistName = tablist.tablistNames.get(player);
-                                Mundo.debug(Tablist.class, "tablistName = " + tablistName);
+                                Logging.debug(Tablist.class, "tablistName = " + tablistName);
                                 if (tablistName != null) {
                                     newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile(), playerInfoData.getLatency(), playerInfoData.getGameMode(), WrappedChatComponent.fromJson(colorStringToJson(tablistName)));
                                 }
@@ -78,7 +80,7 @@ public class Tablist {
                 public void onPacketSending(PacketEvent event) {
                     Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
                     if (player != null && event.getPlayer() != null && getTablistForPlayer(event.getPlayer()).isPlayerHidden(player) && !event.isCancelled()) {
-                        Mundo.debug(Tablist.class, "Player is hidden, event.getplayer = " + event.getPlayer().getName() + ", player = " + player.getName());
+                        Logging.debug(Tablist.class, "Player is hidden, event.getplayer = " + event.getPlayer().getName() + ", player = " + player.getName());
                         PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
                         PacketContainer addPacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                         addPacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
@@ -91,7 +93,7 @@ public class Tablist {
                         PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                         removePacket.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
                         removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                        Mundo.syncDelay(Mundo.tablistRemoveTabDelaySpawn, new PacketSender(removePacket, event.getPlayer()));
+                        Scheduling.syncDelay(TablistMundo.SPAWN_REMOVE_TAB_DELAY, new PacketSender(removePacket, event.getPlayer()));
                     }
                 }
             });
@@ -101,7 +103,7 @@ public class Tablist {
                 public void onPacketSending(PacketEvent event) {
                     Player player = event.getPlayer();
                     if (player != null && getTablistForPlayer(event.getPlayer()).isPlayerHidden(player) && !playersRespawning.contains(player.getUniqueId()) && !event.isCancelled()) {
-                        Mundo.debug(Tablist.class, "Player is hidden = " + player.getName());
+                        Logging.debug(Tablist.class, "Player is hidden = " + player.getName());
                         playersRespawning.add(player.getUniqueId());
                         PlayerInfoData playerInfoData = new PlayerInfoData(WrappedGameProfile.fromPlayer(player), 5, EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()), WrappedChatComponent.fromJson(colorStringToJson(player.getPlayerListName())));
                         PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
@@ -115,15 +117,12 @@ public class Tablist {
                         PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
                         removePacket.getPlayerInfoDataLists().writeSafely(0, Arrays.asList(playerInfoData));
                         removePacket.getPlayerInfoAction().writeSafely(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                        Mundo.syncDelay(Mundo.tablistRemoveTabDelayRespawn, new Runnable() {
-                            @Override
-                            public void run() {
-                                playersRespawning.remove(player.getUniqueId());
-                                try {
-                                    ProtocolLibrary.getProtocolManager().sendServerPacket(player, removePacket);
-                                } catch (InvocationTargetException e) {
-                                    Mundo.reportException(Tablist.class, e);
-                                }
+                        Scheduling.syncDelay(TablistMundo.RESPAWN_REMOVE_TAB_DELAY, () -> {
+                            playersRespawning.remove(player.getUniqueId());
+                            try {
+                                ProtocolLibrary.getProtocolManager().sendServerPacket(player, removePacket);
+                            } catch (InvocationTargetException e) {
+                                Logging.reportException(Tablist.class, e);
                             }
                         });
                     }
@@ -159,7 +158,7 @@ public class Tablist {
         if (!tablistMap.containsKey(player)) {
             setTablistForPlayer(Collections.singleton(player), new Tablist());
         }
-        Mundo.syncDelay(1, new Runnable() {
+        Scheduling.syncDelay(1, new Runnable() {
             @Override
             public void run() {
                 Set<Tablist> tablistSet = new HashSet<Tablist>(tablistMap.values());
@@ -219,7 +218,7 @@ public class Tablist {
     }
 
     public void hidePlayers(Collection<Player> playersToHide) {
-        Mundo.debug(this, "Hiding all players");
+        Logging.debug(this, "Hiding all players");
         hideInTablist(playersToHide, players);
         hiddenPlayers.addAll(playersToHide);
     }
@@ -236,7 +235,7 @@ public class Tablist {
     public void hideAllPlayers() {
         if (!allPlayersHidden) {
             allPlayersHidden = true;
-            Mundo.debug(this, "Hiding all players");
+            Logging.debug(this, "Hiding all players");
             hidePlayers(new ArrayList<>(Bukkit.getOnlinePlayers()));
         }
     }
@@ -308,7 +307,7 @@ public class Tablist {
                     ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
                 }
             } catch (InvocationTargetException e) {
-                Mundo.reportException(Tablist.class, e);
+                Logging.reportException(Tablist.class, e);
             }
         }
     }
@@ -324,7 +323,7 @@ public class Tablist {
                     ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
                 }
             } catch (InvocationTargetException e) {
-                Mundo.reportException(Tablist.class, e);
+                Logging.reportException(Tablist.class, e);
             }
         }
     }
@@ -340,7 +339,7 @@ public class Tablist {
                     ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
                 }
             } catch (InvocationTargetException e) {
-                Mundo.reportException(Tablist.class, e);
+                Logging.reportException(Tablist.class, e);
             }
         }
     }
@@ -356,7 +355,7 @@ public class Tablist {
                 ProtocolLibrary.getProtocolManager().sendServerPacket(subject, packet);
             }
         } catch (InvocationTargetException e) {
-            Mundo.reportException(Tablist.class, e);
+            Logging.reportException(Tablist.class, e);
         }
     }
 
@@ -374,7 +373,7 @@ public class Tablist {
                 ProtocolLibrary.getProtocolManager().sendServerPacket(player, displayPacket);
             }
         } catch (InvocationTargetException e) {
-            Mundo.reportException(Tablist.class, e);
+            Logging.reportException(Tablist.class, e);
         }
 
     }
@@ -390,7 +389,7 @@ public class Tablist {
                 ProtocolLibrary.getProtocolManager().sendServerPacket(player, removePacket);
             }
         } catch (InvocationTargetException e) {
-            Mundo.reportException(Tablist.class, e);
+            Logging.reportException(Tablist.class, e);
         }
     }
 

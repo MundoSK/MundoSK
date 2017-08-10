@@ -2,7 +2,8 @@ package com.pie.tlatoani.ZExperimental;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.*;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Reflection;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -22,15 +23,15 @@ public class UtilSyntaxRegistration {
 
     static {
         try {
-            conditions = (Collection<SyntaxElementInfo<? extends Condition>>) Mundo.getStaticField(Skript.class, "conditions");
-            effects = (Collection<SyntaxElementInfo<? extends Effect>>) Mundo.getStaticField(Skript.class, "effects");
-            statements = (Collection<SyntaxElementInfo<? extends Statement>>) Mundo.getStaticField(Skript.class, "statements");
-            expressionTypesStartIndices = (int[]) Mundo.getStaticField(Skript.class, "expressionTypesStartIndices");
+            conditions = (Collection<SyntaxElementInfo<? extends Condition>>) Reflection.getStaticField(Skript.class, "conditions");
+            effects = (Collection<SyntaxElementInfo<? extends Effect>>) Reflection.getStaticField(Skript.class, "effects");
+            statements = (Collection<SyntaxElementInfo<? extends Statement>>) Reflection.getStaticField(Skript.class, "statements");
+            expressionTypesStartIndices = (int[]) Reflection.getStaticField(Skript.class, "expressionTypesStartIndices");
 
             patternsField = SyntaxElementInfo.class.getDeclaredField("patterns");
             patternsField.setAccessible(true);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            Mundo.reportException(UtilSyntaxRegistration.class, e);
+            Logging.reportException(UtilSyntaxRegistration.class, e);
         }
     }
 

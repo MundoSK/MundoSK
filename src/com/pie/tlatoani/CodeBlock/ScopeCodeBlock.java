@@ -2,14 +2,11 @@ package com.pie.tlatoani.CodeBlock;
 
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.variables.Variables;
-import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Util.CustomScope;
 import com.pie.tlatoani.Util.BaseEvent;
+import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.event.Event;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.TreeMap;
 
 /**
@@ -64,7 +61,7 @@ public class ScopeCodeBlock implements CodeBlock {
                 if (preserveOldValues) {
                     preservation = Variables.getVariable(constantVariableName + "::*", event, true);
                 }
-                Mundo.setListVariable(constantVariableName, (TreeMap<String, Object>) constantValue, event, true);
+                MundoUtil.setListVariable(constantVariableName, (TreeMap<String, Object>) constantValue, event, true);
             } else {
                 if (preserveOldValues) {
                     preservation = Variables.getVariable(constantVariableName, event, true);
@@ -77,7 +74,7 @@ public class ScopeCodeBlock implements CodeBlock {
             if (constantValue instanceof TreeMap) {
                 constantValue = Variables.getVariable(constantVariableName + "::*", event, true);
                 if (preserveOldValues) {
-                    Mundo.setListVariable(constantVariableName, (TreeMap<String, Object>) preservation, event, true);
+                    MundoUtil.setListVariable(constantVariableName, (TreeMap<String, Object>) preservation, event, true);
                 }
             } else {
                 constantValue = Variables.getVariable(constantVariableName, event, true);
@@ -99,9 +96,9 @@ public class ScopeCodeBlock implements CodeBlock {
         if (argumentNames != null) {
             for (int i = 0; i < Math.min(argumentNames.length, args.length); i++) {
                 if (args[i] instanceof Object[]) {
-                    Mundo.setListVariable(argumentNames[i], Mundo.listVariableFromArray((Object[]) args[i]), event, true);
+                    MundoUtil.setListVariable(argumentNames[i], MundoUtil.listVariableFromArray((Object[]) args[i]), event, true);
                 } else if (args[i] instanceof TreeMap) {
-                    Mundo.setListVariable(argumentNames[i], (TreeMap<String, Object>) args[i], event, true);
+                    MundoUtil.setListVariable(argumentNames[i], (TreeMap<String, Object>) args[i], event, true);
                 } else {
                     event.setLocalVariable(argumentNames[i], args[i]);
                 }

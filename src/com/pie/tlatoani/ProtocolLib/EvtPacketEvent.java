@@ -1,6 +1,5 @@
 package com.pie.tlatoani.ProtocolLib;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser;
@@ -21,15 +20,15 @@ public class EvtPacketEvent extends SkriptEvent{
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
         PacketType[] packetTypeArray = ((Literal<PacketType>) literals[0]).getAll();
         packetTypesToString = literals[0].toString();
-        UtilPacketEvent.addListener(packetTypeArray);
+        PacketEvent.addListener(packetTypeArray);
         packetTypes = Arrays.asList(packetTypeArray);
         return true;
     }
 
     @Override
     public boolean check(Event arg0) {
-        if (arg0 instanceof UtilPacketEvent) {
-            if (packetTypes.contains(((UtilPacketEvent) arg0).getPacketType())) {
+        if (arg0 instanceof PacketEvent) {
+            if (packetTypes.contains(((PacketEvent) arg0).getPacketType())) {
                 return true;
             }
             else return false;

@@ -3,8 +3,8 @@ package com.pie.tlatoani.WebSocket;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Util.UtilScope;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.ScopeUtil;
 import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
@@ -48,19 +48,19 @@ public class WebSocketClientFunctionality {
         loaded = true;
         onOpen = nebula.onOpen.flatMap(sectionNode -> {
             ScriptLoader.setCurrentEvent("WebSocketClientOpen", WebSocketOpenEvent.class);
-            return UtilScope.loadSectionNode(sectionNode, null);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
         });
         onClose = nebula.onClose.flatMap(sectionNode -> {
             ScriptLoader.setCurrentEvent("WebSocketClientClose", WebSocketCloseEvent.class);
-            return UtilScope.loadSectionNode(sectionNode, null);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
         });
         onMessage = nebula.onMessage.flatMap(sectionNode -> {
             ScriptLoader.setCurrentEvent("WebSocketClientMessage", WebSocketMessageEvent.class);
-            return UtilScope.loadSectionNode(sectionNode, null);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
         });
         onError = nebula.onError.flatMap(sectionNode -> {
             ScriptLoader.setCurrentEvent("WebSocketClientError", WebSocketErrorEvent.class);
-            return UtilScope.loadSectionNode(sectionNode, null);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
         });
     }
 
@@ -73,7 +73,7 @@ public class WebSocketClientFunctionality {
     }
 
     public void debugTriggerItems() {
-        Mundo.debug(this, "TriggerItems: " +
+        Logging.debug(this, "TriggerItems: " +
             onOpen + "," +
             onClose + "," +
             onMessage + "," +

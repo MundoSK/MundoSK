@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.event.Event;
 
 /**
@@ -33,9 +33,9 @@ public class EffWait extends Effect {
             walk(getNext(), event);
         } else {
             if (sync) {
-                Mundo.syncDelay(1, () -> check(event, timeout - 1, true));
+                Scheduling.syncDelay(1, () -> check(event, timeout - 1, true));
             } else {
-                Mundo.asyncDelay(1, () -> check(event, timeout - 1, false));
+                Scheduling.asyncDelay(1, () -> check(event, timeout - 1, false));
             }
         }
     }

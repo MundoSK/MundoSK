@@ -3,7 +3,8 @@ package com.pie.tlatoani.NoteBlock;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.util.Pair;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.MundoUtil;
+import com.pie.tlatoani.Util.Registration;
 import org.bukkit.Instrument;
 import org.bukkit.Note;
 import org.bukkit.block.Block;
@@ -29,7 +30,7 @@ public class NoteBlockMundo {
                     String noteName = tone.name() + (deviation == 1 ? "+" : deviation == -1 ? "-" : "") + octave;
                     notes.add(new Pair<>("n" + noteName, note));
                     if (octave == 0) notes.add(new Pair<>("n" + noteName.substring(0, noteName.length() - 1), note));
-                    if (!Mundo.serverHasPlugin("RandomSK")) {
+                    if (!MundoUtil.serverHasPlugin("RandomSK")) {
                         notes.add(new Pair<>(noteName, note));
                         if (octave == 0) notes.add(new Pair<>(noteName.substring(0, noteName.length() - 1), note));
                     }
@@ -37,18 +38,18 @@ public class NoteBlockMundo {
         Note fSharp2 = Note.sharp(2, Note.Tone.F);
         notes.add(new Pair<>("nF+2", fSharp2));
         notes.add(new Pair<>("nG-2", fSharp2));
-        if (!Mundo.serverHasPlugin("RandomSK")) {
+        if (!MundoUtil.serverHasPlugin("RandomSK")) {
             notes.add(new Pair<>("F+2", fSharp2));
             notes.add(new Pair<>("G-2", fSharp2));
         }
-        Mundo.registerEnum(Note.class, "note", new Note[0], notes.toArray(new Pair[0]));
-        Mundo.registerEnum(Instrument.class, "instrument", Instrument.values());
-        Mundo.registerEffect(EffPlayNoteBlock.class, "play [[%-note% with] %-instrument% on] noteblock %block%");
-        Mundo.registerEvent("Note Play", SimpleEvent.class, NotePlayEvent.class, "note play");
-        Mundo.registerEventValue(NotePlayEvent.class, Note.class, NotePlayEvent::getNote);
-        Mundo.registerEventValue(NotePlayEvent.class, Instrument.class, NotePlayEvent::getInstrument);
-        Mundo.registerEventValue(NotePlayEvent.class, Block.class, NotePlayEvent::getBlock);
-        Mundo.registerExpression(ExprNoteOfBlock.class, Note.class, ExpressionType.PROPERTY, "note of %block%", "%block%'s note");
+        Registration.registerEnum(Note.class, "note", new Note[0], notes.toArray(new Pair[0]));
+        Registration.registerEnum(Instrument.class, "instrument", Instrument.values());
+        Registration.registerEffect(EffPlayNoteBlock.class, "play [[%-note% with] %-instrument% on] noteblock %block%");
+        Registration.registerEvent("Note Play", SimpleEvent.class, NotePlayEvent.class, "note play");
+        Registration.registerEventValue(NotePlayEvent.class, Note.class, NotePlayEvent::getNote);
+        Registration.registerEventValue(NotePlayEvent.class, Instrument.class, NotePlayEvent::getInstrument);
+        Registration.registerEventValue(NotePlayEvent.class, Block.class, NotePlayEvent::getBlock);
+        Registration.registerExpression(ExprNoteOfBlock.class, Note.class, ExpressionType.PROPERTY, "note of %block%", "%block%'s note");
         
     }
 }

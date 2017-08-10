@@ -1,17 +1,15 @@
 package com.pie.tlatoani.WebSocket;
 
-import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
-import ch.njol.skript.lang.*;
+import ch.njol.skript.lang.Literal;
+import ch.njol.skript.lang.SelfRegisteringSkriptEvent;
+import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.log.SkriptLogger;
-import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Util.UtilScope;
-import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
-import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
-import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
-import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.ScopeUtil;
 import org.bukkit.event.Event;
 
 import java.util.Optional;
@@ -51,7 +49,7 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
             }
             for (Node node : topNode) {
                 SkriptLogger.setNode(node);
-                Mundo.debug(this, "Current node: " + node.getKey());
+                Logging.debug(this, "Current node: " + node.getKey());
                 if (!(node instanceof SectionNode)) {
                     Skript.error("'websocket client' should only have sections directly under it!");
                     return false;
@@ -88,7 +86,7 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
             }
             return true;
         } finally {
-            UtilScope.removeSubNodes(topNode);
+            ScopeUtil.removeSubNodes(topNode);
         }
 
     }

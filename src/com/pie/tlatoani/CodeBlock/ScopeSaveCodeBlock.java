@@ -2,14 +2,12 @@ package com.pie.tlatoani.CodeBlock;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Variable;
 import ch.njol.skript.lang.VariableString;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
-import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import java.util.TreeMap;
@@ -41,7 +39,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
             String origstring = variable.isLocal() ? variable.toString().substring(2, variable.toString().length() - 1) : variable.toString().substring(1, variable.toString().length() - 1);
             variableString = VariableString.newInstance(origstring, StringMode.VARIABLE_NAME);
             variableIsLocal = variable.isLocal();
-            Mundo.debug(this, "exprs[0]: " + variable);
+            Logging.debug(this, "exprs[0]: " + variable);
             mark = arg3.mark;
             if (mark > 1) {
                 constant = exprs[mark - 1];
@@ -67,7 +65,7 @@ public class ScopeSaveCodeBlock extends CustomScope {
 
     @Override
     public boolean go(Event e) {
-        Mundo.debug(this, "GUTEN ROUNDEN 2:: " + first);
+        Logging.debug(this, "GUTEN ROUNDEN 2:: " + first);
         ScopeCodeBlock scopeCodeBlock = new ScopeCodeBlock(first, mark != 0, argumentNames != null ? argumentNames.getArray(e) : new String[0], returnNames != null ? returnNames.getSingle(e) : null);
         switch (mark) {
             case 2: scopeCodeBlock.setConstantSingle(constant.getSingle(e));

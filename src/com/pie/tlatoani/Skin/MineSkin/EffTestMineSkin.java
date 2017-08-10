@@ -24,30 +24,30 @@ public class EffTestMineSkin extends Effect {
             @Override
             public void done(mundosk_libraries.mineskin.data.Skin skin) {
                 Texture texture = skin.data.texture;
-                Mundo.debug(EffTestMineSkin.class, "Texture Value: " + texture.value);
-                Mundo.debug(EffTestMineSkin.class, "Texture Signature: " + texture.signature);
+                Logging.debug(EffTestMineSkin.class, "Texture Value: " + texture.value);
+                Logging.debug(EffTestMineSkin.class, "Texture Signature: " + texture.signature);
             }
 
             @Override
             public void waiting(long delay) {
-                Mundo.debug(EffTestMineSkin.class, "Waiting");
+                Logging.debug(EffTestMineSkin.class, "Waiting");
             }
 
             public void uploading() {
-                Mundo.debug(EffTestMineSkin.class, "Uploading");
+                Logging.debug(EffTestMineSkin.class, "Uploading");
             }
 
             public void error(String errorMessage) {
-                Mundo.debug(EffTestMineSkin.class, "Error: " + errorMessage);
+                Logging.debug(EffTestMineSkin.class, "Error: " + errorMessage);
             }
 
             public void exception(Exception exception) {
-                Mundo.debug(EffTestMineSkin.class, "Exception: ");
+                Logging.debug(EffTestMineSkin.class, "Exception: ");
                 exception.printStackTrace();
             }
 
             public void parseException(Exception exception, String body) {
-                Mundo.debug(EffTestMineSkin.class, "ParseException: " + body);
+                Logging.debug(EffTestMineSkin.class, "ParseException: " + body);
                 exception.printStackTrace();
             }
         });

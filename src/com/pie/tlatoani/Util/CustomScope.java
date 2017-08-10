@@ -36,12 +36,12 @@ public abstract class CustomScope extends Condition {
 	public static Field commandTrigger;
 	public static Method getTriggersMethod;
 
-	public static UtilReflection.FieldAccessor<TriggerItem> TRIGGER_SECTION_FIRST;
-    public static UtilReflection.FieldAccessor<TriggerItem> TRIGGER_SECTION_LAST;
-	public static UtilReflection.FieldAccessor<Condition> CONDITIONAL_COND;
-	public static UtilReflection.FieldAccessor<Trigger> SCRIPT_FUNCTION_TRIGGER;
+	public static Reflection.FieldAccessor<TriggerItem> TRIGGER_SECTION_FIRST;
+    public static Reflection.FieldAccessor<TriggerItem> TRIGGER_SECTION_LAST;
+	public static Reflection.FieldAccessor<Condition> CONDITIONAL_COND;
+	public static Reflection.FieldAccessor<Trigger> SCRIPT_FUNCTION_TRIGGER;
 
-	public static UtilReflection.MethodInvoker TRIGGER_ITEM_WALK;
+	public static Reflection.MethodInvoker TRIGGER_ITEM_WALK;
 
 	private static boolean getScopesWasRun = true;
 
@@ -80,14 +80,14 @@ public abstract class CustomScope extends Condition {
 			runmethod = TriggerItem.class.getDeclaredMethod("run", Event.class);
 			runmethod.setAccessible(true);
 
-			TRIGGER_SECTION_FIRST = UtilReflection.getField(TriggerSection.class, "first", TriggerItem.class);
-            TRIGGER_SECTION_LAST = UtilReflection.getField(TriggerSection.class, "last", TriggerItem.class);
-			CONDITIONAL_COND = UtilReflection.getField(Conditional.class, "cond", Condition.class);
-			SCRIPT_FUNCTION_TRIGGER = UtilReflection.getField(ScriptFunction.class, "trigger", Trigger.class);
+			TRIGGER_SECTION_FIRST = Reflection.getField(TriggerSection.class, "first", TriggerItem.class);
+            TRIGGER_SECTION_LAST = Reflection.getField(TriggerSection.class, "last", TriggerItem.class);
+			CONDITIONAL_COND = Reflection.getField(Conditional.class, "cond", Condition.class);
+			SCRIPT_FUNCTION_TRIGGER = Reflection.getField(ScriptFunction.class, "trigger", Trigger.class);
 
-			TRIGGER_ITEM_WALK = UtilReflection.getMethod(TriggerItem.class, "walk", Event.class);
+			TRIGGER_ITEM_WALK = Reflection.getMethod(TriggerItem.class, "walk", Event.class);
 		} catch (Exception e) {
-			Mundo.reportException(CustomScope.class, e);
+			Logging.reportException(CustomScope.class, e);
 		}
 	}
 
@@ -109,7 +109,7 @@ public abstract class CustomScope extends Condition {
 		if (!getScopesWasRun) {
 			try {
 				Map<Class<? extends Event>, List<Trigger>> triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
-				Mundo.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
+				Logging.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
 				for (List<Trigger> triggers : triggerMap.values()) {
 					triggers.forEach(CustomScope::registerImmediateScopes);
 				}
@@ -120,7 +120,7 @@ public abstract class CustomScope extends Condition {
 
 				}
 			} catch (IllegalAccessException e) {
-				Mundo.reportException(CustomScope.class, e);
+				Logging.reportException(CustomScope.class, e);
 			}
 			getScopesWasRun = true;
 		}
@@ -129,7 +129,7 @@ public abstract class CustomScope extends Condition {
 	public static void querySetScope() {
 		if (getScopesWasRun) {
 			getScopesWasRun = false;
-			Mundo.sync(CustomScope::getScopes);
+			Scheduling.sync(CustomScope::getScopes);
 		}
 	}
 
@@ -142,7 +142,7 @@ public abstract class CustomScope extends Condition {
 			this.scope = scope;
             this.first = TRIGGER_SECTION_FIRST.get(scope);
             this.last = TRIGGER_SECTION_LAST.get(scope);
-			Mundo.debug(this, "GUTEN ROUNDEN:: " + first);
+			Logging.debug(this, "GUTEN ROUNDEN:: " + first);
 			if (scopeParent == null) {
 				scopeParent = scope.getParent();
 			}
@@ -158,11 +158,11 @@ public abstract class CustomScope extends Condition {
 	    TriggerItem going = TRIGGER_SECTION_FIRST.get(parent);
 	    TriggerItem next = parent.getNext();
 	    while (going != null && going != next) {
-	        Mundo.debug(CustomScope.class, "GOING :: " + going);
+	        Logging.debug(CustomScope.class, "GOING :: " + going);
 	        if (going instanceof Conditional) {
 	            Condition condition = CONDITIONAL_COND.get(going);
 	            if (scope == condition) {
-                    Mundo.debug(CustomScope.class, "FOUND THE CONDITIONAL :: " + going);
+                    Logging.debug(CustomScope.class, "FOUND THE CONDITIONAL :: " + going);
 	                return (Conditional) going;
                 }
             }
@@ -215,7 +215,7 @@ public abstract class CustomScope extends Condition {
                 getScopes();
             }
 		}
-		Mundo.debug(this, "Go");
+		Logging.debug(this, "Go");
 		return go(e);
 	}
 

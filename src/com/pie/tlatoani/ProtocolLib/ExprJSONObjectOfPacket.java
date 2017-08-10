@@ -11,8 +11,8 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Skin.Skin;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
@@ -53,12 +53,12 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
                 WrappedChatComponent chatComponent = packet.getChatComponents().readSafely(index);
-                Mundo.debug(ExprJSONObjectOfPacket.class, "ChatComponent: " + chatComponent);
+                Logging.debug(ExprJSONObjectOfPacket.class, "ChatComponent: " + chatComponent);
                 if (chatComponent == null) {
                     return null;
                 }
                 String fromJson = chatComponent.getJson();
-                Mundo.debug(ExprJSONObjectOfPacket.class,"FromJson: " + fromJson);
+                Logging.debug(ExprJSONObjectOfPacket.class,"FromJson: " + fromJson);
                 JSONParser parser = new JSONParser();
                 JSONObject toJson = null;
                 try {
@@ -72,7 +72,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                         throw new IllegalStateException("The json: " + fromJson + "; is neither a jsonobject nor a string");
                     }
                 } catch (ParseException | IllegalStateException e) {
-                    Mundo.debug(ExprJSONObjectOfPacket.class, e);
+                    Logging.debug(ExprJSONObjectOfPacket.class, e);
                 }
                 return toJson;
             }
@@ -94,7 +94,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                     }
                     return (JSONObject) (new JSONParser()).parse(serverPing.toJson());
                 } catch (ParseException | ClassCastException e) {
-                    Mundo.reportException(ExprJSONObjectOfPacket.class, e);
+                    Logging.reportException(ExprJSONObjectOfPacket.class, e);
                     return null;
                 }
             }
@@ -133,7 +133,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                         WrappedWatchableObject watchableObject = new WrappedWatchableObject(i, valueO);
                         wrappedWatchableObjects.add(watchableObject);
                     } catch (ClassCastException | NumberFormatException e) {
-                        Mundo.debug(ExprJSONObjectOfPacket.class, e);
+                        Logging.debug(ExprJSONObjectOfPacket.class, e);
                     }
                 });
                 WrappedDataWatcher dataWatcher = new WrappedDataWatcher(wrappedWatchableObjects);
@@ -151,7 +151,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 }
                 JSONObject jsonObject = new JSONObject();
                 for (WrappedWatchableObject wrappedWatchableObject : wrappedWatchableObjects) {
-                    Mundo.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject, Index = " + wrappedWatchableObject.getIndex() + ", Value = " + wrappedWatchableObject.getValue() + ", WDWO = " + wrappedWatchableObject.getWatcherObject());
+                    Logging.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject, Index = " + wrappedWatchableObject.getIndex() + ", Value = " + wrappedWatchableObject.getValue() + ", WDWO = " + wrappedWatchableObject.getWatcherObject());
                     jsonObject.put("" + wrappedWatchableObject.getIndex(), wrappedWatchableObject.getValue());
                 }
                 return jsonObject;
@@ -164,11 +164,11 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                     try {
                         String key = (String) keyO;
                         int i = Integer.parseInt(key);
-                        Mundo.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject creation, Index = " + i + ", Value = " + valueO);
+                        Logging.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject creation, Index = " + i + ", Value = " + valueO);
                         WrappedWatchableObject watchableObject = new WrappedWatchableObject(i, valueO);
                         wrappedWatchableObjects.add(watchableObject);
                     } catch (ClassCastException | NumberFormatException e) {
-                        Mundo.debug(ExprJSONObjectOfPacket.class, e);
+                        Logging.debug(ExprJSONObjectOfPacket.class, e);
                     }
                 });
                 packet.getWatchableCollectionModifier().writeSafely(index, wrappedWatchableObjects);
@@ -225,7 +225,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                     try {
                         tojson = (JSONObject) parser.parse(fromjson);
                     } catch (ParseException | ClassCastException e) {
-                        Mundo.debug(ExprJSONObjectOfPacket.class, e);
+                        Logging.debug(ExprJSONObjectOfPacket.class, e);
                     }
                     result[i] = tojson;
                 }
@@ -253,8 +253,8 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                     JSONObject[] result = new JSONObject[playerInfoDatas.size()];
                     for (int i = 0; i < result.length; i++) {
                         PlayerInfoData playerInfoData = playerInfoDatas.get(i);
-                        Mundo.debug(ExprJSONObjectOfPacket.class, "PlayerInfoData: " + playerInfoData);
-                        Mundo.debug(ExprJSONObjectOfPacket.class, "PlayerInfoData.getDisplayName(): " + playerInfoData.getDisplayName());
+                        Logging.debug(ExprJSONObjectOfPacket.class, "PlayerInfoData: " + playerInfoData);
+                        Logging.debug(ExprJSONObjectOfPacket.class, "PlayerInfoData.getDisplayName(): " + playerInfoData.getDisplayName());
                         result[i] = new JSONObject();
                         if (playerInfoData.getDisplayName() != null) {
                             result[i].put("displayname", (new JSONParser()).parse(playerInfoData.getDisplayName().getJson()));
@@ -265,7 +265,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                     }
                     return result;
                 } catch (ParseException e) {
-                    Mundo.reportException(ExprJSONObjectOfPacket.class, e);
+                    Logging.reportException(ExprJSONObjectOfPacket.class, e);
                     return new JSONObject[0];
                 }
             }
@@ -326,8 +326,8 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
     protected JSONObject[] get(Event event) {
         PacketContainer packet = packetContainerExpression.getSingle(event);
         int index = this.index.getSingle(event).intValue();
-        Mundo.debug(this, " ore calling function :" + packet);
-        Mundo.debug(this, "Converters == " + singleConverter + " , " + pluralConverter);
+        Logging.debug(this, " ore calling function :" + packet);
+        Logging.debug(this, "Converters == " + singleConverter + " , " + pluralConverter);
         return isSingle ? new JSONObject[]{singleConverter.get(packet, index)} : pluralConverter.get(packet, index);
     }
 
@@ -361,12 +361,12 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             Skript.error("The string '" + expressions[0] + "' is not a literal string! Only literal strings can be used in the pjson expression!");
             return false;
         }
-        Mundo.debug(this, "String == " + string + " isSingle == " + isSingle);
+        Logging.debug(this, "String == " + string + " isSingle == " + isSingle);
         index = (Expression<Number>) expressions[1];
         packetContainerExpression = (Expression<PacketContainer>) expressions[2];
         singleConverter = getSingleConverter(string.toLowerCase());
         pluralConverter = getPluralConverter(string.toLowerCase());
-        Mundo.debug(this, "Converters == " + singleConverter + " , " + pluralConverter);
+        Logging.debug(this, "Converters == " + singleConverter + " , " + pluralConverter);
         if (isSingle ? singleConverter == null : pluralConverter == null) {
             Skript.error("The string " + string + " is not a valid packetinfo!");
             return false;
@@ -377,7 +377,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         PacketContainer packet = packetContainerExpression.getSingle(event);
         int index = this.index.getSingle(event).intValue();
-        Mundo.debug(this, "Packet before calling function :" + packet);
+        Logging.debug(this, "Packet before calling function :" + packet);
         if (isSingle) {
             singleConverter.set(packet, index, ((JSONObject) delta[0]));
         } else {

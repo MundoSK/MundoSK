@@ -2,7 +2,7 @@ package com.pie.tlatoani.Book;
 
 import ch.njol.skript.lang.ExpressionType;
 import com.pie.tlatoani.ListUtil.ListUtil;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Registration;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -12,8 +12,8 @@ public class BookMundo {
 
     public static void load() {
         ListUtil.registerTransformer("itemstack", TransBookPages.class, "page");
-        Mundo.registerExpression(ExprBook.class,ItemStack.class, ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] pages %strings%");
-        Mundo.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
-        Mundo.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
+        Registration.registerExpression(ExprBook.class,ItemStack.class, ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] pages %strings%");
+        Registration.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
+        Registration.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
     }
 }

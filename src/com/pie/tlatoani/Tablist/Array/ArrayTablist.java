@@ -2,16 +2,21 @@ package com.pie.tlatoani.Tablist.Array;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.*;
-import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.ProtocolLib.UtilPacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.comphenix.protocol.wrappers.PlayerInfoData;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.pie.tlatoani.ProtocolLib.PacketEvent;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.MathUtil;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.UUID;
 
 /**
  * Created by Tlatoani on 7/15/16.
@@ -32,10 +37,10 @@ public class ArrayTablist {
     }
 
     public static int getViableRowAmount(int columns, int rows) {
-        return columns == 1 ? Mundo.limitToRange(1,  rows, 20) :
-               columns == 2 ? Mundo.limitToRange(11, rows, 20) :
-               columns == 3 ? Mundo.limitToRange(14, rows, 20) :
-               columns == 4 ? Mundo.limitToRange(16, rows, 20) :
+        return columns == 1 ? MathUtil.limitToRange(1,  rows, 20) :
+               columns == 2 ? MathUtil.limitToRange(11, rows, 20) :
+               columns == 3 ? MathUtil.limitToRange(14, rows, 20) :
+               columns == 4 ? MathUtil.limitToRange(16, rows, 20) :
                           0;
     }
 
@@ -44,33 +49,33 @@ public class ArrayTablist {
     }
 
     private void sendPacket(int column, int row, EnumWrappers.PlayerInfoAction action, Collection<Player> players) {
-        Mundo.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action + "players = " + players);
+        Logging.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action + "players = " + players);
         int ping = latencies[column - 1][row - 1];
         String displayName = displayNames[column - 1][row - 1];
         Skin icon = heads[column - 1][row - 1];
-        Mundo.debug(this, "SP 1");
+        Logging.debug(this, "SP 1");
         WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(Tablist.colorStringToJson(displayName));
         int identifier = (((column - 1) * 20) + row);
-        UUID uuid = UUID.fromString(uuidbeginning + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
+        UUID uuid = UUID.fromString(uuidbeginning + "10" + MathUtil.toHexDigit(MathUtil.divideNoRemainder(identifier, 10)) + (identifier % 10));
         WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSK::" + (identifier < 10 ? "0" : "") + identifier);
-        Mundo.debug(this, "SP 2");
+        Logging.debug(this, "SP 2");
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
             gameProfile.getProperties().put(Skin.MULTIMAP_KEY, icon.toWrappedSignedProperty());
         }
-        Mundo.debug(this, "SP 3");
+        Logging.debug(this, "SP 3");
         PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
         PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
         packetContainer.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
-        Mundo.debug(this, "SP 4");
+        Logging.debug(this, "SP 4");
         try {
             for (Player player : players) {
-                Mundo.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action + ", player = " + player);
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packetContainer);
+                Logging.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action + ", player = " + player);
+                PacketEvent.protocolManager.sendServerPacket(player, packetContainer);
             }
         } catch (InvocationTargetException e) {
-            Mundo.reportException(this, e);
+            Logging.reportException(this, e);
         }
     }
 
@@ -89,9 +94,9 @@ public class ArrayTablist {
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
         for (Player player : players) {
             try {
-                UtilPacketEvent.protocolManager.sendServerPacket(player, packet);
+                PacketEvent.protocolManager.sendServerPacket(player, packet);
             } catch (InvocationTargetException e) {
-                Mundo.reportException(this, e);
+                Logging.reportException(this, e);
             }
         }
     }
@@ -105,19 +110,19 @@ public class ArrayTablist {
     }
 
     public void setColumns(int columns) {
-        Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", columns " + columns);
-        columns = Mundo.limitToRange(0, columns, 4);
+        Logging.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", columns " + columns);
+        columns = MathUtil.limitToRange(0, columns, 4);
         if (columns == this.columns) return;
         if (columns != 0) {
-            Mundo.debug(this, "Columns != 0");
+            Logging.debug(this, "Columns != 0");
             tablist.simpleTablist.clear();
             if (columns != 4 && !tablist.areAllPlayersHidden()) {
-                Mundo.debug(this, "Hiding all players");
+                Logging.debug(this, "Hiding all players");
                 tablist.hideAllPlayers();
             }
         }
         if (columns > this.columns) {
-            Mundo.debug(this, "columns > this.columns");
+            Logging.debug(this, "columns > this.columns");
             if (this.columns == 0) {
                 this.rows = getViableRowAmount(columns, this.rows);
             } else {
@@ -125,7 +130,7 @@ public class ArrayTablist {
             }
             for (int column = this.columns + 1; column <= columns; column++)
                 for (int row = 1; row <= this.rows; row++) {
-                    Mundo.debug(this, "col: " + column + ", ro: " + row);
+                    Logging.debug(this, "col: " + column + ", ro: " + row);
                     displayNames[column - 1][row - 1] = "";
                     latencies[column - 1][row - 1] = 5;
                     heads[column - 1][row - 1] = initialIcon;
@@ -153,11 +158,11 @@ public class ArrayTablist {
     }
 
     public void setRows(int rows) {
-        Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
+        Logging.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
         rows = getViableRowAmount(columns, rows);
         if (rows == this.rows) return;
         if (!tablist.areAllPlayersHidden()) {
-            Mundo.debug(this, "Rows != 20, Hiding all players");
+            Logging.debug(this, "Rows != 20, Hiding all players");
             tablist.hideAllPlayers();
         }
         if (rows > this.rows) {
@@ -199,37 +204,37 @@ public class ArrayTablist {
     }
 
     public String getDisplayName(int column, int row) {
-        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? displayNames[column - 1][row - 1] : null;
+        return MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows) ? displayNames[column - 1][row - 1] : null;
     }
 
     public int getLatency(int column, int row) {
-        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? latencies[column - 1][row - 1] : 0;
+        return MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows) ? latencies[column - 1][row - 1] : 0;
     }
 
     public Skin getHead(int column, int row) {
-        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? heads[column - 1][row - 1] : null;
+        return MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows) ? heads[column - 1][row - 1] : null;
     }
 
     public int getScore(int column, int row) {
-        return Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows) ? scores[column - 1][row - 1] : 0;
+        return MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows) ? scores[column - 1][row - 1] : 0;
     }
 
     public void setDisplayName(int column, int row, String displayName) {
-        if (Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows)) {
+        if (MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows)) {
             displayNames[column - 1][row - 1] = displayName;
             sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
         }
     }
 
     public void setLatency(int column, int row, int ping) {
-        if (Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows)) {
+        if (MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows)) {
             latencies[column - 1][row - 1] = ping;
             sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.UPDATE_LATENCY);
         }
     }
 
     public void setHead(int column, int row, Skin head) {
-        if (Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows)) {
+        if (MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows)) {
             sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             heads[column - 1][row - 1] = head;
             sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
@@ -237,7 +242,7 @@ public class ArrayTablist {
     }
 
     public void setScore(int column, int row, int ping) {
-        if (Mundo.isInRange(1, column, columns) && Mundo.isInRange(1, row, rows)) {
+        if (MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows)) {
             scores[column - 1][row - 1] = ping;
             sendScorePacketToAll(column, row);
         }

@@ -8,7 +8,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Variable;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -67,12 +67,12 @@ public class EffPutJsonInListVariable extends Effect {
         listVariable.change(event, null, Changer.ChangeMode.DELETE);
         if (isArray) {
             JSONObject[] jsonObjects = jsonObjectExpression.getArray(event);
-            Mundo.debug(this, "Expression: " + jsonObjectExpression);
-            Mundo.debug(this, "Array size: " + jsonObjects.length);
-            Mundo.debug(this, "Actual array: " + jsonObjects);
+            Logging.debug(this, "Expression: " + jsonObjectExpression);
+            Logging.debug(this, "Array size: " + jsonObjects.length);
+            Logging.debug(this, "Actual array: " + jsonObjects);
             List<Object> jsonObjectList = Arrays.asList((Object[]) jsonObjects);
-            Mundo.debug(this, "List size: " + jsonObjectList.size());
-            Mundo.debug(this, "Actual list: " + jsonObjects);
+            Logging.debug(this, "List size: " + jsonObjectList.size());
+            Logging.debug(this, "Actual list: " + jsonObjects);
             setToJSONArray(listVariableName, jsonObjectList, listVariable.isLocal(), event);
         } else {
             JSONObject jsonObject = jsonObjectExpression.getSingle(event);
@@ -87,10 +87,10 @@ public class EffPutJsonInListVariable extends Effect {
 
     @Override
     public boolean init(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        Mundo.debug(this, "Expression class: " + exprs[1].getClass());
+        Logging.debug(this, "Expression class: " + exprs[1].getClass());
         jsonObjectExpression = (Expression<JSONObject>) exprs[0];
         isArray = i == 1;
-        Mundo.debug(this, "Return type: " + exprs[1].getReturnType());
+        Logging.debug(this, "Return type: " + exprs[1].getReturnType());
         if (exprs[1] instanceof Variable && ((Variable) exprs[1]).isList()) {
             listVariable = (Variable) exprs[1];
             listVariableName = listVariable.isLocal() ? listVariable.toString().substring(2, listVariable.toString().length() - 1) : listVariable.toString().substring(1, listVariable.toString().length() - 1);

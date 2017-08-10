@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.Chunk;
 import org.bukkit.event.Event;
 
@@ -16,7 +16,7 @@ public class CondChunkLoaded extends SimpleExpression<Boolean> {
 
     @Override
     protected Boolean[] get(Event event) {
-        return new Boolean[]{Mundo.check(chunkExpression, event, Chunk::isLoaded)};
+        return new Boolean[]{MundoUtil.check(chunkExpression, event, Chunk::isLoaded)};
     }
 
     @Override

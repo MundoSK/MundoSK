@@ -1,16 +1,14 @@
 package com.pie.tlatoani.Socket;
 
-import javax.annotation.Nullable;
-
-import com.pie.tlatoani.Mundo;
-import org.bukkit.Bukkit;
-import org.bukkit.event.Event;
-
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.Scheduling;
+import org.bukkit.event.Event;
+
+import javax.annotation.Nullable;
 
 public class EffWriteToSocket extends Effect{
 	private Expression<String> msgs;
@@ -49,7 +47,7 @@ public class EffWriteToSocket extends Effect{
 		}
 		if (timeout != null && timeout.getSingle(arg0).getMilliSeconds() < Integer.MAX_VALUE) timeoutarg = (int) timeout.getSingle(arg0).getMilliSeconds();
 		UtilWriterSocket exec = new UtilWriterSocket(msgs.getArray(arg0), ip.getSingle(arg0), port.getSingle(arg0).intValue(), redirectarg, reportarg, timeoutarg);
-        Mundo.async(exec);
+        Scheduling.async(exec);
     }
 	
 

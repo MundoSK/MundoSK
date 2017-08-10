@@ -3,8 +3,8 @@ package com.pie.tlatoani.WebSocket;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Util.UtilScope;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.ScopeUtil;
 import com.pie.tlatoani.WebSocket.Events.*;
 
 import java.util.Optional;
@@ -45,27 +45,27 @@ public class WebSocketServerFunctionality {
         loaded = true;
         onStart = nebula.onStart.flatMap(sectionNode -> {
             ScriptLoader.setCurrentEvent("WebSocketServerStart", WebSocketServerStartEvent.class);
-            return UtilScope.loadSectionNode(sectionNode, null);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
         });
         onStop = nebula.onStop.flatMap(sectionNode -> {
             ScriptLoader.setCurrentEvent("WebSocketServerStop", WebSocketServerStopEvent.class);
-            return UtilScope.loadSectionNode(sectionNode, null);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
         });
         onOpen = nebula.onOpen.flatMap(sectionNode -> {
             ScriptLoader.setCurrentEvent("WebSocketServerOpen", WebSocketOpenEvent.Server.class);
-            return UtilScope.loadSectionNode(sectionNode, null);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
         });
         onClose = nebula.onClose.flatMap(sectionNode -> {
             ScriptLoader.setCurrentEvent("WebSocketServerClose", WebSocketCloseEvent.Server.class);
-            return UtilScope.loadSectionNode(sectionNode, null);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
         });
         onMessage = nebula.onMessage.flatMap(sectionNode -> {
             ScriptLoader.setCurrentEvent("WebSocketServerMessage", WebSocketMessageEvent.Server.class);
-            return UtilScope.loadSectionNode(sectionNode, null);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
         });
         onError = nebula.onError.flatMap(sectionNode -> {
             ScriptLoader.setCurrentEvent("WebSocketServerError", WebSocketErrorEvent.Server.class);
-            return UtilScope.loadSectionNode(sectionNode, null);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
         });
     }
 
@@ -80,7 +80,7 @@ public class WebSocketServerFunctionality {
     }
 
     public void debugTriggerItems() {
-        Mundo.debug(this, "TriggerItems: " +
+        Logging.debug(this, "TriggerItems: " +
                 onStart + "," +
                 onStop + "," +
                 onOpen + "," +

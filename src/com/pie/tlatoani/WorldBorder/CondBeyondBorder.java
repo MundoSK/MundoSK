@@ -1,16 +1,15 @@
 package com.pie.tlatoani.WorldBorder;
 
-import com.pie.tlatoani.Mundo;
-import org.bukkit.Location;
-
-import javax.annotation.Nullable;
-
-import org.bukkit.event.Event;
-
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.MathUtil;
+import com.pie.tlatoani.Util.MundoUtil;
+import org.bukkit.Location;
+import org.bukkit.event.Event;
+
+import javax.annotation.Nullable;
 
 public class CondBeyondBorder extends SimpleExpression<Boolean>{
 	private Expression<Location> locationExpression;
@@ -41,11 +40,11 @@ public class CondBeyondBorder extends SimpleExpression<Boolean>{
 
 	@Override
 	protected Boolean[] get(Event event) {
-		return new Boolean[]{Mundo.check(locationExpression, event, loc -> {
+		return new Boolean[]{MundoUtil.check(locationExpression, event, loc -> {
 		    Location center = loc.getWorld().getWorldBorder().getCenter();
 		    Double radius = loc.getWorld().getWorldBorder().getSize() / 2;
-		    return (Mundo.isInRange(center.getX() - radius, loc.getX(), center.getX() + radius) &&
-                    Mundo.isInRange(center.getZ() - radius, loc.getZ(), center.getZ() + radius)) ==
+		    return (MathUtil.isInRange(center.getX() - radius, loc.getX(), center.getX() + radius) &&
+                    MathUtil.isInRange(center.getZ() - radius, loc.getZ(), center.getZ() + radius)) ==
                     within;
         })};
 	}

@@ -5,10 +5,9 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.comphenix.protocol.events.PacketContainer;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
-import java.lang.reflect.Field;
 import java.util.Optional;
 
 /**
@@ -20,14 +19,14 @@ public class EffPacketInfo extends Effect {
     @Override
     protected void execute(Event event) {
         PacketContainer packet = packetExpression.getSingle(event);
-        Mundo.info("Packet Info Start");
-        Mundo.info("PacketType = " + packet.getType());
+        Logging.info("Packet Info Start");
+        Logging.info("PacketType = " + packet.getType());
         int i = 0;
         for (Object value : packet.getModifier().getValues()) {
-            Mundo.info("Field " + i + ", Class = " + Optional.ofNullable(value).map(Object::getClass).orElse(null) + ": " + value);
+            Logging.info("Field " + i + ", Class = " + Optional.ofNullable(value).map(Object::getClass).orElse(null) + ": " + value);
             i++;
         }
-        Mundo.info("Packet Info End");
+        Logging.info("Packet Info End");
     }
 
     @Override

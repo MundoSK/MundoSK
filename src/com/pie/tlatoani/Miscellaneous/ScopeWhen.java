@@ -2,8 +2,8 @@ package com.pie.tlatoani.Miscellaneous;
 
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.event.Event;
 
 /**
@@ -33,7 +33,7 @@ public class ScopeWhen extends CustomScope {
         if (condition.getSingle(event)) {
             TriggerItem.walk(first, event);
         } else {
-            Mundo.syncDelay(1, () -> go(event));
+            Scheduling.syncDelay(1, () -> go(event));
         }
         return false;
     }

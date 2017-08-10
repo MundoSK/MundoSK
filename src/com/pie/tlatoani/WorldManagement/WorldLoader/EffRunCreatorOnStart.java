@@ -5,7 +5,6 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.WorldManagement.WorldLoader.UtilWorldLoader;
 import org.bukkit.WorldCreator;
 import org.bukkit.event.Event;
 
@@ -18,7 +17,7 @@ public class EffRunCreatorOnStart extends Effect {
 
     @Override
     protected void execute(Event event) {
-        UtilWorldLoader.setCreator(creatorExpression.getSingle(event));
+        WorldLoader.setCreator(creatorExpression.getSingle(event));
     }
 
     @Override

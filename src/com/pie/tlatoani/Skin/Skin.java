@@ -2,13 +2,10 @@ package com.pie.tlatoani.Skin;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
-import com.google.common.collect.Multimap;
-import com.pie.tlatoani.Util.UtilReflection;
+import com.pie.tlatoani.Util.Reflection;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,10 +28,10 @@ public class Skin {
     );
 
     public static String MULTIMAP_KEY = "textures";
-    public static UtilReflection.FieldAccessor CRAFT_META_SKULL_PROFILE = null;
+    public static Reflection.FieldAccessor CRAFT_META_SKULL_PROFILE = null;
 
     static {
-        CRAFT_META_SKULL_PROFILE = UtilReflection.getField(UtilReflection.getCraftBukkitClass("inventory.CraftMetaSkull"), "profile", UtilReflection.getClass("com.mojang.authlib.GameProfile"));
+        CRAFT_META_SKULL_PROFILE = Reflection.getField(Reflection.getCraftBukkitClass("inventory.CraftMetaSkull"), "profile", Reflection.getClass("com.mojang.authlib.GameProfile"));
     }
 
     private String value;

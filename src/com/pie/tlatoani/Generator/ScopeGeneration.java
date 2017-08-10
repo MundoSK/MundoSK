@@ -5,8 +5,8 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Conditional;
 import ch.njol.skript.lang.Trigger;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Logging;
 
 /**
  * Created by Tlatoani on 8/21/16.
@@ -41,7 +41,7 @@ public class ScopeGeneration extends CustomScope {
                             Skript.error("The 'generation' scope should either be right before the 'population' scope or be the last item in a custom generator!");
                         }
                     } catch (IllegalAccessException e) {
-                        Mundo.reportException(this, e);
+                        Logging.reportException(this, e);
                     }
                 }
             }

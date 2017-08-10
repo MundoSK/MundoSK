@@ -1,21 +1,18 @@
 package com.pie.tlatoani.Socket;
 
+import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.SkriptParser.ParseResult;
+import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
-import com.pie.tlatoani.Mundo;
-
+import javax.annotation.Nullable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
-
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.util.Kleenean;
 
 public class ExprMotdOfServer extends SimpleExpression<String>{
 	private Expression<String> host;
@@ -91,7 +88,7 @@ public class ExprMotdOfServer extends SimpleExpression<String>{
 	}
 	
 	private static void debug(String msg) {
-		Mundo.debug(ExprMotdOfServer.class, msg);
+		Logging.debug(ExprMotdOfServer.class, msg);
 	}
 
 }

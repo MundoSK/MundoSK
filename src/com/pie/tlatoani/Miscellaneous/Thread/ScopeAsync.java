@@ -1,11 +1,10 @@
 package com.pie.tlatoani.Miscellaneous.Thread;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.util.Timespan;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.event.Event;
 
 /**
@@ -44,9 +43,9 @@ public class ScopeAsync extends CustomScope {
     public boolean go(Event event) {
         Runnable runnable = () -> TriggerItem.walk(scope == null ? getNext() : first, event);
         if (delay == null) {
-            Mundo.async(runnable);
+            Scheduling.async(runnable);
         } else {
-            Mundo.asyncDelay(new Long(delay.getSingle(event).getTicks_i()).intValue(), runnable);
+            Scheduling.asyncDelay(new Long(delay.getSingle(event).getTicks_i()).intValue(), runnable);
         }
         return false;
     }

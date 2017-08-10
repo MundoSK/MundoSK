@@ -21,7 +21,7 @@ public class EffSendPacket extends Effect {
     protected void execute(Event event) {
         PacketContainer packetContainer = packetContainerExpression.getSingle(event);
         try {
-            UtilPacketEvent.protocolManager.sendServerPacket(playerExpression.getSingle(event), packetContainer);
+            PacketEvent.protocolManager.sendServerPacket(playerExpression.getSingle(event), packetContainer);
         } catch (InvocationTargetException e) {
             throw new RuntimeException("Cannot send packet " + packetContainer, e);
         }

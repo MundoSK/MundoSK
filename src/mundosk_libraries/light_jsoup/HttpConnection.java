@@ -1,6 +1,6 @@
 package mundosk_libraries.light_jsoup;
 
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -670,10 +670,10 @@ public class HttpConnection implements Connection {
                         }
                     });
                 } catch (NoSuchAlgorithmException | KeyManagementException e) {
-                    Mundo.debug(HttpConnection.class, e);
+                    Logging.debug(HttpConnection.class, e);
                 }
             } else {
-                Mundo.info("conn not instance of HttpsURLConnection: " + conn.getClass() + ", " + conn);
+                Logging.info("conn not instance of HttpsURLConnection: " + conn.getClass() + ", " + conn);
             }
             //MUNDOSK END
             Response res;

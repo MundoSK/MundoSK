@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.event.Event;
 
 /**
@@ -20,7 +20,7 @@ public class EffWaitAsync extends Effect {
 
     @Override
     public TriggerItem walk(Event event) {
-        Mundo.asyncDelay(new Long(delay.getSingle(event).getTicks_i()).intValue(),
+        Scheduling.asyncDelay(new Long(delay.getSingle(event).getTicks_i()).intValue(),
                 () -> walk(getNext(), event)
         );
         return null;
