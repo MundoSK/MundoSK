@@ -40,7 +40,7 @@ public final class Reflection {
     }
 
     public static Object getStaticField(Class<?> location, String name) throws NoSuchFieldException, IllegalAccessException {
-        Field field = location.getField(name);
+        Field field = location.getDeclaredField(name);
         field.setAccessible(true);
         return field.get(null);
     }

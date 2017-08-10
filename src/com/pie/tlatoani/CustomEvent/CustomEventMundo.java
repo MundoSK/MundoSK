@@ -3,10 +3,13 @@ package com.pie.tlatoani.CustomEvent;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.registrations.Classes;
+import ch.njol.skript.registrations.EventValues;
+import ch.njol.skript.util.Getter;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Reflection;
 import com.pie.tlatoani.Util.Registration;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -22,9 +25,13 @@ public class CustomEventMundo {
         Registration.registerExpression(ExprLastCustomEventCancelled.class, Boolean.class, ExpressionType.SIMPLE, "last [called] custom event (0¦was|1¦wasn't) cancelled");
 
         try {
+            //Field classinfos = Classes.class.getDeclaredField("tempClassInfos");
+            //@SuppressWarnings("unchecked")
+            //List<ClassInfo<?>> classes = (List<ClassInfo<?>>) classinfos.get(null);
             List<ClassInfo<?>> classes = (List<ClassInfo<?>>) Reflection.getStaticField(Classes.class, "tempClassInfos");
-            for (int i = 0; i < classes.size(); i++)
+            for (int i = 0; i < classes.size(); i++) {
                 registerCustomEventValue(classes.get(i));
+            }
         } catch (Exception e1) {
             Logging.reportException(CustomEventMundo.class, e1);
         }
