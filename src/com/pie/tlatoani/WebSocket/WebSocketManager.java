@@ -36,7 +36,7 @@ public class WebSocketManager {
             }
         }).defaultExpression(new EventValueExpression<WebSocket>(WebSocket.class));
         Mundo.registerEffect(EffCloseWebSocket.class, "close websocket %websocket% [with message %-string%]");
-        Mundo.registerEffect(EffWebSocketSendMessage.class, "websocket send %string% [through %-websockets%]");
+        Mundo.registerEffect(EffWebSocketSendMessage.class, "websocket send %strings% [through %-websockets%]");
         Mundo.registerEffect(EffStartWebSocketServer.class, "start websocket server %string% at port %number%");
         Mundo.registerEffect(EffStopWebSocketServer.class, "stop websocket server at port %number% [with timeout %-number%]");
         Mundo.registerEvent("WebSocket Client", ScopeWebSocketClient.class, WebSocketEvent.class, "websocket client %string%");

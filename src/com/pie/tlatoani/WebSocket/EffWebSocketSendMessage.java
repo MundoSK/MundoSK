@@ -6,6 +6,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.WebSocket.Events.WebSocketEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketServerEvent;
 import mundosk_libraries.java_websocket.WebSocket;
 import org.bukkit.event.Event;
@@ -19,14 +20,17 @@ public class EffWebSocketSendMessage extends Effect {
 
     @Override
     protected void execute(Event event) {
-        String message = messageExpr.getSingle(event);
+        String[] messages = messageExpr.getArray(event);
         if (webSocketExpr == null) {
-            for (WebSocket webSocket : ((WebSocketServerEvent) event).getWebSocketServer().connections()) {
+            WebSocket webSocket = ((WebSocketEvent) event).webSocket;
+            for (String message : messages) {
                 webSocket.send(message);
             }
         } else {
             for (WebSocket webSocket : webSocketExpr.getArray(event)) {
-                webSocket.send(message);
+                for (String message : messages) {
+                    webSocket.send(message);
+                }
             }
         }
     }
@@ -42,13 +46,13 @@ public class EffWebSocketSendMessage extends Effect {
         webSocketExpr = (Expression<WebSocket>) expressions[1];
         if (webSocketExpr == null) {
             for (Class<? extends Event> eventClass : ScriptLoader.getCurrentEvents()) {
-                if (WebSocketServerEvent.class.isAssignableFrom(eventClass)) {
+                if (WebSocketEvent.class.isAssignableFrom(eventClass)) {
                     return true;
                 }
             }
-            Skript.error("'websocket send %string%' can only be used under 'websocket server'!");
+            Skript.error("'websocket send %string%' can only be used under 'websocket server' and 'websocket client'!");
             return false;
         }
-        return false;
+        return true;
     }
 }
