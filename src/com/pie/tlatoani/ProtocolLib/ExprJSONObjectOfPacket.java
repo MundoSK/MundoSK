@@ -151,7 +151,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 }
                 JSONObject jsonObject = new JSONObject();
                 for (WrappedWatchableObject wrappedWatchableObject : wrappedWatchableObjects) {
-                    Mundo.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject, Index = " + wrappedWatchableObject.getIndex() + ", Value = " + wrappedWatchableObject.getValue());
+                    Mundo.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject, Index = " + wrappedWatchableObject.getIndex() + ", Value = " + wrappedWatchableObject.getValue() + ", WDWO = " + wrappedWatchableObject.getWatcherObject());
                     jsonObject.put("" + wrappedWatchableObject.getIndex(), wrappedWatchableObject.getValue());
                 }
                 return jsonObject;

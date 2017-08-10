@@ -26,6 +26,7 @@ import ch.njol.util.Checker;
 import ch.njol.util.Kleenean;
 import ch.njol.yggdrasil.Fields;
 
+import com.pie.tlatoani.Achievement.AchievementMundo;
 import com.pie.tlatoani.Book.*;
 import com.pie.tlatoani.Chunk.*;
 import com.pie.tlatoani.CodeBlock.*;
@@ -136,6 +137,9 @@ public class Mundo extends JavaPlugin {
 		if (serverHasPlugin("TerrainControl")) {
 		    TerrainControlMundo.load();
 		}
+        if (Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11")) {
+            AchievementMundo.load();
+        }
         //ZExperimental ~ The Z is for mystery (it's so that it appears last in the package list)
         ZExperimentalMundo.load();
         //
@@ -154,12 +158,6 @@ public class Mundo extends JavaPlugin {
 		} catch (Exception e1) {
 			reportException(this, e1);
 		}
-        if (Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11")) {
-		    RegistryPreColorUpdate.register();
-        }
-        if (Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11") || Bukkit.getVersion().contains("1.12")) {
-            RegistryFromCombatUpdate.register();
-        }
         ListUtil.register();
         ExprEventSpecificValue.register();
 		info("Awesome syntaxes have been registered!");
@@ -170,9 +168,11 @@ public class Mundo extends JavaPlugin {
     public void onDisable() {
         UtilFunctionSocket.onDisable();
         info("Closed all function sockets (if any were open)");
+        WebSocketManager.stopAllServers(0);
+        info("Stopped all WebSocket servers (if any were open)");
         try {
             UtilWorldLoader.save();
-            info("Successfully saved all world loaders");
+            info("Successfully saved all (if any) world loaders");
         } catch (IOException e) {
             info("A problem occurred while saving world loaders");
             reportException(this, e);
