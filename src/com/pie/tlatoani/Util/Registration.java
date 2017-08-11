@@ -29,8 +29,8 @@ public class Registration {
 
     public static void registerEnumAllExpressions() {
         ArrayList<String> patterns = new ArrayList<>();
-        for (String s : enumNames) {
-            patterns.add("[all] " + s + "s");
+        for (String enumName : enumNames) {
+            patterns.add("[all] " + enumName + "s");
         }
         Skript.registerExpression(ExprEnumValues.class, Object.class, ExpressionType.SIMPLE, patterns.toArray(new String[0]));
     }
@@ -59,7 +59,13 @@ public class Registration {
         EventValues.registerEventValue(tClass, rClass, new Getter<R, E>() {
             @Override
             public R get(E event) {
-                return function.apply(event);
+                try {
+                    return function.apply(event);
+                } catch (ClassCastException e) {
+                    Logging.debug(Registration.class, "tClass = " + tClass + ", rClass = " + rClass + ", function = " + function);
+                    Logging.debug(Registration.class, e);
+                    return null;
+                }
             }
         }, 0);
     }
