@@ -7,7 +7,6 @@ import com.pie.tlatoani.Chunk.ChunkMundo;
 import com.pie.tlatoani.CodeBlock.CodeBlockMundo;
 import com.pie.tlatoani.CustomEvent.CustomEventMundo;
 import com.pie.tlatoani.EnchantedBook.EnchantedBookMundo;
-import com.pie.tlatoani.Generator.GeneratorMundo;
 import com.pie.tlatoani.Generator.SkriptGeneratorManager;
 import com.pie.tlatoani.Json.JSONMundo;
 import com.pie.tlatoani.ListUtil.ListUtil;
@@ -77,7 +76,7 @@ public class Mundo extends JavaPlugin {
         ChunkMundo.load();
         CodeBlockMundo.load();
         EnchantedBookMundo.load();
-		GeneratorMundo.load();
+		SkriptGeneratorManager.load();
         JSONMundo.load();
         MiscMundo.load();
         NoteBlockMundo.load();

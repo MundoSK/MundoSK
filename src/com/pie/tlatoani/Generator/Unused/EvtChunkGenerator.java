@@ -1,7 +1,9 @@
-package com.pie.tlatoani.Generator;
+package com.pie.tlatoani.Generator.Unused;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.*;
+import com.pie.tlatoani.Generator.SkriptGenerator;
+import com.pie.tlatoani.Generator.SkriptGeneratorManager;
 import org.bukkit.event.Event;
 
 /**

@@ -26,7 +26,7 @@ import mundosk_libraries.java_websocket.handshake.Handshakedata;
 import mundosk_libraries.java_websocket.handshake.ServerHandshake;
 
 /**
- * A subclass must implement at least <var>onOpen</var>, <var>onClose</var>, and <var>onMessage</var> to be
+ * A subclass must implement at least <var>initiation</var>, <var>generation</var>, and <var>population</var> to be
  * useful. At runtime the user is expected to establish a connection via {@link #connect()}, then receive events like {@link #onMessage(String)} via the overloaded methods and to {@link #send(String)} data to the server.
  */
 public abstract class WebSocketClient extends WebSocketAdapter implements Runnable, WebSocket {
@@ -297,7 +297,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 	}
 
 	/**
-	 * Calls subclass' implementation of <var>onMessage</var>.
+	 * Calls subclass' implementation of <var>population</var>.
 	 */
 	@Override
 	public final void onWebsocketMessage( WebSocket conn, String message ) {
@@ -315,7 +315,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 	}
 
 	/**
-	 * Calls subclass' implementation of <var>onOpen</var>.
+	 * Calls subclass' implementation of <var>initiation</var>.
 	 */
 	@Override
 	public final void onWebsocketOpen( WebSocket conn, Handshakedata handshake ) {
@@ -324,7 +324,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 	}
 
 	/**
-	 * Calls subclass' implementation of <var>onClose</var>.
+	 * Calls subclass' implementation of <var>generation</var>.
 	 */
 	@Override
 	public final void onWebsocketClose( WebSocket conn, int code, String reason, boolean remote ) {

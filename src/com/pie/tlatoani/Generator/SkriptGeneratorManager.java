@@ -1,83 +1,55 @@
 package com.pie.tlatoani.Generator;
 
-import ch.njol.skript.lang.Conditional;
-import ch.njol.skript.lang.Trigger;
-import ch.njol.skript.lang.TriggerItem;
-import ch.njol.skript.lang.TriggerSection;
-import com.pie.tlatoani.Util.CustomScope;
+import ch.njol.skript.lang.ExpressionType;
+import com.pie.tlatoani.Util.Registration;
+import org.bukkit.Chunk;
+import org.bukkit.World;
+import org.bukkit.block.Biome;
+import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
 import java.util.HashMap;
-import java.util.function.Consumer;
-
-import static com.pie.tlatoani.Util.CustomScope.condition;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by Tlatoani on 7/4/16.
  */
 public final class SkriptGeneratorManager {
-    private static Map<String, SkriptGenerator>  skriptGeneratorMap = new HashMap<>();
-    private static ArrayList<String> countedIDs = new ArrayList<>();
+    private static Map<String, SkriptGenerator> skriptGeneratorMap = new HashMap<>();
 
-    private SkriptGeneratorManager() {} //Cannot be initialized
+    public static void load() {
+        Registration.registerType(ChunkGenerator.ChunkData.class, "chunkdata");
+        Registration.registerType(ChunkGenerator.BiomeGrid.class, "biomegrid");
+        Registration.registerEffect(EffSetRegionInChunkData.class,
+                "fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%",
+                "fill layer %number% in %chunkdata% with %itemstack%",
+                "fill layers %number% to %number% in %chunkdata% with %itemstack%");
+        Registration.registerEvent("Generator", ScopeGenerator.class, GeneratorEvent.class, "[custom] [(world|chunk)] generator %string%");
+        //Registration.registerEvent("World Generator", EvtChunkGenerator.class, SkriptGeneratorEvent.class, "[custom] [(world|chunk)] generator %string%");
+        Registration.registerEventValue(GeneratorEvent.class, World.class, event -> event.world);
+        Registration.registerEventValue(GeneratorEvent.class, Random.class, event -> event.random);
+        Registration.registerEventValue(GeneratorEvent.Generation.class, ChunkGenerator.ChunkData.class, event -> event.chunkData);
+        Registration.registerEventValue(GeneratorEvent.Generation.class, ChunkGenerator.BiomeGrid.class, event -> event.biomeGrid);
+        Registration.registerEventValue(GeneratorEvent.Population.class, Chunk.class, event -> event.chunk);
+        /*Registration.registerEventValue(SkriptGeneratorEvent.class, World.class, event -> event.world);
+        Registration.registerEventValue(SkriptGeneratorEvent.class, Random.class, e -> e.random);
+        Registration.registerEventValue(SkriptGeneratorEvent.class, ChunkGenerator.BiomeGrid.class, e -> e.biomeGrid);
+        Registration.registerEventValue(SkriptGeneratorEvent.class, Chunk.class, e -> e.chunk);*/
+        Registration.registerExpression(ExprCurrentChunkCoordinate.class, Number.class, ExpressionType.SIMPLE, "current x", "current z");
+        Registration.registerExpression(ExprMaterialInChunkData.class, ItemStack.class, ExpressionType.PROPERTY, "material at %number%, %number%, %number% in %chunkdata%");
+        Registration.registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%");
+        //Registration.registerScope(ScopeGeneration.class, "generation");
+        //Registration.registerScope(ScopePopulation.class, "population");
+    }
 
-    /*
-    For the information of whoever is reading this:
-    This method gives out empty SkriptChunkGenerators for use in worlds
-    So that they can be modified later
-    When Skript has loaded
-    To include the triggers that do the actual generating
-     */
     public static SkriptGenerator getSkriptGenerator(String id) {
         return skriptGeneratorMap.computeIfAbsent(id, k -> new SkriptGenerator());
     }
 
     static void unregisterAllSkriptGenerators() {
         skriptGeneratorMap.forEach((id, generator) -> {
-            generator.trigger = null;
-            generator.generation = null;
-            generator.population = null;
+            generator.functionality.unload();
         });
     }
-
-    /*public static boolean addID(String id) {
-        if (countedIDs.contains(id)) {
-            return false;
-        }
-        countedIDs.add(id);
-        return true;
-    }
-
-    public static void finalizeID(String id) {
-        countedIDs.remove(id);
-    }
-
-    public static void registerTriggers(Collection<Trigger> triggers) {
-        for (Trigger trigger : triggers) {
-            String generatorID = ((EvtChunkGenerator) trigger.getEvent()).getGeneratorID();
-            SkriptGenerator generator = SkriptGeneratorManager.getSkriptGenerator(generatorID);
-            generator.trigger = trigger;
-            try {
-                TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
-                while (going != null) {
-                    if (going instanceof Conditional) {
-                        Object goingcond = condition.get((TriggerSection) going);
-                        if (goingcond instanceof ScopeGeneration) {
-                            ((ScopeGeneration) goingcond).setScope((Conditional) going);
-                            generator.generation = ((CustomScope) goingcond).getFirst();
-                        } else if (goingcond instanceof ScopePopulation) {
-                            ((ScopePopulation) goingcond).setScope((Conditional) going);
-                            generator.population = ((CustomScope) goingcond).getFirst();
-                        }
-                    }
-                    going = going.getNext();
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        countedIDs.clear();
-    }*/
 }

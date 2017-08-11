@@ -107,6 +107,7 @@ public class MiscMundo {
     }
     
     private static void loadRandom() {
+        Registration.registerType(Random.class, "random").defaultExpression((new ExprNewRandom()).setDefault());
         Registration.registerExpression(ExprNewRandom.class, Random.class, ExpressionType.PROPERTY, "new random [from seed %number%]");
         Registration.registerExpression(ExprRandomValue.class, Object.class, ExpressionType.PROPERTY, "random (0¦int|1¦long|2¦float|3¦double|4¦gaussian|5¦int less than %-number%|6¦boolean) [from [random] %random%]");
     }

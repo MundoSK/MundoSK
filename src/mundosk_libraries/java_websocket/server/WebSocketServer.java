@@ -617,7 +617,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 		} else {
 			// This case will happen when a new connection gets ready while the server is already stopping.
 			ws.close( CloseFrame.GOING_AWAY );
-			return true;// for consistency sake we will make sure that both onOpen will be called
+			return true;// for consistency sake we will make sure that both initiation will be called
 		}
 	}
 

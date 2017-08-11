@@ -135,7 +135,7 @@ public interface WebSocketListener {
 
 	/**
 	 * Called if an exception worth noting occurred.
-	 * If an error causes the connection to fail onClose will be called additionally afterwards.
+	 * If an error causes the connection to fail generation will be called additionally afterwards.
 	 *
 	 * @param conn The <tt>WebSocket</tt> instance this event is occuring on.
 	 * @param ex

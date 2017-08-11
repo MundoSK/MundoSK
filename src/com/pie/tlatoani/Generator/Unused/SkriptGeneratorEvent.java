@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Generator;
+package com.pie.tlatoani.Generator.Unused;
 
 import ch.njol.skript.lang.TriggerItem;
 import com.pie.tlatoani.Util.BaseEvent;

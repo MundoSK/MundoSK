@@ -51,7 +51,7 @@ public interface WebSocket {
 
 	/**
 	 * This will close the connection immediately without a proper close handshake.
-	 * The code and the message therefore won't be transfered over the wire also they will be forwarded to onClose/onWebsocketClose.
+	 * The code and the message therefore won't be transfered over the wire also they will be forwarded to generation/onWebsocketClose.
 	 * @param code the closing code
 	 * @param message the closing message
 	 **/
@@ -93,7 +93,7 @@ public interface WebSocket {
 	 * Allows to send continuous/fragmented frames conveniently. <br>
 	 * For more into on this frame type see http://tools.ietf.org/html/rfc6455#section-5.4<br>
 	 * 
-	 * If the first frame you send is also the last then it is not a fragmented frame and will received via onMessage instead of onFragmented even though it was send by this method.
+	 * If the first frame you send is also the last then it is not a fragmented frame and will received via population instead of onFragmented even though it was send by this method.
 	 * 
 	 * @param op
 	 *            This is only important for the first frame in the sequence. Opcode.TEXT, Opcode.BINARY are allowed.
