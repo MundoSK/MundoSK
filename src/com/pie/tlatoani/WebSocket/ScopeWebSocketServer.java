@@ -6,12 +6,12 @@ import ch.njol.skript.config.Config;
 import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.Literal;
-import ch.njol.skript.lang.SelfRegisteringSkriptEvent;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.ScriptOptions;
 import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.MundoEventScope;
 import com.pie.tlatoani.Util.ScopeUtil;
 import org.bukkit.event.Event;
 
@@ -21,12 +21,12 @@ import java.util.Optional;
 /**
  * Created by Tlatoani on 5/4/17.
  */
-public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
+public class ScopeWebSocketServer extends MundoEventScope {
     private WebSocketServerFunctionality serverFunctionality;
     private WebSocketServerFunctionality.Nebula nebula;
 
     @Override
-    public void register(Trigger trigger) {
+    protected void afterInit() {
         serverFunctionality.load(nebula);
         Logging.debug(this, "registered: " + serverFunctionality);try {
             ScriptOptions options = ScriptOptions.getInstance();
