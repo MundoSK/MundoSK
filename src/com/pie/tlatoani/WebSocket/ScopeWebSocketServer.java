@@ -1,21 +1,17 @@
 package com.pie.tlatoani.WebSocket;
 
-import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
-import ch.njol.skript.config.Config;
 import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.log.SkriptLogger;
-import ch.njol.skript.util.ScriptOptions;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.MundoEventScope;
 import com.pie.tlatoani.Util.ScopeUtil;
 import org.bukkit.event.Event;
 
-import java.io.File;
 import java.util.Optional;
 
 /**
@@ -28,18 +24,7 @@ public class ScopeWebSocketServer extends MundoEventScope {
     @Override
     protected void afterInit() {
         serverFunctionality.load(nebula);
-        Logging.debug(this, "registered: " + serverFunctionality);try {
-            ScriptOptions options = ScriptOptions.getInstance();
-            Logging.debug(this, "options: " + options);
-            Config config = ScriptLoader.currentScript;
-            Logging.debug(this, "config: " + config);
-            File file = config.getFile();
-            Logging.debug(this, "file: " + file);
-            boolean b = options.usesNewLoops(file);
-            Logging.debug(this, "b: " + b);
-        } catch (NullPointerException e) {
-            Logging.debug(this, e);
-        }
+        Logging.debug(this, "registered: " + serverFunctionality);
     }
 
     @Override

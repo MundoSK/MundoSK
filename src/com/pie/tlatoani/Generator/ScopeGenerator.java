@@ -4,11 +4,11 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.Literal;
-import ch.njol.skript.lang.SelfRegisteringSkriptEvent;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.log.SkriptLogger;
 import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.MundoEventScope;
 import com.pie.tlatoani.Util.ScopeUtil;
 import org.bukkit.event.Event;
 
@@ -17,12 +17,12 @@ import java.util.Optional;
 /**
  * Created by Tlatoani on 8/11/17.
  */
-public class ScopeGenerator extends SelfRegisteringSkriptEvent {
+public class ScopeGenerator extends MundoEventScope {
     private GeneratorFunctionality generatorFunctionality;
     private GeneratorFunctionality.Nebula nebula;
 
     @Override
-    public void register(Trigger trigger) {
+    public void afterInit() {
         generatorFunctionality.load(nebula);
         Logging.debug(this, "registered: " + generatorFunctionality);
     }
