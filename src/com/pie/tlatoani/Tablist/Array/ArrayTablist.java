@@ -6,7 +6,8 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.pie.tlatoani.ProtocolLib.PacketEvent;
+import com.pie.tlatoani.ProtocolLib.MundoPacketEvent;
+import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Util.Logging;
@@ -69,14 +70,7 @@ public class ArrayTablist {
         packetContainer.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
         Logging.debug(this, "SP 4");
-        try {
-            for (Player player : players) {
-                Logging.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action + ", player = " + player);
-                PacketEvent.protocolManager.sendServerPacket(player, packetContainer);
-            }
-        } catch (InvocationTargetException e) {
-            Logging.reportException(this, e);
-        }
+        PacketManager.sendPacket(players, this, packetContainer);
     }
 
     private void sendScorePacketToAll(int column, int row) {
@@ -92,13 +86,7 @@ public class ArrayTablist {
         packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, scores[column - 1][row - 1]);
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
-        for (Player player : players) {
-            try {
-                PacketEvent.protocolManager.sendServerPacket(player, packet);
-            } catch (InvocationTargetException e) {
-                Logging.reportException(this, e);
-            }
-        }
+        PacketManager.sendPacket(players, this, packet);
     }
 
     public int getColumns() {

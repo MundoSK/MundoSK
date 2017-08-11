@@ -16,6 +16,10 @@ import com.comphenix.protocol.reflect.EquivalentConverter;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.comphenix.protocol.wrappers.nbt.NbtBase;
+import com.comphenix.protocol.wrappers.nbt.NbtCompound;
+import com.comphenix.protocol.wrappers.nbt.NbtFactory;
+import com.comphenix.protocol.wrappers.nbt.NbtType;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Reflection;
 import io.netty.buffer.ByteBuf;
@@ -26,11 +30,13 @@ import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+import org.json.simple.JSONObject;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.function.BiConsumer;
 
 /**
  * Created by Tlatoani on 5/2/16.
@@ -45,7 +51,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     private static Map<String, PacketInfoConverter> singleConverters = new LinkedHashMap<>();
     private static Map<String, PacketInfoConverter<Object[]>> pluralConverters = new LinkedHashMap<>();
 
-    /*
+
 
     public static JSONObject fromNBTBase(NbtBase nbtBase) {
         JSONObject result = new JSONObject();
@@ -161,17 +167,14 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                         throw new IllegalArgumentException("TAG_END base");
                 }
             } catch (IllegalArgumentException e) {}
-            ArrayList<NbtBase> nbtBases = new ArrayList<>();
-            value.forEach(new BiConsumer() {
-                @Override
-                public void accept(Object o, Object o2) {
-                    try {
-                        nbtBases.add(toNBTBase((JSONObject) o2, (String) o));
-                    } catch (ClassCastException e) {}
-                }
-            });
-            return NbtFactory.ofCompound(name, nbtBases);
         }
+        ArrayList<NbtBase<?>> nbtBases = new ArrayList<>();
+        value.forEach((o, o2) -> {
+            try {
+                nbtBases.add(toNBTBase((JSONObject) o2, (String) o));
+            } catch (ClassCastException e) {}
+        });
+        return NbtFactory.ofCompound(name, nbtBases);
     }
 
 
@@ -241,7 +244,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             }
         }
     }
-    */
+
     static {
 
         //Single Converters

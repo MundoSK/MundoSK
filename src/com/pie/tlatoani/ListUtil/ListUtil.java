@@ -102,11 +102,11 @@ public final class ListUtil {
         item.add("(" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");
         someItems.add(j + "s %number% to (%-number%|last) (of|in) %" + possessorClassInfo + "%");
         itemCount.add(j + " count (of|in) %" + possessorClassInfo + "%");
-        Skript.registerEffect(EffInsertItem.class,insertItem.toArray(new String[0]));
-        Skript.registerExpression(ExprItem.class,Object.class, ExpressionType.PROPERTY,item.toArray(new String[0]));
-        Skript.registerExpression(ExprItems.class,Object.class,ExpressionType.PROPERTY,items.toArray(new String[0]));
-        Skript.registerExpression(ExprSomeItems.class,String.class,ExpressionType.PROPERTY,someItems.toArray(new String[0]));
-        Skript.registerExpression(ExprItemCount.class,Number.class,ExpressionType.PROPERTY,itemCount.toArray(new String[0]));
+        Registration.registerEffect(EffInsertItem.class,insertItem.toArray(new String[0]));
+        Registration.registerExpression(ExprItem.class,Object.class, ExpressionType.PROPERTY,item.toArray(new String[0]));
+        Registration.registerExpression(ExprItems.class,Object.class,ExpressionType.PROPERTY,items.toArray(new String[0]));
+        Registration.registerExpression(ExprSomeItems.class,Object.class,ExpressionType.PROPERTY,someItems.toArray(new String[0]));
+        Registration.registerExpression(ExprItemCount.class,Number.class,ExpressionType.PROPERTY,itemCount.toArray(new String[0]));
 
         Registration.registerEffect(EffMoveItem.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
     }

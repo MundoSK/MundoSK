@@ -39,14 +39,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Mundo extends JavaPlugin {
-	public static Mundo instance;
-    public static String pluginFolder;
+	public static Mundo INSTANCE;
     public static Boolean implementPacketStuff;
-    public static final String HEX_DIGITS = "0123456789abcdef";
 
     @Override
 	public void onEnable() {
-        pluginFolder = getDataFolder().getAbsolutePath();
         FileConfiguration config = getConfig();
         config.addDefault("debug", Arrays.asList(new String[0]));
         config.addDefault("enable_custom_skin_and_tablist", true);
@@ -58,7 +55,7 @@ public class Mundo extends JavaPlugin {
         int tablistSpawnRemoveTabDelay = config.getInt("tablist_remove_tab_delay_spawn");
         int tablistRespawnRemoveTabDelay = config.getInt("tablist_remove_tab_delay_respawn");
         saveConfig();
-        instance = this;
+        INSTANCE = this;
 
         Logging.load(getLogger(), debugPackages);
         Scheduling.load();
@@ -136,7 +133,7 @@ public class Mundo extends JavaPlugin {
     }
 
     public static String getVersion() {
-        return instance.getDescription().getVersion();
+        return INSTANCE.getDescription().getVersion();
     }
 	
 }

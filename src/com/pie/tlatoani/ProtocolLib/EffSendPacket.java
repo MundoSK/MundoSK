@@ -4,6 +4,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -20,11 +21,7 @@ public class EffSendPacket extends Effect {
     @Override
     protected void execute(Event event) {
         PacketContainer packetContainer = packetContainerExpression.getSingle(event);
-        try {
-            PacketEvent.protocolManager.sendServerPacket(playerExpression.getSingle(event), packetContainer);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException("Cannot send packet " + packetContainer, e);
-        }
+        PacketManager.sendPacket(playerExpression.getSingle(event), this, packetContainer);
     }
 
     @Override

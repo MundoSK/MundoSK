@@ -10,10 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,13 +22,14 @@ import java.util.function.BiConsumer;
  */
 public final class WorldLoader {
     private static Map<String, WorldCreator> worldLoaderSaver = new HashMap<String, WorldCreator>();
-    private final static String filename = "worldloader.json";
-    private static boolean success = true;
+    private final static String FILENAME = "worldloader.json";
+
+    //private static boolean success = true;
 
     private WorldLoader() {} //Cannot be initialized
 
     public static void load() {
-        File file = getLoaderFile();
+        /*File file = getLoaderFile();
         if (file != null) readJSONObject(file).forEach(new BiConsumer() {
             @Override
             public void accept(Object key, Object value) {
@@ -48,6 +46,24 @@ public final class WorldLoader {
             } else {
                 Logging.info("Worlds to automatically load were loaded successfully!");
             }
+        }*/
+        try {
+            readJSONObject(getLoaderFile()).forEach((key, value) -> {
+                String s = (String) key;
+                JSONObject jsonObject = (JSONObject) value;
+                WorldCreator creator = getCreatorFromJSON(s, jsonObject);
+                setCreator(creator);
+                creator.createWorld();
+            });
+            if (getAllCreators().isEmpty()) {
+                Logging.info("No worlds were assigned to load automatically");
+            } else {
+                Logging.info("Worlds to automatically load were loaded successfully!");
+            }
+        } catch (ParseException | IOException | ClassCastException e) {
+            Logging.info("MundoSK encountered problems while reading the file for automatically loaded worlds");
+            Logging.info("Any worlds set to automatically load were not loaded");
+            Logging.reportException(WorldLoader.class, e);
         }
     }
 
@@ -58,9 +74,20 @@ public final class WorldLoader {
         writer.close();
     }
 
-    public static File getLoaderFile() {
-        try {
-            File result = new File(Mundo.pluginFolder + File.separator + filename);
+    public static File getLoaderFile() throws IOException {
+        File result = new File(Mundo.INSTANCE.getDataFolder().getAbsolutePath() + File.separator + FILENAME);
+        if (!result.exists()) {
+            result.createNewFile();
+            //JsonObject emptyObject = Json.createObjectBuilder().build();
+            JSONObject emptyObject = new JSONObject();
+            FileWriter writer = new FileWriter(result);
+            writer.write(emptyObject.toString());
+            writer.flush();
+            writer.close();
+        }
+        return result;
+        /*try {
+            File result = new File(Mundo.INSTANCE.getDataFolder().getAbsolutePath() + File.separator + FILENAME);
             if (!result.exists()) {
                 result.createNewFile();
                 //JsonObject emptyObject = Json.createObjectBuilder().build();
@@ -77,11 +104,12 @@ public final class WorldLoader {
             Logging.debug(WorldLoader.class, e);
             success = false;
         }
-        return null;
+        return null;*/
     }
 
-    public static JSONObject readJSONObject(File jsonFile) {
-        JSONParser parser = new JSONParser();
+    public static JSONObject readJSONObject(File jsonFile) throws IOException, ParseException, ClassCastException {
+        return (JSONObject) new JSONParser().parse(new FileReader(jsonFile));
+        /*JSONParser parser = new JSONParser();
         JSONObject result = null;
         try {
             result = (JSONObject) parser.parse(new FileReader(jsonFile));
@@ -91,7 +119,7 @@ public final class WorldLoader {
             Logging.debug(WorldLoader.class, e);
             success = false;
         }
-        return result;
+        return result;*/
     }
 
     public static JSONObject getJSONOfData() {

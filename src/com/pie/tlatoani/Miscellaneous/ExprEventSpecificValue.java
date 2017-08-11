@@ -9,6 +9,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Util.Registration;
 import org.bukkit.event.Event;
 
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ public class ExprEventSpecificValue extends SimpleExpression<Object> {
     }
 
     public static void register() {
-        Skript.registerExpression(ExprEventSpecificValue.class, Object.class, ExpressionType.SIMPLE, patternList.toArray(new String[0]));
+        Registration.registerExpression(ExprEventSpecificValue.class, Object.class, ExpressionType.SIMPLE, patternList.toArray(new String[0]));
     }
 
     private interface EventSpecificValue<R, E extends Event> {

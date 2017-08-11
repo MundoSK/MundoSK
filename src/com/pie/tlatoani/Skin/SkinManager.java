@@ -63,7 +63,7 @@ public class SkinManager {
 
             //Packet stuff
 
-            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.INSTANCE, PacketType.Play.Server.PLAYER_INFO) {
                 @Override
                 public void onPacketSending(PacketEvent event) {
                     if (!event.isCancelled() && event.getPlayer() != null) {
@@ -116,7 +116,7 @@ public class SkinManager {
                 }
             });
 
-            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.SCOREBOARD_TEAM) {
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.INSTANCE, PacketType.Play.Server.SCOREBOARD_TEAM) {
                 @Override
                 public void onPacketSending(PacketEvent event) {
                     if (!event.isCancelled() && event.getPlayer() != null) {
@@ -143,7 +143,7 @@ public class SkinManager {
                 }
             });
 
-            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.SCOREBOARD_SCORE) {
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.INSTANCE, PacketType.Play.Server.SCOREBOARD_SCORE) {
                 @Override
                 public void onPacketSending(PacketEvent event) {
                     StructureModifier<String> stringStructureModifier = event.getPacket().getStrings();

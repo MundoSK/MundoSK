@@ -55,7 +55,7 @@ public class Metrics {
 
     public static void enableMundoSKMetrics() {
         try {
-            Metrics metrics = new Metrics(Mundo.instance);
+            Metrics metrics = new Metrics(Mundo.INSTANCE);
             //Skript Version
             Graph skriptVersion = metrics.createGraph("Skript Version");
             skriptVersion.addPlotter(new Metrics.Plotter(Bukkit.getServer().getPluginManager().getPlugin("Skript").getDescription().getVersion()){

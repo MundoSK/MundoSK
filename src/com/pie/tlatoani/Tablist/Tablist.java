@@ -48,7 +48,7 @@ public class Tablist {
     static {
 
         if (Mundo.implementPacketStuff) {
-            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.PLAYER_INFO) {
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.INSTANCE, PacketType.Play.Server.PLAYER_INFO) {
                 @Override
                 public void onPacketSending(PacketEvent event) {
                     if (!event.isCancelled()) {
@@ -75,7 +75,7 @@ public class Tablist {
                 }
             });
 
-            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.INSTANCE, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
                 @Override
                 public void onPacketSending(PacketEvent event) {
                     Player player = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
@@ -98,7 +98,7 @@ public class Tablist {
                 }
             });
 
-            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.instance, PacketType.Play.Server.RESPAWN) {
+            ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.INSTANCE, PacketType.Play.Server.RESPAWN) {
                 @Override
                 public void onPacketSending(PacketEvent event) {
                     Player player = event.getPlayer();

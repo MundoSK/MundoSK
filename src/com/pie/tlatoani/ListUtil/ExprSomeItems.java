@@ -13,7 +13,7 @@ import java.lang.reflect.Array;
 /**
  * Created by Tlatoani on 6/11/16.
  */
-public class ExprSomeItems extends SimpleExpression implements ListUtil.TransformerUser, ListUtil.Moveable {
+public class ExprSomeItems extends SimpleExpression<Object> implements ListUtil.TransformerUser, ListUtil.Moveable {
     private String pattern;
     private Transformer transformer;
     private Expression expression;

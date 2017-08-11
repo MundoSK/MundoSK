@@ -35,20 +35,20 @@ public class TablistMundo {
                 Tablist.onJoin(event.getPlayer());
                 SkinManager.onJoin(event.getPlayer());
             }
-        }, Mundo.instance);
+        }, Mundo.INSTANCE);
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onQuit(PlayerQuitEvent event) {
                 Tablist.onQuit(event.getPlayer());
                 SkinManager.onQuit(event.getPlayer());
             }
-        }, Mundo.instance);
+        }, Mundo.INSTANCE);
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onRespawn(PlayerRespawnEvent event) {
                 SkinManager.onRespawn(event.getPlayer());
             }
-        }, Mundo.instance);
+        }, Mundo.INSTANCE);
         Registration.registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "(%-tablist%|%-player%'s tablist) contains players");
         Registration.registerExpression(ExprNewTablist.class, Tablist.class, ExpressionType.SIMPLE, "new tablist");
         Registration.registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores enabled in (%-tablist%|%-player%'s tablist)");

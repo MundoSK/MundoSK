@@ -673,7 +673,7 @@ public class HttpConnection implements Connection {
                     Logging.debug(HttpConnection.class, e);
                 }
             } else {
-                Logging.info("conn not instance of HttpsURLConnection: " + conn.getClass() + ", " + conn);
+                Logging.info("conn not INSTANCE of HttpsURLConnection: " + conn.getClass() + ", " + conn);
             }
             //MUNDOSK END
             Response res;

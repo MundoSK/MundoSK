@@ -20,15 +20,15 @@ public class EvtPacketEvent extends SkriptEvent{
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
         PacketType[] packetTypeArray = ((Literal<PacketType>) literals[0]).getAll();
         packetTypesToString = literals[0].toString();
-        PacketEvent.addListener(packetTypeArray);
+        MundoPacketEvent.addListener(packetTypeArray);
         packetTypes = Arrays.asList(packetTypeArray);
         return true;
     }
 
     @Override
     public boolean check(Event arg0) {
-        if (arg0 instanceof PacketEvent) {
-            if (packetTypes.contains(((PacketEvent) arg0).getPacketType())) {
+        if (arg0 instanceof MundoPacketEvent) {
+            if (packetTypes.contains(((MundoPacketEvent) arg0).getPacketType())) {
                 return true;
             }
             else return false;
