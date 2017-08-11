@@ -4,9 +4,6 @@ import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.TriggerItem;
 import com.pie.tlatoani.Util.ScopeUtil;
-import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
-import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
-import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
 
 import java.util.Optional;
 
@@ -43,15 +40,15 @@ public class GeneratorFunctionality {
     public void load(Nebula nebula) {
         loaded = true;
         initiation = nebula.initiation.flatMap(sectionNode -> {
-            ScriptLoader.setCurrentEvent("GeneratorInitiation", WebSocketOpenEvent.class);
+            ScriptLoader.setCurrentEvent("GeneratorInitiation", GeneratorEvent.Initiation.class);
             return ScopeUtil.loadSectionNode(sectionNode, null);
         });
         generation = nebula.generation.flatMap(sectionNode -> {
-            ScriptLoader.setCurrentEvent("GeneratorGeneration", WebSocketCloseEvent.class);
+            ScriptLoader.setCurrentEvent("GeneratorGeneration", GeneratorEvent.Generation.class);
             return ScopeUtil.loadSectionNode(sectionNode, null);
         });
         population = nebula.population.flatMap(sectionNode -> {
-            ScriptLoader.setCurrentEvent("GeneratorPopulation", WebSocketMessageEvent.class);
+            ScriptLoader.setCurrentEvent("GeneratorPopulation", GeneratorEvent.Population.class);
             return ScopeUtil.loadSectionNode(sectionNode, null);
         });
     }
