@@ -3,7 +3,6 @@ package com.pie.tlatoani.WebSocket;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.ScopeUtil;
 import com.pie.tlatoani.WebSocket.Events.*;
 

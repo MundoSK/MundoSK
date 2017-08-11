@@ -39,7 +39,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
 
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
-        serverFunctionality = new WebSocketServerFunctionality(((Literal<String>) literals[0]).getSingle());
+        serverFunctionality = WebSocketManager.getServerFunctionality(((Literal<String>) literals[0]).getSingle());
         nebula = new WebSocketServerFunctionality.Nebula();
         SectionNode topNode = (SectionNode) SkriptLogger.getNode();
         try {
