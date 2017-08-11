@@ -20,6 +20,9 @@ public class ExprWebSocketPort extends SimpleExpression<Number> {
     protected Number[] get(Event event) {
         WebSocket webSocket = webSocketExpr.getSingle(event);
         InetSocketAddress socketAddress = local ? webSocket.getLocalSocketAddress() : webSocket.getRemoteSocketAddress();
+        if (socketAddress == null) {
+            return new Number[0];
+        }
         return new Number[]{socketAddress.getPort()};
     }
 

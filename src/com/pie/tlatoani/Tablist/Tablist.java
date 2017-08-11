@@ -10,6 +10,7 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Skin.SkinManager;
 import com.pie.tlatoani.Tablist.Array.ArrayTablist;

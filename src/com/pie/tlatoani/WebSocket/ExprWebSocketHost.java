@@ -20,6 +20,9 @@ public class ExprWebSocketHost extends SimpleExpression<String> {
     protected String[] get(Event event) {
         WebSocket webSocket = webSocketExpr.getSingle(event);
         InetSocketAddress socketAddress = local ? webSocket.getLocalSocketAddress() : webSocket.getRemoteSocketAddress();
+        if (socketAddress == null) {
+            return new String[0];
+        }
         return new String[]{socketAddress.getHostName()};
     }
 
