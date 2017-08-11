@@ -24,12 +24,13 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
     @Override
     public void register(Trigger trigger) {
         clientFunctionality.load(nebula);
-        Logging.debug(this, clientFunctionality.toString());
+        Logging.debug(this, "registered: " + clientFunctionality);
     }
 
     @Override
     public void unregister(Trigger trigger) {
         clientFunctionality.unload();
+        Logging.debug(this, "unregistered");
     }
 
     @Override
@@ -42,10 +43,13 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
         clientFunctionality = WebSocketManager.getClientFunctionality(((Literal<String>) literals[0]).getSingle());
         nebula = new WebSocketClientFunctionality.Nebula();
         SectionNode topNode = (SectionNode) SkriptLogger.getNode();
+        Logging.debug(this, "init()ing");
         try {
             if (clientFunctionality.isLoaded()) {
-                Skript.error("You cannot have two 'websocket client' instances with the same id!");
-                return false;
+                Skript.warning("You may have two 'websocket client' instances with the id \"" + clientFunctionality.id + "\" in your code."
+                        + " If you do, note that only one of them will be used."
+                        + " If you don't, you can ignore this warning.");
+                clientFunctionality.unload();
             }
             for (Node node : topNode) {
                 SkriptLogger.setNode(node);

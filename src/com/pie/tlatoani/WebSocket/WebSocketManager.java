@@ -4,6 +4,7 @@ import ch.njol.skript.expressions.base.EventValueExpression;
 import ch.njol.skript.lang.ExpressionType;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
@@ -22,16 +23,23 @@ public class WebSocketManager {
     
     public static void load() {
         Registration.registerType(WebSocket.class, "websocket")
-                .defaultExpression(new EventValueExpression<WebSocket>(WebSocket.class));
+                .defaultExpression(new EventValueExpression<>(WebSocket.class));
+
         Registration.registerEffect(EffCloseWebSocket.class, "close websocket %websocket% [with message %-string%]");
         Registration.registerEffect(EffWebSocketSendMessage.class, "websocket send %strings% [through %-websockets%]");
         Registration.registerEffect(EffStartWebSocketServer.class, "start websocket server %string% at port %number%");
         Registration.registerEffect(EffStopWebSocketServer.class, "stop websocket server at port %number% [with timeout %-number%]");
+
         Registration.registerEvent("WebSocket Client", ScopeWebSocketClient.class, WebSocketEvent.class, "websocket client %string%");
         Registration.registerEvent("WebSocket Server", ScopeWebSocketServer.class, WebSocketEvent.class, "websocket server %string%");
+
         Registration.registerEventValue(WebSocketEvent.class, WebSocket.class, event -> event.webSocket);
         Registration.registerEventValue(WebSocketMessageEvent.class, String.class, event -> event.message);
         Registration.registerEventValue(WebSocketErrorEvent.class, Throwable.class, event -> event.error);
+        Registration.registerEventValue(WebSocketCloseEvent.class, Number.class, event -> event.code);
+        Registration.registerEventValue(WebSocketCloseEvent.class, String.class, event -> event.reason);
+        Registration.registerEventValue(WebSocketCloseEvent.class, Boolean.class, event -> event.remote);
+
         Registration.registerExpression(ExprWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "[new] websocket %string% connected to uri %string%");
         Registration.registerExpression(ExprWebSocketID.class, String.class, ExpressionType.PROPERTY, "websocket id of %websocket%", "%websocket%'s websocket id");
         Registration.registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket [server] port");
