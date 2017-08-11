@@ -1,13 +1,16 @@
 package com.pie.tlatoani.WebSocket;
 
+import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.config.Config;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Mundo;
+import ch.njol.skript.util.ScriptOptions;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.WebSocket.Events.*;
 import mundosk_libraries.java_websocket.WebSocket;
 import mundosk_libraries.java_websocket.handshake.ClientHandshake;
 import mundosk_libraries.java_websocket.server.WebSocketServer;
 
+import java.io.File;
 import java.net.InetSocketAddress;
 
 /**
@@ -20,6 +23,14 @@ public class SkriptWebSocketServer extends WebSocketServer {
         super(new InetSocketAddress(port));
         this.functionality = functionality;
         Logging.debug(this, functionality.toString());
+        try {
+            ScriptOptions options = ScriptOptions.getInstance();
+            Config config = ScriptLoader.currentScript;
+            File file = config.getFile();
+            boolean b = options.usesNewLoops(file);
+        } catch (NullPointerException e) {
+            Logging.debug(this, e);
+        }
     }
 
     @Override

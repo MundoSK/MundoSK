@@ -32,15 +32,9 @@ public final class SkriptGeneratorManager {
         Registration.registerEventValue(GeneratorEvent.Generation.class, ChunkGenerator.ChunkData.class, event -> event.chunkData);
         Registration.registerEventValue(GeneratorEvent.Generation.class, ChunkGenerator.BiomeGrid.class, event -> event.biomeGrid);
         Registration.registerEventValue(GeneratorEvent.Population.class, Chunk.class, event -> event.chunk);
-        /*Registration.registerEventValue(SkriptGeneratorEvent.class, World.class, event -> event.world);
-        Registration.registerEventValue(SkriptGeneratorEvent.class, Random.class, e -> e.random);
-        Registration.registerEventValue(SkriptGeneratorEvent.class, ChunkGenerator.BiomeGrid.class, e -> e.biomeGrid);
-        Registration.registerEventValue(SkriptGeneratorEvent.class, Chunk.class, e -> e.chunk);*/
         Registration.registerExpression(ExprCurrentChunkCoordinate.class, Number.class, ExpressionType.SIMPLE, "current x", "current z");
         Registration.registerExpression(ExprMaterialInChunkData.class, ItemStack.class, ExpressionType.PROPERTY, "material at %number%, %number%, %number% in %chunkdata%");
         Registration.registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%");
-        //Registration.registerScope(ScopeGeneration.class, "generation");
-        //Registration.registerScope(ScopePopulation.class, "population");
     }
 
     public static SkriptGenerator getSkriptGenerator(String id) {
