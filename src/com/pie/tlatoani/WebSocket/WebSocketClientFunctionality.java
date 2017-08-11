@@ -72,12 +72,11 @@ public class WebSocketClientFunctionality {
         onError = Optional.empty();
     }
 
-    public void debugTriggerItems() {
-        Logging.debug(this, "TriggerItems: " +
-            onOpen + "," +
-            onClose + "," +
-            onMessage + "," +
-            onError
-        );
+    public String toString() {
+        return "WebSocketClientFunctionality(TriggerItems: " +
+                onOpen + "," +
+                onClose + "," +
+                onMessage + "," +
+                onError + ")";
     }
 }

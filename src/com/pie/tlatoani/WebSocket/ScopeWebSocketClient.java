@@ -24,7 +24,7 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
     @Override
     public void register(Trigger trigger) {
         clientFunctionality.load(nebula);
-        clientFunctionality.debugTriggerItems();
+        Logging.debug(this, clientFunctionality.toString());
     }
 
     @Override

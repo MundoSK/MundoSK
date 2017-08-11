@@ -79,14 +79,13 @@ public class WebSocketServerFunctionality {
         onError = Optional.empty();
     }
 
-    public void debugTriggerItems() {
-        Logging.debug(this, "TriggerItems: " +
+    public String toString() {
+        return "WebSocketServerFunctionality(TriggerItems: " +
                 onStart + "," +
                 onStop + "," +
                 onOpen + "," +
                 onClose + "," +
                 onMessage + "," +
-                onError
-        );
+                onError + ")";
     }
 }

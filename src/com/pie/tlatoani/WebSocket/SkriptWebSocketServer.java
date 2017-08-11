@@ -1,6 +1,8 @@
 package com.pie.tlatoani.WebSocket;
 
 import ch.njol.skript.lang.TriggerItem;
+import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.WebSocket.Events.*;
 import mundosk_libraries.java_websocket.WebSocket;
 import mundosk_libraries.java_websocket.handshake.ClientHandshake;
@@ -17,6 +19,7 @@ public class SkriptWebSocketServer extends WebSocketServer {
     public SkriptWebSocketServer(WebSocketServerFunctionality functionality, int port) {
         super(new InetSocketAddress(port));
         this.functionality = functionality;
+        Logging.debug(this, functionality.toString());
     }
 
     @Override
