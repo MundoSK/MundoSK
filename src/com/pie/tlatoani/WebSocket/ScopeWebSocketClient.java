@@ -46,7 +46,7 @@ public class ScopeWebSocketClient extends SelfRegisteringSkriptEvent {
         Logging.debug(this, "init()ing");
         try {
             if (clientFunctionality.isLoaded()) {
-                Skript.warning("You may have two 'websocket client' instances with the id \"" + clientFunctionality.id + "\" in your code."
+                Skript.warning("You seem to have two 'websocket client' instances with the id \"" + clientFunctionality.id + "\" in your code."
                         + " If you do, note that only one of them will be used."
                         + " If you don't, you can ignore this warning.");
                 clientFunctionality.unload();

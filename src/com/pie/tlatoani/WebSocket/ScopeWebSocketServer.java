@@ -1,6 +1,8 @@
 package com.pie.tlatoani.WebSocket;
 
+import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
+import ch.njol.skript.config.Config;
 import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.Literal;
@@ -8,10 +10,12 @@ import ch.njol.skript.lang.SelfRegisteringSkriptEvent;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.log.SkriptLogger;
+import ch.njol.skript.util.ScriptOptions;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.ScopeUtil;
 import org.bukkit.event.Event;
 
+import java.io.File;
 import java.util.Optional;
 
 /**
@@ -24,7 +28,18 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
     @Override
     public void register(Trigger trigger) {
         serverFunctionality.load(nebula);
-        Logging.debug(this, "registered: " + serverFunctionality);
+        Logging.debug(this, "registered: " + serverFunctionality);try {
+            ScriptOptions options = ScriptOptions.getInstance();
+            Logging.debug(this, "options: " + options);
+            Config config = ScriptLoader.currentScript;
+            Logging.debug(this, "config: " + config);
+            File file = config.getFile();
+            Logging.debug(this, "file: " + file);
+            boolean b = options.usesNewLoops(file);
+            Logging.debug(this, "b: " + b);
+        } catch (NullPointerException e) {
+            Logging.debug(this, e);
+        }
     }
 
     @Override
@@ -46,7 +61,7 @@ public class ScopeWebSocketServer extends SelfRegisteringSkriptEvent {
         Logging.debug(this, "init()ing");
         try {
             if (serverFunctionality.isLoaded()) {
-                Skript.warning("You may have two 'websocket server' instances with the id \"" + serverFunctionality.id + "\" in your code."
+                Skript.warning("You seem to have two 'websocket server' instances with the id \"" + serverFunctionality.id + "\" in your code."
                         + " If you do, note that only one of them will be used."
                         + " If you don't, you can ignore this warning.");
                 serverFunctionality.unload();
