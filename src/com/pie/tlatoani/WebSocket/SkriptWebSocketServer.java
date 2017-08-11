@@ -38,6 +38,7 @@ public class SkriptWebSocketServer extends WebSocketServer {
 
     @Override
     public void onError(WebSocket conn, Exception ex) {
+        conn.getReadyState();
         functionality.onError.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketErrorEvent.Server(this, conn, ex)));
     }
 

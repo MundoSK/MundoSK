@@ -1,7 +1,10 @@
 package com.pie.tlatoani.WebSocket;
 
+import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.expressions.base.EventValueExpression;
 import ch.njol.skript.lang.ExpressionType;
+import ch.njol.skript.registrations.Comparators;
+import ch.njol.util.Pair;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Registration;
 import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
@@ -22,8 +25,13 @@ public class WebSocketManager {
     private static Map<Integer, SkriptWebSocketServer> servers = new HashMap<>();
     
     public static void load() {
+
         Registration.registerType(WebSocket.class, "websocket")
                 .defaultExpression(new EventValueExpression<>(WebSocket.class));
+        Registration.registerEnum(WebSocket.READYSTATE.class, "websocketstate", WebSocket.READYSTATE.values(), new Pair<>("NOT YET CONNECTED", WebSocket.READYSTATE.NOT_YET_CONNECTED));
+
+        Registration.registerComparator(WebSocket.class, WebSocket.READYSTATE.class, false,
+                ((webSocket, readystate) -> Comparator.Relation.get(webSocket.getReadyState() == readystate)));
 
         Registration.registerEffect(EffCloseWebSocket.class, "close websocket %websocket% [with message %-string%]");
         Registration.registerEffect(EffWebSocketSendMessage.class, "websocket send %strings% [through %-websockets%]");
@@ -47,6 +55,7 @@ public class WebSocketManager {
         Registration.registerExpression(ExprWebSocketServerID.class, String.class, ExpressionType.PROPERTY, "id of websocket server at port %number%");
         Registration.registerExpression(ExprWebSocketHost.class, String.class, ExpressionType.PROPERTY, "local host of %websocket%", "(remote|external) host of %websocket%");
         Registration.registerExpression(ExprWebSocketPort.class, Number.class, ExpressionType.PROPERTY, "local port of %websocket%", "(remote|external) port of %websocket%");
+        Registration.registerExpression(ExprWebSocketState.class, WebSocket.READYSTATE.class, ExpressionType.PROPERTY, "websocket state of %websocket%", "%websocket%'s websocket state");
     }
 
     public static WebSocketClientFunctionality getClientFunctionality(String id) {

@@ -1,13 +1,11 @@
 package com.pie.tlatoani.Util;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.classes.ClassInfo;
-import ch.njol.skript.classes.Parser;
-import ch.njol.skript.classes.Serializer;
+import ch.njol.skript.classes.*;
+import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.skript.registrations.Classes;
-import ch.njol.skript.registrations.EventValues;
+import ch.njol.skript.registrations.*;
 import ch.njol.skript.util.Getter;
 import ch.njol.util.Kleenean;
 import ch.njol.yggdrasil.Fields;
@@ -16,6 +14,7 @@ import org.bukkit.event.Event;
 import java.io.NotSerializableException;
 import java.io.StreamCorruptedException;
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -68,6 +67,20 @@ public class Registration {
                 }
             }
         }, 0);
+    }
+
+    public static <A, B> void registerComparator(Class<A> aClass, Class<B> bClass, boolean supportsOrdering, BiFunction<A, B, Comparator.Relation> comparator) {
+        Comparators.registerComparator(aClass, bClass, new Comparator<A, B>() {
+            @Override
+            public Relation compare(A a, B b) {
+                return comparator.apply(a, b);
+            }
+
+            @Override
+            public boolean supportsOrdering() {
+                return supportsOrdering;
+            }
+        });
     }
 
     public static Boolean classInfoSafe(Class c, String name) {
