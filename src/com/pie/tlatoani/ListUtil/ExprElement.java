@@ -52,8 +52,8 @@ public class ExprElement extends SimpleExpression<Object> implements ListUtil.Mo
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         expression = expressions[1];
-        pattern = ListUtil.retrievePattern(i);
-        transformer = ListUtil.retrieveTransformer(pattern, expression);
+        pattern = ListUtil.getApplicablePattern(i);
+        transformer = ListUtil.getTransformer(i, expression);
         isLastIndex = expressions[0] == null;
         index = !isLastIndex ? (Expression<Number>) expressions[0] : new ExprElementCount(transformer, expression);
         if (transformer == null) {

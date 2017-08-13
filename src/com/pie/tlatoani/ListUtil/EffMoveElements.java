@@ -11,7 +11,7 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 6/11/16.
  */
-public class EffMoveElement extends Effect {
+public class EffMoveElements extends Effect {
     private ListUtil.Moveable expression;
     private Expression<Number> movement;
     private Integer direction;

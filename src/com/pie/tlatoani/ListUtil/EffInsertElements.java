@@ -10,7 +10,7 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 6/11/16.
  */
-public class EffInsertElement extends Effect {
+public class EffInsertElements extends Effect {
     private String pattern;
     private Transformer transformer;
     private Expression expression;
@@ -58,8 +58,8 @@ public class EffInsertElement extends Effect {
         expression = expressions[2];
         insertion = expressions[0];
         isAfter = parseResult.mark == 0;
-        pattern = ListUtil.retrievePattern(i);
-        transformer = ListUtil.retrieveTransformer(pattern, expression);
+        pattern = ListUtil.getApplicablePattern(i);
+        transformer = ListUtil.getTransformer(i, expression);
         isLastIndex = expressions[1] == null;
         index = !isLastIndex ? (Expression<Number>) expressions[1] : new ExprElementCount(transformer, expression);
         if (transformer == null) {

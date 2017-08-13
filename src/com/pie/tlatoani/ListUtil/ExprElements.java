@@ -48,8 +48,8 @@ public class ExprElements extends SimpleExpression<Object> implements ListUtil.T
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         expression = expressions[0];
-        pattern = ListUtil.retrievePattern(i);
-        transformer = ListUtil.retrieveTransformer(pattern, expression);
+        pattern = ListUtil.getApplicablePattern(i);
+        transformer = ListUtil.getTransformer(i, expression);
         if (transformer == null) {
             return false;
         }
