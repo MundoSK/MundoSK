@@ -8,32 +8,38 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.TablistNew.OldTab;
 import com.pie.tlatoani.TablistNew.OldTablist;
+import com.pie.tlatoani.TablistNew.Tablist;
+import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import java.util.Optional;
 
 /**
  * Created by Tlatoani on 11/25/16.
  */
 public class ExprScoreOfTab extends SimpleExpression<Number> {
     private Expression<String> id;
-    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected Number[] get(Event event) {
-        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
-        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         String id = this.id.getSingle(event);
-        OldTab oldTab = oldTablist.simpleTablist.getTabIfVisibleFor(player, id);
-        if (oldTab == null) {
-            return new Number[0];
+        Player[] players = playerExpression.getArray(event);
+        Number[] scores = new Number[players.length];
+        for (int i = 0; i < players.length; i++) {
+            Tablist tablist = TablistManager.getTablistOfPlayer(players[i]);
+            if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
+                SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
+                scores[i] = Optional.ofNullable(simpleTablist.getTab(id)).map(tab -> tab.getScore()).orElse(null);
+            }
         }
-        return new Number[]{oldTab.getScore(player)};
+        return scores;
     }
 
     @Override
     public boolean isSingle() {
-        return true;
+        return playerExpression.isSingle();
     }
 
     @Override
@@ -43,24 +49,25 @@ public class ExprScoreOfTab extends SimpleExpression<Number> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "latency of tab id " + id + " for " + playerExpression;
+        return "score of simple tab " + id + " for " + playerExpression;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         id = (Expression<String>) expressions[0];
-        tablistExpression = (Expression<OldTablist>) expressions[1];
-        playerExpression = (Expression<Player>) expressions[2];
+        playerExpression = (Expression<Player>) expressions[1];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
-        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         String id = this.id.getSingle(event);
-        OldTab oldTab = oldTablist.simpleTablist.getTabIfVisibleFor(player, id);
-        if (oldTab != null) {
-            oldTab.setScore(player, ((Number) delta[0]).intValue());
+        Integer value = ((Number) delta[0]).intValue();
+        for (Player player : playerExpression.getArray(event)) {
+            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
+                SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
+                Optional.ofNullable(simpleTablist.getTab(id)).ifPresent(tab -> tab.setScore(value));
+            }
         }
     }
 

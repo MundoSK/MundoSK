@@ -27,26 +27,17 @@ public class TablistMundo {
     public static void load(int spawnRemoveTabDelay, int respawnRemoveTabDelay) {
         SPAWN_REMOVE_TAB_DELAY = spawnRemoveTabDelay;
         RESPAWN_REMOVE_TAB_DELAY = respawnRemoveTabDelay;
-        Registration.registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
         Registration.registerType(Tablist.class, "tablist");
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onJoin(PlayerJoinEvent event) {
                 Tablist.onJoin(event.getPlayer());
-                SkinManager.onJoin(event.getPlayer());
             }
         }, Mundo.INSTANCE);
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onQuit(PlayerQuitEvent event) {
                 Tablist.onQuit(event.getPlayer());
-                SkinManager.onQuit(event.getPlayer());
-            }
-        }, Mundo.INSTANCE);
-        Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
-            @EventHandler
-            public void onRespawn(PlayerRespawnEvent event) {
-                SkinManager.onRespawn(event.getPlayer());
             }
         }, Mundo.INSTANCE);
         Registration.registerExpression(ExprTablistContainsPlayers.class, Boolean.class, ExpressionType.PROPERTY, "(%-tablist%|%-player%'s tablist) contains players");

@@ -78,7 +78,7 @@ public final class WorldLoader {
         File result = new File(Mundo.INSTANCE.getDataFolder().getAbsolutePath() + File.separator + FILENAME);
         if (!result.exists()) {
             result.createNewFile();
-            //JsonObject emptyObject = Json.createObjectBuilder().build();
+            //JsonObject emptyObject = JSON.createObjectBuilder().build();
             JSONObject emptyObject = new JSONObject();
             FileWriter writer = new FileWriter(result);
             writer.write(emptyObject.toString());
@@ -90,7 +90,7 @@ public final class WorldLoader {
             File result = new File(Mundo.INSTANCE.getDataFolder().getAbsolutePath() + File.separator + FILENAME);
             if (!result.exists()) {
                 result.createNewFile();
-                //JsonObject emptyObject = Json.createObjectBuilder().build();
+                //JsonObject emptyObject = JSON.createObjectBuilder().build();
                 JSONObject emptyObject = new JSONObject();
                 FileWriter writer = new FileWriter(result);
                 writer.write(emptyObject.toString());
@@ -123,7 +123,7 @@ public final class WorldLoader {
     }
 
     public static JSONObject getJSONOfData() {
-        //JsonObjectBuilder builder = Json.createObjectBuilder();
+        //JsonObjectBuilder builder = JSON.createObjectBuilder();
         JSONObject jsonObject = new JSONObject();
         worldLoaderSaver.forEach(new BiConsumer<String, WorldCreator>() {
             @Override
@@ -160,7 +160,7 @@ public final class WorldLoader {
     //Conversion
 
     public static JSONObject getCreatorJSON(WorldCreator creator) {
-        //JsonObjectBuilder creatorJsonBuilder = Json.createObjectBuilder();
+        //JsonObjectBuilder creatorJsonBuilder = JSON.createObjectBuilder();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("environment", creator.environment().toString());
         jsonObject.put("worldtype", creator.type().toString());

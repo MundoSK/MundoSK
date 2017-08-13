@@ -4,8 +4,15 @@ import ch.njol.skript.classes.Serializer;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.yggdrasil.Fields;
-import com.pie.tlatoani.Skin.MineSkin.*;
+import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Skin.MineSkin.ExprRetrievedSkin;
 import com.pie.tlatoani.Util.Registration;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,6 +28,19 @@ import java.io.StreamCorruptedException;
 public class SkinMundo {
     
     public static void load() {
+        Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onJoin(PlayerJoinEvent event) {
+                SkinManager.onJoin(event.getPlayer());
+            }
+        }, Mundo.INSTANCE);
+        Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onQuit(PlayerQuitEvent event) {
+                SkinManager.onQuit(event.getPlayer());
+            }
+        }, Mundo.INSTANCE);
+
         Registration.registerType(Skin.class, "skin", "skintexture").parser(new Registration.SimpleParser<Skin>() {
             @Override
             public Skin parse(String s, ParseContext parseContext) {
@@ -71,7 +91,6 @@ public class SkinMundo {
                 return false;
             }
         });
-        //Registration.registerEffect(EffTestMineSkin.class, "test mineskin %string%");
         Registration.registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%");
         Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin");
         Registration.registerExpression(ExprCombinedSkin.class, Skin.class, ExpressionType.PROPERTY, "(combined skin|skin combination) (from|of) %skins%", "%skins%'s (combined skin|skin combination)");
@@ -79,5 +98,6 @@ public class SkinMundo {
         Registration.registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%");
         Registration.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY, "retrieved skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%)");
         Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "%player%'s name[]tag", "name[]tag of %player%");
+        Registration.registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
     }
 }

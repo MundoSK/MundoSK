@@ -52,7 +52,11 @@ public class Tablist {
         return playerTablist.onPlayerInfoPacket(oldPlayerInfoData, objPlayer);
     }
 
-    boolean isPlayerVisible(Player player) {
+    public boolean arePlayersVisible() {
+        return playerTablist.arePlayersVisible();
+    }
+
+    public boolean isPlayerVisible(Player player) {
         return playerTablist.isPlayerVisible(player);
     }
 
@@ -71,6 +75,14 @@ public class Tablist {
 
     public boolean areScoresEnabled() {
         return scoresEnabled;
+    }
+
+    public void setScoresEnabled(boolean enabled) {
+        if (enabled) {
+            enableScores();
+        } else {
+            disableScores();
+        }
     }
 
     public void enableScores() {

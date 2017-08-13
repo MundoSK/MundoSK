@@ -37,11 +37,11 @@ public class Tab {
     }
 
     public PacketContainer playerInfoPacket(EnumWrappers.PlayerInfoAction action) {
-        return TablistManager.playerInfoPacket(displayName, latency, null, name, uuid, icon, action);
+        return TablistUtil.playerInfoPacket(displayName, latency, null, name, uuid, icon, action);
     }
 
     public PacketContainer updateScorePacket() {
-        return TablistManager.scorePacket(name, Tablist.OBJECTIVE_NAME, score, EnumWrappers.ScoreboardAction.CHANGE);
+        return TablistUtil.scorePacket(name, Tablist.OBJECTIVE_NAME, score, EnumWrappers.ScoreboardAction.CHANGE);
     }
 
     public String getDisplayName() {

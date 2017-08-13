@@ -7,6 +7,8 @@ import com.pie.tlatoani.TablistNew.Player.PlayerTablist;
 import com.pie.tlatoani.TablistNew.Tab;
 import com.pie.tlatoani.TablistNew.SupplementaryTablist;
 import com.pie.tlatoani.TablistNew.Tablist;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.MathUtil;
 
 import java.util.*;
 
@@ -20,24 +22,25 @@ public class ArrayTablist implements SupplementaryTablist {
     public final static String UUID_BEGINNING = "10001000-1000-3000-8000-10001000";
     private int columns;
     private int rows;
-    public Skin initialIcon = Tablist.DEFAULT_SKIN_TEXTURE;
+    public Skin initialIcon;
 
     private final Tab[][] tabs = new Tab[4][20];
 
-    public ArrayTablist(PlayerTablist playerTablist, int columns, int rows) {
+    public ArrayTablist(PlayerTablist playerTablist, int columns, int rows, Skin initialIcon) {
         this.tablist = playerTablist.tablist;
         this.playerTablist = playerTablist;
-        this.columns = Mundo.limitToRange(1, columns, 4);
+        this.columns = MathUtil.limitToRange(1, columns, 4);
         this.rows = getViableRowAmount(this.columns, rows);
+        this.initialIcon = initialIcon;
         addTabs(1, this.columns, 1, this.rows);
         changeToIdealPlayerVisibility();
     }
 
     public static int getViableRowAmount(int columns, int rows) {
-        return columns == 1 ? Mundo.limitToRange(1,  rows, 20) :
-               columns == 2 ? Mundo.limitToRange(11, rows, 20) :
-               columns == 3 ? Mundo.limitToRange(14, rows, 20) :
-               columns == 4 ? Mundo.limitToRange(16, rows, 20) :
+        return columns == 1 ? MathUtil.limitToRange(1,  rows, 20) :
+               columns == 2 ? MathUtil.limitToRange(11, rows, 20) :
+               columns == 3 ? MathUtil.limitToRange(14, rows, 20) :
+               columns == 4 ? MathUtil.limitToRange(16, rows, 20) :
                           0;
     }
 
@@ -47,10 +50,10 @@ public class ArrayTablist implements SupplementaryTablist {
     }
 
     public Tab getTab(int column, int row) {
-        if (!Mundo.isInRange(1, column, columns)) {
+        if (!MathUtil.isInRange(1, column, columns)) {
             throw new IllegalArgumentException("Column = " + column + " out of range 1 to " + columns);
         }
-        if (!Mundo.isInRange(1, row, rows)) {
+        if (!MathUtil.isInRange(1, row, rows)) {
             throw new IllegalArgumentException("Row = " + row + " out of range 1 to " + rows);
 
         }
@@ -66,8 +69,8 @@ public class ArrayTablist implements SupplementaryTablist {
     }
 
     public void setColumns(int columns) {
-        Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", columns " + columns);
-        columns = Mundo.limitToRange(1, columns, 4);
+        Logging.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", columns " + columns);
+        columns = MathUtil.limitToRange(1, columns, 4);
         if (columns == this.columns) {
             return;
         } else if (columns > this.columns) {
@@ -81,7 +84,7 @@ public class ArrayTablist implements SupplementaryTablist {
     }
 
     public void setRows(int rows) {
-        Mundo.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
+        Logging.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
         rows = getViableRowAmount(columns, rows);
         if (rows == this.rows) {
             return;
@@ -105,7 +108,7 @@ public class ArrayTablist implements SupplementaryTablist {
             for (int row = rowMin; row <= rowMax; row++) {
                 int identifier = (((column - 1) * 20) + row);
                 String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
-                UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + Mundo.toHexDigit(Mundo.divideNoRemainder(identifier, 10)) + (identifier % 10));
+                UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + MathUtil.toHexDigit(identifier / 10) + (identifier % 10));
                 Tab tab = new Tab(tablist.target, name, uuid, "", 5, Tablist.DEFAULT_SKIN_TEXTURE, 0);
                 tab.sendPacket(tab.playerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER));
                 setTab(column, row, tab);

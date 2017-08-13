@@ -24,10 +24,6 @@ public class MathUtil {
         return HEX_DIGITS.charAt(num % 16);
     }
 
-    public static int divideNoRemainder(int dividend, int divisor) {
-        return (dividend - (dividend % divisor)) / divisor;
-    }
-
     public static int digitsInBase(int num, int base) {
         int result = 0;
         while (num > 0) {

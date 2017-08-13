@@ -6,8 +6,11 @@ import ch.njol.util.Checker;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 
+import java.util.Optional;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -79,5 +82,22 @@ public class MundoUtil {
 
     public static <T, R> R[] mapArray(Function<T, R> function, T[] input) {
         return (R[]) Stream.of(input).map(function).collect(Collectors.toList()).toArray();
+    }
+
+    public static <T> void consumeOptional(Optional<T> optional, Consumer<T> tConsumer, Runnable runnable) {
+        if (optional.isPresent()) {
+            tConsumer.accept(optional.get());
+        } else {
+            runnable.run();
+        }
+    }
+
+    public static <T, R> R mapOptional(Optional<T> optional, Function<T, R> function, Supplier<R> supplier) {
+        if (optional.isPresent()) {
+            return function.apply(optional.get());
+        } else {
+            return supplier.get();
+        }
+
     }
 }

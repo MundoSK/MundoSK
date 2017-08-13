@@ -8,11 +8,9 @@ import com.pie.tlatoani.CodeBlock.CodeBlockMundo;
 import com.pie.tlatoani.CustomEvent.CustomEventMundo;
 import com.pie.tlatoani.EnchantedBook.EnchantedBookMundo;
 import com.pie.tlatoani.Generator.SkriptGeneratorManager;
-import com.pie.tlatoani.Json.JSONMundo;
 import com.pie.tlatoani.ListUtil.ListUtil;
 import com.pie.tlatoani.Miscellaneous.ExprEventSpecificValue;
 import com.pie.tlatoani.Miscellaneous.MiscMundo;
-import com.pie.tlatoani.NoteBlock.NoteBlockMundo;
 import com.pie.tlatoani.Probability.ProbabilityMundo;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Skin.SkinMundo;
@@ -77,9 +75,8 @@ public class Mundo extends JavaPlugin {
         CodeBlockMundo.load();
         EnchantedBookMundo.load();
 		SkriptGeneratorManager.load();
-        JSONMundo.load();
+        ListUtil.load();
         MiscMundo.load();
-        NoteBlockMundo.load();
         ProbabilityMundo.load();
         SocketMundo.load();
         ThrowableMundo.load();
@@ -105,8 +102,6 @@ public class Mundo extends JavaPlugin {
         //
         Registration.registerEnumAllExpressions();
         CustomEventMundo.load();
-        //ListUtil.register();
-        ListUtil.load();
         ExprEventSpecificValue.register();
 		Logging.info("Awesome syntaxes have been registered!");
         Scheduling.sync(Metrics::enableMundoSKMetrics);

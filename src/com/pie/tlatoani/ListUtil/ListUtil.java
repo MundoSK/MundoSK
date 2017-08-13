@@ -40,11 +40,17 @@ public final class ListUtil {
         public final Class<? extends Transformer> transformerClass;
         public final String possessorClassCodeName;
         public final String[] patterns;
+        public final String unifiedPattern;
 
         public TransformerInfo(Class<? extends Transformer> transformerClass, String[] patterns, String possessorClassCodeName) {
             this.transformerClass = transformerClass;
             this.patterns = patterns;
             this.possessorClassCodeName = possessorClassCodeName;
+            if (patterns.length == 1) {
+                unifiedPattern = patterns[0];
+            } else {
+                unifiedPattern = "(" + String.join("|", patterns) + ")";
+            }
         }
     }
 
@@ -58,14 +64,8 @@ public final class ListUtil {
         }
 
         public String formatPrototypePattern(TransformerInfo transformerInfo) {
-            String unifiedTransformerPattern;
-            if (transformerInfo.patterns.length == 1) {
-                unifiedTransformerPattern = transformerInfo.patterns[0];
-            } else {
-                unifiedTransformerPattern = "(" + String.join("|", transformerInfo.patterns) + ")";
-            }
             return prototypePattern
-                    .replace(TRANSFORMER_PATTERN_ID, unifiedTransformerPattern)
+                    .replace(TRANSFORMER_PATTERN_ID, transformerInfo.unifiedPattern)
                     .replace(POSSESSOR_CLASS_CODE_NAME_ID, "%" + transformerInfo.possessorClassCodeName + "%");
         }
     }

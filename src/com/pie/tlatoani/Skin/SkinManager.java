@@ -165,14 +165,14 @@ public class SkinManager {
 
     //Join/Leave Events
 
-    public static void onJoin(Player player) {
+    static void onJoin(Player player) {
         nameTags.put(player, player.getName());
         getActualSkin(player);
         getNameTag(player);
         getTablistName(player);
     }
 
-    public static void onQuit(Player player) {
+    static void onQuit(Player player) {
         actualSkins.remove(player);
         displayedSkins.remove(player);
         for (Player target : Bukkit.getOnlinePlayers()) {
@@ -182,10 +182,6 @@ public class SkinManager {
         personalDisplayedSkins.remove(player, player);
         nameTags.remove(player);
         spawnedPlayers.remove(player);
-    }
-
-    public static void onRespawn(Player player) {
-
     }
 
     //Public Methods
