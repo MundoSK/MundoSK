@@ -6,14 +6,11 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.pie.tlatoani.ProtocolLib.MundoPacketEvent;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tablist;
-import com.pie.tlatoani.Util.Logging;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -53,7 +50,7 @@ public class SimpleTablist {
         PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
         packetContainer.getPlayerInfoDataLists().writeSafely(0, playerInfoDatas);
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
-        PacketManager.sendPacket(players, this, packetContainer);
+        PacketManager.sendPacket(packetContainer, this, players);
     }
 
     private void sendScorePacketToAll(String id) {
@@ -67,7 +64,7 @@ public class SimpleTablist {
         packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, scores.get(id));
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
-        PacketManager.sendPacket(players, this, packet);
+        PacketManager.sendPacket(packet, this, players);
     }
 
     public void addPlayers(Collection<Player> players) {

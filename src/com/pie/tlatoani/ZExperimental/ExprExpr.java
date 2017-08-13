@@ -1,17 +1,13 @@
 package com.pie.tlatoani.ZExperimental;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.ExpressionInfo;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.Pair;
-import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -20,14 +16,14 @@ import java.util.HashMap;
 public class ExprExpr extends SimpleExpression<Object> {
     private static String[] exprNames = null;
     private static HashMap<String, Pair<Class, Boolean>> guarantees = null;
-    private static final ModifiableExpressionInfo<ExprExpr, Object> exprInfo = new ModifiableExpressionInfo<>(new String[0], Object.class, ExprExpr.class);
+    private static final ModifiableSyntaxElementInfo.Expression<ExprExpr, Object> exprInfo = new ModifiableSyntaxElementInfo.Expression<>(ExprExpr.class, Object.class, ExpressionType.SIMPLE);
 
     private String exprName;
     private Class guaranteedClass;
     private boolean guaranteedSingle;
 
     public static void onLoad() {
-        UtilSyntaxRegistration.registerExpression(exprInfo, ExpressionType.SIMPLE);
+        exprInfo.register();
     }
 
     public static void enable(HashMap<String, Pair<Class, Boolean>> guarantees) {
@@ -73,7 +69,7 @@ public class ExprExpr extends SimpleExpression<Object> {
     }
 
     @Override
-    public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+    public boolean init(ch.njol.skript.lang.Expression[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         if (exprNames == null) {
             Skript.error("The 'expr' expression should not be able to be used here");
             return false;

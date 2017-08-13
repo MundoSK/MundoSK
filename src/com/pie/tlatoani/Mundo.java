@@ -105,7 +105,8 @@ public class Mundo extends JavaPlugin {
         //
         Registration.registerEnumAllExpressions();
         CustomEventMundo.load();
-        ListUtil.register();
+        //ListUtil.register();
+        ListUtil.load();
         ExprEventSpecificValue.register();
 		Logging.info("Awesome syntaxes have been registered!");
         Scheduling.sync(Metrics::enableMundoSKMetrics);

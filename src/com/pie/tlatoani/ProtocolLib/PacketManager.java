@@ -99,7 +99,7 @@ public class PacketManager {
         });
     }
     
-    public static void sendPacket(Player player, Object exceptLoc, PacketContainer packet) {
+    public static void sendPacket(PacketContainer packet, Object exceptLoc, Player player) {
         try {
             ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
         } catch (InvocationTargetException e) {
@@ -107,7 +107,7 @@ public class PacketManager {
         }
     }
     
-    public static void sendPacket(Player[] players, Object exceptLoc, PacketContainer packet) {
+    public static void sendPacket(PacketContainer packet, Object exceptLoc, Player[] players) {
         try {
             for (Player player : players) {
                 ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
@@ -117,7 +117,7 @@ public class PacketManager {
         }
     }
 
-    public static void sendPacket(Iterable<Player> players, Object exceptLoc, PacketContainer packet) {
+    public static void sendPacket(PacketContainer packet, Object exceptLoc, Iterable<Player> players) {
         try {
             for (Player player : players) {
                 ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);

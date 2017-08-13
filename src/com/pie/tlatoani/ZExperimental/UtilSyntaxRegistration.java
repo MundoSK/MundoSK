@@ -45,6 +45,11 @@ public class UtilSyntaxRegistration {
         statements.add(effectInfo);
     }
 
+    public static void registerCondition(SyntaxElementInfo<? extends Condition> conditionInfo) {
+        conditions.add(conditionInfo);
+        statements.add(conditionInfo);
+    }
+
     public static void registerExpression(ExpressionInfo expressionInfo, ExpressionType type) {
         for (int i = type.ordinal() + 1; i < ExpressionType.values().length; i++) {
             expressionTypesStartIndices[i]++;

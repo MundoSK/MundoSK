@@ -11,7 +11,7 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 6/11/16.
  */
-public class ExprItemCount extends SimpleExpression<Number> {
+public class ExprElementCount extends SimpleExpression<Number> {
     private String pattern;
     private Transformer transformer;
     private Expression expression;
@@ -19,10 +19,10 @@ public class ExprItemCount extends SimpleExpression<Number> {
     private Boolean usedAsLast;
 
     //For Skript usage
-    public ExprItemCount() {}
+    public ExprElementCount() {}
 
     //For use as last index
-    public ExprItemCount(Transformer transformer, Expression expression) {
+    public ExprElementCount(Transformer transformer, Expression expression) {
         usedAsLast = true;
         this.transformer = transformer;
         this.expression = expression;

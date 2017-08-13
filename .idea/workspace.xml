@@ -7,12 +7,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketState.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ModifiableExpressionInfo.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffInsertItem.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffInsertElement.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffMoveItem.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/EffMoveElement.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprElement.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItemCount.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprElementCount.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItems.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprElements.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprSomeItems.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprSomeElements.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Registration.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Registration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketServer.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/BookMundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/BookMundo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EffSendPacket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EffSendPacket.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTablist.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistMundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistMundo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/EffCustom.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/EffCustom.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ExprExpr.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ExprExpr.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ModifiableSyntaxElementInfo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ModifiableSyntaxElementInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilSyntaxRegistration.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilSyntaxRegistration.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,58 +49,44 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WebSocket.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mundosk_libraries/java_websocket/WebSocket.java">
+      <file leaf-file-name="Mundo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+            <state relative-caret-position="431">
+              <caret line="102" column="50" lean-forward="true" selection-start-line="102" selection-start-column="50" selection-end-line="102" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WebSocketManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketManager.java">
+      <file leaf-file-name="ListUtil.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+            <state relative-caret-position="362">
+              <caret line="116" column="0" lean-forward="false" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookMundo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/BookMundo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="16" column="72" lean-forward="true" selection-start-line="16" selection-start-column="72" selection-end-line="16" selection-end-column="72" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Registration.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/Registration.java">
+      <file leaf-file-name="MathUtil.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/MathUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="73" column="21" lean-forward="false" selection-start-line="73" selection-start-column="21" selection-end-line="73" selection-end-column="21" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2344#2807#0" expanded="true" />
-                <element signature="e#2806#2807#0" expanded="true" />
-                <element signature="e#3129#3130#0" expanded="true" />
-                <element signature="e#3190#3191#0" expanded="true" />
-                <element signature="e#3261#3262#0" expanded="true" />
-                <element signature="e#3316#3317#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExprWebSocketState.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketState.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="32" column="52" lean-forward="false" selection-start-line="32" selection-start-column="52" selection-end-line="32" selection-end-column="52" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#678#679#0" expanded="true" />
-                <element signature="e#705#706#0" expanded="true" />
-                <element signature="e#787#788#0" expanded="true" />
-                <element signature="e#836#837#0" expanded="true" />
-                <element signature="e#904#905#0" expanded="true" />
-                <element signature="e#969#970#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="435">
+              <caret line="35" column="9" lean-forward="true" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -94,6 +96,76 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
               <caret line="3" column="24" lean-forward="false" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExprExpr.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ExprExpr.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="26" column="5" lean-forward="false" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#870#871#0" expanded="true" />
+                <element signature="e#905#906#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ModifiableSyntaxElementInfo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ModifiableSyntaxElementInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="630">
+              <caret line="42" column="5" lean-forward="false" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#628#629#0" expanded="true" />
+                <element signature="e#686#687#0" expanded="true" />
+                <element signature="e#723#724#0" expanded="true" />
+                <element signature="e#772#773#0" expanded="true" />
+                <element signature="e#2117#2118#0" expanded="true" />
+                <element signature="e#2197#2198#0" expanded="true" />
+                <element signature="e#2545#2546#0" expanded="true" />
+                <element signature="e#2628#2629#0" expanded="true" />
+                <element signature="e#3153#3154#0" expanded="true" />
+                <element signature="e#3253#3254#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UtilSyntaxRegistration.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilSyntaxRegistration.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EffCustom.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/EffCustom.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="28" column="5" lean-forward="true" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
+              <folding>
+                <element signature="e#457#468#0" expanded="true" />
+                <element signature="e#753#754#0" expanded="true" />
+                <element signature="e#784#785#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExprElements.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprElements.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="37" column="13" lean-forward="false" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -121,7 +193,6 @@
       <find>classExists</find>
       <find>this</find>
       <find>Mund</find>
-      <find>register</find>
       <find>ExprInde</find>
       <find>registerCust</find>
       <find>reg</find>
@@ -141,6 +212,7 @@
       <find>Mundo</find>
       <find>Skript.register</find>
       <find>protocolManager</find>
+      <find>register</find>
     </findStrings>
     <replaceStrings>
       <replace>Optional&lt;SectionNode&gt;</replace>
@@ -158,7 +230,6 @@
       <replace>new PacketJSONConverter() {</replace>
       <replace>&gt;(JSONObject.class) {</replace>
       <replace>Mundo.instance</replace>
-      <replace>Registration.register</replace>
       <replace>Mundo.register</replace>
       <replace>Registration.SimpleParser</replace>
       <replace>Logging.info</replace>
@@ -173,6 +244,7 @@
       <replace>Logging.reportExc</replace>
       <replace>MathUtil</replace>
       <replace>ProtocolLibrary.getProtocolManager()</replace>
+      <replace>Registration.register</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -186,23 +258,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/NoteBlock/NoteBlockMundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Metrics.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldCreator/WorldCreatorMundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/CustomEffect.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ExpressionConstraints.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Reflection.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/CustomEvent/CustomEventMundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprEventSpecificValue.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItems.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprItem.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprSomeItems.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldLoader/WorldLoader.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EffReceivePacket.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EffSendPacket.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketManager.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/MundoPacketEvent.java" />
@@ -218,7 +277,6 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Events/GeneratorEvent.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/GeneratorEvent.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/SkriptGenerator.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscMundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Unused/ScopeGeneration.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Unused/ScopePopulation.java" />
@@ -232,10 +290,24 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketServer.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ScopeGenerator.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ScopeWebSocketClient.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketServer.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketState.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Registration.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketManager.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketServer.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketManager.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Tablist.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/TablistMundo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/TablistManager.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Tab.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistMundo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilSyntaxRegistration.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ModifiableSEInfo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ExprExpr.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ModifiableSyntaxElementInfo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/EffCustom.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Book/BookMundo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -266,6 +338,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -328,7 +403,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WorldManagement" />
+              <option name="myItemId" value="ZExperimental" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -350,7 +425,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WebSocket" />
+              <option name="myItemId" value="ListUtil" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -372,15 +447,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Util" />
+              <option name="myItemId" value="Book" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -669,7 +741,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32423207" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32423207" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -728,184 +800,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="109" column="0" lean-forward="true" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EvtPacketEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="24" column="20" lean-forward="true" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EffSendPacket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldLoader/WorldLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="75" column="54" lean-forward="false" selection-start-line="75" selection-start-column="54" selection-end-line="75" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTablist.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="65" column="56" lean-forward="true" selection-start-line="65" selection-start-column="56" selection-end-line="65" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Achievement/AchievementMundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/MundoPacketEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="49" lean-forward="true" selection-start-line="4" selection-start-column="49" selection-end-line="4" selection-end-column="49" />
-          <folding>
-            <element signature="e#1584#1585#0" expanded="true" />
-            <element signature="e#1624#1625#0" expanded="true" />
-            <element signature="e#1839#1840#0" expanded="true" />
-            <element signature="e#1885#1886#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EffReceivePacket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="23" column="13" lean-forward="true" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="353" column="64" lean-forward="true" selection-start-line="353" selection-start-column="64" selection-end-line="353" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketPort.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="20" column="52" lean-forward="false" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1050">
-          <caret line="28" column="13" lean-forward="false" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/ExprWebSocketHost.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="31" column="5" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../Dependencies/ProtocolLib-4.1.jar!/com/comphenix/protocol/events/PacketAdapter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="40" column="67" lean-forward="false" selection-start-line="40" selection-start-column="67" selection-end-line="40" selection-end-column="67" />
-          <folding>
-            <element signature="e#1464#1465#0" expanded="true" />
-            <element signature="e#1524#1525#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tablist.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="74" column="21" lean-forward="true" selection-start-line="74" selection-start-column="21" selection-end-line="74" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Socket/UtilFunctionSocket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Socket/UtilWriterSocket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="30" column="42" lean-forward="false" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1740">
-          <caret line="116" column="9" lean-forward="true" selection-start-line="116" selection-start-column="9" selection-end-line="116" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#4438#4439#0" expanded="false" />
-            <element signature="e#4502#4503#0" expanded="false" />
-            <element signature="e#4998#4999#0" expanded="false" />
-            <element signature="e#5051#5052#0" expanded="false" />
-            <element signature="e#5135#5136#0" expanded="false" />
-            <element signature="e#5188#5189#0" expanded="false" />
-            <element signature="e#5710#5711#0" expanded="false" />
-            <element signature="e#5763#5764#0" expanded="false" />
-            <element signature="e#5847#5848#0" expanded="false" />
-            <element signature="e#5900#5901#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketServerFunctionality.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="23" column="60" lean-forward="true" selection-start-line="23" selection-start-column="60" selection-end-line="23" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/EffStartWebSocketServer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
@@ -942,37 +836,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="572">
           <caret line="41" column="5" lean-forward="true" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#588#589#0" expanded="true" />
-            <element signature="e#632#633#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/GeneratorMundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/GeneratorMundo.java" />
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="21" column="5" lean-forward="false" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="78" column="38" lean-forward="false" selection-start-line="78" selection-start-column="38" selection-end-line="78" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -984,53 +856,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Unused/ScopePopulation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Unused/EvtChunkGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="40" column="13" lean-forward="false" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Unused/ScopePopulation.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Unused/EvtChunkGenerator.java" />
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscMundo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="313">
           <caret line="108" column="38" lean-forward="false" selection-start-line="108" selection-start-column="38" selection-end-line="108" selection-end-column="38" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Unused/SkriptGeneratorEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Unused/ScopeGeneration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="26" column="5" lean-forward="false" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Unused/SkriptGeneratorEvent.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/Unused/ScopeGeneration.java" />
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ExprCurrentChunkCoordinate.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
           <caret line="39" column="47" lean-forward="false" selection-start-line="39" selection-start-column="47" selection-end-line="39" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1039,7 +882,7 @@
         <state relative-caret-position="540">
           <caret line="36" column="152" lean-forward="false" selection-start-line="36" selection-start-column="152" selection-end-line="36" selection-end-column="152" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1072,9 +915,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="317">
           <caret line="40" column="22" lean-forward="true" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1082,12 +922,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="630">
           <caret line="53" column="42" lean-forward="false" selection-start-line="53" selection-start-column="42" selection-end-line="53" selection-end-column="42" />
-          <folding>
-            <element signature="e#789#790#0" expanded="true" />
-            <element signature="e#849#850#0" expanded="true" />
-            <element signature="e#2727#2728#0" expanded="true" />
-            <element signature="e#2791#2792#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1104,7 +938,7 @@
         <state relative-caret-position="315">
           <caret line="21" column="43" lean-forward="false" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1114,7 +948,24 @@
         <state relative-caret-position="285">
           <caret line="19" column="56" lean-forward="false" selection-start-line="19" selection-start-column="56" selection-end-line="19" selection-end-column="56" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ScopeGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoEventScope.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="9" lean-forward="true" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1124,56 +975,20 @@
         <state relative-caret-position="480">
           <caret line="32" column="52" lean-forward="false" selection-start-line="32" selection-start-column="52" selection-end-line="32" selection-end-column="52" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#678#679#0" expanded="true" />
-            <element signature="e#705#706#0" expanded="true" />
-            <element signature="e#787#788#0" expanded="true" />
-            <element signature="e#836#837#0" expanded="true" />
-            <element signature="e#904#905#0" expanded="true" />
-            <element signature="e#969#970#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#678#679#0" expanded="false" />
+            <element signature="e#705#706#0" expanded="false" />
+            <element signature="e#787#788#0" expanded="false" />
+            <element signature="e#836#837#0" expanded="false" />
+            <element signature="e#904#905#0" expanded="false" />
+            <element signature="e#969#970#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Generator/ScopeGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoEventScope.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="9" lean-forward="true" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="40" column="29" lean-forward="false" selection-start-line="40" selection-start-column="29" selection-end-line="40" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mundosk_libraries/java_websocket/WebSocket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/Registration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
+        <state relative-caret-position="1095">
           <caret line="73" column="21" lean-forward="false" selection-start-line="73" selection-start-column="21" selection-end-line="73" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1187,11 +1002,237 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/mundosk_libraries/java_websocket/WebSocket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="37" column="41" lean-forward="false" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/SkriptWebSocketServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="24" column="67" lean-forward="false" selection-start-line="24" selection-start-column="67" selection-end-line="24" selection-end-column="67" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="611">
+          <caret line="123" column="13" lean-forward="true" selection-start-line="123" selection-start-column="13" selection-end-line="123" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/TablistManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="29" lean-forward="true" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Tablist.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="82" column="57" lean-forward="true" selection-start-line="82" selection-start-column="57" selection-end-line="82" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/SupplementaryTablist.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Tab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
           <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/TablistMundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1250#1559#0" expanded="true" />
+            <element signature="e#1558#1559#0" expanded="true" />
+            <element signature="e#1623#1854#0" expanded="true" />
+            <element signature="e#1853#1854#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/OldTablist.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="60" column="33" lean-forward="true" selection-start-line="60" selection-start-column="33" selection-end-line="60" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprSomeElements.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="27" column="41" lean-forward="false" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ExprElements.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="37" column="13" lean-forward="false" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ModifiableSyntaxElementInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="51" column="17" lean-forward="true" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#628#629#0" expanded="true" />
+            <element signature="e#686#687#0" expanded="true" />
+            <element signature="e#723#724#0" expanded="true" />
+            <element signature="e#772#773#0" expanded="true" />
+            <element signature="e#2117#2118#0" expanded="true" />
+            <element signature="e#2197#2198#0" expanded="true" />
+            <element signature="e#2545#2546#0" expanded="true" />
+            <element signature="e#2628#2629#0" expanded="true" />
+            <element signature="e#3153#3154#0" expanded="true" />
+            <element signature="e#3253#3254#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ModifiableExpressionInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="16" column="28" lean-forward="false" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilSyntaxRegistration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ExprExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="5" lean-forward="false" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#870#871#0" expanded="true" />
+            <element signature="e#905#906#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ModifiableSyntaxElementInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="42" column="5" lean-forward="false" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#628#629#0" expanded="true" />
+            <element signature="e#686#687#0" expanded="true" />
+            <element signature="e#723#724#0" expanded="true" />
+            <element signature="e#772#773#0" expanded="true" />
+            <element signature="e#2117#2118#0" expanded="true" />
+            <element signature="e#2197#2198#0" expanded="true" />
+            <element signature="e#2545#2546#0" expanded="true" />
+            <element signature="e#2628#2629#0" expanded="true" />
+            <element signature="e#3153#3154#0" expanded="true" />
+            <element signature="e#3253#3254#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/MathUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="35" column="9" lean-forward="true" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistMundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="30" column="49" lean-forward="true" selection-start-line="30" selection-start-column="49" selection-end-line="30" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="431">
+          <caret line="102" column="50" lean-forward="true" selection-start-line="102" selection-start-column="50" selection-end-line="102" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="116" column="0" lean-forward="false" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/BookMundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="16" column="72" lean-forward="true" selection-start-line="16" selection-start-column="72" selection-end-line="16" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/EffCustom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="28" column="5" lean-forward="true" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
+          <folding>
+            <element signature="e#457#468#0" expanded="true" />
+            <element signature="e#753#754#0" expanded="true" />
+            <element signature="e#784#785#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

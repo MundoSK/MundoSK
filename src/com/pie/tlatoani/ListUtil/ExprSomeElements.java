@@ -13,7 +13,7 @@ import java.lang.reflect.Array;
 /**
  * Created by Tlatoani on 6/11/16.
  */
-public class ExprSomeItems extends SimpleExpression<Object> implements ListUtil.TransformerUser, ListUtil.Moveable {
+public class ExprSomeElements extends SimpleExpression<Object> implements ListUtil.TransformerUser, ListUtil.Moveable {
     private String pattern;
     private Transformer transformer;
     private Expression expression;
@@ -105,7 +105,7 @@ public class ExprSomeItems extends SimpleExpression<Object> implements ListUtil.
             return false;
         }
         index1 = (Expression<Number>) expressions[0];
-        index2 = expressions[1] != null ? (Expression<Number>) expressions[1] : new ExprItemCount(transformer, expression);
+        index2 = expressions[1] != null ? (Expression<Number>) expressions[1] : new ExprElementCount(transformer, expression);
         returnType = transformer.getType();
         typeToSetTo = (Array.newInstance(returnType, 0)).getClass();
         isSettable = transformer.isSettable();

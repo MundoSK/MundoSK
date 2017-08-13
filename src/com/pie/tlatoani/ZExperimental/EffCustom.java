@@ -1,9 +1,7 @@
 package com.pie.tlatoani.ZExperimental;
 
-import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
-import ch.njol.skript.lang.SyntaxElementInfo;
 import ch.njol.util.Kleenean;
 import org.bukkit.event.Event;
 
@@ -13,8 +11,8 @@ import java.util.HashMap;
 /**
  * Created by Tlatoani on 2/25/17.
  */
-public class EffCustom extends Effect {
-    private static final ModifiableSyntaxElementInfo<EffCustom> info = new ModifiableSyntaxElementInfo<>(new String[0], EffCustom.class);
+public class EffCustom extends ch.njol.skript.lang.Effect {
+    private static final ModifiableSyntaxElementInfo.Effect<EffCustom> info = new ModifiableSyntaxElementInfo.Effect<EffCustom>(EffCustom.class);
     private static final ArrayList<CustomEffect> customEffects = new ArrayList<>();
 
     private CustomEffect customEffect;
@@ -22,15 +20,12 @@ public class EffCustom extends Effect {
     private SkriptParser.ParseResult parseResult;
 
     public static void onLoad() {
-        UtilSyntaxRegistration.registerEffect(info);
+        info.register();
     }
 
     public static void registerEffect(CustomEffect customEffect) {
         customEffects.add(customEffect);
-        String[] newPatterns = new String[info.patterns.length + 1];
-        newPatterns[info.patterns.length] = customEffect.getSyntax();
-        System.arraycopy(info.patterns, 0, newPatterns, 0, info.patterns.length);
-        info.setPatterns(newPatterns);
+        info.addPattern(customEffect.getSyntax());
     }
 
     public static void unregisterEffect(CustomEffect customEffect) {
@@ -39,9 +34,9 @@ public class EffCustom extends Effect {
             throw new IllegalArgumentException(customEffect + " was not registered as a custom effect!");
         }
         customEffects.remove(index);
-        String[] newPatterns = new String[info.patterns.length - 1];
-        System.arraycopy(info.patterns, 0, newPatterns, 0, index);
-        System.arraycopy(info.patterns, index + 1, newPatterns, index, newPatterns.length - index);
+        String[] newPatterns = new String[info.syntaxElementInfo.patterns.length - 1];
+        System.arraycopy(info.syntaxElementInfo.patterns, 0, newPatterns, 0, index);
+        System.arraycopy(info.syntaxElementInfo.patterns, index + 1, newPatterns, index, newPatterns.length - index);
         info.setPatterns(newPatterns);
     }
 

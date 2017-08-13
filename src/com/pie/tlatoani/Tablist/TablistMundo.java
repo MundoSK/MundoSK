@@ -24,9 +24,9 @@ public class TablistMundo {
     public static int SPAWN_REMOVE_TAB_DELAY;
     public static int RESPAWN_REMOVE_TAB_DELAY;
     
-    public static void load(int spawnRemoveTabDelay, int respawnRemoveTablDelay) {
+    public static void load(int spawnRemoveTabDelay, int respawnRemoveTabDelay) {
         SPAWN_REMOVE_TAB_DELAY = spawnRemoveTabDelay;
-        RESPAWN_REMOVE_TAB_DELAY = respawnRemoveTablDelay;
+        RESPAWN_REMOVE_TAB_DELAY = respawnRemoveTabDelay;
         Registration.registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
         Registration.registerType(Tablist.class, "tablist");
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {

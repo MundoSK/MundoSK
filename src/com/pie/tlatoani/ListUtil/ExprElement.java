@@ -12,7 +12,7 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 6/10/16.
  */
-public class ExprItem extends SimpleExpression<Object> implements ListUtil.Moveable {
+public class ExprElement extends SimpleExpression<Object> implements ListUtil.Moveable {
     private String pattern;
     private Transformer transformer;
     private Expression expression;
@@ -55,7 +55,7 @@ public class ExprItem extends SimpleExpression<Object> implements ListUtil.Movea
         pattern = ListUtil.retrievePattern(i);
         transformer = ListUtil.retrieveTransformer(pattern, expression);
         isLastIndex = expressions[0] == null;
-        index = !isLastIndex ? (Expression<Number>) expressions[0] : new ExprItemCount(transformer, expression);
+        index = !isLastIndex ? (Expression<Number>) expressions[0] : new ExprElementCount(transformer, expression);
         if (transformer == null) {
             return false;
         }

@@ -6,7 +6,6 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.pie.tlatoani.ProtocolLib.MundoPacketEvent;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tablist;
@@ -14,7 +13,6 @@ import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.MathUtil;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
@@ -70,7 +68,7 @@ public class ArrayTablist {
         packetContainer.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
         packetContainer.getPlayerInfoAction().writeSafely(0, action);
         Logging.debug(this, "SP 4");
-        PacketManager.sendPacket(players, this, packetContainer);
+        PacketManager.sendPacket(packetContainer, this, players);
     }
 
     private void sendScorePacketToAll(int column, int row) {
@@ -86,7 +84,7 @@ public class ArrayTablist {
         packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
         packet.getIntegers().writeSafely(0, scores[column - 1][row - 1]);
         packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
-        PacketManager.sendPacket(players, this, packet);
+        PacketManager.sendPacket(packet, this, players);
     }
 
     public int getColumns() {

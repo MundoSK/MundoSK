@@ -1,9 +1,11 @@
 package com.pie.tlatoani.ListUtil;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.MathUtil;
 import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.ZExperimental.ModifiableSyntaxElementInfo;
 import org.bukkit.event.Event;
 
 import java.util.*;
@@ -19,9 +21,9 @@ public final class ListUtil {
     //Cannot be instantiated
     private ListUtil() {}
 
-    public static void registerTransformer(Class<? extends Transformer> transformer, String... patterns) {
-        registerTransformer("objects", transformer, patterns);
-    }
+    //public static void registerTransformer(Class<? extends Transformer> transformer, String... patterns) {
+     //   registerTransformer("objects", transformer, patterns);
+    //}
 
     public static void registerTransformer(String possessorClassInfo, Class<? extends Transformer> transformer, String... patterns) {
         if (possessorClassInfo == null)
@@ -40,12 +42,6 @@ public final class ListUtil {
     }
 
     public static Transformer retrieveTransformer(String pattern, Expression expression) {
-        /*if (expression instanceof PersonalTransformer) {
-            Transformer personalTransformer = ((PersonalTransformer) expression).getPersonalTransformer(pattern);
-            if (personalTransformer != null ) {
-                return personalTransformer;
-            }
-        }*/
         Transformer transformer = null;
         if (dictionary.containsKey(pattern)) {
             try {
@@ -57,20 +53,8 @@ public final class ListUtil {
         } else {
             transformer = new TransDefault();
         }
-        /*if (transformer == null) {
-            Skript.error("'" + pattern + (expression != null ? "s of " + expression + "'" : "s'") + " is not a list!");
-            return null;
-        }*/
         return transformer.init(expression) ? transformer : null;
     }
-
-    /*public static Transformer retrieveTransformerByPlural(String pattern, Expression expression) {
-        if (pattern.charAt(pattern.length() - 1) == 's') {
-            return retrieveTransformer(pattern.substring(0, pattern.length() - 1), expression);
-        }
-        Skript.error("'" + pattern + (expression != null ? " of " + expression + "'" : "'") + " is not a list!");
-        return null;
-    }*/
 
     //Returns the transformer options, ex. "0¦(elem|element|item)|1¦page"
     public static String getTransformerOptions() {
@@ -102,13 +86,13 @@ public final class ListUtil {
         item.add("(" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");
         someItems.add(j + "s %number% to (%-number%|last) (of|in) %" + possessorClassInfo + "%");
         itemCount.add(j + " count (of|in) %" + possessorClassInfo + "%");
-        Registration.registerEffect(EffInsertItem.class,insertItem.toArray(new String[0]));
-        Registration.registerExpression(ExprItem.class,Object.class, ExpressionType.PROPERTY,item.toArray(new String[0]));
-        Registration.registerExpression(ExprItems.class,Object.class,ExpressionType.PROPERTY,items.toArray(new String[0]));
-        Registration.registerExpression(ExprSomeItems.class,Object.class,ExpressionType.PROPERTY,someItems.toArray(new String[0]));
-        Registration.registerExpression(ExprItemCount.class,Number.class,ExpressionType.PROPERTY,itemCount.toArray(new String[0]));
+        Registration.registerEffect(EffInsertElement.class,insertItem.toArray(new String[0]));
+        Registration.registerExpression(ExprElement.class,Object.class, ExpressionType.PROPERTY,item.toArray(new String[0]));
+        Registration.registerExpression(ExprElements.class,Object.class,ExpressionType.PROPERTY,items.toArray(new String[0]));
+        Registration.registerExpression(ExprSomeElements.class,Object.class,ExpressionType.PROPERTY,someItems.toArray(new String[0]));
+        Registration.registerExpression(ExprElementCount.class,Number.class,ExpressionType.PROPERTY,itemCount.toArray(new String[0]));
 
-        Registration.registerEffect(EffMoveItem.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
+        Registration.registerEffect(EffMoveElement.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
     }
 
     public interface TransformerUser {
@@ -116,15 +100,103 @@ public final class ListUtil {
         Transformer getTransformer();
     }
 
-    /*public interface PersonalTransformer {
-
-        Transformer getPersonalTransformer(String pattern);
-    }*/
-
     public interface Moveable {
 
         void move(Event event, Integer movement);
 
         Boolean isMoveable();
     }
+
+    //ListUtil slight rewrite
+
+    public static final String TRANSFORMER_PATTERN_ID = "%listutil%";
+    public static final String POSSESSOR_CLASS_CODE_NAME_ID = "%possessor%";
+
+    private static final List<TransformerWrapperInfo> transformerWrapperInfos = new ArrayList<>();
+    private static final List<TransformerInfo> transformerInfos = new ArrayList<>();
+
+    public static void load() {
+        registerTransformer(TransDefault.class, "objects", "elem", "element");
+
+        registerTransformerWrapper(new ModifiableSyntaxElementInfo.Effect(EffInsertElement.class),
+                "(add|insert) %objects% (1¦before|0¦after) (" + TRANSFORMER_PATTERN_ID + " %-number%|last " + TRANSFORMER_PATTERN_ID + ") (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
+        registerTransformerWrapper(new ModifiableSyntaxElementInfo.Expression(ExprElement.class, Object.class, ExpressionType.PROPERTY),
+                "(" + TRANSFORMER_PATTERN_ID + " %-number%|last " + TRANSFORMER_PATTERN_ID + ") (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
+        registerTransformerWrapper(new ModifiableSyntaxElementInfo.Expression(ExprElements.class, Object.class, ExpressionType.PROPERTY),
+                TRANSFORMER_PATTERN_ID + "s (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
+        registerTransformerWrapper(new ModifiableSyntaxElementInfo.Expression(ExprSomeElements.class, Object.class, ExpressionType.PROPERTY),
+                TRANSFORMER_PATTERN_ID + "s %number% to (%-number%|last) (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
+        registerTransformerWrapper(new ModifiableSyntaxElementInfo.Expression(ExprElementCount.class, Object.class, ExpressionType.PROPERTY),
+                "(" + TRANSFORMER_PATTERN_ID + " count|amount of " + TRANSFORMER_PATTERN_ID + "s) (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
+    }
+
+    public static class TransformerInfo {
+        public final Class<? extends Transformer> transformerClass;
+        public final String possessorClassCodeName;
+        public final String[] patterns;
+
+        public TransformerInfo(Class<? extends Transformer> transformerClass, String[] patterns, String possessorClassCodeName) {
+            this.transformerClass = transformerClass;
+            this.patterns = patterns;
+            this.possessorClassCodeName = possessorClassCodeName;
+        }
+    }
+
+    public static class TransformerWrapperInfo {
+        public final ModifiableSyntaxElementInfo syntaxElementInfo;
+        public final String prototypePattern;
+
+        public TransformerWrapperInfo(ModifiableSyntaxElementInfo syntaxElementInfo, String prototypePattern) {
+            this.syntaxElementInfo = syntaxElementInfo;
+            this.prototypePattern = prototypePattern;
+        }
+
+        public String formatPrototypePattern(TransformerInfo transformerInfo) {
+            String unifiedTransformerPattern;
+            if (transformerInfo.patterns.length == 1) {
+                unifiedTransformerPattern = transformerInfo.patterns[0];
+            } else {
+                unifiedTransformerPattern = "(" + String.join("|", transformerInfo.patterns) + ")";
+            }
+            return prototypePattern
+                    .replace(TRANSFORMER_PATTERN_ID, unifiedTransformerPattern)
+                    .replace(POSSESSOR_CLASS_CODE_NAME_ID, "%" + transformerInfo.possessorClassCodeName + "%");
+        }
+    }
+
+    public static Transformer getTransformer(int index, Expression possessor) {
+        if (!MathUtil.isInRange(0, index, transformerInfos.size() - 1)) {
+            throw new IllegalArgumentException("The index " + index + " is out of range");
+        }
+        TransformerInfo transformerInfo = transformerInfos.get(index);
+        try {
+            Transformer transformer = transformerInfo.transformerClass.newInstance();
+            return transformer.init(possessor) ? transformer : null;
+        } catch (InstantiationException | IllegalAccessException e) {
+            Logging.reportException(ListUtil.class, e);
+            return null;
+        }
+    }
+
+    public static void registerTransformer(Class<? extends Transformer> transformerClass, String possessorClassCodeName, String... patterns) {
+        TransformerInfo transformerInfo = new TransformerInfo(transformerClass, patterns, possessorClassCodeName);
+        transformerInfos.add(transformerInfo);
+        for (TransformerWrapperInfo wrapperInfo : transformerWrapperInfos) {
+            String formattedWrapperPattern = wrapperInfo.formatPrototypePattern(transformerInfo);
+            wrapperInfo.syntaxElementInfo.addPattern(formattedWrapperPattern);
+        }
+    }
+
+    public static void registerTransformerWrapper(ModifiableSyntaxElementInfo syntaxElementInfo, String prototypePattern) {
+        TransformerWrapperInfo wrapperInfo = new TransformerWrapperInfo(syntaxElementInfo, prototypePattern);
+        transformerWrapperInfos.add(wrapperInfo);
+        String[] patterns = new String[transformerInfos.size()];
+        for (int i = 0; i < patterns.length; i++) {
+            String formattedWrapperPattern = wrapperInfo.formatPrototypePattern(transformerInfos.get(i));
+            patterns[i] = formattedWrapperPattern;
+        }
+        wrapperInfo.syntaxElementInfo.setPatterns(patterns);
+        wrapperInfo.syntaxElementInfo.register();
+    }
+
 }
