@@ -26,6 +26,7 @@ public class UtilSyntaxRegistration {
             conditions = (Collection<SyntaxElementInfo<? extends Condition>>) Reflection.getStaticField(Skript.class, "conditions");
             effects = (Collection<SyntaxElementInfo<? extends Effect>>) Reflection.getStaticField(Skript.class, "effects");
             statements = (Collection<SyntaxElementInfo<? extends Statement>>) Reflection.getStaticField(Skript.class, "statements");
+            expressions = (List<ExpressionInfo<?, ?>>) Reflection.getStaticField(Skript.class, "expressions");
             expressionTypesStartIndices = (int[]) Reflection.getStaticField(Skript.class, "expressionTypesStartIndices");
 
             patternsField = SyntaxElementInfo.class.getDeclaredField("patterns");
