@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.Pair;
+import com.pie.tlatoani.Util.ModifiableSyntaxElementInfo;
 import org.bukkit.event.Event;
 
 import java.util.HashMap;

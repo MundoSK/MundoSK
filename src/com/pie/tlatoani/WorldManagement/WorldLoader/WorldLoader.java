@@ -182,7 +182,7 @@ public final class WorldLoader {
         creator.seed(Long.parseLong((String) creatorJSON.get("seed")));
         String generator;
         if ((generator = (String) creatorJSON.get("generator")) != null) {
-            creator.generator(generator);
+            creator.generator(ChunkGeneratorWithID.getGenerator(generator));
         }
         creator.generatorSettings((String) creatorJSON.get("generatorsettings"));
         return creator;

@@ -12,9 +12,16 @@ import org.bukkit.event.Event;
  * Created by Tlatoani on 6/11/16.
  */
 public class EffMoveElements extends Effect {
-    private ListUtil.Moveable expression;
+    private Moveable expression;
     private Expression<Number> movement;
     private Integer direction;
+
+    public interface Moveable {
+
+        void move(Event event, Integer movement);
+
+        Boolean isMoveable();
+    }
 
     @Override
     protected void execute(Event event) {
@@ -29,8 +36,8 @@ public class EffMoveElements extends Effect {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         Logging.debug(this, "Moveablemaybe: " + expressions[0].getClass());
-        if (expressions[0] instanceof ListUtil.Moveable) {
-            expression = (ListUtil.Moveable) expressions[0];
+        if (expressions[0] instanceof Moveable) {
+            expression = (Moveable) expressions[0];
         } else {
             Skript.error("The 'move items forwards/backwards' effect can only be used with the 'items %number% to %number%' and the 'item %number%' expressions!");
         }

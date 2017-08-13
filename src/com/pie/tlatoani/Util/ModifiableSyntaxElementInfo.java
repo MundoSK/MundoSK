@@ -1,9 +1,8 @@
-package com.pie.tlatoani.ZExperimental;
+package com.pie.tlatoani.Util;
 
 import ch.njol.skript.lang.ExpressionInfo;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SyntaxElementInfo;
-import com.pie.tlatoani.Util.Reflection;
 
 /**
  * Created by Tlatoani on 8/12/17.
@@ -59,7 +58,7 @@ public abstract class ModifiableSyntaxElementInfo<I extends SyntaxElementInfo> {
 
         @Override
         public void register() {
-            UtilSyntaxRegistration.registerEffect(syntaxElementInfo);
+            ReflectiveRegistration.registerEffect(syntaxElementInfo);
         }
     }
 
@@ -71,7 +70,7 @@ public abstract class ModifiableSyntaxElementInfo<I extends SyntaxElementInfo> {
 
         @Override
         public void register() {
-            UtilSyntaxRegistration.registerCondition(syntaxElementInfo);
+            ReflectiveRegistration.registerCondition(syntaxElementInfo);
         }
     }
 
@@ -85,7 +84,7 @@ public abstract class ModifiableSyntaxElementInfo<I extends SyntaxElementInfo> {
 
         @Override
         public void register() {
-            UtilSyntaxRegistration.registerExpression(syntaxElementInfo, expressionType);
+            ReflectiveRegistration.registerExpression(syntaxElementInfo, expressionType);
         }
     }
 }

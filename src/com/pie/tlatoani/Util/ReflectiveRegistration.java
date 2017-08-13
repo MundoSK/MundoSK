@@ -1,9 +1,9 @@
-package com.pie.tlatoani.ZExperimental;
+package com.pie.tlatoani.Util;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.*;
-import com.pie.tlatoani.Util.Logging;
-import com.pie.tlatoani.Util.Reflection;
+import com.pie.tlatoani.ZExperimental.EffCustom;
+import com.pie.tlatoani.ZExperimental.ExprExpr;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Tlatoani on 2/24/17.
  */
-public class UtilSyntaxRegistration {
+public class ReflectiveRegistration {
     public static Collection<SyntaxElementInfo<? extends Condition>> conditions;
     public static Collection<SyntaxElementInfo<? extends Effect>> effects;
     public static Collection<SyntaxElementInfo<? extends Statement>> statements;
@@ -32,7 +32,7 @@ public class UtilSyntaxRegistration {
             patternsField = SyntaxElementInfo.class.getDeclaredField("patterns");
             patternsField.setAccessible(true);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            Logging.reportException(UtilSyntaxRegistration.class, e);
+            Logging.reportException(ReflectiveRegistration.class, e);
         }
     }
 

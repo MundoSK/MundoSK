@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by Tlatoani on 6/10/16.
  */
-public class ExprElements extends SimpleExpression<Object> implements ListUtil.TransformerUser {
+public class ExprElements extends SimpleExpression<Object> {
     private String pattern;
     private Transformer transformer;
     private Expression expression;
@@ -112,10 +112,5 @@ public class ExprElements extends SimpleExpression<Object> implements ListUtil.T
         if (mode == Changer.ChangeMode.SET || mode == Changer.ChangeMode.DELETE || mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE || mode == Changer.ChangeMode.REMOVE_ALL) return CollectionUtils.array(typeToSetTo);
         if (mode == Changer.ChangeMode.RESET && isResettable) return CollectionUtils.array();
         return null;
-    }
-
-    @Override
-    public Transformer getTransformer() {
-        return transformer;
     }
 }

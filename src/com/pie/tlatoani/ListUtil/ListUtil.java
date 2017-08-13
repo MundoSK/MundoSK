@@ -5,8 +5,7 @@ import ch.njol.skript.lang.ExpressionType;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.MathUtil;
 import com.pie.tlatoani.Util.Registration;
-import com.pie.tlatoani.ZExperimental.ModifiableSyntaxElementInfo;
-import org.bukkit.event.Event;
+import com.pie.tlatoani.Util.ModifiableSyntaxElementInfo;
 
 import java.util.*;
 
@@ -14,105 +13,10 @@ import java.util.*;
  * Created by Tlatoani on 6/10/16.
  */
 public final class ListUtil {
-    private final static Map<String, Class<? extends Transformer>> dictionary = new HashMap<String, Class<? extends Transformer>>();
-    private final static ArrayList<String> patternlist = new ArrayList<>();
-    private final static ArrayList<String> possessorList = new ArrayList<>();
-
-    //Cannot be instantiated
-    private ListUtil() {}
-
-    //public static void registerTransformer(Class<? extends Transformer> transformer, String... patterns) {
-     //   registerTransformer("objects", transformer, patterns);
-    //}
-
-    public static void registerTransformer(String possessorClassInfo, Class<? extends Transformer> transformer, String... patterns) {
-        if (possessorClassInfo == null)
-            possessorClassInfo = "objects";
-        for (int i = 0; i < patterns.length; i++) {
-            if (patterns[i] != null) {
-                dictionary.putIfAbsent(patterns[i], transformer);
-                patternlist.add(patterns[i]);
-                possessorList.add(possessorClassInfo);
-            }
-        }
-    }
-
-    public static String retrievePattern(int index) {
-        return patternlist.size() > index ? patternlist.get(index) : null;
-    }
-
-    public static Transformer retrieveTransformer(String pattern, Expression expression) {
-        Transformer transformer = null;
-        if (dictionary.containsKey(pattern)) {
-            try {
-                transformer = dictionary.get(pattern).newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
-                return transformer = new TransDefault();
-            }
-        } else {
-            transformer = new TransDefault();
-        }
-        return transformer.init(expression) ? transformer : null;
-    }
-
-    //Returns the transformer options, ex. "0¦(elem|element|item)|1¦page"
-    public static String getTransformerOptions() {
-        String[] withIndexes = new String[patternlist.size()];
-        for (int i = 0; i < patternlist.size(); i++) {
-            withIndexes[i] = i + "¦" + patternlist.get(i);
-        }
-        return String.join("|", withIndexes);
-    }
-
-    public static void register() {
-        List<String> insertItem = new ArrayList<>();
-        List<String> item = new ArrayList<>();
-        List<String> items = new ArrayList<>();
-        List<String> someItems = new ArrayList<>();
-        List<String> itemCount = new ArrayList<>();
-        for (int i = 0; i < patternlist.size(); i++) {
-            String j = patternlist.get(i);
-            String possessorClassInfo = possessorList.get(i);
-            insertItem.add("(add|insert) %objects% (1¦before|0¦after) (" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");
-            item.add("(" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");
-            items.add(j + "s (of|in) %" + possessorClassInfo + "%");
-            someItems.add(j + "s %number% to (%-number%|last) (of|in) %" + possessorClassInfo + "%");
-            itemCount.add(j + " count (of|in) %" + possessorClassInfo + "%");
-        }
-        String j = "(element|elem|item)";
-        String possessorClassInfo = "objects";
-        insertItem.add("(add|insert) %objects% (1¦before|0¦after) (" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");
-        item.add("(" + j + " %-number%|last " + j + ") (of|in) %" + possessorClassInfo + "%");
-        someItems.add(j + "s %number% to (%-number%|last) (of|in) %" + possessorClassInfo + "%");
-        itemCount.add(j + " count (of|in) %" + possessorClassInfo + "%");
-        Registration.registerEffect(EffInsertElements.class,insertItem.toArray(new String[0]));
-        Registration.registerExpression(ExprElement.class,Object.class, ExpressionType.PROPERTY,item.toArray(new String[0]));
-        Registration.registerExpression(ExprElements.class,Object.class,ExpressionType.PROPERTY,items.toArray(new String[0]));
-        Registration.registerExpression(ExprSomeElements.class,Object.class,ExpressionType.PROPERTY,someItems.toArray(new String[0]));
-        Registration.registerExpression(ExprElementCount.class,Number.class,ExpressionType.PROPERTY,itemCount.toArray(new String[0]));
-
-        Registration.registerEffect(EffMoveElements.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
-    }
-
-    public interface TransformerUser {
-
-        Transformer getTransformer();
-    }
-
-    public interface Moveable {
-
-        void move(Event event, Integer movement);
-
-        Boolean isMoveable();
-    }
-
-    //ListUtil slight rewrite
-
     public static final String TRANSFORMER_PATTERN_ID = "%listutil%";
     public static final String POSSESSOR_CLASS_CODE_NAME_ID = "%possessor%";
 
-    private static final List<TransformerWrapperInfo> transformerWrapperInfos = new ArrayList<>();
+    private static final List<TransformerUserInfo> TRANSFORMER_USER_INFOS = new ArrayList<>();
     private static final List<TransformerInfo> transformerInfos = new ArrayList<>();
 
     public static void load() {
@@ -120,15 +24,15 @@ public final class ListUtil {
 
         registerTransformer(TransDefault.class, "objects", "elem", "element");
 
-        registerTransformerWrapper(new ModifiableSyntaxElementInfo.Effect(EffInsertElements.class),
+        registerTransformerUser(new ModifiableSyntaxElementInfo.Effect(EffInsertElements.class),
                 "(add|insert) %objects% (1¦before|0¦after) (" + TRANSFORMER_PATTERN_ID + " %-number%|last " + TRANSFORMER_PATTERN_ID + ") (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
-        registerTransformerWrapper(new ModifiableSyntaxElementInfo.Expression(ExprElement.class, Object.class, ExpressionType.PROPERTY),
+        registerTransformerUser(new ModifiableSyntaxElementInfo.Expression(ExprElement.class, Object.class, ExpressionType.PROPERTY),
                 "(" + TRANSFORMER_PATTERN_ID + " %-number%|last " + TRANSFORMER_PATTERN_ID + ") (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
-        registerTransformerWrapper(new ModifiableSyntaxElementInfo.Expression(ExprElements.class, Object.class, ExpressionType.PROPERTY),
+        registerTransformerUser(new ModifiableSyntaxElementInfo.Expression(ExprElements.class, Object.class, ExpressionType.PROPERTY),
                 TRANSFORMER_PATTERN_ID + "s (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
-        registerTransformerWrapper(new ModifiableSyntaxElementInfo.Expression(ExprSomeElements.class, Object.class, ExpressionType.PROPERTY),
+        registerTransformerUser(new ModifiableSyntaxElementInfo.Expression(ExprSomeElements.class, Object.class, ExpressionType.PROPERTY),
                 TRANSFORMER_PATTERN_ID + "s %number% to (%-number%|last) (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
-        registerTransformerWrapper(new ModifiableSyntaxElementInfo.Expression(ExprElementCount.class, Object.class, ExpressionType.PROPERTY),
+        registerTransformerUser(new ModifiableSyntaxElementInfo.Expression(ExprElementCount.class, Object.class, ExpressionType.PROPERTY),
                 "(" + TRANSFORMER_PATTERN_ID + " count|amount of " + TRANSFORMER_PATTERN_ID + "s) (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
     }
 
@@ -144,11 +48,11 @@ public final class ListUtil {
         }
     }
 
-    public static class TransformerWrapperInfo {
+    public static class TransformerUserInfo {
         public final ModifiableSyntaxElementInfo syntaxElementInfo;
         public final String prototypePattern;
 
-        public TransformerWrapperInfo(ModifiableSyntaxElementInfo syntaxElementInfo, String prototypePattern) {
+        public TransformerUserInfo(ModifiableSyntaxElementInfo syntaxElementInfo, String prototypePattern) {
             this.syntaxElementInfo = syntaxElementInfo;
             this.prototypePattern = prototypePattern;
         }
@@ -194,22 +98,22 @@ public final class ListUtil {
         }
         TransformerInfo transformerInfo = new TransformerInfo(transformerClass, patterns, possessorClassCodeName);
         transformerInfos.add(transformerInfo);
-        for (TransformerWrapperInfo wrapperInfo : transformerWrapperInfos) {
-            String formattedWrapperPattern = wrapperInfo.formatPrototypePattern(transformerInfo);
-            wrapperInfo.syntaxElementInfo.addPattern(formattedWrapperPattern);
+        for (TransformerUserInfo userInfo : TRANSFORMER_USER_INFOS) {
+            String formattedWrapperPattern = userInfo.formatPrototypePattern(transformerInfo);
+            userInfo.syntaxElementInfo.addPattern(formattedWrapperPattern);
         }
     }
 
-    public static void registerTransformerWrapper(ModifiableSyntaxElementInfo syntaxElementInfo, String prototypePattern) {
-        TransformerWrapperInfo wrapperInfo = new TransformerWrapperInfo(syntaxElementInfo, prototypePattern);
-        transformerWrapperInfos.add(wrapperInfo);
+    public static void registerTransformerUser(ModifiableSyntaxElementInfo syntaxElementInfo, String prototypePattern) {
+        TransformerUserInfo userInfo = new TransformerUserInfo(syntaxElementInfo, prototypePattern);
+        TRANSFORMER_USER_INFOS.add(userInfo);
         String[] patterns = new String[transformerInfos.size()];
         for (int i = 0; i < patterns.length; i++) {
-            String formattedWrapperPattern = wrapperInfo.formatPrototypePattern(transformerInfos.get(i));
+            String formattedWrapperPattern = userInfo.formatPrototypePattern(transformerInfos.get(i));
             patterns[i] = formattedWrapperPattern;
         }
-        wrapperInfo.syntaxElementInfo.setPatterns(patterns);
-        wrapperInfo.syntaxElementInfo.register();
+        userInfo.syntaxElementInfo.setPatterns(patterns);
+        userInfo.syntaxElementInfo.register();
     }
 
 }

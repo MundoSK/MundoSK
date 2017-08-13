@@ -12,7 +12,7 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 6/10/16.
  */
-public class ExprElement extends SimpleExpression<Object> implements ListUtil.Moveable {
+public class ExprElement extends SimpleExpression<Object> implements EffMoveElements.Moveable {
     private String pattern;
     private Transformer transformer;
     private Expression expression;
