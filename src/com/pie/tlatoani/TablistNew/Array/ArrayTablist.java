@@ -98,7 +98,7 @@ public class ArrayTablist implements SupplementaryTablist {
         int identifier = (((column - 1) * 20) + row);
         String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
         UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + MathUtil.toHexDigit(identifier / 10) + (identifier % 10));
-        return new Tab(tablist.target, name, uuid, "", 5, Tablist.DEFAULT_SKIN_TEXTURE, 0);
+        return new Tab(tablist.target, name, uuid, "", 5, initialIcon, 0);
     }
 
     private void setTab(int column, int row, Tab tab) {
