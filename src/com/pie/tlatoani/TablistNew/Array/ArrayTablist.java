@@ -106,6 +106,7 @@ public class ArrayTablist implements SupplementaryTablist {
     }
 
     private void addTabs(int columnMin, int columnMax, int rowMin, int rowMax) {
+        Logging.debug(this, "Adding Tabs, columnMin = " + columnMin + ", columnMax = " + columnMax + ", rowMin = " + rowMin + ", rowMax = " + rowMax);
         for (int column = columnMin; column <= columnMax; column++)
             for (int row = rowMin; row <= rowMax; row++) {
                 Logging.debug(this, "Adding Tab, column = " + column + ", row = " + row);
@@ -116,6 +117,7 @@ public class ArrayTablist implements SupplementaryTablist {
     }
 
     private void removeTabs(int columnMin, int columnMax, int rowMin, int rowMax) {
+        Logging.debug(this, "Removing Tabs, columnMin = " + columnMin + ", columnMax = " + columnMax + ", rowMin = " + rowMin + ", rowMax = " + rowMax);
         for (int column = columnMin; column <= columnMax; column++)
             for (int row = rowMin; row <= rowMax; row++) {
                 Logging.debug(this, "Removing Tab, column = " + column + ", row = " + row);
