@@ -123,7 +123,6 @@ public class ArrayTablist implements SupplementaryTablist {
                 Logging.debug(this, "Removing Tab, column = " + column + ", row = " + row);
                 Tab tab = getTab(column, row);
                 tab.sendPacket(tab.playerInfoPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER));
-                tab.setScore(null);
                 setTab(column, row, null);
             }
     }

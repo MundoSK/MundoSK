@@ -40,9 +40,9 @@ public class TablistUtil {
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(
                 profile,
-                latency == null ? 5 : latency,
-                gameMode == null ? EnumWrappers.NativeGameMode.NOT_SET : EnumWrappers.NativeGameMode.fromBukkit(gameMode),
-                WrappedChatComponent.fromText(displayName == null ? "" : displayName)
+                Optional.ofNullable(latency).orElse(5),
+                Optional.ofNullable(gameMode).map(mode -> EnumWrappers.NativeGameMode.fromBukkit(mode)).orElse(EnumWrappers.NativeGameMode.NOT_SET),
+                WrappedChatComponent.fromText(Optional.ofNullable(displayName).orElse(""))
         );
         result.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
         result.getPlayerInfoAction().writeSafely(0, action);
@@ -66,7 +66,7 @@ public class TablistUtil {
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.SCOREBOARD_SCORE);
         packet.getStrings().writeSafely(0, scoreName);
         packet.getStrings().writeSafely(1, objectiveName);
-        packet.getIntegers().writeSafely(0, Optional.of(score).orElse(0));
+        packet.getIntegers().writeSafely(0, Optional.ofNullable(score).orElse(0));
         packet.getScoreboardActions().writeSafely(0, action);
         return packet;
     }
