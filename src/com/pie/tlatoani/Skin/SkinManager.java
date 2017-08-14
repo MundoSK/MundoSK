@@ -345,7 +345,7 @@ public class SkinManager {
             }
         }
         Scheduling.syncDelay(1, () ->  {
-            Logging.debug(SkinManager.class, "Now hiding player " + player.getName());
+            Logging.debug(SkinManager.class, "Now showing player " + player.getName());
             for (Player target : targets) {
                 if (!target.equals(player)){
                     target.showPlayer(player);

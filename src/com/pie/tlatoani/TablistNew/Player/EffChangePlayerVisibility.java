@@ -25,7 +25,7 @@ public class EffChangePlayerVisibility extends Effect {
                 Tablist tablist = TablistManager.getTablistOfPlayer(player);
                 tablist.getPlayerTablist().ifPresent(playerTablist -> {
                     for (Player object : objects) {
-                        playerTablist.showPlayer(player);
+                        playerTablist.showPlayer(object);
                     }
                 });
             }
@@ -34,7 +34,7 @@ public class EffChangePlayerVisibility extends Effect {
                 Tablist tablist = TablistManager.getTablistOfPlayer(player);
                 tablist.getPlayerTablist().ifPresent(playerTablist -> {
                     for (Player object : objects) {
-                        playerTablist.hidePlayer(player);
+                        playerTablist.hidePlayer(object);
                     }
                 });
             }
