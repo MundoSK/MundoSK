@@ -139,15 +139,16 @@ public class PlayerTablist {
     }
 
     public static class PlayerTab extends Tab {
-        Player player;
+        private final Player objPlayer;
 
         public PlayerTab(Player target, Player player) {
             super(target, player.getName(), player.getUniqueId(), null, null, null, null);
+            objPlayer = player;
         }
 
         @Override
         public PacketContainer playerInfoPacket(EnumWrappers.PlayerInfoAction action) {
-            return TablistUtil.playerInfoPacket(player, action);
+            return TablistUtil.playerInfoPacket(objPlayer, action);
         }
 
         @Override

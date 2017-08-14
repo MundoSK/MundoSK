@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.TablistNew.Simple.SimpleTablist;
 import com.pie.tlatoani.TablistNew.Tablist;
 import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
@@ -61,10 +62,16 @@ public class ExprSizeOfTabList extends SimpleExpression<Number> {
             if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                 ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
                 if (isColumns) {
-                    arrayTablist.setColumns(value);
+                    if (value > 0) {
+                        arrayTablist.setColumns(value);
+                    } else {
+                        tablist.setSupplementaryTablist(playerTablist -> new SimpleTablist(playerTablist));
+                    }
                 } else {
                     arrayTablist.setRows(value);
                 }
+            } else if (isColumns && value > 0) {
+                tablist.setSupplementaryTablist(playerTablist -> new ArrayTablist(playerTablist, value, 20, Tablist.DEFAULT_SKIN_TEXTURE));
             }
         }
     }
