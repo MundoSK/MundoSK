@@ -7,8 +7,6 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.TablistNew.OldTab;
-import com.pie.tlatoani.TablistNew.OldTablist;
 import com.pie.tlatoani.TablistNew.Tablist;
 import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
@@ -32,7 +30,7 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
             Tablist tablist = TablistManager.getTablistOfPlayer(players[i]);
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
-                icons[i] = Optional.ofNullable(simpleTablist.getTab(id)).map(tab -> tab.getIcon()).orElse(null);
+                icons[i] = simpleTablist.getTab(id).map(tab -> tab.getIcon()).orElse(null);
             }
         }
         return icons;
@@ -67,7 +65,7 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
             Tablist tablist = TablistManager.getTablistOfPlayer(player);
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
-                Optional.ofNullable(simpleTablist.getTab(id)).ifPresent(tab -> tab.setIcon(value));
+                simpleTablist.getTab(id).ifPresent(tab -> tab.setIcon(value));
             }
         }
     }

@@ -33,6 +33,19 @@ public class TablistManager {
     public static int SPAWN_REMOVE_TAB_DELAY;
     public static int RESPAWN_REMOVE_TAB_DELAY;
 
+    public static Tablist getTablistOfPlayer(Player player) {
+        return tablistMap.computeIfAbsent(player, __ -> new Tablist(player));
+    }
+
+    private static void onJoin(Player player) {
+        tablistMap.forEach((__, tablist) -> tablist.onJoin(player));
+    }
+
+    private static void onQuit(Player player) {
+        tablistMap.remove(player);
+        tablistMap.forEach((__, tablist) -> tablist.onQuit(player));
+    }
+
     public static void load(int spawnRemoveTabDelay, int respawnRemoveTabDelay) {
         SPAWN_REMOVE_TAB_DELAY = spawnRemoveTabDelay;
         RESPAWN_REMOVE_TAB_DELAY = respawnRemoveTabDelay;
@@ -54,10 +67,12 @@ public class TablistManager {
         loadPlayer();
         loadSimple();
         loadArray();
+        loadPacketEventListeners();
     }
 
     private static void loadPlayer() {
         Registration.registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% for %players% in tablist", "(0¦show|1¦hide) %players% in %players%'s tablist");
+        Registration.registerEffect(EffClearPlayerModifications.class, "(clear|reset) [all] player tab modifications for %players%");
         Registration.registerExpression(ExprPlayerIsVisible.class, Boolean.class, ExpressionType.COMBINED, "%player% is visible in %players%'s tablist", "%player% is visible in tablist (of|for) %players%");
         Registration.registerExpression(ExprPlayersAreVisible.class, Boolean.class, ExpressionType.PROPERTY, "%players%'s tablist contains players", "tablist of %players% contains players", "players are visible in tablist (of|for) %players%", "players are visible in %players%'s tablist");
         Registration.registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "tablist name of %player% for %players%", "%player%'s tablist name for %players%");
@@ -83,73 +98,57 @@ public class TablistManager {
         Registration.registerExpression(com.pie.tlatoani.TablistNew.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %players%'s [array] tablist");
     }
 
-
-    static {
-        if (Mundo.implementPacketStuff) {
-            PacketManager.onPacketEvent(PacketType.Play.Server.PLAYER_INFO, event -> {
-                Player player = event.getPlayer();
-                if (event.isCancelled() || player == null) {
-                    return;
+    private static void loadPacketEventListeners() {
+        PacketManager.onPacketEvent(PacketType.Play.Server.PLAYER_INFO, event -> {
+            Player player = event.getPlayer();
+            if (event.isCancelled() || player == null) {
+                return;
+            }
+            Tablist tablist = getTablistOfPlayer(player);
+            List<PlayerInfoData> oldPIDs = event.getPacket().getPlayerInfoDataLists().readSafely(0);
+            List<PlayerInfoData> newPIDs = new ArrayList<>();
+            for (PlayerInfoData oldPlayerInfoData : oldPIDs) {
+                Player objPlayer = Bukkit.getPlayer(oldPlayerInfoData.getProfile().getUUID());
+                if (objPlayer == null) {
+                    newPIDs.add(oldPlayerInfoData);
+                } else {
+                    newPIDs.add(tablist.onPlayerInfoPacket(oldPlayerInfoData, objPlayer));
                 }
-                Tablist tablist = getTablistOfPlayer(player);
-                List<PlayerInfoData> oldPIDs = event.getPacket().getPlayerInfoDataLists().readSafely(0);
-                List<PlayerInfoData> newPIDs = new ArrayList<>();
-                for (PlayerInfoData oldPlayerInfoData : oldPIDs) {
-                    Player objPlayer = Bukkit.getPlayer(oldPlayerInfoData.getProfile().getUUID());
-                    if (objPlayer == null) {
-                        newPIDs.add(oldPlayerInfoData);
-                    } else {
-                        newPIDs.add(tablist.onPlayerInfoPacket(oldPlayerInfoData, objPlayer));
-                    }
-                }
-                event.getPacket().getPlayerInfoDataLists().writeSafely(0, newPIDs);
+            }
+            event.getPacket().getPlayerInfoDataLists().writeSafely(0, newPIDs);
 
-            });
+        });
 
-            PacketManager.onPacketEvent(PacketType.Play.Server.NAMED_ENTITY_SPAWN, event -> {
-                Player player = event.getPlayer();
-                Player objPlayer = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
-                if (event.isCancelled() || player == null || objPlayer == null) {
-                    return;
-                }
-                boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(objPlayer);
-                if (!tabVisible) {
-                    PacketManager.sendPacket(TablistUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
-                    Scheduling.syncDelay(TablistManager.SPAWN_REMOVE_TAB_DELAY, () -> {
-                        PacketManager.sendPacket(TablistUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
-                    });
-                }
-            });
+        PacketManager.onPacketEvent(PacketType.Play.Server.NAMED_ENTITY_SPAWN, event -> {
+            Player player = event.getPlayer();
+            Player objPlayer = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
+            if (event.isCancelled() || player == null || objPlayer == null) {
+                return;
+            }
+            boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(objPlayer);
+            if (!tabVisible) {
+                PacketManager.sendPacket(TablistUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
+                Scheduling.syncDelay(TablistManager.SPAWN_REMOVE_TAB_DELAY, () -> {
+                    PacketManager.sendPacket(TablistUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
+                });
+            }
+        });
 
-            PacketManager.onPacketEvent(PacketType.Play.Server.RESPAWN, event -> {
-                Player player = event.getPlayer();
-                if (event.isCancelled() || player == null || playersRespawning.contains(player)) {
-                    return;
-                }
-                boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(player);
-                if (!tabVisible) {
-                    playersRespawning.add(player);
-                    PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
-                    Scheduling.syncDelay(TablistManager.RESPAWN_REMOVE_TAB_DELAY, () -> {
-                        playersRespawning.remove(player);
-                        PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
-                    });
-                }
-            });
-        }
-    }
-
-    public static Tablist getTablistOfPlayer(Player player) {
-        return tablistMap.computeIfAbsent(player, __ -> new Tablist(player));
-    }
-
-    private static void onJoin(Player player) {
-        tablistMap.forEach((__, tablist) -> tablist.onJoin(player));
-    }
-
-    private static void onQuit(Player player) {
-        tablistMap.remove(player);
-        tablistMap.forEach((__, tablist) -> tablist.onQuit(player));
+        PacketManager.onPacketEvent(PacketType.Play.Server.RESPAWN, event -> {
+            Player player = event.getPlayer();
+            if (event.isCancelled() || player == null || playersRespawning.contains(player)) {
+                return;
+            }
+            boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(player);
+            if (!tabVisible) {
+                playersRespawning.add(player);
+                PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
+                Scheduling.syncDelay(TablistManager.RESPAWN_REMOVE_TAB_DELAY, () -> {
+                    playersRespawning.remove(player);
+                    PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
+                });
+            }
+        });
     }
 
 }

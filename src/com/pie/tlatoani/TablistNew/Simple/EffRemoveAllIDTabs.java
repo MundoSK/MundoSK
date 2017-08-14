@@ -4,7 +4,6 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.TablistNew.OldTablist;
 import com.pie.tlatoani.TablistNew.Tablist;
 import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
@@ -14,7 +13,6 @@ import org.bukkit.event.Event;
  * Created by Tlatoani on 8/3/16.
  */
 public class EffRemoveAllIDTabs extends Effect {
-    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override

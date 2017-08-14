@@ -44,11 +44,6 @@ public class ArrayTablist implements SupplementaryTablist {
                           0;
     }
 
-    public void maximize() {
-        setColumns(4);
-        setRows(20);
-    }
-
     public Tab getTab(int column, int row) {
         if (!MathUtil.isInRange(1, column, columns)) {
             throw new IllegalArgumentException("Column = " + column + " out of range 1 to " + columns);
@@ -99,6 +94,13 @@ public class ArrayTablist implements SupplementaryTablist {
 
     //Utility Methods
 
+    private Tab createTab(int column, int row) {
+        int identifier = (((column - 1) * 20) + row);
+        String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
+        UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + MathUtil.toHexDigit(identifier / 10) + (identifier % 10));
+        return new Tab(tablist.target, name, uuid, "", 5, Tablist.DEFAULT_SKIN_TEXTURE, 0);
+    }
+
     private void setTab(int column, int row, Tab tab) {
         tabs[column - 1][row - 1] = tab;
     }
@@ -106,10 +108,7 @@ public class ArrayTablist implements SupplementaryTablist {
     private void addTabs(int columnMin, int columnMax, int rowMin, int rowMax) {
         for (int column = columnMin; column <= columnMax; column++)
             for (int row = rowMin; row <= rowMax; row++) {
-                int identifier = (((column - 1) * 20) + row);
-                String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
-                UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + MathUtil.toHexDigit(identifier / 10) + (identifier % 10));
-                Tab tab = new Tab(tablist.target, name, uuid, "", 5, Tablist.DEFAULT_SKIN_TEXTURE, 0);
+                Tab tab = createTab(column, row);
                 tab.sendPacket(tab.playerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER));
                 setTab(column, row, tab);
             }

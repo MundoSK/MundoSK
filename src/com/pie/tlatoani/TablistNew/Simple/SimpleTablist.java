@@ -47,8 +47,8 @@ public class SimpleTablist implements SupplementaryTablist {
         });
     }
 
-    public Tab getTab(String id) {
-        return tabs.get(id);
+    public Optional<Tab> getTab(String id) {
+        return Optional.ofNullable(tabs.get(id));
     }
 
     public void deleteTab(String id) {

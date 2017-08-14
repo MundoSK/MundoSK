@@ -29,7 +29,7 @@ public class ExprLatencyOfTab extends SimpleExpression<Number> {
             Tablist tablist = TablistManager.getTablistOfPlayer(players[i]);
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
-                latencies[i] = Optional.ofNullable(simpleTablist.getTab(id)).map(tab -> tab.getLatency()).orElse(null);
+                latencies[i] = simpleTablist.getTab(id).map(tab -> tab.getLatency()).orElse(null);
             }
         }
         return latencies;
@@ -64,7 +64,7 @@ public class ExprLatencyOfTab extends SimpleExpression<Number> {
             Tablist tablist = TablistManager.getTablistOfPlayer(player);
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
-                Optional.ofNullable(simpleTablist.getTab(id)).ifPresent(tab -> tab.setLatency(value));
+                simpleTablist.getTab(id).ifPresent(tab -> tab.setLatency(value));
             }
         }
     }

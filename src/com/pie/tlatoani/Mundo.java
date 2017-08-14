@@ -16,7 +16,7 @@ import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Skin.SkinMundo;
 import com.pie.tlatoani.Socket.SocketMundo;
 import com.pie.tlatoani.Socket.UtilFunctionSocket;
-import com.pie.tlatoani.Tablist.TablistMundo;
+import com.pie.tlatoani.TablistNew.TablistManager;
 import com.pie.tlatoani.TerrainControl.TerrainControlMundo;
 import com.pie.tlatoani.Throwable.ThrowableMundo;
 import com.pie.tlatoani.Util.*;
@@ -88,7 +88,8 @@ public class Mundo extends JavaPlugin {
 		    PacketManager.load();
 		    if (implementPacketStuff) {
 		        SkinMundo.load();
-		        TablistMundo.load(tablistSpawnRemoveTabDelay, tablistRespawnRemoveTabDelay);
+		        //TablistMundo.load(tablistSpawnRemoveTabDelay, tablistRespawnRemoveTabDelay);
+                TablistManager.load(tablistSpawnRemoveTabDelay, tablistRespawnRemoveTabDelay);
             }
 		}
 		if (MundoUtil.serverHasPlugin("TerrainControl")) {

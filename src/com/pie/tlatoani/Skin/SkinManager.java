@@ -13,7 +13,8 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.ProtocolLib.PacketManager;
+import com.pie.tlatoani.TablistNew.TablistUtil;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Reflection;
 import com.pie.tlatoani.Util.Scheduling;
@@ -351,7 +352,7 @@ public class SkinManager {
                 }
             }
         });
-        Scheduling.syncDelay(2, () -> {
+        /*Scheduling.syncDelay(2, () -> {
             ArrayList<Player> targetsToRemoveFrom = new ArrayList<>();
             for (Player target : targets) {
                 if (Tablist.getTablistForPlayer(target).isPlayerHidden(player)) {
@@ -361,35 +362,31 @@ public class SkinManager {
             if (!targets.isEmpty()) {
                 Tablist.hideInTablist(Collections.singleton(player), targetsToRemoveFrom);
             }
-        });
+        });*/
     }
 
     private static void respawnPlayer(Player player) {
-        boolean playerHidden = Tablist.getTablistForPlayer(player).isPlayerHidden(player);
+        /*boolean playerHidden = Tablist.getTablistForPlayer(player).isPlayerHidden(player);
         if (!playerHidden) {
             List<Player> singlePlayer = Collections.singletonList(player);
             Tablist.hideInTablist(singlePlayer, singlePlayer);
             Tablist.showInTablist(singlePlayer, singlePlayer);
-        }
+        }*/
+
+        PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), SkinManager.class, player);
+        PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), SkinManager.class, player);
+
         Location playerLoc = new WorldLockedLocation(player.getLocation());
         Logging.debug(SkinManager.class, "playerLoc1 = " + playerLoc);
-        //World mainWorld = Bukkit.getWorlds().get(0);
-        //if (mainWorld.getName().equals(player.getWorld().getName())) {
-            try {
-                //Replace direct CraftBukkit accessing code with reflection
-                //((org.bukkit.craftbukkit.v1_10_R1.CraftServer) Bukkit.getServer()).getHandle().DEDICATED_PLAYER_LIST_MOVE_TO_WORLD(((org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer) player).getHandle(), ((CraftWorld) player.getWorld()).getHandle().dimension, true, player.getLocation(), true);
-                Logging.debug(SkinManager.class, "DEDICATED_PLAYER_LIST_MOVE_TO_WORLD: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
-                Logging.debug(SkinManager.class, "NMS_SERVER: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
-                Logging.debug(SkinManager.class, "DEDICATED_PLAYER_LIST_MOVE_TO_WORLD: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
-                DEDICATED_PLAYER_LIST_MOVE_TO_WORLD.invoke(Reflection.NMS_SERVER, CRAFT_PLAYER_GET_HANDLE.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, playerLoc, true);
-            } catch (Exception e) {
-                Logging.debug(SkinManager.class, "Failed to make player see his skin change: " + player.getName());
-                Logging.reportException(SkinManager.class, e);
-            }
-        //} else {
-        //    player.teleport(mainWorld.getHighestBlockAt(mainWorld.getSpawnLocation()).getLocation());
-        //    player.teleport(playerLoc);
-        //}
+        try {
+            Logging.debug(SkinManager.class, "DEDICATED_PLAYER_LIST_MOVE_TO_WORLD: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
+            Logging.debug(SkinManager.class, "NMS_SERVER: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
+            Logging.debug(SkinManager.class, "DEDICATED_PLAYER_LIST_MOVE_TO_WORLD: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
+            DEDICATED_PLAYER_LIST_MOVE_TO_WORLD.invoke(Reflection.NMS_SERVER, CRAFT_PLAYER_GET_HANDLE.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, playerLoc, true);
+        } catch (Exception e) {
+            Logging.debug(SkinManager.class, "Failed to make player see his skin change: " + player.getName());
+            Logging.reportException(SkinManager.class, e);
+        }
     }
 
     private static void checkForTeamChanges() {

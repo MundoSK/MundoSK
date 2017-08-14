@@ -6,8 +6,6 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.TablistNew.OldTab;
-import com.pie.tlatoani.TablistNew.OldTablist;
 import com.pie.tlatoani.TablistNew.Tablist;
 import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
@@ -31,7 +29,7 @@ public class ExprScoreOfTab extends SimpleExpression<Number> {
             Tablist tablist = TablistManager.getTablistOfPlayer(players[i]);
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
-                scores[i] = Optional.ofNullable(simpleTablist.getTab(id)).map(tab -> tab.getScore()).orElse(null);
+                scores[i] = simpleTablist.getTab(id).map(tab -> tab.getScore()).orElse(null);
             }
         }
         return scores;
@@ -66,7 +64,7 @@ public class ExprScoreOfTab extends SimpleExpression<Number> {
             Tablist tablist = TablistManager.getTablistOfPlayer(player);
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
-                Optional.ofNullable(simpleTablist.getTab(id)).ifPresent(tab -> tab.setScore(value));
+                simpleTablist.getTab(id).ifPresent(tab -> tab.setScore(value));
             }
         }
     }
