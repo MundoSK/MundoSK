@@ -108,6 +108,7 @@ public class ArrayTablist implements SupplementaryTablist {
     private void addTabs(int columnMin, int columnMax, int rowMin, int rowMax) {
         for (int column = columnMin; column <= columnMax; column++)
             for (int row = rowMin; row <= rowMax; row++) {
+                Logging.debug(this, "Adding Tab, column = " + column + ", row = " + row);
                 Tab tab = createTab(column, row);
                 tab.sendPacket(tab.playerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER));
                 setTab(column, row, tab);
@@ -117,6 +118,7 @@ public class ArrayTablist implements SupplementaryTablist {
     private void removeTabs(int columnMin, int columnMax, int rowMin, int rowMax) {
         for (int column = columnMin; column <= columnMax; column++)
             for (int row = rowMin; row <= rowMax; row++) {
+                Logging.debug(this, "Removing Tab, column = " + column + ", row = " + row);
                 Tab tab = getTab(column, row);
                 tab.sendPacket(tab.playerInfoPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER));
                 tab.setScore(null);
@@ -126,8 +128,10 @@ public class ArrayTablist implements SupplementaryTablist {
 
     private void changeToIdealPlayerVisibility() {
         if (columns == 4 && rows == 20) {
+            Logging.debug(this, "Columns = " + columns + ", Rows = " + rows + ", Showing all players");
             playerTablist.showAllPlayers();
         } else {
+            Logging.debug(this, "Columns = " + columns + ", Rows = " + rows + ", Hiding all players");
             playerTablist.hideAllPlayers();
         }
     }
