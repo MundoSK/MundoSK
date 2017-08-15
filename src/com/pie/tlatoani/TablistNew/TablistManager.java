@@ -35,6 +35,9 @@ public class TablistManager {
     public static int RESPAWN_REMOVE_TAB_DELAY;
 
     public static Tablist getTablistOfPlayer(Player player) {
+        if (player == null) {
+            throw new IllegalArgumentException("The player parameter in getTablistOfPlayer(Player player) cannot be null!");
+        }
         return tablistMap.computeIfAbsent(player, __ -> new Tablist(player));
     }
 
