@@ -269,7 +269,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                     try {
                         String key = (String) keyO;
                         int i = Integer.parseInt(key);
-                        dataWatcher.setObject(i, valueO);
+                        dataWatcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(i, WrappedDataWatcher.Registry.get(valueO.getClass())), valueO);
                     } catch (ClassCastException | NumberFormatException e) {
                         Logging.debug(ExprJSONObjectOfPacket.class, e);
                     }
