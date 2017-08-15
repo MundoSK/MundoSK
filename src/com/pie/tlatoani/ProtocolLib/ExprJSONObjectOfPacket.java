@@ -71,8 +71,8 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 return result;
             case TAG_INT_ARRAY:
                 JSONArray jsonIntArray = new JSONArray();
-                for (byte b : (byte[]) nbtBase.getValue()) {
-                    jsonIntArray.add(b);
+                for (int i : (int[]) nbtBase.getValue()) {
+                    jsonIntArray.add(i);
                 }
                 result.put("value", jsonIntArray);
                 return result;
