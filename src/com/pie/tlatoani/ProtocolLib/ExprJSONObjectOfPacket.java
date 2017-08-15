@@ -152,24 +152,29 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
     }
 
     public static WrappedDataWatcher.Serializer getSerializer(Class c) {
-        WrappedDataWatcher.Serializer serializer = Registry.get(c);
-        if (serializer != null) {
-            return serializer;
-        }
-        if (WrappedChatComponent.class.isAssignableFrom(c)) {
-            return Registry.getChatComponentSerializer();
-        } else if (ItemStack.class.isAssignableFrom(c)) {
-            return Registry.getItemStackSerializer(false);
-        } else if (WrappedBlockData.class.isAssignableFrom(c)) {
-            return Registry.getBlockDataSerializer(false);
-        } else if (Vector3F.class.isAssignableFrom(c)) {
-            return Registry.getVectorSerializer();
-        } else if (BlockPosition.class.isAssignableFrom(c)) {
-            return Registry.getBlockPositionSerializer(false);
-        } else if (EnumWrappers.Direction.class == c) {
-            return Registry.getDirectionSerializer();
-        } else if (NbtCompound.class.isAssignableFrom(c)) {
-            return Registry.getNBTCompoundSerializer();
+        try {
+            WrappedDataWatcher.Serializer serializer = Registry.get(c);
+            if (serializer != null) {
+                return serializer;
+            }
+            if (WrappedChatComponent.class.isAssignableFrom(c)) {
+                return Registry.getChatComponentSerializer();
+            } else if (ItemStack.class.isAssignableFrom(c)) {
+                return Registry.getItemStackSerializer(false);
+            } else if (WrappedBlockData.class.isAssignableFrom(c)) {
+                return Registry.getBlockDataSerializer(false);
+            } else if (Vector3F.class.isAssignableFrom(c)) {
+                return Registry.getVectorSerializer();
+            } else if (BlockPosition.class.isAssignableFrom(c)) {
+                return Registry.getBlockPositionSerializer(false);
+            } else if (EnumWrappers.Direction.class == c) {
+                return Registry.getDirectionSerializer();
+            } else if (NbtCompound.class.isAssignableFrom(c)) {
+                return Registry.getNBTCompoundSerializer();
+            }
+            return null;
+        } catch (RuntimeException e) {
+            Logging.debug(ExprJSONObjectOfPacket.class, e);
         }
         return null;
     }
@@ -300,26 +305,16 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                         Logging.debug(ExprJSONObjectOfPacket.class, "i = " + i + ", valueO = " + valueO + ", valueO.getClass() = " + valueO.getClass());
                         WrappedDataWatcher.Serializer serializer = getSerializer(valueO.getClass());
                         Logging.debug(ExprJSONObjectOfPacket.class, "serializer = " + serializer);
-                        dataWatcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(i, serializer), valueO);
-                    } catch (ClassCastException | NumberFormatException e) {
+                        if (serializer == null) {
+                            dataWatcher.setObject(i, valueO);
+                        } else {
+                            dataWatcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(i, serializer), valueO);
+                        }
+                    } catch (ClassCastException | IllegalArgumentException e) {
                         Logging.debug(ExprJSONObjectOfPacket.class, e);
                     }
                 });
                 packet.getWatchableCollectionModifier().writeSafely(index, dataWatcher.getWatchableObjects());
-                /*List<WrappedWatchableObject> wrappedWatchableObjects = new ArrayList<WrappedWatchableObject>();
-                value.forEach((keyO, valueO) -> {
-                    try {
-                        String key = (String) keyO;
-                        int i = Integer.parseInt(key);
-                        Logging.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject creation, Index = " + i + ", Value = " + valueO);
-                        WrappedWatchableObject watchableObject = new WrappedWatchableObject(i, valueO);
-                        Logging.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject created, Index = " + watchableObject.getIndex() + ", Value = " + watchableObject.getValue() + ", WDWO = " + watchableObject.getWatcherObject());
-                        wrappedWatchableObjects.add(watchableObject);
-                    } catch (ClassCastException | NumberFormatException e) {
-                        Logging.debug(ExprJSONObjectOfPacket.class, e);
-                    }
-                });
-                packet.getWatchableCollectionModifier().writeSafely(index, wrappedWatchableObjects);*/
             }
         });
 

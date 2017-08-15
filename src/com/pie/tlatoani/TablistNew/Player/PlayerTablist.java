@@ -123,9 +123,6 @@ public class PlayerTablist {
     }
 
     public void onQuit(Player player) {
-        if (player.isOnline()) {
-            throw new IllegalArgumentException("The player " + player + " is still online, so TablistNew#onQuit(Player player) should not have been called!");
-        }
         tabs.ifPresent(map -> map.remove(player));
     }
 
