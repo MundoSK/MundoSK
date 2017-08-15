@@ -12,11 +12,14 @@ import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
 import com.comphenix.protocol.wrappers.nbt.*;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher.Registry;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Util.Logging;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -148,6 +151,29 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
         }
     }
 
+    public static WrappedDataWatcher.Serializer getSerializer(Class c) {
+        WrappedDataWatcher.Serializer serializer = Registry.get(c);
+        if (serializer != null) {
+            return serializer;
+        }
+        if (WrappedChatComponent.class.isAssignableFrom(c)) {
+            return Registry.getChatComponentSerializer();
+        } else if (ItemStack.class.isAssignableFrom(c)) {
+            return Registry.getItemStackSerializer(false);
+        } else if (WrappedBlockData.class.isAssignableFrom(c)) {
+            return Registry.getBlockDataSerializer(false);
+        } else if (Vector3F.class.isAssignableFrom(c)) {
+            return Registry.getVectorSerializer();
+        } else if (BlockPosition.class.isAssignableFrom(c)) {
+            return Registry.getBlockPositionSerializer(false);
+        } else if (EnumWrappers.Direction.class == c) {
+            return Registry.getDirectionSerializer();
+        } else if (NbtCompound.class.isAssignableFrom(c)) {
+            return Registry.getNBTCompoundSerializer();
+        }
+        return null;
+    }
+
     static {
 
         //Converters
@@ -272,7 +298,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                         String key = (String) keyO;
                         int i = Integer.parseInt(key);
                         Logging.debug(ExprJSONObjectOfPacket.class, "i = " + i + ", valueO = " + valueO + ", valueO.getClass() = " + valueO.getClass());
-                        WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(valueO.getClass());
+                        WrappedDataWatcher.Serializer serializer = getSerializer(valueO.getClass());
                         Logging.debug(ExprJSONObjectOfPacket.class, "serializer = " + serializer);
                         dataWatcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(i, serializer), valueO);
                     } catch (ClassCastException | NumberFormatException e) {
