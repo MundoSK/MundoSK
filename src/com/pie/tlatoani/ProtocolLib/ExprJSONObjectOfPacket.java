@@ -256,7 +256,9 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 }
                 JSONObject jsonObject = new JSONObject();
                 for (WrappedWatchableObject wrappedWatchableObject : wrappedWatchableObjects) {
-                    Logging.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject, Index = " + wrappedWatchableObject.getIndex() + ", Value = " + wrappedWatchableObject.getValue() + ", WDWO = " + wrappedWatchableObject.getWatcherObject());
+                    Logging.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject, Index = " + wrappedWatchableObject.getIndex() + ", Value = " + wrappedWatchableObject.getValue() + ", Value.getClass() = " + wrappedWatchableObject.getValue().getClass() + ", WDWO = " + wrappedWatchableObject.getWatcherObject() + ", Serializer = " + wrappedWatchableObject.getWatcherObject().getSerializer());
+                    WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(wrappedWatchableObject.getValue().getClass());
+                    Logging.debug(this, "serailiwefr = " + serializer);
                     jsonObject.put("" + wrappedWatchableObject.getIndex(), wrappedWatchableObject.getValue());
                 }
                 return jsonObject;
@@ -269,7 +271,10 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                     try {
                         String key = (String) keyO;
                         int i = Integer.parseInt(key);
-                        dataWatcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(i, WrappedDataWatcher.Registry.get(valueO.getClass())), valueO);
+                        Logging.debug(ExprJSONObjectOfPacket.class, "i = " + i + ", valueO = " + valueO + ", valueO.getClass() = " + valueO.getClass());
+                        WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(valueO.getClass());
+                        Logging.debug(ExprJSONObjectOfPacket.class, "serializer = " + serializer);
+                        dataWatcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(i, serializer), valueO);
                     } catch (ClassCastException | NumberFormatException e) {
                         Logging.debug(ExprJSONObjectOfPacket.class, e);
                     }
