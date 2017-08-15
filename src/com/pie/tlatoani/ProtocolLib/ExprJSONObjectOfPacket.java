@@ -87,7 +87,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 JSONObject jsonObject = new JSONObject();
                 for (NbtBase member : (NbtCompound) nbtBase) {
                     if (member.getType() == NbtType.TAG_END) continue;
-                    result.put(member.getName(), fromNBTBase(member));
+                    jsonObject.put(member.getName(), fromNBTBase(member));
                 }
                 result.put("value", jsonObject);
                 return result;
