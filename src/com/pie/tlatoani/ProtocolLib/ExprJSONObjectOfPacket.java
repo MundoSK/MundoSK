@@ -264,19 +264,31 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
 
             @Override
             public void set(PacketContainer packet, Integer index, JSONObject value) {
-                List<WrappedWatchableObject> wrappedWatchableObjects = new ArrayList<WrappedWatchableObject>();
+                WrappedDataWatcher dataWatcher = new WrappedDataWatcher();
+                value.forEach((keyO, valueO) -> {
+                    try {
+                        String key = (String) keyO;
+                        int i = Integer.parseInt(key);
+                        dataWatcher.setObject(i, valueO);
+                    } catch (ClassCastException | NumberFormatException e) {
+                        Logging.debug(ExprJSONObjectOfPacket.class, e);
+                    }
+                });
+                packet.getWatchableCollectionModifier().writeSafely(index, dataWatcher.getWatchableObjects());
+                /*List<WrappedWatchableObject> wrappedWatchableObjects = new ArrayList<WrappedWatchableObject>();
                 value.forEach((keyO, valueO) -> {
                     try {
                         String key = (String) keyO;
                         int i = Integer.parseInt(key);
                         Logging.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject creation, Index = " + i + ", Value = " + valueO);
                         WrappedWatchableObject watchableObject = new WrappedWatchableObject(i, valueO);
+                        Logging.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject created, Index = " + watchableObject.getIndex() + ", Value = " + watchableObject.getValue() + ", WDWO = " + watchableObject.getWatcherObject());
                         wrappedWatchableObjects.add(watchableObject);
                     } catch (ClassCastException | NumberFormatException e) {
                         Logging.debug(ExprJSONObjectOfPacket.class, e);
                     }
                 });
-                packet.getWatchableCollectionModifier().writeSafely(index, wrappedWatchableObjects);
+                packet.getWatchableCollectionModifier().writeSafely(index, wrappedWatchableObjects);*/
             }
         });
 
