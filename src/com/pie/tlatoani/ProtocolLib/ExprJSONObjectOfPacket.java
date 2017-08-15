@@ -121,13 +121,13 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 case TAG_BYTE_ARRAY:
                     byte[] bytes = new byte[jsonArray.size()];
                     for (int i = 0; i < bytes.length; i++) {
-                        bytes[i] = (byte) jsonArray.get(i);
+                        bytes[i] = ((Number) jsonArray.get(i)).byteValue();
                     }
                     return NbtFactory.of(name, bytes);
                 case TAG_INT_ARRAY:
                     int[] ints = new int[jsonArray.size()];
                     for (int i = 0; i < ints.length; i++) {
-                        ints[i] = (int) jsonArray.get(i);
+                        ints[i] = ((Number) jsonArray.get(i)).intValue();
                     }
                     return NbtFactory.of(name, ints);
                 case TAG_LIST:
