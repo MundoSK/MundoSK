@@ -9,7 +9,6 @@
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/PlayerTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/PlayerTablist.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,8 +32,8 @@
       <file leaf-file-name="ExprJSONObjectOfPacket.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="281" column="21" lean-forward="true" selection-start-line="281" selection-start-column="21" selection-end-line="281" selection-end-column="21" />
+            <state relative-caret-position="585">
+              <caret line="176" column="14" lean-forward="false" selection-start-line="176" selection-start-column="14" selection-end-line="176" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -59,8 +58,8 @@
       <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="42" lean-forward="true" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
+            <state relative-caret-position="45">
+              <caret line="3" column="24" lean-forward="false" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -1190,8 +1189,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="281" column="21" lean-forward="true" selection-start-line="281" selection-start-column="21" selection-end-line="281" selection-end-column="21" />
+        <state relative-caret-position="585">
+          <caret line="176" column="14" lean-forward="false" selection-start-line="176" selection-start-column="14" selection-end-line="176" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1200,8 +1199,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="42" lean-forward="true" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
+        <state relative-caret-position="45">
+          <caret line="3" column="24" lean-forward="false" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
           <folding />
         </state>
       </provider>
