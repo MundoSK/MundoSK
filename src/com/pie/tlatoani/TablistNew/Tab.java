@@ -3,6 +3,7 @@ package com.pie.tlatoani.TablistNew;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
+import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.Skin;
 import org.bukkit.entity.Player;
 
@@ -37,11 +38,11 @@ public class Tab {
     }
 
     public PacketContainer playerInfoPacket(EnumWrappers.PlayerInfoAction action) {
-        return TablistUtil.playerInfoPacket(displayName, latency, null, name, uuid, icon, action);
+        return PacketUtil.playerInfoPacket(displayName, latency, null, name, uuid, icon, action);
     }
 
     public PacketContainer updateScorePacket() {
-        return TablistUtil.scorePacket(name, Tablist.OBJECTIVE_NAME, score, EnumWrappers.ScoreboardAction.CHANGE);
+        return PacketUtil.scorePacket(name, Tablist.OBJECTIVE_NAME, score, EnumWrappers.ScoreboardAction.CHANGE);
     }
 
     public String getDisplayName() {

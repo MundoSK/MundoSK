@@ -14,7 +14,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
-import com.pie.tlatoani.TablistNew.TablistUtil;
+import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Reflection;
 import com.pie.tlatoani.Util.Scheduling;
@@ -373,8 +373,8 @@ public class SkinManager {
             Tablist.showInTablist(singlePlayer, singlePlayer);
         }*/
 
-        PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), SkinManager.class, player);
-        PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), SkinManager.class, player);
+        PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), SkinManager.class, player);
+        PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), SkinManager.class, player);
 
         Location playerLoc = new WorldLockedLocation(player.getLocation());
         Logging.debug(SkinManager.class, "playerLoc1 = " + playerLoc);

@@ -5,11 +5,11 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
+import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.TablistNew.Tab;
 import com.pie.tlatoani.TablistNew.Tablist;
 import com.pie.tlatoani.TablistNew.TablistManager;
-import com.pie.tlatoani.TablistNew.TablistUtil;
 import com.pie.tlatoani.Util.MundoUtil;
 import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.Bukkit;
@@ -58,7 +58,7 @@ public class PlayerTablist {
         }
         tabs.ifPresent(map -> map.computeIfPresent(player, (__, tabOptional) -> {
             if (!tabOptional.isPresent()) {
-                PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), PlayerTablist.class, tablist.target);
+                PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), PlayerTablist.class, tablist.target);
                 return null;
             }
             return tabOptional;
@@ -68,7 +68,7 @@ public class PlayerTablist {
     public void hidePlayer(Player player) {
         tabs.ifPresent(map -> map.compute(player, (__, tabOptional) -> {
             if (tabOptional == null || tabOptional.isPresent()) {
-                PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), this, tablist.target);
+                PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), this, tablist.target);
             }
             return Optional.empty();
         }));
@@ -89,7 +89,7 @@ public class PlayerTablist {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 Optional<Tab> playerTabOptional = map.get(player);
                 if (playerTabOptional == null || playerTabOptional.isPresent()) {
-                    PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), this, tablist.target);
+                    PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), this, tablist.target);
                 }
             }
             tabs = Optional.empty();
@@ -109,7 +109,7 @@ public class PlayerTablist {
                     if (tab.getScore() != null) {
                         tab.setScore(null);
                     }
-                }, () -> PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), this, tablist.target));
+                }, () -> PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), this, tablist.target));
             });
             map.clear();
         }, this::showAllPlayers);
@@ -118,7 +118,7 @@ public class PlayerTablist {
     public void onJoin(Player player) {
         if (!tabs.isPresent()) {
             Scheduling.syncDelay(TablistManager.SPAWN_REMOVE_TAB_DELAY, () ->
-                    PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), this, tablist.target));
+                    PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), this, tablist.target));
         }
     }
 
@@ -148,7 +148,7 @@ public class PlayerTablist {
 
         @Override
         public PacketContainer playerInfoPacket(EnumWrappers.PlayerInfoAction action) {
-            return TablistUtil.playerInfoPacket(objPlayer, action);
+            return PacketUtil.playerInfoPacket(objPlayer, action);
         }
 
         @Override

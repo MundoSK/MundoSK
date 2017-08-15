@@ -11,11 +11,13 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.*;
+import com.comphenix.protocol.wrappers.nbt.*;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Util.Logging;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -40,6 +42,104 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
 
         protected PacketJSONConverter() {
             super(JSONObject.class);
+        }
+    }
+
+    public static JSONObject fromNBTBase(NbtBase nbtBase) {
+        if (nbtBase == null) {
+            return null;
+        }
+        JSONObject result = new JSONObject();
+        result.put("name", nbtBase.getName());
+        result.put("type", nbtBase.getType().toString().substring(4).toLowerCase());
+        switch (nbtBase.getType()) {
+            case TAG_BYTE:
+            case TAG_SHORT:
+            case TAG_INT:
+            case TAG_LONG:
+            case TAG_FLOAT:
+            case TAG_DOUBLE:
+            case TAG_STRING:
+                result.put("value", nbtBase.getValue());
+            case TAG_BYTE_ARRAY:
+                JSONArray jsonByteArray = new JSONArray();
+                for (byte b : (byte[]) nbtBase.getValue()) {
+                    jsonByteArray.add(b);
+                }
+                result.put("value", jsonByteArray);
+            case TAG_INT_ARRAY:
+                JSONArray jsonIntArray = new JSONArray();
+                for (byte b : (byte[]) nbtBase.getValue()) {
+                    jsonIntArray.add(b);
+                }
+                result.put("value", jsonIntArray);
+            case TAG_LIST:
+                JSONArray jsonArray = new JSONArray();
+                for (NbtBase base : (List<NbtBase>) nbtBase.getValue()) {
+                    jsonArray.add(fromNBTBase(base));
+                }
+                result.put("value", jsonArray);
+            case TAG_COMPOUND:
+                JSONObject jsonObject = new JSONObject();
+                for (NbtBase member : (NbtCompound) nbtBase) {
+                    if (member.getType() == NbtType.TAG_END) continue;
+                    result.put(member.getName(), fromNBTBase(member));
+                }
+                result.put("value", jsonObject);
+        }
+        return result;
+    }
+
+    public static NbtBase toNBTBase(JSONObject value) {
+        try {
+            String name = (String) value.get("name");
+            String typeName = (String) value.get("type");
+            NbtType type = NbtType.valueOf("TAG_" + typeName.toUpperCase());
+            Object rawValue = value.get("value");
+            Number number = rawValue instanceof Number ? (Number) rawValue : null;
+            JSONArray jsonArray = rawValue instanceof JSONArray ? (JSONArray) rawValue : null;
+            switch (type) {
+                case TAG_BYTE:
+                    return NbtFactory.of(name, number.byteValue());
+                case TAG_SHORT:
+                    return NbtFactory.of(name, number.shortValue());
+                case TAG_INT:
+                    return NbtFactory.of(name, number.intValue());
+                case TAG_LONG:
+                    return NbtFactory.of(name, number.longValue());
+                case TAG_FLOAT:
+                    return NbtFactory.of(name, number.floatValue());
+                case TAG_DOUBLE:
+                    return NbtFactory.of(name, number.doubleValue());
+                case TAG_STRING:
+                    return NbtFactory.of(name, (String) rawValue);
+                case TAG_BYTE_ARRAY:
+                    byte[] bytes = new byte[jsonArray.size()];
+                    for (int i = 0; i < bytes.length; i++) {
+                        bytes[i] = (byte) jsonArray.get(i);
+                    }
+                    return NbtFactory.of(name, bytes);
+                case TAG_INT_ARRAY:
+                    int[] ints = new int[jsonArray.size()];
+                    for (int i = 0; i < ints.length; i++) {
+                        ints[i] = (int) jsonArray.get(i);
+                    }
+                    return NbtFactory.of(name, ints);
+                case TAG_LIST:
+                    NbtBase[] nbtBases = new NbtBase[jsonArray.size()];
+                    for (int i = 0; i < nbtBases.length; i++) {
+                        nbtBases[i] = toNBTBase((JSONObject) jsonArray.get(i));
+                    }
+                    return NbtFactory.ofList(name, nbtBases);
+                case TAG_COMPOUND:
+                    NbtCompound nbtCompound = NbtFactory.ofCompound(name);
+                    ((JSONObject) rawValue).forEach((__, value1) -> nbtCompound.put(toNBTBase((JSONObject) value1)));
+                    return nbtCompound;
+            }
+            throw new IllegalArgumentException("Illegal NbtType: " + type);
+        } catch (ClassCastException | NullPointerException | IllegalArgumentException e) {
+            Logging.debug(ExprJSONObjectOfPacket.class, e);
+            return null;
         }
     }
 
@@ -204,6 +304,18 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             @Override
             public void set(PacketContainer packet, Integer index, JSONObject value) {
                 packet.getGameProfiles().writeSafely(index, gameProfileFromJSON.apply(value));
+            }
+        });
+
+        registerSingleConverter("nbt", new PacketJSONConverter() {
+            @Override
+            public JSONObject get(PacketContainer packet, Integer index) {
+                return fromNBTBase(packet.getNbtModifier().readSafely(index));
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, JSONObject value) {
+                packet.getNbtModifier().writeSafely(index, toNBTBase(value));
             }
         });
 

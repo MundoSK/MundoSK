@@ -6,6 +6,7 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
+import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.TablistNew.Array.EffEnableArrayTablist;
 import com.pie.tlatoani.TablistNew.Player.*;
@@ -71,12 +72,12 @@ public class TablistManager {
     }
 
     private static void loadPlayer() {
-        Registration.registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) %players% for %players% in tablist", "(0¦show|1¦hide) %players% in %players%'s tablist");
+        Registration.registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) [player] tab[s] of %players% for %players%", "(0¦show|1¦hide) %players%'s [player] tab[s] for %players%", "(0¦show|1¦hide) %players% for %players% in tablist", "(0¦show|1¦hide) %players% in %players%'s tablist");
         Registration.registerEffect(EffClearPlayerModifications.class, "(clear|reset) [all] player tab modifications for %players%");
-        Registration.registerExpression(ExprPlayerIsVisible.class, Boolean.class, ExpressionType.COMBINED, "%player% is visible in %players%'s tablist", "%player% is visible in tablist (of|for) %players%");
-        Registration.registerExpression(ExprPlayersAreVisible.class, Boolean.class, ExpressionType.PROPERTY, "%players%'s tablist contains players", "tablist of %players% contains players", "players are visible in tablist (of|for) %players%", "players are visible in %players%'s tablist");
-        Registration.registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "tablist name of %player% for %players%", "%player%'s tablist name for %players%");
-        Registration.registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "tablist score of %player% for %players%", "%player%'s tablist score for %players%");
+        Registration.registerExpression(ExprPlayerIsVisible.class, Boolean.class, ExpressionType.COMBINED, "[player] tab of %player% is visible for %players%", "%player%'s [player] tab is visible for %players%", "%player% is visible in %players%'s tablist", "%player% is visible in tablist (of|for) %players%");
+        Registration.registerExpression(ExprPlayersAreVisible.class, Boolean.class, ExpressionType.PROPERTY, "player tabs are visible for %players%", "", "%players%'s tablist contains players", "tablist of %players% contains players", "players are visible in tablist (of|for) %players%", "players are visible in %players%'s tablist");
+        Registration.registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "[display] name of [player] tab of %player% for %players%", "[display] name of %player%'s [player] tab for %players%", "tablist name of %player% for %players%", "%player%'s tablist name for %players%");
+        Registration.registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "score of [player] tab of %player% for %players%", "score of %player%'s [player] tab for %players%", "tablist score of %player% for %players%", "%player%'s tablist score for %players%");
     }
 
     private static void loadSimple() {
@@ -127,9 +128,9 @@ public class TablistManager {
             }
             boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(objPlayer);
             if (!tabVisible) {
-                PacketManager.sendPacket(TablistUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
+                PacketManager.sendPacket(PacketUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
                 Scheduling.syncDelay(TablistManager.SPAWN_REMOVE_TAB_DELAY, () -> {
-                    PacketManager.sendPacket(TablistUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
+                    PacketManager.sendPacket(PacketUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
                 });
             }
         });
@@ -142,10 +143,10 @@ public class TablistManager {
             boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(player);
             if (!tabVisible) {
                 playersRespawning.add(player);
-                PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
+                PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
                 Scheduling.syncDelay(TablistManager.RESPAWN_REMOVE_TAB_DELAY, () -> {
                     playersRespawning.remove(player);
-                    PacketManager.sendPacket(TablistUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
+                    PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
                 });
             }
         });

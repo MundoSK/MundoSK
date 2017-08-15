@@ -1,4 +1,4 @@
-package com.pie.tlatoani.TablistNew;
+package com.pie.tlatoani.ProtocolLib;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
@@ -7,6 +7,7 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Skin.Skin;
+import com.pie.tlatoani.TablistNew.Tablist;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -17,9 +18,9 @@ import java.util.UUID;
 import static com.comphenix.protocol.PacketType.Play.Server.PLAYER_INFO;
 
 /**
- * Created by Tlatoani on 8/13/17.
+ * Created by Tlatoani on 8/14/17.
  */
-public class TablistUtil {
+public class PacketUtil {
 
     public static PacketContainer playerInfoPacket(
             String displayName,
@@ -41,7 +42,7 @@ public class TablistUtil {
         PlayerInfoData playerInfoData = new PlayerInfoData(
                 profile,
                 Optional.ofNullable(latency).orElse(5),
-                Optional.ofNullable(gameMode).map(mode -> EnumWrappers.NativeGameMode.fromBukkit(mode)).orElse(EnumWrappers.NativeGameMode.NOT_SET),
+                Optional.ofNullable(gameMode).map(EnumWrappers.NativeGameMode::fromBukkit).orElse(EnumWrappers.NativeGameMode.NOT_SET),
                 WrappedChatComponent.fromText(Optional.ofNullable(displayName).orElse(""))
         );
         result.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
