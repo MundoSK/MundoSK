@@ -287,9 +287,6 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 }
                 JSONObject jsonObject = new JSONObject();
                 for (WrappedWatchableObject wrappedWatchableObject : wrappedWatchableObjects) {
-                    Logging.debug(ExprJSONObjectOfPacket.class, "WrappedWatchableObject, Index = " + wrappedWatchableObject.getIndex() + ", Value = " + wrappedWatchableObject.getValue() + ", Value.getClass() = " + wrappedWatchableObject.getValue().getClass() + ", Serializer = " + wrappedWatchableObject.getWatcherObject().getSerializer());
-                    WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(wrappedWatchableObject.getValue().getClass());
-                    Logging.debug(this, "serailiwefr = " + serializer);
                     jsonObject.put("" + wrappedWatchableObject.getIndex(), wrappedWatchableObject.getValue());
                 }
                 return jsonObject;
