@@ -61,24 +61,28 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             case TAG_DOUBLE:
             case TAG_STRING:
                 result.put("value", nbtBase.getValue());
+                return result;
             case TAG_BYTE_ARRAY:
                 JSONArray jsonByteArray = new JSONArray();
                 for (byte b : (byte[]) nbtBase.getValue()) {
                     jsonByteArray.add(b);
                 }
                 result.put("value", jsonByteArray);
+                return result;
             case TAG_INT_ARRAY:
                 JSONArray jsonIntArray = new JSONArray();
                 for (byte b : (byte[]) nbtBase.getValue()) {
                     jsonIntArray.add(b);
                 }
                 result.put("value", jsonIntArray);
+                return result;
             case TAG_LIST:
                 JSONArray jsonArray = new JSONArray();
                 for (NbtBase base : (List<NbtBase>) nbtBase.getValue()) {
                     jsonArray.add(fromNBTBase(base));
                 }
                 result.put("value", jsonArray);
+                return result;
             case TAG_COMPOUND:
                 JSONObject jsonObject = new JSONObject();
                 for (NbtBase member : (NbtCompound) nbtBase) {
@@ -86,8 +90,9 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                     result.put(member.getName(), fromNBTBase(member));
                 }
                 result.put("value", jsonObject);
+                return result;
         }
-        return result;
+        return null;
     }
 
     public static NbtBase toNBTBase(JSONObject value) {
