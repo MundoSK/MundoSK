@@ -56,7 +56,7 @@ public class WorldBorderImpl implements WorldBorder {
         if (!isMoving()) {
             return 0;
         }
-        return Math.abs(getEventualDiameter() - getOriginalDiameter());
+        return Math.abs(getEventualDiameter() - getSize());
     }
 
     public double remainingTimeInSeconds() {
