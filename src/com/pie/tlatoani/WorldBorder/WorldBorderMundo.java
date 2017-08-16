@@ -55,10 +55,12 @@ public class WorldBorderMundo {
 
         Registration.registerEvent("Border Stabilize", EvtBorderStabilize.class, BorderStabilizeEvent.class, "border stabilize [in %-worlds%]");
         Registration.registerExpression(ExprBorderMovingValue.class, Number.class, ExpressionType.PROPERTY,
-                "(0¦original " + DIAMETER_SYNTAX + "|1¦(eventual|final) " + DIAMETER_SYNTAX + "|2¦remaining distance until border stabilize) of %world%",
-                "%world%'s (0¦original " + DIAMETER_SYNTAX + "|1¦(eventual|final) " + DIAMETER_SYNTAX + "|2¦remaining distance until border stabilize)");
+                "(0¦original " + DIAMETER_SYNTAX + "|1¦(eventual|final) " + DIAMETER_SYNTAX + "|2¦remaining distance until [the] border stabilize[s]) of %world%",
+                "%world%'s (0¦original " + DIAMETER_SYNTAX + "|1¦(eventual|final) " + DIAMETER_SYNTAX + "|2¦remaining distance until [the] border stabilize[s])");
         Registration.registerExpression(CondBorderMoving.class, Boolean.class, ExpressionType.PROPERTY, "border of %world% is (0¦moving|1¦stable)", "%world%'s border is (0¦moving|1¦stable)");
-        Registration.registerExpression(ExprTimeRemainingUntilBorderStabilize.class, Timespan.class, ExpressionType.PROPERTY, "(time remaining|remaining time) until border stabilize (of|in) %world%");
+        Registration.registerExpression(ExprTimeRemainingUntilBorderStabilize.class, Timespan.class, ExpressionType.PROPERTY,
+                "(time remaining|remaining time) until [the] border stabilize[s] (of|in) %world%",
+                "%world%'s (time remaining|remaining time) until [the] border stabilize[s]");
     }
 
     private static Function<World, WorldBorder> BORDER_REPLACER = null;

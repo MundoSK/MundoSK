@@ -17,7 +17,7 @@ public class CondBorderMoving extends SimpleExpression<Boolean> {
     @Override
     protected Boolean[] get(Event event) {
         World world = worldExpression.getSingle(event);
-        if (world instanceof WorldBorderImpl) {
+        if (world.getWorldBorder() instanceof WorldBorderImpl) {
             WorldBorderImpl border = (WorldBorderImpl) world.getWorldBorder();
             return new Boolean[]{moving == border.isMoving()};
         }

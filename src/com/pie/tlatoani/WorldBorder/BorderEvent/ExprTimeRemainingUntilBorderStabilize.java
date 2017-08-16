@@ -35,7 +35,7 @@ public class ExprTimeRemainingUntilBorderStabilize extends SimpleExpression<Time
 	@Override
 	protected Timespan[] get(Event event) {
 		World world = worldExpression.getSingle(event);
-		if (world instanceof WorldBorderImpl) {
+		if (world.getWorldBorder() instanceof WorldBorderImpl) {
 		    WorldBorderImpl border = (WorldBorderImpl) world.getWorldBorder();
 		    Double timeInSeconds = border.remainingTimeInSeconds();
 		    Timespan result = new Timespan((long) (timeInSeconds * 1000));
