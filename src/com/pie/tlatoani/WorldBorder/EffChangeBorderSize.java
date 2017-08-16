@@ -25,10 +25,11 @@ public class EffChangeBorderSize extends Effect {
     protected void execute(Event event) {
         WorldBorder border = worldExpression.getSingle(event).getWorldBorder();
         double value = numberExpression.getSingle(event).doubleValue();
+        long seconds = timespanExpression.getSingle(event).getMilliSeconds() / 1000;
         switch (changeMode) {
-            case SET: border.setSize(value); break;
-            case ADD: border.setSize(border.getSize() + value); break;
-            case REMOVE: border.setSize(border.getSize() - value); break;
+            case SET: border.setSize(value, seconds); break;
+            case ADD: border.setSize(border.getSize() + value, seconds); break;
+            case REMOVE: border.setSize(border.getSize() - value, seconds); break;
         }
     }
 
