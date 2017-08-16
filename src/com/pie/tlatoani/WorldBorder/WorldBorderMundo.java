@@ -3,6 +3,7 @@ package com.pie.tlatoani.WorldBorder;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.util.Timespan;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Reflection;
 import com.pie.tlatoani.Util.Registration;
 import com.pie.tlatoani.WorldBorder.BorderEvent.*;
@@ -85,6 +86,7 @@ public class WorldBorderMundo {
             return;
         }
         setWorldBorderField(world, getBorderReplacement(world));
+        Logging.debug(WorldBorderMundo.class, "Replaced the border for world: " + world);
     }
 
 
