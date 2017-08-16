@@ -84,6 +84,8 @@ public class MundoUtil {
         return (R[]) Stream.of(input).map(function).collect(Collectors.toList()).toArray();
     }
 
+    //Optional
+
     public static <T> void consumeOptional(Optional<T> optional, Consumer<T> tConsumer, Runnable runnable) {
         if (optional.isPresent()) {
             tConsumer.accept(optional.get());
@@ -99,5 +101,13 @@ public class MundoUtil {
             return supplier.get();
         }
 
+    }
+
+    public static <S, T extends S> Optional<T> cast(S obj, Class<T> tClass) {
+        if (tClass.isInstance(obj)) {
+            return Optional.of((T) obj);
+        } else {
+            return Optional.empty();
+        }
     }
 }

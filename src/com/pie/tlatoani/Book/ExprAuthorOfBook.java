@@ -38,7 +38,6 @@ public class ExprAuthorOfBook extends SimpleExpression<String>{
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 

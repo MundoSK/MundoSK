@@ -42,6 +42,15 @@ public class Registration {
         Skript.registerExpression(expressionClass, type, expressionType, patterns);
     }
 
+    public static <T> void registerPropertyExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, String possessorType, String... properties) {
+        String[] patterns = new String[properties.length * 2];
+        for (int i = 0; i < properties.length; i++) {
+            patterns[2 * i] = properties[i] + " of %" + possessorType + "%";
+            patterns[(2 * i) + 1] = "%" + possessorType + "%'s " + properties[i];
+        }
+        Skript.registerExpression(expressionClass, type, ExpressionType.PROPERTY, patterns);
+    }
+
     public static void registerCondition(Class<? extends Condition> conditionClass, String... patterns) {
         Skript.registerCondition(conditionClass, patterns);
     }

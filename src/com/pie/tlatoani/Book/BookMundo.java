@@ -14,6 +14,8 @@ public class BookMundo {
         ListUtil.registerTransformer(TransBookPages.class, "itemstack", "page");
         Registration.registerExpression(ExprBook.class,ItemStack.class, ExpressionType.COMBINED,"%itemstack% titled %string%, [written] by %string%, [with] pages %strings%");
         Registration.registerExpression(ExprTitleOfBook.class,String.class,ExpressionType.PROPERTY,"title of %itemstack%");
-        Registration.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
+        //Registration.registerExpression(ExprAuthorOfBook.class,String.class,ExpressionType.PROPERTY,"author of %itemstack%");
+        Registration.registerPropertyExpression(ExprNewAuthorOfBook.class, String.class, "itemstacks", "author");
+
     }
 }
