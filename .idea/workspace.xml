@@ -7,45 +7,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/EffChangePlayerVisibility.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/EffSetTablist.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprNewTablist.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTablistContainsPlayers.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTablistName.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprTablistScore.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistMundo.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ArrayTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/EffEnableArrayTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/EffEnableArrayTablist.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprDisplayNameOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDisplayNameOfTab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprIconOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfTab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprLatencyOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprLatencyOfTab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprScoreOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprScoreOfTab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprSizeOfTabList.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprSizeOfTabList.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/ExprScoresEnabled.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprScoresEnabled.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/EffChangePlayerVisibility.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/EffChangePlayerVisibility.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/EffClearPlayerModifications.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/EffClearPlayerModifications.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayerIsVisible.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprPlayerIsVisible.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayersAreVisible.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprPlayersAreVisible.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistName.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprTablistName.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistScore.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprTablistScore.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/PlayerTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/PlayerTablist.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/EffCreateNewTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateNewTab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/EffDeleteTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffDeleteTab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/EffRemoveAllIDTabs.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffRemoveAllIDTabs.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprDisplayNameOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprDisplayNameOfTab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprIconOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprIconOfTab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprLatencyOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprLatencyOfTab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprScoreOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprScoreOfTab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/SimpleTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTablist.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/SupplementaryTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/SupplementaryTablist.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Tab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tab.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Tablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tablist.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/TablistManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/EvtBorderStabilize.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/WorldBorderImpl.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/WorldBorderImplExt.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EvtBorderStabilize.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/BorderManager.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderStabilizeEvent.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/BorderStabilizeEvent.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprFinalSizeOfBorder.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/ExprBorderMovingValue.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprTimeRemainingUntilBorderStabilize.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/ExprTimeRemainingUntilBorderStabilize.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketUtil.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/EffSpawnObject.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/EffSpawnObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/ExprBiomeAt.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/ExprBiomeAt.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/ExprTCEnabled.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/ExprTCEnabled.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/CondBeyondBorder.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/CondBeyondBorder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffResetBorder.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffResetBorder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprCenterOfBorder.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprCenterOfBorder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,31 +46,87 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ExprIconOfTab.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfTab.java">
+      <file leaf-file-name="WorldBorderMundo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="32" column="36" lean-forward="false" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
+            <state relative-caret-position="452">
+              <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#2475#2658#0" expanded="true" />
+                <element signature="e#2657#2658#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExprCenterOfBorder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprCenterOfBorder.java">
+      <file leaf-file-name="EffChangeBorderSize.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state relative-caret-position="120">
+              <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WorldBorderImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/WorldBorderImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1123">
+              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#625#626#0" expanded="true" />
-                <element signature="e#653#654#0" expanded="true" />
-                <element signature="e#694#695#0" expanded="true" />
-                <element signature="e#712#713#0" expanded="true" />
-                <element signature="e#944#945#0" expanded="true" />
-                <element signature="e#979#980#0" expanded="true" />
+                <element signature="e#1470#1471#0" expanded="true" />
+                <element signature="e#1527#1528#0" expanded="true" />
+                <element signature="e#1570#1571#0" expanded="true" />
+                <element signature="e#1627#1628#0" expanded="true" />
+                <element signature="e#1660#1661#0" expanded="true" />
+                <element signature="e#1701#1702#0" expanded="true" />
+                <element signature="e#2160#2161#0" expanded="true" />
+                <element signature="e#2190#2191#0" expanded="true" />
+                <element signature="e#2235#2236#0" expanded="true" />
+                <element signature="e#2274#2275#0" expanded="true" />
+                <element signature="e#2325#2326#0" expanded="true" />
+                <element signature="e#2358#2359#0" expanded="true" />
+                <element signature="e#2535#2536#0" expanded="true" />
+                <element signature="e#2576#2577#0" expanded="true" />
+                <element signature="e#2640#2641#0" expanded="true" />
+                <element signature="e#2679#2680#0" expanded="true" />
+                <element signature="e#2741#2742#0" expanded="true" />
+                <element signature="e#2783#2784#0" expanded="true" />
+                <element signature="e#2836#2837#0" expanded="true" />
+                <element signature="e#2883#2884#0" expanded="true" />
+                <element signature="e#2942#2943#0" expanded="true" />
+                <element signature="e#2983#2984#0" expanded="true" />
+                <element signature="e#3036#3037#0" expanded="true" />
+                <element signature="e#3083#3084#0" expanded="true" />
+                <element signature="e#3142#3143#0" expanded="true" />
+                <element signature="e#3183#3184#0" expanded="true" />
+                <element signature="e#3232#3233#0" expanded="true" />
+                <element signature="e#3278#3279#0" expanded="true" />
+                <element signature="e#3333#3334#0" expanded="true" />
+                <element signature="e#3373#3374#0" expanded="true" />
+                <element signature="e#3426#3427#0" expanded="true" />
+                <element signature="e#3476#3477#0" expanded="true" />
+                <element signature="e#3535#3536#0" expanded="true" />
+                <element signature="e#3579#3580#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WorldBorderImplExt.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/WorldBorderImplExt.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#281#282#0" expanded="true" />
+                <element signature="e#309#310#0" expanded="true" />
+                <element signature="e#359#360#0" expanded="true" />
+                <element signature="e#407#408#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -100,17 +136,17 @@
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
-              <caret line="3" column="24" lean-forward="true" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
+              <caret line="3" column="24" lean-forward="false" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EffClearPlayerModifications.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/EffClearPlayerModifications.java">
+      <file leaf-file-name="ExprTimeRemainingUntilBorderStabilize.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/ExprTimeRemainingUntilBorderStabilize.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="3" lean-forward="false" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
+            <state relative-caret-position="435">
+              <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -118,41 +154,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExprSizeOfTabList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprSizeOfTabList.java">
+      <file leaf-file-name="ExprBorderMovingValue.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/ExprBorderMovingValue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="70" column="61" lean-forward="false" selection-start-line="70" selection-start-column="61" selection-end-line="70" selection-end-column="61" />
-              <folding />
+            <state relative-caret-position="825">
+              <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1078#1079#0" expanded="true" />
+                <element signature="e#1131#1132#0" expanded="true" />
+                <element signature="e#1199#1200#0" expanded="true" />
+                <element signature="e#1225#1226#0" expanded="true" />
+                <element signature="e#1266#1267#0" expanded="true" />
+                <element signature="e#1284#1285#0" expanded="true" />
+                <element signature="e#1570#1571#0" expanded="true" />
+                <element signature="e#1622#1623#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EffEnableArrayTablist.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/EffEnableArrayTablist.java">
+      <file leaf-file-name="BorderManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/BorderManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="38" column="52" lean-forward="false" selection-start-line="38" selection-start-column="52" selection-end-line="38" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExprPlayersAreVisible.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprPlayersAreVisible.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="587">
-              <caret line="61" column="16" lean-forward="false" selection-start-line="61" selection-start-column="16" selection-end-line="61" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TablistManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" column="3" lean-forward="true" selection-start-line="28" selection-start-column="3" selection-end-line="28" selection-end-column="3" />
+            <state relative-caret-position="375">
+              <caret line="28" column="66" lean-forward="false" selection-start-line="28" selection-start-column="66" selection-end-line="28" selection-end-column="66" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -160,12 +186,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExprDisplayNameOfTab.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDisplayNameOfTab.java">
+      <file leaf-file-name="BorderStabilizeEvent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/BorderStabilizeEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="33" column="43" lean-forward="false" selection-start-line="33" selection-start-column="43" selection-end-line="33" selection-end-column="43" />
-              <folding />
+            <state relative-caret-position="630">
+              <caret line="46" column="33" lean-forward="false" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#386#387#0" expanded="true" />
+                <element signature="e#405#406#0" expanded="true" />
+                <element signature="e#864#865#0" expanded="true" />
+                <element signature="e#921#922#0" expanded="true" />
+                <element signature="e#950#951#0" expanded="true" />
+                <element signature="e#984#985#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EvtBorderStabilize.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/EvtBorderStabilize.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -182,7 +228,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>clas</find>
       <find>classExists</find>
       <find>this</find>
       <find>Mund</find>
@@ -212,9 +257,9 @@
       <find>return true</find>
       <find>Optional.ofNullable(simpleTablist.getTab(id))</find>
       <find>TablistUtil</find>
+      <find>Double</find>
     </findStrings>
     <replaceStrings>
-      <replace>subNode;</replace>
       <replace>=</replace>
       <replace>Optional.of(subNode);</replace>
       <replace>mundosk_libraries.jsoup</replace>
@@ -244,6 +289,7 @@
       <replace>return playerExpression.isSingle()</replace>
       <replace>simpleTablist.getTab(id)</replace>
       <replace>PacketUtil</replace>
+      <replace>Number</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -257,23 +303,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscMundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistContainsPlayers.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/EffSetArrayTablist.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Tablist.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoUtil.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/TablistMundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistMundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/EffCreateNewTab.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/EffDeleteTab.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MathUtil.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/EffRemoveAllIDTabs.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/SimpleTablist.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/EffChangePlayerVisibility.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ArrayTablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketUtil.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Tab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java" />
@@ -298,15 +327,32 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprIconOfTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprLatencyOfTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprScoreOfTab.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprCenterOfBorder.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprPropertyOfBorder.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayersAreVisible.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/EffClearPlayerModifications.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprSizeOfTabList.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/EffEnableArrayTablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/EffSpawnObject.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/ExprBiomeAt.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/ExprTCEnabled.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EvtBorderStabilize.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderImpl.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderImplExt.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/WorldBorderImpl.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/WorldBorderImplExt.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/EvtBorderStabilize.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/ExprFinalSizeOfBorder.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/ExprEventualDiameterOfBorder.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/ExprBorderMovingValue.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/CondBeyondBorder.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffResetBorder.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprCenterOfBorder.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/ExprTimeRemainingUntilBorderStabilize.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/BorderStabilizeEvent.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/BorderManager.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -428,7 +474,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WorldCreator" />
+              <option name="myItemId" value="WorldBorder" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -453,26 +499,8 @@
               <option name="myItemId" value="WorldBorder" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MundoSK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tlatoani" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Util" />
+              <option name="myItemId" value="BorderEvent" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -494,7 +522,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Miscellaneous" />
+              <option name="myItemId" value="Tablist" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -850,130 +878,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/MathUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="28" column="25" lean-forward="true" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/OldTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="46" column="26" lean-forward="true" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/OldTablist.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="33" column="20" lean-forward="false" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffRemoveAllIDTabs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="23" column="38" lean-forward="true" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/SimpleTablist.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="46" column="11" lean-forward="true" selection-start-line="46" selection-start-column="11" selection-end-line="46" selection-end-column="11" />
-          <folding>
-            <element signature="e#1823#1824#0" expanded="true" />
-            <element signature="e#1879#1880#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="31" lean-forward="true" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="386" column="32" lean-forward="false" selection-start-line="386" selection-start-column="32" selection-end-line="386" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/TablistUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="42" column="24" lean-forward="true" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="24" lean-forward="true" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinMundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="707">
-          <caret line="80" column="17" lean-forward="true" selection-start-line="80" selection-start-column="17" selection-end-line="80" selection-end-column="17" />
-          <folding>
-            <element signature="e#1269#1446#0" expanded="false" />
-            <element signature="e#1445#1446#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tablist.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-313">
-          <caret line="34" column="29" lean-forward="true" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Skin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistOld/TablistMundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3300">
@@ -1065,7 +969,7 @@
         <state relative-caret-position="540">
           <caret line="36" column="13" lean-forward="true" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1138,7 +1042,7 @@
         <state relative-caret-position="240">
           <caret line="29" column="32" lean-forward="true" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1167,14 +1071,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprPropertyOfBorder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -1185,36 +1081,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="14" column="75" lean-forward="false" selection-start-line="14" selection-start-column="75" selection-end-line="14" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprCenterOfBorder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#625#626#0" expanded="true" />
-            <element signature="e#653#654#0" expanded="true" />
-            <element signature="e#694#695#0" expanded="true" />
-            <element signature="e#712#713#0" expanded="true" />
-            <element signature="e#944#945#0" expanded="true" />
-            <element signature="e#979#980#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfTab.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="32" column="36" lean-forward="false" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1256,7 +1128,7 @@
         <state relative-caret-position="180">
           <caret line="12" column="3" lean-forward="false" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1277,16 +1149,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="3" lean-forward="true" selection-start-line="28" selection-start-column="3" selection-end-line="28" selection-end-column="3" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprPlayersAreVisible.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="587">
@@ -1295,10 +1157,251 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/EffSpawnObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="27" column="20" lean-forward="true" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/ExprBiomeAt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="35" column="13" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+          <folding>
+            <element signature="e#514#515#0" expanded="false" />
+            <element signature="e#540#541#0" expanded="false" />
+            <element signature="e#581#582#0" expanded="false" />
+            <element signature="e#599#600#0" expanded="false" />
+            <element signature="e#873#874#0" expanded="false" />
+            <element signature="e#907#908#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/TerrainControlMundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TerrainControl/ExprTCEnabled.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="32" column="56" lean-forward="false" selection-start-line="32" selection-start-column="56" selection-end-line="32" selection-end-column="56" />
+          <folding>
+            <element signature="e#520#521#0" expanded="false" />
+            <element signature="e#547#548#0" expanded="false" />
+            <element signature="e#588#589#0" expanded="false" />
+            <element signature="e#606#607#0" expanded="false" />
+            <element signature="e#837#838#0" expanded="false" />
+            <element signature="e#892#893#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tablist.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="69" column="39" lean-forward="true" selection-start-line="69" selection-start-column="39" selection-end-line="69" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="59" column="19" lean-forward="true" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2382#2562#0" expanded="true" />
+            <element signature="e#2561#2562#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/EvtBorderStabilize.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/CondBeyondBorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="33" column="34" lean-forward="true" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffResetBorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="27" lean-forward="false" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+          <folding>
+            <element signature="e#660#661#0" expanded="true" />
+            <element signature="e#681#682#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprCenterOfBorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/ExprBorderMovingValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1078#1079#0" expanded="true" />
+            <element signature="e#1131#1132#0" expanded="true" />
+            <element signature="e#1199#1200#0" expanded="true" />
+            <element signature="e#1225#1226#0" expanded="true" />
+            <element signature="e#1266#1267#0" expanded="true" />
+            <element signature="e#1284#1285#0" expanded="true" />
+            <element signature="e#1570#1571#0" expanded="true" />
+            <element signature="e#1622#1623#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/ExprTimeRemainingUntilBorderStabilize.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/BorderStabilizeEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="46" column="33" lean-forward="false" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#386#387#0" expanded="true" />
+            <element signature="e#405#406#0" expanded="true" />
+            <element signature="e#864#865#0" expanded="true" />
+            <element signature="e#921#922#0" expanded="true" />
+            <element signature="e#950#951#0" expanded="true" />
+            <element signature="e#984#985#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/WorldBorderImplExt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#281#282#0" expanded="true" />
+            <element signature="e#309#310#0" expanded="true" />
+            <element signature="e#359#360#0" expanded="true" />
+            <element signature="e#407#408#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/BorderManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="28" column="66" lean-forward="false" selection-start-line="28" selection-start-column="66" selection-end-line="28" selection-end-column="66" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderEvent/WorldBorderImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1123">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1470#1471#0" expanded="true" />
+            <element signature="e#1527#1528#0" expanded="true" />
+            <element signature="e#1570#1571#0" expanded="true" />
+            <element signature="e#1627#1628#0" expanded="true" />
+            <element signature="e#1660#1661#0" expanded="true" />
+            <element signature="e#1701#1702#0" expanded="true" />
+            <element signature="e#2160#2161#0" expanded="true" />
+            <element signature="e#2190#2191#0" expanded="true" />
+            <element signature="e#2235#2236#0" expanded="true" />
+            <element signature="e#2274#2275#0" expanded="true" />
+            <element signature="e#2325#2326#0" expanded="true" />
+            <element signature="e#2358#2359#0" expanded="true" />
+            <element signature="e#2535#2536#0" expanded="true" />
+            <element signature="e#2576#2577#0" expanded="true" />
+            <element signature="e#2640#2641#0" expanded="true" />
+            <element signature="e#2679#2680#0" expanded="true" />
+            <element signature="e#2741#2742#0" expanded="true" />
+            <element signature="e#2783#2784#0" expanded="true" />
+            <element signature="e#2836#2837#0" expanded="true" />
+            <element signature="e#2883#2884#0" expanded="true" />
+            <element signature="e#2942#2943#0" expanded="true" />
+            <element signature="e#2983#2984#0" expanded="true" />
+            <element signature="e#3036#3037#0" expanded="true" />
+            <element signature="e#3083#3084#0" expanded="true" />
+            <element signature="e#3142#3143#0" expanded="true" />
+            <element signature="e#3183#3184#0" expanded="true" />
+            <element signature="e#3232#3233#0" expanded="true" />
+            <element signature="e#3278#3279#0" expanded="true" />
+            <element signature="e#3333#3334#0" expanded="true" />
+            <element signature="e#3373#3374#0" expanded="true" />
+            <element signature="e#3426#3427#0" expanded="true" />
+            <element signature="e#3476#3477#0" expanded="true" />
+            <element signature="e#3535#3536#0" expanded="true" />
+            <element signature="e#3579#3580#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2475#2658#0" expanded="true" />
+            <element signature="e#2657#2658#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
-          <caret line="3" column="24" lean-forward="true" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
+          <caret line="3" column="24" lean-forward="false" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
           <folding />
         </state>
       </provider>

@@ -18,28 +18,24 @@ public class ExprBiomeAt extends SimpleExpression<String>{
 
 	@Override
 	public Class<? extends String> getReturnType() {
-		// TODO Auto-generated method stub
 		return String.class;
 	}
 
 	@Override
 	public boolean isSingle() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		// TODO Auto-generated method stub
 		loc = (Expression<Location>) expr[0];
 		return true;
 	}
 
 	@Override
 	public String toString(@Nullable Event arg0, boolean arg1) {
-		// TODO Auto-generated method stub
-		return "border length of world";
+		return "tc biome at " + loc;
 	}
 
 	@Override

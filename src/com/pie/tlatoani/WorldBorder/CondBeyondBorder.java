@@ -9,8 +9,6 @@ import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.Location;
 import org.bukkit.event.Event;
 
-import javax.annotation.Nullable;
-
 public class CondBeyondBorder extends SimpleExpression<Boolean>{
 	private Expression<Location> locationExpression;
 	private Boolean within;
@@ -25,7 +23,6 @@ public class CondBeyondBorder extends SimpleExpression<Boolean>{
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
 		locationExpression = (Expression<Location>) expr[0];
@@ -34,7 +31,7 @@ public class CondBeyondBorder extends SimpleExpression<Boolean>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(Event arg0, boolean arg1) {
 		return locationExpression + " is " + (within ? "within" : "beyond") + " border";
 	}
 

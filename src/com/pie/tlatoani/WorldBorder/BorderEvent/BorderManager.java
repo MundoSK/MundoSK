@@ -1,8 +1,6 @@
-package com.pie.tlatoani.WorldBorder;
+package com.pie.tlatoani.WorldBorder.BorderEvent;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.pie.tlatoani.Mundo;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
@@ -10,7 +8,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldUnloadEvent;
 
-import com.pie.tlatoani.Mundo;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class BorderManager implements Listener, Runnable {
 	private static Map<World, Double> stablesizes = new HashMap<World, Double>();

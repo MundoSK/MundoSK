@@ -15,7 +15,7 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 
 public class ExprCenterOfBorder extends SimpleExpression<Location>{
-	private Expression<World> border;
+	private Expression<World> worldExpression;
 
 	@Override
 	public Class<? extends Location> getReturnType() {
@@ -29,24 +29,24 @@ public class ExprCenterOfBorder extends SimpleExpression<Location>{
 
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		border = (Expression<World>) expr[0];
+		worldExpression = (Expression<World>) expr[0];
 		return true;
 	}
 
 	@Override
-	public String toString(Event arg0, boolean arg1) {
-		return "center of " + border;
+	public String toString(Event event, boolean arg1) {
+		return "center of " + worldExpression;
 	}
 
 	@Override
-	protected Location[] get(Event arg0) {
-		WorldBorder border = this.border.getSingle(arg0).getWorldBorder();
+	protected Location[] get(Event event) {
+		WorldBorder border = this.worldExpression.getSingle(event).getWorldBorder();
 		return new Location[]{ border.getCenter()};
 	}
 	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET) {
-			border.getSingle(arg0).getWorldBorder().setCenter((Location) delta[0]);
+			worldExpression.getSingle(event).getWorldBorder().setCenter((Location) delta[0]);
 		}
 	}
 

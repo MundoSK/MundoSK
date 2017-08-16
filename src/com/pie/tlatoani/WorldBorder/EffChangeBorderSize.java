@@ -10,8 +10,6 @@ import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.event.Event;
 
-import java.util.Optional;
-
 /**
  * Created by Tlatoani on 7/15/17.
  */
@@ -23,7 +21,8 @@ public class EffChangeBorderSize extends Effect {
 
     @Override
     protected void execute(Event event) {
-        WorldBorder border = worldExpression.getSingle(event).getWorldBorder();
+        World world = worldExpression.getSingle(event);
+        WorldBorder border = world.getWorldBorder();
         double value = numberExpression.getSingle(event).doubleValue();
         long seconds = timespanExpression.getSingle(event).getMilliSeconds() / 1000;
         switch (changeMode) {

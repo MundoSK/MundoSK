@@ -2,14 +2,25 @@ package com.pie.tlatoani.WorldBorder;
 
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.util.Timespan;
+import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Reflection;
 import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.WorldBorder.BorderEvent.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.WorldBorder;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.WorldLoadEvent;
+
+import java.util.function.Function;
 
 /**
  * Created by Tlatoani on 8/8/17.
  */
 public class WorldBorderMundo {
+    public static final String DIAMETER_SYNTAX = "(diameter|size|length)";
     
     public static void load() {
         Registration.registerEffect(EffResetBorder.class, "reset %world%");
@@ -23,15 +34,58 @@ public class WorldBorderMundo {
                 "(remove|subtract) %number% from (diameter|size|length) of %world% over %timespan%",
                 "(remove|subtract) %number% from %world%'s (diameter|size|length) over %timespan%");
 
-        Registration.registerEvent("Border Stabilize", EvtBorderStabilize.class, BorderStabilizeEvent.class, "border stabilize [in %-world%]");
-        Registration.registerEventValue(BorderStabilizeEvent.class, World.class, BorderStabilizeEvent::getWorld);
-
         Registration.registerExpression(ExprPropertyOfBorder.class, Number.class, ExpressionType.PROPERTY,
-                "(0¦diameter|0¦size|0¦length|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time) of %world%",
-                "%world%'s (0¦diameter|0¦size|0¦length|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time)");
+                "(0¦" + DIAMETER_SYNTAX + "|0¦length|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time) of %world%",
+                "%world%'s (0¦" + DIAMETER_SYNTAX + "|0¦length|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time)");
         Registration.registerExpression(ExprCenterOfBorder.class,Location.class,ExpressionType.PROPERTY,"center of %world%", "%world%'s center");
-        Registration.registerExpression(ExprFinalSizeOfBorder.class,Double.class,ExpressionType.PROPERTY,"final size of %world%");
-        Registration.registerExpression(ExprTimeRemainingUntilBorderStabilize.class,Timespan.class,ExpressionType.PROPERTY,"time remaining until border stabilize in %world%");
         Registration.registerExpression(CondBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%locations% (is|are) (0¦within|1¦beyond) border");
+
+        loadBorderEvent();
     }
+
+    private static void loadBorderEvent() {
+        Bukkit.getWorlds().forEach(WorldBorderMundo::replaceBorderForWorld);
+        Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onWorldLoad(WorldLoadEvent event) {
+                replaceBorderForWorld(event.getWorld());
+            }
+        }, Mundo.INSTANCE);
+
+        Registration.registerEvent("Border Stabilize", EvtBorderStabilize.class, BorderStabilizeEvent.class, "border stabilize [in %-worlds%]");
+        Registration.registerExpression(ExprBorderMovingValue.class, Number.class, ExpressionType.PROPERTY,
+                "(0¦original " + DIAMETER_SYNTAX + "|1¦(eventual|final) " + DIAMETER_SYNTAX + "|2¦remaining distance) of %world%",
+                "%world%'s (0¦original " + DIAMETER_SYNTAX + "|1¦(eventual|final) " + DIAMETER_SYNTAX + "|2¦remaining distance)");
+        Registration.registerExpression(ExprTimeRemainingUntilBorderStabilize.class, Timespan.class, ExpressionType.PROPERTY, "time remaining until border stabilize in %world%");
+    }
+
+    private static Function<World, WorldBorder> BORDER_REPLACER = null;
+    private static Reflection.FieldAccessor<WorldBorder> CRAFT_WORLD_WORLD_BORDER = null;
+
+    private static WorldBorder getBorderReplacement(World world) {
+        if (BORDER_REPLACER == null) {
+            if (Reflection.methodExists(WorldBorder.class, "isInside", Location.class)) {
+                BORDER_REPLACER = WorldBorderImplExt::new;
+            } else {
+                BORDER_REPLACER = WorldBorderImpl::new;
+            }
+        }
+        return BORDER_REPLACER.apply(world);
+    }
+
+    private static void setWorldBorderField(World world, WorldBorder value) {
+        if (CRAFT_WORLD_WORLD_BORDER == null) {
+            CRAFT_WORLD_WORLD_BORDER = Reflection.getField(Reflection.getCraftBukkitClass("CraftWorld"), "worldBorder", WorldBorder.class);
+        }
+        CRAFT_WORLD_WORLD_BORDER.set(world, value);
+    }
+
+    public static void replaceBorderForWorld(World world) {
+        if (world.getWorldBorder() instanceof WorldBorderImpl) {
+            return;
+        }
+        setWorldBorderField(world, getBorderReplacement(world));
+    }
+
+
 }
