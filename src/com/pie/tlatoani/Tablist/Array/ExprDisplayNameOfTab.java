@@ -7,8 +7,11 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import java.util.Arrays;
 
 /**
  * Created by Tlatoani on 7/15/16.
@@ -16,18 +19,28 @@ import org.bukkit.event.Event;
 public class ExprDisplayNameOfTab extends SimpleExpression<String> {
     private Expression<Number> column;
     private Expression<Number> row;
-    private Expression<Tablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected String[] get(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        return new String[]{tablist.arrayTablist.getDisplayName(column.getSingle(event).intValue(), row.getSingle(event).intValue())};
+        int column = this.column.getSingle(event).intValue();
+        int row = this.row.getSingle(event).intValue();
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .map(player -> {
+                    Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                    if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                        ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                        return arrayTablist.getTab(column, row).getDisplayName();
+                    }
+                    return null;
+                })
+                .toArray(String[]::new);
     }
 
     @Override
     public boolean isSingle() {
-        return true;
+        return playerExpression.isSingle();
     }
 
     @Override
@@ -37,21 +50,28 @@ public class ExprDisplayNameOfTab extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "latency of tab " + column + ", " + row + " for " + playerExpression;
+        return "display name of tab " + column + ", " + row + " for " + playerExpression;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         column = (Expression<Number>) expressions[0];
         row = (Expression<Number>) expressions[1];
-        tablistExpression = (Expression<Tablist>) expressions[2];
-        playerExpression = (Expression<Player>) expressions[3];
+        playerExpression = (Expression<Player>) expressions[2];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        tablist.arrayTablist.setDisplayName(column.getSingle(event).intValue(), row.getSingle(event).intValue(), ((String) delta[0]));
+        int column = this.column.getSingle(event).intValue();
+        int row = this.row.getSingle(event).intValue();
+        String value = (String) delta[0];
+        for (Player player : playerExpression.getArray(event)) {
+            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                arrayTablist.getTab(column, row).setDisplayName(value);
+            }
+        }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

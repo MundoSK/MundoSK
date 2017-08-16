@@ -1,38 +1,38 @@
 package com.pie.tlatoani.Tablist.Array;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.comphenix.protocol.wrappers.PlayerInfoData;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Skin.Skin;
+import com.pie.tlatoani.Tablist.Player.PlayerTablist;
+import com.pie.tlatoani.Tablist.Tab;
+import com.pie.tlatoani.Tablist.SupplementaryTablist;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.MathUtil;
-import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Tlatoani on 7/15/16.
  */
-public class ArrayTablist {
-    private final Tablist tablist;
-    private final String[][] displayNames = new String[4][20];
-    private final int[][] latencies = new int[4][20];
-    private final Skin[][] heads = new Skin[4][20];
-    private final int[][] scores = new int[4][20];
-    private final static String uuidbeginning = "10001000-1000-3000-8000-10001000";
-    private int columns = 0;
-    private int rows = 0;
-    public Skin initialIcon = Tablist.DEFAULT_SKIN_TEXTURE;
+public class ArrayTablist implements SupplementaryTablist {
+    public final Tablist tablist;
+    private final PlayerTablist playerTablist;
 
-    public ArrayTablist(Tablist tablist) {
-        this.tablist = tablist;
+    public final static String UUID_BEGINNING = "10001000-1000-3000-8000-10001000";
+    private int columns;
+    private int rows;
+    public Skin initialIcon;
+
+    private final Tab[][] tabs = new Tab[4][20];
+
+    public ArrayTablist(PlayerTablist playerTablist, int columns, int rows, Skin initialIcon) {
+        this.tablist = playerTablist.tablist;
+        this.playerTablist = playerTablist;
+        this.columns = MathUtil.limitToRange(1, columns, 4);
+        this.rows = getViableRowAmount(this.columns, rows);
+        this.initialIcon = initialIcon;
+        addTabs(1, this.columns, 1, this.rows);
+        changeToIdealPlayerVisibility();
     }
 
     public static int getViableRowAmount(int columns, int rows) {
@@ -43,48 +43,15 @@ public class ArrayTablist {
                           0;
     }
 
-    private void sendPacketToAll(int column, int row, EnumWrappers.PlayerInfoAction action) {
-        sendPacket(column, row, action, tablist.players);
-    }
-
-    private void sendPacket(int column, int row, EnumWrappers.PlayerInfoAction action, Collection<Player> players) {
-        Logging.debug(this, "SENDING PACKET col = " + column + ", row = " + row + " action = " + action + "players = " + players);
-        int ping = latencies[column - 1][row - 1];
-        String displayName = displayNames[column - 1][row - 1];
-        Skin icon = heads[column - 1][row - 1];
-        Logging.debug(this, "SP 1");
-        WrappedChatComponent chatComponent = WrappedChatComponent.fromJson(Tablist.colorStringToJson(displayName));
-        int identifier = (((column - 1) * 20) + row);
-        UUID uuid = UUID.fromString(uuidbeginning + "10" + MathUtil.toHexDigit(identifier / 10) + (identifier % 10));
-        WrappedGameProfile gameProfile = new WrappedGameProfile(uuid, "MundoSK::" + (identifier < 10 ? "0" : "") + identifier);
-        Logging.debug(this, "SP 2");
-        if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
-            if (icon == null) icon = Tablist.DEFAULT_SKIN_TEXTURE;
-            gameProfile.getProperties().put(Skin.MULTIMAP_KEY, icon.toWrappedSignedProperty());
+    public Tab getTab(int column, int row) {
+        if (!MathUtil.isInRange(1, column, columns)) {
+            throw new IllegalArgumentException("Column = " + column + " out of range 1 to " + columns);
         }
-        Logging.debug(this, "SP 3");
-        PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, ping, EnumWrappers.NativeGameMode.NOT_SET, chatComponent);
-        PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.PLAYER_INFO);
-        packetContainer.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
-        packetContainer.getPlayerInfoAction().writeSafely(0, action);
-        Logging.debug(this, "SP 4");
-        PacketManager.sendPacket(packetContainer, this, players);
-    }
+        if (!MathUtil.isInRange(1, row, rows)) {
+            throw new IllegalArgumentException("Row = " + row + " out of range 1 to " + rows);
 
-    private void sendScorePacketToAll(int column, int row) {
-        sendScorePacket(column, row, tablist.players);
-    }
-
-    private void sendScorePacket(int column, int row, Collection<Player> players) {
-        if (!tablist.areScoresEnabled()) return;
-        PacketContainer packet = new PacketContainer(PacketType.Play.Server.SCOREBOARD_SCORE);
-        int identifier = (((column - 1) * 20) + row);
-        //if (identifier % 2 == 0) identifier += 79;
-        packet.getStrings().writeSafely(0, "MundoSK::" + (identifier < 10 ? "0" : "") + identifier);
-        packet.getStrings().writeSafely(1, Tablist.OBJECTIVE_NAME);
-        packet.getIntegers().writeSafely(0, scores[column - 1][row - 1]);
-        packet.getScoreboardActions().writeSafely(0, EnumWrappers.ScoreboardAction.CHANGE);
-        PacketManager.sendPacket(packet, this, players);
+        }
+        return tabs[column - 1][row - 1];
     }
 
     public int getColumns() {
@@ -97,140 +64,86 @@ public class ArrayTablist {
 
     public void setColumns(int columns) {
         Logging.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", columns " + columns);
-        columns = MathUtil.limitToRange(0, columns, 4);
-        if (columns == this.columns) return;
-        if (columns != 0) {
-            Logging.debug(this, "Columns != 0");
-            tablist.simpleTablist.clear();
-            if (columns != 4 && !tablist.areAllPlayersHidden()) {
-                Logging.debug(this, "Hiding all players");
-                tablist.hideAllPlayers();
-            }
-        }
-        if (columns > this.columns) {
-            Logging.debug(this, "columns > this.columns");
-            if (this.columns == 0) {
-                this.rows = getViableRowAmount(columns, this.rows);
-            } else {
-                setRows(getViableRowAmount(columns, this.rows));
-            }
-            for (int column = this.columns + 1; column <= columns; column++)
-                for (int row = 1; row <= this.rows; row++) {
-                    Logging.debug(this, "col: " + column + ", ro: " + row);
-                    displayNames[column - 1][row - 1] = "";
-                    latencies[column - 1][row - 1] = 5;
-                    heads[column - 1][row - 1] = initialIcon;
-                    scores[column - 1][row - 1] = 0;
-                    sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    if (tablist.areScoresEnabled()) sendScorePacketToAll(column, row);
-                }
+        columns = MathUtil.limitToRange(1, columns, 4);
+        if (columns == this.columns) {
+            return;
+        } else if (columns > this.columns) {
+            setRows(getViableRowAmount(columns, this.rows));
+            addTabs(this.columns + 1, columns, 1, this.rows);
         } else {
-            for (int column = columns + 1; column <= this.columns; column++)
-                for (int row = 1; row <= this.rows; row++) {
-                    displayNames[column - 1][row - 1] = "";
-                    latencies[column - 1][row - 1] = 5;
-                    heads[column - 1][row - 1] = null;
-                    scores[column - 1][row - 1] = 0;
-                    sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                    if (tablist.areScoresEnabled()) {
-                        sendScorePacketToAll(column, row);
-                    }
-                }
+            removeTabs(columns + 1, this.columns, 1, this.rows);
         }
         this.columns = columns;
-        if (columns == 0) {
-            this.rows = 0;
-        }
+        changeToIdealPlayerVisibility();
     }
 
     public void setRows(int rows) {
         Logging.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
         rows = getViableRowAmount(columns, rows);
-        if (rows == this.rows) return;
-        if (!tablist.areAllPlayersHidden()) {
-            Logging.debug(this, "Rows != 20, Hiding all players");
-            tablist.hideAllPlayers();
-        }
-        if (rows > this.rows) {
-            for (int column = 1; column <= this.columns; column++)
-                for (int row = this.rows + 1; row <= rows; row++) {
-                    displayNames[column - 1][row - 1] = "";
-                    latencies[column - 1][row - 1] = 5;
-                    heads[column - 1][row - 1] = initialIcon;
-                    scores[column - 1][row - 1] = 0;
-                    sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-                    sendScorePacketToAll(column, row);
-                }
+        if (rows == this.rows) {
+            return;
+        } else if (rows > this.rows) {
+            addTabs(1, this.columns, this.rows + 1, rows);
         } else {
-            for (int column = 1; column <= this.columns; column++)
-                for (int row = rows + 1; row <= this.rows; row++) {
-                    displayNames[column - 1][row - 1] = "";
-                    latencies[column - 1][row - 1] = 5;
-                    heads[column - 1][row - 1] = null;
-                    scores[column - 1][row - 1] = 0;
-                    sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-                }
+            removeTabs(1, this.columns, rows + 1, this.rows);
         }
         this.rows = rows;
+        changeToIdealPlayerVisibility();
     }
 
-    public void addPlayers(Collection<Player> players) {
-        for (int column = 1; column <= columns; column++)
-            for (int row = 1; row <= rows; row++) {
-                sendPacket(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER, players);
-                sendScorePacketToAll(column, row);
+    //Utility Methods
+
+    private Tab createTab(int column, int row) {
+        int identifier = (((column - 1) * 20) + row);
+        String name = "MundoSK::" + (identifier < 10 ? "0" : "") + identifier;
+        UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + MathUtil.toHexDigit(identifier / 10) + (identifier % 10));
+        return new Tab(tablist.target, name, uuid, "", 5, initialIcon, 0);
+    }
+
+    private void setTab(int column, int row, Tab tab) {
+        tabs[column - 1][row - 1] = tab;
+    }
+
+    private void addTabs(int columnMin, int columnMax, int rowMin, int rowMax) {
+        Logging.debug(this, "Adding Tabs, columnMin = " + columnMin + ", columnMax = " + columnMax + ", rowMin = " + rowMin + ", rowMax = " + rowMax);
+        for (int column = columnMin; column <= columnMax; column++)
+            for (int row = rowMin; row <= rowMax; row++) {
+                Logging.debug(this, "Adding Tab, column = " + column + ", row = " + row);
+                Tab tab = createTab(column, row);
+                tab.sendPacket(tab.playerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER));
+                setTab(column, row, tab);
             }
     }
 
-    public void removePlayers(Collection<Player> players) {
-        for (int column = 1; column <= columns; column++)
-            for (int row = 1; row <= rows; row++) {
-                sendPacket(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER, players);
+    private void removeTabs(int columnMin, int columnMax, int rowMin, int rowMax) {
+        Logging.debug(this, "Removing Tabs, columnMin = " + columnMin + ", columnMax = " + columnMax + ", rowMin = " + rowMin + ", rowMax = " + rowMax);
+        for (int column = columnMin; column <= columnMax; column++)
+            for (int row = rowMin; row <= rowMax; row++) {
+                Logging.debug(this, "Removing Tab, column = " + column + ", row = " + row);
+                Tab tab = getTab(column, row);
+                tab.sendPacket(tab.playerInfoPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER));
+                tab.setScore(null);
+                setTab(column, row, null);
             }
     }
 
-    public String getDisplayName(int column, int row) {
-        return MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows) ? displayNames[column - 1][row - 1] : null;
-    }
-
-    public int getLatency(int column, int row) {
-        return MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows) ? latencies[column - 1][row - 1] : 0;
-    }
-
-    public Skin getHead(int column, int row) {
-        return MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows) ? heads[column - 1][row - 1] : null;
-    }
-
-    public int getScore(int column, int row) {
-        return MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows) ? scores[column - 1][row - 1] : 0;
-    }
-
-    public void setDisplayName(int column, int row, String displayName) {
-        if (MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows)) {
-            displayNames[column - 1][row - 1] = displayName;
-            sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME);
+    private void changeToIdealPlayerVisibility() {
+        if (columns == 4 && rows == 20) {
+            Logging.debug(this, "Columns = " + columns + ", Rows = " + rows + ", Showing all players");
+            playerTablist.showAllPlayers();
+        } else {
+            Logging.debug(this, "Columns = " + columns + ", Rows = " + rows + ", Hiding all players");
+            playerTablist.hideAllPlayers();
         }
     }
 
-    public void setLatency(int column, int row, int ping) {
-        if (MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows)) {
-            latencies[column - 1][row - 1] = ping;
-            sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.UPDATE_LATENCY);
-        }
+    @Override
+    public void disable() {
+        removeTabs(1, columns, 1, rows);
     }
 
-    public void setHead(int column, int row, Skin head) {
-        if (MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows)) {
-            sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-            heads[column - 1][row - 1] = head;
-            sendPacketToAll(column, row, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
-        }
-    }
-
-    public void setScore(int column, int row, int ping) {
-        if (MathUtil.isInRange(1, column, columns) && MathUtil.isInRange(1, row, rows)) {
-            scores[column - 1][row - 1] = ping;
-            sendScorePacketToAll(column, row);
-        }
+    @Override
+    public boolean allowExternalPlayerTabModification() {
+        return false;
     }
 }

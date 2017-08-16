@@ -6,27 +6,39 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Tablist.Simple.SimpleTablist;
 import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import java.util.Arrays;
 
 /**
  * Created by Tlatoani on 7/23/16.
  */
 public class ExprSizeOfTabList extends SimpleExpression<Number> {
-    private Expression<Tablist> tablistExpression;
     private Expression<Player> playerExpression;
     private boolean isColumns;
 
     @Override
     protected Number[] get(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        return new Number[]{isColumns ? tablist.arrayTablist.getColumns() : tablist.arrayTablist.getRows()};
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .map(player -> {
+                    Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                    if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                        ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                        return isColumns ? arrayTablist.getColumns() : arrayTablist.getRows();
+                    }
+                    return null;
+                })
+                .toArray(Number[]::new);
     }
 
     @Override
     public boolean isSingle() {
-        return true;
+        return playerExpression.isSingle();
     }
 
     @Override
@@ -41,18 +53,29 @@ public class ExprSizeOfTabList extends SimpleExpression<Number> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        tablistExpression = (Expression<Tablist>) expressions[0];
-        playerExpression = (Expression<Player>) expressions[1];
+        playerExpression = (Expression<Player>) expressions[0];
         isColumns = parseResult.mark == 0;
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        if (isColumns) {
-            tablist.arrayTablist.setColumns(((Number) delta[0]).intValue());
-        } else {
-            tablist.arrayTablist.setRows(((Number) delta[0]).intValue());
+        int value = ((Number) delta[0]).intValue();
+        for (Player player : playerExpression.getArray(event)) {
+            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                if (isColumns) {
+                    if (value > 0) {
+                        arrayTablist.setColumns(value);
+                    } else {
+                        tablist.setSupplementaryTablist(SimpleTablist::new);
+                    }
+                } else {
+                    arrayTablist.setRows(value);
+                }
+            } else if (isColumns && value > 0) {
+                tablist.setSupplementaryTablist(playerTablist -> new ArrayTablist(playerTablist, value, 20, Tablist.DEFAULT_SKIN_TEXTURE));
+            }
         }
     }
 

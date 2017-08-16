@@ -3,7 +3,6 @@
   <component name="CompilerConfiguration">
     <excludeFromCompile>
       <file url="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/MineSkin/EffTestMineSkin.java" />
-      <directory url="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist" includeSubdirectories="true" />
     </excludeFromCompile>
   </component>
 </project>

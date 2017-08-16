@@ -7,7 +7,7 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.TablistNew.Tablist;
+import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 

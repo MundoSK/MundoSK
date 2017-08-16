@@ -9,22 +9,25 @@ import ch.njol.util.coll.CollectionUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.util.Arrays;
+
 /**
  * Created by Tlatoani on 11/25/16.
  */
 public class ExprScoresEnabled extends SimpleExpression<Boolean> {
-    private Expression<Tablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected Boolean[] get(Event event) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        return new Boolean[]{tablist.areScoresEnabled()};
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .map(player -> TablistManager.getTablistOfPlayer(player).areScoresEnabled())
+                .toArray(Boolean[]::new);
     }
 
     @Override
     public boolean isSingle() {
-        return true;
+        return playerExpression.isSingle();
     }
 
     @Override
@@ -34,19 +37,20 @@ public class ExprScoresEnabled extends SimpleExpression<Boolean> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "scores enabled";
+        return "scores are enabled in " + playerExpression + "'s tablist";
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        tablistExpression = (Expression<Tablist>) expressions[0];
-        playerExpression = (Expression<Player>) expressions[1];
+        playerExpression = (Expression<Player>) expressions[0];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Tablist tablist = tablistExpression != null ? tablistExpression.getSingle(event) : Tablist.getTablistForPlayer(playerExpression.getSingle(event));
-        tablist.setScoresEnabled((Boolean) delta[0]);
+        boolean enabled = (boolean) delta[0];
+        for (Player player : playerExpression.getArray(event)) {
+            TablistManager.getTablistOfPlayer(player).setScoresEnabled(enabled);
+        }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

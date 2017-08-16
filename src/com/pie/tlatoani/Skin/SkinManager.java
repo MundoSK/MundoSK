@@ -355,22 +355,22 @@ public class SkinManager {
         /*Scheduling.syncDelay(2, () -> {
             ArrayList<Player> targetsToRemoveFrom = new ArrayList<>();
             for (Player target : targets) {
-                if (Tablist.getTablistForPlayer(target).isPlayerHidden(player)) {
+                if (TablistOld.getTablistForPlayer(target).isPlayerHidden(player)) {
                     targetsToRemoveFrom.add(target);
                 }
             }
             if (!targets.isEmpty()) {
-                Tablist.hideInTablist(Collections.singleton(player), targetsToRemoveFrom);
+                TablistOld.hideInTablist(Collections.singleton(player), targetsToRemoveFrom);
             }
         });*/
     }
 
     private static void respawnPlayer(Player player) {
-        /*boolean playerHidden = Tablist.getTablistForPlayer(player).isPlayerHidden(player);
+        /*boolean playerHidden = TablistOld.getTablistForPlayer(player).isPlayerHidden(player);
         if (!playerHidden) {
             List<Player> singlePlayer = Collections.singletonList(player);
-            Tablist.hideInTablist(singlePlayer, singlePlayer);
-            Tablist.showInTablist(singlePlayer, singlePlayer);
+            TablistOld.hideInTablist(singlePlayer, singlePlayer);
+            TablistOld.showInTablist(singlePlayer, singlePlayer);
         }*/
 
         PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), SkinManager.class, player);

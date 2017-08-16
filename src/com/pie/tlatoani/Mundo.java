@@ -16,7 +16,7 @@ import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Skin.SkinMundo;
 import com.pie.tlatoani.Socket.SocketMundo;
 import com.pie.tlatoani.Socket.UtilFunctionSocket;
-import com.pie.tlatoani.TablistNew.TablistManager;
+import com.pie.tlatoani.Tablist.TablistManager;
 import com.pie.tlatoani.TerrainControl.TerrainControlMundo;
 import com.pie.tlatoani.Throwable.ThrowableMundo;
 import com.pie.tlatoani.Util.*;
