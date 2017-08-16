@@ -54,7 +54,11 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
         }
         JSONObject result = new JSONObject();
         result.put("name", nbtBase.getName());
-        result.put("type", nbtBase.getType().toString().substring(4).toLowerCase());
+        if (nbtBase.getType() == NbtType.TAG_LIST) {
+            result.put("type", "list_" + ((NbtList) nbtBase).getElementType().toString().substring(4).toLowerCase());
+        } else {
+            result.put("type", nbtBase.getType().toString().substring(4).toLowerCase());
+        }
         switch (nbtBase.getType()) {
             case TAG_BYTE:
             case TAG_SHORT:
@@ -81,8 +85,8 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 return result;
             case TAG_LIST:
                 JSONArray jsonArray = new JSONArray();
-                for (NbtBase base : (List<NbtBase>) nbtBase.getValue()) {
-                    jsonArray.add(fromNBTBase(base));
+                for (Object elem : (NbtList) nbtBase) {
+                    jsonArray.add(elem);
                 }
                 result.put("value", jsonArray);
                 return result;
@@ -96,6 +100,65 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 return result;
         }
         return null;
+    }
+
+    public static NbtBase toNBTBase(String name, String typeName, Object value) {
+        NbtType type;
+        String elemTypeName;
+        if (typeName.startsWith("list")) {
+            type = NbtType.TAG_LIST;
+            elemTypeName = typeName.substring(5);
+        } else {
+            type = NbtType.valueOf("TAG_" + typeName.toUpperCase());
+            elemTypeName = null;
+        }
+        Number number = value instanceof Number ? (Number) value : null;
+        JSONArray jsonArray = value instanceof JSONArray ? (JSONArray) value : null;
+        switch (type) {
+            case TAG_BYTE:
+                return NbtFactory.of(name, number.byteValue());
+            case TAG_SHORT:
+                return NbtFactory.of(name, number.shortValue());
+            case TAG_INT:
+                return NbtFactory.of(name, number.intValue());
+            case TAG_LONG:
+                return NbtFactory.of(name, number.longValue());
+            case TAG_FLOAT:
+                return NbtFactory.of(name, number.floatValue());
+            case TAG_DOUBLE:
+                return NbtFactory.of(name, number.doubleValue());
+            case TAG_STRING:
+                return NbtFactory.of(name, (String) value);
+            case TAG_BYTE_ARRAY:
+                byte[] bytes = new byte[jsonArray.size()];
+                for (int i = 0; i < bytes.length; i++) {
+                    bytes[i] = ((Number) jsonArray.get(i)).byteValue();
+                }
+                return NbtFactory.of(name, bytes);
+            case TAG_INT_ARRAY:
+                int[] ints = new int[jsonArray.size()];
+                for (int i = 0; i < ints.length; i++) {
+                    ints[i] = ((Number) jsonArray.get(i)).intValue();
+                }
+                return NbtFactory.of(name, ints);
+            case TAG_LIST:
+                NbtBase[] nbtBases = new NbtBase[jsonArray.size()];
+                for (int i = 0; i < nbtBases.length; i++) {
+                    nbtBases[i] = toNBTBase(NbtList.EMPTY_NAME, elemTypeName, jsonArray.get(i));
+                }
+                return NbtFactory.ofList(name, nbtBases);
+            case TAG_COMPOUND:
+                NbtCompound nbtCompound = NbtFactory.ofCompound(name);
+                ((JSONObject) value).forEach((__, maybeJSONObject) -> {
+                    JSONObject jsonObject = (JSONObject) maybeJSONObject;
+                    String name1 = (String) jsonObject.get("name");
+                    String typeName1 = (String) jsonObject.get("type");
+                    Object value1 = jsonObject.get("value");
+                    nbtCompound.put(toNBTBase(name1, typeName1, value1));
+                });
+                return nbtCompound;
+        }
+        throw new IllegalArgumentException("Illegal NbtType: " + type);
     }
 
     public static NbtBase toNBTBase(JSONObject value) {
@@ -179,6 +242,41 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
         return null;
     }
 
+    public static JSONObject fromWatchableCollection(Collection<WrappedWatchableObject> watchableObjects) {
+        JSONObject jsonObject = new JSONObject();
+        for (WrappedWatchableObject wrappedWatchableObject : watchableObjects) {
+            jsonObject.put("" + wrappedWatchableObject.getIndex(), wrappedWatchableObject.getValue());
+        }
+        return jsonObject;
+    }
+
+    public static WrappedDataWatcher toDataWatcher(JSONObject jsonObject) {
+        WrappedDataWatcher dataWatcher;
+        Object maybeEntity = jsonObject.get("entity");
+        if (maybeEntity instanceof Entity) {
+            dataWatcher = new WrappedDataWatcher((Entity) maybeEntity);
+        } else {
+            dataWatcher = new WrappedDataWatcher();
+        }
+        jsonObject.forEach((key, value) -> {
+            try {
+                String keyStr = (String) key;
+                int i = Integer.parseInt(keyStr);
+                Logging.debug(ExprJSONObjectOfPacket.class, "i = " + i + ", value = " + value + ", value.getClass() = " + value.getClass());
+                WrappedDataWatcher.Serializer serializer = getSerializer(value.getClass());
+                Logging.debug(ExprJSONObjectOfPacket.class, "serializer = " + serializer);
+                if (serializer == null) {
+                    dataWatcher.setObject(i, value);
+                } else {
+                    dataWatcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(i, serializer), value);
+                }
+            } catch (ClassCastException | IllegalArgumentException e) {
+                Logging.debug(ExprJSONObjectOfPacket.class, e);
+            }
+        });
+        return dataWatcher;
+    }
+
     static {
 
         //Converters
@@ -241,6 +339,8 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         });
 
+
+
         registerSingleConverter("datawatcher", new PacketInfoConverter<JSONObject>(JSONObject.class) {
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
@@ -248,33 +348,14 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 if (dataWatcher == null) {
                     return null;
                 }
-                JSONObject jsonObject = new JSONObject();
+                JSONObject jsonObject = fromWatchableCollection(dataWatcher.getWatchableObjects());
                 jsonObject.put("entity", dataWatcher.getEntity());
-                if (dataWatcher != null) {
-                    for (WrappedWatchableObject wrappedWatchableObject : dataWatcher) {
-                        jsonObject.put(wrappedWatchableObject.getIndex() + "", wrappedWatchableObject.getValue());
-                    }
-                }
                 return jsonObject;
             }
 
             @Override
             public void set(PacketContainer packet, Integer index, JSONObject value) {
-                List<WrappedWatchableObject> wrappedWatchableObjects = new ArrayList<WrappedWatchableObject>();
-                Entity entity = (Entity) value.get("entity");
-                value.forEach((keyO, valueO) -> {
-                    try {
-                        String key = (String) keyO;
-                        int i = Integer.parseInt(key);
-                        WrappedWatchableObject watchableObject = new WrappedWatchableObject(i, valueO);
-                        wrappedWatchableObjects.add(watchableObject);
-                    } catch (ClassCastException | NumberFormatException e) {
-                        Logging.debug(ExprJSONObjectOfPacket.class, e);
-                    }
-                });
-                WrappedDataWatcher dataWatcher = new WrappedDataWatcher(wrappedWatchableObjects);
-                dataWatcher.setEntity(entity);
-                packet.getDataWatcherModifier().writeSafely(index, dataWatcher);
+                packet.getDataWatcherModifier().writeSafely(index, toDataWatcher(value));
             }
         });
 
@@ -285,33 +366,12 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 if (wrappedWatchableObjects == null) {
                     return null;
                 }
-                JSONObject jsonObject = new JSONObject();
-                for (WrappedWatchableObject wrappedWatchableObject : wrappedWatchableObjects) {
-                    jsonObject.put("" + wrappedWatchableObject.getIndex(), wrappedWatchableObject.getValue());
-                }
-                return jsonObject;
+                return fromWatchableCollection(wrappedWatchableObjects);
             }
 
             @Override
             public void set(PacketContainer packet, Integer index, JSONObject value) {
-                WrappedDataWatcher dataWatcher = new WrappedDataWatcher();
-                value.forEach((keyO, valueO) -> {
-                    try {
-                        String key = (String) keyO;
-                        int i = Integer.parseInt(key);
-                        Logging.debug(ExprJSONObjectOfPacket.class, "i = " + i + ", valueO = " + valueO + ", valueO.getClass() = " + valueO.getClass());
-                        WrappedDataWatcher.Serializer serializer = getSerializer(valueO.getClass());
-                        Logging.debug(ExprJSONObjectOfPacket.class, "serializer = " + serializer);
-                        if (serializer == null) {
-                            dataWatcher.setObject(i, valueO);
-                        } else {
-                            dataWatcher.setObject(new WrappedDataWatcher.WrappedDataWatcherObject(i, serializer), valueO);
-                        }
-                    } catch (ClassCastException | IllegalArgumentException e) {
-                        Logging.debug(ExprJSONObjectOfPacket.class, e);
-                    }
-                });
-                packet.getWatchableCollectionModifier().writeSafely(index, dataWatcher.getWatchableObjects());
+                packet.getWatchableCollectionModifier().writeSafely(index, toDataWatcher(value).getWatchableObjects());
             }
         });
 
@@ -355,7 +415,14 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
 
             @Override
             public void set(PacketContainer packet, Integer index, JSONObject value) {
-                packet.getNbtModifier().writeSafely(index, toNBTBase(value));
+                try {
+                    String name1 = (String) value.get("name");
+                    String typeName1 = (String) value.get("type");
+                    Object value1 = value.get("value");
+                    packet.getNbtModifier().writeSafely(index, toNBTBase(name1, typeName1, value1));
+                } catch (ClassCastException | IllegalArgumentException | NullPointerException e) {
+                    Logging.debug(ExprJSONObjectOfPacket.class, e);
+                }
             }
         });
 
