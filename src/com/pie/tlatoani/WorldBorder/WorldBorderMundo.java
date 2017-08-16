@@ -13,9 +13,6 @@ public class WorldBorderMundo {
     
     public static void load() {
         Registration.registerEffect(EffResetBorder.class, "reset %world%");
-        Registration.registerEvent("Border Stabilize", EvtBorderStabilize.class, BorderStabilizeEvent.class, "border stabilize [in %-world%]");
-        Registration.registerEventValue(BorderStabilizeEvent.class, World.class, BorderStabilizeEvent::getWorld);
-
         Registration.registerEffect(EffChangeBorderSize.class,
                 "set (diameter|size|length) of %world% to %number% over %timespan%",
                 "set %world%'s (diameter|size|length) to %number% over %timespan%",
@@ -26,18 +23,13 @@ public class WorldBorderMundo {
                 "(remove|subtract) %number% from (diameter|size|length) of %world% over %timespan%",
                 "(remove|subtract) %number% from %world%'s (diameter|size|length) over %timespan%");
 
+        Registration.registerEvent("Border Stabilize", EvtBorderStabilize.class, BorderStabilizeEvent.class, "border stabilize [in %-world%]");
+        Registration.registerEventValue(BorderStabilizeEvent.class, World.class, BorderStabilizeEvent::getWorld);
+
         Registration.registerExpression(ExprPropertyOfBorder.class, Number.class, ExpressionType.PROPERTY,
                 "(0¦diameter|0¦size|0¦length|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time) of %world%",
                 "%world%'s (0¦diameter|0¦size|0¦length|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time)");
-
         Registration.registerExpression(ExprCenterOfBorder.class,Location.class,ExpressionType.PROPERTY,"center of %world%", "%world%'s center");
-
-        //Registration.registerExpression(ExprSizeOfBorder.class,Double.class, ExpressionType.PROPERTY,"(size|diameter) of %world% [over %-timespan%]");
-        //Registration.registerExpression(ExprDamageAmountOfBorder.class,Double.class,ExpressionType.PROPERTY,"damage amount of %world%");
-        //Registration.registerExpression(ExprDamageBufferOfBorder.class,Double.class,ExpressionType.PROPERTY,"damage buffer of %world%");
-        //Registration.registerExpression(ExprWarningDistanceOfBorder.class,Integer.class,ExpressionType.PROPERTY,"warning distance of %world%");
-        //Registration.registerExpression(ExprWarningTimeOfBorder.class,Integer.class,ExpressionType.PROPERTY,"warning time of %world%");
-
         Registration.registerExpression(ExprFinalSizeOfBorder.class,Double.class,ExpressionType.PROPERTY,"final size of %world%");
         Registration.registerExpression(ExprTimeRemainingUntilBorderStabilize.class,Timespan.class,ExpressionType.PROPERTY,"time remaining until border stabilize in %world%");
         Registration.registerExpression(CondBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%locations% (is|are) (0¦within|1¦beyond) border");

@@ -4,6 +4,8 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.TablistNew.Simple.SimpleTablist;
+import com.pie.tlatoani.TablistNew.Tablist;
 import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -17,10 +19,11 @@ public class EffClearPlayerModifications extends Effect {
     @Override
     protected void execute(Event event) {
         for (Player player : playerExpression.getArray(event)) {
-            TablistManager
-                    .getTablistOfPlayer(player)
-                    .getPlayerTablist()
-                    .ifPresent(PlayerTablist::clearModifications);
+            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            if (!tablist.getPlayerTablist().isPresent()) {
+                tablist.setSupplementaryTablist(SimpleTablist::new);
+            }
+            tablist.getPlayerTablist().ifPresent(PlayerTablist::clearModifications);
         }
     }
 

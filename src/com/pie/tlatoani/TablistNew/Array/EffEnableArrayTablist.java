@@ -36,7 +36,7 @@ public class EffEnableArrayTablist extends Effect {
             for (Player player : playerExpression.getArray(event)) {
                 Tablist tablist = TablistManager.getTablistOfPlayer(player);
                 if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
-                    tablist.setSupplementaryTablist(playerTablist -> new SimpleTablist(playerTablist));
+                    tablist.setSupplementaryTablist(SimpleTablist::new);
                 }
             }
         }

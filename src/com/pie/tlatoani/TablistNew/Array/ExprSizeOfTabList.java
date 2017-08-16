@@ -68,7 +68,7 @@ public class ExprSizeOfTabList extends SimpleExpression<Number> {
                     if (value > 0) {
                         arrayTablist.setColumns(value);
                     } else {
-                        tablist.setSupplementaryTablist(playerTablist -> new SimpleTablist(playerTablist));
+                        tablist.setSupplementaryTablist(SimpleTablist::new);
                     }
                 } else {
                     arrayTablist.setRows(value);

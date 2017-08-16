@@ -6,6 +6,8 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.TablistNew.Simple.SimpleTablist;
+import com.pie.tlatoani.TablistNew.Tablist;
 import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -51,11 +53,19 @@ public class ExprPlayersAreVisible extends SimpleExpression<Boolean> {
         Boolean visible = (Boolean) delta[0];
         if (visible) {
             for (Player player : playerExpression.getArray(event)) {
-                TablistManager.getTablistOfPlayer(player).getPlayerTablist().ifPresent(PlayerTablist::showAllPlayers);
+                Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                if (!tablist.arePlayersVisible() && !tablist.getPlayerTablist().isPresent()) {
+                    tablist.setSupplementaryTablist(SimpleTablist::new);
+                }
+                tablist.getPlayerTablist().ifPresent(PlayerTablist::showAllPlayers);
             }
         } else {
             for (Player player : playerExpression.getArray(event)) {
-                TablistManager.getTablistOfPlayer(player).getPlayerTablist().ifPresent(PlayerTablist::hideAllPlayers);
+                Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                if (tablist.arePlayersVisible() && !tablist.getPlayerTablist().isPresent()) {
+                    tablist.setSupplementaryTablist(SimpleTablist::new);
+                }
+                tablist.getPlayerTablist().ifPresent(PlayerTablist::hideAllPlayers);
             }
         }
     }
