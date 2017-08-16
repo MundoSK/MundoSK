@@ -13,11 +13,14 @@ public class ExprNewAuthorOfBook extends ChangeablePropertyExpression<ItemStack,
 
     @Override
     public void change(ItemStack itemStack, String s, Changer.ChangeMode changeMode) {
-        if (changeMode == Changer.ChangeMode.SET) {
-            MundoUtil.cast(itemStack.getItemMeta(), BookMeta.class).ifPresent(bookMeta -> bookMeta.setAuthor(s));
-        } else if (changeMode == Changer.ChangeMode.ADD) {
-            MundoUtil.cast(itemStack.getItemMeta(), BookMeta.class).ifPresent(bookMeta -> bookMeta.setAuthor(bookMeta.getAuthor() + s));
-        }
+        MundoUtil.cast(itemStack.getItemMeta(), BookMeta.class).ifPresent(bookMeta -> {
+            if (changeMode == Changer.ChangeMode.SET) {
+                bookMeta.setAuthor(s);
+            } else if (changeMode == Changer.ChangeMode.ADD) {
+                bookMeta.setAuthor(bookMeta.getAuthor() + s);
+            }
+            itemStack.setItemMeta(bookMeta);
+        });
     }
 
     @Override

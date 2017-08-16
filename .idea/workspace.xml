@@ -7,15 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprNewAuthorOfBook.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ChangeablePropertyExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/BookMundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/BookMundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprAuthorOfBook.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprAuthorOfBook.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoUtil.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Registration.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Registration.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprNewAuthorOfBook.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprNewAuthorOfBook.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,8 +48,8 @@
       <file leaf-file-name="ExprAuthorOfBook.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprAuthorOfBook.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="40" column="40" lean-forward="false" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
+            <state relative-caret-position="467">
+              <caret line="50" column="4" lean-forward="true" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
               <folding>
                 <element signature="e#1081#1082#0" expanded="true" />
                 <element signature="e#1119#1120#0" expanded="true" />
@@ -90,14 +83,14 @@
       <file leaf-file-name="ExprNewAuthorOfBook.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprNewAuthorOfBook.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state relative-caret-position="330">
+              <caret line="22" column="11" lean-forward="true" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1082#1083#0" expanded="true" />
-                <element signature="e#1113#1114#0" expanded="true" />
-                <element signature="e#1361#1362#0" expanded="true" />
-                <element signature="e#1396#1397#0" expanded="true" />
+                <element signature="e#1089#1090#0" expanded="true" />
+                <element signature="e#1120#1121#0" expanded="true" />
+                <element signature="e#1368#1369#0" expanded="true" />
+                <element signature="e#1403#1404#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -299,9 +292,9 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoUtil.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoPropertyExpression.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ChangeablePropertyExpression.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprNewAuthorOfBook.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Registration.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Book/BookMundo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprNewAuthorOfBook.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -1359,36 +1352,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprNewAuthorOfBook.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1082#1083#0" expanded="true" />
-            <element signature="e#1113#1114#0" expanded="true" />
-            <element signature="e#1361#1362#0" expanded="true" />
-            <element signature="e#1396#1397#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/Registration.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
           <caret line="48" column="81" lean-forward="true" selection-start-line="48" selection-start-column="81" selection-end-line="48" selection-end-column="81" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprAuthorOfBook.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="40" column="40" lean-forward="false" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
-          <folding>
-            <element signature="e#1081#1082#0" expanded="true" />
-            <element signature="e#1119#1120#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1414,12 +1382,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprAuthorOfBook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="467">
+          <caret line="50" column="4" lean-forward="true" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
+          <folding>
+            <element signature="e#1081#1082#0" expanded="true" />
+            <element signature="e#1119#1120#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ChangeablePropertyExpression.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="72" lean-forward="false" selection-start-line="12" selection-start-column="72" selection-end-line="12" selection-end-column="72" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Book/ExprNewAuthorOfBook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="11" lean-forward="true" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1089#1090#0" expanded="true" />
+            <element signature="e#1120#1121#0" expanded="true" />
+            <element signature="e#1368#1369#0" expanded="true" />
+            <element signature="e#1403#1404#0" expanded="true" />
           </folding>
         </state>
       </provider>
