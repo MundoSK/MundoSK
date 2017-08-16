@@ -55,7 +55,7 @@ public class ExprPropertyOfBorder extends SimpleExpression<Number> {
 
     public static void resetProperty(WorldBorder border, BorderProperty borderProperty) {
         switch (borderProperty) {
-            case DIAMETER: border.setSize(29999984); return;
+            case DIAMETER: border.setSize(60000000); return;
             case DAMAGE_AMOUNT: border.setDamageAmount(0.2); return;
             case DAMAGE_BUFFER: border.setDamageBuffer(5); return;
             case WARNING_DISTANCE: border.setWarningDistance(5); return;
