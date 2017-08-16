@@ -18,7 +18,7 @@ public class ExprPropertyOfBorder extends SimpleExpression<Number> {
     private Expression<World> worldExpression;
 
     public enum BorderProperty {
-        SIZE("size"),
+        DIAMETER("diameter"),
         DAMAGE_AMOUNT("damage amount"),
         DAMAGE_BUFFER("damage buffer"),
         WARNING_DISTANCE("warning distance"),
@@ -33,7 +33,7 @@ public class ExprPropertyOfBorder extends SimpleExpression<Number> {
 
     public static Number getProperty(WorldBorder border, BorderProperty borderProperty) {
         switch (borderProperty) {
-            case SIZE: return border.getSize();
+            case DIAMETER: return border.getSize();
             case DAMAGE_AMOUNT: return border.getDamageAmount();
             case DAMAGE_BUFFER: return border.getDamageBuffer();
             case WARNING_DISTANCE: return border.getWarningDistance();
@@ -44,7 +44,7 @@ public class ExprPropertyOfBorder extends SimpleExpression<Number> {
 
     public static void setProperty(WorldBorder border, BorderProperty borderProperty, Number value) {
         switch (borderProperty) {
-            case SIZE: border.setSize(value.doubleValue()); return;
+            case DIAMETER: border.setSize(value.doubleValue()); return;
             case DAMAGE_AMOUNT: border.setDamageAmount(value.doubleValue()); return;
             case DAMAGE_BUFFER: border.setDamageBuffer(value.doubleValue()); return;
             case WARNING_DISTANCE: border.setWarningDistance(value.intValue()); return;
@@ -55,7 +55,7 @@ public class ExprPropertyOfBorder extends SimpleExpression<Number> {
 
     public static void resetProperty(WorldBorder border, BorderProperty borderProperty) {
         switch (borderProperty) {
-            case SIZE: border.setSize(29999984); return;
+            case DIAMETER: border.setSize(29999984); return;
             case DAMAGE_AMOUNT: border.setDamageAmount(0.2); return;
             case DAMAGE_BUFFER: border.setDamageBuffer(5); return;
             case WARNING_DISTANCE: border.setWarningDistance(5); return;

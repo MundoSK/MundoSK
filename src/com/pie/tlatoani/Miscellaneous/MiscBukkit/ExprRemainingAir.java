@@ -7,9 +7,6 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.WorldBorder.UtilBorderManager;
-import org.bukkit.World;
-import org.bukkit.WorldBorder;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Event;
 

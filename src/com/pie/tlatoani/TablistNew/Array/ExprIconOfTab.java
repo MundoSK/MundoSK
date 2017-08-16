@@ -12,6 +12,8 @@ import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.util.Arrays;
+
 /**
  * Created by Tlatoani on 7/25/16.
  */
@@ -23,28 +25,33 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
 
     @Override
     protected Skin[] get(Event event) {
-        Player[] players = playerExpression.getArray(event);
-        Skin[] icons = new Skin[players.length];
         if (tabSpecific) {
             int column = this.column.getSingle(event).intValue();
             int row = this.row.getSingle(event).intValue();
-            for (int i = 0; i < players.length; i++) {
-                Tablist tablist = TablistManager.getTablistOfPlayer(players[i]);
-                if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
-                    ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                    icons[i] = arrayTablist.getTab(column, row).getIcon();
-                }
-            }
+            return Arrays
+                    .stream(playerExpression.getArray(event))
+                    .map(player -> {
+                        Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                        if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                            ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                            return arrayTablist.getTab(column, row).getIcon();
+                        }
+                        return null;
+                    })
+                    .toArray(Skin[]::new);
         } else {
-            for (int i = 0; i < players.length; i++) {
-                Tablist tablist = TablistManager.getTablistOfPlayer(players[i]);
-                if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
-                    ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                    icons[i] = arrayTablist.initialIcon;
-                }
-            }
+            return Arrays
+                    .stream(playerExpression.getArray(event))
+                    .map(player -> {
+                        Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                        if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                            ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                            return arrayTablist.initialIcon;
+                        }
+                        return null;
+                    })
+                    .toArray(Skin[]::new);
         }
-        return icons;
     }
 
     @Override

@@ -7,6 +7,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
 import org.bukkit.World;
+import org.bukkit.WorldBorder;
 import org.bukkit.event.Event;
 
 import java.util.Optional;
@@ -22,27 +23,67 @@ public class EffChangeBorderSize extends Effect {
 
     @Override
     protected void execute(Event event) {
-
+        WorldBorder border = worldExpression.getSingle(event).getWorldBorder();
+        double value = numberExpression.getSingle(event).doubleValue();
+        switch (changeMode) {
+            case SET: border.setSize(value); break;
+            case ADD: border.setSize(border.getSize() + value); break;
+            case REMOVE: border.setSize(border.getSize() - value); break;
+        }
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return null;
-    }
-
-    public static Changer.ChangeMode getByMark(int mark) {
-        switch (mark) {
-            case 0: return Changer.ChangeMode.SET;
-            case 1: return Changer.ChangeMode.ADD;
-            case -1: return Changer.ChangeMode.REMOVE;
+        switch (changeMode) {
+            case SET: return "set diameter of " + worldExpression + " to " + numberExpression + " over " + timespanExpression;
+            case ADD: return "add " + numberExpression + " to diameter of " + worldExpression + " over " + timespanExpression;
+            case REMOVE: return "subtract " + numberExpression + " from diameter of " + worldExpression + " over " + timespanExpression;
         }
-        throw new IllegalArgumentException("Illegal mark: " + mark);
+        throw new IllegalStateException("Illegal ChangeMode: " + changeMode);
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        worldExpression = Optional.ofNullable((Expression<World>) expressions[0]).orElse((Expression<World>) expressions[1]);
-        changeMode = getByMark(parseResult.mark);
+        worldExpression = getWorldExpr(i, expressions);
+        numberExpression = getNumberExpr(i, expressions);
+        timespanExpression = getTimeExpr(i, expressions);
+        changeMode = getChangeMode(i);
         return true;
+    }
+
+    public static Expression<World> getWorldExpr(int i, Expression<?>[] expressions) {
+        if (i < 4) {
+            return (Expression<World>) expressions[0];
+        } else {
+            return (Expression<World>) expressions[1];
+        }
+    }
+
+    public static Expression<Number> getNumberExpr(int i, Expression<?>[] expressions) {
+        if (i < 2) {
+            return (Expression<Number>) expressions[1];
+        } else if (i < 4) {
+            return (Expression<Number>) expressions[2];
+        } else {
+            return (Expression<Number>) expressions[0];
+        }
+    }
+
+    public static Expression<Timespan> getTimeExpr(int i, Expression<?>[] expressions) {
+        if (i == 2 || i == 3) {
+            return (Expression<Timespan>) expressions[1];
+        } else {
+            return (Expression<Timespan>) expressions[2];
+        }
+    }
+
+    public static Changer.ChangeMode getChangeMode(int i) {
+        if (i < 4) {
+            return Changer.ChangeMode.SET;
+        } else if (i < 6) {
+            return Changer.ChangeMode.ADD;
+        } else {
+            return Changer.ChangeMode.REMOVE;
+        }
     }
 }

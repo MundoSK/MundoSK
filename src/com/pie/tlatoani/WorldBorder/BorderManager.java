@@ -12,13 +12,13 @@ import org.bukkit.event.world.WorldUnloadEvent;
 
 import com.pie.tlatoani.Mundo;
 
-public final class UtilBorderManager implements Listener, Runnable {
+public final class BorderManager implements Listener, Runnable {
 	private static Map<World, Double> stablesizes = new HashMap<World, Double>();
 	private static Map<World, Double> stabletimes = new HashMap<World, Double>();
 	private static Map<World, Double> origsizes = new HashMap<World, Double>();
 	private World borderevent;
 	
-	private UtilBorderManager(World borderarg) {
+	private BorderManager(World borderarg) {
 		borderevent = borderarg;
 	}
 	
@@ -27,7 +27,7 @@ public final class UtilBorderManager implements Listener, Runnable {
 			stablesizes.put(borderarg, sizearg);
 			stabletimes.put(borderarg, timearg);
 			origsizes.put(borderarg, borderarg.getWorldBorder().getSize());
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Mundo.INSTANCE, new UtilBorderManager(borderarg), timearg.longValue()*20);
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Mundo.INSTANCE, new BorderManager(borderarg), timearg.longValue()*20);
 		}
 	}
 	
@@ -65,7 +65,7 @@ public final class UtilBorderManager implements Listener, Runnable {
 				stablesizes.remove(borderevent);
 				stabletimes.remove(borderevent);
 				origsizes.remove(borderevent);
-				UtilBorderStabilizeEvent event = new UtilBorderStabilizeEvent(borderevent);
+				BorderStabilizeEvent event = new BorderStabilizeEvent(borderevent);
 				Bukkit.getServer().getPluginManager().callEvent(event);
 			}
 		}

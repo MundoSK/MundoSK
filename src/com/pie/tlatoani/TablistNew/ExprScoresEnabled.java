@@ -9,6 +9,8 @@ import ch.njol.util.coll.CollectionUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.util.Arrays;
+
 /**
  * Created by Tlatoani on 11/25/16.
  */
@@ -17,12 +19,10 @@ public class ExprScoresEnabled extends SimpleExpression<Boolean> {
 
     @Override
     protected Boolean[] get(Event event) {
-        Player[] players = playerExpression.getArray(event);
-        Boolean[] enabledArray = new Boolean[players.length];
-        for (int i = 0; i < players.length; i++) {
-            enabledArray[i] = TablistManager.getTablistOfPlayer(players[i]).areScoresEnabled();
-        }
-        return enabledArray;
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .map(player -> TablistManager.getTablistOfPlayer(player).areScoresEnabled())
+                .toArray(Boolean[]::new);
     }
 
     @Override

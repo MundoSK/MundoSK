@@ -8,6 +8,8 @@ import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.util.Arrays;
+
 /**
  * Created by Tlatoani on 8/13/17.
  */
@@ -17,13 +19,11 @@ public class ExprPlayerIsVisible extends SimpleExpression<Boolean> {
 
     @Override
     protected Boolean[] get(Event event) {
-        Player[] players = playerExpression.getArray(event);
         Player object = objectExpression.getSingle(event);
-        Boolean[] visibilities = new Boolean[players.length];
-        for (int i = 0; i < players.length; i++) {
-            visibilities[i] = TablistManager.getTablistOfPlayer(players[i]).isPlayerVisible(object);
-        }
-        return visibilities;
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .map(player -> TablistManager.getTablistOfPlayer(player).isPlayerVisible(object))
+                .toArray(Boolean[]::new);
     }
 
     @Override

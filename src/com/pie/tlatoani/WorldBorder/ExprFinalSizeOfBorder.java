@@ -39,7 +39,7 @@ public class ExprFinalSizeOfBorder extends SimpleExpression<Double>{
 	@Override
 	@Nullable
 	protected Double[] get(Event arg0) {
-		Double result = UtilBorderManager.getStableSize(border.getSingle(arg0));
+		Double result = BorderManager.getStableSize(border.getSingle(arg0));
 		if (result == null) result = border.getSingle(arg0).getWorldBorder().getSize();
 		return new Double[]{result};
 	}

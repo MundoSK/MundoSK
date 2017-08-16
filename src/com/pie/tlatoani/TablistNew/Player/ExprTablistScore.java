@@ -6,9 +6,12 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.TablistNew.Tab;
 import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import java.util.Arrays;
 
 /**
  * Created by Tlatoani on 11/25/16.
@@ -20,17 +23,15 @@ public class ExprTablistScore extends SimpleExpression<Number> {
     @Override
     protected Number[] get(Event event) {
         Player object = objectExpression.getSingle(event);
-        Player[] players = playerExpression.getArray(event);
-        Number[] scores = new Number[players.length];
-        for (int i = 0; i < players.length; i++) {
-            scores[i] = TablistManager
-                    .getTablistOfPlayer(players[i])
-                    .getPlayerTablist()
-                    .flatMap(playerTablist -> playerTablist.getTab(object))
-                    .map(tab -> tab.getScore())
-                    .orElse(null);
-        }
-        return scores;
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .map(player -> TablistManager
+                        .getTablistOfPlayer(player)
+                        .getPlayerTablist()
+                        .flatMap(playerTablist -> playerTablist.getTab(object))
+                        .map(Tab::getScore)
+                        .orElse(null))
+                .toArray(Number[]::new);
     }
 
     @Override

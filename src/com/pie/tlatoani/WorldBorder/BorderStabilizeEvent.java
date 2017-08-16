@@ -4,11 +4,11 @@ import org.bukkit.World;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class UtilBorderStabilizeEvent extends Event{
+public class BorderStabilizeEvent extends Event{
 	private static final HandlerList handlers = new HandlerList();
 	private World border;
 	
-	public UtilBorderStabilizeEvent(World borderarg) {
+	public BorderStabilizeEvent(World borderarg) {
 		border = borderarg;
 	}
 

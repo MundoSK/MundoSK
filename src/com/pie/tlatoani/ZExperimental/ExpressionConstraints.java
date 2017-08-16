@@ -11,7 +11,7 @@ import java.util.HashMap;
 /**
  * Created by Tlatoani on 4/4/17.
  */
-public class ExpressionConstraints {
+public final class ExpressionConstraints {
     public final ImmutableSet<Type> types;
     public final Kleenean isLiteral;
     public final int time;

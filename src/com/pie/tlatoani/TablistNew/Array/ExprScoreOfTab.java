@@ -11,6 +11,8 @@ import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.util.Arrays;
+
 /**
  * Created by Tlatoani on 11/25/16.
  */
@@ -23,16 +25,17 @@ public class ExprScoreOfTab extends SimpleExpression<Number> {
     protected Number[] get(Event event) {
         int column = this.column.getSingle(event).intValue();
         int row = this.row.getSingle(event).intValue();
-        Player[] players = playerExpression.getArray(event);
-        Number[] scores = new Number[players.length];
-        for (int i = 0; i < players.length; i++) {
-            Tablist tablist = TablistManager.getTablistOfPlayer(players[i]);
-            if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
-                ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                scores[i] = arrayTablist.getTab(column, row).getScore();
-            }
-        }
-        return scores;
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .map(player -> {
+                    Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                    if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                        ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                        return arrayTablist.getTab(column, row).getScore();
+                    }
+                    return null;
+                })
+                .toArray(Number[]::new);
     }
 
     @Override

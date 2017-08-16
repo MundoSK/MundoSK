@@ -7,9 +7,12 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.TablistNew.Tab;
 import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import java.util.Arrays;
 
 /**
  * Created by Tlatoani on 11/25/16.
@@ -21,17 +24,15 @@ public class ExprTablistName extends SimpleExpression<String> {
     @Override
     protected String[] get(Event event) {
         Player object = objectExpression.getSingle(event);
-        Player[] players = playerExpression.getArray(event);
-        String[] names = new String[players.length];
-        for (int i = 0; i < players.length; i++) {
-            names[i] = TablistManager
-                    .getTablistOfPlayer(players[i])
-                    .getPlayerTablist()
-                    .flatMap(playerTablist -> playerTablist.getTab(object))
-                    .map(tab -> tab.getDisplayName())
-                    .orElse(null);
-        }
-        return names;
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .map(player -> TablistManager
+                        .getTablistOfPlayer(player)
+                        .getPlayerTablist()
+                        .flatMap(playerTablist -> playerTablist.getTab(object))
+                        .map(Tab::getDisplayName)
+                        .orElse(null))
+                .toArray(String[]::new);
     }
 
     @Override

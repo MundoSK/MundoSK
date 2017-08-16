@@ -18,9 +18,9 @@ public class EvtBorderStabilize extends SkriptEvent {
 
 	@Override
 	public boolean check(Event arg0) {
-		if (arg0 instanceof UtilBorderStabilizeEvent) {
+		if (arg0 instanceof BorderStabilizeEvent) {
 			if (border != null) {
-				if (((UtilBorderStabilizeEvent) arg0).getWorld() == border.getSingle()) return true;
+				if (((BorderStabilizeEvent) arg0).getWorld() == border.getSingle()) return true;
 				else return false;
 			} else 
 			return true;

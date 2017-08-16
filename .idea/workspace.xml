@@ -7,8 +7,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/UtilBorderManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderManager.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/UtilBorderStabilizeEvent.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/BorderStabilizeEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscBukkit/ExprRemainingAir.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscBukkit/ExprRemainingAir.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprDisplayNameOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprDisplayNameOfTab.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprIconOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprIconOfTab.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprLatencyOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprLatencyOfTab.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprScoreOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprScoreOfTab.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprSizeOfTabList.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprSizeOfTabList.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/ExprScoresEnabled.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/ExprScoresEnabled.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayerIsVisible.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayerIsVisible.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayersAreVisible.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayersAreVisible.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistName.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistName.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistScore.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistScore.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprDisplayNameOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprDisplayNameOfTab.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprIconOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprIconOfTab.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprLatencyOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprLatencyOfTab.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprScoreOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprScoreOfTab.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EvtBorderStabilize.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EvtBorderStabilize.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprFinalSizeOfBorder.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprFinalSizeOfBorder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprPropertyOfBorder.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprPropertyOfBorder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprSizeOfBorder.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprSizeOfBorder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprTimeRemainingUntilBorderStabilize.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprTimeRemainingUntilBorderStabilize.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ExpressionConstraints.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ExpressionConstraints.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,28 +55,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ExprJSONObjectOfPacket.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java">
+      <file leaf-file-name="ExprDisplayNameOfTab.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprDisplayNameOfTab.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4785">
-              <caret line="420" column="55" lean-forward="true" selection-start-line="420" selection-start-column="55" selection-end-line="420" selection-end-column="55" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="240">
+              <caret line="28" column="21" lean-forward="true" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayerTablist.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/PlayerTablist.java">
+      <file leaf-file-name="ExprIconOfTab.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprIconOfTab.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="128" column="44" lean-forward="true" selection-start-line="128" selection-start-column="44" selection-end-line="128" selection-end-column="44" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#4752#4753#0" expanded="true" />
-                <element signature="e#4809#4810#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="332">
+              <caret line="40" column="42" lean-forward="true" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WorldBorderMundo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="35" column="30" lean-forward="false" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -60,6 +90,70 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
               <caret line="3" column="24" lean-forward="false" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EffChangeBorderSize.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="840">
+              <caret line="66" column="16" lean-forward="false" selection-start-line="66" selection-start-column="16" selection-end-line="66" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExprLatencyOfTab.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprLatencyOfTab.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="29" column="32" lean-forward="true" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExprScoreOfTab.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprScoreOfTab.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="40" column="13" lean-forward="true" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExprSizeOfTabList.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprSizeOfTabList.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="25" column="21" lean-forward="true" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExprPropertyOfBorder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprPropertyOfBorder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="33" column="28" lean-forward="false" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExprSizeOfBorder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprSizeOfBorder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -152,23 +246,14 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ModifiableSyntaxElementInfo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/UtilSyntaxRegistration.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ReflectiveRegistration.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldLoader/WorldLoader.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/JSON/ExprStringAsJson.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/JSON/ExprStringAsJson.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/NoteBlock/NoteBlockMundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscMundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistContainsPlayers.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/EffSetArrayTablist.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/ExprScoresEnabled.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayerIsVisible.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Tablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoUtil.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistName.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistScore.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/TablistMundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistMundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/EffCreateNewTab.java" />
@@ -176,20 +261,10 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MathUtil.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/EffEnableArrayTablist.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayersAreVisible.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprLatencyOfTab.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprScoreOfTab.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprDisplayNameOfTab.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprIconOfTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/EffRemoveAllIDTabs.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/EffClearPlayerModifications.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/SimpleTablist.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprDisplayNameOfTab.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprIconOfTab.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprLatencyOfTab.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprScoreOfTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprSizeOfTabList.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/EffChangePlayerVisibility.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ArrayTablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketUtil.java" />
@@ -202,6 +277,25 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/TablistManager.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/PlayerTablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ExpressionConstraints.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/ExprScoresEnabled.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayerIsVisible.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayersAreVisible.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistName.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprDisplayNameOfTab.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistScore.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprDisplayNameOfTab.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprIconOfTab.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprLatencyOfTab.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprScoreOfTab.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprIconOfTab.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprLatencyOfTab.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprScoreOfTab.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprSizeOfTabList.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprPropertyOfBorder.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -301,7 +395,51 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="ZExperimental" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tlatoani" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="WorldCreator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tlatoani" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WorldBorder" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -371,7 +509,59 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Simple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tlatoani" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TablistNew" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Player" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MundoSK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tlatoani" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TablistNew" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Array" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -749,74 +939,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/NoteBlock/ExprNoteOfBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="43" column="61" lean-forward="true" selection-start-line="43" selection-start-column="61" selection-end-line="43" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/Transformer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="617">
-          <caret line="46" column="32" lean-forward="false" selection-start-line="46" selection-start-column="32" selection-end-line="46" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/ListUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/ExprTablist.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="51" column="20" lean-forward="true" selection-start-line="51" selection-start-column="20" selection-end-line="51" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="66" column="45" lean-forward="true" selection-start-line="66" selection-start-column="45" selection-end-line="66" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/TablistMundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="21" column="33" lean-forward="false" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/EffDeleteTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="19" column="13" lean-forward="true" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/EffCreateNewTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="36" column="76" lean-forward="false" selection-start-line="36" selection-start-column="76" selection-end-line="36" selection-end-column="76" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="600">
@@ -833,81 +955,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayersAreVisible.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="31" column="42" lean-forward="false" selection-start-line="31" selection-start-column="42" selection-end-line="31" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayerIsVisible.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="28" lean-forward="false" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprLatencyOfTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="64" lean-forward="true" selection-start-line="16" selection-start-column="64" selection-end-line="16" selection-end-column="64" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1566#1567#0" expanded="false" />
-            <element signature="e#1601#1602#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprScoreOfTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="41" column="42" lean-forward="false" selection-start-line="41" selection-start-column="42" selection-end-line="41" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprIconOfTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprDisplayNameOfTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="39" column="42" lean-forward="false" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/EffEnableArrayTablist.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="780">
           <caret line="52" column="5" lean-forward="false" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/ExprScoresEnabled.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="29" column="42" lean-forward="false" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
-          <folding>
-            <element signature="e#922#923#0" expanded="false" />
-            <element signature="e#972#973#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -956,56 +1009,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprScoreOfTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="32" column="13" lean-forward="true" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprLatencyOfTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="31" column="55" lean-forward="false" selection-start-line="31" selection-start-column="55" selection-end-line="31" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprIconOfTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="503">
-          <caret line="67" column="40" lean-forward="false" selection-start-line="67" selection-start-column="16" selection-end-line="67" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprDisplayNameOfTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="60" column="37" lean-forward="true" selection-start-line="60" selection-start-column="37" selection-end-line="60" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistScore.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-148">
-          <caret line="13" column="35" lean-forward="true" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistName.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-73">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/SimpleTablist.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
@@ -1022,17 +1025,6 @@
         <state relative-caret-position="315">
           <caret line="21" column="31" lean-forward="true" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprSizeOfTabList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="62" column="48" lean-forward="true" selection-start-line="62" selection-start-column="48" selection-end-line="62" selection-end-column="48" />
-          <folding>
-            <element signature="e#1355#1356#0" expanded="false" />
-            <element signature="e#1405#1406#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1067,7 +1059,7 @@
         <state relative-caret-position="257">
           <caret line="42" column="24" lean-forward="true" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="24" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1189,8 +1181,200 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4785">
-          <caret line="420" column="55" lean-forward="true" selection-start-line="420" selection-start-column="55" selection-end-line="420" selection-end-column="55" />
+        <state relative-caret-position="375">
+          <caret line="130" column="31" lean-forward="false" selection-start-line="130" selection-start-column="31" selection-end-line="130" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilSyntax.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ExpressionConstraints.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="20" column="21" lean-forward="true" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistName.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="24" column="41" lean-forward="true" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprTablistScore.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="13" lean-forward="true" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayersAreVisible.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+          <folding>
+            <element signature="e#916#917#0" expanded="true" />
+            <element signature="e#966#967#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Player/ExprPlayerIsVisible.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="23" column="57" lean-forward="true" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/ExprScoresEnabled.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="20" column="42" lean-forward="true" selection-start-line="20" selection-start-column="42" selection-end-line="24" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="662">
+          <caret line="354" column="33" lean-forward="false" selection-start-line="354" selection-start-column="33" selection-end-line="354" selection-end-column="33" />
+          <folding>
+            <element signature="e#2451#2452#0" expanded="true" />
+            <element signature="e#2509#2510#0" expanded="true" />
+            <element signature="e#3172#3173#0" expanded="true" />
+            <element signature="e#3204#3205#0" expanded="true" />
+            <element signature="e#4023#4024#0" expanded="true" />
+            <element signature="e#4110#4111#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprDisplayNameOfTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="36" column="18" lean-forward="true" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprScoreOfTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="37" column="40" lean-forward="true" selection-start-line="37" selection-start-column="40" selection-end-line="37" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprLatencyOfTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="44" column="0" lean-forward="true" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Simple/ExprIconOfTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="36" column="32" lean-forward="true" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprDisplayNameOfTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="28" column="21" lean-forward="true" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprLatencyOfTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="29" column="32" lean-forward="true" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprDamageAmountOfBorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprIconOfTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="40" column="42" lean-forward="true" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprSizeOfBorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/ExprPropertyOfBorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="33" column="28" lean-forward="false" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/EffChangeBorderSize.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="66" column="16" lean-forward="false" selection-start-line="66" selection-start-column="16" selection-end-line="66" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WorldBorder/WorldBorderMundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="35" column="30" lean-forward="false" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprScoreOfTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="40" column="13" lean-forward="true" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/TablistNew/Array/ExprSizeOfTabList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="21" lean-forward="true" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

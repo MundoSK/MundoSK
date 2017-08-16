@@ -6,10 +6,13 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.TablistNew.Simple.SimpleTablist;
 import com.pie.tlatoani.TablistNew.Tablist;
 import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import java.util.Arrays;
 
 /**
  * Created by Tlatoani on 7/15/16.
@@ -23,16 +26,17 @@ public class ExprDisplayNameOfTab extends SimpleExpression<String> {
     protected String[] get(Event event) {
         int column = this.column.getSingle(event).intValue();
         int row = this.row.getSingle(event).intValue();
-        Player[] players = playerExpression.getArray(event);
-        String[] displayNames = new String[players.length];
-        for (int i = 0; i < players.length; i++) {
-            Tablist tablist = TablistManager.getTablistOfPlayer(players[i]);
-            if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
-                ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                displayNames[i] = arrayTablist.getTab(column, row).getDisplayName();
-            }
-        }
-        return displayNames;
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .map(player -> {
+                    Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                    if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                        ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                        return arrayTablist.getTab(column, row).getDisplayName();
+                    }
+                    return null;
+                })
+                .toArray(String[]::new);
     }
 
     @Override

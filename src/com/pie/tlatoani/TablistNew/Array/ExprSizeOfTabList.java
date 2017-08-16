@@ -12,6 +12,8 @@ import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.util.Arrays;
+
 /**
  * Created by Tlatoani on 7/23/16.
  */
@@ -21,16 +23,17 @@ public class ExprSizeOfTabList extends SimpleExpression<Number> {
 
     @Override
     protected Number[] get(Event event) {
-        Player[] players = playerExpression.getArray(event);
-        Number[] amounts = new Number[players.length];
-        for (int i = 0; i < players.length; i++) {
-            Tablist tablist = TablistManager.getTablistOfPlayer(players[i]);
-            if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
-                ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                amounts[i] = isColumns ? arrayTablist.getColumns() : arrayTablist.getRows();
-            }
-        }
-        return amounts;
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .map(player -> {
+                    Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                    if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                        ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                        return isColumns ? arrayTablist.getColumns() : arrayTablist.getRows();
+                    }
+                    return null;
+                })
+                .toArray(Number[]::new);
     }
 
     @Override

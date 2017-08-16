@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.pie.tlatoani.Util.MathUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Tlatoani on 3/24/17.
@@ -12,6 +13,8 @@ public abstract class SyntaxPiece {
     public final boolean containsVariables = containsVariables();
     public final int markLength = markLength();
     public final int expressionAmount = expressionAmount();
+
+    private SyntaxPiece() {}
 
     public abstract boolean containsVariables();
 
@@ -28,6 +31,8 @@ public abstract class SyntaxPiece {
     public abstract void setInformation(MarkSpecificInformation information, int mark, int prevExprAmount);
 
     public abstract String toString(int mark);
+
+    public abstract String toString();
 
     public static class MarkSpecificInformation {
         public final Map<String, Integer> exprIndexes = new HashMap<>();
@@ -83,6 +88,11 @@ public abstract class SyntaxPiece {
         public String toString(int mark) {
             return text;
         }
+
+        @Override
+        public String toString() {
+            return "Literal(\"" + text + "\")";
+        }
     }
 
     public static class Expression extends SyntaxPiece {
@@ -134,6 +144,11 @@ public abstract class SyntaxPiece {
         @Override
         public String toString(int mark) {
             return "%" + variable + "%";
+        }
+
+        @Override
+        public String toString() {
+            return "Expression(\"" + variable + "\", \"" + exprInfo + "\")";
         }
     }
 
@@ -244,6 +259,11 @@ public abstract class SyntaxPiece {
             int nextMark = mark >> markLength;
             return options.get(optionIndex).toString(nextMark);
         }
+
+        @Override
+        public String toString() {
+            return "Varying(" + options.stream().map(SyntaxPiece::toString).collect(Collectors.joining(", ")) + ")";
+        }
     }
 
     public static class Concatenation extends SyntaxPiece {
@@ -328,6 +348,11 @@ public abstract class SyntaxPiece {
                 mark >>= syntaxPiece.markLength;
             }
             return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Concatenation(" + pieces.stream().map(SyntaxPiece::toString).collect(Collectors.joining(", ")) + ")";
         }
     }
 

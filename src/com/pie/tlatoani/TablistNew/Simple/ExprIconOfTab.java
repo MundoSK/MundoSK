@@ -7,11 +7,13 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Skin.Skin;
+import com.pie.tlatoani.TablistNew.Tab;
 import com.pie.tlatoani.TablistNew.Tablist;
 import com.pie.tlatoani.TablistNew.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -24,16 +26,17 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
     @Override
     protected Skin[] get(Event event) {
         String id = this.id.getSingle(event);
-        Player[] players = playerExpression.getArray(event);
-        Skin[] icons = new Skin[players.length];
-        for (int i = 0; i < players.length; i++) {
-            Tablist tablist = TablistManager.getTablistOfPlayer(players[i]);
-            if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
-                SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
-                icons[i] = simpleTablist.getTab(id).map(tab -> tab.getIcon()).orElse(null);
-            }
-        }
-        return icons;
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .map(player -> {
+                    Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                    if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
+                        SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
+                        return simpleTablist.getTab(id).map(Tab::getIcon).orElse(null);
+                    }
+                    return null;
+                })
+                .toArray(Skin[]::new);
     }
 
     @Override

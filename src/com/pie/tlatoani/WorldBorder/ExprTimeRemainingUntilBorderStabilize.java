@@ -40,7 +40,7 @@ public class ExprTimeRemainingUntilBorderStabilize extends SimpleExpression<Time
 	@Override
 	@Nullable
 	protected Timespan[] get(Event arg0) {
-		Double result = UtilBorderManager.getRemainingTime(border.getSingle(arg0));
+		Double result = BorderManager.getRemainingTime(border.getSingle(arg0));
 		if (result == null) result = 0.0;
 		return new Timespan[]{new Timespan(result.longValue()*1000)};
 	}
