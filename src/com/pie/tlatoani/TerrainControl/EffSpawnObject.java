@@ -34,28 +34,28 @@ public class EffSpawnObject extends Effect{
 	}
 
 	@Override
-	protected void execute(Event arg0) {
-		int x = loc.getSingle(arg0).getBlockX();
-		int y = loc.getSingle(arg0).getBlockY();
-		int z = loc.getSingle(arg0).getBlockZ();
+	protected void execute(Event event) {
+		int x = loc.getSingle(event).getBlockX();
+		int y = loc.getSingle(event).getBlockY();
+		int z = loc.getSingle(event).getBlockZ();
 		Rotation r = null;
-		if (rotation.getSingle(arg0).equalsIgnoreCase("NORTH")) {
+		if (rotation.getSingle(event).equalsIgnoreCase("NORTH")) {
 			r = Rotation.NORTH;
 		}
-		if (rotation.getSingle(arg0).equalsIgnoreCase("EAST")) {
+		if (rotation.getSingle(event).equalsIgnoreCase("EAST")) {
 			r = Rotation.EAST;
 		}
-		if (rotation.getSingle(arg0).equalsIgnoreCase("SOUTH")) {
+		if (rotation.getSingle(event).equalsIgnoreCase("SOUTH")) {
 			r = Rotation.SOUTH;
 		}
-		if (rotation.getSingle(arg0).equalsIgnoreCase("WEST")) {
+		if (rotation.getSingle(event).equalsIgnoreCase("WEST")) {
 			r = Rotation.WEST;
 		}
-		String s = loc.getSingle(arg0).getWorld().getName();
+		String s = loc.getSingle(event).getWorld().getName();
 		LocalWorld w = TerrainControl.getWorld(s);
-		Random u = new Random(loc.getSingle(arg0).getWorld().getSeed());
+		Random u = new Random(loc.getSingle(event).getWorld().getSeed());
 		CustomObjectCollection c = new CustomObjectCollection();
-		CustomObject o = c.getObjectByName(object.getSingle(arg0));
+		CustomObject o = c.getObjectByName(object.getSingle(event));
 		o.spawnForced(w, u, r, x, y, z);
 		
 		

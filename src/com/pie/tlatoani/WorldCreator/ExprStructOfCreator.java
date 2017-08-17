@@ -38,20 +38,20 @@ public class ExprStructOfCreator extends SimpleExpression<Boolean>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected Boolean[] get(Event arg0) {
-		return new Boolean[]{creator.getSingle(arg0).generateStructures()};
+	protected Boolean[] get(Event event) {
+		return new Boolean[]{creator.getSingle(event).generateStructures()};
 	}
 	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			creator.getSingle(arg0).generateStructures((Boolean)delta[0]);
+			creator.getSingle(event).generateStructures((Boolean)delta[0]);
 		}
 	}
 	

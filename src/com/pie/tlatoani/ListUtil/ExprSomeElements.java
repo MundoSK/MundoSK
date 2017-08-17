@@ -70,11 +70,11 @@ public class ExprSomeElements extends SimpleExpression<Object> implements EffMov
             }
             secondarray = neworiginal;
         }
-        Object[] result = new Object[secondarray.length + insertion.length];
+        Object[] result = transformer.createArray(secondarray.length + insertion.length);
         System.arraycopy(secondarray, 0, result, 0, index);
         System.arraycopy(insertion, 0, result, index, insertion.length);
         System.arraycopy(secondarray, index, result, index + insertion.length, secondarray.length - index);
-        transformer.setSafely(event, result);
+        transformer.set(event, result);
     }
 
     public Boolean isMoveable() {
@@ -119,21 +119,23 @@ public class ExprSomeElements extends SimpleExpression<Object> implements EffMov
         Object[] original = transformer.get(event);
         if (index1 > index2 || index2 >= original.length || index1 < 0) {
         } else if (mode == Changer.ChangeMode.SET) {
-            Object[] finalarray = new Object[original.length + delta.length + index1 - index2 - 1];
+            Object[] finalarray = transformer.createArray(original.length + delta.length + index1 - index2 - 1);
             System.arraycopy(original, 0, finalarray, 0, index1);
             System.arraycopy(delta, 0, finalarray, index1, delta.length);
             System.arraycopy(original, index2 + 1, finalarray, index1 + delta.length, original.length - index2 - 1);
-            transformer.setSafely(event, finalarray);
+            transformer.set(event, finalarray);
         } else if (mode == Changer.ChangeMode.DELETE) {
-            Object[] finalarray = new Object[original.length + index1 - index2 - 1];
+            Object[] finalarray = transformer.createArray(original.length + index1 - index2 - 1);
             System.arraycopy(original, 0, finalarray, 0, index1);
             System.arraycopy(original, index2 + 1, finalarray, index1, original.length - index2 - 1);
-            transformer.setSafely(event, finalarray);
+            transformer.set(event, finalarray);
         } else if (mode == Changer.ChangeMode.RESET) {
+            Object[] finalArray = transformer.createArray(original.length);
+            System.arraycopy(original, 0, finalArray, 0, original.length);
             for (int i = index1; i <= index2; i++) {
-                original[i] = ((Transformer.Resettable) transformer).reset();
+                finalArray[i] = ((Transformer.Resettable) transformer).reset();
             }
-            transformer.setSafely(event, original);
+            transformer.set(event, finalArray);
         }
     }
 

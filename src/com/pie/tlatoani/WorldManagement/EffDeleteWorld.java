@@ -34,9 +34,9 @@ public class EffDeleteWorld extends Effect{
 	}
 
 	@Override
-	protected void execute(Event arg0) {
-		File f = world.getSingle(arg0).getWorldFolder();
-		Bukkit.getServer().unloadWorld(world.getSingle(arg0), true);
+	protected void execute(Event event) {
+		File f = world.getSingle(event).getWorldFolder();
+		Bukkit.getServer().unloadWorld(world.getSingle(event), true);
 		try {
 			org.apache.commons.io.FileUtils.deleteDirectory(f);
 		} catch (IOException e) {

@@ -44,15 +44,15 @@ public class ExprEnchantsInEnchBook extends SimpleExpression<EnchantmentType>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected EnchantmentType[] get(Event arg0) {
-		ItemStack input = book.getSingle(arg0);
+	protected EnchantmentType[] get(Event event) {
+		ItemStack input = book.getSingle(event);
 		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) input.getItemMeta();
 		Map<Enchantment, Integer> map = meta.getStoredEnchants();
 		final List<EnchantmentType> l = new ArrayList<EnchantmentType>();
@@ -62,8 +62,8 @@ public class ExprEnchantsInEnchBook extends SimpleExpression<EnchantmentType>{
 		return l.toArray((EnchantmentType[])new EnchantmentType[l.size()]);
 	}
 	
-	public Iterator<EnchantmentType> iterator(Event arg0) {
-		ItemStack input = book.getSingle(arg0);
+	public Iterator<EnchantmentType> iterator(Event event) {
+		ItemStack input = book.getSingle(event);
 		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) input.getItemMeta();
 		Map<Enchantment, Integer> map = meta.getStoredEnchants();
 		final List<EnchantmentType> l = new ArrayList<EnchantmentType>();
@@ -73,8 +73,8 @@ public class ExprEnchantsInEnchBook extends SimpleExpression<EnchantmentType>{
 		return l.iterator();
 	}
 	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
-		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getSingle(arg0).getItemMeta();
+	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
+		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getSingle(event).getItemMeta();
 		if (mode == ChangeMode.SET) {
 			Map<Enchantment, Integer> map = meta.getStoredEnchants();
 			for (Map.Entry<Enchantment, Integer> ansh : map.entrySet()) {
@@ -114,7 +114,7 @@ public class ExprEnchantsInEnchBook extends SimpleExpression<EnchantmentType>{
 				}
 			}
 		}
-		book.getSingle(arg0).setItemMeta(meta);
+		book.getSingle(event).setItemMeta(meta);
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -28,6 +28,8 @@ public abstract class SyntaxPiece {
 
     public abstract String actualSyntax(int prevMarkLength);
 
+    public abstract String originalSyntax();
+
     public abstract void setInformation(MarkSpecificInformation information, int mark, int prevExprAmount);
 
     public abstract String toString(int mark);
@@ -78,6 +80,11 @@ public abstract class SyntaxPiece {
 
         @Override
         public String actualSyntax(int prevMarkLength) {
+            return text;
+        }
+
+        @Override
+        public String originalSyntax() {
             return text;
         }
 
@@ -134,6 +141,11 @@ public abstract class SyntaxPiece {
         @Override
         public String actualSyntax(int prevMarkLength) {
             return "%" + exprInfo + "%";
+        }
+
+        @Override
+        public String originalSyntax() {
+            return "%" + variable + "=" + exprInfo + "%";
         }
 
         @Override
@@ -240,6 +252,17 @@ public abstract class SyntaxPiece {
         }
 
         @Override
+        public String originalSyntax() {
+            StringJoiner joiner = new StringJoiner("|", (isOptional ? "[" : "(") + variable.map(name -> name + "=").orElse(""), isOptional ? "]" : ")");
+            for (SyntaxPiece syntaxPiece : options) {
+                if (!syntaxPiece.equals(Literal.EMPTY)) {
+                    joiner.add(syntaxPiece.originalSyntax());
+                }
+            }
+            return joiner.toString();
+        }
+
+        @Override
         public void setInformation(MarkSpecificInformation information, int mark, int prevExprAmount) {
             int optionIndex = mark % (2 ^ markLength);
             int nextMark = mark >> markLength;
@@ -323,6 +346,15 @@ public abstract class SyntaxPiece {
             for (SyntaxPiece syntaxPiece : pieces) {
                 joiner.add(syntaxPiece.actualSyntax(prevMarkLength));
                 prevMarkLength += syntaxPiece.markLength;
+            }
+            return joiner.toString();
+        }
+
+        @Override
+        public String originalSyntax() {
+            StringJoiner joiner = new StringJoiner("");
+            for (SyntaxPiece syntaxPiece : pieces) {
+                joiner.add(syntaxPiece.originalSyntax());
             }
             return joiner.toString();
         }

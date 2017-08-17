@@ -33,12 +33,12 @@ public class EffUnloadWorld extends Effect{
 	}
 
 	@Override
-	protected void execute(Event arg0) {
+	protected void execute(Event event) {
 		Boolean boo = true;
 		if (save != null) {
-			boo = save.getSingle(arg0);
+			boo = save.getSingle(event);
 		}
-		Bukkit.getServer().unloadWorld(world.getSingle(arg0), boo);
+		Bukkit.getServer().unloadWorld(world.getSingle(event), boo);
 		
 		
 	}

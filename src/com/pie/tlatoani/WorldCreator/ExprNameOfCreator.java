@@ -35,15 +35,15 @@ public class ExprNameOfCreator extends SimpleExpression<String>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
-		return new String[]{creator.getSingle(arg0).name()};
+	protected String[] get(Event event) {
+		return new String[]{creator.getSingle(event).name()};
 	}
 
 }

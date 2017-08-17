@@ -46,7 +46,7 @@ public class ExprAllAutomaticCreators extends SimpleExpression<WorldCreator> {
         return true;
     }
 
-    public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+    public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         if (mode == Changer.ChangeMode.ADD) {
             WorldLoader.setCreator((WorldCreator) delta[0]);
         } else if (mode == Changer.ChangeMode.REMOVE) {

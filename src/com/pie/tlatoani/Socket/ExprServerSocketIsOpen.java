@@ -41,19 +41,19 @@ public class ExprServerSocketIsOpen extends SimpleExpression<Boolean>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
-	protected Boolean[] get(Event arg0) {
+	protected Boolean[] get(Event event) {
 		Boolean result = false;
 		try {
 			Socket attempt = new Socket();
 			Integer timeoutarg = 0;
-			if (timeout != null && timeout.getSingle(arg0).getMilliSeconds() <= Integer.MAX_VALUE) timeoutarg = (int) timeout.getSingle(arg0).getMilliSeconds();
-			attempt.connect(new InetSocketAddress(host.getSingle(arg0), port.getSingle(arg0).intValue()), timeoutarg);
+			if (timeout != null && timeout.getSingle(event).getMilliSeconds() <= Integer.MAX_VALUE) timeoutarg = (int) timeout.getSingle(event).getMilliSeconds();
+			attempt.connect(new InetSocketAddress(host.getSingle(event), port.getSingle(event).intValue()), timeoutarg);
 			attempt.close();
 			result = true;
 		} catch (Exception e) {}

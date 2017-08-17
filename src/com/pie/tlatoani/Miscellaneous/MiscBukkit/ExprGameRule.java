@@ -40,21 +40,21 @@ public class ExprGameRule extends SimpleExpression<String>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
+	protected String[] get(Event event) {
 		// TODO Auto-generated method stub
-		return new String[]{world.getSingle(arg0).getGameRuleValue(rule.getSingle(arg0))};
+		return new String[]{world.getSingle(event).getGameRuleValue(rule.getSingle(event))};
 	}
 	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			world.getSingle(arg0).setGameRuleValue(rule.getSingle(arg0), (String)delta[0]);
+			world.getSingle(event).setGameRuleValue(rule.getSingle(event), (String)delta[0]);
 		}
 	}
 	

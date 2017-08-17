@@ -34,16 +34,16 @@ public class ExprBiomeAt extends SimpleExpression<String>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "tc biome at " + loc;
 	}
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
-		int x = loc.getSingle(arg0).getBlockX();
-		int z = loc.getSingle(arg0).getBlockZ();
-		String w = loc.getSingle(arg0).getWorld().getName();
+	protected String[] get(Event event) {
+		int x = loc.getSingle(event).getBlockX();
+		int z = loc.getSingle(event).getBlockZ();
+		String w = loc.getSingle(event).getWorld().getName();
 		return new String[]{TerrainControl.getBiomeName(w, x, z)};
 	}
 

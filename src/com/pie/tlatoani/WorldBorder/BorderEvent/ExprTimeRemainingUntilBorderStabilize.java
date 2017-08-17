@@ -28,7 +28,7 @@ public class ExprTimeRemainingUntilBorderStabilize extends SimpleExpression<Time
 	}
 
 	@Override
-	public String toString(Event arg0, boolean arg1) {
+	public String toString(Event event, boolean arg1) {
 		return "remaining time until border stabilize in " + worldExpression;
 	}
 

@@ -35,14 +35,14 @@ public class ExprWorldString extends SimpleExpression<World>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "world %string%";
 	}
 
 	@Override
 	@Nullable
-	protected World[] get(Event arg0) {
-		return new World[]{Bukkit.getWorld(world.getSingle(arg0))};
+	protected World[] get(Event event) {
+		return new World[]{Bukkit.getWorld(world.getSingle(event))};
 	}
 
 }

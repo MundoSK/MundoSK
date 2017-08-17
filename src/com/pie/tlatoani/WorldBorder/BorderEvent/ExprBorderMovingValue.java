@@ -50,7 +50,7 @@ public class ExprBorderMovingValue extends SimpleExpression<Number>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return type.syntax + " of " + worldExpression;
 	}
 

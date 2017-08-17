@@ -32,18 +32,18 @@ public class ExprStackTrace extends SimpleExpression<StackTraceElement>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "stack trace of " + thr;
 	}
 
 	@Override
 	@Nullable
-	protected StackTraceElement[] get(Event arg0) {
-		return thr.getSingle(arg0).getStackTrace();
+	protected StackTraceElement[] get(Event event) {
+		return thr.getSingle(event).getStackTrace();
 	}
 	
-	public Iterator<StackTraceElement> iterator(Event arg0) {
-		return Arrays.asList(thr.getSingle(arg0).getStackTrace()).iterator();
+	public Iterator<StackTraceElement> iterator(Event event) {
+		return Arrays.asList(thr.getSingle(event).getStackTrace()).iterator();
 	}
 
 }

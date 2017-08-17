@@ -30,14 +30,14 @@ public class ExprCause extends SimpleExpression<Throwable>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "thrwoable cause of " + thr;
 	}
 
 	@Override
 	@Nullable
-	protected Throwable[] get(Event arg0) {
-		return new Throwable[]{thr.getSingle(arg0).getCause()};
+	protected Throwable[] get(Event event) {
+		return new Throwable[]{thr.getSingle(event).getCause()};
 	}
 
 }

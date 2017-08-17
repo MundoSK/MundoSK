@@ -40,15 +40,15 @@ public class ExprGenOfCreator extends SimpleExpression<String>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "generator of " + creator;
 	}
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
-		ChunkGenerator generator = creator.getSingle(arg0).generator();
+	protected String[] get(Event event) {
+		ChunkGenerator generator = creator.getSingle(event).generator();
 		String result = null;
 		if (generator instanceof ChunkGeneratorWithID) {
 			result = ((ChunkGeneratorWithID) generator).id;
@@ -56,9 +56,9 @@ public class ExprGenOfCreator extends SimpleExpression<String>{
 		return new String[]{result};
 	}
 	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			creator.getSingle(arg0).generator(ChunkGeneratorWithID.getGenerator((String)delta[0]));
+			creator.getSingle(event).generator(ChunkGeneratorWithID.getGenerator((String)delta[0]));
 		}
 	}
 	

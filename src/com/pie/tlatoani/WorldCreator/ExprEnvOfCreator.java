@@ -39,20 +39,20 @@ public class ExprEnvOfCreator extends SimpleExpression<Environment>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected Environment[] get(Event arg0) {
-		return new Environment[]{creator.getSingle(arg0).environment()};
+	protected Environment[] get(Event event) {
+		return new Environment[]{creator.getSingle(event).environment()};
 	}
 	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			creator.getSingle(arg0).environment((Environment)delta[0]);
+			creator.getSingle(event).environment((Environment)delta[0]);
 		}
 	}
 	

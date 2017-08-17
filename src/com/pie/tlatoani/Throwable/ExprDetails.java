@@ -30,14 +30,14 @@ public class ExprDetails extends SimpleExpression<String>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "details of " + thr;
 	}
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
-		return new String[]{thr.getSingle(arg0).getMessage()};
+	protected String[] get(Event event) {
+		return new String[]{thr.getSingle(event).getMessage()};
 	}
 
 }

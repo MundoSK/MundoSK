@@ -41,19 +41,19 @@ public class ExprRemainingAir extends SimpleExpression<Timespan> {
     }
 
     @Override
-    public String toString(@Nullable Event arg0, boolean arg1) {
+    public String toString(@Nullable Event event, boolean arg1) {
         // TODO Auto-generated method stub
         return "remaining air";
     }
 
     @Override
     @Nullable
-    protected Timespan[] get(Event arg0) {
-        return new Timespan[]{!max ? new Timespan(entity.getSingle(arg0).getRemainingAir() * 50) : new Timespan(entity.getSingle(arg0).getMaximumAir() * 50)};
+    protected Timespan[] get(Event event) {
+        return new Timespan[]{!max ? new Timespan(entity.getSingle(event).getRemainingAir() * 50) : new Timespan(entity.getSingle(event).getMaximumAir() * 50)};
     }
 
-    public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
-        LivingEntity living = entity.getSingle(arg0);
+    public void change(Event event, Object[] delta, Changer.ChangeMode mode){
+        LivingEntity living = entity.getSingle(event);
         Integer time = (new Long(((Timespan)delta[0]).getMilliSeconds())).intValue() / 50;
         if (!max) {
             if (mode == Changer.ChangeMode.SET){

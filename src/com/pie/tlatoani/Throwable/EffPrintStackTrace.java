@@ -25,8 +25,8 @@ public class EffPrintStackTrace extends Effect{
 	}
 
 	@Override
-	protected void execute(Event arg0) {
-		thr.getSingle(arg0).printStackTrace();
+	protected void execute(Event event) {
+		thr.getSingle(event).printStackTrace();
 	}
 
 }

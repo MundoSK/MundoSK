@@ -37,15 +37,15 @@ public class ExprCreatorNamed extends SimpleExpression<WorldCreator>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected WorldCreator[] get(Event arg0) {
-		String b = name.getSingle(arg0);
+	protected WorldCreator[] get(Event event) {
+		String b = name.getSingle(event);
 		WorldCreator x = new WorldCreator(b);
 		return new WorldCreator[]{x};
 	}

@@ -11,7 +11,7 @@ public class EvtBorderStabilize extends SkriptEvent {
 	private Literal<World> worldLiteral;
 
 	@Override
-	public String toString(Event arg0, boolean arg1) {
+	public String toString(Event event, boolean arg1) {
 		return "border stabilize" + (worldLiteral == null ? "" : " in " + worldLiteral);
 	}
 

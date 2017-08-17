@@ -14,15 +14,15 @@ public class EvtAchAward extends SkriptEvent {
 	private Literal<Achievement> ach;
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "border stabilize";
 	}
 
 	@Override
-	public boolean check(Event arg0) {
-		if (arg0 instanceof PlayerAchievementAwardedEvent) {
+	public boolean check(Event event) {
+		if (event instanceof PlayerAchievementAwardedEvent) {
 			if (ach != null) {
-				if (((PlayerAchievementAwardedEvent) arg0).getAchievement() == ach.getSingle()) return true;
+				if (((PlayerAchievementAwardedEvent) event).getAchievement() == ach.getSingle()) return true;
 				else return false;
 			} else return true;
 		} else return false;

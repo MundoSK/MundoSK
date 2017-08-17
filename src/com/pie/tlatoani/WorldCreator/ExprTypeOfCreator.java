@@ -39,20 +39,20 @@ public class ExprTypeOfCreator extends SimpleExpression<WorldType>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected WorldType[] get(Event arg0) {
-		return new WorldType[]{creator.getSingle(arg0).type()};
+	protected WorldType[] get(Event event) {
+		return new WorldType[]{creator.getSingle(event).type()};
 	}
 	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			creator.getSingle(arg0).type((WorldType)delta[0]);
+			creator.getSingle(event).type((WorldType)delta[0]);
 		}
 	}
 	

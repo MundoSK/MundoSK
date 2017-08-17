@@ -49,18 +49,18 @@ public class ExprCreatorWith extends SimpleExpression<WorldCreator>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected WorldCreator[] get(Event arg0) {
-		WorldCreator oldCreator = creator.getSingle(arg0);
+	protected WorldCreator[] get(Event event) {
+		WorldCreator oldCreator = creator.getSingle(event);
 		String worldName = oldCreator.name();
 		if (name != null) {
-			worldName = name.getSingle(arg0);
+			worldName = name.getSingle(event);
 		}
 		WorldCreator newCreator = new WorldCreator(worldName);
 		newCreator.environment(oldCreator.environment());
@@ -69,15 +69,15 @@ public class ExprCreatorWith extends SimpleExpression<WorldCreator>{
 		newCreator.generatorSettings(oldCreator.generatorSettings());
 		newCreator.generateStructures(oldCreator.generateStructures());
 		if (seed != null) {
-			if (seed.getSingle(arg0).length() > 0) newCreator.seed(Long.parseLong(seed.getSingle(arg0)));
+			if (seed.getSingle(event).length() > 0) newCreator.seed(Long.parseLong(seed.getSingle(event)));
 		} else newCreator.seed(oldCreator.seed());
 		if (gen != null)  {
-			newCreator.generator(ChunkGeneratorWithID.getGenerator(gen.getSingle(arg0)));
+			newCreator.generator(ChunkGeneratorWithID.getGenerator(gen.getSingle(event)));
 		}
-		if (genset != null) newCreator.generatorSettings(genset.getSingle(arg0));
-		if (struct != null) newCreator.generateStructures(struct.getSingle(arg0));
-		if (env != null) newCreator.environment(env.getSingle(arg0));
-		if (type != null) newCreator.type(type.getSingle(arg0));
+		if (genset != null) newCreator.generatorSettings(genset.getSingle(event));
+		if (struct != null) newCreator.generateStructures(struct.getSingle(event));
+		if (env != null) newCreator.environment(env.getSingle(event));
+		if (type != null) newCreator.type(type.getSingle(event));
 		return new WorldCreator[]{newCreator};
 	}
 

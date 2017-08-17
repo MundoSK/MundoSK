@@ -31,7 +31,7 @@ public class CondBeyondBorder extends SimpleExpression<Boolean>{
 	}
 
 	@Override
-	public String toString(Event arg0, boolean arg1) {
+	public String toString(Event event, boolean arg1) {
 		return locationExpression + " is " + (within ? "within" : "beyond") + " border";
 	}
 

@@ -36,20 +36,20 @@ public class EffDuplicateWorld extends Effect{
 	}
 
 	@Override
-	protected void execute(Event arg0) {
-		new File(name.getSingle(arg0)).mkdir();
-		File t = world.getSingle(arg0).getWorldFolder();
-		File d = new File(name.getSingle(arg0));
+	protected void execute(Event event) {
+		new File(name.getSingle(event)).mkdir();
+		File t = world.getSingle(event).getWorldFolder();
+		File d = new File(name.getSingle(event));
 		try {
 			org.apache.commons.io.FileUtils.copyDirectory(t, d);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		WorldCreator c = new WorldCreator(name.getSingle(arg0));
-		File x = new File(name.getSingle(arg0) + "/uid.dat");
+		WorldCreator c = new WorldCreator(name.getSingle(event));
+		File x = new File(name.getSingle(event) + "/uid.dat");
 		x.delete();
-		c.copy(world.getSingle(arg0));
+		c.copy(world.getSingle(event));
 		c.createWorld();
 		
 		

@@ -38,20 +38,20 @@ public class ExprSeedOfCreator extends SimpleExpression<String>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
-		return new String[]{Long.toString(creator.getSingle(arg0).seed())};
+	protected String[] get(Event event) {
+		return new String[]{Long.toString(creator.getSingle(event).seed())};
 	}
 	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			creator.getSingle(arg0).seed(Long.parseLong((String)delta[0]));
+			creator.getSingle(event).seed(Long.parseLong((String)delta[0]));
 		}
 	}
 	

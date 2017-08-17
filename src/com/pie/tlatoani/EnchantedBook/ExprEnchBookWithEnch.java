@@ -37,24 +37,24 @@ public class ExprEnchBookWithEnch extends SimpleExpression<ItemStack>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected ItemStack[] get(Event arg0) {
-		ItemStack input = book.getSingle(arg0);
+	protected ItemStack[] get(Event event) {
+		ItemStack input = book.getSingle(event);
 		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) input.getItemMeta();
-		final EnchantmentType[] enchs = enchants.getArray(arg0);
+		final EnchantmentType[] enchs = enchants.getArray(event);
 		for (final EnchantmentType ench : enchs) {
 			if (meta.hasStoredEnchant(ench.getType())) {
 				meta.removeEnchant(ench.getType());
 			}
 			meta.addStoredEnchant(ench.getType(), ench.getLevel(), true);
 		}
-		ItemStack result = book.getSingle(arg0);
+		ItemStack result = book.getSingle(event);
 		result.setItemMeta(meta);
 		return new ItemStack[]{result};
 	}

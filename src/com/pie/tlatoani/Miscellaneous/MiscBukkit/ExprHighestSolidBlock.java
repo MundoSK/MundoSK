@@ -37,16 +37,16 @@ public class ExprHighestSolidBlock extends SimpleExpression<Block>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected Block[] get(Event arg0) {
-		World w = loc.getSingle(arg0).getWorld();
-		Block b = w.getHighestBlockAt(loc.getSingle(arg0));
+	protected Block[] get(Event event) {
+		World w = loc.getSingle(event).getWorld();
+		Block b = w.getHighestBlockAt(loc.getSingle(event));
 		return new Block[]{b};
 	}
 

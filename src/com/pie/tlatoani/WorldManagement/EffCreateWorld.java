@@ -23,18 +23,18 @@ public class EffCreateWorld extends Effect {
     private Expression<Boolean> struct;
 
     @Override
-    protected void execute(Event arg0) {
-        String z = name.getSingle(arg0);
+    protected void execute(Event event) {
+        String z = name.getSingle(event);
         WorldCreator x = new WorldCreator(z);
         x.generateStructures(true);
-        if (seed != null && seed.getSingle(arg0).length() > 0) {
-            x.seed(Long.parseLong(seed.getSingle(arg0)));
+        if (seed != null && seed.getSingle(event).length() > 0) {
+            x.seed(Long.parseLong(seed.getSingle(event)));
         }
-        if (gen != null) x.generator(ChunkGeneratorWithID.getGenerator(gen.getSingle(arg0)));
-        if (genset != null) x.generatorSettings(genset.getSingle(arg0));
-        if (struct != null) x.generateStructures(struct.getSingle(arg0));
-        if (env != null) x.environment(env.getSingle(arg0));
-        if (type != null) x.type(type.getSingle(arg0));
+        if (gen != null) x.generator(ChunkGeneratorWithID.getGenerator(gen.getSingle(event)));
+        if (genset != null) x.generatorSettings(genset.getSingle(event));
+        if (struct != null) x.generateStructures(struct.getSingle(event));
+        if (env != null) x.environment(env.getSingle(event));
+        if (type != null) x.type(type.getSingle(event));
         x.createWorld();
     }
 

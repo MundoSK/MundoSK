@@ -32,7 +32,7 @@ public class ExprPropertyNameOfSTE extends SimpleExpression<String>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		String property;
 		switch (mark) {
             case 0: property = "class"; break;
@@ -45,9 +45,9 @@ public class ExprPropertyNameOfSTE extends SimpleExpression<String>{
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
+	protected String[] get(Event event) {
 		String result = null;
-		StackTraceElement elem = ste.getSingle(arg0);
+		StackTraceElement elem = ste.getSingle(event);
 		if (mark == 0) result = elem.getClassName();
 		if (mark == 1) result = elem.getFileName();
 		if (mark == 2) result = elem.getMethodName();

@@ -33,8 +33,8 @@ public class EffRemoveAch extends Effect{
 	}
 
 	@Override
-	protected void execute(Event arg0) {
-		player.getSingle(arg0).removeAchievement(ach.getSingle(arg0));
+	protected void execute(Event event) {
+		player.getSingle(event).removeAchievement(ach.getSingle(event));
 		
 		
 	}

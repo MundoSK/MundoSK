@@ -30,14 +30,14 @@ public class ExprLineNumberOfSTE extends SimpleExpression<Integer>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "line number of " + ste;
 	}
 
 	@Override
 	@Nullable
-	protected Integer[] get(Event arg0) {
-		return new Integer[]{ste.getSingle(arg0).getLineNumber()};
+	protected Integer[] get(Event event) {
+		return new Integer[]{ste.getSingle(event).getLineNumber()};
 	}
 
 }

@@ -63,8 +63,8 @@ public class ExprElementCount extends SimpleExpression<Number> {
         return true;
     }
 
-    public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
-        Object[] original = transformer.get(arg0);
+    public void change(Event event, Object[] delta, Changer.ChangeMode mode){
+        Object[] original = transformer.get(event);
         Integer newcount = 0;
         if (mode == Changer.ChangeMode.SET) {
             newcount = ((Number) delta[0]).intValue();
@@ -75,7 +75,7 @@ public class ExprElementCount extends SimpleExpression<Number> {
         } if (newcount < 0) {
             newcount = 0;
         }
-        Object[] finalarray = new Object[newcount];
+        Object[] finalarray = transformer.createArray(newcount);
         if (newcount <= original.length) {
             System.arraycopy(original, 0, finalarray, 0, newcount);
         } else {
@@ -90,7 +90,7 @@ public class ExprElementCount extends SimpleExpression<Number> {
                 }
             }
         }
-        transformer.setSafely(arg0, finalarray);
+        transformer.set(event, finalarray);
     }
 
     @SuppressWarnings("unchecked")

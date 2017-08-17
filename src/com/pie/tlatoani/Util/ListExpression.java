@@ -1,4 +1,4 @@
-package com.pie.tlatoani.ListUtil;
+package com.pie.tlatoani.Util;
 
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
@@ -57,31 +57,31 @@ public abstract class ListExpression<T> extends SimpleExpression<T> {
         set(event, result);
     }
 
-    public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+    public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         if (mode == Changer.ChangeMode.SET) {
-            setSafely(arg0, delta);
+            setSafely(event, delta);
         } else if (mode == Changer.ChangeMode.ADD) {
-            Object[] original = get(arg0);
+            Object[] original = get(event);
             Object[] sum = new Object[original.length + delta.length];
             System.arraycopy(original, 0, sum, 0, original.length);
             System.arraycopy(delta, 0, sum, original.length, delta.length);
-            setSafely(arg0, sum);
+            setSafely(event, sum);
         } else if (mode == Changer.ChangeMode.DELETE) {
-            setSafely(arg0, new Object[0]);
+            setSafely(event, new Object[0]);
         } else if (mode == Changer.ChangeMode.RESET) {
-            Object[] original = get(arg0);
+            Object[] original = get(event);
             for (int i = 0; i < original.length; i++) {
                 original[i] = getResettedValue();
             }
-            setSafely(arg0, original);
+            setSafely(event, original);
         } else if (mode == Changer.ChangeMode.REMOVE) {
-            List original = new ArrayList(Arrays.asList(get(arg0)));
+            List original = new ArrayList(Arrays.asList(get(event)));
             for (int i = 0; i < delta.length; i++) {
                 original.remove(delta[i]);
             }
-            setSafely(arg0, original.toArray());
+            setSafely(event, original.toArray());
         } else if (mode == Changer.ChangeMode.REMOVE_ALL) {
-            Object[] original = get(arg0);
+            Object[] original = get(event);
             Object[] without = new Object[original.length];
             Integer amountremoved = 0;
             for (int i = 0; i < original.length; i++) {
@@ -99,7 +99,7 @@ public abstract class ListExpression<T> extends SimpleExpression<T> {
             }
             Object[] result = new Object[original.length - amountremoved];
             System.arraycopy(without, 0, result, 0, original.length - amountremoved);
-            setSafely(arg0, result);
+            setSafely(event, result);
         }
     }
 

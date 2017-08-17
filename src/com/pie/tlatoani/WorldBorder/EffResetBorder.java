@@ -24,8 +24,8 @@ public class EffResetBorder extends Effect{
 	}
 
 	@Override
-	protected void execute(Event arg0) {
-		worldExpression.getSingle(arg0).getWorldBorder().reset();
+	protected void execute(Event event) {
+		worldExpression.getSingle(event).getWorldBorder().reset();
 		
 	}
 

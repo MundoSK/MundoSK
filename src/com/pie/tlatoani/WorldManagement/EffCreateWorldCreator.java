@@ -30,12 +30,12 @@ public class EffCreateWorldCreator extends Effect{
 	}
 
 	@Override
-	protected void execute(Event arg0) {
-		String n = creator.getSingle(arg0).name();
+	protected void execute(Event event) {
+		String n = creator.getSingle(event).name();
 		WorldCreator x = new WorldCreator(n);
-		x.copy(creator.getSingle(arg0));
-		x.type(creator.getSingle(arg0).type());
-		x.generatorSettings(creator.getSingle(arg0).generatorSettings());
+		x.copy(creator.getSingle(event));
+		x.type(creator.getSingle(event).type());
+		x.generatorSettings(creator.getSingle(event).generatorSettings());
 		x.createWorld();
 		
 		

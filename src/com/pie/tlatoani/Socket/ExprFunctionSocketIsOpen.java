@@ -33,14 +33,14 @@ public class ExprFunctionSocketIsOpen extends SimpleExpression<Boolean>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
-	protected Boolean[] get(Event arg0) {
-		return new Boolean[]{UtilFunctionSocket.getStatusOfFunctionSocket(port.getSingle(arg0).intValue())};
+	protected Boolean[] get(Event event) {
+		return new Boolean[]{UtilFunctionSocket.getStatusOfFunctionSocket(port.getSingle(event).intValue())};
 	}
 
 

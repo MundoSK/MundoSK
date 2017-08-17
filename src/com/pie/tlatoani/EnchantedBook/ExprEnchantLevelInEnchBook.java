@@ -39,21 +39,21 @@ public class ExprEnchantLevelInEnchBook extends SimpleExpression<Integer>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected Integer[] get(Event arg0) {
-		ItemStack input = book.getSingle(arg0);
+	protected Integer[] get(Event event) {
+		ItemStack input = book.getSingle(event);
 		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) input.getItemMeta();
-		return new Integer[]{meta.getStoredEnchantLevel(enchant.getSingle(arg0).getType())};
+		return new Integer[]{meta.getStoredEnchantLevel(enchant.getSingle(event).getType())};
 	}
 	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
-		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getSingle(arg0).getItemMeta();
-		Enchantment ench = enchant.getSingle(arg0).getType();
+	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
+		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getSingle(event).getItemMeta();
+		Enchantment ench = enchant.getSingle(event).getType();
 		Integer level = meta.getStoredEnchantLevel(ench);
 		Logging.info("Initial level: " + level);
 		if (meta.hasStoredEnchant(ench)) meta.removeStoredEnchant(ench);
@@ -62,7 +62,7 @@ public class ExprEnchantLevelInEnchBook extends SimpleExpression<Integer>{
 		if (mode == ChangeMode.REMOVE) level -= ((Number) delta[0]).intValue();
 		Logging.info("New level: " + level);
 		if (level > 0) meta.addStoredEnchant(ench, level, true);
-		book.getSingle(arg0).setItemMeta(meta);
+		book.getSingle(event).setItemMeta(meta);
 	}
 	
 	@SuppressWarnings("unchecked")

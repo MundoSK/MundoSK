@@ -3,6 +3,7 @@ package com.pie.tlatoani.Skin;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.EnumWrappers;
@@ -15,6 +16,7 @@ import com.google.common.collect.Tables;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.ProtocolLib.PacketUtil;
+import com.pie.tlatoani.Tablist.TablistManager;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Reflection;
 import com.pie.tlatoani.Util.Scheduling;
@@ -352,17 +354,19 @@ public class SkinManager {
                 }
             }
         });
-        /*Scheduling.syncDelay(2, () -> {
-            ArrayList<Player> targetsToRemoveFrom = new ArrayList<>();
+        Scheduling.syncDelay(2, () -> {
+            //ArrayList<Player> targetsToRemoveFrom = new ArrayList<>();
+            PacketContainer hidePacket = PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             for (Player target : targets) {
-                if (TablistOld.getTablistForPlayer(target).isPlayerHidden(player)) {
-                    targetsToRemoveFrom.add(target);
+                if (!TablistManager.getTablistOfPlayer(target).isPlayerVisible(player)) {
+                    //targetsToRemoveFrom.add(target);
+                    PacketManager.sendPacket(hidePacket, SkinManager.class, target);
                 }
             }
-            if (!targets.isEmpty()) {
-                TablistOld.hideInTablist(Collections.singleton(player), targetsToRemoveFrom);
-            }
-        });*/
+            //if (!targets.isEmpty()) {
+            //    TablistOld.hideInTablist(Collections.singleton(player), targetsToRemoveFrom);
+            //}
+        });
     }
 
     private static void respawnPlayer(Player player) {

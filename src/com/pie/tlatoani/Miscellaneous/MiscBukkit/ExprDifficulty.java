@@ -39,20 +39,20 @@ public class ExprDifficulty extends SimpleExpression<Difficulty>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected Difficulty[] get(Event arg0) {
-		return new Difficulty[]{world.getSingle(arg0).getDifficulty()};
+	protected Difficulty[] get(Event event) {
+		return new Difficulty[]{world.getSingle(event).getDifficulty()};
 	}
 	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			world.getSingle(arg0).setDifficulty((Difficulty) delta[0]);
+			world.getSingle(event).setDifficulty((Difficulty) delta[0]);
 		}
 	}
 	

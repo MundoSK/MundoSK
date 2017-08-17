@@ -45,14 +45,14 @@ public class ExprCreatorOf extends SimpleExpression<WorldCreator>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "creator of " + world;
 	}
 
 	@Override
 	@Nullable
-	protected WorldCreator[] get(Event arg0) {
-		World world = this.world.getSingle(arg0);
+	protected WorldCreator[] get(Event event) {
+		World world = this.world.getSingle(event);
 		return new WorldCreator[]{getCreatorOfWorld(world)};
 	}
 

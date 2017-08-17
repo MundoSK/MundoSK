@@ -29,13 +29,13 @@ public class ExprTCEnabled extends SimpleExpression<Boolean>{
 	}
 
 	@Override
-	public String toString(Event arg0, boolean arg1) {
+	public String toString(Event event, boolean arg1) {
 		return "terrain control is enabled for " + world;
 	}
 
 	@Override
-	protected Boolean[] get(Event arg0) {
-		LocalWorld w = TerrainControl.getWorld(world.getSingle(arg0).getName());
+	protected Boolean[] get(Event event) {
+		LocalWorld w = TerrainControl.getWorld(world.getSingle(event).getName());
 		Boolean result = true;
 		if (w == null) {
 			result = false;

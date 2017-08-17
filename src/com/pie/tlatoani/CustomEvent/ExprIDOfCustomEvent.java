@@ -33,14 +33,14 @@ public class ExprIDOfCustomEvent extends SimpleExpression<String>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "custom event's id";
 	}
 
 	@Override
 	@Nullable
-	protected String[] get(Event arg0) {
-		return new String[]{arg0 instanceof UtilCustomEvent ? ((UtilCustomEvent) arg0).getID() : null};
+	protected String[] get(Event event) {
+		return new String[]{event instanceof UtilCustomEvent ? ((UtilCustomEvent) event).getID() : null};
 	}
 
 }

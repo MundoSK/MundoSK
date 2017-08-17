@@ -26,9 +26,9 @@ public class EvtPacketEvent extends SkriptEvent{
     }
 
     @Override
-    public boolean check(Event arg0) {
-        if (arg0 instanceof MundoPacketEvent) {
-            if (packetTypes.contains(((MundoPacketEvent) arg0).getPacketType())) {
+    public boolean check(Event event) {
+        if (event instanceof MundoPacketEvent) {
+            if (packetTypes.contains(((MundoPacketEvent) event).getPacketType())) {
                 return true;
             }
             else return false;

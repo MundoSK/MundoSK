@@ -41,11 +41,11 @@ public class EffInsertElements extends Effect {
             }
             original = neworiginal;
         }
-        Object[] result = new Object[original.length + insertion.length];
+        Object[] result = transformer.createArray(original.length + insertion.length);
         System.arraycopy(original, 0, result, 0, index);
         System.arraycopy(insertion, 0, result, index, insertion.length);
         System.arraycopy(original, index, result, index + insertion.length, original.length - index);
-        transformer.setSafely(event, result);
+        transformer.set(event, result);
     }
 
     @Override

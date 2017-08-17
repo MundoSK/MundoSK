@@ -42,9 +42,9 @@ public class ExprEntityCanCollide extends SimpleExpression<Boolean> {
         return true;
     }
 
-    public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+    public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         if (mode == Changer.ChangeMode.SET){
-            livingEntityExpression.getSingle(arg0).setCollidable((Boolean) delta[0]);
+            livingEntityExpression.getSingle(event).setCollidable((Boolean) delta[0]);
         }
     }
 

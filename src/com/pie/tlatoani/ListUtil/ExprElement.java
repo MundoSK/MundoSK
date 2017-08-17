@@ -67,28 +67,35 @@ public class ExprElement extends SimpleExpression<Object> implements EffMoveElem
         return true;
     }
 
-    public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
-        Object[] original = transformer.get(arg0);
-        Integer index = this.index.getSingle(arg0).intValue() - 1;
+    public void change(Event event, Object[] delta, Changer.ChangeMode mode){
+        Object[] original = transformer.get(event);
+        Integer index = this.index.getSingle(event).intValue() - 1;
         if (index >= original.length || index < 0) {
-        } else if (mode == Changer.ChangeMode.SET) {
-            Logging.debug(this, "DELTA = " + delta + ", ORIGINAL = " + original);
-            original[index] = delta[0];
-            transformer.setSafely(arg0, original);
-        } else if (mode == Changer.ChangeMode.ADD) {
-            original[index] = ((Transformer.Addable) transformer).add(original[index], delta[0]);
-            transformer.setSafely(arg0, original);
-        } else if (mode == Changer.ChangeMode.REMOVE) {
-            original[index] = ((Transformer.Removeable) transformer).remove(original[index], delta[0]);
-            transformer.setSafely(arg0, original);
+            return;
         } else if (mode == Changer.ChangeMode.DELETE) {
-            Object[] finalarray = new Object[original.length - 1];
+            Object[] finalarray = transformer.createArray(original.length - 1);
             System.arraycopy(original, 0, finalarray, 0, index);
             System.arraycopy(original, index + 1, finalarray, index, original.length - index - 1);
-            transformer.setSafely(arg0, finalarray);
-        } else if (mode == Changer.ChangeMode.RESET) {
-            original[index] = ((Transformer.Resettable) transformer).reset();
-            transformer.setSafely(arg0, original);
+            transformer.set(event, finalarray);
+
+        } else {
+            Logging.debug(this, "DELTA = " + delta + ", ORIGINAL = " + original);
+            Object value;
+            if (mode == Changer.ChangeMode.SET) {
+                value = delta[0];
+            } else if (mode == Changer.ChangeMode.ADD) {
+                value = ((Transformer.Addable) transformer).add(original[index], delta[0]);
+            } else if (mode == Changer.ChangeMode.REMOVE) {
+                value = ((Transformer.Removeable) transformer).remove(original[index], delta[0]);
+            } else if (mode == Changer.ChangeMode.RESET) {
+                value = ((Transformer.Resettable) transformer).reset();
+            } else {
+                throw new IllegalArgumentException("Illegal ChangeMode: " + mode);
+            }
+            Object[] finalArray = transformer.createArray(original.length);
+            System.arraycopy(original, 0, finalArray, 0, original.length);
+            finalArray[index] = value;
+            transformer.set(event, finalArray);
         }
     }
 
@@ -132,11 +139,11 @@ public class ExprElement extends SimpleExpression<Object> implements EffMoveElem
             }
             secondarray = neworiginal;
         }
-        Object[] result = new Object[secondarray.length + 1];
+        Object[] result = transformer.createArray(secondarray.length + 1);
         System.arraycopy(secondarray, 0, result, 0, index);
         result[index] = insertion;
         System.arraycopy(secondarray, index, result, index + 1, secondarray.length - index);
-        transformer.setSafely(event, result);
+        transformer.set(event, result);
     }
 
     @Override

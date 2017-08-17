@@ -41,12 +41,12 @@ public class ExprAutomaticCreator extends SimpleExpression<WorldCreator> {
         return true;
     }
 
-    public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+    public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         if (mode == Changer.ChangeMode.SET) {
-            WorldCreator creator = (new WorldCreator(stringExpression.getSingle(arg0))).copy((WorldCreator) delta[0]);
+            WorldCreator creator = (new WorldCreator(stringExpression.getSingle(event))).copy((WorldCreator) delta[0]);
             WorldLoader.setCreator(creator);
         } else if (mode == Changer.ChangeMode.DELETE) {
-            WorldLoader.removeCreator(stringExpression.getSingle(arg0));
+            WorldLoader.removeCreator(stringExpression.getSingle(event));
         }
     }
 
