@@ -14,7 +14,7 @@ public class ExprNoteOfBlock extends ChangeablePropertyExpression<Block, Note> {
 
     @Override
     public void change(Block block, Note note, Changer.ChangeMode changeMode) {
-        MundoUtil.cast(block, NoteBlock.class).ifPresent(noteBlock -> noteBlock.setNote(note));
+        MundoUtil.cast(block.getState(), NoteBlock.class).ifPresent(noteBlock -> noteBlock.setNote(note));
     }
 
     @Override
@@ -24,6 +24,6 @@ public class ExprNoteOfBlock extends ChangeablePropertyExpression<Block, Note> {
 
     @Override
     public Note convert(Block block) {
-        return MundoUtil.cast(block, NoteBlock.class).map(NoteBlock::getNote).orElse(null);
+        return MundoUtil.cast(block.getState(), NoteBlock.class).map(NoteBlock::getNote).orElse(null);
     }
 }

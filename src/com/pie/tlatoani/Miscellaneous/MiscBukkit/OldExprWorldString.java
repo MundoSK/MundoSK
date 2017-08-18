@@ -12,7 +12,7 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-public class ExprWorldString extends SimpleExpression<World>{
+public class OldExprWorldString extends SimpleExpression<World>{
 	private Expression<String> world;
 
 	@Override

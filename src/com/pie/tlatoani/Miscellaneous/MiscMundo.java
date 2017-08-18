@@ -20,7 +20,6 @@ import com.pie.tlatoani.Miscellaneous.Matcher.*;
 import com.pie.tlatoani.Miscellaneous.MiscBukkit.*;
 import com.pie.tlatoani.Miscellaneous.NoteBlock.EffPlayNoteBlock;
 import com.pie.tlatoani.Miscellaneous.NoteBlock.ExprNoteOfBlock;
-import com.pie.tlatoani.Miscellaneous.NoteBlock.ExprOldNoteOfBlock;
 import com.pie.tlatoani.Miscellaneous.Random.*;
 import com.pie.tlatoani.Miscellaneous.ServerListPing.*;
 import com.pie.tlatoani.Miscellaneous.TabCompletion.*;
@@ -175,7 +174,8 @@ public class MiscMundo {
         if (Reflection.methodExists(Entity.class, "addPassenger", Entity.class)) {
             Registration.registerEffect(EffMountVehicle.class, "mount %entities% on %entity%");
         }
-        Registration.registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
+        //Registration.registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
+        Registration.registerPropertyExpression(ExprWorldByName.class, World.class, "string", "world %");
         Registration.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
         Registration.registerPropertyExpression(ExprDifficulty.class, Difficulty.class, "world", "difficulty");
         Registration.registerExpression(ExprGameRule.class,String.class,ExpressionType.PROPERTY,"value of [game]rule %string% in %world%");
