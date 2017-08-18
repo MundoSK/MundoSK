@@ -22,8 +22,6 @@ public final class WorldLoader {
     private static Map<String, WorldCreatorData> worldLoaderSaver = new HashMap<>();
     private final static String FILENAME = "worldloader.json";
 
-    private WorldLoader() {} //Cannot be initialized
-
     public static void load() {
         try {
             readJSONObject(getLoaderFile()).forEach((key, value) -> {
@@ -100,33 +98,4 @@ public final class WorldLoader {
     public static void clearAllCreators() {
         worldLoaderSaver.clear();
     }
-
-    //Conversion
-
-   /* public static JSONObject getCreatorJSON(WorldCreator creator) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("environment", creator.environment().toString());
-        jsonObject.put("worldtype", creator.type().toString());
-        jsonObject.put("structures", creator.generateStructures());
-        jsonObject.put("seed", Long.toString(creator.seed()));
-        jsonObject.put("generatorsettings", creator.generatorSettings());
-        if (creator.generator() instanceof ChunkGeneratorWithID) {
-            jsonObject.put("generator", ((ChunkGeneratorWithID) creator.generator()).id);
-        }
-        return jsonObject;
-    }
-
-    public static WorldCreator getCreatorFromJSON(String worldname, JSONObject creatorJSON) {
-        WorldCreator creator = new WorldCreator(worldname);
-        creator.environment(World.Environment.valueOf((String) creatorJSON.get("environment")));
-        creator.type(WorldType.valueOf((String) creatorJSON.get("worldtype")));
-        creator.generateStructures((Boolean) creatorJSON.get("structures"));
-        creator.seed(Long.parseLong((String) creatorJSON.get("seed")));
-        String generator;
-        if ((generator = (String) creatorJSON.get("generator")) != null) {
-            creator.generator(ChunkGeneratorWithID.getGenerator(generator));
-        }
-        creator.generatorSettings((String) creatorJSON.get("generatorsettings"));
-        return creator;
-    }*/
 }
