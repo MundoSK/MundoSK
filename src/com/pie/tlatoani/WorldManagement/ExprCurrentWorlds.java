@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.Event;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,6 +19,12 @@ public class ExprCurrentWorlds extends SimpleExpression<World> {
     protected World[] get(Event event) {
         List<World> worldList = Bukkit.getWorlds();
         return worldList.toArray(new World[0]);
+    }
+
+    @Override
+    public Iterator<World> iterator(Event event) {
+        List<World> worldList = Bukkit.getWorlds();
+        return worldList.iterator();
     }
 
     @Override

@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.WorldCreator.WorldCreatorData;
 import org.bukkit.WorldCreator;
 import org.bukkit.event.Event;
 
@@ -14,16 +15,16 @@ import java.util.Iterator;
 /**
  * Created by Tlatoani on 8/16/16.
  */
-public class ExprAllAutomaticCreators extends SimpleExpression<WorldCreator> {
+public class ExprAllAutomaticCreators extends SimpleExpression<WorldCreatorData> {
 
     @Override
-    protected WorldCreator[] get(Event event) {
-        return WorldLoader.getAllCreators().toArray(new WorldCreator[0]);
+    protected WorldCreatorData[] get(Event event) {
+        return WorldLoader.getAllCreators();
     }
 
     @Override
-    public Iterator<WorldCreator> iterator(Event event) {
-        return WorldLoader.getAllCreators().iterator();
+    public Iterator<WorldCreatorData> iterator(Event event) {
+        return WorldLoader.getCreatorIterator();
     }
 
     @Override
@@ -32,8 +33,8 @@ public class ExprAllAutomaticCreators extends SimpleExpression<WorldCreator> {
     }
 
     @Override
-    public Class<? extends WorldCreator> getReturnType() {
-        return WorldCreator.class;
+    public Class<? extends WorldCreatorData> getReturnType() {
+        return WorldCreatorData.class;
     }
 
     @Override
@@ -48,9 +49,9 @@ public class ExprAllAutomaticCreators extends SimpleExpression<WorldCreator> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         if (mode == Changer.ChangeMode.ADD) {
-            WorldLoader.setCreator((WorldCreator) delta[0]);
+            WorldLoader.setCreator((WorldCreatorData) delta[0]);
         } else if (mode == Changer.ChangeMode.REMOVE) {
-            WorldLoader.removeCreator(delta[0] instanceof String ? (String) delta[0] : ((WorldCreator) delta[0]).name());
+            WorldLoader.removeCreator(delta[0] instanceof String ? (String) delta[0] : ((WorldCreatorData) delta[0]).name);
         } else {
             WorldLoader.clearAllCreators();
         }
@@ -58,8 +59,8 @@ public class ExprAllAutomaticCreators extends SimpleExpression<WorldCreator> {
 
     @SuppressWarnings("unchecked")
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-        if (mode == Changer.ChangeMode.ADD) return CollectionUtils.array(WorldCreator.class);
-        if (mode == Changer.ChangeMode.REMOVE) return CollectionUtils.array(String.class, WorldCreator.class);
+        if (mode == Changer.ChangeMode.ADD) return CollectionUtils.array(WorldCreatorData.class);
+        if (mode == Changer.ChangeMode.REMOVE) return CollectionUtils.array(String.class, WorldCreatorData.class);
         if (mode == Changer.ChangeMode.DELETE) return CollectionUtils.array();
         return null;
     }

@@ -1,6 +1,7 @@
 package com.pie.tlatoani.WorldCreator;
 
 import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 
 import javax.annotation.Nullable;
 
@@ -14,13 +15,13 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 
-public class ExprStructOfCreator extends SimpleExpression<Boolean>{
+public class OldExprTypeOfCreator extends SimpleExpression<WorldType>{
 	private Expression<WorldCreator> creator;
 
 	@Override
-	public Class<? extends Boolean> getReturnType() {
+	public Class<? extends WorldType> getReturnType() {
 		// TODO Auto-generated method stub
-		return Boolean.class;
+		return WorldType.class;
 	}
 
 	@Override
@@ -45,20 +46,20 @@ public class ExprStructOfCreator extends SimpleExpression<Boolean>{
 
 	@Override
 	@Nullable
-	protected Boolean[] get(Event event) {
-		return new Boolean[]{creator.getSingle(event).generateStructures()};
+	protected WorldType[] get(Event event) {
+		return new WorldType[]{creator.getSingle(event).type()};
 	}
 	
 	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			creator.getSingle(event).generateStructures((Boolean)delta[0]);
+			creator.getSingle(event).type((WorldType)delta[0]);
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
 		if (mode == ChangeMode.SET) {
-			return CollectionUtils.array(Boolean.class);
+			return CollectionUtils.array(WorldType.class);
 		}
 		return null;
 	}

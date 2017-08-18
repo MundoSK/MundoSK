@@ -14,7 +14,7 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-public class ExprCreatorWith extends SimpleExpression<WorldCreator>{
+public class OldExprCreatorWith extends SimpleExpression<WorldCreator>{
 	private Expression<WorldCreator> creator;
 	private Expression<String> name;
 	private Expression<Environment> env;

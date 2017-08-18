@@ -50,7 +50,7 @@ public class UtilDataClassGeneration {
             lines.add("");
             lines.add(TAB + "public " + className + " set" + property.javaName.toUpperCase() + "(" + property.type.getName() + " " + property.javaName + ") {");
             if (!property.nullable) {
-                lines.add(TAB + TAB + "if (value == null) return null;");
+                lines.add(TAB + TAB + "if (" + property.javaName + " == null) return null;");
             }
             lines.add(TAB + TAB + "return new " + className + "(" + Arrays
                     .stream(properties)

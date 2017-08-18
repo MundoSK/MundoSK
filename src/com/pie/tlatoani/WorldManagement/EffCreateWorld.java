@@ -5,7 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Generator.ChunkGeneratorWithID;
-import org.bukkit.World;
+import com.pie.tlatoani.WorldCreator.Dimension;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.event.Event;
@@ -15,7 +15,7 @@ import org.bukkit.event.Event;
  */
 public class EffCreateWorld extends Effect {
     private Expression<String> name;
-    private Expression<World.Environment> env;
+    private Expression<Dimension> dim;
     private Expression<String> seed;
     private Expression<WorldType> type;
     private Expression<String> gen;
@@ -33,7 +33,7 @@ public class EffCreateWorld extends Effect {
         if (gen != null) x.generator(ChunkGeneratorWithID.getGenerator(gen.getSingle(event)));
         if (genset != null) x.generatorSettings(genset.getSingle(event));
         if (struct != null) x.generateStructures(struct.getSingle(event));
-        if (env != null) x.environment(env.getSingle(event));
+        if (dim != null) x.environment(dim.getSingle(event).toEnvironment());
         if (type != null) x.type(type.getSingle(event));
         x.createWorld();
     }
@@ -46,7 +46,7 @@ public class EffCreateWorld extends Effect {
     @Override
     public boolean init(Expression<?>[] expr, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         name = (Expression<String>) expr[0];
-        env = (Expression<World.Environment>) expr[1];
+        dim = (Expression<Dimension>) expr[1];
         seed = (Expression<String>) expr[2];
         type = (Expression<WorldType>) expr[3];
         gen = (Expression<String>) expr[4];

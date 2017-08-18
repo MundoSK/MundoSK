@@ -1,6 +1,5 @@
 package com.pie.tlatoani.WorldCreator;
 
-import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 
 import javax.annotation.Nullable;
@@ -15,13 +14,13 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 
-public class ExprEnvOfCreator extends SimpleExpression<Environment>{
+public class OldExprSeedOfCreator extends SimpleExpression<String>{
 	private Expression<WorldCreator> creator;
 
 	@Override
-	public Class<? extends Environment> getReturnType() {
+	public Class<? extends String> getReturnType() {
 		// TODO Auto-generated method stub
-		return Environment.class;
+		return String.class;
 	}
 
 	@Override
@@ -46,20 +45,20 @@ public class ExprEnvOfCreator extends SimpleExpression<Environment>{
 
 	@Override
 	@Nullable
-	protected Environment[] get(Event event) {
-		return new Environment[]{creator.getSingle(event).environment()};
+	protected String[] get(Event event) {
+		return new String[]{Long.toString(creator.getSingle(event).seed())};
 	}
 	
 	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			creator.getSingle(event).environment((Environment)delta[0]);
+			creator.getSingle(event).seed(Long.parseLong((String)delta[0]));
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
 		if (mode == ChangeMode.SET) {
-			return CollectionUtils.array(Environment.class);
+			return CollectionUtils.array(String.class);
 		}
 		return null;
 	}

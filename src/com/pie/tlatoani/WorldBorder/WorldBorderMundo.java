@@ -38,7 +38,7 @@ public class WorldBorderMundo {
         Registration.registerExpression(ExprPropertyOfBorder.class, Number.class, ExpressionType.PROPERTY,
                 "(0¦" + DIAMETER_SYNTAX + "|0¦length|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time) of %world%",
                 "%world%'s (0¦" + DIAMETER_SYNTAX + "|0¦length|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time)");
-        Registration.registerExpression(ExprCenterOfBorder.class,Location.class,ExpressionType.PROPERTY,"center of %world%", "%world%'s center");
+        Registration.registerPropertyExpression(ExprCenterOfBorder.class, Location.class, "world", "center");
         Registration.registerExpression(CondBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%locations% (is|are) (0¦within|1¦beyond) border");
 
         loadBorderEvent();

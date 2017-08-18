@@ -1,67 +1,19 @@
 package com.pie.tlatoani.WorldCreator;
 
-import org.bukkit.WorldCreator;
+import com.pie.tlatoani.Util.EvolvingPropertyExpression;
 import org.bukkit.WorldType;
 
-import javax.annotation.Nullable;
+/**
+ * Created by Tlatoani on 8/18/17.
+ */
+public class ExprTypeOfCreator extends EvolvingPropertyExpression<WorldCreatorData, WorldType> {
+    @Override
+    public WorldCreatorData evolve(WorldCreatorData worldCreatorData, WorldType worldType) {
+        return worldCreatorData.setType(worldType);
+    }
 
-import org.bukkit.event.Event;
-
-import ch.njol.skript.classes.Changer;
-import ch.njol.skript.classes.Changer.ChangeMode;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.util.Kleenean;
-import ch.njol.util.coll.CollectionUtils;
-
-public class ExprTypeOfCreator extends SimpleExpression<WorldType>{
-	private Expression<WorldCreator> creator;
-
-	@Override
-	public Class<? extends WorldType> getReturnType() {
-		// TODO Auto-generated method stub
-		return WorldType.class;
-	}
-
-	@Override
-	public boolean isSingle() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		// TODO Auto-generated method stub
-		creator = (Expression<WorldCreator>) expr[0];
-		return true;
-	}
-
-	@Override
-	public String toString(@Nullable Event event, boolean arg1) {
-		// TODO Auto-generated method stub
-		return "border length of world";
-	}
-
-	@Override
-	@Nullable
-	protected WorldType[] get(Event event) {
-		return new WorldType[]{creator.getSingle(event).type()};
-	}
-	
-	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
-		if (mode == ChangeMode.SET){
-			creator.getSingle(event).type((WorldType)delta[0]);
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-		if (mode == ChangeMode.SET) {
-			return CollectionUtils.array(WorldType.class);
-		}
-		return null;
-	}
-
+    @Override
+    public WorldType convert(WorldCreatorData worldCreatorData) {
+        return worldCreatorData.type;
+    }
 }

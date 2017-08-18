@@ -1,6 +1,5 @@
 package com.pie.tlatoani.WorldCreator;
 
-import com.pie.tlatoani.Generator.ChunkGeneratorWithID;
 import org.bukkit.WorldCreator;
 
 import javax.annotation.Nullable;
@@ -14,15 +13,14 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import org.bukkit.generator.ChunkGenerator;
 
-public class ExprGenOfCreator extends SimpleExpression<String>{
+public class OldExprStructOfCreator extends SimpleExpression<Boolean>{
 	private Expression<WorldCreator> creator;
 
 	@Override
-	public Class<? extends String> getReturnType() {
+	public Class<? extends Boolean> getReturnType() {
 		// TODO Auto-generated method stub
-		return String.class;
+		return Boolean.class;
 	}
 
 	@Override
@@ -42,30 +40,25 @@ public class ExprGenOfCreator extends SimpleExpression<String>{
 	@Override
 	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
-		return "generator of " + creator;
+		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected String[] get(Event event) {
-		ChunkGenerator generator = creator.getSingle(event).generator();
-		String result = null;
-		if (generator instanceof ChunkGeneratorWithID) {
-			result = ((ChunkGeneratorWithID) generator).id;
-		}
-		return new String[]{result};
+	protected Boolean[] get(Event event) {
+		return new Boolean[]{creator.getSingle(event).generateStructures()};
 	}
 	
 	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			creator.getSingle(event).generator(ChunkGeneratorWithID.getGenerator((String)delta[0]));
+			creator.getSingle(event).generateStructures((Boolean)delta[0]);
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
 		if (mode == ChangeMode.SET) {
-			return CollectionUtils.array(String.class);
+			return CollectionUtils.array(Boolean.class);
 		}
 		return null;
 	}

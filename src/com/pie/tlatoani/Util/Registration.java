@@ -104,6 +104,10 @@ public class Registration {
         });
     }
 
+    public static <F, T> void registerConverter(Class<F> from, Class<T> to, Function<F, T> function) {
+        Converters.registerConverter(from, to, (Converter<F, T>) function::apply);
+    }
+
     public static Boolean classInfoSafe(Class c, String name) {
         return Classes.getExactClassInfo(c) == null && Classes.getClassInfoNoError(name) == null;
     }

@@ -1,5 +1,6 @@
 package com.pie.tlatoani.WorldCreator;
 
+import com.pie.tlatoani.Generator.ChunkGeneratorWithID;
 import org.bukkit.WorldCreator;
 
 import javax.annotation.Nullable;
@@ -13,8 +14,9 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import org.bukkit.generator.ChunkGenerator;
 
-public class ExprGenSettingsOfCreator extends SimpleExpression<String>{
+public class OldExprGenOfCreator extends SimpleExpression<String>{
 	private Expression<WorldCreator> creator;
 
 	@Override
@@ -40,18 +42,23 @@ public class ExprGenSettingsOfCreator extends SimpleExpression<String>{
 	@Override
 	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
-		return "border length of world";
+		return "generator of " + creator;
 	}
 
 	@Override
 	@Nullable
 	protected String[] get(Event event) {
-		return new String[]{creator.getSingle(event).generatorSettings()};
+		ChunkGenerator generator = creator.getSingle(event).generator();
+		String result = null;
+		if (generator instanceof ChunkGeneratorWithID) {
+			result = ((ChunkGeneratorWithID) generator).id;
+		}
+		return new String[]{result};
 	}
 	
 	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
 		if (mode == ChangeMode.SET){
-			creator.getSingle(event).generatorSettings((String)delta[0]);
+			creator.getSingle(event).generator(ChunkGeneratorWithID.getGenerator((String)delta[0]));
 		}
 	}
 	

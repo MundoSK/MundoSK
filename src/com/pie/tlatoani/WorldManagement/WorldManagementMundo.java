@@ -4,6 +4,7 @@ import ch.njol.skript.classes.Converter;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.registrations.Converters;
 import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.WorldCreator.WorldCreatorData;
 import com.pie.tlatoani.WorldManagement.WorldLoader.*;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -25,25 +26,21 @@ public class WorldManagementMundo {
                 return worldCreator;
             }
         });
-        Registration.registerEffect(EffCreateWorld.class, "create [new] world named %string%[( with|,)][ (environment|env[ironment]) %-environment%][,] [seed %-string%][,] [type %-worldtype%][,] [gen[erator] %-string%][,] [gen[erator] settings %-string%][,] [struct[ures] %-boolean%]");
-        Registration.registerEffect(EffCreateWorldCreator.class, "create world using %creator%");
+        Registration.registerEffect(EffCreateWorld.class, "create [new] world named %string%[( with|,)] [(dim[ension]|env[ironment]) %-dimension%][,] [seed %-string%][,] [type %-worldtype%][,] [gen[erator] %-string%][,] [gen[erator] settings %-string%][,] [struct[ures] %-boolean%]");
+        Registration.registerEffect(EffCreateWorldCreator.class, "create [new] world using %creator%");
         Registration.registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
         Registration.registerEffect(EffDeleteWorld.class, "delete %world%");
         Registration.registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");
         Registration.registerExpression(ExprCurrentWorlds.class,World.class, ExpressionType.SIMPLE,"[all] current worlds");
 
         loadWorldLoader();
-        loadWorldLoaderDeprecated();
     }
     
     private static void loadWorldLoader() {
+        //Registration.registerExpression(ExprAllAutomaticCreators.class, WorldCreator.class, ExpressionType.SIMPLE, "[all] automatic creators");
+        //Registration.registerExpression(ExprOldAutomaticCreator.class, WorldCreator.class, ExpressionType.SIMPLE, "automatic creator [for world [named]] %string%");
         Registration.registerEffect(EffLoadWorldAutomatically.class, "[(1¦don't|1¦do not)] load %world% automatically");
-        Registration.registerExpression(ExprAllAutomaticCreators.class, WorldCreator.class, ExpressionType.SIMPLE, "[all] automatic creators");
-        Registration.registerExpression(ExprAutomaticCreator.class, WorldCreator.class, ExpressionType.SIMPLE, "automatic creator [for world [named]] %string%");
-    }
-
-    private static void loadWorldLoaderDeprecated() {
-        Registration.registerEffect(EffRunCreatorOnStart.class, "run %creator% on start"); //Will be removed in a future version
-        Registration.registerEffect(EffDoNotLoadWorldOnStart.class, "don't load world %string% on start"); //Will be removed in a future version
+        Registration.registerExpression(ExprAllAutomaticCreators.class, WorldCreatorData.class, ExpressionType.SIMPLE, "[all] automatic creators");
+        Registration.registerPropertyExpression(ExprAutomaticCreator.class, WorldCreatorData.class, "string", "automatic creator %", "authomatic creator for world %", "automatic creator for world named %");
     }
 }

@@ -3,6 +3,7 @@ package com.pie.tlatoani.WorldManagement.WorldLoader;
 import com.pie.tlatoani.Generator.ChunkGeneratorWithID;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.WorldCreator.WorldCreatorData;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
@@ -11,56 +12,33 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 /**
  * Created by Tlatoani on 7/3/16.
  */
 public final class WorldLoader {
-    private static Map<String, WorldCreator> worldLoaderSaver = new HashMap<String, WorldCreator>();
+    private static Map<String, WorldCreatorData> worldLoaderSaver = new HashMap<>();
     private final static String FILENAME = "worldloader.json";
-
-    //private static boolean success = true;
 
     private WorldLoader() {} //Cannot be initialized
 
     public static void load() {
-        /*File file = getLoaderFile();
-        if (file != null) readJSONObject(file).forEach(new BiConsumer() {
-            @Override
-            public void accept(Object key, Object value) {
-                String s = (String) key;
-                JSONObject jsonObject = (JSONObject) value;
-                WorldCreator creator = getCreatorFromJSON(s, jsonObject);
-                setCreator(creator);
-                creator.createWorld();
-            }
-        });
-        if (success) {
-            if (getAllCreators().isEmpty()) {
-                Logging.info("No worlds were assigned to load automatically");
-            } else {
-                Logging.info("Worlds to automatically load were loaded successfully!");
-            }
-        }*/
         try {
             readJSONObject(getLoaderFile()).forEach((key, value) -> {
                 String s = (String) key;
                 JSONObject jsonObject = (JSONObject) value;
-                WorldCreator creator = getCreatorFromJSON(s, jsonObject);
+                WorldCreatorData creator = WorldCreatorData.fromJSON(s, jsonObject).get();
                 setCreator(creator);
                 creator.createWorld();
             });
-            if (getAllCreators().isEmpty()) {
+            if (worldLoaderSaver.isEmpty()) {
                 Logging.info("No worlds were assigned to load automatically");
             } else {
                 Logging.info("Worlds to automatically load were loaded successfully!");
             }
-        } catch (ParseException | IOException | ClassCastException e) {
+        } catch (ParseException | IOException | ClassCastException | NoSuchElementException e) {
             Logging.info("MundoSK encountered problems while reading the file for automatically loaded worlds");
             Logging.info("Any worlds set to automatically load were not loaded");
             Logging.reportException(WorldLoader.class, e);
@@ -78,7 +56,6 @@ public final class WorldLoader {
         File result = new File(Mundo.INSTANCE.getDataFolder().getAbsolutePath() + File.separator + FILENAME);
         if (!result.exists()) {
             result.createNewFile();
-            //JsonObject emptyObject = JSON.createObjectBuilder().build();
             JSONObject emptyObject = new JSONObject();
             FileWriter writer = new FileWriter(result);
             writer.write(emptyObject.toString());
@@ -86,71 +63,38 @@ public final class WorldLoader {
             writer.close();
         }
         return result;
-        /*try {
-            File result = new File(Mundo.INSTANCE.getDataFolder().getAbsolutePath() + File.separator + FILENAME);
-            if (!result.exists()) {
-                result.createNewFile();
-                //JsonObject emptyObject = JSON.createObjectBuilder().build();
-                JSONObject emptyObject = new JSONObject();
-                FileWriter writer = new FileWriter(result);
-                writer.write(emptyObject.toString());
-                writer.flush();
-                writer.close();
-            }
-            return result;
-        } catch (IOException e) {
-            Logging.info("MundoSK encountered problems while reading the file for automatically loaded worlds");
-            Logging.info("Any worlds set to automatically load were not loaded");
-            Logging.debug(WorldLoader.class, e);
-            success = false;
-        }
-        return null;*/
     }
 
     public static JSONObject readJSONObject(File jsonFile) throws IOException, ParseException, ClassCastException {
         return (JSONObject) new JSONParser().parse(new FileReader(jsonFile));
-        /*JSONParser parser = new JSONParser();
-        JSONObject result = null;
-        try {
-            result = (JSONObject) parser.parse(new FileReader(jsonFile));
-        } catch (IOException | ParseException | ClassCastException e) {
-            Logging.info("MundoSK encountered problems while reading the file for automatically loaded worlds");
-            Logging.info("Any worlds set to automatically load were not loaded");
-            Logging.debug(WorldLoader.class, e);
-            success = false;
-        }
-        return result;*/
     }
 
     public static JSONObject getJSONOfData() {
-        //JsonObjectBuilder builder = JSON.createObjectBuilder();
         JSONObject jsonObject = new JSONObject();
-        worldLoaderSaver.forEach(new BiConsumer<String, WorldCreator>() {
-            @Override
-            public void accept(String s, WorldCreator worldCreator) {
-                jsonObject.put(s, getCreatorJSON(worldCreator));
-            }
-        });
-        //return builder.build();
+        worldLoaderSaver.forEach((s, creator) -> jsonObject.put(s, creator.toJSON()));
         return jsonObject;
     }
 
     //Map Interactions
 
-    public static WorldCreator getCreator(String worldname) {
+    public static WorldCreatorData getCreator(String worldname) {
         return worldLoaderSaver.get(worldname);
     }
 
-    public static void setCreator(WorldCreator worldCreator) {
-        worldLoaderSaver.put(worldCreator.name(), worldCreator);
+    public static void setCreator(WorldCreatorData creator) {
+        worldLoaderSaver.put(creator.name, creator);
     }
 
     public static void removeCreator(String worldname) {
         worldLoaderSaver.remove(worldname);
     }
 
-    public static List<WorldCreator> getAllCreators() {
-        return new ArrayList<>(worldLoaderSaver.values());
+    public static WorldCreatorData[] getAllCreators() {
+        return worldLoaderSaver.values().toArray(new WorldCreatorData[0]);
+    }
+
+    public static Iterator<WorldCreatorData> getCreatorIterator() {
+        return worldLoaderSaver.values().iterator();
     }
 
     public static void clearAllCreators() {
@@ -159,8 +103,7 @@ public final class WorldLoader {
 
     //Conversion
 
-    public static JSONObject getCreatorJSON(WorldCreator creator) {
-        //JsonObjectBuilder creatorJsonBuilder = JSON.createObjectBuilder();
+   /* public static JSONObject getCreatorJSON(WorldCreator creator) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("environment", creator.environment().toString());
         jsonObject.put("worldtype", creator.type().toString());
@@ -170,7 +113,6 @@ public final class WorldLoader {
         if (creator.generator() instanceof ChunkGeneratorWithID) {
             jsonObject.put("generator", ((ChunkGeneratorWithID) creator.generator()).id);
         }
-        //return creatorJsonBuilder.build();
         return jsonObject;
     }
 
@@ -186,5 +128,5 @@ public final class WorldLoader {
         }
         creator.generatorSettings((String) creatorJSON.get("generatorsettings"));
         return creator;
-    }
+    }*/
 }

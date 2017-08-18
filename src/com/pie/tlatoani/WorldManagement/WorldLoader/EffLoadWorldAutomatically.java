@@ -4,7 +4,8 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.WorldCreator.ExprCreatorOf;
+import com.pie.tlatoani.WorldCreator.OldExprCreatorOf;
+import com.pie.tlatoani.WorldCreator.WorldCreatorData;
 import org.bukkit.World;
 import org.bukkit.event.Event;
 
@@ -19,7 +20,7 @@ public class EffLoadWorldAutomatically extends Effect {
     protected void execute(Event event) {
         World world = worldExpression.getSingle(event);
         if (load) {
-            WorldLoader.setCreator(ExprCreatorOf.getCreatorOfWorld(world));
+            WorldLoader.setCreator(WorldCreatorData.fromWorld(world));
         } else {
             WorldLoader.removeCreator(world.getName());
         }
