@@ -174,7 +174,6 @@ public class MiscMundo {
         if (Reflection.methodExists(Entity.class, "addPassenger", Entity.class)) {
             Registration.registerEffect(EffMountVehicle.class, "mount %entities% on %entity%");
         }
-        //Registration.registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
         Registration.registerPropertyExpression(ExprWorldByName.class, World.class, "string", "world %");
         Registration.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
         Registration.registerPropertyExpression(ExprDifficulty.class, Difficulty.class, "world", "difficulty");

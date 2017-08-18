@@ -1,43 +1,13 @@
 package com.pie.tlatoani.Throwable;
 
-import javax.annotation.Nullable;
+import com.pie.tlatoani.Util.MundoPropertyExpression;
 
-import org.bukkit.event.Event;
-
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.util.Kleenean;
-
-public class ExprCause extends SimpleExpression<Throwable>{
-	private Expression<Throwable> thr;
-
-	@Override
-	public Class<? extends Throwable> getReturnType() {
-		return Throwable.class;
-	}
-
-	@Override
-	public boolean isSingle() {
-		return true;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		thr = (Expression<Throwable>) expr[0];
-		return true;
-	}
-
-	@Override
-	public String toString(@Nullable Event event, boolean arg1) {
-		return "thrwoable cause of " + thr;
-	}
-
-	@Override
-	@Nullable
-	protected Throwable[] get(Event event) {
-		return new Throwable[]{thr.getSingle(event).getCause()};
-	}
-
+/**
+ * Created by Tlatoani on 8/18/17.
+ */
+public class ExprCause extends MundoPropertyExpression<Throwable, Throwable> {
+    @Override
+    public Throwable convert(Throwable throwable) {
+        return throwable.getCause();
+    }
 }
