@@ -20,6 +20,7 @@ import com.pie.tlatoani.Miscellaneous.Matcher.*;
 import com.pie.tlatoani.Miscellaneous.MiscBukkit.*;
 import com.pie.tlatoani.Miscellaneous.NoteBlock.EffPlayNoteBlock;
 import com.pie.tlatoani.Miscellaneous.NoteBlock.ExprNoteOfBlock;
+import com.pie.tlatoani.Miscellaneous.NoteBlock.ExprOldNoteOfBlock;
 import com.pie.tlatoani.Miscellaneous.Random.*;
 import com.pie.tlatoani.Miscellaneous.ServerListPing.*;
 import com.pie.tlatoani.Miscellaneous.TabCompletion.*;
@@ -176,7 +177,7 @@ public class MiscMundo {
         }
         Registration.registerExpression(ExprWorldString.class,World.class,ExpressionType.PROPERTY,"world %string%");
         Registration.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
-        Registration.registerExpression(ExprDifficulty.class,Difficulty.class,ExpressionType.PROPERTY,"difficulty of %world%");
+        Registration.registerPropertyExpression(ExprDifficulty.class, Difficulty.class, "world", "difficulty");
         Registration.registerExpression(ExprGameRule.class,String.class,ExpressionType.PROPERTY,"value of [game]rule %string% in %world%");
         Registration.registerExpression(ExprRemainingAir.class,Timespan.class,ExpressionType.PROPERTY,"breath of %livingentity%", "%livingentity%'s breath", "max breath of %livingentity%", "%livingentity%'s max breath");
         Registration.registerExpression(ExprLoginResult.class, PlayerLoginEvent.Result.class, ExpressionType.SIMPLE, "(login|connect[ion]) result");
@@ -222,7 +223,7 @@ public class MiscMundo {
         Registration.registerEventValue(NotePlayEvent.class, Note.class, NotePlayEvent::getNote);
         Registration.registerEventValue(NotePlayEvent.class, Instrument.class, NotePlayEvent::getInstrument);
         Registration.registerEventValue(NotePlayEvent.class, Block.class, NotePlayEvent::getBlock);
-        Registration.registerExpression(ExprNoteOfBlock.class, Note.class, ExpressionType.PROPERTY, "note of %block%", "%block%'s note");
+        Registration.registerPropertyExpression(ExprNoteOfBlock.class, Note.class, "block", "note");
     }
     
     private static void loadRandom() {

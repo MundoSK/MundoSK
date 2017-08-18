@@ -17,6 +17,7 @@ public interface Transformer<T> {
 
     boolean isSettable();
 
+    //The array returned by this method should NEVER be modified
     T[] get(Event event);
 
     default T[] createArray(int length) {

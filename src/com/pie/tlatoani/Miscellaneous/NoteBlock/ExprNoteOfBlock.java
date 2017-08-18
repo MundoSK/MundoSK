@@ -1,56 +1,29 @@
 package com.pie.tlatoani.Miscellaneous.NoteBlock;
 
 import ch.njol.skript.classes.Changer;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
-import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.util.Kleenean;
-import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.ChangeablePropertyExpression;
+import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.Note;
 import org.bukkit.block.Block;
 import org.bukkit.block.NoteBlock;
-import org.bukkit.event.Event;
 
 /**
- * Created by Tlatoani on 4/30/16.
+ * Created by Tlatoani on 8/18/17.
  */
-public class ExprNoteOfBlock extends SimpleExpression<Note> {
-    private Expression<Block> blockExpression;
+public class ExprNoteOfBlock extends ChangeablePropertyExpression<Block, Note> {
 
     @Override
-    protected Note[] get(Event event) {
-        Logging.debug(this, "");
-        return new Note[]{((NoteBlock) blockExpression.getSingle(event).getState()).getNote()};
+    public void change(Block block, Note note, Changer.ChangeMode changeMode) {
+        MundoUtil.cast(block, NoteBlock.class).ifPresent(noteBlock -> noteBlock.setNote(note));
     }
 
     @Override
-    public boolean isSingle() {
-        return true;
+    public Changer.ChangeMode[] getChangeModes() {
+        return new Changer.ChangeMode[]{Changer.ChangeMode.SET};
     }
 
     @Override
-    public Class<? extends Note> getReturnType() {
-        return Note.class;
-    }
-
-    @Override
-    public String toString(Event event, boolean b) {
-        return "note of %block%";
-    }
-
-    @Override
-    public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        blockExpression = (Expression<Block>) expressions[0];
-        return true;
-    }
-
-    public void change(Event event, Object[] delta, Changer.ChangeMode mode){
-        ((NoteBlock) blockExpression.getSingle(event).getState()).setNote((Note) delta[0]);
-    }
-
-    public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-        if (mode == Changer.ChangeMode.SET) return CollectionUtils.array(Note.class);
-        return null;
+    public Note convert(Block block) {
+        return MundoUtil.cast(block, NoteBlock.class).map(NoteBlock::getNote).orElse(null);
     }
 }

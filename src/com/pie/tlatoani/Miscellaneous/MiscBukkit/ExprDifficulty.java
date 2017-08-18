@@ -1,67 +1,29 @@
 package com.pie.tlatoani.Miscellaneous.MiscBukkit;
 
+import ch.njol.skript.classes.Changer;
+import com.pie.tlatoani.Util.ChangeablePropertyExpression;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
 
-import javax.annotation.Nullable;
+/**
+ * Created by Tlatoani on 8/18/17.
+ */
+public class ExprDifficulty extends ChangeablePropertyExpression<World, Difficulty> {
 
-import org.bukkit.event.Event;
+    @Override
+    public void change(World world, Difficulty difficulty, Changer.ChangeMode changeMode) {
+        if (changeMode == Changer.ChangeMode.SET) {
+            world.setDifficulty(difficulty);
+        }
+    }
 
-import ch.njol.skript.classes.Changer;
-import ch.njol.skript.classes.Changer.ChangeMode;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.util.Kleenean;
-import ch.njol.util.coll.CollectionUtils;
+    @Override
+    public Changer.ChangeMode[] getChangeModes() {
+        return new Changer.ChangeMode[]{Changer.ChangeMode.SET};
+    }
 
-public class ExprDifficulty extends SimpleExpression<Difficulty>{
-	private Expression<World> world;
-
-	@Override
-	public Class<? extends Difficulty> getReturnType() {
-		// TODO Auto-generated method stub
-		return Difficulty.class;
-	}
-
-	@Override
-	public boolean isSingle() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		// TODO Auto-generated method stub
-		world = (Expression<World>) expr[0];
-		return true;
-	}
-
-	@Override
-	public String toString(@Nullable Event event, boolean arg1) {
-		// TODO Auto-generated method stub
-		return "border length of world";
-	}
-
-	@Override
-	@Nullable
-	protected Difficulty[] get(Event event) {
-		return new Difficulty[]{world.getSingle(event).getDifficulty()};
-	}
-	
-	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
-		if (mode == ChangeMode.SET){
-			world.getSingle(event).setDifficulty((Difficulty) delta[0]);
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-		if (mode == ChangeMode.SET) {
-			return CollectionUtils.array(Difficulty.class);
-		}
-		return null;
-	}
-
+    @Override
+    public Difficulty convert(World world) {
+        return world.getDifficulty();
+    }
 }

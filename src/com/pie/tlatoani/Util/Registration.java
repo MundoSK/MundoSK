@@ -43,12 +43,24 @@ public class Registration {
     }
 
     public static <T> void registerPropertyExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, String possessorType, String... properties) {
-        String[] patterns = new String[properties.length * 2];
+        ArrayList<String> patterns = new ArrayList<>(properties.length);
+        ArrayList<String> propertyList = new ArrayList<>(properties.length);
         for (int i = 0; i < properties.length; i++) {
-            patterns[2 * i] = properties[i] + " of %" + possessorType + "%";
-            patterns[(2 * i) + 1] = "%" + possessorType + "%'s " + properties[i];
+            String property = properties[i];
+            if (property.contains("%")) {
+                patterns.add(property.replace("%", "%" + possessorType + "%"));
+                propertyList.add(property);
+            } else {
+                patterns.add("[the] " + property + " of %" + possessorType + "%");
+                patterns.add("%" + possessorType + "%'s " + property);
+                propertyList.add(property);
+                propertyList.add(property);
+            }
         }
-        Skript.registerExpression(expressionClass, type, ExpressionType.PROPERTY, patterns);
+        Skript.registerExpression(expressionClass, type, ExpressionType.PROPERTY, patterns.toArray(new String[0]));
+        if (MundoPropertyExpression.class.isAssignableFrom(expressionClass)) {
+            MundoPropertyExpression.registerPropertyExpressionInfo((Class<? extends MundoPropertyExpression>) expressionClass, type, propertyList);
+        }
     }
 
     public static void registerCondition(Class<? extends Condition> conditionClass, String... patterns) {

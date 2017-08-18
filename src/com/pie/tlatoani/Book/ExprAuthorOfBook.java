@@ -29,17 +29,7 @@ public class ExprAuthorOfBook extends ChangeablePropertyExpression<ItemStack, St
     }
 
     @Override
-    protected String getPropertyName() {
-        return "author";
-    }
-
-    @Override
     public String convert(ItemStack itemStack) {
         return MundoUtil.cast(itemStack.getItemMeta(), BookMeta.class).map(BookMeta::getAuthor).orElse(null);
-    }
-
-    @Override
-    public Class<? extends String> getReturnType() {
-        return String.class;
     }
 }

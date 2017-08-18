@@ -1,14 +1,13 @@
 package com.pie.tlatoani.Util;
 
 import ch.njol.skript.classes.Changer;
-import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.util.coll.CollectionUtils;
 import org.bukkit.event.Event;
 
 /**
  * Created by Tlatoani on 8/16/17.
  */
-public abstract class ChangeablePropertyExpression<F, T> extends SimplePropertyExpression<F, T> {
+public abstract class ChangeablePropertyExpression<F, T> extends MundoPropertyExpression<F, T> {
 
     public abstract void change(F f, T t, Changer.ChangeMode changeMode);
 
