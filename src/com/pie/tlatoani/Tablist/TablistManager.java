@@ -68,6 +68,7 @@ public class TablistManager {
         }, Mundo.INSTANCE);
 
         Registration.registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores [are] enabled in tablist of %players%", "scores [are] enabled in %players%'s tablist");
+        Registration.registerExpression(ExprHeaderFooter.class, String.class, ExpressionType.PROPERTY, "tablist (0¦header|1¦footer) (for|of) %players%");
         loadPlayer();
         loadSimple();
         loadArray();

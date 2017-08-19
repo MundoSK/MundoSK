@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import static com.comphenix.protocol.PacketType.Play.Server.PLAYER_INFO;
@@ -70,5 +71,13 @@ public class PacketUtil {
         packet.getIntegers().writeSafely(0, Optional.ofNullable(score).orElse(0));
         packet.getScoreboardActions().writeSafely(0, action);
         return packet;
+    }
+
+    public static WrappedChatComponent stringsToChatComponent(String[] strings) {
+        StringJoiner joiner = new StringJoiner(", ", "{\"extra\":[", "],\"text\":\"\"");
+        for (String string : strings) {
+            joiner.add(WrappedChatComponent.fromText(string).getJson());
+        }
+        return WrappedChatComponent.fromJson(joiner.toString());
     }
 }

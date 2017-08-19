@@ -12,7 +12,6 @@ import com.khorn.terraincontrol.util.Rotation;
 import org.bukkit.Location;
 import org.bukkit.event.Event;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 public class EffSpawnObject extends Effect{
@@ -29,7 +28,7 @@ public class EffSpawnObject extends Effect{
 	}
 
 	@Override
-	public String toString(@Nullable Event paramEvent, boolean paramBoolean) {
+	public String toString(Event paramEvent, boolean paramBoolean) {
 		return "tc spawn " + object + " at " + loc + " with rotation " + rotation;
 	}
 

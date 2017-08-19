@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
+import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Player.PlayerTablist;
 import com.pie.tlatoani.Tablist.Simple.SimpleTablist;
@@ -20,8 +21,13 @@ public class Tablist {
     public final Player target;
 
     private boolean scoresEnabled;
+    private String[] header = new String[0];
+    private String[] footer = new String[0];
+
     private final PlayerTablist playerTablist = new PlayerTablist(this);
     private SupplementaryTablist supplementaryTablist = new SimpleTablist(playerTablist);
+
+
 
     public static final Skin DEFAULT_SKIN_TEXTURE = Skin.ALL_WHITE;
     public static final String OBJECTIVE_NAME = "MundoSK_Tablist";
@@ -71,7 +77,7 @@ public class Tablist {
         supplementaryTablist = supplementaryTablistProvider.apply(playerTablist);
     }
 
-    //Scores methods
+    //Scores
 
     public boolean areScoresEnabled() {
         return scoresEnabled;
@@ -113,4 +119,31 @@ public class Tablist {
         }
     }
 
+    //Header and Footer
+
+    public String[] getHeader() {
+        return header;
+    }
+
+    public String[] getFooter() {
+        return footer;
+    }
+
+    public void setHeader(String[] header) {
+        this.header = header;
+        refreshHeaderAndFooter();
+    }
+
+    public void setFooter(String[] footer) {
+        this.footer = footer;
+        refreshHeaderAndFooter();
+    }
+
+    private void refreshHeaderAndFooter() {
+        PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
+        packet.getChatComponents().writeSafely(0, PacketUtil.stringsToChatComponent(header));
+        packet.getChatComponents().writeSafely(1, PacketUtil.stringsToChatComponent(footer));
+        PacketManager.sendPacket(packet, this, target);
+
+    }
 }
