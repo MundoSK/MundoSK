@@ -3,6 +3,7 @@ package com.pie.tlatoani.ListUtil;
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.ExpressionList;
 import ch.njol.skript.lang.UnparsedLiteral;
 import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
@@ -24,8 +25,8 @@ public class TransDefault implements Transformer {
             return false;
         }
         this.expression = expression;
-        if (expression instanceof UnparsedLiteral) {
-            Logging.debug(this, "UnparsedLiteral: " + expression);
+        if (expression instanceof ExpressionList) {
+            Logging.debug(this, "ExpressionList: " + expression);
             this.expression = expression.getConvertedExpression(Object.class);
         }
         returnType = expression.getReturnType();
