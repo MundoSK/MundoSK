@@ -75,6 +75,9 @@ public class PacketUtil {
     }
 
     public static WrappedChatComponent stringsToChatComponent(String[] strings) {
+        if (strings.length == 0) {
+            return WrappedChatComponent.fromText("");
+        }
         StringJoiner joiner = new StringJoiner(", {\"text\":\"\n\"}, ", "{\"extra\":[", "],\"text\":\"\"}");
         for (String string : strings) {
             joiner.add(WrappedChatComponent.fromText(string).getJson());
