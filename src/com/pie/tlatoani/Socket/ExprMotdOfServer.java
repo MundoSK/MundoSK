@@ -43,9 +43,9 @@ public class ExprMotdOfServer extends SimpleExpression<String>{
 
 	@Override
 	@Nullable
-	protected String[] get(Event e) {
-		String host = this.host.getSingle(e);
-		Integer port = (this.port != null ? this.port.getSingle(e) : 25565).intValue();
+	protected String[] get(Event event) {
+		String host = this.host.getSingle(event);
+		Integer port = (this.port != null ? this.port.getSingle(event) : 25565).intValue();
 		String motd = "";
 		try {
 			Socket sock = new Socket(host, port);
@@ -81,8 +81,8 @@ public class ExprMotdOfServer extends SimpleExpression<String>{
 			}
 			debug(motd);
 			sock.close();
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			Logging.reportException(this, e);
 		}
 		return new String[]{motd};
 	}

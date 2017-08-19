@@ -3,6 +3,7 @@ package com.pie.tlatoani.Probability;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import com.pie.tlatoani.Util.CustomScope;
@@ -66,7 +67,7 @@ public class ScopeProbability extends CustomScope {
 						i++;
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					Logging.reportException(this, e);
 				}
 			} else {
 				triggeritems.add(going);

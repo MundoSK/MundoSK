@@ -3,6 +3,7 @@ package com.pie.tlatoani.CodeBlock;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.variables.Variables;
 import com.pie.tlatoani.Util.BaseEvent;
+import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.event.Event;
 
@@ -27,7 +28,7 @@ public class ScopeCodeBlock implements CodeBlock {
             run = TriggerItem.class.getDeclaredMethod("run", Event.class);
             run.setAccessible(true);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            Logging.reportException(ScopeCodeBlock.class, e);
         }
     }
 

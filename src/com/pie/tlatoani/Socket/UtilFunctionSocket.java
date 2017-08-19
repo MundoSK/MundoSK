@@ -5,8 +5,6 @@ import ch.njol.skript.lang.function.Functions;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Scheduling;
 import com.pie.tlatoani.Util.SyncGetter;
-import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -15,7 +13,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 public class UtilFunctionSocket implements Runnable {
 	private Boolean status = false;
@@ -23,8 +20,7 @@ public class UtilFunctionSocket implements Runnable {
 	private String password;
 	private ServerSocket sock;
 	private String handler;
-	private static Map<Integer, UtilFunctionSocket> sockets = new HashMap<Integer, UtilFunctionSocket>();
-	private static BukkitScheduler scheduler = Bukkit.getScheduler();
+	private static Map<Integer, UtilFunctionSocket> sockets = new HashMap<>();
 	
 	private UtilFunctionSocket(int portarg, String passarg, String handlerarg) {
 		port = portarg;
@@ -115,7 +111,9 @@ public class UtilFunctionSocket implements Runnable {
 				} else {
 					debug("At Function Socket on port " + port + ", the password was incorrect, or the socket closed early.");
 				}
-			} catch(Exception e) {e.printStackTrace();} finally {
+			} catch(Exception e) {
+				Logging.reportException(UtilFunctionSocket.class, e);
+			} finally {
 				try {
 					socket.close();
 				} catch(Exception e) {}
@@ -146,7 +144,7 @@ public class UtilFunctionSocket implements Runnable {
 			sock.close();
 			debug("Function Socket on port " + port + " successfully closed");
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logging.reportException(UtilFunctionSocket.class, e);
 		} 
 	}
 	
@@ -177,13 +175,10 @@ public class UtilFunctionSocket implements Runnable {
 	}
 
 	public static void onDisable() {
-		sockets.forEach(new BiConsumer<Integer, UtilFunctionSocket>() {
-			@Override
-			public void accept(Integer portarg, UtilFunctionSocket utilFunctionSocket) {
-				debug("Function Socket on port " + portarg + " being closed (Special Case - onDisable)");
-				sockets.get(portarg).closeFunctionSocket();
-			}
-		});
+		sockets.forEach((portarg, utilFunctionSocket) -> {
+            debug("Function Socket on port " + portarg + " being closed (Special Case - onDisable)");
+            sockets.get(portarg).closeFunctionSocket();
+        });
 	}
 
 }

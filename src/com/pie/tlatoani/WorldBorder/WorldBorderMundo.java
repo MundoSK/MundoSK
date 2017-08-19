@@ -21,23 +21,23 @@ import java.util.function.Function;
  * Created by Tlatoani on 8/8/17.
  */
 public class WorldBorderMundo {
-    public static final String DIAMETER_SYNTAX = "(diameter|size|length)";
+    public static final String DIAMETER_SYNTAX = "(diameter|size)";
     
     public static void load() {
         Registration.registerEffect(EffResetBorder.class, "reset %world%");
         Registration.registerEffect(EffChangeBorderSize.class,
-                "set (diameter|size|length) of %world% to %number% over %timespan%",
-                "set %world%'s (diameter|size|length) to %number% over %timespan%",
-                "set (diameter|size|length) of %world% over %timespan% to %number%",
-                "set %world%'s (diameter|size|length) over %timespan% to %number%",
-                "add %number% to (diameter|size|length) of %world% over %timespan%",
-                "add %number% to %world%'s (diameter|size|length) over %timespan%",
-                "(remove|subtract) %number% from (diameter|size|length) of %world% over %timespan%",
-                "(remove|subtract) %number% from %world%'s (diameter|size|length) over %timespan%");
+                "set (diameter|size) of %world% to %number% over %timespan%",
+                "set %world%'s (diameter|size) to %number% over %timespan%",
+                "set (diameter|size) of %world% over %timespan% to %number%",
+                "set %world%'s (diameter|size) over %timespan% to %number%",
+                "add %number% to (diameter|size) of %world% over %timespan%",
+                "add %number% to %world%'s (diameter|size) over %timespan%",
+                "(remove|subtract) %number% from (diameter|size) of %world% over %timespan%",
+                "(remove|subtract) %number% from %world%'s (diameter|size) over %timespan%");
 
         Registration.registerExpression(ExprPropertyOfBorder.class, Number.class, ExpressionType.PROPERTY,
-                "(0¦" + DIAMETER_SYNTAX + "|0¦length|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time) of %world%",
-                "%world%'s (0¦" + DIAMETER_SYNTAX + "|0¦length|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time)");
+                "(0¦" + DIAMETER_SYNTAX + "|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time) of %world%",
+                "%world%'s (0¦" + DIAMETER_SYNTAX + "|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time)");
         Registration.registerPropertyExpression(ExprCenterOfBorder.class, Location.class, "world", "center");
         Registration.registerExpression(CondBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%locations% (is|are) (0¦within|1¦beyond) border");
 
