@@ -56,7 +56,8 @@ public class SkinMundo {
             @Override
             public Fields serialize(Skin skin) throws NotSerializableException {
                 Fields fields = new Fields();
-                fields.putObject("value", skin.toString());
+                fields.putObject("value", skin.value);
+                fields.putObject("signature", skin.signature);
                 return fields;
             }
 
@@ -68,14 +69,20 @@ public class SkinMundo {
             @Override
             public Skin deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
                 try {
-                    Object parsedObject = new JSONParser().parse((String) fields.getObject("value"));
-                    JSONObject jsonObject;
-                    if (parsedObject instanceof JSONObject) {
-                        jsonObject = (JSONObject) parsedObject;
+                    String value = (String) fields.getObject("value");
+                    String signature = (String) fields.getObject("signature");
+                    if (signature == null) {
+                        Object parsedObject = new JSONParser().parse(value);
+                        JSONObject jsonObject;
+                        if (parsedObject instanceof JSONObject) {
+                            jsonObject = (JSONObject) parsedObject;
+                        } else {
+                            jsonObject = (JSONObject) ((JSONArray) parsedObject).get(0);
+                        }
+                        return Skin.fromJSON(jsonObject);
                     } else {
-                        jsonObject = (JSONObject) ((JSONArray) parsedObject).get(0);
+                        return new Skin(value, signature);
                     }
-                    return Skin.fromJSON(jsonObject);
                 } catch (ParseException | ClassCastException e) {
                     throw new StreamCorruptedException();
                 }

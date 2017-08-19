@@ -13,7 +13,12 @@ public class ExprDimensionOfCreator extends EvolvingPropertyExpression<WorldCrea
     }
 
     @Override
-    public WorldCreatorData evolve(WorldCreatorData worldCreatorData, Dimension dimension) {
+    public WorldCreatorData set(WorldCreatorData worldCreatorData, Dimension dimension) {
         return worldCreatorData.setDimension(dimension);
+    }
+
+    @Override
+    public WorldCreatorData reset(WorldCreatorData worldCreatorData) {
+        return worldCreatorData.setDimension(null);
     }
 }

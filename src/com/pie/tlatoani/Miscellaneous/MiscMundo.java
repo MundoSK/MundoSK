@@ -35,13 +35,16 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.ItemStack;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.NotSerializableException;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiConsumer;
 
@@ -96,33 +99,63 @@ public class MiscMundo {
         Registration.registerExpression(ExprHangedEntity.class,Entity.class, ExpressionType.SIMPLE,"hanged entity");
     }
 
+    public static Object serializeJSONElement(Object object) {
+        if (object instanceof JSONArray) {
+            JSONArray result = new JSONArray();
+            for (Object elem : (JSONArray) object) {
+                Object serializedElem = serializeJSONElement(elem);
+                if (serializedElem != null) {
+                    result.add(serializedElem);
+                }
+            }
+            return result;
+        }
+        SerializedVariable.Value value = Classes.serialize(object);
+        if (value == null) {
+            return null;
+        }
+        JSONObject valueJSON = new JSONObject();
+        valueJSON.put("type", value.type);
+        valueJSON.put("data", new String(value.data));
+        return valueJSON;
+    }
+
+    public static Object deserializeJSONElement(Object object) {
+        if (object instanceof JSONArray) {
+            JSONArray result = new JSONArray();
+            for (Object serializedElem : (JSONArray) object) {
+                Object deserializedElem = deserializeJSONElement(serializedElem);
+                result.add(deserializedElem);
+            }
+            return result;
+        }
+        JSONObject jsonObject = (JSONObject) object;
+        String type = (String) jsonObject.get("type");
+        String dataString = (String) jsonObject.get("data");
+        if (dataString == null) {
+            dataString = (String) jsonObject.get("Data");
+        }
+        byte[] data = dataString.getBytes();
+        return Classes.deserialize(type, data);
+    }
+
     private static void loadJSON() {
         Registration.registerType(JSONObject.class, "jsonobject").parser(new Registration.SimpleParser<JSONObject>() {
             @Override
             public JSONObject parse(String s, ParseContext parseContext) {
-                JSONObject result = null;
                 try {
-                    result = (JSONObject) (new JSONParser()).parse(s);
+                    return (JSONObject) (new JSONParser()).parse(s);
                 } catch (ParseException | ClassCastException e) {
-                    //If parsing to a JSONObject fails, return null
+                    return null;
                 }
-                return result;
             }
         }).serializer(new Serializer<JSONObject>() {
             @Override
             public Fields serialize(JSONObject jsonObject) throws NotSerializableException {
                 JSONObject toBecomeString = new JSONObject();
-                jsonObject.forEach(new BiConsumer() {
-                    @Override
-                    public void accept(Object o, Object o2) {
-                        SerializedVariable.Value value = Classes.serialize(o2);
-                        if (value != null) {
-                            JSONObject valueJSON = new JSONObject();
-                            valueJSON.put("type", value.type);
-                            valueJSON.put("Data", new String(value.data));
-                            toBecomeString.put(o, valueJSON);
-                        }
-                    }
+                jsonObject.forEach((o, o2) -> {
+                    Object serializedValue = serializeJSONElement(o2);
+                    toBecomeString.put(o, serializedValue);
                 });
                 Fields fields = new Fields();
                 fields.putObject("value", toBecomeString.toJSONString());
@@ -133,13 +166,8 @@ public class MiscMundo {
             public void deserialize(JSONObject jsonObject, Fields fields) throws StreamCorruptedException, NotSerializableException {
                 try {
                     JSONObject fromString = (JSONObject) (new JSONParser()).parse((String) fields.getObject("value"));
-                    fromString.forEach(new BiConsumer() {
-                        @Override
-                        public void accept(Object o, Object o2) {
-                            JSONObject valueJSON = (JSONObject) o2;
-                            Object value = Classes.deserialize((String) valueJSON.get("type"), ((String) valueJSON.get("Data")).getBytes());
-                            jsonObject.put(o, value);
-                        }
+                    fromString.forEach((o, o2) -> {
+                        jsonObject.put(o, deserializeJSONElement(o2));
                     });
                 } catch (ParseException | ClassCastException e) {
                     throw new StreamCorruptedException();

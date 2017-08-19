@@ -19,7 +19,7 @@ public class WorldCreatorData {
     public final String name;
     public final Dimension dimension;
     public final WorldType type;
-    public final long seed;
+    public final Optional<Long> seed;
     public final Optional<ChunkGenerator> generator;
     public final String generatorSettings;
     public final boolean structures;
@@ -27,8 +27,9 @@ public class WorldCreatorData {
     public WorldCreatorData(
             String name,
             @Nullable Dimension dimension,
-            @Nullable Long seed, @Nullable WorldType type,
-            @Nullable Optional<ChunkGenerator> generator,
+            Optional<Long> seed,
+            @Nullable WorldType type,
+            Optional<ChunkGenerator> generator,
             @Nullable String generatorSettings,
             @Nullable Boolean structures
     ) {
@@ -38,7 +39,7 @@ public class WorldCreatorData {
         this.name = name;
         this.dimension = Optional.ofNullable(dimension).orElse(Dimension.NORMAL);
         this.type = Optional.ofNullable(type).orElse(WorldType.NORMAL);
-        this.seed = Optional.ofNullable(seed).orElseGet(() -> new Random().nextLong());
+        this.seed = seed;
         this.generator = generator;
         this.generatorSettings = Optional.ofNullable(generatorSettings).orElse("");
         this.structures = Optional.ofNullable(structures).orElse(true);
@@ -47,7 +48,8 @@ public class WorldCreatorData {
     public static WorldCreatorData withGeneratorID(
             String name,
             @Nullable Dimension dimension,
-            @Nullable Long seed, @Nullable WorldType type,
+            Optional<Long> seed,
+            @Nullable WorldType type,
             String generatorID,
             @Nullable String generatorSettings,
             @Nullable Boolean structures
@@ -66,7 +68,8 @@ public class WorldCreatorData {
         return new WorldCreatorData(
                 world.getName(),
                 Dimension.fromEnvironment(world.getEnvironment()),
-                world.getSeed(), world.getWorldType(),
+                Optional.of(world.getSeed()),
+                world.getWorldType(),
                 Optional.ofNullable(world.getGenerator()),
                 null,
                 world.canGenerateStructures()
@@ -77,7 +80,7 @@ public class WorldCreatorData {
         WorldCreator creator = new WorldCreator(name);
         creator.environment(dimension.toEnvironment());
         creator.type(type);
-        creator.seed(seed);
+        creator.seed(seed.orElseGet(() -> new Random().nextLong()));
         generator.ifPresent(creator::generator);
         creator.generatorSettings(generatorSettings);
         creator.generateStructures(structures);
@@ -93,7 +96,7 @@ public class WorldCreatorData {
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("environment", dimension.toString());
-        jsonObject.put("seed", Long.toString(seed));
+        seed.ifPresent(seedLong -> jsonObject.put("seed", Long.toString(seedLong)));
         jsonObject.put("worldtype", type.toString());
         getGeneratorID().ifPresent(generator -> jsonObject.put("generator", generator));
         jsonObject.put("generatorsettings", generatorSettings);
@@ -104,7 +107,7 @@ public class WorldCreatorData {
     public static Optional<WorldCreatorData> fromJSON(String worldName, JSONObject jsonObject) {
         try {
             Dimension dimension = Dimension.valueOf((String) jsonObject.get("environment"));
-            Long seed = Long.parseLong((String) jsonObject.get("seed"));
+            Optional<Long> seed = Optional.ofNullable((String) jsonObject.get("seed")).map(Long::parseLong);
             WorldType type = WorldType.valueOf((String) jsonObject.get("worldtype"));
             String generatorID = (String) jsonObject.get("generator");
             String generatorSettings = (String) jsonObject.get("generatorsettings");
@@ -125,7 +128,7 @@ public class WorldCreatorData {
         return new WorldCreatorData(name, dimension, seed, type, generator, generatorSettings, structures);
     }
 
-    public WorldCreatorData setSeed(Long seed) {
+    public WorldCreatorData setSeed(Optional<Long> seed) {
         return new WorldCreatorData(name, dimension, seed, type, generator, generatorSettings, structures);
     }
 

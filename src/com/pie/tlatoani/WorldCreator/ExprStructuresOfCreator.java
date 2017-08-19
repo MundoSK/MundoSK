@@ -7,8 +7,13 @@ import com.pie.tlatoani.Util.EvolvingPropertyExpression;
  */
 public class ExprStructuresOfCreator extends EvolvingPropertyExpression<WorldCreatorData, Boolean> {
     @Override
-    public WorldCreatorData evolve(WorldCreatorData worldCreatorData, Boolean bool) {
+    public WorldCreatorData set(WorldCreatorData worldCreatorData, Boolean bool) {
         return worldCreatorData.setStructures(bool);
+    }
+
+    @Override
+    public WorldCreatorData reset(WorldCreatorData worldCreatorData) {
+        return worldCreatorData.setStructures(null);
     }
 
     @Override

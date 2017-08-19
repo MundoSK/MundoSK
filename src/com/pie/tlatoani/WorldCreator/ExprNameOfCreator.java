@@ -7,7 +7,7 @@ import com.pie.tlatoani.Util.EvolvingPropertyExpression;
  */
 public class ExprNameOfCreator extends EvolvingPropertyExpression<WorldCreatorData, String> {
     @Override
-    public WorldCreatorData evolve(WorldCreatorData worldCreatorData, String s) {
+    public WorldCreatorData set(WorldCreatorData worldCreatorData, String s) {
         return worldCreatorData.setName(s);
     }
 

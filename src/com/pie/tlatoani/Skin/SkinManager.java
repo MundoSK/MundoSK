@@ -39,12 +39,7 @@ import java.util.function.BiConsumer;
 public class SkinManager {
     private static HashMap<Player, Skin> actualSkins = new HashMap<>();
     private static HashMap<Player, Skin> displayedSkins = new HashMap<>();
-    private static Table<Player, Player, Skin> personalDisplayedSkins = Tables.newCustomTable(new HashMap<>(), new Supplier<Map<Player, Skin>>() {
-        @Override
-        public Map<Player, Skin> get() {
-            return new HashMap<Player, Skin>();
-        }
-    });
+    private static Table<Player, Player, Skin> personalDisplayedSkins = Tables.newCustomTable(new HashMap<>(), HashMap::new);
     private static HashMap<Player, String> nameTags = new HashMap<>();
     private static HashMap<Player, String> tabNames = new HashMap<>();
 
@@ -354,29 +349,20 @@ public class SkinManager {
                 }
             }
         });
+        //DO NOT REMOVE THE FOLLOWING CODE
+        //It ensures that targets who are not currently tracking the player and thus will not receive a spawn packet
+        //still have the tab hidden for them if necessary
         Scheduling.syncDelay(2, () -> {
-            //ArrayList<Player> targetsToRemoveFrom = new ArrayList<>();
             PacketContainer hidePacket = PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
             for (Player target : targets) {
                 if (!TablistManager.getTablistOfPlayer(target).isPlayerVisible(player)) {
-                    //targetsToRemoveFrom.add(target);
                     PacketManager.sendPacket(hidePacket, SkinManager.class, target);
                 }
             }
-            //if (!targets.isEmpty()) {
-            //    TablistOld.hideInTablist(Collections.singleton(player), targetsToRemoveFrom);
-            //}
         });
     }
 
     private static void respawnPlayer(Player player) {
-        /*boolean playerHidden = TablistOld.getTablistForPlayer(player).isPlayerHidden(player);
-        if (!playerHidden) {
-            List<Player> singlePlayer = Collections.singletonList(player);
-            TablistOld.hideInTablist(singlePlayer, singlePlayer);
-            TablistOld.showInTablist(singlePlayer, singlePlayer);
-        }*/
-
         PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), SkinManager.class, player);
         PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), SkinManager.class, player);
 

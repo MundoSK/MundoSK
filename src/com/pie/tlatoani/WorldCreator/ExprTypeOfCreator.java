@@ -8,8 +8,13 @@ import org.bukkit.WorldType;
  */
 public class ExprTypeOfCreator extends EvolvingPropertyExpression<WorldCreatorData, WorldType> {
     @Override
-    public WorldCreatorData evolve(WorldCreatorData worldCreatorData, WorldType worldType) {
+    public WorldCreatorData set(WorldCreatorData worldCreatorData, WorldType worldType) {
         return worldCreatorData.setType(worldType);
+    }
+
+    @Override
+    public WorldCreatorData reset(WorldCreatorData worldCreatorData) {
+        return worldCreatorData.setType(null);
     }
 
     @Override

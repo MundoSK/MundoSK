@@ -25,7 +25,7 @@ public class ExprNewCreator extends SimpleExpression<WorldCreatorData> {
     protected WorldCreatorData[] get(Event event) {
         String name = nameExpr.getSingle(event);
         Dimension dimension = Optional.ofNullable(dimensionExpr).map(expr -> expr.getSingle(event)).orElse(null);
-        Long seed = Optional.ofNullable(seedExpr).map(expr -> Long.parseLong(expr.getSingle(event))).orElse(null);
+        Optional<Long> seed = Optional.ofNullable(seedExpr).map(expr -> Long.parseLong(expr.getSingle(event)));
         WorldType type = Optional.ofNullable(typeExpr).map(expr -> expr.getSingle(event)).orElse(null);
         String generator = Optional.ofNullable(generatorExpr).map(expr -> expr.getSingle(event)).orElse(null);
         String generatorSettings = Optional.ofNullable(generatorSettingsExpr).map(expr -> expr.getSingle(event)).orElse(null);
