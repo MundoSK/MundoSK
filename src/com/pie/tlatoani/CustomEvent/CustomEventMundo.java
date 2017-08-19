@@ -15,7 +15,7 @@ import java.util.List;
 public class CustomEventMundo {
     
     public static void load() {
-        Registration.registerEffect(EffCallCustomEvent.class, "call custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
+        Registration.registerEffect(EffCallCustomEvent.class, "(0¦call|1¦async call|1¦call async) custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
         Registration.registerEvent("Custom Event", EvtCustomEvent.class, SkriptCustomEvent.class, "ev[en]t %strings%");
         Registration.registerExpression(ExprIDOfCustomEvent.class,String.class, ExpressionType.PROPERTY,"id of custom event", "custom event's id");
         Registration.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
