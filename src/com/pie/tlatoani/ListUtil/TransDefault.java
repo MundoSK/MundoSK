@@ -20,13 +20,13 @@ public class TransDefault implements Transformer {
 
     @Override
     public Boolean init(Expression expression) {
+        Logging.debug(this, "Expression: " + expression);
         if (expression.isSingle()) {
             Skript.error("'" + expression + "' is not a list!");
             return false;
         }
         this.expression = expression;
         if (expression instanceof ExpressionList) {
-            Logging.debug(this, "ExpressionList: " + expression);
             this.expression = expression.getConvertedExpression(Object.class);
         }
         returnType = expression.getReturnType();

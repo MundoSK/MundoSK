@@ -16,7 +16,6 @@ import com.comphenix.protocol.reflect.EquivalentConverter;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
-import com.comphenix.protocol.wrappers.nbt.*;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Reflection;
 import io.netty.buffer.ByteBuf;
@@ -27,14 +26,11 @@ import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.function.BiConsumer;
 
 /**
  * Created by Tlatoani on 5/2/16.
@@ -388,6 +384,10 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             Method method = PacketContainer.class.getMethod("get" + methodGetName);
             Logging.debug(this, "Method: " + method.toString() + ", aClass = " + aClass);
             converter = createConverter(method);
+            if (converter == null) {
+                Skript.error(key + " cannot be used in your version of Minecraft for the '%type/string% pinfo [array] %number% of %packet% expression");
+                return false;
+            }
             return true;
         } catch (NoSuchMethodException e) {
             Logging.debug(this, e);
