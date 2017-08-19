@@ -74,7 +74,7 @@ public class SkinMundo {
                     String signature = (String) fields.getObject("signature");
                     Logging.debug(SkinMundo.class, "value: " + value + ", signature: " + signature);
                     return new Skin(value, signature);
-                } catch (ClassCastException e) {
+                } catch (StreamCorruptedException | ClassCastException e) {
                     try {
                         String value = (String) fields.getObject("value");
                         Logging.debug(SkinMundo.class, "value: " + value);
