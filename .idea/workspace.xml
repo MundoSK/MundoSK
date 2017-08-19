@@ -8,7 +8,6 @@
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/TransDefault.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ListUtil/TransDefault.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java" />
     </list>
     <ignored path="MundoSK.iws" />
@@ -30,7 +29,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
@@ -50,11 +49,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExprObjectOfPacket.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ExprObjectOfPacket.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="181" column="49" lean-forward="false" selection-start-line="181" selection-start-column="49" selection-end-line="181" selection-end-column="49" />
+            <state relative-caret-position="645">
+              <caret line="307" column="55" lean-forward="true" selection-start-line="307" selection-start-column="55" selection-end-line="307" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1229,21 +1228,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="307" column="55" lean-forward="true" selection-start-line="307" selection-start-column="55" selection-end-line="307" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="24" lean-forward="false" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprObjectOfPacket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="181" column="49" lean-forward="false" selection-start-line="181" selection-start-column="49" selection-end-line="181" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

@@ -305,7 +305,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
                 };
             }
         } catch (IllegalAccessException | InvocationTargetException e) {
-            Logging.reportException(ExprObjectOfPacket.class, e);
+            Logging.debug(ExprObjectOfPacket.class, e);
             return null;
         }
     }
