@@ -8,6 +8,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -74,10 +75,11 @@ public class PacketUtil {
     }
 
     public static WrappedChatComponent stringsToChatComponent(String[] strings) {
-        StringJoiner joiner = new StringJoiner(", ", "{\"extra\":[", "],\"text\":\"\"");
+        StringJoiner joiner = new StringJoiner(", {\"text\":\"\n\"}, ", "{\"extra\":[", "],\"text\":\"\"}");
         for (String string : strings) {
             joiner.add(WrappedChatComponent.fromText(string).getJson());
         }
+        Logging.debug(PacketUtil.class, "Final JSON: " + joiner.toString());
         return WrappedChatComponent.fromJson(joiner.toString());
     }
 }
