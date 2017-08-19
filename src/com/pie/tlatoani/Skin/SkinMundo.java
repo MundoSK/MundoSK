@@ -6,6 +6,7 @@ import ch.njol.skript.lang.ParseContext;
 import ch.njol.yggdrasil.Fields;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Skin.MineSkin.ExprRetrievedSkin;
+import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Registration;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -71,11 +72,14 @@ public class SkinMundo {
                 try {
                     String value = (String) fields.getObject("value");
                     String signature = (String) fields.getObject("signature");
+                    Logging.debug(SkinMundo.class, "value: " + value + ", signature: " + signature);
                     return new Skin(value, signature);
                 } catch (ClassCastException e) {
                     try {
                         String value = (String) fields.getObject("value");
+                        Logging.debug(SkinMundo.class, "value: " + value);
                         Object parsedObject = new JSONParser().parse(value);
+                        Logging.debug(SkinMundo.class, "parsedobject: " + parsedObject);
                         JSONObject jsonObject;
                         if (parsedObject instanceof JSONObject) {
                             jsonObject = (JSONObject) parsedObject;
