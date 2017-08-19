@@ -25,7 +25,7 @@ public class ExprIDOfCustomEvent extends SimpleExpression<String>{
 
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(UtilCustomEvent.class)) {
+		if (!ScriptLoader.isCurrentEvent(SkriptCustomEvent.class)) {
 			Skript.error("Cannot use 'custom event's id' outside of custom events");
 			return false;
 		}
@@ -40,7 +40,7 @@ public class ExprIDOfCustomEvent extends SimpleExpression<String>{
 	@Override
 	@Nullable
 	protected String[] get(Event event) {
-		return new String[]{event instanceof UtilCustomEvent ? ((UtilCustomEvent) event).getID() : null};
+		return new String[]{event instanceof SkriptCustomEvent ? ((SkriptCustomEvent) event).getID() : null};
 	}
 
 }

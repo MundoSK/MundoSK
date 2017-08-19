@@ -10,7 +10,6 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.WeakHashMap;
 
 public class EvtCustomEvent extends SkriptEvent {
 	private List<String> ids = new ArrayList<String>();
@@ -22,8 +21,8 @@ public class EvtCustomEvent extends SkriptEvent {
 
 	@Override
 	public boolean check(Event event) {
-		if (event instanceof UtilCustomEvent) {
-			if (ids.contains(((UtilCustomEvent) event).getID().toLowerCase())) {
+		if (event instanceof SkriptCustomEvent) {
+			if (ids.contains(((SkriptCustomEvent) event).getID().toLowerCase())) {
 				return true;
 			} return false;
 		} return false;

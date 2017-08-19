@@ -71,7 +71,10 @@ public class SkinMundo {
                 try {
                     String value = (String) fields.getObject("value");
                     String signature = (String) fields.getObject("signature");
-                    if (signature == null) {
+                    return new Skin(value, signature);
+                } catch (ClassCastException e) {
+                    try {
+                        String value = (String) fields.getObject("value");
                         Object parsedObject = new JSONParser().parse(value);
                         JSONObject jsonObject;
                         if (parsedObject instanceof JSONObject) {
@@ -80,11 +83,9 @@ public class SkinMundo {
                             jsonObject = (JSONObject) ((JSONArray) parsedObject).get(0);
                         }
                         return Skin.fromJSON(jsonObject);
-                    } else {
-                        return new Skin(value, signature);
+                    } catch (ParseException | ClassCastException e1) {
+                        throw new StreamCorruptedException();
                     }
-                } catch (ParseException | ClassCastException e) {
-                    throw new StreamCorruptedException();
                 }
             }
 

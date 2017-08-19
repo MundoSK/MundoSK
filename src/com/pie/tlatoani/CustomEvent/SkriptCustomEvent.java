@@ -11,7 +11,7 @@ import org.bukkit.event.HandlerList;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
 
-public class UtilCustomEvent extends Event implements Cancellable {
+public class SkriptCustomEvent extends Event implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	private String id;
 	private Object[] args;
@@ -19,9 +19,9 @@ public class UtilCustomEvent extends Event implements Cancellable {
 	private Map<ClassInfo, Object> details = new HashMap<ClassInfo, Object>();
 	private boolean cancelled;
 
-	static final WeakHashMap<Event, UtilCustomEvent> lastCustomEvents = new WeakHashMap<>();
+	static final WeakHashMap<Event, SkriptCustomEvent> lastCustomEvents = new WeakHashMap<>();
 	
-	public UtilCustomEvent(String id, Object[] details, Object[] args) {
+	public SkriptCustomEvent(String id, Object[] details, Object[] args) {
 		this.id = id;
 		for (int i = 0; i < details.length; i++) 
 			this.details.put(Classes.getSuperClassInfo(details[i].getClass()), details[i]);

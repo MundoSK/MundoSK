@@ -16,8 +16,8 @@ public class ExprLastCustomEventCancelled extends SimpleExpression<Boolean> {
 
     @Override
     protected Boolean[] get(Event event) {
-        Optional<UtilCustomEvent> customEventOptional = Optional.ofNullable(UtilCustomEvent.lastCustomEvents.get(event));
-        boolean cancelled = customEventOptional.map(UtilCustomEvent::isCancelled).orElse(false);
+        Optional<SkriptCustomEvent> customEventOptional = Optional.ofNullable(SkriptCustomEvent.lastCustomEvents.get(event));
+        boolean cancelled = customEventOptional.map(SkriptCustomEvent::isCancelled).orElse(false);
         return new Boolean[]{cancelled != negated};
     }
 
