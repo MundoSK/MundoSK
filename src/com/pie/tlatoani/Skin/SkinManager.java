@@ -17,10 +17,7 @@ import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Tablist.TablistManager;
-import com.pie.tlatoani.Util.Logging;
-import com.pie.tlatoani.Util.Reflection;
-import com.pie.tlatoani.Util.Scheduling;
-import com.pie.tlatoani.Util.WorldLockedLocation;
+import com.pie.tlatoani.Util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -50,7 +47,7 @@ public class SkinManager {
 
     static {
 
-        if (Mundo.implementPacketStuff) {
+        if (Config.IMPLEMENT_PACKET_STUFF.getCurrentValue()) {
             //Reflection stuff
             try {
                 CRAFT_PLAYER_GET_HANDLE = Reflection.getTypedMethod(Reflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", Reflection.getMinecraftClass("EntityPlayer"));

@@ -11,17 +11,18 @@ import java.util.logging.Logger;
 /**
  * Created by Tlatoani on 8/10/17.
  */
-public class Logging {
+public final class Logging {
     private static Logger logger;
-    private static List<String> packagesToDebug;
+    //private static List<String> packagesToDebug;
 
-    public static void load(Logger logger, List<String> packagesToDebug) {
+    public static void load(Logger logger/*, List<String> packagesToDebug*/) {
         Logging.logger = logger;
-        Logging.packagesToDebug = packagesToDebug;
+        //Logging.packagesToDebug = packagesToDebug;
     }
 
     public static boolean classDebugs(Class c) {
-        return packagesToDebug.contains(c.getName().split("\\.")[3]);
+        //return packagesToDebug.contains(c.getName().split("\\.")[3]);
+        return Config.DEBUG_PACKAGES.getCurrentValue().contains(c.getName().split("\\.")[3]);
     }
 
     public static void info(String s) {

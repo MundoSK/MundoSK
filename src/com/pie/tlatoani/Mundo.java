@@ -27,6 +27,9 @@ import com.pie.tlatoani.WorldManagement.WorldLoader.WorldLoader;
 import com.pie.tlatoani.WorldManagement.WorldManagementMundo;
 import com.pie.tlatoani.ZExperimental.ZExperimentalMundo;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,11 +40,13 @@ import java.util.List;
 
 public class Mundo extends JavaPlugin {
 	public static Mundo INSTANCE;
-    public static Boolean implementPacketStuff;
+	public static final ChatColor PRIMARY_CHAT_COLOR = ChatColor.DARK_GREEN;
+	public static final ChatColor ALT_CHAT_COLOR = ChatColor.GREEN;
+    //public static Boolean implementPacketStuff;
 
     @Override
 	public void onEnable() {
-        FileConfiguration config = getConfig();
+        /*FileConfiguration config = getConfig();
         config.addDefault("debug", Arrays.asList(new String[0]));
         config.addDefault("enable_custom_skin_and_tablist", true);
         config.addDefault("tablist_remove_tab_delay_spawn", 5);
@@ -51,10 +56,14 @@ public class Mundo extends JavaPlugin {
         implementPacketStuff = config.getBoolean("enable_custom_skin_and_tablist");
         int tablistSpawnRemoveTabDelay = config.getInt("tablist_remove_tab_delay_spawn");
         int tablistRespawnRemoveTabDelay = config.getInt("tablist_remove_tab_delay_respawn");
-        saveConfig();
+        saveConfig();*/
+
         INSTANCE = this;
 
-        Logging.load(getLogger(), debugPackages);
+        Config.reload();
+
+        //Logging.load(getLogger(), debugPackages);
+        Logging.load(getLogger());
         Scheduling.load();
         WorldLoader.load();
 		Skript.registerAddon(this);
@@ -63,7 +72,8 @@ public class Mundo extends JavaPlugin {
             Logging.info("You are currently running a BETA version of MundoSK");
             Logging.info("You should only run BETA versions of MundoSK on test servers unless Tlatoani or another reliable source has recommended otherwise");
         }
-        if (!debugPackages.isEmpty()) {
+        //if (!debugPackages.isEmpty()) {
+        if (!Config.DEBUG_PACKAGES.getCurrentValue().isEmpty()) {
             Logging.info("You have enabled debug for certain packages in MundoSK config");
             Logging.info("Debug should only be enabled when you are trying to fix a bug or assist someone else with fixing a bug in MundoSK");
             Logging.info("By having debug enabled, you will have tons of random annoying spam in your console");
@@ -86,10 +96,10 @@ public class Mundo extends JavaPlugin {
         WorldManagementMundo.load();
 		if (MundoUtil.serverHasPlugin("ProtocolLib")) {
 		    PacketManager.load();
-		    if (implementPacketStuff) {
+		    //if (implementPacketStuff) {
+            if (Config.IMPLEMENT_PACKET_STUFF.getCurrentValue()) {
 		        SkinMundo.load();
-		        //TablistMundo.load(tablistSpawnRemoveTabDelay, tablistRespawnRemoveTabDelay);
-                TablistManager.load(tablistSpawnRemoveTabDelay, tablistRespawnRemoveTabDelay);
+                //TablistManager.load(tablistSpawnRemoveTabDelay, tablistRespawnRemoveTabDelay);
             }
 		}
 		if (MundoUtil.serverHasPlugin("TerrainControl")) {
@@ -126,6 +136,51 @@ public class Mundo extends JavaPlugin {
     @Override
     public ChunkGenerator getDefaultWorldGenerator(String unusedWorldName, String id) {
         return SkriptGeneratorManager.getSkriptGenerator(id);
+    }
+
+
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (cmd.getName().equals("mundosk")) {
+            if (args.length == 0 || args[0].equals("help")) {
+                sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK Command Help");
+                sender.sendMessage(formatCommandDescription("[help]", "Prints this list of commands"));
+                sender.sendMessage(formatCommandDescription("desc[ription]", "Prints a description of MundoSK"));
+                sender.sendMessage(formatCommandDescription("ver[sion]", "Prints the version of MundoSK running on this server"));
+                sender.sendMessage(formatCommandDescription("config", "Prints the current config options"));
+                sender.sendMessage(formatCommandDescription("config reload", "Reloads MundoSK's config"));
+            } else if (args[0].equals("desc") || args[0].equals("description")) {
+                sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK is a Skript Addon that has features including Packets, World Borders, World Management, Custom World Generation, Tablist, Skin Modification, Sockets, and more!");
+                sender.sendMessage(formatMundoSKInfo("Your MundoSK Version", getVersion()));
+                sender.sendMessage(formatMundoSKInfo("skUnity Forums Page", "https://forums.skunity.com/resources/mundosk.69/"));
+                sender.sendMessage(formatMundoSKInfo("GitHub", "https://github.com/MundoSK/MundoSK"));
+                sender.sendMessage(formatMundoSKInfo("Skript Addon Discord Invite", "https://discord.gg/vb9dGbu"));
+            } else if (args[0].equals("ver") || args[0].equals("version")) {
+                sender.sendMessage(formatMundoSKInfo("Your MundoSK Version", getVersion()));
+            } else if (args[0].equals("config")) {
+                if (args.length >= 2 && args[1].equals("reload")) {
+                    Config.reload();
+                    sender.sendMessage(PRIMARY_CHAT_COLOR + "Reloaded MundoSK's Config!");
+                }
+                sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK Config");
+                Config.displayConfig(sender);
+            } else {
+                sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK didn't understand this command argument: " + args[0]);
+                sender.sendMessage(PRIMARY_CHAT_COLOR + "Do " + ALT_CHAT_COLOR + "/mundosk " + PRIMARY_CHAT_COLOR + "to show a list of MundoSK commands");
+
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static String formatCommandDescription(String args, String desc) {
+        return ALT_CHAT_COLOR + "/mundosk " + args + " " + PRIMARY_CHAT_COLOR + desc;
+    }
+
+    public static String formatMundoSKInfo(String name, String info) {
+        return PRIMARY_CHAT_COLOR + name + " " + ALT_CHAT_COLOR + info;
     }
 
     public static String getVersion() {

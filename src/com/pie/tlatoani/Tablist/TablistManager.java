@@ -11,6 +11,7 @@ import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Array.EffEnableArrayTablist;
 import com.pie.tlatoani.Tablist.Player.*;
 import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
+import com.pie.tlatoani.Util.Config;
 import com.pie.tlatoani.Util.Registration;
 import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.Bukkit;
@@ -31,8 +32,8 @@ public class TablistManager {
     private static final HashMap<Player, Tablist> tablistMap = new HashMap<>();
     private static final ArrayList<Player> playersRespawning = new ArrayList<>();
 
-    public static int SPAWN_REMOVE_TAB_DELAY;
-    public static int RESPAWN_REMOVE_TAB_DELAY;
+    //public static int SPAWN_REMOVE_TAB_DELAY;
+    //public static int RESPAWN_REMOVE_TAB_DELAY;
 
     public static Tablist getTablistOfPlayer(Player player) {
         if (player == null) {
@@ -50,9 +51,9 @@ public class TablistManager {
         tablistMap.forEach((__, tablist) -> tablist.onQuit(player));
     }
 
-    public static void load(int spawnRemoveTabDelay, int respawnRemoveTabDelay) {
-        SPAWN_REMOVE_TAB_DELAY = spawnRemoveTabDelay;
-        RESPAWN_REMOVE_TAB_DELAY = respawnRemoveTabDelay;
+    public static void load(/*int spawnRemoveTabDelay, int respawnRemoveTabDelay*/) {
+        //SPAWN_REMOVE_TAB_DELAY = spawnRemoveTabDelay;
+        //RESPAWN_REMOVE_TAB_DELAY = respawnRemoveTabDelay;
 
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
@@ -133,7 +134,7 @@ public class TablistManager {
             boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(objPlayer);
             if (!tabVisible) {
                 PacketManager.sendPacket(PacketUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
-                Scheduling.syncDelay(TablistManager.SPAWN_REMOVE_TAB_DELAY, () -> {
+                Scheduling.syncDelay(Config.TABLIST_SPAWN_REMOVE_TAB_DELAY.getCurrentValue(), () -> {
                     PacketManager.sendPacket(PacketUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
                 });
             }
@@ -148,7 +149,7 @@ public class TablistManager {
             if (!tabVisible) {
                 playersRespawning.add(player);
                 PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
-                Scheduling.syncDelay(TablistManager.RESPAWN_REMOVE_TAB_DELAY, () -> {
+                Scheduling.syncDelay(Config.TABLIST_RESPAWN_REMOVE_TAB_DELAY.getCurrentValue(), () -> {
                     playersRespawning.remove(player);
                     PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
                 });

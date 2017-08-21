@@ -10,6 +10,7 @@ import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.TablistManager;
+import com.pie.tlatoani.Util.Config;
 import com.pie.tlatoani.Util.MundoUtil;
 import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.Bukkit;
@@ -117,7 +118,7 @@ public class PlayerTablist {
 
     public void onJoin(Player player) {
         if (!tabs.isPresent()) {
-            Scheduling.syncDelay(TablistManager.SPAWN_REMOVE_TAB_DELAY, () ->
+            Scheduling.syncDelay(Config.TABLIST_SPAWN_REMOVE_TAB_DELAY.getCurrentValue(), () ->
                     PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), this, tablist.target));
         }
     }
