@@ -100,6 +100,7 @@ public class Mundo extends JavaPlugin {
             if (Config.IMPLEMENT_PACKET_STUFF.getCurrentValue()) {
 		        SkinMundo.load();
                 //TablistManager.load(tablistSpawnRemoveTabDelay, tablistRespawnRemoveTabDelay);
+                TablistManager.load();
             }
 		}
 		if (MundoUtil.serverHasPlugin("TerrainControl")) {
@@ -166,7 +167,7 @@ public class Mundo extends JavaPlugin {
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK Config");
                 Config.displayConfig(sender);
             } else {
-                sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK didn't understand this command argument: " + args[0]);
+                sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK didn't understand this command argument: " + ALT_CHAT_COLOR + args[0]);
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "Do " + ALT_CHAT_COLOR + "/mundosk " + PRIMARY_CHAT_COLOR + "to show a list of MundoSK commands");
 
             }
