@@ -57,8 +57,9 @@ public class WorldCreatorData {
         return new WorldCreatorData(
                 name,
                 dimension,
-                seed, type,
-                Optional.ofNullable(generatorID).map(id ->ChunkGeneratorWithID.getGenerator(generatorID)),
+                seed,
+                type,
+                Optional.ofNullable(generatorID).map(ChunkGeneratorWithID::getGenerator),
                 generatorSettings,
                 structures
         );

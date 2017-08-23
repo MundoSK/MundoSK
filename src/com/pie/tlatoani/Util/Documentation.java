@@ -4,51 +4,50 @@ package com.pie.tlatoani.Util;
  * Created by Tlatoani on 8/17/17.
  */
 public class Documentation {
-    private final String name;
-    private final String[] syntaxes;
-    private final String description;
-    private final String originVersion;
-    String[] requiredPlugins = new String[0];
+    public final String name;
+    public final String category;
+    public final String[] syntaxes;
+    public final String description;
+    public final String originVersion;
+    public final String[] requiredPlugins;
 
-    public void register() {
-
-    }
-
-    private Documentation(String name, String[] syntaxes, String description, String originVersion) {
+    private Documentation(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins) {
         this.name = name;
+        this.category = category;
         this.syntaxes = syntaxes;
         this.description = description;
         this.originVersion = originVersion;
+        this.requiredPlugins = requiredPlugins;
     }
 
     public static class Effect extends Documentation {
 
-        public Effect(String name, String[] syntaxes, String description, String originVersion) {
-            super(name, syntaxes, description, originVersion);
+        public Effect(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins) {
+            super(name, category, syntaxes, description, originVersion, requiredPlugins);
         }
     }
 
     public static class Expression extends Documentation {
-        private final Class type;
+        public final Class type;
 
-        public Expression(String name, String[] syntaxes, Class type, String description, String originVersion) {
-            super(name, syntaxes, description, originVersion);
+        public Expression(String name, String category, String[] syntaxes, String description, String originVersion, Class type, String[] requiredPlugins) {
+            super(name, category, syntaxes, description, originVersion, requiredPlugins);
             this.type = type;
         }
     }
 
     public static class Event extends Documentation {
 
-        public Event(String name, String[] syntaxes, String description, String originVersion) {
-            super(name, syntaxes, description, originVersion);
+        public Event(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins) {
+            super(name, category, syntaxes, description, originVersion, requiredPlugins);
         }
     }
 
     public static class Type extends Documentation {
-        private final String[] usages;
+        public final String[] usages;
 
-        public Type(String name, String[] syntaxes, String[] usages, String description, String originVersion) {
-            super(name, syntaxes, description, originVersion);
+        public Type(String name, String category, String[] syntaxes, String[] usages, String description, String originVersion, String[] requiredPlugins) {
+            super(name, category, syntaxes, description, originVersion, requiredPlugins);
             this.usages = usages;
         }
     }
