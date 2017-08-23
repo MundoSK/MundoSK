@@ -7,67 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Documenter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/Concatenation.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/Expression.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/Literal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/VariableUsage.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/Varying.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/ExpressionConstraints$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/ExpressionConstraints$Collective.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/ExpressionConstraints$Type.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/ExpressionConstraints.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxParser$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxParser$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxParser$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxParser$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxParser$5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxParser$ParsingConsumer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxParser$ParsingIterator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxParser$Symbol.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxParser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxPiece$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxPiece$Concatenation.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxPiece$Expression.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxPiece$Literal.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxPiece$MarkSpecificInformation.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxPiece$Varying.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MundoSK/com/pie/tlatoani/ZExperimental/SyntaxPiece.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/ExpressionConstraints.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/ExpressionConstraints.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxParser.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxParser.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxPiece.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprDisplayedSkinOfPlayer.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprDisplayedSkinOfPlayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/EffEnableArrayTablist.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/EffEnableArrayTablist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDisplayNameOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDisplayNameOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprLatencyOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprLatencyOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprScoreOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprScoreOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprSizeOfTabList.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprSizeOfTabList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprHeaderFooter.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprHeaderFooter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprScoresEnabled.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/ExprScoresEnabled.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/EffChangePlayerVisibility.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/EffChangePlayerVisibility.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/EffClearPlayerModifications.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/EffClearPlayerModifications.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprPlayerIsVisible.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprPlayerIsVisible.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprPlayersAreVisible.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprPlayersAreVisible.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprTablistName.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprTablistName.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprTablistScore.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprTablistScore.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateNewTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateNewTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffDeleteTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffDeleteTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffRemoveAllIDTabs.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffRemoveAllIDTabs.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprDisplayNameOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprDisplayNameOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprIconOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprIconOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprLatencyOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprLatencyOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprScoreOfTab.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprScoreOfTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Config.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Documentation.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Documentation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Logging.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Logging.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilDataClassGeneration.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilDataClassGeneration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilSyntax.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/UtilSyntax.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -91,8 +31,8 @@
       <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="24" lean-forward="true" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
+            <state relative-caret-position="60">
+              <caret line="4" column="24" lean-forward="false" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -1436,8 +1376,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="24" lean-forward="true" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
+        <state relative-caret-position="60">
+          <caret line="4" column="24" lean-forward="false" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
           <folding />
         </state>
       </provider>
