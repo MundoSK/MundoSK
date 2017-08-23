@@ -20,8 +20,12 @@ public class ExprPlayerIsVisible extends SimpleExpression<Boolean> {
     @Override
     protected Boolean[] get(Event event) {
         Player object = objectExpression.getSingle(event);
+        if (!object.isOnline()) {
+            return new Boolean[0];
+        }
         return Arrays
                 .stream(playerExpression.getArray(event))
+                .filter(Player::isOnline)
                 .map(player -> TablistManager.getTablistOfPlayer(player).isPlayerVisible(object))
                 .toArray(Boolean[]::new);
     }

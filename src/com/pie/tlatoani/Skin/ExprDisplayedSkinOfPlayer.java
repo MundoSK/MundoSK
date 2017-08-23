@@ -21,7 +21,12 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
 
     @Override
     protected Skin[] get(Event event) {
-        return new Skin[]{(targetExpression == null || !targetExpression.isSingle()) ? SkinManager.getDisplayedSkin(playerExpression.getSingle(event)) : SkinManager.getPersonalDisplayedSkin(playerExpression.getSingle(event), targetExpression.getSingle(event))};
+        Player player = playerExpression.getSingle(event);
+        if (targetExpression == null) {
+            return new Skin[]{SkinManager.getDisplayedSkin(player)};
+        } else {
+            return Arrays.stream(targetExpression.getArray(event)).map(target -> SkinManager.getPersonalDisplayedSkin(player, target)).toArray(Skin[]::new);
+        }
     }
 
     @Override

@@ -23,11 +23,13 @@ public class ExprHeaderFooter extends SimpleExpression<String> {
         if (header) {
             return Arrays
                     .stream(playerExpression.getArray(event))
+                    .filter(Player::isOnline)
                     .flatMap(player -> Arrays.stream(TablistManager.getTablistOfPlayer(player).getHeader()))
                     .toArray(String[]::new);
         } else {
             return Arrays
                     .stream(playerExpression.getArray(event))
+                    .filter(Player::isOnline)
                     .flatMap(player -> Arrays.stream(TablistManager.getTablistOfPlayer(player).getFooter()))
                     .toArray(String[]::new);
         }
@@ -58,6 +60,9 @@ public class ExprHeaderFooter extends SimpleExpression<String> {
     @Override
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
             Tablist tablist = TablistManager.getTablistOfPlayer(player);
             String[] result;
             if (mode == Changer.ChangeMode.SET) {

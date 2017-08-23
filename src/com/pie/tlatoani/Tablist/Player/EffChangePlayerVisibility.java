@@ -22,6 +22,9 @@ public class EffChangePlayerVisibility extends Effect {
         Player[] objects = objectsExpression.getArray(event);
         if (visible) {
             for (Player player : playerExpression.getArray(event)) {
+                if (!player.isOnline()) {
+                    continue;
+                }
                 Tablist tablist = TablistManager.getTablistOfPlayer(player);
                 tablist.getPlayerTablist().ifPresent(playerTablist -> {
                     for (Player object : objects) {
@@ -31,6 +34,9 @@ public class EffChangePlayerVisibility extends Effect {
             }
         } else {
             for (Player player : playerExpression.getArray(event)) {
+                if (!player.isOnline()) {
+                    continue;
+                }
                 Tablist tablist = TablistManager.getTablistOfPlayer(player);
                 tablist.getPlayerTablist().ifPresent(playerTablist -> {
                     for (Player object : objects) {

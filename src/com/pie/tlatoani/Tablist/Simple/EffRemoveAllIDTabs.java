@@ -18,6 +18,9 @@ public class EffRemoveAllIDTabs extends Effect {
     @Override
     protected void execute(Event event) {
         for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
             Tablist tablist = TablistManager.getTablistOfPlayer(player);
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();

@@ -25,6 +25,7 @@ public class ExprSizeOfTabList extends SimpleExpression<Number> {
     protected Number[] get(Event event) {
         return Arrays
                 .stream(playerExpression.getArray(event))
+                .filter(Player::isOnline)
                 .map(player -> {
                     Tablist tablist = TablistManager.getTablistOfPlayer(player);
                     if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
@@ -61,6 +62,9 @@ public class ExprSizeOfTabList extends SimpleExpression<Number> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         int value = ((Number) delta[0]).intValue();
         for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
             Tablist tablist = TablistManager.getTablistOfPlayer(player);
             if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                 ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();

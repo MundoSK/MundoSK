@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class UtilDataClassGeneration {
     public static final String TAB = "    ";
 
+    //TODO add equals method
     public static String[] generateClassCode(String typeName, Property[] properties) {
         String className = "MundoSKDataClass" + typeName.toUpperCase();
         ArrayList<String> lines = new ArrayList<>();

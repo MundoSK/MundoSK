@@ -26,6 +26,7 @@ public class ExprLatencyOfTab extends SimpleExpression<Number> {
         String id = this.id.getSingle(event);
         return Arrays
                 .stream(playerExpression.getArray(event))
+                .filter(Player::isOnline)
                 .map(player -> {
                     Tablist tablist = TablistManager.getTablistOfPlayer(player);
                     if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
@@ -63,6 +64,9 @@ public class ExprLatencyOfTab extends SimpleExpression<Number> {
         String id = this.id.getSingle(event);
         Integer value = ((Number) delta[0]).intValue();
         for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
             Tablist tablist = TablistManager.getTablistOfPlayer(player);
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();

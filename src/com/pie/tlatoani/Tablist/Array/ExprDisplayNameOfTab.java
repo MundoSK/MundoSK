@@ -27,6 +27,7 @@ public class ExprDisplayNameOfTab extends SimpleExpression<String> {
         int row = this.row.getSingle(event).intValue();
         return Arrays
                 .stream(playerExpression.getArray(event))
+                .filter(Player::isOnline)
                 .map(player -> {
                     Tablist tablist = TablistManager.getTablistOfPlayer(player);
                     if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
@@ -66,6 +67,9 @@ public class ExprDisplayNameOfTab extends SimpleExpression<String> {
         int row = this.row.getSingle(event).intValue();
         String value = (String) delta[0];
         for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
             Tablist tablist = TablistManager.getTablistOfPlayer(player);
             if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                 ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();

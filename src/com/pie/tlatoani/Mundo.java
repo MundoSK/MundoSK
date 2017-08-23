@@ -30,49 +30,31 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 public class Mundo extends JavaPlugin {
 	public static Mundo INSTANCE;
 	public static final ChatColor PRIMARY_CHAT_COLOR = ChatColor.DARK_GREEN;
 	public static final ChatColor ALT_CHAT_COLOR = ChatColor.GREEN;
-    //public static Boolean implementPacketStuff;
 
     @Override
 	public void onEnable() {
-        /*FileConfiguration config = getConfig();
-        config.addDefault("debug", Arrays.asList(new String[0]));
-        config.addDefault("enable_custom_skin_and_tablist", true);
-        config.addDefault("tablist_remove_tab_delay_spawn", 5);
-        config.addDefault("tablist_remove_tab_delay_respawn", 5);
-        config.options().copyDefaults(true);
-        List<String> debugPackages = config.getStringList("debug");
-        implementPacketStuff = config.getBoolean("enable_custom_skin_and_tablist");
-        int tablistSpawnRemoveTabDelay = config.getInt("tablist_remove_tab_delay_spawn");
-        int tablistRespawnRemoveTabDelay = config.getInt("tablist_remove_tab_delay_respawn");
-        saveConfig();*/
-
         INSTANCE = this;
 
         Config.reload();
-
-        //Logging.load(getLogger(), debugPackages);
         Logging.load(getLogger());
         Scheduling.load();
         WorldLoader.load();
 		Skript.registerAddon(this);
+
         Logging.info("Pie is awesome :D");
         if (getDescription().getVersion().toUpperCase().contains("BETA")) {
             Logging.info("You are currently running a BETA version of MundoSK");
             Logging.info("You should only run BETA versions of MundoSK on test servers unless Tlatoani or another reliable source has recommended otherwise");
         }
-        //if (!debugPackages.isEmpty()) {
         if (!Config.DEBUG_PACKAGES.getCurrentValue().isEmpty()) {
             Logging.info("You have enabled debug for certain packages in MundoSK config");
             Logging.info("Debug should only be enabled when you are trying to fix a bug or assist someone else with fixing a bug in MundoSK");
@@ -96,10 +78,8 @@ public class Mundo extends JavaPlugin {
         WorldManagementMundo.load();
 		if (MundoUtil.serverHasPlugin("ProtocolLib")) {
 		    PacketManager.load();
-		    //if (implementPacketStuff) {
             if (Config.IMPLEMENT_PACKET_STUFF.getCurrentValue()) {
 		        SkinMundo.load();
-                //TablistManager.load(tablistSpawnRemoveTabDelay, tablistRespawnRemoveTabDelay);
                 TablistManager.load();
             }
 		}
@@ -111,7 +91,7 @@ public class Mundo extends JavaPlugin {
         }
         //ZExperimental ~ The Z is for mystery (it's so that it appears last in the package list)
         ZExperimentalMundo.load();
-        //
+
         Registration.registerEnumAllExpressions();
         CustomEventMundo.load();
         ExprEventSpecificValue.register();
@@ -138,8 +118,6 @@ public class Mundo extends JavaPlugin {
     public ChunkGenerator getDefaultWorldGenerator(String unusedWorldName, String id) {
         return SkriptGeneratorManager.getSkriptGenerator(id);
     }
-
-
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

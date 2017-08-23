@@ -31,6 +31,9 @@ public class EffCreateNewTab extends Effect {
         Skin icon = iconExpression.map(expression -> expression.getSingle(event)).orElse(Tablist.DEFAULT_SKIN_TEXTURE);
         Integer score = this.score.map(expression -> expression.getSingle(event).intValue()).orElse(0);
         for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
             Tablist tablist = TablistManager.getTablistOfPlayer(player);
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();

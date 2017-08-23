@@ -6,38 +6,50 @@ package com.pie.tlatoani.Util;
 public class Documentation {
     private final String name;
     private final String[] syntaxes;
+    private final String description;
     private final String originVersion;
-    private final String[] requiredPlugins;
-    private final String[][] examples;
+    String[] requiredPlugins = new String[0];
 
-    private Documentation(String name, String[] syntaxes, String originVersion, String[] requiredPlugins, String[][] examples) {
+    public void register() {
+
+    }
+
+    private Documentation(String name, String[] syntaxes, String description, String originVersion) {
         this.name = name;
         this.syntaxes = syntaxes;
+        this.description = description;
         this.originVersion = originVersion;
-        this.requiredPlugins = requiredPlugins;
-        this.examples = examples;
     }
 
     public static class Effect extends Documentation {
 
-        public Effect(String name, String[] syntaxes, String originVersion, String[] requiredPlugins, String[][] examples) {
-            super(name, syntaxes, originVersion, requiredPlugins, examples);
+        public Effect(String name, String[] syntaxes, String description, String originVersion) {
+            super(name, syntaxes, description, originVersion);
         }
     }
 
     public static class Expression extends Documentation {
         private final Class type;
 
-        private Expression(String name, String[] syntaxes, String originVersion, String[] requiredPlugins, String[][] examples, Class type) {
-            super(name, syntaxes, originVersion, requiredPlugins, examples);
+        public Expression(String name, String[] syntaxes, Class type, String description, String originVersion) {
+            super(name, syntaxes, description, originVersion);
             this.type = type;
         }
     }
 
     public static class Event extends Documentation {
 
-        private Event(String name, String[] syntaxes, String originVersion, String[] requiredPlugins, String[][] examples) {
-            super(name, syntaxes, originVersion, requiredPlugins, examples);
+        public Event(String name, String[] syntaxes, String description, String originVersion) {
+            super(name, syntaxes, description, originVersion);
+        }
+    }
+
+    public static class Type extends Documentation {
+        private final String[] usages;
+
+        public Type(String name, String[] syntaxes, String[] usages, String description, String originVersion) {
+            super(name, syntaxes, description, originVersion);
+            this.usages = usages;
         }
     }
 }

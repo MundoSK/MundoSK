@@ -1,9 +1,8 @@
-package com.pie.tlatoani.ZExperimental;
+package com.pie.tlatoani.ZExperimental.SyntaxPiece;
 
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,7 +72,7 @@ public class SyntaxParser {
         if (pieces.size() == 1) {
             return pieces.get(0);
         }
-        return new SyntaxPiece.Concatenation(ImmutableList.copyOf(pieces));
+        return new Concatenation(ImmutableList.copyOf(pieces));
     }
 
     public static SyntaxPiece parse(String string) {
@@ -97,7 +96,7 @@ public class SyntaxParser {
             @Override
             public void consumeSymbol(Symbol symbol) {
                 if (literalBuilder.length() > 0) {
-                    syntaxPieces.add(new SyntaxPiece.Literal(literalBuilder.toString()));
+                    syntaxPieces.add(new Literal(literalBuilder.toString()));
                     literalBuilder = new StringBuilder();
                 }
                 switch (symbol) {
@@ -115,7 +114,7 @@ public class SyntaxParser {
         }.parse();
     }
 
-    public static SyntaxPiece.Expression parseExpression(ParsingIterator parsingIterator) {
+    public static Expression parseExpression(ParsingIterator parsingIterator) {
         String variable = new ParsingConsumer() {
             StringBuilder stringBuilder = new StringBuilder();
             boolean continu = true;
@@ -166,10 +165,10 @@ public class SyntaxParser {
                 }
             }
         }.extract();
-        return new SyntaxPiece.Expression(variable, exprInfo);
+        return new Expression(variable, exprInfo);
     }
 
-    public static SyntaxPiece.Varying parseVarying(ParsingIterator parsingIterator, boolean optional) {
+    public static Varying parseVarying(ParsingIterator parsingIterator, boolean optional) {
         return new ParsingConsumer() {
             ArrayList<SyntaxPiece> options = new ArrayList<SyntaxPiece>();
             ArrayList<SyntaxPiece> syntaxPieces = new ArrayList<>();
@@ -177,9 +176,9 @@ public class SyntaxParser {
             Optional<String> variable = Optional.empty();
             boolean continu;
 
-            public SyntaxPiece.Varying parse() {
+            public Varying parse() {
                 if (optional) {
-                    options.add(SyntaxPiece.Literal.EMPTY);
+                    options.add(Literal.EMPTY);
                 }
                 while (parsingIterator.hasNext() && continu) {
                     parsingIterator.next(this);
@@ -187,7 +186,7 @@ public class SyntaxParser {
                 if (continu) {
                     throw new IllegalArgumentException("Varying never terminated");
                 }
-                return new SyntaxPiece.Varying(ImmutableList.copyOf(options), variable);
+                return new Varying(ImmutableList.copyOf(options), variable);
             }
 
             @Override
@@ -198,7 +197,7 @@ public class SyntaxParser {
             @Override
             public void consumeSymbol(Symbol symbol) {
                 if (literalBuilder.length() > 0 && symbol != Symbol.VARIABLE_IDENTIFIER) {
-                    syntaxPieces.add(new SyntaxPiece.Literal(literalBuilder.toString()));
+                    syntaxPieces.add(new Literal(literalBuilder.toString()));
                     literalBuilder = new StringBuilder();
                 }
                 switch (symbol) {

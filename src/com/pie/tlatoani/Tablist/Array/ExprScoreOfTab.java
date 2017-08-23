@@ -27,6 +27,7 @@ public class ExprScoreOfTab extends SimpleExpression<Number> {
         int row = this.row.getSingle(event).intValue();
         return Arrays
                 .stream(playerExpression.getArray(event))
+                .filter(Player::isOnline)
                 .map(player -> {
                     Tablist tablist = TablistManager.getTablistOfPlayer(player);
                     if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
@@ -66,6 +67,9 @@ public class ExprScoreOfTab extends SimpleExpression<Number> {
         int row = this.row.getSingle(event).intValue();
         Integer value = ((Number) delta[0]).intValue();
         for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
             Tablist tablist = TablistManager.getTablistOfPlayer(player);
             if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                 ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();

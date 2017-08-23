@@ -23,8 +23,12 @@ public class ExprTablistScore extends SimpleExpression<Number> {
     @Override
     protected Number[] get(Event event) {
         Player object = objectExpression.getSingle(event);
+        if (!object.isOnline()) {
+            return new Number[0];
+        }
         return Arrays
                 .stream(playerExpression.getArray(event))
+                .filter(Player::isOnline)
                 .map(player -> TablistManager
                         .getTablistOfPlayer(player)
                         .getPlayerTablist()
@@ -59,7 +63,13 @@ public class ExprTablistScore extends SimpleExpression<Number> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         Integer value = mode == Changer.ChangeMode.SET ? ((Number) delta[0]).intValue() : null;
         Player object = objectExpression.getSingle(event);
+        if (!object.isOnline()) {
+            return;
+        }
         for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
             TablistManager
                     .getTablistOfPlayer(player)
                     .getPlayerTablist()

@@ -30,10 +30,16 @@ public class EffEnableArrayTablist extends Effect {
             int rows = this.rows.map(expression -> expression.getSingle(event).intValue()).orElse(20);
             Skin initialIcon = this.iconExpression.map(expression -> expression.getSingle(event)).orElse(Tablist.DEFAULT_SKIN_TEXTURE);
             for (Player player : playerExpression.getArray(event)) {
+                if (!player.isOnline()) {
+                    continue;
+                }
                 TablistManager.getTablistOfPlayer(player).setSupplementaryTablist(playerTablist -> new ArrayTablist(playerTablist, columns, rows, initialIcon));
             }
         } else {
             for (Player player : playerExpression.getArray(event)) {
+                if (!player.isOnline()) {
+                    continue;
+                }
                 Tablist tablist = TablistManager.getTablistOfPlayer(player);
                 if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                     tablist.setSupplementaryTablist(SimpleTablist::new);

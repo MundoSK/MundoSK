@@ -2,7 +2,7 @@ package com.pie.tlatoani.ZExperimental;
 
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SyntaxElement;
-import com.pie.tlatoani.ZExperimental.SyntaxPiece.MarkSpecificInformation;
+import com.pie.tlatoani.ZExperimental.SyntaxPiece.SyntaxPiece.MarkSpecificInformation;
 
 /**
  * Created by Tlatoani on 4/2/17.

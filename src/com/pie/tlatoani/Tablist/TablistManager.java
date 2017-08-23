@@ -32,14 +32,11 @@ public class TablistManager {
     private static final HashMap<Player, Tablist> tablistMap = new HashMap<>();
     private static final ArrayList<Player> playersRespawning = new ArrayList<>();
 
-    //public static int SPAWN_REMOVE_TAB_DELAY;
-    //public static int RESPAWN_REMOVE_TAB_DELAY;
-
     public static Tablist getTablistOfPlayer(Player player) {
-        if (player == null) {
-            throw new IllegalArgumentException("The player parameter in getTablistOfPlayer(Player player) cannot be null!");
+        if (player == null || !player.isOnline()) {
+            throw new IllegalArgumentException("The player parameter in getTablistOfPlayer(Player player) must be non-null and online, player: " + player);
         }
-        return tablistMap.computeIfAbsent(player, __ -> new Tablist(player));
+        return tablistMap.computeIfAbsent(player, Tablist::new);
     }
 
     private static void onJoin(Player player) {
@@ -51,9 +48,7 @@ public class TablistManager {
         tablistMap.forEach((__, tablist) -> tablist.onQuit(player));
     }
 
-    public static void load(/*int spawnRemoveTabDelay, int respawnRemoveTabDelay*/) {
-        //SPAWN_REMOVE_TAB_DELAY = spawnRemoveTabDelay;
-        //RESPAWN_REMOVE_TAB_DELAY = respawnRemoveTabDelay;
+    public static void load() {
 
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
@@ -69,7 +64,7 @@ public class TablistManager {
         }, Mundo.INSTANCE);
 
         Registration.registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores [are] enabled in tablist of %players%", "scores [are] enabled in %players%'s tablist");
-        Registration.registerExpression(ExprHeaderFooter.class, String.class, ExpressionType.PROPERTY, "tablist (0¦header|1¦footer) (for|of) %players%");
+        Registration.registerExpression(ExprHeaderFooter.class, String.class, ExpressionType.PROPERTY, "tablist (0¦header|1¦footer) (for|of) %players%", "%players%'s tablist (0¦header|1¦footer)");
         loadPlayer();
         loadSimple();
         loadArray();

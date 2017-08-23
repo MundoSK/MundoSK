@@ -21,6 +21,7 @@ public class ExprScoresEnabled extends SimpleExpression<Boolean> {
     protected Boolean[] get(Event event) {
         return Arrays
                 .stream(playerExpression.getArray(event))
+                .filter(Player::isOnline)
                 .map(player -> TablistManager.getTablistOfPlayer(player).areScoresEnabled())
                 .toArray(Boolean[]::new);
     }
@@ -49,6 +50,9 @@ public class ExprScoresEnabled extends SimpleExpression<Boolean> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         boolean enabled = (boolean) delta[0];
         for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
             TablistManager.getTablistOfPlayer(player).setScoresEnabled(enabled);
         }
     }

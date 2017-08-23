@@ -1,4 +1,4 @@
-package com.pie.tlatoani.ZExperimental;
+package com.pie.tlatoani.ZExperimental.SyntaxPiece;
 
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableSet;
 import com.pie.tlatoani.Util.MundoUtil;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 /**
  * Created by Tlatoani on 4/4/17.
@@ -16,6 +17,8 @@ public final class ExpressionConstraints {
     public final Kleenean isLiteral;
     public final int time;
     public final boolean nullable;
+
+    public final String syntax;
 
     public static class Type {
         public final ClassInfo classInfo;
@@ -36,14 +39,21 @@ public final class ExpressionConstraints {
         }
     }
 
-    private ExpressionConstraints(ImmutableSet<Type> types, Kleenean isLiteral, int time, boolean nullable) {
+    public ExpressionConstraints(ImmutableSet<Type> types, Kleenean isLiteral, int time, boolean nullable) {
         this.types = types;
         this.isLiteral = isLiteral;
         this.time = time;
         this.nullable = nullable;
+
+        String typeOptions = types.stream().map(type -> type.classInfo.getCodeName()).collect(Collectors.joining("/"));
+        String isLiteralPrefix = getLiteralityPrefix(isLiteral);
+        String timeSuffix = getTimeSuffix(time);
+        String nullablePrefix = nullable ? "-" : "";
+
+        this.syntax = isLiteralPrefix + nullablePrefix + typeOptions + timeSuffix;
     }
 
-    public static ExpressionConstraints fromString(String string) {
+    public ExpressionConstraints(String string) {
         Kleenean isLiteral;
         if (string.charAt(0) == '*') {
             isLiteral = Kleenean.TRUE;
@@ -83,7 +93,13 @@ public final class ExpressionConstraints {
             ClassInfo classInfo = Classes.getClassInfo(typeStr);
             builder.add(new Type(classInfo, isSingle));
         }
-        return new ExpressionConstraints(builder.build(), isLiteral, time, nullable);
+
+        this.types = builder.build();
+        this.isLiteral = isLiteral;
+        this.time = time;
+        this.nullable = nullable;
+
+        this.syntax = string;
     }
 
     public Class getSuperClass() {
@@ -94,6 +110,24 @@ public final class ExpressionConstraints {
             i++;
         }
         return MundoUtil.commonSuperClass(classes);
+    }
+
+    public static String getLiteralityPrefix(Kleenean isLiteral) {
+        switch (isLiteral) {
+            case TRUE: return "*";
+            case FALSE: return "~";
+            case UNKNOWN: return "";
+        }
+        throw new IllegalArgumentException("Illegal Kleenean isLiteral value: " + isLiteral);
+    }
+
+    public static String getTimeSuffix(int time) {
+        switch (time) {
+            case 1: return "@1";
+            case -1: return "@-1";
+            case 0: return "0";
+        }
+        throw new IllegalArgumentException("Illegal int time value: " + time);
     }
 
     public static class Collective {

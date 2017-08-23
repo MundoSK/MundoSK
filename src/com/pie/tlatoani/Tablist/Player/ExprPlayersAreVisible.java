@@ -24,6 +24,7 @@ public class ExprPlayersAreVisible extends SimpleExpression<Boolean> {
     protected Boolean[] get(Event event) {
         return Arrays
                 .stream(playerExpression.getArray(event))
+                .filter(Player::isOnline)
                 .map(player -> TablistManager.getTablistOfPlayer(player).arePlayersVisible())
                 .toArray(Boolean[]::new);
     }
@@ -53,6 +54,9 @@ public class ExprPlayersAreVisible extends SimpleExpression<Boolean> {
         Boolean visible = (Boolean) delta[0];
         if (visible) {
             for (Player player : playerExpression.getArray(event)) {
+                if (!player.isOnline()) {
+                    continue;
+                }
                 Tablist tablist = TablistManager.getTablistOfPlayer(player);
                 if (!tablist.arePlayersVisible() && !tablist.getPlayerTablist().isPresent()) {
                     tablist.setSupplementaryTablist(SimpleTablist::new);
@@ -61,6 +65,9 @@ public class ExprPlayersAreVisible extends SimpleExpression<Boolean> {
             }
         } else {
             for (Player player : playerExpression.getArray(event)) {
+                if (!player.isOnline()) {
+                    continue;
+                }
                 Tablist tablist = TablistManager.getTablistOfPlayer(player);
                 if (tablist.arePlayersVisible() && !tablist.getPlayerTablist().isPresent()) {
                     tablist.setSupplementaryTablist(SimpleTablist::new);

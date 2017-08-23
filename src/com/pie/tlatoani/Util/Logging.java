@@ -1,11 +1,9 @@
 package com.pie.tlatoani.Util;
 
 import ch.njol.skript.Skript;
-import com.mysql.jdbc.log.Log;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.Bukkit;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -13,15 +11,12 @@ import java.util.logging.Logger;
  */
 public final class Logging {
     private static Logger logger;
-    //private static List<String> packagesToDebug;
 
-    public static void load(Logger logger/*, List<String> packagesToDebug*/) {
+    public static void load(Logger logger) {
         Logging.logger = logger;
-        //Logging.packagesToDebug = packagesToDebug;
     }
 
     public static boolean classDebugs(Class c) {
-        //return packagesToDebug.contains(c.getName().split("\\.")[3]);
         return Config.DEBUG_PACKAGES.getCurrentValue().contains(c.getName().split("\\.")[3]);
     }
 
