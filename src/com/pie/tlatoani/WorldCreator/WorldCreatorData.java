@@ -34,7 +34,7 @@ public class WorldCreatorData {
             @Nullable Boolean structures
     ) {
         if (name == null) {
-            throw new IllegalArgumentException("The name of a Creator cannot be null!");
+            throw new IllegalArgumentException("The name of a creator cannot be null!");
         }
         this.name = name;
         this.dimension = Optional.ofNullable(dimension).orElse(Dimension.NORMAL);
