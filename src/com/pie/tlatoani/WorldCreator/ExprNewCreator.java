@@ -24,7 +24,7 @@ public class ExprNewCreator extends SimpleExpression<WorldCreatorData> {
     
     @Override
     protected WorldCreatorData[] get(Event event) {
-        String name = nameExpr.getSingle(event);
+        Optional<String> name = Optional.ofNullable(nameExpr).map(expr -> expr.getSingle(event));
         Logging.debug(this, "Creator Name: " + name);
         Dimension dimension = Optional.ofNullable(dimensionExpr).map(expr -> expr.getSingle(event)).orElse(null);
         Optional<Long> seed = Optional.ofNullable(seedExpr).map(expr -> Long.parseLong(expr.getSingle(event)));
@@ -47,7 +47,8 @@ public class ExprNewCreator extends SimpleExpression<WorldCreatorData> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "creator named " + nameExpr +
+        return "world creator" +
+                (nameExpr != null ? " named " + nameExpr : "") +
                 ((dimensionExpr != null || typeExpr != null || seedExpr != null || generatorExpr != null || generatorSettingsExpr != null || structuresExpr != null)
                 ? " with"
                         + (dimensionExpr != null ? " dimension " + dimensionExpr : "")

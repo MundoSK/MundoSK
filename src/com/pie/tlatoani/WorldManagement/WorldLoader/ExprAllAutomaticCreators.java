@@ -49,9 +49,14 @@ public class ExprAllAutomaticCreators extends SimpleExpression<WorldCreatorData>
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         if (mode == Changer.ChangeMode.ADD) {
-            WorldLoader.setCreator((WorldCreatorData) delta[0]);
+            WorldCreatorData creator = (WorldCreatorData) delta[0];
+            creator.name.ifPresent(__ -> WorldLoader.setCreator(creator));
         } else if (mode == Changer.ChangeMode.REMOVE) {
-            WorldLoader.removeCreator(delta[0] instanceof String ? (String) delta[0] : ((WorldCreatorData) delta[0]).name);
+            if (delta[0] instanceof String) {
+                WorldLoader.removeCreator((String) delta[0]);
+            } else {
+                ((WorldCreatorData) delta[0]).name.ifPresent(str -> WorldLoader.removeCreator(str));
+            }
         } else {
             WorldLoader.clearAllCreators();
         }

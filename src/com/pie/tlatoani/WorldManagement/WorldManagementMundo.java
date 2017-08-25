@@ -27,7 +27,7 @@ public class WorldManagementMundo {
             }
         });
         Registration.registerEffect(EffCreateWorld.class, "create [new] world named %string%[( with|,)] [(dim[ension]|env[ironment]) %-dimension%][,] [seed %-string%][,] [type %-worldtype%][,] [gen[erator] %-string%][,] [gen[erator] settings %-string%][,] [struct[ures] %-boolean%]");
-        Registration.registerEffect(EffCreateWorldCreator.class, "create [new] world using %creator%");
+        Registration.registerEffect(EffCreateWorldUsingCreator.class, "create [new] world [named %-string%] using %creator%");
         Registration.registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
         Registration.registerEffect(EffDeleteWorld.class, "delete %world%");
         Registration.registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");

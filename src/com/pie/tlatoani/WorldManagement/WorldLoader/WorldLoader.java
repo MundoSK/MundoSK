@@ -11,10 +11,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * Created by Tlatoani on 7/3/16.
@@ -28,7 +25,7 @@ public final class WorldLoader {
             readJSONObject(getLoaderFile()).forEach((key, value) -> {
                 String s = (String) key;
                 JSONObject jsonObject = (JSONObject) value;
-                WorldCreatorData creator = WorldCreatorData.fromJSON(s, jsonObject).get();
+                WorldCreatorData creator = WorldCreatorData.fromJSON(Optional.of(s), jsonObject).get();
                 setCreator(creator);
                 creator.createWorld();
             });
@@ -81,7 +78,10 @@ public final class WorldLoader {
     }
 
     public static void setCreator(WorldCreatorData creator) {
-        worldLoaderSaver.put(creator.name, creator);
+        if (!creator.name.isPresent()) {
+            throw new IllegalArgumentException("You cannot set a nameless creator as automatic!");
+        }
+        worldLoaderSaver.put(creator.name.get(), creator);
     }
 
     public static void removeCreator(String worldname) {

@@ -31,19 +31,19 @@ public class EffDuplicateWorld extends Effect{
 
 	@Override
 	protected void execute(Event event) {
-        World world = this.world.getSingle(event);
+        World oldWorld = this.world.getSingle(event);
 		String name = this.name.getSingle(event);
-		File newWorld = new File(name);
-		newWorld.mkdir();
-		File oldWorld = world.getWorldFolder();
+		File newWorldFolder = new File(name);
+		newWorldFolder.mkdir();
+		File oldWorldFolder = oldWorld.getWorldFolder();
 		try {
-			FileUtils.copyDirectory(oldWorld, newWorld);
+			FileUtils.copyDirectory(oldWorldFolder, newWorldFolder);
 		} catch (IOException e) {
 			Logging.reportException(this, e);
 		}
 		File uidDatFile = new File(name + "/uid.dat");
 		uidDatFile.delete();
-        WorldCreatorData.fromWorld(world).setName(name).createWorld();
+        WorldCreatorData.fromWorld(oldWorld).createWorld(name);
 		
 		
 	}

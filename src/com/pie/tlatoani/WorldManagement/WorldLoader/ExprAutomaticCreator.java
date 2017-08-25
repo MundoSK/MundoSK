@@ -4,6 +4,8 @@ import ch.njol.skript.classes.Changer;
 import com.pie.tlatoani.Util.ChangeablePropertyExpression;
 import com.pie.tlatoani.WorldCreator.WorldCreatorData;
 
+import java.util.Optional;
+
 /**
  * Created by Tlatoani on 8/18/17.
  */
@@ -11,7 +13,7 @@ public class ExprAutomaticCreator extends ChangeablePropertyExpression<String, W
     @Override
     public void change(String s, WorldCreatorData worldCreatorData, Changer.ChangeMode changeMode) {
         if (changeMode == Changer.ChangeMode.SET) {
-            WorldLoader.setCreator(worldCreatorData.setName(s));
+            WorldLoader.setCreator(worldCreatorData.setName(Optional.of(s)));
         } else if (changeMode == Changer.ChangeMode.DELETE) {
             WorldLoader.removeCreator(s);
         }

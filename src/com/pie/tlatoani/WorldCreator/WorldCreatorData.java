@@ -16,7 +16,7 @@ import java.util.Random;
  * Created by Tlatoani on 8/18/17.
  */
 public class WorldCreatorData {
-    public final String name;
+    public final Optional<String> name;
     public final Dimension dimension;
     public final WorldType type;
     public final Optional<Long> seed;
@@ -25,7 +25,7 @@ public class WorldCreatorData {
     public final boolean structures;
 
     public WorldCreatorData(
-            String name,
+            Optional<String> name,
             @Nullable Dimension dimension,
             Optional<Long> seed,
             @Nullable WorldType type,
@@ -46,7 +46,7 @@ public class WorldCreatorData {
     }
 
     public static WorldCreatorData withGeneratorID(
-            String name,
+            Optional<String> name,
             @Nullable Dimension dimension,
             Optional<Long> seed,
             @Nullable WorldType type,
@@ -67,7 +67,7 @@ public class WorldCreatorData {
 
     public static WorldCreatorData fromWorld(World world) {
         return new WorldCreatorData(
-                world.getName(),
+                Optional.of(world.getName()),
                 Dimension.fromEnvironment(world.getEnvironment()),
                 Optional.of(world.getSeed()),
                 world.getWorldType(),
@@ -78,6 +78,20 @@ public class WorldCreatorData {
     }
 
     public void createWorld() {
+        if (!name.isPresent()) {
+            throw new UnsupportedOperationException("You must supply a name if you want to create a world using a nameless creator: " + this);
+        }
+        WorldCreator creator = new WorldCreator(name.get());
+        creator.environment(dimension.toEnvironment());
+        creator.type(type);
+        creator.seed(seed.orElseGet(() -> new Random().nextLong()));
+        generator.ifPresent(creator::generator);
+        creator.generatorSettings(generatorSettings);
+        creator.generateStructures(structures);
+        creator.createWorld();
+    }
+
+    public void createWorld(String name) {
         WorldCreator creator = new WorldCreator(name);
         creator.environment(dimension.toEnvironment());
         creator.type(type);
@@ -105,7 +119,7 @@ public class WorldCreatorData {
         return jsonObject;
     }
 
-    public static Optional<WorldCreatorData> fromJSON(String worldName, JSONObject jsonObject) {
+    public static Optional<WorldCreatorData> fromJSON(Optional<String> worldName, JSONObject jsonObject) {
         try {
             Dimension dimension = Dimension.valueOf((String) jsonObject.get("environment"));
             Optional<Long> seed = Optional.ofNullable((String) jsonObject.get("seed")).map(Long::parseLong);
@@ -121,7 +135,7 @@ public class WorldCreatorData {
 
     //Modifiers
 
-    public WorldCreatorData setName(String name) {
+    public WorldCreatorData setName(Optional<String> name) {
         return new WorldCreatorData(name, dimension, seed, type, generator, generatorSettings, structures);
     }
 
@@ -151,5 +165,11 @@ public class WorldCreatorData {
 
     public WorldCreatorData setStructures(Boolean structures) {
         return new WorldCreatorData(name, dimension, seed, type, generator, generatorSettings, structures);
+    }
+
+    //
+
+    public String toString() {
+        return MundoUtil.mapOptional(name, str -> str + ":", () -> "") + toJSON();
     }
 }
