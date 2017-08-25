@@ -30,7 +30,7 @@ public class WorldManagementMundo {
         Registration.registerEffect(EffCreateWorldUsingCreator.class, "create [new] world [named %-string%] using %creator%");
         Registration.registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]");
         Registration.registerEffect(EffDeleteWorld.class, "delete %world%");
-        Registration.registerEffect(EffDuplicateWorld.class, "duplicate %world% using name %string%");
+        Registration.registerEffect(EffDuplicateWorld.class, "duplicate %world% (with|using) name %string%");
         Registration.registerExpression(ExprCurrentWorlds.class,World.class, ExpressionType.SIMPLE,"[all] current worlds");
 
         loadWorldLoader();
