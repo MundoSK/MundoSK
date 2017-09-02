@@ -36,8 +36,8 @@ public class PacketManager {
         packetTypesByName = createNameToPacketTypeMap();
         Registration.registerEnum(PacketType.class, "packettype", new PacketType[0], packetTypesByName.entrySet().toArray(new Map.Entry[0]));
         Registration.registerType(PacketContainer.class, "packet");
-        Registration.registerEffect(EffSendPacket.class, "send packet %packets% to %players%", "send %players% packet %packets%");
-        Registration.registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet %packets% from %players%"); //Included incorrect spelling to avoid wasted time
+        Registration.registerEffect(EffSendPacket.class, "send packet[s] %packets% to %players%", "send %players% packet[s] %packets%");
+        Registration.registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet[s] %packets% from %players%"); //Included incorrect spelling to avoid wasted time
         Registration.registerEffect(EffPacketInfo.class, "packet info %packet%");
         Registration.registerEvent("Packet Event", EvtPacketEvent.class, MundoPacketEvent.class, "packet event %packettypes%");
         Registration.registerEventValue(MundoPacketEvent.class, PacketContainer.class, MundoPacketEvent::getPacket);
