@@ -29,6 +29,9 @@ import java.io.StreamCorruptedException;
 public class SkinMundo {
     
     public static void load() {
+        SkinManager.loadReflectionStuff();
+        SkinManager.loadPacketEvents();
+
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onJoin(PlayerJoinEvent event) {
