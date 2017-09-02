@@ -12,13 +12,14 @@ import org.bukkit.event.Event;
  * Created by Tlatoani on 4/30/16.
  */
 public class EffSendPacket extends Effect {
-    Expression<PacketContainer> packetContainerExpression;
-    Expression<Player> playerExpression;
+    private Expression<PacketContainer> packetExpression;
+    private Expression<Player> playerExpression;
 
     @Override
     protected void execute(Event event) {
-        PacketContainer packetContainer = packetContainerExpression.getSingle(event);
-        PacketManager.sendPacket(packetContainer, this, playerExpression.getSingle(event));
+        for (PacketContainer packet : packetExpression.getArray(event)) {
+            PacketManager.sendPacket(packet, this, playerExpression.getArray(event));
+        }
     }
 
     @Override
@@ -28,7 +29,7 @@ public class EffSendPacket extends Effect {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        packetContainerExpression = (Expression<PacketContainer>) expressions[i];
+        packetExpression = (Expression<PacketContainer>) expressions[i];
         playerExpression = (Expression<Player>) expressions[(i + 1) % 2];
         return true;
     }
