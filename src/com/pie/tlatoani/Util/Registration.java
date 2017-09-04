@@ -52,7 +52,7 @@ public class Registration {
                 propertyList.add(property);
             } else {
                 patterns.add("[the] " + property + " of %" + possessorType + "%");
-                patterns.add("%" + possessorType + "%'s " + property);
+                patterns.add("%" + possessorType + "%'[s] " + property);
                 propertyList.add(property);
                 propertyList.add(property);
             }

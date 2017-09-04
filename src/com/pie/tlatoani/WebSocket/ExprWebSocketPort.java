@@ -1,50 +1,29 @@
 package com.pie.tlatoani.WebSocket;
 
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
-import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.MundoPropertyExpression;
 import mundosk_libraries.java_websocket.WebSocket;
-import org.bukkit.event.Event;
 
 import java.net.InetSocketAddress;
+import java.util.Optional;
 
 /**
- * Created by Tlatoani on 5/6/17.
+ * Created by Tlatoani on 9/4/17.
  */
-public class ExprWebSocketPort extends SimpleExpression<Number> {
-    private Expression<WebSocket> webSocketExpr;
-    private boolean local;
+public class ExprWebSocketPort extends MundoPropertyExpression<WebSocket, Number> {
 
-    @Override
-    protected Number[] get(Event event) {
-        WebSocket webSocket = webSocketExpr.getSingle(event);
-        InetSocketAddress socketAddress = local ? webSocket.getLocalSocketAddress() : webSocket.getRemoteSocketAddress();
-        if (socketAddress == null) {
-            return new Number[0];
+    private InetSocketAddress getSocketAddress(WebSocket webSocket) {
+        switch (getPropertyName()) {
+            case "local port":
+                return webSocket.getLocalSocketAddress();
+            case "remote port":
+            case "external port":
+                return webSocket.getRemoteSocketAddress();
         }
-        return new Number[]{socketAddress.getPort()};
+        throw new IllegalStateException("Illegal getPropertyName() value: " + getPropertyName());
     }
 
     @Override
-    public boolean isSingle() {
-        return true;
-    }
-
-    @Override
-    public Class<? extends Number> getReturnType() {
-        return Number.class;
-    }
-
-    @Override
-    public String toString(Event event, boolean b) {
-        return (local ? "local" : "remote") + " port of " + webSocketExpr;
-    }
-
-    @Override
-    public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        webSocketExpr = (Expression<WebSocket>) expressions[0];
-        local = i == 0;
-        return true;
+    public Number convert(WebSocket webSocket) {
+        return Optional.ofNullable(getSocketAddress(webSocket)).map(InetSocketAddress::getPort).orElse(null);
     }
 }

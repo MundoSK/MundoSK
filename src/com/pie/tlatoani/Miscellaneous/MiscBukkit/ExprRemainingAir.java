@@ -1,89 +1,46 @@
 package com.pie.tlatoani.Miscellaneous.MiscBukkit;
 
 import ch.njol.skript.classes.Changer;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
-import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.Timespan;
-import ch.njol.util.Kleenean;
-import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Util.ChangeablePropertyExpression;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.Event;
-
-import javax.annotation.Nullable;
 
 /**
- * Created by Tlatoani on 4/23/16.
+ * Created by Tlatoani on 9/3/17.
  */
-public class ExprRemainingAir extends SimpleExpression<Timespan> {
-    private Expression<LivingEntity> entity;
-    private Boolean max = false;
+public class ExprRemainingAir extends ChangeablePropertyExpression<LivingEntity, Timespan> {
 
-    @Override
-    public Class<? extends Timespan> getReturnType() {
-        // TODO Auto-generated method stub
-        return Timespan.class;
+    private int getAirTicks(LivingEntity livingEntity) {
+        switch (getPropertyName()) {
+            case "breath": return livingEntity.getRemainingAir();
+            case "max breath": return livingEntity.getMaximumAir();
+        }
+        throw new IllegalStateException("Illegal getPropertyName() value: " + getPropertyName());
     }
 
     @Override
-    public boolean isSingle() {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, SkriptParser.ParseResult arg3) {
-        // TODO Auto-generated method stub
-        entity = (Expression<LivingEntity>) expr[0];
-        if (matchedPattern > 1) max = true;
-        return true;
-    }
-
-    @Override
-    public String toString(@Nullable Event event, boolean arg1) {
-        // TODO Auto-generated method stub
-        return "remaining air";
-    }
-
-    @Override
-    @Nullable
-    protected Timespan[] get(Event event) {
-        return new Timespan[]{!max ? new Timespan(entity.getSingle(event).getRemainingAir() * 50) : new Timespan(entity.getSingle(event).getMaximumAir() * 50)};
-    }
-
-    public void change(Event event, Object[] delta, Changer.ChangeMode mode){
-        LivingEntity living = entity.getSingle(event);
-        Integer time = (new Long(((Timespan)delta[0]).getMilliSeconds())).intValue() / 50;
-        if (!max) {
-            if (mode == Changer.ChangeMode.SET){
-                living.setRemainingAir(time);
-            }
-            else if (mode == Changer.ChangeMode.ADD) {
-                living.setRemainingAir(living.getRemainingAir() + time);
-            }
-            else if (mode == Changer.ChangeMode.REMOVE) {
-                living.setRemainingAir(living.getRemainingAir() - time);
-            }
-        } else {
-            if (mode == Changer.ChangeMode.SET){
-                living.setMaximumAir(time);
-            }
-            else if (mode == Changer.ChangeMode.ADD) {
-                living.setMaximumAir(living.getMaximumAir() + time);
-            }
-            else if (mode == Changer.ChangeMode.REMOVE) {
-                living.setMaximumAir(living.getMaximumAir() - time);
-            }
+    public void change(LivingEntity livingEntity, Timespan timespan, Changer.ChangeMode changeMode) {
+        int ticks;
+        switch (changeMode) {
+            case SET: ticks = (int) timespan.getTicks_i(); break;
+            case ADD: ticks = getAirTicks(livingEntity) + (int) timespan.getTicks_i(); break;
+            case REMOVE: ticks = getAirTicks(livingEntity) + (int) timespan.getTicks_i(); break;
+            default: throw new IllegalArgumentException("Illegal changeMode: " + changeMode);
+        }
+        switch (getPropertyName()) {
+            case "breath": livingEntity.setRemainingAir(ticks); break;
+            case "max breath": livingEntity.setMaximumAir(ticks); break;
+            default: throw new IllegalStateException("Illegal getPropertyName() value: " + getPropertyName());
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-        if (mode == Changer.ChangeMode.SET || mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE) {
-            return CollectionUtils.array(Timespan.class);
-        }
-        return null;
+    @Override
+    public Changer.ChangeMode[] getChangeModes() {
+        return new Changer.ChangeMode[]{Changer.ChangeMode.SET, Changer.ChangeMode.ADD, Changer.ChangeMode.REMOVE};
     }
 
+    @Override
+    public Timespan convert(LivingEntity livingEntity) {
+        return new Timespan(getAirTicks(livingEntity) * 50);
+    }
 }

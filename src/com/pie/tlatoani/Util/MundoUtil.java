@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Util;
 
+import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Checker;
@@ -82,6 +83,15 @@ public class MundoUtil {
 
     public static <T, R> R[] mapArray(Function<T, R> function, T[] input) {
         return (R[]) Stream.of(input).map(function).collect(Collectors.toList()).toArray();
+    }
+
+    public static boolean posCurrentEvent(Class<? extends Event> event) {
+        for (Class<? extends Event> currentEvent : ScriptLoader.getCurrentEvents()) {
+            if (classesCompatible(event, currentEvent)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //Optional

@@ -3,7 +3,6 @@ package com.pie.tlatoani.WebSocket;
 import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.expressions.base.EventValueExpression;
 import ch.njol.skript.lang.ExpressionType;
-import ch.njol.skript.registrations.Comparators;
 import ch.njol.util.Pair;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Registration;
@@ -49,13 +48,17 @@ public class WebSocketManager {
         Registration.registerEventValue(WebSocketCloseEvent.class, Boolean.class, event -> event.remote);
 
         Registration.registerExpression(ExprWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "[new] websocket %string% connected to uri %string%");
-        Registration.registerExpression(ExprWebSocketID.class, String.class, ExpressionType.PROPERTY, "websocket id of %websocket%", "%websocket%'s websocket id");
+        //Registration.registerExpression(OldExprWebSocketID.class, String.class, ExpressionType.PROPERTY, "websocket id of %websocket%", "%websocket%'s websocket id");
         Registration.registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket [server] port");
         Registration.registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all websockets [of server at port %-number%]");
         Registration.registerExpression(ExprWebSocketServerID.class, String.class, ExpressionType.PROPERTY, "id of websocket server at port %number%");
-        Registration.registerExpression(ExprWebSocketHost.class, String.class, ExpressionType.PROPERTY, "local host of %websocket%", "(remote|external) host of %websocket%");
-        Registration.registerExpression(ExprWebSocketPort.class, Number.class, ExpressionType.PROPERTY, "local port of %websocket%", "(remote|external) port of %websocket%");
-        Registration.registerExpression(ExprWebSocketState.class, WebSocket.READYSTATE.class, ExpressionType.PROPERTY, "websocket state of %websocket%", "%websocket%'s websocket state");
+        //Registration.registerExpression(OldExprWebSocketHost.class, String.class, ExpressionType.PROPERTY, "local host of %websocket%", "(remote|external) host of %websocket%");
+        //Registration.registerExpression(OldExprWebSocketPort.class, Number.class, ExpressionType.PROPERTY, "local port of %websocket%", "(remote|external) port of %websocket%");
+        //Registration.registerExpression(OldExprWebSocketState.class, WebSocket.READYSTATE.class, ExpressionType.PROPERTY, "websocket state of %websocket%", "%websocket%'s websocket state");
+        Registration.registerPropertyExpression(ExprWebSocketID.class, String.class, "websocket", "websocket id");
+        Registration.registerPropertyExpression(ExprWebSocketHost.class, String.class, "websocket", "local host", "remote host", "external host");
+        Registration.registerPropertyExpression(ExprWebSocketPort.class, Number.class, "websocket", "local port", "remote port", "external port");
+        Registration.registerPropertyExpression(ExprWebSocketState.class, WebSocket.READYSTATE.class, "websocket", "websocket state");
     }
 
     public static WebSocketClientFunctionality getClientFunctionality(String id) {
