@@ -203,7 +203,6 @@ public class MiscMundo {
         Registration.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%");
         Registration.registerPropertyExpression(ExprDifficulty.class, Difficulty.class, "world", "difficulty");
         Registration.registerExpression(ExprGameRule.class,String.class,ExpressionType.PROPERTY,"value of [game]rule %string% in %world%");
-        //Registration.registerExpression(OldExprRemainingAir.class,Timespan.class,ExpressionType.PROPERTY,"breath of %livingentity%", "%livingentity%'s breath", "max breath of %livingentity%", "%livingentity%'s max breath");
         Registration.registerPropertyExpression(ExprRemainingAir.class, Timespan.class, "livingentity", "breath", "max breath");
         Registration.registerExpression(ExprLoginResult.class, PlayerLoginEvent.Result.class, ExpressionType.SIMPLE, "(login|connect[ion]) result");
         Registration.registerExpression(ExprServerIP.class, String.class, ExpressionType.SIMPLE, "[mundo[sk]] [the] ip of server", "[mundo[sk]] [the] server's ip");
