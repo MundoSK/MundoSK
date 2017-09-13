@@ -168,7 +168,7 @@ public class MiscMundo {
                     fromString.forEach((o, o2) -> {
                         jsonObject.put(o, deserializeJSONElement(o2));
                     });
-                } catch (ParseException | ClassCastException e) {
+                } catch (ParseException | ClassCastException | NullPointerException e) {
                     throw new StreamCorruptedException();
                 }
             }
