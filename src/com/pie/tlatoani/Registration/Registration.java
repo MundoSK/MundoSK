@@ -146,14 +146,20 @@ public final class Registration {
 
     public static <E> EnumClassInfo<E> registerEnum(Class<E> enumClass, String name, E... values) {
         EnumClassInfo<E> enumClassInfo = new EnumClassInfo<E>(enumClass, new String[]{name}, currentCategory, values);
-        ExprEnumValues.addEnumClassInfo(enumClassInfo);
+        if (classInfoSafe(enumClass, name)) {
+            Classes.registerClass(enumClassInfo);
+            ExprEnumValues.addEnumClassInfo(enumClassInfo);
+        }
         return enumClassInfo;
     }
 
     //Keys should be UPPERCASE
     public static <E> EnumClassInfo<E> registerEnum(Class<E> enumClass, String name, Map<String, E> valueMap) {
         EnumClassInfo<E> enumClassInfo = new EnumClassInfo<E>(enumClass, new String[]{name}, currentCategory, valueMap);
-        ExprEnumValues.addEnumClassInfo(enumClassInfo);
+        if (classInfoSafe(enumClass, name)) {
+            Classes.registerClass(enumClassInfo);
+            ExprEnumValues.addEnumClassInfo(enumClassInfo);
+        }
         return enumClassInfo;
     }
 

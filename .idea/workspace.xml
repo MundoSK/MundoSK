@@ -7,8 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/EnumClassInfo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/EnumClassInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -90,25 +91,23 @@
       <file leaf-file-name="Registration.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="126" column="21" lean-forward="false" selection-start-line="126" selection-start-column="21" selection-end-line="126" selection-end-column="21" />
+            <state relative-caret-position="557">
+              <caret line="158" column="45" lean-forward="true" selection-start-line="158" selection-start-column="45" selection-end-line="158" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#4738#5201#0" expanded="true" />
                 <element signature="e#5200#5201#0" expanded="true" />
                 <element signature="e#6249#6257#0" expanded="true" />
                 <element signature="e#6451#6615#0" expanded="true" />
-                <element signature="e#6561#6562#0" expanded="false" />
-                <element signature="e#6604#6605#0" expanded="false" />
                 <element signature="e#6614#6615#0" expanded="true" />
-                <marker date="1505261247000" expanded="false" signature="9587:9606" ph=" { " />
-                <marker date="1505261247000" expanded="false" signature="9628:9642" ph=" }" />
-                <marker date="1505261247000" expanded="false" signature="9716:9735" ph=" { " />
-                <marker date="1505261247000" expanded="false" signature="9747:9761" ph=" }" />
-                <marker date="1505261247000" expanded="false" signature="11601:11620" ph=" { " />
-                <marker date="1505261247000" expanded="false" signature="11633:11647" ph=" }" />
-                <marker date="1505261247000" expanded="false" signature="11720:11739" ph=" { " />
-                <marker date="1505261247000" expanded="false" signature="11752:11766" ph=" }" />
+                <marker date="1505344726000" expanded="false" signature="9807:9826" ph=" { " />
+                <marker date="1505344726000" expanded="false" signature="9848:9862" ph=" }" />
+                <marker date="1505344726000" expanded="false" signature="9936:9955" ph=" { " />
+                <marker date="1505344726000" expanded="false" signature="9967:9981" ph=" }" />
+                <marker date="1505344726000" expanded="false" signature="11821:11840" ph=" { " />
+                <marker date="1505344726000" expanded="false" signature="11853:11867" ph=" }" />
+                <marker date="1505344726000" expanded="false" signature="11940:11959" ph=" { " />
+                <marker date="1505344726000" expanded="false" signature="11972:11986" ph=" }" />
               </folding>
             </state>
           </provider>
@@ -290,10 +289,10 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/MundoClassInfo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/ExprEnumValues.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscMundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/EnumClassInfo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -1476,6 +1475,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/EnumClassInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="35" lean-forward="false" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1495#1496#0" expanded="true" />
+            <element signature="e#1564#1565#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/MundoClassInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
@@ -1486,37 +1497,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="126" column="21" lean-forward="false" selection-start-line="126" selection-start-column="21" selection-end-line="126" selection-end-column="21" />
+        <state relative-caret-position="557">
+          <caret line="158" column="45" lean-forward="true" selection-start-line="158" selection-start-column="45" selection-end-line="158" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#4738#5201#0" expanded="true" />
             <element signature="e#5200#5201#0" expanded="true" />
             <element signature="e#6249#6257#0" expanded="true" />
             <element signature="e#6451#6615#0" expanded="true" />
-            <element signature="e#6561#6562#0" expanded="false" />
-            <element signature="e#6604#6605#0" expanded="false" />
             <element signature="e#6614#6615#0" expanded="true" />
-            <marker date="1505261247000" expanded="false" signature="9587:9606" ph=" { " />
-            <marker date="1505261247000" expanded="false" signature="9628:9642" ph=" }" />
-            <marker date="1505261247000" expanded="false" signature="9716:9735" ph=" { " />
-            <marker date="1505261247000" expanded="false" signature="9747:9761" ph=" }" />
-            <marker date="1505261247000" expanded="false" signature="11601:11620" ph=" { " />
-            <marker date="1505261247000" expanded="false" signature="11633:11647" ph=" }" />
-            <marker date="1505261247000" expanded="false" signature="11720:11739" ph=" { " />
-            <marker date="1505261247000" expanded="false" signature="11752:11766" ph=" }" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/EnumClassInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="35" lean-forward="false" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1495#1496#0" expanded="true" />
-            <element signature="e#1564#1565#0" expanded="true" />
+            <marker date="1505344726000" expanded="false" signature="9807:9826" ph=" { " />
+            <marker date="1505344726000" expanded="false" signature="9848:9862" ph=" }" />
+            <marker date="1505344726000" expanded="false" signature="9936:9955" ph=" { " />
+            <marker date="1505344726000" expanded="false" signature="9967:9981" ph=" }" />
+            <marker date="1505344726000" expanded="false" signature="11821:11840" ph=" { " />
+            <marker date="1505344726000" expanded="false" signature="11853:11867" ph=" }" />
+            <marker date="1505344726000" expanded="false" signature="11940:11959" ph=" { " />
+            <marker date="1505344726000" expanded="false" signature="11972:11986" ph=" }" />
           </folding>
         </state>
       </provider>
