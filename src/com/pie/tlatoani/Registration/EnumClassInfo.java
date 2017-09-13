@@ -5,6 +5,7 @@ import ch.njol.skript.classes.Serializer;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.util.Pair;
 import ch.njol.yggdrasil.Fields;
+import com.pie.tlatoani.Util.Logging;
 
 import java.io.NotSerializableException;
 import java.io.StreamCorruptedException;
@@ -33,6 +34,7 @@ public class EnumClassInfo<E> extends MundoClassInfo<E> {
     }
 
     private void afterInitialization() {
+        Logging.debug(this, "afterInit");
         parser(new Parser<E>() {
             @Override
             public E parse(String s, ParseContext parseContext) {
@@ -111,6 +113,7 @@ public class EnumClassInfo<E> extends MundoClassInfo<E> {
     }
 
     public String toString(E e) {
+        Logging.debug(this, "tostringing: " + e);
         for (Map.Entry<String, E> pairing : pairings) {
             if (e == pairing.getValue()) {
                 return pairing.getKey().toLowerCase();
