@@ -12,7 +12,7 @@ import com.pie.tlatoani.Tablist.Array.EffEnableArrayTablist;
 import com.pie.tlatoani.Tablist.Player.*;
 import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
 import com.pie.tlatoani.Util.Config;
-import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

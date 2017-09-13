@@ -9,7 +9,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.Logging;
-import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.Registration.Registration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -34,7 +34,7 @@ public class PacketManager {
             Logging.info("If you are running at least version 4.1 of ProtocolLib, please post a message on MundoSK's thread on forums.skunity.com");
         }
         packetTypesByName = createNameToPacketTypeMap();
-        Registration.registerEnum(PacketType.class, "packettype", new PacketType[0], packetTypesByName.entrySet().toArray(new Map.Entry[0]));
+        Registration.registerEnum(PacketType.class, "packettype", packetTypesByName);
         Registration.registerType(PacketContainer.class, "packet");
         Registration.registerEffect(EffSendPacket.class, "send packet[s] %packets% to %players%", "send %players% packet[s] %packets%");
         Registration.registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet[s] %packets% from %players%"); //Included incorrect spelling to avoid wasted time

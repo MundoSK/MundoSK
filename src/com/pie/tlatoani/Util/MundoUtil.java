@@ -94,6 +94,10 @@ public class MundoUtil {
         return false;
     }
 
+    public static String getMundoCategory(Class<?> c) {
+        return c.getName().split("\\.")[3];
+    }
+
     //Optional
 
     public static <T> void consumeOptional(Optional<T> optional, Consumer<T> tConsumer, Runnable runnable) {

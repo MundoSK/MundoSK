@@ -2,10 +2,8 @@ package com.pie.tlatoani.WorldCreator;
 
 import ch.njol.skript.classes.Serializer;
 import ch.njol.skript.lang.ExpressionType;
-import ch.njol.skript.lang.ParseContext;
-import ch.njol.util.Pair;
 import ch.njol.yggdrasil.Fields;
-import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.Registration.Registration;
 import org.bukkit.World;
 import org.bukkit.WorldType;
 import org.json.simple.JSONObject;
@@ -63,8 +61,12 @@ public class WorldCreatorMundo {
                 return false;
             }
         });
-        Registration.registerEnum(Dimension.class, "dimension", Dimension.values(), new Pair<>("END", Dimension.THE_END));
-        Registration.registerEnum(WorldType.class, "worldtype", WorldType.values(), new Pair<>("SUPERFLAT", WorldType.FLAT), new Pair<>("LARGE BIOMES", WorldType.LARGE_BIOMES), new Pair<>("VERSION 1.1", WorldType.VERSION_1_1));
+        Registration.registerEnum(Dimension.class, "dimension", Dimension.values())
+                .pair("END", Dimension.THE_END);
+        Registration.registerEnum(WorldType.class, "worldtype", WorldType.values())
+                .pair("SUPERFLAT", WorldType.FLAT)
+                .pair("LARGE BIOMES", WorldType.LARGE_BIOMES)
+                .pair("VERSION 1.1", WorldType.VERSION_1_1);
         Registration.registerConverter(World.class, WorldCreatorData.class, WorldCreatorData::fromWorld);
         Registration.registerExpression(ExprNewCreator.class, WorldCreatorData.class, ExpressionType.COMBINED, "[world] creator [(with name|named) %-string%][(,| with)] [(dim[ension]|env[ironment]) %-dimension%][,] [seed %-string%][,] [[world]type %-worldtype%][,] [gen[erator] %-string%][,] [gen[erator] settings %-string%][,] [struct[ures] %-boolean%]");
         Registration.registerPropertyExpression(ExprCreatorOf.class, WorldCreatorData.class, "world", "creator");

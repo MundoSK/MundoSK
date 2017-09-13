@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Socket;
 
 import ch.njol.skript.lang.ExpressionType;
-import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.Registration.Registration;
 
 /**
  * Created by Tlatoani on 8/8/17.

@@ -5,7 +5,7 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.registrations.Classes;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Reflection;
-import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.Registration.Registration;
 
 import java.util.List;
 

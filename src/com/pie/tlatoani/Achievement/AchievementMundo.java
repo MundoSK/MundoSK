@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Achievement;
 
 import ch.njol.skript.lang.ExpressionType;
-import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.Registration.Registration;
 import org.bukkit.Achievement;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 

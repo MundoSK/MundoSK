@@ -3,9 +3,8 @@ package com.pie.tlatoani.WebSocket;
 import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.expressions.base.EventValueExpression;
 import ch.njol.skript.lang.ExpressionType;
-import ch.njol.util.Pair;
 import com.pie.tlatoani.Util.Logging;
-import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketEvent;
@@ -18,7 +17,7 @@ import java.util.Map;
 /**
  * Created by Tlatoani on 5/4/17.
  */
-public class WebSocketManager {
+public final class WebSocketManager {
     private static Map<String, WebSocketClientFunctionality> clientFunctionalities = new HashMap<>();
     private static Map<String, WebSocketServerFunctionality> serverFunctionalities = new HashMap<>();
     private static Map<Integer, SkriptWebSocketServer> servers = new HashMap<>();
@@ -27,7 +26,8 @@ public class WebSocketManager {
 
         Registration.registerType(WebSocket.class, "websocket")
                 .defaultExpression(new EventValueExpression<>(WebSocket.class));
-        Registration.registerEnum(WebSocket.READYSTATE.class, "websocketstate", WebSocket.READYSTATE.values(), new Pair<>("NOT YET CONNECTED", WebSocket.READYSTATE.NOT_YET_CONNECTED));
+        Registration.registerEnum(WebSocket.READYSTATE.class, "websocketstate", WebSocket.READYSTATE.values())
+                .pair("NOT YET CONNECTED", WebSocket.READYSTATE.NOT_YET_CONNECTED);
 
         Registration.registerComparator(WebSocket.class, WebSocket.READYSTATE.class, false,
                 ((webSocket, readystate) -> Comparator.Relation.get(webSocket.getReadyState() == readystate)));

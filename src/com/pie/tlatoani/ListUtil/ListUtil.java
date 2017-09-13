@@ -4,8 +4,8 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.MathUtil;
-import com.pie.tlatoani.Util.Registration;
-import com.pie.tlatoani.Util.ModifiableSyntaxElementInfo;
+import com.pie.tlatoani.Registration.Registration;
+import com.pie.tlatoani.Registration.ModifiableSyntaxElementInfo;
 
 import java.util.*;
 

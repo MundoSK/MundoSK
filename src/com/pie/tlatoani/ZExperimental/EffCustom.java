@@ -3,7 +3,7 @@ package com.pie.tlatoani.ZExperimental;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.ModifiableSyntaxElementInfo;
+import com.pie.tlatoani.Registration.ModifiableSyntaxElementInfo;
 import org.bukkit.event.Event;
 
 import java.util.ArrayList;

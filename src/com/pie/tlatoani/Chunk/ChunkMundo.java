@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Chunk;
 
 import ch.njol.skript.lang.ExpressionType;
-import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.Registration.Registration;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.block.Block;

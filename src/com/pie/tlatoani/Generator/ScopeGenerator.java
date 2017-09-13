@@ -35,12 +35,12 @@ public class ScopeGenerator extends MundoEventScope {
 
     @Override
     public void unregisterAll() {
-        SkriptGeneratorManager.unregisterAllSkriptGenerators();
+        GeneratorManager.unregisterAllSkriptGenerators();
     }
 
     @Override
     public boolean init(Literal<?>[] literals, int i, SkriptParser.ParseResult parseResult) {
-        generatorFunctionality = SkriptGeneratorManager.getSkriptGenerator(((Literal<String>) literals[0]).getSingle()).functionality;
+        generatorFunctionality = GeneratorManager.getSkriptGenerator(((Literal<String>) literals[0]).getSingle()).functionality;
         nebula = new GeneratorFunctionality.Nebula();
         SectionNode topNode = (SectionNode) SkriptLogger.getNode();
         Logging.debug(this, "init()ing");

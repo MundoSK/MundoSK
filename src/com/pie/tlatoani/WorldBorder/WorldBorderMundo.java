@@ -5,7 +5,7 @@ import ch.njol.skript.util.Timespan;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Reflection;
-import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.WorldBorder.BorderEvent.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -7,12 +7,12 @@ import com.pie.tlatoani.Chunk.ChunkMundo;
 import com.pie.tlatoani.CodeBlock.CodeBlockMundo;
 import com.pie.tlatoani.CustomEvent.CustomEventMundo;
 import com.pie.tlatoani.EnchantedBook.EnchantedBookMundo;
-import com.pie.tlatoani.Generator.SkriptGeneratorManager;
+import com.pie.tlatoani.Generator.GeneratorManager;
 import com.pie.tlatoani.ListUtil.ListUtil;
-import com.pie.tlatoani.Miscellaneous.ExprEventSpecificValue;
 import com.pie.tlatoani.Miscellaneous.MiscMundo;
 import com.pie.tlatoani.Probability.ProbabilityMundo;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
+import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Skin.SkinMundo;
 import com.pie.tlatoani.Socket.SocketMundo;
 import com.pie.tlatoani.Socket.UtilFunctionSocket;
@@ -26,6 +26,7 @@ import com.pie.tlatoani.WorldCreator.WorldCreatorMundo;
 import com.pie.tlatoani.WorldManagement.WorldLoader.WorldLoader;
 import com.pie.tlatoani.WorldManagement.WorldManagementMundo;
 import com.pie.tlatoani.ZExperimental.ZExperimentalMundo;
+import mundosk_libraries.java_websocket.WebSocket;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -62,11 +63,44 @@ public class Mundo extends JavaPlugin {
             Logging.info("If you would like to disable debug, simply go to your 'plugins' folder, go to the 'MundoSK' folder, open 'config.yml', and where it says 'debug', remove all following text");
         }
 
-		BookMundo.load();
+        Registration.register("Book", BookMundo::load);
+        Registration.register("Chunk", ChunkMundo::load);
+        Registration.register("CodeBlock", CodeBlockMundo::load);
+        Registration.register("Enchanted Book", EnchantedBookMundo::load);
+        Registration.register("Generator", GeneratorManager::load);
+        Registration.register("ListUtil", ListUtil::load);
+        Registration.register("Miscellaneous", MiscMundo::load);
+        Registration.register("Probability", ProbabilityMundo::load);
+        Registration.register("Socket", SocketMundo::load);
+        Registration.register("Throwable", ThrowableMundo::load);
+        Registration.register("WebSocket", WebSocketManager::load);
+        Registration.register("World Border", WorldBorderMundo::load);
+        Registration.register("WorldCreator", WorldCreatorMundo::load);
+        Registration.register("World Management", WorldManagementMundo::load);
+        if (MundoUtil.serverHasPlugin("ProtocolLib")) {
+            Registration.register("Packet", PacketManager::load);
+            if (Config.IMPLEMENT_PACKET_STUFF.getCurrentValue()) {
+                Registration.register("Skin", SkinMundo::load);
+                Registration.register("Tablist", TablistManager::load);
+            }
+        }
+        if (MundoUtil.serverHasPlugin("TerrainControl")) {
+            Registration.register("TerrainControl", TerrainControlMundo::load);
+        }
+        if (Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11")) {
+            Registration.register("Achievement", AchievementMundo::load);
+        }
+
+        //ZExperimental ~ The Z is for mystery (it's so that it appears last in the package list)
+        Registration.register("ZExperimental", ZExperimentalMundo::load);
+
+        Registration.register("Custom Event", CustomEventMundo::load);
+
+		/*BookMundo.load();
         ChunkMundo.load();
         CodeBlockMundo.load();
         EnchantedBookMundo.load();
-		SkriptGeneratorManager.load();
+		GeneratorManager.load();
         ListUtil.load();
         MiscMundo.load();
         ProbabilityMundo.load();
@@ -88,13 +122,10 @@ public class Mundo extends JavaPlugin {
 		}
         if (Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11")) {
             AchievementMundo.load();
-        }
-        //ZExperimental ~ The Z is for mystery (it's so that it appears last in the package list)
-        ZExperimentalMundo.load();
+        }*/
 
-        Registration.registerEnumAllExpressions();
-        CustomEventMundo.load();
-        ExprEventSpecificValue.register();
+        //Registration.registerEnumAllExpressions();
+        //CustomEventMundo.load();
 		Logging.info("Awesome syntaxes have been registered!");
         Scheduling.sync(Metrics::enableMundoSKMetrics);
 	}
@@ -116,7 +147,7 @@ public class Mundo extends JavaPlugin {
 
     @Override
     public ChunkGenerator getDefaultWorldGenerator(String unusedWorldName, String id) {
-        return SkriptGeneratorManager.getSkriptGenerator(id);
+        return GeneratorManager.getSkriptGenerator(id);
     }
 
     @Override

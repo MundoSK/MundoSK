@@ -2,7 +2,7 @@ package com.pie.tlatoani.Book;
 
 import ch.njol.skript.lang.ExpressionType;
 import com.pie.tlatoani.ListUtil.ListUtil;
-import com.pie.tlatoani.Util.Registration;
+import com.pie.tlatoani.Registration.Registration;
 import org.bukkit.inventory.ItemStack;
 
 /**
