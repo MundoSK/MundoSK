@@ -24,12 +24,14 @@ public class EnumClassInfo<E> extends MundoClassInfo<E> {
         for (E value : values) {
             pair(value.toString(), value);
         }
+        Logging.debug(this, "pie");
         afterInitialization();
     }
 
     public EnumClassInfo(Class<E> c, String[] names, String category, Map<String, E> valueMap) {
         super(c, names, category);
         this.pairings = new ArrayList<>(valueMap.entrySet());
+        Logging.debug(this, "pie");
         afterInitialization();
     }
 

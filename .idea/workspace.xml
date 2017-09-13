@@ -66,12 +66,12 @@
       <file leaf-file-name="EnumClassInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/EnumClassInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="111" column="20" lean-forward="true" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="20" />
+            <state relative-caret-position="495">
+              <caret line="33" column="35" lean-forward="false" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1423#1424#0" expanded="true" />
-                <element signature="e#1492#1493#0" expanded="true" />
+                <element signature="e#1495#1496#0" expanded="true" />
+                <element signature="e#1564#1565#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -90,8 +90,8 @@
       <file leaf-file-name="Registration.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="41" column="19" lean-forward="false" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
+            <state relative-caret-position="248">
+              <caret line="126" column="21" lean-forward="false" selection-start-line="126" selection-start-column="21" selection-end-line="126" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#4738#5201#0" expanded="true" />
@@ -1460,31 +1460,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="41" column="19" lean-forward="false" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4738#5201#0" expanded="true" />
-            <element signature="e#5200#5201#0" expanded="true" />
-            <element signature="e#6249#6257#0" expanded="true" />
-            <element signature="e#6451#6615#0" expanded="true" />
-            <element signature="e#6561#6562#0" expanded="false" />
-            <element signature="e#6604#6605#0" expanded="false" />
-            <element signature="e#6614#6615#0" expanded="true" />
-            <marker date="1505261247000" expanded="false" signature="9587:9606" ph=" { " />
-            <marker date="1505261247000" expanded="false" signature="9628:9642" ph=" }" />
-            <marker date="1505261247000" expanded="false" signature="9716:9735" ph=" { " />
-            <marker date="1505261247000" expanded="false" signature="9747:9761" ph=" }" />
-            <marker date="1505261247000" expanded="false" signature="11601:11620" ph=" { " />
-            <marker date="1505261247000" expanded="false" signature="11633:11647" ph=" }" />
-            <marker date="1505261247000" expanded="false" signature="11720:11739" ph=" { " />
-            <marker date="1505261247000" expanded="false" signature="11752:11766" ph=" }" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscMundo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="713">
@@ -1509,14 +1484,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/EnumClassInfo.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="111" column="20" lean-forward="true" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="20" />
+        <state relative-caret-position="248">
+          <caret line="126" column="21" lean-forward="false" selection-start-line="126" selection-start-column="21" selection-end-line="126" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1423#1424#0" expanded="true" />
-            <element signature="e#1492#1493#0" expanded="true" />
+            <element signature="e#4738#5201#0" expanded="true" />
+            <element signature="e#5200#5201#0" expanded="true" />
+            <element signature="e#6249#6257#0" expanded="true" />
+            <element signature="e#6451#6615#0" expanded="true" />
+            <element signature="e#6561#6562#0" expanded="false" />
+            <element signature="e#6604#6605#0" expanded="false" />
+            <element signature="e#6614#6615#0" expanded="true" />
+            <marker date="1505261247000" expanded="false" signature="9587:9606" ph=" { " />
+            <marker date="1505261247000" expanded="false" signature="9628:9642" ph=" }" />
+            <marker date="1505261247000" expanded="false" signature="9716:9735" ph=" { " />
+            <marker date="1505261247000" expanded="false" signature="9747:9761" ph=" }" />
+            <marker date="1505261247000" expanded="false" signature="11601:11620" ph=" { " />
+            <marker date="1505261247000" expanded="false" signature="11633:11647" ph=" }" />
+            <marker date="1505261247000" expanded="false" signature="11720:11739" ph=" { " />
+            <marker date="1505261247000" expanded="false" signature="11752:11766" ph=" }" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/EnumClassInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="35" lean-forward="false" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1495#1496#0" expanded="true" />
+            <element signature="e#1564#1565#0" expanded="true" />
           </folding>
         </state>
       </provider>
