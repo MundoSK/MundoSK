@@ -23,6 +23,7 @@ import com.pie.tlatoani.Miscellaneous.Random.*;
 import com.pie.tlatoani.Miscellaneous.ServerListPing.*;
 import com.pie.tlatoani.Miscellaneous.TabCompletion.*;
 import com.pie.tlatoani.Miscellaneous.Thread.*;
+import com.pie.tlatoani.Registration.EnumClassInfo;
 import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Util.*;
 import org.bukkit.*;
@@ -257,11 +258,11 @@ public class MiscMundo {
             //notes.add(new Pair<>("F+2", fSharp2));
             //notes.add(new Pair<>("G-2", fSharp2));
         //}
+        EnumClassInfo<Note> noteEnumClassInfo = Registration.registerEnum(Note.class, "note", noteMap);
         if (!MundoUtil.serverHasPlugin("RandomSK")) {
-            noteMap.forEach((noteName, note) -> noteMap.put(noteName.substring(1), note));
+            noteMap.forEach((noteName, note) -> noteEnumClassInfo.pair(noteName.substring(1), note));
         }
         //Registration.registerEnum(Note.class, "note", new Note[0], notes.toArray(new Pair[0]));
-        Registration.registerEnum(Note.class, "note", noteMap);
         Registration.registerEnum(Instrument.class, "instrument", Instrument.values());
         Registration.registerEffect(EffPlayNoteBlock.class, "play [[%-note% with] %-instrument% on] noteblock %block%");
         Registration.registerEvent("Note Play", SimpleEvent.class, NotePlayEvent.class, "note play");
