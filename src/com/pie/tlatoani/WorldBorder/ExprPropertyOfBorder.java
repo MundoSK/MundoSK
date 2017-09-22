@@ -1,5 +1,6 @@
 package com.pie.tlatoani.WorldBorder;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -88,7 +89,10 @@ public class ExprPropertyOfBorder extends SimpleExpression<Number> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         worldExpression = (Expression<World>) expressions[0];
-        borderProperty = BorderProperty.values()[parseResult.mark];
+        if ((parseResult.mark & 0b1000) == 0b1000) {
+            Skript.warning("The 'size' syntax for border diameter will be removed in a future version. Please use 'diameter' instead.");
+        }
+        borderProperty = BorderProperty.values()[parseResult.mark & 0b0111];
         return true;
     }
 

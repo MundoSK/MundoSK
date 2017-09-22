@@ -4,9 +4,13 @@ import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Checker;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimaps;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.function.Consumer;
@@ -96,6 +100,10 @@ public class MundoUtil {
 
     public static String getMundoCategory(Class<?> c) {
         return c.getName().split("\\.")[3];
+    }
+
+    public static <K, V> void sortListMultimap(ListMultimap<K, V> listMultimap, Comparator<? super V> comparator) {
+        Multimaps.asMap(listMultimap).forEach((__, list) -> Collections.sort(list, comparator));
     }
 
     //Optional

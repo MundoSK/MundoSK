@@ -3,6 +3,7 @@ package com.pie.tlatoani.WorldBorder;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.util.Timespan;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Config;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.Reflection;
 import com.pie.tlatoani.Registration.Registration;
@@ -21,9 +22,10 @@ import java.util.function.Function;
  * Created by Tlatoani on 8/8/17.
  */
 public class WorldBorderMundo {
-    public static final String DIAMETER_SYNTAX = "(diameter|size)";
+    private static String DIAMETER_SYNTAX;
     
     public static void load() {
+        DIAMETER_SYNTAX = Config.DISABLE_SIZE_SYNTAX.getCurrentValue() ? "diameter" : "(0¦diameter|8¦size)";
         Registration.registerEffect(EffResetBorder.class, "reset %world%");
         Registration.registerEffect(EffChangeBorderSize.class,
                 "set (diameter|size) of %world% to %number% over %timespan%",

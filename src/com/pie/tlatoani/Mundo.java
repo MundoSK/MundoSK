@@ -95,37 +95,6 @@ public class Mundo extends JavaPlugin {
         Registration.register("ZExperimental", ZExperimentalMundo::load);
 
         Registration.register("Custom Event", CustomEventMundo::load);
-
-		/*BookMundo.load();
-        ChunkMundo.load();
-        CodeBlockMundo.load();
-        EnchantedBookMundo.load();
-		GeneratorManager.load();
-        ListUtil.load();
-        MiscMundo.load();
-        ProbabilityMundo.load();
-        SocketMundo.load();
-        ThrowableMundo.load();
-        WebSocketManager.load();
-        WorldBorderMundo.load();
-        WorldCreatorMundo.load();
-        WorldManagementMundo.load();
-		if (MundoUtil.serverHasPlugin("ProtocolLib")) {
-		    PacketManager.load();
-            if (Config.IMPLEMENT_PACKET_STUFF.getCurrentValue()) {
-		        SkinMundo.load();
-                TablistManager.load();
-            }
-		}
-		if (MundoUtil.serverHasPlugin("TerrainControl")) {
-		    TerrainControlMundo.load();
-		}
-        if (Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11")) {
-            AchievementMundo.load();
-        }*/
-
-        //Registration.registerEnumAllExpressions();
-        //CustomEventMundo.load();
 		Logging.info("Awesome syntaxes have been registered!");
         Scheduling.sync(Metrics::enableMundoSKMetrics);
 	}

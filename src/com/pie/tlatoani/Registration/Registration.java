@@ -18,10 +18,6 @@ import java.util.function.Function;
  */
 public final class Registration {
 
-    //public static ArrayList<Object[]> ena = new ArrayList<>();
-    //public static ArrayList<String> enumNames = new ArrayList<>();
-    //public static ArrayList<Class<?>> enumClasses = new ArrayList<>();
-
     private static String currentCategory = null;
 
     public static void register(String category, Runnable registerer) {
@@ -30,14 +26,6 @@ public final class Registration {
         registerer.run();
         currentCategory = prevCategory;
     }
-
-    /*public static void registerEnumAllExpressions() {
-        ArrayList<String> patterns = new ArrayList<>();
-        for (String enumName : enumNames) {
-            patterns.add("[all] " + enumName + "s");
-        }
-        Skript.registerExpression(ExprEnumValues.class, Object.class, ExpressionType.SIMPLE, patterns.toArray(new String[0]));
-    }*/
 
     public static DocumentationBuilder.Effect registerEffect(Class<? extends Effect> effectClass, String... patterns) {
         Skript.registerEffect(effectClass, patterns);
@@ -162,130 +150,6 @@ public final class Registration {
         }
         return enumClassInfo;
     }
-
-    //Default pairing string names should be in uppercase
-    /*public static <E> void registerEnum(Class<E> enumClass, String name, E[] values, Map.Entry<String, E>... defaultPairings) {
-        if (!classInfoSafe(enumClass, name)) return;
-        String[] usages = new String[values.length + defaultPairings.length];
-        for (int i = 0; i < values.length; i++) {
-            usages[i] = values[i].toString().toLowerCase();
-        }
-        for (int i = 0; i < defaultPairings.length; i++) {
-            usages[i + values.length] = defaultPairings[i].getKey().toLowerCase();
-        }
-        Classes.registerClass(new ClassInfo<E>(enumClass, new String[]{name}, currentCategory, usages).user(new String[]{name}).name(name).parser(new Parser<E>() {
-            private E[] enumValues = values;
-            private Map.Entry<String, E>[] additionalPairings = defaultPairings;
-
-            @Override
-            public E parse(String s, ParseContext parseContext) {
-                String upperCase = s.toUpperCase();
-                for (int i = 0; i < additionalPairings.length; i++) {
-                    if (additionalPairings[i].getKey().equals(upperCase)) {
-                        return additionalPairings[i].getValue();
-                    }
-                }
-                for (int i = 0; i < values.length; i++) {
-                    if (values[i].toString().equals(upperCase)) {
-                        return values[i];
-                    }
-                }
-                return null;
-            }
-
-            @Override
-            public String toString(E e, int useless) {
-                for (int i = 0; i < additionalPairings.length; i++) {
-                    if (additionalPairings[i].getValue() == e) {
-                        return additionalPairings[i].getKey().toLowerCase();
-                    }
-                }
-                for (int i = 0; i < values.length; i++) {
-                    if (values[i] == e) {
-                        return values[i].toString().toLowerCase();
-                    }
-                }
-                return null;
-            }
-
-            @Override
-            public String toVariableNameString(E e) {
-                return toString(e, 0);
-            }
-
-            @Override
-            public String getVariableNamePattern() {
-                return ".+";
-            }
-        }).serializer(new Serializer<E>() {
-            private E[] enumValues = values;
-            private Map.Entry<String, E>[] additionalPairings = defaultPairings;
-
-            public E parse(String s) {
-                String upperCase = s.toUpperCase();
-                for (int i = 0; i < additionalPairings.length; i++) {
-                    if (additionalPairings[i].getKey().equals(upperCase)) {
-                        return additionalPairings[i].getValue();
-                    }
-                }
-                for (int i = 0; i < values.length; i++) {
-                    if (values[i].toString().equals(upperCase)) {
-                        return values[i];
-                    }
-                }
-                return null;
-            }
-
-            public String toString(E e) {
-                for (int i = 0; i < additionalPairings.length; i++) {
-                    if (additionalPairings[i].getValue() == e) {
-                        return additionalPairings[i].getKey().toLowerCase();
-                    }
-                }
-                for (int i = 0; i < values.length; i++) {
-                    if (values[i] == e) {
-                        return values[i].toString().toLowerCase();
-                    }
-                }
-                return null;
-            }
-
-            @Override
-            public Fields serialize(E e) throws NotSerializableException {
-                Fields fields = new Fields();
-                fields.putObject("value", toString(e));
-                return fields;
-            }
-
-            @Override
-            public void deserialize(E e, Fields fields) throws StreamCorruptedException, NotSerializableException {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public boolean mustSyncDeserialization() {
-                return false;
-            }
-
-            @Override
-            protected boolean canBeInstantiated() {
-                return false;
-            }
-
-            @Override
-            public E deserialize(Fields fields) throws StreamCorruptedException {
-                return parse((String) fields.getObject("value"));
-            }
-        }));
-        Set<E> allValues = new HashSet<E>();
-        allValues.addAll(Arrays.asList(values));
-        for (Map.Entry<String, E> entry : defaultPairings) {
-            allValues.add(entry.getValue());
-        }
-        ena.add(allValues.toArray(new Object[0]));
-        enumNames.add(name);
-        enumClasses.add(enumClass);
-    }*/
 
     public static abstract class SimpleParser<T> extends Parser<T> {
 

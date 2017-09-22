@@ -1,5 +1,6 @@
 package com.pie.tlatoani.WorldBorder.BorderEvent;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
@@ -7,7 +8,6 @@ import ch.njol.util.Kleenean;
 import org.bukkit.World;
 import org.bukkit.event.Event;
 
-import javax.annotation.Nullable;
 import java.util.function.Function;
 
 public class ExprBorderMovingValue extends SimpleExpression<Number>{
@@ -43,19 +43,21 @@ public class ExprBorderMovingValue extends SimpleExpression<Number>{
 	}
 
 	@Override
-	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
+	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult parseResult) {
 		worldExpression = (Expression<World>) expr[0];
-		type = Type.values()[arg3.mark];
+		if ((parseResult.mark & 0b1000) == 0b1000) {
+			Skript.warning("The 'size' syntax for border diameter will be removed in a future version. Please use 'diameter' instead.");
+		}
+		type = Type.values()[parseResult.mark & 0b0111];
 		return true;
 	}
 
 	@Override
-	public String toString(@Nullable Event event, boolean arg1) {
+	public String toString(Event event, boolean arg1) {
 		return type.syntax + " of " + worldExpression;
 	}
 
 	@Override
-	@Nullable
 	protected Number[] get(Event event) {
 		World world = worldExpression.getSingle(event);
 		if (world.getWorldBorder() instanceof WorldBorderImpl) {
