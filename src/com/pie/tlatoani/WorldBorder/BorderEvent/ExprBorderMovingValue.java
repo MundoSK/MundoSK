@@ -5,6 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.Config;
 import org.bukkit.World;
 import org.bukkit.event.Event;
 
@@ -46,6 +47,9 @@ public class ExprBorderMovingValue extends SimpleExpression<Number>{
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult parseResult) {
 		worldExpression = (Expression<World>) expr[0];
 		if ((parseResult.mark & 0b1000) == 0b1000) {
+			if (Config.DISABLE_SIZE_SYNTAX.getCurrentValue()) {
+				return false;
+			}
 			Skript.warning("The 'size' syntax for border diameter will be removed in a future version. Please use 'diameter' instead.");
 		}
 		type = Type.values()[parseResult.mark & 0b0111];

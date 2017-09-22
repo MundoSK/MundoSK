@@ -7,6 +7,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Util.Config;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.event.Event;
@@ -90,6 +91,9 @@ public class ExprPropertyOfBorder extends SimpleExpression<Number> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         worldExpression = (Expression<World>) expressions[0];
         if ((parseResult.mark & 0b1000) == 0b1000) {
+            if (Config.DISABLE_SIZE_SYNTAX.getCurrentValue()) {
+                return false;
+            }
             Skript.warning("The 'size' syntax for border diameter will be removed in a future version. Please use 'diameter' instead.");
         }
         borderProperty = BorderProperty.values()[parseResult.mark & 0b0111];
