@@ -1,11 +1,13 @@
 package com.pie.tlatoani.WorldBorder;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.Config;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.event.Event;
@@ -13,7 +15,7 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 7/15/17.
  */
-public class EffChangeBorderSize extends Effect {
+public class EffChangeBorderDiameter extends Effect {
     private Expression<World> worldExpression;
     private Expression<Number> numberExpression;
     private Expression<Timespan> timespanExpression;
@@ -44,6 +46,12 @@ public class EffChangeBorderSize extends Effect {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+        if ((parseResult.mark & 0b1000) == 0b1000) {
+            if (Config.DISABLE_SIZE_SYNTAX.getCurrentValue()) {
+                return false;
+            }
+            Skript.warning("The 'size' syntax for border diameter will be removed in a future version. Please use 'diameter' instead.");
+        }
         worldExpression = getWorldExpr(i, expressions);
         numberExpression = getNumberExpr(i, expressions);
         timespanExpression = getTimeExpr(i, expressions);
