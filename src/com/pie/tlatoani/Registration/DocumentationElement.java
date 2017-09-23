@@ -13,6 +13,25 @@ public abstract class DocumentationElement {
     public final String originVersion;
     public final String[] requiredPlugins;
 
+    public enum ElementType {
+        EFFECT("Effect"),
+        EXPRESSION("Expression"),
+        EVENT("Event"),
+        TYPE("Type");
+
+        public final String toString;
+
+        ElementType(String toString) {
+            this.toString = toString;
+        }
+
+        public String toString() {
+            return toString;
+        }
+    }
+
+    public abstract ElementType getType();
+
     public abstract void display(CommandSender sender);
 
     private DocumentationElement(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins) {
@@ -25,6 +44,11 @@ public abstract class DocumentationElement {
     }
 
     public static class Effect extends DocumentationElement {
+
+        @Override
+        public DocumentationElement.ElementType getType() {
+            return ElementType.EFFECT;
+        }
 
         @Override
         public void display(CommandSender sender) {
@@ -45,12 +69,22 @@ public abstract class DocumentationElement {
         }
 
         @Override
+        public DocumentationElement.ElementType getType() {
+            return ElementType.EXPRESSION;
+        }
+
+        @Override
         public void display(CommandSender sender) {
 
         }
     }
 
     public static class Event extends DocumentationElement {
+
+        @Override
+        public DocumentationElement.ElementType getType() {
+            return ElementType.EVENT;
+        }
 
         @Override
         public void display(CommandSender sender) {
@@ -68,6 +102,11 @@ public abstract class DocumentationElement {
         public Type(String name, String category, String[] syntaxes, String[] usages, String description, String originVersion, String[] requiredPlugins) {
             super(name, category, syntaxes, description, originVersion, requiredPlugins);
             this.usages = usages;
+        }
+
+        @Override
+        public ElementType getType() {
+            return ElementType.TYPE;
         }
 
         @Override

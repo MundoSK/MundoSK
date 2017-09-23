@@ -2,6 +2,7 @@ package com.pie.tlatoani.Registration;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.command.CommandSender;
 
@@ -61,7 +62,8 @@ public final class Documentation {
         built = true;
     }
 
-    public static void displayAll(ListMultimap<String, ? extends DocumentationElement> docElemListMultimap, CommandSender sender, int page) {
+    public static List<DocumentationElement> getAll(ListMultimap<String, ? extends DocumentationElement> docElemListMultimap, CommandSender sender, int page) {
+        List<DocumentationElement> result = new ArrayList<>(ELEMENTS_PER_PAGE);
         int lastElemIndex = page * ELEMENTS_PER_PAGE;
         int lastPrecedingElemIndex = lastElemIndex - ELEMENTS_PER_PAGE;
         int prevElems = 0;
@@ -71,24 +73,63 @@ public final class Documentation {
                 int skippedElems = Math.max(0, lastPrecedingElemIndex - prevElems);
                 prevElems += skippedElems;
                 for (; skippedElems < docElems.size(); skippedElems++) {
-                    docElems.get(skippedElems).display(sender);
+                    result.add(docElems.get(skippedElems));
                     if (++prevElems == lastElemIndex) {
-                        return;
+                        return result;
                     }
                 }
             } else {
                 prevElems += docElems.size();
             }
         }
+        return result;
     }
 
-    public static void displayCategory(ListMultimap<String, ? extends DocumentationElement> docElemListMultimap, CommandSender sender, String category, int page) {
-        List<? extends DocumentationElement> docElems = docElemListMultimap.get(category);
+    public static List<DocumentationElement> getCategory(List<? extends DocumentationElement> docElems, CommandSender sender, int page) {
+        List<DocumentationElement> result = new ArrayList<>();
         int max = page * ELEMENTS_PER_PAGE;
         int min = max - ELEMENTS_PER_PAGE;
         max = Math.min(max, docElems.size());
         for (int i = min; i < max; i++) {
-            docElems.get(i).display(sender);
+            result.add(docElems.get(i));
+        }
+        return result;
+    }
+
+    public static void accessDocumentation(CommandSender sender, List<String> args) {
+        if (args.size() == 0) {
+            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Documentation Categories");
+            for (String category : categories) {
+                sender.sendMessage(Mundo.ALT_CHAT_COLOR + category);
+            }
+            return;
+        }
+        int page;
+        if (args.size() > 1) {
+            try {
+                page = Integer.parseInt(args.get(args.size() - 1));
+                if (page < 1) {
+                    page = 1;
+                }
+                args.remove(args.size() - 1);
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
+        
+    }
+
+    public static void displayElems(
+            CommandSender sender,
+            List<? extends DocumentationElement> docElems,
+            String header,
+            int page,
+            int pages,
+            boolean displayType
+    ) {
+        sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Page " + page + " of " + pages + " of " + header);
+        for (DocumentationElement docElem : docElems) {
+            sender.sendMessage((displayType ? Mundo.TRI_CHAT_COLOR + "" + docElem.getType() + "" : "") + Mundo.ALT_CHAT_COLOR + docElem.name);
         }
     }
 }

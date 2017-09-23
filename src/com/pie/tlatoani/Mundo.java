@@ -40,6 +40,7 @@ public class Mundo extends JavaPlugin {
 	public static Mundo INSTANCE;
 	public static final ChatColor PRIMARY_CHAT_COLOR = ChatColor.DARK_GREEN;
 	public static final ChatColor ALT_CHAT_COLOR = ChatColor.GREEN;
+	public static final ChatColor TRI_CHAT_COLOR = ChatColor.DARK_AQUA;
 
     @Override
 	public void onEnable() {
@@ -122,23 +123,23 @@ public class Mundo extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equals("mundosk")) {
-            if (args.length == 0 || args[0].equals("help")) {
+            if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK Command Help");
                 sender.sendMessage(formatCommandDescription("[help]", "Prints this list of commands"));
                 sender.sendMessage(formatCommandDescription("desc[ription]", "Prints a description of MundoSK"));
                 sender.sendMessage(formatCommandDescription("ver[sion]", "Prints the version of MundoSK running on this server"));
                 sender.sendMessage(formatCommandDescription("config", "Prints the current config options"));
                 sender.sendMessage(formatCommandDescription("config reload", "Reloads MundoSK's config"));
-            } else if (args[0].equals("desc") || args[0].equals("description")) {
+            } else if (args[0].equalsIgnoreCase("desc") || args[0].equalsIgnoreCase("description")) {
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK is a Skript Addon that has features including Packets, World Borders, World Management, Custom World Generation, Tablist, Skin Modification, Sockets, and more!");
                 sender.sendMessage(formatMundoSKInfo("Your MundoSK Version", getVersion()));
                 sender.sendMessage(formatMundoSKInfo("skUnity Forums Page", "https://forums.skunity.com/resources/mundosk.69/"));
                 sender.sendMessage(formatMundoSKInfo("GitHub", "https://github.com/MundoSK/MundoSK"));
                 sender.sendMessage(formatMundoSKInfo("Skript Addon Discord Invite", "https://discord.gg/vb9dGbu"));
-            } else if (args[0].equals("ver") || args[0].equals("version")) {
+            } else if (args[0].equalsIgnoreCase("ver") || args[0].equalsIgnoreCase("version")) {
                 sender.sendMessage(formatMundoSKInfo("Your MundoSK Version", getVersion()));
-            } else if (args[0].equals("config")) {
-                if (args.length >= 2 && args[1].equals("reload")) {
+            } else if (args[0].equalsIgnoreCase("config")) {
+                if (args.length >= 2 && args[1].equalsIgnoreCase("reload")) {
                     Config.reload();
                     sender.sendMessage(PRIMARY_CHAT_COLOR + "Reloaded MundoSK's Config!");
                 }
