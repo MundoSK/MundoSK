@@ -34,24 +34,24 @@ public class ExprAllAch extends SimpleExpression<Achievement>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return player + "'s achievements";
 	}
 
 	@Override
 	@Nullable
-	protected Achievement[] get(Event arg0) {
+	protected Achievement[] get(Event event) {
 		List<Achievement> list = new ArrayList<>();
 		for (int a = 0; a < Achievement.values().length; a++) {
-			if (player.getSingle(arg0).hasAchievement(Achievement.values()[a])) list.add(Achievement.values()[a]);
+			if (player.getSingle(event).hasAchievement(Achievement.values()[a])) list.add(Achievement.values()[a]);
 		}
 		return list.toArray(new Achievement[list.size()]);
 	}
 
-	public Iterator<Achievement> iterator(Event arg0) {
+	public Iterator<Achievement> iterator(Event event) {
 		List<Achievement> list = new ArrayList<>();
 		for (int a = 0; a < Achievement.values().length; a++) {
-			if (player.getSingle(arg0).hasAchievement(Achievement.values()[a])) list.add(Achievement.values()[a]);
+			if (player.getSingle(event).hasAchievement(Achievement.values()[a])) list.add(Achievement.values()[a]);
 		}
 		return list.iterator();
 	}

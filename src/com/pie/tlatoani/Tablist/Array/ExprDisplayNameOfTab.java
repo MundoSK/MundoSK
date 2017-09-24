@@ -6,10 +6,12 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Tablist.OldTab;
-import com.pie.tlatoani.Tablist.OldTablist;
+import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import java.util.Arrays;
 
 /**
  * Created by Tlatoani on 7/15/16.
@@ -17,20 +19,29 @@ import org.bukkit.event.Event;
 public class ExprDisplayNameOfTab extends SimpleExpression<String> {
     private Expression<Number> column;
     private Expression<Number> row;
-    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected String[] get(Event event) {
-        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
-        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
-        OldTab oldTab = oldTablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
-        return new String[]{oldTab.getDisplayName(player)};
+        int column = this.column.getSingle(event).intValue();
+        int row = this.row.getSingle(event).intValue();
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .filter(Player::isOnline)
+                .map(player -> {
+                    Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                    if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                        ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                        return arrayTablist.getTab(column, row).getDisplayName();
+                    }
+                    return null;
+                })
+                .toArray(String[]::new);
     }
 
     @Override
     public boolean isSingle() {
-        return true;
+        return playerExpression.isSingle();
     }
 
     @Override
@@ -40,23 +51,31 @@ public class ExprDisplayNameOfTab extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "latency of tab " + column + ", " + row + " for " + playerExpression;
+        return "display name of tab " + column + ", " + row + " for " + playerExpression;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         column = (Expression<Number>) expressions[0];
         row = (Expression<Number>) expressions[1];
-        tablistExpression = (Expression<OldTablist>) expressions[2];
-        playerExpression = (Expression<Player>) expressions[3];
+        playerExpression = (Expression<Player>) expressions[2];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
-        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
-        OldTab oldTab = oldTablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
-        oldTab.setDisplayName(player, (String) delta[0]);
+        int column = this.column.getSingle(event).intValue();
+        int row = this.row.getSingle(event).intValue();
+        String value = (String) delta[0];
+        for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
+            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                arrayTablist.getTab(column, row).setDisplayName(value);
+            }
+        }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

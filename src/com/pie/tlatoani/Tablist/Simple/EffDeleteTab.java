@@ -4,7 +4,8 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Tablist.OldTablist;
+import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -13,26 +14,32 @@ import org.bukkit.event.Event;
  */
 public class EffDeleteTab extends Effect {
     private Expression<String> id;
-    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected void execute(Event event) {
-        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
-        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
-        oldTablist.simpleTablist.deleteTab(player, id.getSingle(event));
+        String id = this.id.getSingle(event);
+        for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
+            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
+                SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
+                simpleTablist.deleteTab(id);
+            }
+        }
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "delete tab id " + id + " for " + playerExpression;
+        return "delete simple tab " + id + " for " + playerExpression;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         id = (Expression<String>) expressions[0];
-        tablistExpression = (Expression<OldTablist>) expressions[1];
-        playerExpression = (Expression<Player>) expressions[2];
+        playerExpression = (Expression<Player>) expressions[1];
         return true;
     }
 }

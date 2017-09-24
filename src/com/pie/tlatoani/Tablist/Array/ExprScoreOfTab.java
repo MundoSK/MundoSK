@@ -6,10 +6,12 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Tablist.OldTab;
-import com.pie.tlatoani.Tablist.OldTablist;
+import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import java.util.Arrays;
 
 /**
  * Created by Tlatoani on 11/25/16.
@@ -17,20 +19,29 @@ import org.bukkit.event.Event;
 public class ExprScoreOfTab extends SimpleExpression<Number> {
     private Expression<Number> column;
     private Expression<Number> row;
-    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected Number[] get(Event event) {
-        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
-        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
-        OldTab oldTab = oldTablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
-        return new Number[]{oldTab.getScore(player)};
+        int column = this.column.getSingle(event).intValue();
+        int row = this.row.getSingle(event).intValue();
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .filter(Player::isOnline)
+                .map(player -> {
+                    Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                    if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                        ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                        return arrayTablist.getTab(column, row).getScore();
+                    }
+                    return null;
+                })
+                .toArray(Number[]::new);
     }
 
     @Override
     public boolean isSingle() {
-        return true;
+        return playerExpression.isSingle();
     }
 
     @Override
@@ -47,16 +58,24 @@ public class ExprScoreOfTab extends SimpleExpression<Number> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         column = (Expression<Number>) expressions[0];
         row = (Expression<Number>) expressions[1];
-        tablistExpression = (Expression<OldTablist>) expressions[2];
-        playerExpression = (Expression<Player>) expressions[3];
+        playerExpression = (Expression<Player>) expressions[2];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
-        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
-        OldTab oldTab = oldTablist.arrayTablist.getOldTab(column.getSingle(event).intValue(), row.getSingle(event).intValue());
-        oldTab.setScore(player, ((Number) delta[0]).intValue());
+        int column = this.column.getSingle(event).intValue();
+        int row = this.row.getSingle(event).intValue();
+        Integer value = ((Number) delta[0]).intValue();
+        for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
+            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
+                ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
+                arrayTablist.getTab(column, row).setScore(value);
+            }
+        }
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {

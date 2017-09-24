@@ -3,15 +3,15 @@ package com.pie.tlatoani.Miscellaneous.Thread;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.util.Timespan;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.event.Event;
 
 /**
  * Created by Tlatoani on 8/25/16.
  */
 public class ScopeSync extends CustomScope {
-    Expression<Timespan> delay;
+    private Expression<Timespan> delay;
 
     public ScopeSync() {
         canStandFree = true;
@@ -35,12 +35,18 @@ public class ScopeSync extends CustomScope {
 
     @Override
     public TriggerItem walk(Event event) {
+        go(event);
+        return null;
+    }
+
+    @Override
+    public boolean go(Event event) {
         Runnable runnable = () -> TriggerItem.walk(scope == null ? getNext() : first, event);
         if (delay == null) {
-            Mundo.sync(runnable);
+            Scheduling.sync(runnable);
         } else {
-            Mundo.sync(new Long(delay.getSingle(event).getTicks_i()).intValue(), runnable);
+            Scheduling.syncDelay(new Long(delay.getSingle(event).getTicks_i()).intValue(), runnable);
         }
-        return null;
+        return false;
     }
 }

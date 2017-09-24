@@ -7,34 +7,41 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Tablist.OldTab;
-import com.pie.tlatoani.Tablist.OldTablist;
+import com.pie.tlatoani.Tablist.Tab;
+import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import java.util.Arrays;
 
 /**
  * Created by Tlatoani on 7/13/16.
  */
 public class ExprIconOfTab extends SimpleExpression<Skin> {
     private Expression<String> id;
-    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected Skin[] get(Event event) {
-        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
-        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         String id = this.id.getSingle(event);
-        OldTab oldTab = oldTablist.simpleTablist.getTabIfVisibleFor(player, id);
-        if (oldTab == null) {
-            return new Skin[0];
-        }
-        return new Skin[]{oldTab.getIcon(player)};
+        return Arrays
+                .stream(playerExpression.getArray(event))
+                .filter(Player::isOnline)
+                .map(player -> {
+                    Tablist tablist = TablistManager.getTablistOfPlayer(player);
+                    if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
+                        SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
+                        return simpleTablist.getTab(id).map(Tab::getIcon).orElse(null);
+                    }
+                    return null;
+                })
+                .toArray(Skin[]::new);
     }
 
     @Override
     public boolean isSingle() {
-        return true;
+        return playerExpression.isSingle();
     }
 
     @Override
@@ -44,24 +51,28 @@ public class ExprIconOfTab extends SimpleExpression<Skin> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "head icon of tab id " + id + " for " + playerExpression;
+        return "icon of simple tab " + id + " for " + playerExpression;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         id = (Expression<String>) expressions[0];
-        tablistExpression = (Expression<OldTablist>) expressions[1];
-        playerExpression = (Expression<Player>) expressions[2];
+        playerExpression = (Expression<Player>) expressions[1];
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
-        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
         String id = this.id.getSingle(event);
-        OldTab oldTab = oldTablist.simpleTablist.getTabIfVisibleFor(player, id);
-        if (oldTab != null) {
-            oldTab.setIcon(player, (Skin) delta[0]);
+        Skin value = (Skin) delta[0];
+        for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
+            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
+                SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
+                simpleTablist.getTab(id).ifPresent(tab -> tab.setIcon(value));
+            }
         }
     }
 

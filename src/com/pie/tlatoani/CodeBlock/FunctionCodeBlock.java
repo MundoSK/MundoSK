@@ -1,16 +1,13 @@
 package com.pie.tlatoani.CodeBlock;
 
-import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.lang.function.Function;
 import ch.njol.skript.lang.function.FunctionEvent;
 import ch.njol.skript.lang.function.Parameter;
-import ch.njol.skript.lang.function.ScriptFunction;
 import ch.njol.skript.variables.Variables;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 
 /**
@@ -27,7 +24,7 @@ public class FunctionCodeBlock implements CodeBlock {
             localVariables.setAccessible(true);
             weakHashMap = (WeakHashMap) localVariables.get(null);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            Mundo.reportException(FunctionCodeBlock.class, e);
+            Logging.reportException(FunctionCodeBlock.class, e);
         }
     }
 
@@ -50,7 +47,7 @@ public class FunctionCodeBlock implements CodeBlock {
 
     @Override
     public Object execute(Object[] args) {
-        Mundo.debug(this, "START:: " + args);
+        Logging.debug(this, "START:: " + args);
         Object[][] funcArgs = new Object[args.length][];
         for (int i = 0; i < args.length; i++) {
             if (args[i] instanceof Object[]) {
@@ -59,9 +56,9 @@ public class FunctionCodeBlock implements CodeBlock {
                 funcArgs[i] = new Object[]{args[i]};
             }
         }
-        Mundo.debug(this, "THEN:: " + funcArgs);
+        Logging.debug(this, "THEN:: " + funcArgs);
         Object result = function.execute(funcArgs);
-        Mundo.debug(this, "NOW:: " + result);
+        Logging.debug(this, "NOW:: " + result);
         return result;
     }
 }

@@ -21,12 +21,12 @@ public class EffPrintStackTrace extends Effect{
 
 	@Override
 	public String toString(@Nullable Event paramEvent, boolean paramBoolean) {
-		return "print stack trace";
+		return "print stack trace of " + thr;
 	}
 
 	@Override
-	protected void execute(Event arg0) {
-		thr.getSingle(arg0).printStackTrace();
+	protected void execute(Event event) {
+		thr.getSingle(event).printStackTrace();
 	}
 
 }

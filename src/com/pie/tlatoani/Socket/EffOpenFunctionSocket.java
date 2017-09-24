@@ -1,14 +1,13 @@
 package com.pie.tlatoani.Socket;
 
-import javax.annotation.Nullable;
-
-import com.pie.tlatoani.Mundo;
-import org.bukkit.event.Event;
-
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.Logging;
+import org.bukkit.event.Event;
+
+import javax.annotation.Nullable;
 
 public class EffOpenFunctionSocket extends Effect{
 	private Expression<Number> port;
@@ -32,14 +31,14 @@ public class EffOpenFunctionSocket extends Effect{
 	}
 
 	@Override
-	protected void execute(Event arg0) {
+	protected void execute(Event event) {
 		String passarg = null;
-		if (pass != null) passarg = pass.getSingle(arg0);
+		if (pass != null) passarg = pass.getSingle(event);
 		String handlerarg = null;
-		if (handler != null) handlerarg = handler.getSingle(arg0);
-		Mundo.debug(this, "Passarg : " + passarg + ", Handlerarg : " + handlerarg);
-		Mundo.debug(this, "port : " + port + "port.getSingle : " + port.getSingle(arg0));
-		UtilFunctionSocket.openFunctionSocket(port.getSingle(arg0).intValue(), passarg, handlerarg);
+		if (handler != null) handlerarg = handler.getSingle(event);
+		Logging.debug(this, "Passarg : " + passarg + ", Handlerarg : " + handlerarg);
+		Logging.debug(this, "port : " + port + "port.getSingle : " + port.getSingle(event));
+		UtilFunctionSocket.openFunctionSocket(port.getSingle(event).intValue(), passarg, handlerarg);
 		
 	}
 	

@@ -1,66 +1,25 @@
 package com.pie.tlatoani.WorldCreator;
 
-import org.bukkit.WorldCreator;
+import com.pie.tlatoani.Util.EvolvingPropertyExpression;
 
-import javax.annotation.Nullable;
+import java.util.Optional;
 
-import org.bukkit.event.Event;
+/**
+ * Created by Tlatoani on 8/18/17.
+ */
+public class ExprSeedOfCreator extends EvolvingPropertyExpression<WorldCreatorData, String> {
+    @Override
+    public WorldCreatorData set(WorldCreatorData worldCreatorData, String s) {
+        return worldCreatorData.setSeed(Optional.of(Long.parseLong(s)));
+    }
 
-import ch.njol.skript.classes.Changer;
-import ch.njol.skript.classes.Changer.ChangeMode;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.util.Kleenean;
-import ch.njol.util.coll.CollectionUtils;
+    @Override
+    public WorldCreatorData reset(WorldCreatorData worldCreatorData) {
+        return worldCreatorData.setSeed(Optional.empty());
+    }
 
-public class ExprSeedOfCreator extends SimpleExpression<String>{
-	private Expression<WorldCreator> creator;
-
-	@Override
-	public Class<? extends String> getReturnType() {
-		// TODO Auto-generated method stub
-		return String.class;
-	}
-
-	@Override
-	public boolean isSingle() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		// TODO Auto-generated method stub
-		creator = (Expression<WorldCreator>) expr[0];
-		return true;
-	}
-
-	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
-		// TODO Auto-generated method stub
-		return "border length of world";
-	}
-
-	@Override
-	@Nullable
-	protected String[] get(Event arg0) {
-		return new String[]{Long.toString(creator.getSingle(arg0).seed())};
-	}
-	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
-		if (mode == ChangeMode.SET){
-			creator.getSingle(arg0).seed(Long.parseLong((String)delta[0]));
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-		if (mode == ChangeMode.SET) {
-			return CollectionUtils.array(String.class);
-		}
-		return null;
-	}
-
+    @Override
+    public String convert(WorldCreatorData worldCreatorData) {
+        return worldCreatorData.seed.map(Object::toString).orElse(null);
+    }
 }

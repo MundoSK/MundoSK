@@ -15,7 +15,7 @@ public class ExprSkinWith extends SimpleExpression<Skin> {
 
     @Override
     protected Skin[] get(Event event) {
-        return new Skin[]{new Skin.Simple(valueExpr.getSingle(event), signatureExpr.getSingle(event))};
+        return new Skin[]{new Skin(valueExpr.getSingle(event), signatureExpr.getSingle(event))};
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ExprSkinWith extends SimpleExpression<Skin> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "skin texture with value " + valueExpr + " signature " + signatureExpr;
+        return "skin with value " + valueExpr + " signature " + signatureExpr;
     }
 
     @Override

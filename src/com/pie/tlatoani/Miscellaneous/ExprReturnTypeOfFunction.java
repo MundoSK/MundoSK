@@ -33,15 +33,15 @@ public class ExprReturnTypeOfFunction extends SimpleExpression<ClassInfo>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected ClassInfo<?>[] get(Event arg0) {
-		return new ClassInfo<?>[]{Functions.getFunction(func.getSingle(arg0)).getReturnType()};
+	protected ClassInfo<?>[] get(Event event) {
+		return new ClassInfo<?>[]{Functions.getFunction(func.getSingle(event)).getReturnType()};
 	}
 
 }

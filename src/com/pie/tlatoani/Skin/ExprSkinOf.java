@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
@@ -60,14 +60,14 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
             Skin skinDelta = (Skin) delta[0];
             ItemMeta meta = ((ItemStack) value).getItemMeta();
             if (meta instanceof SkullMeta)
-                Skin.setSkinOfSKull((SkullMeta) meta, skinDelta);
+                Skin.setSkinOfSkull((SkullMeta) meta, skinDelta);
             ((ItemStack) value).setItemMeta(meta);
         }
 
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-        if (mode == Changer.ChangeMode.SET && Mundo.classesCompatible(ItemStack.class, expression.getReturnType())) {
+        if (mode == Changer.ChangeMode.SET && MundoUtil.classesCompatible(ItemStack.class, expression.getReturnType())) {
             return CollectionUtils.array(Skin.class);
         }
         return null;

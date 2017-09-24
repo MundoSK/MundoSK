@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.event.Event;
 
 /**
@@ -16,22 +16,27 @@ public class EffWait extends Effect {
     private Expression<Boolean> condition;
     private Expression<Timespan> timeoutExpr;
     private boolean until;
+    private boolean sync;
 
     @Override
     protected TriggerItem walk(Event event) {
         long timeout = timeoutExpr == null ? -1 : timeoutExpr.getSingle(event).getTicks_i();
-        check(event, timeout);
+        check(event, timeout, sync);
         return null;
     }
 
     @Override
     protected void execute(Event event) {}
 
-    private void check(Event event, long timeout) {
+    private void check(Event event, long timeout, boolean sync) {
         if (timeout == 0 || condition.getSingle(event) == until) {
             walk(getNext(), event);
         } else {
-            Mundo.sync(1, () -> check(event, timeout - 1));
+            if (sync) {
+                Scheduling.syncDelay(1, () -> check(event, timeout - 1, true));
+            } else {
+                Scheduling.asyncDelay(1, () -> check(event, timeout - 1, false));
+            }
         }
     }
 
@@ -44,7 +49,8 @@ public class EffWait extends Effect {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         condition = (Expression<Boolean>) expressions[0];
         timeoutExpr = (Expression<Timespan>) expressions[1];
-        until = parseResult.mark == 0;
+        until = (parseResult.mark & 0b01) == 0;
+        sync = (parseResult.mark & 0b10 ) == 0;
         return true;
     }
 }

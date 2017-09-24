@@ -8,15 +8,15 @@ import org.bukkit.event.HandlerList;
  * Created by Tlatoani on 7/4/16.
  */
 public class BaseEvent extends Event {
-    public static HandlerList handlerList = new HandlerList();
+    public static final HandlerList HANDLER_LIST = new HandlerList();
 
     @Override
     public HandlerList getHandlers() {
-        return handlerList;
+        return HANDLER_LIST;
     }
 
     public static HandlerList getHandlerList() {
-        return handlerList;
+        return HANDLER_LIST;
     }
 
     public void setLocalVariable(String varname, Object value) {

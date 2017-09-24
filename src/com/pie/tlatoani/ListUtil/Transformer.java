@@ -1,7 +1,7 @@
 package com.pie.tlatoani.ListUtil;
 
 import ch.njol.skript.lang.Expression;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Array;
@@ -17,15 +17,11 @@ public interface Transformer<T> {
 
     boolean isSettable();
 
+    //The array returned by this method should NEVER be modified
     T[] get(Event event);
 
-    default void setSafely(Event event, Object[] value) {
-        T[] result = (T[]) Array.newInstance(getType(), value.length);
-        for (int i = 0; i < value.length; i++) {
-            result[i] = (T) value[i];
-        }
-        Mundo.debug(this, "VALUE = " + value + ", RESULT = " + result);
-        set(event, result);
+    default T[] createArray(int length) {
+        return (T[]) Array.newInstance(getType(), length);
     }
 
     void set(Event event, T[] value);

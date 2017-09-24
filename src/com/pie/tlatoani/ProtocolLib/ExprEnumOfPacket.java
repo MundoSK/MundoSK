@@ -12,7 +12,7 @@ import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.reflect.StructureModifier;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.InvocationTargetException;
@@ -33,10 +33,10 @@ public class ExprEnumOfPacket extends SimpleExpression<String> {
         try {
             structureModifier = (StructureModifier) getStructureModifier.invoke(packetContainerExpression.getSingle(event));
         } catch (IllegalAccessException e) {
-            Mundo.debug(this, e);
+            Logging.debug(this, e);
             return new String[0];
         } catch (InvocationTargetException e) {
-            Mundo.debug(this, e);
+            Logging.debug(this, e);
             return new String[0];
         }
         Object result = structureModifier.readSafely(index.getSingle(event).intValue());
@@ -72,19 +72,19 @@ public class ExprEnumOfPacket extends SimpleExpression<String> {
             Skript.error("The string '" + expressions[0] + "' is not a literal string! Only literal strings can be used in the pjson expression!");
             return false;
         }
-        Mundo.debug(this, "Assumed method name: get" + enumMethodName);
+        Logging.debug(this, "Assumed method name: get" + enumMethodName);
         try {
             Method method = PacketContainer.class.getMethod("get" + enumMethodName + "s");
-            Mundo.debug(this, "Method Name: " + method.toString());
+            Logging.debug(this, "Method Name: " + method.toString());
             getStructureModifier = method;
         } catch (NoSuchMethodException e) {
-            Mundo.debug(this, e);
+            Logging.debug(this, e);
             try {
                 Method method = PacketContainer.class.getMethod("get" + enumMethodName);
-                Mundo.debug(this, "Method Name: " + method.toString());
+                Logging.debug(this, "Method Name: " + method.toString());
                 getStructureModifier = method;
             } catch (NoSuchMethodException e1) {
-                Mundo.debug(this, e1);
+                Logging.debug(this, e1);
                 Skript.error("The enum method name " + enumMethodName + " is not applicable for the '%string% penum %number% of %packet%' expression.");
                 return false;
             }
@@ -94,12 +94,12 @@ public class ExprEnumOfPacket extends SimpleExpression<String> {
         try {
             structureModifier = (StructureModifier) getStructureModifier.invoke(testContainer);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            Mundo.debug(this, e);
+            Logging.debug(this, e);
             Skript.error("The enum method name " + enumMethodName + " is not applicable for the '%string% penum %number% of %packet%' expression.");
             return false;
         }
         Class<?> enumClass = structureModifier.getFieldType();
-        Mundo.debug(this, "ENUM CLASS: " + enumClass);
+        Logging.debug(this, "ENUM CLASS: " + enumClass);
         if (!Enum.class.isAssignableFrom(enumClass)) {
             Skript.error("The enum method name " + enumMethodName + " is not applicable for the '%string% penum %number% of %packet%' expression.");
             return false;
@@ -114,7 +114,7 @@ public class ExprEnumOfPacket extends SimpleExpression<String> {
             Object value = Enum.valueOf(enumClass, ((String) delta[0]).toUpperCase());
             structureModifier.writeSafely(index.getSingle(event).intValue(), value);
         } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
-            Mundo.debug(this, e);
+            Logging.debug(this, e);
         }
     }
 

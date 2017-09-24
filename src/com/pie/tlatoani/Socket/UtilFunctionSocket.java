@@ -1,27 +1,18 @@
 package com.pie.tlatoani.Socket;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import ch.njol.skript.lang.function.Function;
+import ch.njol.skript.lang.function.Functions;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Scheduling;
+import com.pie.tlatoani.Util.SyncGetter;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.function.BiConsumer;
-
-import ch.njol.skript.lang.function.Function;
-import com.pie.tlatoani.Util.SyncGetter;
-import org.bukkit.Bukkit;
-
-import com.pie.tlatoani.Mundo;
-
-import ch.njol.skript.lang.function.Functions;
-import org.bukkit.scheduler.BukkitScheduler;
 
 public class UtilFunctionSocket implements Runnable {
 	private Boolean status = false;
@@ -29,8 +20,7 @@ public class UtilFunctionSocket implements Runnable {
 	private String password;
 	private ServerSocket sock;
 	private String handler;
-	private static Map<Integer, UtilFunctionSocket> sockets = new HashMap<Integer, UtilFunctionSocket>();
-	private static BukkitScheduler scheduler = Bukkit.getScheduler();
+	private static Map<Integer, UtilFunctionSocket> sockets = new HashMap<>();
 	
 	private UtilFunctionSocket(int portarg, String passarg, String handlerarg) {
 		port = portarg;
@@ -44,11 +34,11 @@ public class UtilFunctionSocket implements Runnable {
 		try {
 			sock = new ServerSocket(port);
 			sock.setReuseAddress(true);
-			Bukkit.getServer().getScheduler().runTaskAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("MundoSK"), this);
+			Scheduling.async(this);
 			debug("Function Socket on port " + port + " successfully initialized");
 			return true;
 		} catch (Exception e) {
-			Mundo.reportException(this, e);
+			Logging.reportException(this, e);
 			return false;
 		}
 	}
@@ -62,10 +52,10 @@ public class UtilFunctionSocket implements Runnable {
 				socket = sock.accept();
 				debug("New connection accepted on Function Socket on port " + port);
 			} catch (IOException e) {
-				if (status) Mundo.reportException(this, e);
+				if (status) Logging.reportException(this, e);
 			} finally {
 				if (status) {
-					Bukkit.getServer().getScheduler().runTaskAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("MundoSK"), this);
+					Scheduling.async(this);
 					debug("At Function Socket on port " + port + ", running task to accept new connections");
 				}
 			}
@@ -118,9 +108,12 @@ public class UtilFunctionSocket implements Runnable {
 						socket.close();
 						debug("At Function Socket on port " + port + ", a connection was successfully closed");
 					} else debug("At Function Socket on port " + port + ", the function " + funcmsg + "did not return a value or was not found");
-					
-				} else debug("At Function Socket on port " + port + ", the password was incorrect, or the socket closed early.");
-			} catch(Exception e) {e.printStackTrace();} finally {
+				} else {
+					debug("At Function Socket on port " + port + ", the password was incorrect, or the socket closed early.");
+				}
+			} catch(Exception e) {
+				Logging.reportException(UtilFunctionSocket.class, e);
+			} finally {
 				try {
 					socket.close();
 				} catch(Exception e) {}
@@ -151,7 +144,7 @@ public class UtilFunctionSocket implements Runnable {
 			sock.close();
 			debug("Function Socket on port " + port + " successfully closed");
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logging.reportException(UtilFunctionSocket.class, e);
 		} 
 	}
 	
@@ -178,17 +171,14 @@ public class UtilFunctionSocket implements Runnable {
 	}
 	
 	private static void debug(String msg) {
-		Mundo.debug(UtilFunctionSocket.class, msg);
+		Logging.debug(UtilFunctionSocket.class, msg);
 	}
 
 	public static void onDisable() {
-		sockets.forEach(new BiConsumer<Integer, UtilFunctionSocket>() {
-			@Override
-			public void accept(Integer portarg, UtilFunctionSocket utilFunctionSocket) {
-				debug("Function Socket on port " + portarg + " being closed (Special Case - onDisable)");
-				sockets.get(portarg).closeFunctionSocket();
-			}
-		});
+		sockets.forEach((portarg, utilFunctionSocket) -> {
+            debug("Function Socket on port " + portarg + " being closed (Special Case - onDisable)");
+            sockets.get(portarg).closeFunctionSocket();
+        });
 	}
 
 }

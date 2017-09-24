@@ -5,9 +5,12 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptEventHandler;
 import ch.njol.skript.command.Commands;
 import ch.njol.skript.command.ScriptCommand;
+import ch.njol.skript.config.Node;
+import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.*;
-import com.pie.tlatoani.Generator.SkriptGeneratorManager;
-import com.pie.tlatoani.Generator.SkriptGeneratorEvent;
+import ch.njol.skript.lang.function.Functions;
+import ch.njol.skript.lang.function.ScriptFunction;
+import ch.njol.skript.log.SkriptLogger;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.event.Event;
 
@@ -15,8 +18,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -33,11 +34,20 @@ public abstract class CustomScope extends Condition {
 	public static Method walkmethod;
 	public static Method runmethod;
 	public static Field commandTrigger;
+	public static Method getTriggersMethod;
+
+	public static Reflection.FieldAccessor<TriggerItem> TRIGGER_SECTION_FIRST;
+    public static Reflection.FieldAccessor<TriggerItem> TRIGGER_SECTION_LAST;
+	public static Reflection.FieldAccessor<Condition> CONDITIONAL_COND;
+	public static Reflection.FieldAccessor<Trigger> SCRIPT_FUNCTION_TRIGGER;
+
+	public static Reflection.MethodInvoker TRIGGER_ITEM_WALK;
+
 	private static boolean getScopesWasRun = true;
 
 	protected boolean canStandFree = false;
+	protected ScriptFunction function = null;
 	protected TriggerSection scopeParent;
-	protected TriggerItem scopeNext;
 	protected Conditional scope = null;
 	protected TriggerItem first;
 	protected TriggerItem last;
@@ -63,78 +73,54 @@ public abstract class CustomScope extends Condition {
 			commandTrigger.setAccessible(true);
 			commands = Commands.class.getDeclaredField("commands");
 			commands.setAccessible(true);
+			getTriggersMethod = SkriptEventHandler.class.getDeclaredMethod("getTriggers", Class.class);
+			getTriggersMethod.setAccessible(true);
 			walkmethod = TriggerItem.class.getDeclaredMethod("walk", Event.class);
 			walkmethod.setAccessible(true);
 			runmethod = TriggerItem.class.getDeclaredMethod("run", Event.class);
 			runmethod.setAccessible(true);
+
+			TRIGGER_SECTION_FIRST = Reflection.getField(TriggerSection.class, "first", TriggerItem.class);
+            TRIGGER_SECTION_LAST = Reflection.getField(TriggerSection.class, "last", TriggerItem.class);
+			CONDITIONAL_COND = Reflection.getField(Conditional.class, "cond", Condition.class);
+			SCRIPT_FUNCTION_TRIGGER = Reflection.getField(ScriptFunction.class, "trigger", Trigger.class);
+
+			TRIGGER_ITEM_WALK = Reflection.getMethod(TriggerItem.class, "walk", Event.class);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logging.reportException(CustomScope.class, e);
 		}
 	}
 
-	private static Map<Class<? extends Event>, List<Trigger>> triggerMap = null;
-
-	public static Map<Class<? extends Event>, List<Trigger>> getTriggerMap() {
-	    if (triggerMap == null) {
-	        try {
-	            triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
-                Mundo.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
-            } catch (IllegalAccessException e) {
-                Mundo.reportException(CustomScope.class, e);
+	public static void registerImmediateScopes(Trigger trigger) {
+        TriggerItem going = TRIGGER_SECTION_FIRST.get(trigger);
+        while (going != null) {
+            if (going instanceof Conditional) {
+                Condition condition1 = CONDITIONAL_COND.get(going);
+                if (condition1 instanceof CustomScope) {
+                    ((CustomScope) condition1).setScope((Conditional) going);
+                }
             }
+            going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
+
         }
-        return triggerMap;
     }
 
 	public static void getScopes() {
 		if (!getScopesWasRun) {
 			try {
-				for (List<Trigger> triggers : getTriggerMap().values()) {
-					for (Trigger trigger : triggers) {
-						try {
-							TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
-							while (going != null) {
-								if (going instanceof Conditional) {
-									Condition condition1 = (Condition) CustomScope.condition.get(going);
-									if (condition1 instanceof CustomScope) {
-										((CustomScope) condition1).setScope((Conditional) going);
-									}
-								}
-								going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
-
-							}
-						} catch (IllegalAccessException e) {
-							e.printStackTrace();
-						}
-					}
+				Map<Class<? extends Event>, List<Trigger>> triggerMap = (Map<Class<? extends Event>, List<Trigger>>) triggers.get(null);
+				Logging.debug(CustomScope.class, "TRIGGERMAP:: " + triggerMap);
+				for (List<Trigger> triggers : triggerMap.values()) {
+					triggers.forEach(CustomScope::registerImmediateScopes);
 				}
-
-				List<Trigger> triggerList = triggerMap.get(SkriptGeneratorEvent.class);
-				if (triggerList != null) {
-					SkriptGeneratorManager.registerTriggers(triggerList);
-				}
-
 				Map<String, ScriptCommand> commandMap = (Map<String, ScriptCommand>) commands.get(null);
 				for (ScriptCommand scriptCommand : commandMap.values()) {
-					try {
-						Trigger trigger = (Trigger) commandTrigger.get(scriptCommand);
-						TriggerItem going = (TriggerItem) CustomScope.firstitem.get(trigger);
-						while (going != null) {
-							if (going instanceof Conditional) {
-								Condition condition1 = (Condition) CustomScope.condition.get(going);
-								if (condition1 instanceof CustomScope) {
-									((CustomScope) condition1).setScope((Conditional) going);
-								}
-							}
-							going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
+                    Trigger trigger = (Trigger) commandTrigger.get(scriptCommand);
+                    registerImmediateScopes(trigger);
 
-						}
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					}
 				}
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				Logging.reportException(CustomScope.class, e);
 			}
 			getScopesWasRun = true;
 		}
@@ -143,7 +129,7 @@ public abstract class CustomScope extends Condition {
 	public static void querySetScope() {
 		if (getScopesWasRun) {
 			getScopesWasRun = false;
-			Mundo.sync(CustomScope::getScopes);
+			Scheduling.sync(CustomScope::getScopes);
 		}
 	}
 
@@ -154,41 +140,36 @@ public abstract class CustomScope extends Condition {
 	public void setScope(Conditional scope) {
 		if (scope != null) {
 			this.scope = scope;
-			try {
-				this.first = (TriggerItem) firstitem.get(scope);
-				this.last = (TriggerItem) lastitem.get(scope);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Mundo.debug(this, "GUTEN ROUNDEN:: " + first);
+            this.first = TRIGGER_SECTION_FIRST.get(scope);
+            this.last = TRIGGER_SECTION_LAST.get(scope);
+			Logging.debug(this, "GUTEN ROUNDEN:: " + first);
 			if (scopeParent == null) {
 				scopeParent = scope.getParent();
 			}
-			scopeNext = scope.getNext();
 			setScope();
 		}
 	}
 
-	private void getScope() {
-		try {
-			TriggerItem going = (TriggerItem) firstitem.get(scopeParent);
-			Conditional scope = null;
-			while (scope == null) {
-				Mundo.debug(this, "GOING::: " + going);
-				if (going instanceof Conditional) {
-					Condition condition1 = (Condition) condition.get(going);
-					if (this == condition1) {
-						scope = (Conditional) going;
-					}
-				}
-				going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
-			}
-			Mundo.debug(this, "FOUND THE CONDITIONAL:: " + scope);
-			setScope(scope);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
+	protected void retrieveScope() {
+		setScope(getScope(scopeParent, this));
 	}
+
+	public static Conditional getScope(TriggerSection parent, CustomScope scope) {
+	    TriggerItem going = TRIGGER_SECTION_FIRST.get(parent);
+	    TriggerItem next = parent.getNext();
+	    while (going != null && going != next) {
+	        Logging.debug(CustomScope.class, "GOING :: " + going);
+	        if (going instanceof Conditional) {
+	            Condition condition = CONDITIONAL_COND.get(going);
+	            if (scope == condition) {
+                    Logging.debug(CustomScope.class, "FOUND THE CONDITIONAL :: " + going);
+	                return (Conditional) going;
+                }
+            }
+            going = going instanceof Loop ? ((Loop) going).getActualNext() : going instanceof While ? ((While) going).getActualNext() : going.getNext();
+        }
+        throw new IllegalStateException("Unable to find the correct scope for CustomScope = " + scope + ", Parent = " + parent);
+    }
 
 	//Overriden methods
 
@@ -203,23 +184,38 @@ public abstract class CustomScope extends Condition {
 		this.arg1 = arg1;
 		this.arg2 = arg2;
 		this.arg3 = arg3;
-		int currentSectionsSize = ScriptLoader.currentSections.size();
-		if (currentSectionsSize > 0) {
-			scopeParent = ScriptLoader.currentSections.get(currentSectionsSize - 1);
-		} else {
-			querySetScope();
-		}
+        Node node = SkriptLogger.getNode();
+        if (node instanceof SectionNode) {
+            int currentSectionsSize = ScriptLoader.currentSections.size();
+            if (currentSectionsSize > 0) {
+                scopeParent = ScriptLoader.currentSections.get(currentSectionsSize - 1);
+            } else if (Functions.currentFunction != null) {
+                function = Functions.currentFunction;
+            } else {
+                querySetScope();
+            }
+        } else {
+            if (!canStandFree) {
+                Skript.error("This scope cannot stand free!");
+                return false;
+            }
+        }
 		return init();
 	}
 
 	@Override
 	public boolean check(Event e) {
 		if (scope == null) {
-			if (scopeParent != null)
-				getScope();
-			else
-				getScopes();
+		    if (function != null) {
+                scopeParent = SCRIPT_FUNCTION_TRIGGER.get(function);
+            }
+			if (scopeParent != null) {
+                retrieveScope();
+            } else {
+                getScopes();
+            }
 		}
+		Logging.debug(this, "Go");
 		return go(e);
 	}
 
@@ -235,15 +231,15 @@ public abstract class CustomScope extends Condition {
 
 	public abstract String getString();
 
-	public boolean go(Event e) {
+	protected boolean go(Event e) {
 		return false;
 	}
 
-	public boolean init() {
+	protected boolean init() {
 		return true;
 	}
 	
-	public void setScope() {}
+	protected void setScope() {}
 
 	//Public Utility Methods
 

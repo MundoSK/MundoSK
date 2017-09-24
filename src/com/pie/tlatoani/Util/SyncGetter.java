@@ -12,6 +12,7 @@ import java.util.concurrent.CountDownLatch;
 public abstract class SyncGetter<T> implements Runnable {
     private T result;
     private CountDownLatch countDownLatch;
+    private static BukkitScheduler scheduler = Bukkit.getScheduler();
 
     @Override
     public void run() {
@@ -23,11 +24,11 @@ public abstract class SyncGetter<T> implements Runnable {
 
     public T getSync() {
         countDownLatch = new CountDownLatch(1);
-        Mundo.sync(this);
+        Scheduling.sync(this);
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
-            Mundo.debug(this, e);
+            Logging.debug(this, e);
         }
         return result;
     }

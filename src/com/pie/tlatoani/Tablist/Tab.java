@@ -2,6 +2,8 @@ package com.pie.tlatoani.Tablist;
 
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.pie.tlatoani.ProtocolLib.PacketManager;
+import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.Skin;
 import org.bukkit.entity.Player;
 
@@ -11,7 +13,7 @@ import java.util.UUID;
  * Created by Tlatoani on 5/8/17.
  */
 public class Tab {
-    public final Tablist.Storage storage;
+    public final Player player;
     public final String name;
     public final UUID uuid;
 
@@ -20,8 +22,8 @@ public class Tab {
     private Skin icon;
     private Integer score;
 
-    public Tab(Tablist.Storage storage, String name, UUID uuid, String displayName, Integer latency, Skin icon, Integer score) {
-        this.storage = storage;
+    public Tab(Player player, String name, UUID uuid, String displayName, Integer latency, Skin icon, Integer score) {
+        this.player = player;
         this.name = name;
         this.uuid = uuid;
 
@@ -32,15 +34,15 @@ public class Tab {
     }
 
     public void sendPacket(PacketContainer packet) {
-        //
+        PacketManager.sendPacket(packet, this, player);
     }
 
     public PacketContainer playerInfoPacket(EnumWrappers.PlayerInfoAction action) {
-        return TablistManager.playerInfoPacket(displayName, latency, null, name, uuid, icon, action);
+        return PacketUtil.playerInfoPacket(displayName, latency, null, name, uuid, icon, action);
     }
 
     public PacketContainer updateScorePacket() {
-        return TablistManager.scorePacket(name, Tablist.OBJECTIVE_NAME, score, EnumWrappers.ScoreboardAction.CHANGE);
+        return PacketUtil.scorePacket(name, Tablist.OBJECTIVE_NAME, score, EnumWrappers.ScoreboardAction.CHANGE);
     }
 
     public String getDisplayName() {

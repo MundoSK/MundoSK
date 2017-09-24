@@ -1,14 +1,5 @@
 package com.pie.tlatoani.EnchantedBook;
 
-import javax.annotation.Nullable;
-
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.event.Event;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-
-import com.pie.tlatoani.Mundo;
-
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.skript.lang.Expression;
@@ -17,6 +8,13 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.EnchantmentType;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Util.Logging;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+
+import javax.annotation.Nullable;
 
 public class ExprEnchantLevelInEnchBook extends SimpleExpression<Integer>{
 	private Expression<EnchantmentType> enchant;
@@ -24,13 +22,11 @@ public class ExprEnchantLevelInEnchBook extends SimpleExpression<Integer>{
 
 	@Override
 	public Class<? extends Integer> getReturnType() {
-		// TODO Auto-generated method stub
 		return Integer.class;
 	}
 
 	@Override
 	public boolean isSingle() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -43,31 +39,30 @@ public class ExprEnchantLevelInEnchBook extends SimpleExpression<Integer>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
-		// TODO Auto-generated method stub
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "border length of world";
 	}
 
 	@Override
 	@Nullable
-	protected Integer[] get(Event arg0) {
-		ItemStack input = book.getSingle(arg0);
+	protected Integer[] get(Event event) {
+		ItemStack input = book.getSingle(event);
 		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) input.getItemMeta();
-		return new Integer[]{meta.getStoredEnchantLevel(enchant.getSingle(arg0).getType())};
+		return new Integer[]{meta.getStoredEnchantLevel(enchant.getSingle(event).getType())};
 	}
 	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
-		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getSingle(arg0).getItemMeta();
-		Enchantment ench = enchant.getSingle(arg0).getType();
+	public void change(Event event, Object[] delta, Changer.ChangeMode mode){
+		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getSingle(event).getItemMeta();
+		Enchantment ench = enchant.getSingle(event).getType();
 		Integer level = meta.getStoredEnchantLevel(ench);
-		Mundo.info("Initial level: " + level);
+		Logging.info("Initial level: " + level);
 		if (meta.hasStoredEnchant(ench)) meta.removeStoredEnchant(ench);
 		if (mode == ChangeMode.SET) level = ((Number) delta[0]).intValue();
 		if (mode == ChangeMode.ADD) level += ((Number) delta[0]).intValue();
 		if (mode == ChangeMode.REMOVE) level -= ((Number) delta[0]).intValue();
-		Mundo.info("New level: " + level);
+		Logging.info("New level: " + level);
 		if (level > 0) meta.addStoredEnchant(ench, level, true);
-		book.getSingle(arg0).setItemMeta(meta);
+		book.getSingle(event).setItemMeta(meta);
 	}
 	
 	@SuppressWarnings("unchecked")

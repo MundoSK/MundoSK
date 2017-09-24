@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.WorldManagement.WorldLoader.UtilWorldLoader;
+import com.pie.tlatoani.WorldCreator.WorldCreatorData;
 import org.bukkit.WorldCreator;
 import org.bukkit.event.Event;
 
@@ -15,16 +15,16 @@ import java.util.Iterator;
 /**
  * Created by Tlatoani on 8/16/16.
  */
-public class ExprAllAutomaticCreators extends SimpleExpression<WorldCreator> {
+public class ExprAllAutomaticCreators extends SimpleExpression<WorldCreatorData> {
 
     @Override
-    protected WorldCreator[] get(Event event) {
-        return UtilWorldLoader.getAllCreators().toArray(new WorldCreator[0]);
+    protected WorldCreatorData[] get(Event event) {
+        return WorldLoader.getAllCreators();
     }
 
     @Override
-    public Iterator<WorldCreator> iterator(Event event) {
-        return UtilWorldLoader.getAllCreators().iterator();
+    public Iterator<WorldCreatorData> iterator(Event event) {
+        return WorldLoader.getCreatorIterator();
     }
 
     @Override
@@ -33,8 +33,8 @@ public class ExprAllAutomaticCreators extends SimpleExpression<WorldCreator> {
     }
 
     @Override
-    public Class<? extends WorldCreator> getReturnType() {
-        return WorldCreator.class;
+    public Class<? extends WorldCreatorData> getReturnType() {
+        return WorldCreatorData.class;
     }
 
     @Override
@@ -47,20 +47,25 @@ public class ExprAllAutomaticCreators extends SimpleExpression<WorldCreator> {
         return true;
     }
 
-    public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
+    public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         if (mode == Changer.ChangeMode.ADD) {
-            UtilWorldLoader.setCreator((WorldCreator) delta[0]);
+            WorldCreatorData creator = (WorldCreatorData) delta[0];
+            creator.name.ifPresent(__ -> WorldLoader.setCreator(creator));
         } else if (mode == Changer.ChangeMode.REMOVE) {
-            UtilWorldLoader.removeCreator(delta[0] instanceof String ? (String) delta[0] : ((WorldCreator) delta[0]).name());
+            if (delta[0] instanceof String) {
+                WorldLoader.removeCreator((String) delta[0]);
+            } else {
+                ((WorldCreatorData) delta[0]).name.ifPresent(str -> WorldLoader.removeCreator(str));
+            }
         } else {
-            UtilWorldLoader.clearAllCreators();
+            WorldLoader.clearAllCreators();
         }
     }
 
     @SuppressWarnings("unchecked")
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-        if (mode == Changer.ChangeMode.ADD) return CollectionUtils.array(WorldCreator.class);
-        if (mode == Changer.ChangeMode.REMOVE) return CollectionUtils.array(String.class, WorldCreator.class);
+        if (mode == Changer.ChangeMode.ADD) return CollectionUtils.array(WorldCreatorData.class);
+        if (mode == Changer.ChangeMode.REMOVE) return CollectionUtils.array(String.class, WorldCreatorData.class);
         if (mode == Changer.ChangeMode.DELETE) return CollectionUtils.array();
         return null;
     }

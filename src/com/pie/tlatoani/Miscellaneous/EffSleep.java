@@ -5,7 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 /**
@@ -23,7 +23,7 @@ public class EffSleep extends Effect {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                Mundo.reportException(this, e);
+                Logging.reportException(this, e);
             }
             walk(event);
         }

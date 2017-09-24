@@ -10,25 +10,27 @@ import ch.njol.skript.lang.VariableString;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.reflect.EquivalentConverter;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
-import com.comphenix.protocol.wrappers.nbt.NbtBase;
-import com.comphenix.protocol.wrappers.nbt.NbtCompound;
-import com.comphenix.protocol.wrappers.nbt.NbtFactory;
-import com.comphenix.protocol.wrappers.nbt.NbtType;
-import com.pie.tlatoani.Mundo;
+import com.comphenix.protocol.wrappers.WrappedBlockData;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Reflection;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
-import org.json.simple.JSONObject;
+import org.bukkit.material.MaterialData;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.function.BiConsumer;
 
 /**
  * Created by Tlatoani on 5/2/16.
@@ -36,210 +38,13 @@ import java.util.function.BiConsumer;
 public class ExprObjectOfPacket extends SimpleExpression<Object> {
     private Expression<Number> index;
     private Expression<PacketContainer> packetContainerExpression;
-    private boolean isSingle = true;
-    private Class aClass = Object.class;
-    private PacketInfoConverter converter = null;
+    private boolean isSingle;
+    private Class aClass;
+    private PacketInfoConverter converter;
 
     private static Map<String, PacketInfoConverter> singleConverters = new LinkedHashMap<>();
     private static Map<String, PacketInfoConverter<Object[]>> pluralConverters = new LinkedHashMap<>();
 
-    /*
-
-    public static JSONObject fromNBTBase(NbtBase nbtBase) {
-        JSONObject result = new JSONObject();
-        if (nbtBase.getType() != NbtType.TAG_COMPOUND) {
-            result.put("type", nbtBase.getType().toString().substring(4).toLowerCase());
-        }
-        if (nbtBase != null)  {
-            switch (nbtBase.getType()) {
-                case TAG_BYTE:
-                case TAG_SHORT:
-                case TAG_INT:
-                case TAG_LONG:
-                case TAG_FLOAT:
-                case TAG_DOUBLE:
-                case TAG_STRING:
-                    result.put("value", nbtBase.getValue());
-                    return result;
-                case TAG_BYTE_ARRAY:
-                    result = new JSONObject();
-                    for (int i = 0; i < ((byte[]) nbtBase.getValue()).length; i++) {
-                        result.put("" + (i + 1), ((byte[]) nbtBase.getValue())[i]);
-                    }
-                    break;
-                case TAG_INT_ARRAY:
-                    result = new JSONObject();
-                    for (int i = 0; i < ((int[]) nbtBase.getValue()).length; i++) {
-                        result.put("" + (i + 1), ((int[]) nbtBase.getValue())[i]);
-                    }
-                    break;
-                case TAG_LIST:
-                    result = new JSONObject();
-                    int i = 0;
-                    for (Object o : (List) nbtBase.getValue()) {
-                        i++;
-                        result.put("" + i, o);
-                    }
-                    break;
-                case TAG_COMPOUND:
-                    result = new JSONObject();
-                    for (NbtBase member : (NbtCompound) nbtBase) {
-                        if (member.getType() == NbtType.TAG_END) continue;
-                        result.put(member.getName(), fromNBTBase(member));
-                    }
-            }
-        }
-        return result;
-    }
-
-    public static NbtBase toNBTBase(JSONObject value, String name) {
-        Object maybeType = value.get("type");
-        if (maybeType instanceof String) {
-            try {
-                NbtType type = NbtType.valueOf("TAG_" + ((String) maybeType).toUpperCase());
-                Object val = value.get("value");
-                Number number = val instanceof Number ? (Number) val : 0;
-                switch (type) {
-                    case TAG_BYTE:
-                        return NbtFactory.of(name, number.byteValue());
-                    case TAG_SHORT:
-                        return NbtFactory.of(name, number.shortValue());
-                    case TAG_INT:
-                        return NbtFactory.of(name, number.intValue());
-                    case TAG_LONG:
-                        return NbtFactory.of(name, number.longValue());
-                    case TAG_FLOAT:
-                        return NbtFactory.of(name, number.floatValue());
-                    case TAG_DOUBLE:
-                        return NbtFactory.of(name, number.doubleValue());
-                    case TAG_STRING:
-                        return NbtFactory.of(name, val instanceof String ? (String) val : null);
-                    case TAG_BYTE_ARRAY:
-                        ArrayList<Number> byteList = new ArrayList<>();
-                        value.forEach(new BiConsumer() {
-                            @Override
-                            public void accept(Object o, Object o2) {
-                                try {
-                                    byteList.set(Integer.parseInt((String) o) - 1, (Number) o2);
-                                } catch (NumberFormatException | ClassCastException e) {}
-                            }
-                        });
-                        byte[] bytes = new byte[byteList.size()];
-                        for (int i = 0; i < bytes.length; i++) {
-                            bytes[i] = byteList.get(i).byteValue();
-                        }
-                        return NbtFactory.of(name, bytes);
-                    case TAG_INT_ARRAY:
-                        ArrayList<Number> intList = new ArrayList<>();
-                        value.forEach(new BiConsumer() {
-                            @Override
-                            public void accept(Object o, Object o2) {
-                                try {
-                                    intList.set(Integer.parseInt((String) o) - 1, (Number) o2);
-                                } catch (NumberFormatException | ClassCastException e) {}
-                            }
-                        });
-                        byte[] ints = new byte[intList.size()];
-                        for (int i = 0; i < ints.length; i++) {
-                            ints[i] = intList.get(i).byteValue();
-                        }
-                        return NbtFactory.of(name, ints);
-                    case TAG_LIST:
-                        ArrayList<NbtBase> nbtBases = new ArrayList<>();
-                        value.forEach(new BiConsumer() {
-                            @Override
-                            public void accept(Object o, Object o2) {
-                                try {
-                                    nbtBases.set(Integer.parseInt((String) o) - 1, toNBTBase((JSONObject) o2, ""));
-                                } catch (NumberFormatException | ClassCastException e) {}
-                            }
-                        });
-                        return NbtFactory.ofList(name, nbtBases);
-                    case TAG_END:
-                        throw new IllegalArgumentException("TAG_END base");
-                }
-            } catch (IllegalArgumentException e) {}
-            ArrayList<NbtBase> nbtBases = new ArrayList<>();
-            value.forEach(new BiConsumer() {
-                @Override
-                public void accept(Object o, Object o2) {
-                    try {
-                        nbtBases.add(toNBTBase((JSONObject) o2, (String) o));
-                    } catch (ClassCastException e) {}
-                }
-            });
-            return NbtFactory.ofCompound(name, nbtBases);
-        }
-    }
-
-
-    public static void setNBTBase(Object value, NbtBase nbtBase) {
-        if (nbtBase != null && value != null) {
-            switch (nbtBase.getType()) {
-                case TAG_BYTE:
-                    nbtBase.setValue(((Number) value).byteValue());
-                    break;
-                case TAG_SHORT:
-                    nbtBase.setValue(((Number) value).shortValue());
-                    break;
-                case TAG_INT:
-                    nbtBase.setValue(((Number) value).intValue());
-                    break;
-                case TAG_LONG:
-                    nbtBase.setValue(((Number) value).longValue());
-                    break;
-                case TAG_FLOAT:
-                    nbtBase.setValue(((Number) value).floatValue());
-                    break;
-                case TAG_DOUBLE:
-                    nbtBase.setValue(((Number) value).byteValue());
-                    break;
-                case TAG_STRING:
-                    nbtBase.setValue(value);
-                    break;
-                case TAG_BYTE_ARRAY:
-                    byte[] bytes = new byte[((JSONObject) value).size()];
-                    ((JSONObject) value).forEach(new BiConsumer() {
-                        @Override
-                        public void accept(Object o, Object o2) {
-                            try {
-                                bytes[Integer.parseInt((String) o) - 1] = (byte) o2;
-                            } catch (NumberFormatException e) {
-                                //Ignore non-integer indexes
-                            }
-                        }
-                    });
-                    nbtBase.setValue(bytes);
-                    break;
-                case TAG_INT_ARRAY:
-                    int[] ints = new int[((JSONObject) value).size()];
-                    ((JSONObject) value).forEach(new BiConsumer() {
-                        @Override
-                        public void accept(Object o, Object o2) {
-                            try {
-                                ints[Integer.parseInt((String) o) - 1] = (int) o2;
-                            } catch (NumberFormatException e) {
-                                //Ignore non-integer indexes
-                            }
-                        }
-                    });
-                    nbtBase.setValue(ints);
-                    break;
-                case TAG_LIST:
-                    int i = 0;
-                    for (NbtBase member : (List<NbtBase>) nbtBase.getValue()) {
-                        i++;
-                        setNBTBase(((JSONObject) value).get("" + i), member);
-                    }
-                    break;
-                case TAG_COMPOUND:
-                    for (NbtBase member : (NbtCompound) nbtBase) {
-                        setNBTBase(((JSONObject) value).get(member.getName()), member);
-                    }
-            }
-        }
-    }
-    */
     static {
 
         //Single Converters
@@ -256,7 +61,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             }
         });
 
-        registerSingleConverter("location", new PacketInfoConverter<Location>() {
+        registerSingleConverter("location", new PacketInfoConverter<Location>(Location.class) {
             @Override
             public Location get(PacketContainer packet, Integer index) {
                 StructureModifier<BlockPosition> structureModifier = packet.getBlockPositionModifier();
@@ -273,7 +78,19 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             }
         });
 
-        registerSingleConverter("material", new PacketInfoConverter<ItemStack>() {
+        registerSingleConverter("uuid", new PacketInfoConverter<String>(String.class) {
+            @Override
+            public String get(PacketContainer packet, Integer index) {
+                return Optional.ofNullable(packet.getUUIDs().readSafely(index)).map(UUID::toString).orElse(null);
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, String value) {
+                packet.getUUIDs().writeSafely(index, UUID.fromString(value));
+            }
+        });
+
+        registerSingleConverter("material", new PacketInfoConverter<ItemStack>(ItemStack.class) {
             @Override
             public ItemStack get(PacketContainer packet, Integer index) {
                 Material material = packet.getBlocks().readSafely(index);
@@ -284,6 +101,76 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             public void set(PacketContainer packet, Integer index, ItemStack value) {
                 Material material = value.getType();
                 packet.getBlocks().writeSafely(index, material);
+            }
+        });
+
+        //Thanks to ashcr0w for help with the following converter
+
+        try {
+            Class nmsItemClass = Reflection.getMinecraftClass("Item");
+            Reflection.MethodInvoker asNMSCopy = Reflection.getTypedMethod(
+                    Reflection.getCraftBukkitClass("inventory.CraftItemStack"),
+                    "asNMSCopy",
+                    Reflection.getMinecraftClass("ItemStack"),
+                    ItemStack.class
+            );
+            Reflection.MethodInvoker getNMSItem = Reflection.getTypedMethod(
+                    Reflection.getMinecraftClass("ItemStack"),
+                    "getItem",
+                    nmsItemClass
+            );
+            Reflection.MethodInvoker asNewCraftStack = Reflection.getTypedMethod(
+                    Reflection.getCraftBukkitClass("inventory.CraftItemStack"),
+                    "asNewCraftStack",
+                    Reflection.getCraftBukkitClass("inventory.CraftItemStack"),
+                    nmsItemClass
+            );
+            EquivalentConverter<ItemStack> itemConvert = new EquivalentConverter<ItemStack>() {
+                @Override
+                public ItemStack getSpecific(Object o) {
+                    return (ItemStack) asNewCraftStack.invoke(null, o);
+                }
+
+                @Override
+                public Object getGeneric(Class<?> aClass, ItemStack itemStack) {
+                    return getNMSItem.invoke(asNMSCopy.invoke(null, itemStack));
+                }
+
+                @Override
+                public Class<ItemStack> getSpecificType() {
+                    return ItemStack.class;
+                }
+            };
+            registerSingleConverter("item", new PacketInfoConverter<ItemStack>(ItemStack.class) {
+                @Override
+                public ItemStack get(PacketContainer packet, Integer index) {
+                    StructureModifier<ItemStack> structureModifier = packet.getModifier().withType(nmsItemClass, itemConvert);
+                    return structureModifier.readSafely(index);
+                }
+
+                @Override
+                public void set(PacketContainer packet, Integer index, ItemStack value) {
+                    StructureModifier<ItemStack> structureModifier = packet.getModifier().withType(nmsItemClass, itemConvert);
+                    structureModifier.writeSafely(index, value);
+                }
+            });
+        } catch (Exception e) {
+            Logging.reportException(ExprObjectOfPacket.class, e);
+        }
+
+        registerSingleConverter("blockdata", new PacketInfoConverter<ItemStack>(ItemStack.class) {
+            @Override
+            public ItemStack get(PacketContainer packet, Integer index) {
+                WrappedBlockData blockData = packet.getBlockData().readSafely(index);
+                ItemStack itemStack = new ItemStack(blockData.getType());
+                itemStack.setData(new MaterialData(blockData.getType(), new Integer(blockData.getData()).byteValue()));
+                return itemStack;
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, ItemStack value) {
+                WrappedBlockData blockData = WrappedBlockData.createData(value.getType(), value.getData().getData());
+                packet.getBlockData().writeSafely(index, blockData);
             }
         });
 
@@ -299,6 +186,33 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             @Override
             public void set(PacketContainer packet, Integer index, Object[] value) {
                 packet.getSpecificModifier(Collection.class).writeSafely(index, Arrays.asList(value));
+            }
+        });
+
+        Reflection.ConstructorInvoker packetDataSerializerConstructor = Reflection.getConstructor(
+                Reflection.getMinecraftClass("PacketDataSerializer"), ByteBuf.class);
+
+        registerPluralConverter("bytebuffer", new PacketInfoConverter<Object[]>(Number[].class) {
+            @Override
+            public Object[] get(PacketContainer packet, Integer index) {
+                ByteBuf byteBuf = packet.getSpecificModifier(ByteBuf.class).readSafely(index);
+                byte[] bytes = byteBuf.array();
+                Object[] result = new Object[bytes.length];
+                for (int i = 0; i < bytes.length; i++) {
+                    result[i] = bytes[i];
+                }
+                return result;
+            }
+
+            @Override
+            public void set(PacketContainer packet, Integer index, Object[] value) {
+                byte[] bytes = new byte[value.length];
+                for (int i = 0; i < value.length; i++) {
+                    bytes[i] = ((Number) value[i]).byteValue();
+                }
+                ByteBuf byteBuf = Unpooled.wrappedBuffer(bytes);
+                ByteBuf packetDataSerializer = (ByteBuf) packetDataSerializerConstructor.invoke(byteBuf);
+                packet.getSpecificModifier(ByteBuf.class).writeSafely(index, packetDataSerializer);
             }
         });
     }
@@ -335,28 +249,65 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     }
 
     private static PacketInfoConverter createConverter(Method method) {
-        return new PacketInfoConverter() {
-            @Override
-            public Object get(PacketContainer packet, Integer index) {
-                try {
-                    StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
-                    return structureModifier.readSafely(index);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    Mundo.debug(this, e);
-                    return null;
-                }
-            }
+        PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.CHAT);
+        try {
+            StructureModifier tempStructureModifier = (StructureModifier) method.invoke(packetContainer);
+            if (!tempStructureModifier.getFieldType().isArray()) {
+                return new PacketInfoConverter() {
+                    @Override
+                    public Object get(PacketContainer packet, Integer index) {
+                        try {
+                            StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
+                            return structureModifier.readSafely(index);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            Logging.debug(this, e);
+                            return null;
+                        }
+                    }
 
-            @Override
-            public void set(PacketContainer packet, Integer index, Object value) {
-                try {
-                    StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
-                    structureModifier.writeSafely(index, value);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    Mundo.debug(this, e);
-                }
+                    @Override
+                    public void set(PacketContainer packet, Integer index, Object value) {
+                        try {
+                            StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
+                            structureModifier.writeSafely(index, value);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            Logging.debug(this, e);
+                        }
+                    }
+                };
+            } else {
+                return new PacketInfoConverter() {
+                    @Override
+                    public Object get(PacketContainer packet, Integer index) {
+                        try {
+                            StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
+                            return structureModifier.readSafely(index);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            Logging.debug(this, e);
+                            return null;
+                        }
+                    }
+
+                    @Override
+                    public void set(PacketContainer packet, Integer index, Object value) {
+                        try {
+                            StructureModifier structureModifier = (StructureModifier) method.invoke(packet);
+                            Object[] valueArray = (Object[]) value;
+                            Object[] result = (Object[]) Array.newInstance(structureModifier.getFieldType().getComponentType(), valueArray.length);
+                            for (int i = 0; i < valueArray.length; i++) {
+                                result[i] = valueArray[i];
+                            }
+                            structureModifier.writeSafely(index, result);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            Logging.debug(this, e);
+                        }
+                    }
+                };
             }
-        };
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            Logging.debug(ExprObjectOfPacket.class, e);
+            return null;
+        }
     }
 
     @Override
@@ -390,6 +341,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         index = (Expression<Number>) expressions[1];
         packetContainerExpression = (Expression<PacketContainer>) expressions[2];
         isSingle = i % 2 == 0;
+        aClass = isSingle ? Object.class : Object[].class;
         String key;
         String methodGetName;
         if (expressions[0] == null) {
@@ -398,12 +350,15 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         } else if (expressions[0] instanceof Literal && expressions[0].getReturnType() == ClassInfo.class) {
             ClassInfo classInfo = ((Literal<ClassInfo<?>>) expressions[0]).getSingle();
             key = classInfo.getCodeName();
-            aClass = classInfo.getC();
-            String classname = aClass.getSimpleName();
-            Mundo.debug(this, "Class simple name: " + classname);
+            if (isSingle) {
+                aClass = classInfo.getC();
+            } else {
+                aClass = Array.newInstance(classInfo.getC(), 0).getClass();
+            }
+            String classname = classInfo.getC().getSimpleName();
+            Logging.debug(this, "Class simple name: " + classname);
             if (!isSingle) {
                 methodGetName = classname + "Arrays";
-                isSingle = false;
             } else if (classname.substring(classname.length() - 1).equals("y")) {
                 methodGetName = classname.substring(0, classname.length() - 1) + "ies";
             } else {
@@ -421,20 +376,24 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
         }
         converter = getConverter(key, isSingle);
         if (converter != null) {
-            Mundo.debug(this, "Converter to PLib type: " + key);
+            aClass = Optional.ofNullable(converter.type).orElse(aClass);
+            Logging.debug(this, "Converter to PLib type: " + key + ", aClass = " + aClass);
             return true;
         }
         try {
             Method method = PacketContainer.class.getMethod("get" + methodGetName);
-            Mundo.debug(this, "Method: " + method.toString());
+            Logging.debug(this, "Method: " + method.toString() + ", aClass = " + aClass);
             converter = createConverter(method);
+            if (converter == null) {
+                Skript.error(key + " cannot be used in your version of Minecraft for the '%type/string% pinfo [array] %number% of %packet% expression");
+                return false;
+            }
             return true;
         } catch (NoSuchMethodException e) {
-            Mundo.debug(this, e);
+            Logging.debug(this, e);
         }
         Skript.error(key + " is not applicable for the '%type/string% pinfo [array] %number% of %packet%' expression.");
         return false;
-
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
@@ -445,11 +404,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            if (isSingle) {
-                return CollectionUtils.array(aClass);
-            } else {
-                return CollectionUtils.array(Object[].class);
-            }
+            return CollectionUtils.array(aClass);
         }
         return null;
     }

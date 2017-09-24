@@ -4,7 +4,8 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Tablist.OldTablist;
+import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.TablistManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -12,25 +13,30 @@ import org.bukkit.event.Event;
  * Created by Tlatoani on 8/3/16.
  */
 public class EffRemoveAllIDTabs extends Effect {
-    private Expression<OldTablist> tablistExpression;
     private Expression<Player> playerExpression;
 
     @Override
     protected void execute(Event event) {
-        OldTablist oldTablist = tablistExpression != null ? tablistExpression.getSingle(event) : OldTablist.getTablistForPlayer(playerExpression.getSingle(event));
-        Player player = playerExpression != null ? playerExpression.getSingle(event) : null;
-        oldTablist.simpleTablist.clear(player);
+        for (Player player : playerExpression.getArray(event)) {
+            if (!player.isOnline()) {
+                continue;
+            }
+            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
+                SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
+                simpleTablist.clear();
+            }
+        }
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "delete all id personalTabs for " + playerExpression;
+        return "delete all simple tabs for " + playerExpression;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        tablistExpression = (Expression<OldTablist>) expressions[0];
-        playerExpression = (Expression<Player>) expressions[1];
+        playerExpression = (Expression<Player>) expressions[0];
         return true;
     }
 }
