@@ -285,6 +285,7 @@ public class MiscMundo {
     
     private static void loadThread() {
         Registration.registerEffect(EffWaitAsync.class, "async wait %timespan%");
+        Registration.registerEffect(EffAsyncSetVar.class, "async set %objects% to %objects%");
         Registration.registerScope(ScopeAsync.class, "async [in %-timespan%]");
         Registration.registerScope(ScopeSync.class, "(sync|in %-timespan%)");
     }

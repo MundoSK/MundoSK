@@ -74,7 +74,7 @@ public class CustomEffect extends SelfRegisteringSkriptEvent {
                 String focus = rawSyntax.substring(j + 1);
                 int nextPerc = focus.indexOf('%');
                 if (nextPerc < 0) {
-                    Skript.error("'" + rawSyntax + "' is not a valid syntax, as there is an odd number of percentage points");
+                    Skript.error("'" + rawSyntax + "' is not a valid alias, as there is an odd number of percentage points");
                     return false;
                 }
                 focus = focus.substring(0, nextPerc);

@@ -2,6 +2,7 @@ package com.pie.tlatoani.CustomEvent;
 
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -26,8 +27,12 @@ public class SkriptCustomEvent extends Event implements Cancellable {
 	public SkriptCustomEvent(String id, Object[] details, Object[] args, boolean sync) {
 	    super(!sync);
         this.id = id;
-        for (int i = 0; i < details.length; i++)
+        for (int i = 0; i < details.length; i++) {
+            Logging.debug(this, "DETAIL " + details[i]);
+            Logging.debug(this, ".GETCLASS " + details[i].getClass());
+            Logging.debug(this, "GETSUPERCLASSINFO " + Classes.getSuperClassInfo(details[i].getClass()));
             this.details.put(Classes.getSuperClassInfo(details[i].getClass()), details[i]);
+        }
         this.args = args;
     }
 	

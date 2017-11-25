@@ -365,7 +365,7 @@ public class Document extends Element {
      */
     public static class OutputSettings implements Cloneable {
         /**
-         * The output serialization syntax.
+         * The output serialization alias.
          */
         public enum Syntax {html, xml}
 
@@ -438,17 +438,17 @@ public class Document extends Element {
         }
 
         /**
-         * Get the document's current output syntax.
-         * @return current syntax
+         * Get the document's current output alias.
+         * @return current alias
          */
         public Syntax syntax() {
             return syntax;
         }
 
         /**
-         * Set the document's output syntax. Either {@code html}, with empty tags and boolean attributes (etc), or
+         * Set the document's output alias. Either {@code html}, with empty tags and boolean attributes (etc), or
          * {@code xml}, with self-closing tags.
-         * @param syntax serialization syntax
+         * @param syntax serialization alias
          * @return the document's output settings, for chaining
          */
         public OutputSettings syntax(Syntax syntax) {

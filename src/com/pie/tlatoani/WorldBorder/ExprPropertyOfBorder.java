@@ -94,7 +94,9 @@ public class ExprPropertyOfBorder extends SimpleExpression<Number> {
             if (Config.DISABLE_SIZE_SYNTAX.getCurrentValue()) {
                 return false;
             }
-            Skript.warning("The 'size' syntax for border diameter will be removed in a future version. Please use 'diameter' instead.");
+            Skript.warning("The 'size' alias for border diameter will be removed in a future version. Please use 'diameter' instead. " +
+                    "If you were not trying to use a border syntax here, go to MundoSK's config and set the 'border_disable_size_syntax' option to true. " +
+                    "Make sure any uses of 'size' for border diameter are changed to 'diameter' before you do this.");
         }
         borderProperty = BorderProperty.values()[parseResult.mark & 0b0111];
         return true;

@@ -1,5 +1,7 @@
 package com.pie.tlatoani.ProtocolLib;
 
+import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.ExpressionInfo;
 import ch.njol.skript.lang.ExpressionType;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -8,6 +10,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Registration.DocumentationBuilder;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Registration.Registration;
 import org.bukkit.Bukkit;
@@ -24,6 +27,7 @@ import java.util.function.Consumer;
  */
 public class PacketManager {
     private static Map<String, PacketType> packetTypesByName;
+    private static List<ExpressionInfo<?, ?>> packetInfoExpressionInfos = new ArrayList<>();
     
     public static void load() {
         Logging.info("You've discovered the amazing realm of ProtocolLib packet syntaxes!");
@@ -43,20 +47,29 @@ public class PacketManager {
         Registration.registerEventValue(MundoPacketEvent.class, PacketContainer.class, MundoPacketEvent::getPacket);
         Registration.registerEventValue(MundoPacketEvent.class, PacketType.class, MundoPacketEvent::getPacketType);
         Registration.registerEventValue(MundoPacketEvent.class, Player.class, MundoPacketEvent::getPlayer);
-        Registration.registerExpression(ExprTypeOfPacket.class, PacketType.class, ExpressionType.SIMPLE, "packettype of %packet%", "%packet%'s packettype");
-        Registration.registerExpression(ExprNewPacket.class, PacketContainer.class, ExpressionType.PROPERTY, "new %packettype% packet");
-        Registration.registerExpression(ExprJSONObjectOfPacket.class, JSONObject.class, ExpressionType.PROPERTY,
+        Registration.registerPropertyExpression(ExprTypeOfPacket.class, PacketType.class, "packet", "packettype");
+        registerPacketInfoExpression(ExprNewPacket.class, PacketContainer.class, "new %packettype% packet");
+        registerPacketInfoExpression(ExprJSONObjectOfPacket.class, JSONObject.class,
                 "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(true) + ") pjson %number% of %packet%",
                 "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(false) + ") array pjson %number% of %packet%");
-        Registration.registerExpression(ExprObjectOfPacket.class, Object.class, ExpressionType.PROPERTY,
+        registerPacketInfoExpression(ExprObjectOfPacket.class, Object.class,
                 "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(true) + ") pinfo %number% of %packet%",
                 "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%");
-        Registration.registerExpression(ExprPrimitiveOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%");
-        Registration.registerExpression(ExprPrimitiveArrayOfPacket.class, Number.class, ExpressionType.PROPERTY, "(0¦int|1¦byte) array pnum %number% of %packet%");
-        Registration.registerExpression(ExprEntityOfPacket.class, Entity.class, ExpressionType.PROPERTY,
+        registerPacketInfoExpression(ExprPrimitiveOfPacket.class, Number.class, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%");
+        registerPacketInfoExpression(ExprPrimitiveArrayOfPacket.class, Number.class, "(0¦int|1¦byte) array pnum %number% of %packet%");
+        registerPacketInfoExpression(ExprEntityOfPacket.class, Entity.class,
                 "%world% pentity %number% of %packet%",
                 "%world% pentity array %number% of %packet%");
-        Registration.registerExpression(ExprEnumOfPacket.class, String.class, ExpressionType.PROPERTY, "%string% penum %number% of %packet%");
+        registerPacketInfoExpression(ExprEnumOfPacket.class, String.class, "%string% penum %number% of %packet%");
+    }
+    
+    private static <E extends Expression<T>, T> DocumentationBuilder.Expression registerPacketInfoExpression(Class<E> exprClass, Class<T> returnType, String... patterns) {
+        packetInfoExpressionInfos.add(new ExpressionInfo<>(patterns, returnType, exprClass));
+        return Registration.registerExpression(exprClass, returnType, ExpressionType.COMBINED, patterns);
+    }
+
+    public static Iterator<ExpressionInfo<?, ?>> packetInfoExpressionInfoIterator() {
+        return packetInfoExpressionInfos.iterator();
     }
 
     public PacketType getPacketTypeFromName(String name) {
@@ -147,4 +160,6 @@ public class PacketManager {
             map.put(fullname, current);
         }
     }
+
+
 }

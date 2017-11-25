@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Created by Tlatoani on 2/25/17.
- * Note: If the two locations in the from %location% to %location% syntax have different worlds, no chunks are returned
+ * Note: If the two locations in the from %location% to %location% alias have different worlds, no chunks are returned
  */
 public class ExprChunk extends SimpleExpression<Chunk> {
     private Expression<Number> x1Expr;

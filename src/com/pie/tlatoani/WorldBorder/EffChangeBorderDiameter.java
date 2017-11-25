@@ -50,7 +50,7 @@ public class EffChangeBorderDiameter extends Effect {
             if (Config.DISABLE_SIZE_SYNTAX.getCurrentValue()) {
                 return false;
             }
-            Skript.warning("The 'size' syntax for border diameter will be removed in a future version. Please use 'diameter' instead.");
+            Skript.warning("The 'size' alias for border diameter will be removed in a future version. Please use 'diameter' instead.");
         }
         worldExpression = getWorldExpr(i, expressions);
         numberExpression = getNumberExpr(i, expressions);

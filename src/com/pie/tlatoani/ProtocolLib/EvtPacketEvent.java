@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Tlatoani on 4/29/16.
  */
-public class EvtPacketEvent extends SkriptEvent{
+public class EvtPacketEvent extends SkriptEvent {
     private List<PacketType> packetTypes;
     private String packetTypesToString;
 

@@ -284,7 +284,7 @@ public class Element extends Node {
      * <li>{@code el.select("a[href*=example.com]")} - finds links pointing to example.com (loosely)
      * </ul>
      * <p>
-     * See the query syntax documentation in {@link mundosk_libraries.jsoup.select.Selector}.
+     * See the query alias documentation in {@link mundosk_libraries.jsoup.select.Selector}.
      * </p>
      * 
      * @param cssQuery a {@link Selector} CSS-like query
@@ -526,7 +526,7 @@ public class Element extends Node {
         if (id().length() > 0)
             return "#" + id();
 
-        // Translate HTML namespace ns:tag to CSS namespace syntax ns|tag
+        // Translate HTML namespace ns:tag to CSS namespace alias ns|tag
         String tagName = tagName().replace(':', '|');
         StringBuilder selector = new StringBuilder(tagName);
         String classes = StringUtil.join(classNames(), ".");
@@ -791,7 +791,7 @@ public class Element extends Node {
         try {
             pattern = Pattern.compile(regex);
         } catch (PatternSyntaxException e) {
-            throw new IllegalArgumentException("Pattern syntax error: " + regex, e);
+            throw new IllegalArgumentException("Pattern alias error: " + regex, e);
         }
         return getElementsByAttributeValueMatching(key, pattern);
     }
@@ -866,7 +866,7 @@ public class Element extends Node {
         try {
             pattern = Pattern.compile(regex);
         } catch (PatternSyntaxException e) {
-            throw new IllegalArgumentException("Pattern syntax error: " + regex, e);
+            throw new IllegalArgumentException("Pattern alias error: " + regex, e);
         }
         return getElementsMatchingText(pattern);
     }
@@ -892,7 +892,7 @@ public class Element extends Node {
         try {
             pattern = Pattern.compile(regex);
         } catch (PatternSyntaxException e) {
-            throw new IllegalArgumentException("Pattern syntax error: " + regex, e);
+            throw new IllegalArgumentException("Pattern alias error: " + regex, e);
         }
         return getElementsMatchingOwnText(pattern);
     }

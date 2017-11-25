@@ -10,7 +10,7 @@ import java.util.IdentityHashMap;
 /**
  * CSS-like element selector, that finds elements matching a query.
  * 
- * <h2>Selector syntax</h2>
+ * <h2>Selector alias</h2>
  * <p>
  * A selector is a chain of simple selectors, separated by combinators. Selectors are <b>case insensitive</b> (including against
  * elements, attributes, and attribute values).
