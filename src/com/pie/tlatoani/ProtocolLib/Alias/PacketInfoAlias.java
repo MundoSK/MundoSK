@@ -1,10 +1,11 @@
-package com.pie.tlatoani.ProtocolLib;
+package com.pie.tlatoani.ProtocolLib.Alias;
 
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Util.BaseEvent;
 import org.bukkit.event.Event;
 
