@@ -9,6 +9,7 @@ import ch.njol.skript.util.Getter;
 import ch.njol.util.Kleenean;
 import com.comphenix.protocol.events.PacketContainer;
 import com.pie.tlatoani.Registration.ModifiableSyntaxElementInfo;
+import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Util.GroupedList;
 import org.bukkit.event.Event;
 
@@ -26,16 +27,21 @@ public class ExprPacketInfoAlias extends SimpleExpression<Object> {
     private PacketInfoAlias alias;
     private Expression<PacketContainer> packetExpression;
 
+    public static void registerNecessaryElements() {
+        syntaxElementInfo.register();
+        EventValues.registerEventValue(PacketInfoAlias.ContainerEvent.class, PacketContainer.class, new Getter<PacketContainer, PacketInfoAlias.ContainerEvent>() {
+            @Override
+            public PacketContainer get(PacketInfoAlias.ContainerEvent containerEvent) {
+                return containerEvent.packet;
+            }
+        }, 0);
+        Registration.registerEvent("Packet Info Alias", ScopePacketInfoAliases.class, PacketInfoAlias.ContainerEvent.class, "packet info aliases for %packettype%");
+
+    }
+
     public static GroupedList.Key registerAliases(Collection<PacketInfoAlias> aliases) {
         if (!registered) {
             syntaxElementInfo.register();
-            EventValues.registerEventValue(PacketInfoAlias.ContainerEvent.class, PacketContainer.class, new Getter<PacketContainer, PacketInfoAlias.ContainerEvent>() {
-                @Override
-                public PacketContainer get(PacketInfoAlias.ContainerEvent containerEvent) {
-                    return containerEvent.packet;
-                }
-            }, 0);
-            registered = true;
         }
         GroupedList.Key key = ExprPacketInfoAlias.aliases.addGroup(aliases);
         setPatterns();

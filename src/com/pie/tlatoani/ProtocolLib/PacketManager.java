@@ -10,6 +10,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.ProtocolLib.Alias.ExprPacketInfoAlias;
 import com.pie.tlatoani.ProtocolLib.Alias.PacketInfoAlias;
 import com.pie.tlatoani.ProtocolLib.Alias.ScopePacketInfoAliases;
 import com.pie.tlatoani.Registration.DocumentationBuilder;
@@ -64,7 +65,7 @@ public class PacketManager {
                 "%world% pentity array %number% of %packet%");
         registerPacketInfoExpression(ExprEnumOfPacket.class, String.class, "%string% penum %number% of %packet%");
 
-        Registration.registerEvent("Packet Info Alias", ScopePacketInfoAliases.class, PacketInfoAlias.ContainerEvent.class, "%packettype% packet info aliases");
+        ExprPacketInfoAlias.registerNecessaryElements();
     }
 
     private static <E extends Expression<T>, T> DocumentationBuilder.Expression registerPacketInfoExpression(Class<E> exprClass, Class<T> returnType, String... patterns) {
