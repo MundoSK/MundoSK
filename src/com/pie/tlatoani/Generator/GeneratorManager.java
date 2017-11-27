@@ -26,7 +26,6 @@ public final class GeneratorManager {
                 "fill layer %number% in %chunkdata% with %itemstack%",
                 "fill layers %number% to %number% in %chunkdata% with %itemstack%");
         Registration.registerEvent("Generator", ScopeGenerator.class, GeneratorEvent.class, "[custom] [(world|chunk)] generator %string%");
-        //Registration.registerEvent("World Generator", EvtChunkGenerator.class, SkriptGeneratorEvent.class, "[custom] [(world|chunk)] generator %string%");
         Registration.registerEventValue(GeneratorEvent.class, World.class, event -> event.world);
         Registration.registerEventValue(GeneratorEvent.class, Random.class, event -> event.random);
         Registration.registerEventValue(GeneratorEvent.Generation.class, ChunkGenerator.ChunkData.class, event -> event.chunkData);
