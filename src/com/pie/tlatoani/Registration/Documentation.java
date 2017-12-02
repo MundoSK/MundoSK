@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.MundoUtil;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.*;
@@ -116,7 +117,51 @@ public final class Documentation {
                 page = 1;
             }
         }
-        
+        //String category
+        if (categories.contains(MundoUtil.capitalize(args.get(0)))) {
+
+        }
+
+        //sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Invalid command. Do " + Mundo.ALT_CHAT_COLOR + "/mundosk doc help" + Mundo.PRIMARY_CHAT_COLOR + " for help");
+    }
+
+    private static boolean listDocumentation(CommandSender sender, List<String> args) {
+        if (args.size() > 3) {
+            return false;
+        } else if (args.size() == 0) {
+            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Documentation Categories");
+            for (String category : categories) {
+                sender.sendMessage(Mundo.ALT_CHAT_COLOR + category);
+            }
+            return true;
+        } else if (args.get(0).equalsIgnoreCase("help")) {
+            if (args.size() == 1) {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "MundoSK Documentation Command Help");
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s]", "Prints a list of the documentation categories"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] help", "Prints this list of commands"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] all [page]", "Lists a page of all of the syntax elements"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <category> [elem type] [page]", "Lists a page of syntax elements in that category, either all of them or of a specific type"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem type> [category] [page]", "Lists a page of syntax elements of a certain type, either all of them or in a specific category"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem name>", "Lists the documentation for a specific syntax element"));
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Accepted Element Types: " + Mundo.ALT_CHAT_COLOR + "Effect Expression Event Type");
+                return true;
+            } else {
+                return false;
+            }
+        } else if (args.get(0).equalsIgnoreCase("all")) {
+            if (args.size() == 1) {
+                displayElems(sender, getAll(allElements, sender, 1), "All Syntax Elements", 1, 1 + ((allElements.size() - 1) / ELEMENTS_PER_PAGE), true);
+            } else if (args.size() == 2) {
+                Optional<Integer> pageOptional = MundoUtil.parseIntOptional(args.get(1));
+                return MundoUtil.mapOptional(pageOptional, page -> {
+                    displayElems(sender, getAll(allElements, sender, page), "All Syntax Elements", page, 1 + ((allElements.size() - 1) / ELEMENTS_PER_PAGE), true);
+                    return true;
+                }, () -> false);
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
     public static void displayElems(

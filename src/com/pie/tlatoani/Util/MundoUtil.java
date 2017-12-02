@@ -106,6 +106,18 @@ public class MundoUtil {
         Multimaps.asMap(listMultimap).forEach((__, list) -> Collections.sort(list, comparator));
     }
 
+    public static String capitalize(String string) {
+        return Character.toUpperCase(string.charAt(0)) + string.substring(1);
+    }
+
+    public static Optional<Integer> parseIntOptional(String posInt) {
+        try {
+            return Optional.of(Integer.parseInt(posInt));
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
+    }
+
     //Optional
 
     public static <T> void consumeOptional(Optional<T> optional, Consumer<T> tConsumer, Runnable runnable) {

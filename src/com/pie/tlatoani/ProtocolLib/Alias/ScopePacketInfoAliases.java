@@ -53,8 +53,8 @@ public class ScopePacketInfoAliases extends MundoEventScope {
                     Skript.error("Packet info aliases should be in the format '<new syntax> = <old syntax>'");
                     return false;
                 }
-                String syntax = node.getKey().substring(0, colonIndex);
-                String original = node.getKey().substring(colonIndex + 1);
+                String syntax = node.getKey().substring(0, colonIndex).trim();
+                String original = node.getKey().substring(colonIndex + 1).trim();
                 Optional<PacketInfoAlias> aliasOptional = PacketInfoAlias.create(packetType, syntax, original);
                 if (!aliasOptional.isPresent()) {
                     Skript.error("Invalid target syntax in the packet info alias!");
