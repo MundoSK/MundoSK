@@ -62,7 +62,7 @@ import java.util.Set;
  @author Jonathan Hedley
  */
 public class Whitelist {
-    private Set<TagName> tagNames; // tags allowed, lower case. e.g. [p, br, span]
+    private Set<TagName> tagNames; // tags allowed, lower case. e.key. [p, br, span]
     private Map<TagName, Set<AttributeKey>> attributes; // tag -> attribute[]. allowed attributes [href] for a tag.
     private Map<TagName, Map<AttributeKey, AttributeValue>> enforcedAttributes; // always set these attribute values
     private Map<TagName, Map<AttributeKey, Set<Protocol>>> protocols; // allowed URL protocols for attributes
@@ -236,11 +236,11 @@ public class Whitelist {
     /**
      Add a list of allowed attributes to a tag. (If an attribute is not allowed on an element, it will be removed.)
      <p>
-     E.g.: <code>addAttributes("a", "href", "class")</code> allows <code>href</code> and <code>class</code> attributes
+     E.key.: <code>addAttributes("a", "href", "class")</code> allows <code>href</code> and <code>class</code> attributes
      on <code>a</code> tags.
      </p>
      <p>
-     To make an attribute valid for <b>all tags</b>, use the pseudo tag <code>:all</code>, e.g.
+     To make an attribute valid for <b>all tags</b>, use the pseudo tag <code>:all</code>, e.key.
      <code>addAttributes(":all", "class")</code>.
      </p>
 
@@ -273,11 +273,11 @@ public class Whitelist {
     /**
      Remove a list of allowed attributes from a tag. (If an attribute is not allowed on an element, it will be removed.)
      <p>
-     E.g.: <code>removeAttributes("a", "href", "class")</code> disallows <code>href</code> and <code>class</code>
+     E.key.: <code>removeAttributes("a", "href", "class")</code> disallows <code>href</code> and <code>class</code>
      attributes on <code>a</code> tags.
      </p>
      <p>
-     To make an attribute invalid for <b>all tags</b>, use the pseudo tag <code>:all</code>, e.g.
+     To make an attribute invalid for <b>all tags</b>, use the pseudo tag <code>:all</code>, e.key.
      <code>removeAttributes(":all", "class")</code>.
      </p>
 
@@ -318,7 +318,7 @@ public class Whitelist {
      Add an enforced attribute to a tag. An enforced attribute will always be added to the element. If the element
      already has the attribute set, it will be overridden with this value.
      <p>
-     E.g.: <code>addEnforcedAttribute("a", "rel", "nofollow")</code> will make all <code>a</code> tags output as
+     E.key.: <code>addEnforcedAttribute("a", "rel", "nofollow")</code> will make all <code>a</code> tags output as
      <code>&lt;a href="..." rel="nofollow"&gt;</code>
      </p>
 
@@ -373,8 +373,8 @@ public class Whitelist {
 
     /**
      * Configure this Whitelist to preserve relative links in an element's URL attribute, or convert them to absolute
-     * links. By default, this is <b>false</b>: URLs will be  made absolute (e.g. start with an allowed protocol, like
-     * e.g. {@code http://}.
+     * links. By default, this is <b>false</b>: URLs will be  made absolute (e.key. start with an allowed protocol, like
+     * e.key. {@code http://}.
      * <p>
      * Note that when handling relative links, the input document must have an appropriate {@code base URI} set when
      * parsing, so that the link's protocol can be confirmed. Regardless of the setting of the {@code preserve relative
@@ -395,11 +395,11 @@ public class Whitelist {
      Add allowed URL protocols for an element's URL attribute. This restricts the possible values of the attribute to
      URLs with the defined protocol.
      <p>
-     E.g.: <code>addProtocols("a", "href", "ftp", "http", "https")</code>
+     E.key.: <code>addProtocols("a", "href", "ftp", "http", "https")</code>
      </p>
      <p>
      To allow a link to an in-page URL anchor (i.e. <code>&lt;a href="#anchor"&gt;</code>, add a <code>#</code>:<br>
-     E.g.: <code>addProtocols("a", "href", "#")</code>
+     E.key.: <code>addProtocols("a", "href", "#")</code>
      </p>
 
      @param tag       Tag the URL protocol is for
@@ -441,7 +441,7 @@ public class Whitelist {
      Remove allowed URL protocols for an element's URL attribute. If you remove all protocols for an attribute, that
      attribute will allow any protocol.
      <p>
-     E.g.: <code>removeProtocols("a", "href", "ftp")</code>
+     E.key.: <code>removeProtocols("a", "href", "ftp")</code>
      </p>
 
      @param tag Tag the URL protocol is for

@@ -73,7 +73,7 @@ public class Attribute implements Map.Entry<String, String>, Cloneable  {
     }
 
     /**
-     Get the HTML representation of this attribute; e.g. {@code href="index.html"}.
+     Get the HTML representation of this attribute; e.key. {@code href="index.html"}.
      @return HTML
      */
     public String html() {

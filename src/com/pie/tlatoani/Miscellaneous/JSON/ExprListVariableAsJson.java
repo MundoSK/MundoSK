@@ -56,91 +56,24 @@ public class ExprListVariableAsJson extends SimpleExpression<JSONObject> {
         return jsonArray;
     }
 
-    /*
-    private static JsonObject getJsonObject(TreeMap<String, Object> treeMap) {
-        JsonObjectBuilder builder = JSON.createObjectBuilder();
-        JSONObject jsonObject = new JSONObject();
-        treeMap.forEach(new BiConsumer<String, Object>() {
-            public void accept(String key, Object val) {
-                if (val instanceof String) {
-                    Logging.debug(ExprListVariableAsJson.class, "String found");
-                    Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
-                    Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
-                    builder.add(key, (String) val);
-                } else if (val instanceof Number) {
-                    Logging.debug(ExprListVariableAsJson.class, "Number found");
-                    Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
-                    Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
-                    builder.add(key, ((Number) val).doubleValue());
-                } else if (val instanceof TreeMap) {
-                    if (((TreeMap) val).containsKey("1")) {
-                        Logging.debug(ExprListVariableAsJson.class, "JSONArray found");
-                        Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
-                        Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
-                        JsonArray valarray = getJsonArray((TreeMap<String, Object>) val);
-                        Logging.debug(ExprListVariableAsJson.class, "Polished Val: " + valarray);
-                        builder.add(key, valarray);
-                    } else {
-                        Logging.debug(ExprListVariableAsJson.class, "JSONObject found");
-                        Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
-                        Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
-                        JsonObject valobject = getJsonObject((TreeMap<String, Object>) val);
-                        Logging.debug(ExprListVariableAsJson.class, "Polished Val: " + valobject);
-                        builder.add(key, valobject);
-                    }
-                }
-
-            }
-        });
-        return builder.build();
-    }
-
-    private static JsonArray getJsonArray(TreeMap<String, Object> treeMap) {
-        JsonArrayBuilder builder = JSON.createArrayBuilder();
-        treeMap.forEach(new BiConsumer<String, Object>() {
-            public void accept(String key, Object val) {
-                if (val instanceof String) {
-                    Logging.debug(ExprListVariableAsJson.class, "String found");
-                    Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
-                    Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
-                    builder.add((String) val);
-                } else if (val instanceof Number) {
-                    Logging.debug(ExprListVariableAsJson.class, "Number found");
-                    Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
-                    Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
-                    builder.add(((Number) val).doubleValue());
-                } else if (val instanceof TreeMap) {
-                    if (((TreeMap) val).containsKey("1")) {
-                        Logging.debug(ExprListVariableAsJson.class, "JSONArray found");
-                        Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
-                        Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
-                        JsonArray valarray = getJsonArray((TreeMap<String, Object>) val);
-                        Logging.debug(ExprListVariableAsJson.class, "Polished Val: " + valarray);
-                        builder.add(valarray);
-                    } else {
-                        Logging.debug(ExprListVariableAsJson.class, "JSONObject found");
-                        Logging.debug(ExprListVariableAsJson.class, "Key: " + key);
-                        Logging.debug(ExprListVariableAsJson.class, "Value: " + val);
-                        JsonObject valobject = getJsonObject((TreeMap<String, Object>) val);
-                        Logging.debug(ExprListVariableAsJson.class, "Polished Val: " + valobject);
-                        builder.add(valobject);
-                    }
-                }
-            }
-        });
-        return builder.build();
-    }*/
-
     @Override
     protected JSONObject[] get(Event event) {
         TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(listVariable.isLocal() ? listVariable.toString().substring(2, listVariable.toString().length() - 1) : listVariable.toString().substring(1, listVariable.toString().length() - 1), event, listVariable.isLocal());
         if (isArray) {
-            List<Object> result = getJSONArray(treeMap);
-            return result.toArray(new JSONObject[0]);
+            if (treeMap == null) {
+                return new JSONObject[0];
+            } else {
+                List<Object> result = getJSONArray(treeMap);
+                return result.toArray(new JSONObject[0]);
+            }
         } else {
-            JSONObject result = getJSONObject(treeMap);
-            Logging.debug(this, "Final JSON: " + result);
-            return new JSONObject[] {result};
+            if (treeMap == null) {
+                return new JSONObject[]{new JSONObject()};
+            } else {
+                JSONObject result = getJSONObject(treeMap);
+                Logging.debug(this, "Final JSON: " + result);
+                return new JSONObject[]{result};
+            }
         }
 
     }

@@ -80,7 +80,7 @@ public class Element extends Node {
     }
 
     /**
-     * Get the name of the tag for this element. E.g. {@code div}
+     * Get the name of the tag for this element. E.key. {@code div}
      * 
      * @return the tag name
      */
@@ -111,7 +111,7 @@ public class Element extends Node {
     }
     
     /**
-     * Test if this element is a block-level element. (E.g. {@code <div> == true} or an inline element
+     * Test if this element is a block-level element. (E.key. {@code <div> == true} or an inline element
      * {@code <p> == false}).
      * 
      * @return true if block, false if not (and thus inline)
@@ -159,7 +159,7 @@ public class Element extends Node {
      * Get this element's HTML5 custom data attributes. Each attribute in the element that has a key
      * starting with "data-" is included the dataset.
      * <p>
-     * E.g., the element {@code <div data-package="jsoup" data-language="Java" class="group">...} has the dataset
+     * E.key., the element {@code <div data-package="jsoup" data-language="Java" class="group">...} has the dataset
      * {@code package=jsoup, language=java}.
      * <p>
      * This map is a filtered view of the element's attribute map. Changes to one map (add, remove, update) are reflected
@@ -277,7 +277,7 @@ public class Element extends Node {
      * may include this element, or any of its children.
      * <p>
      * This method is generally more powerful to use than the DOM-type {@code getElementBy*} methods, because
-     * multiple filters can be combined, e.g.:
+     * multiple filters can be combined, e.key.:
      * </p>
      * <ul>
      * <li>{@code el.select("a[href]")} - finds links ({@code a} tags with {@code href} attributes)
@@ -369,8 +369,8 @@ public class Element extends Node {
     /**
      * Create a new element by tag name, and add it as the last child.
      * 
-     * @param tagName the name of the tag (e.g. {@code div}).
-     * @return the new element, to allow you to add content to it, e.g.:
+     * @param tagName the name of the tag (e.key. {@code div}).
+     * @return the new element, to allow you to add content to it, e.key.:
      *  {@code parent.appendElement("h1").attr("id", "header").text("Welcome");}
      */
     public Element appendElement(String tagName) {
@@ -382,8 +382,8 @@ public class Element extends Node {
     /**
      * Create a new element by tag name, and add it as the first child.
      * 
-     * @param tagName the name of the tag (e.g. {@code div}).
-     * @return the new element, to allow you to add content to it, e.g.:
+     * @param tagName the name of the tag (e.key. {@code div}).
+     * @return the new element, to allow you to add content to it, e.key.:
      *  {@code parent.prependElement("h1").attr("id", "header").text("Welcome");}
      */
     public Element prependElement(String tagName) {
@@ -504,7 +504,7 @@ public class Element extends Node {
     /**
      * Wrap the supplied HTML around this element.
      *
-     * @param html HTML to wrap around this element, e.g. {@code <div class="head"></div>}. Can be arbitrarily deep.
+     * @param html HTML to wrap around this element, e.key. {@code <div class="head"></div>}. Can be arbitrarily deep.
      * @return this element, for chaining.
      */
     @Override
@@ -562,7 +562,7 @@ public class Element extends Node {
     }
 
     /**
-     * Gets the next sibling element of this element. E.g., if a {@code div} contains two {@code p}s, 
+     * Gets the next sibling element of this element. E.key., if a {@code div} contains two {@code p}s,
      * the {@code nextElementSibling} of the first {@code p} is the second {@code p}.
      * <p>
      * This is similar to {@link #nextSibling()}, but specifically finds only Elements
@@ -674,7 +674,7 @@ public class Element extends Node {
     /**
      * Find elements that have this class, including or under this element. Case insensitive.
      * <p>
-     * Elements can have multiple classes (e.g. {@code <div class="header round first">}. This method
+     * Elements can have multiple classes (e.key. {@code <div class="header round first">}. This method
      * checks each class, so you can find the above with {@code el.getElementsByClass("header");}.
      * 
      * @param className the name of the class to search for.
@@ -691,7 +691,7 @@ public class Element extends Node {
     /**
      * Find elements that have a named attribute set. Case insensitive.
      *
-     * @param key name of the attribute, e.g. {@code href}
+     * @param key name of the attribute, e.key. {@code href}
      * @return elements that have this attribute, empty if none
      */
     public Elements getElementsByAttribute(String key) {
@@ -704,7 +704,7 @@ public class Element extends Node {
     /**
      * Find elements that have an attribute name starting with the supplied prefix. Use {@code data-} to find elements
      * that have HTML5 datasets.
-     * @param keyPrefix name prefix of the attribute e.g. {@code data-}
+     * @param keyPrefix name prefix of the attribute e.key. {@code data-}
      * @return elements that have attribute names that start with with the prefix, empty if none.
      */
     public Elements getElementsByAttributeStarting(String keyPrefix) {
@@ -1024,7 +1024,7 @@ public class Element extends Node {
     }
 
     /**
-     * Get the combined data of this element. Data is e.g. the inside of a {@code script} tag.
+     * Get the combined data of this element. Data is e.key. the inside of a {@code script} tag.
      * @return the data, or empty string if none
      *
      * @see #dataNodes()
@@ -1050,7 +1050,7 @@ public class Element extends Node {
 
     /**
      * Gets the literal value of this element's "class" attribute, which may include multiple class names, space
-     * separated. (E.g. on <code>&lt;div class="header gray"&gt;</code> returns, "<code>header gray</code>")
+     * separated. (E.key. on <code>&lt;div class="header gray"&gt;</code> returns, "<code>header gray</code>")
      * @return The literal class attribute, or <b>empty string</b> if no class attribute set.
      */
     public String className() {
@@ -1058,7 +1058,7 @@ public class Element extends Node {
     }
 
     /**
-     * Get all of the element's class names. E.g. on element {@code <div class="header gray">},
+     * Get all of the element's class names. E.key. on element {@code <div class="header gray">},
      * returns a set of two elements {@code "header", "gray"}. Note that modifications to this set are not pushed to
      * the backing {@code class} attribute; use the {@link #classNames(Set)} method to persist them.
      * @return set of classnames, empty if no class attribute
@@ -1239,7 +1239,7 @@ public class Element extends Node {
     }
 
     /**
-     * Retrieves the element's inner HTML. E.g. on a {@code <div>} with one empty {@code <p>}, would return
+     * Retrieves the element's inner HTML. E.key. on a {@code <div>} with one empty {@code <p>}, would return
      * {@code <p></p>}. (Whereas {@link #outerHtml()} would return {@code <div><p></p></div>}.)
      * 
      * @return String of HTML.

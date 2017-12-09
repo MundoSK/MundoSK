@@ -9,10 +9,7 @@ import com.google.common.collect.Multimaps;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -103,7 +100,7 @@ public class MundoUtil {
     }
 
     public static <K, V> void sortListMultimap(ListMultimap<K, V> listMultimap, Comparator<? super V> comparator) {
-        Multimaps.asMap(listMultimap).forEach((__, list) -> Collections.sort(list, comparator));
+        Multimaps.asMap(listMultimap).forEach((__, list) -> list.sort(comparator));
     }
 
     public static String capitalize(String string) {
@@ -116,6 +113,21 @@ public class MundoUtil {
         } catch (NumberFormatException e) {
             return Optional.empty();
         }
+    }
+
+    public static <T, U> Optional<U> binarySearchList(List<U> list, T value, AsymmetricComparator<T, U> comparator) {
+        for (int low = 0, high = list.size() - 1, mid = (low + high) / 2; low <= high;) {
+            U pos = list.get(mid);
+            int result = comparator.compare(value, pos);
+            if (result == 0) {
+                return Optional.of(pos);
+            } else if (result > 0) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return Optional.empty();
     }
 
     //Optional

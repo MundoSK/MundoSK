@@ -28,7 +28,7 @@ public class DataUtil {
     /**
      * Parse out a charset from a content type header. If the charset is not supported, returns null (so the default
      * will kick in.)
-     * @param contentType e.g. "text/html; charset=EUC-JP"
+     * @param contentType e.key. "text/html; charset=EUC-JP"
      * @return "EUC-JP", or null if not found. Charset is trimmed and uppercased.
      */
     static String getCharsetFromContentType(String contentType) {

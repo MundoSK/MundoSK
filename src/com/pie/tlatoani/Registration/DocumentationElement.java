@@ -1,5 +1,7 @@
 package com.pie.tlatoani.Registration;
 
+import ch.njol.skript.classes.ClassInfo;
+import com.pie.tlatoani.Mundo;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -52,7 +54,20 @@ public abstract class DocumentationElement {
 
         @Override
         public void display(CommandSender sender) {
-
+            sender.sendMessage(Mundo.formatMundoSKInfo(category + " Effect", name));
+            sender.sendMessage(Mundo.formatMundoSKInfo("Introduced", "MundoSK " + originVersion));
+            if (requiredPlugins.length > 0) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Required Plugins", String.join(" ", requiredPlugins)));
+            }
+            if (syntaxes.length == 1) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Syntax", syntaxes[0]));
+            } else {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Syntaxes");
+                for (String syntax : syntaxes) {
+                    sender.sendMessage(Mundo.ALT_CHAT_COLOR + syntax);
+                }
+            }
+            sender.sendMessage(Mundo.formatMundoSKInfo("Description", description));
         }
 
         public Effect(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins) {
@@ -61,9 +76,9 @@ public abstract class DocumentationElement {
     }
 
     public static class Expression extends DocumentationElement {
-        public final Class type;
+        public final ClassInfo type;
 
-        public Expression(String name, String category, String[] syntaxes, String description, String originVersion, Class type, String[] requiredPlugins) {
+        public Expression(String name, String category, String[] syntaxes, String description, String originVersion, ClassInfo type, String[] requiredPlugins) {
             super(name, category, syntaxes, description, originVersion, requiredPlugins);
             this.type = type;
         }
@@ -75,7 +90,21 @@ public abstract class DocumentationElement {
 
         @Override
         public void display(CommandSender sender) {
-
+            sender.sendMessage(Mundo.formatMundoSKInfo(category + " Expression", name));
+            sender.sendMessage(Mundo.formatMundoSKInfo("Introduced", "MundoSK " + originVersion));
+            if (requiredPlugins.length > 0) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Required Plugins", String.join(" ", requiredPlugins)));
+            }
+            sender.sendMessage(Mundo.formatMundoSKInfo("Type", type.getCodeName()));
+            if (syntaxes.length == 1) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Syntax", syntaxes[0]));
+            } else {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Syntaxes");
+                for (String syntax : syntaxes) {
+                    sender.sendMessage(Mundo.ALT_CHAT_COLOR + syntax);
+                }
+            }
+            sender.sendMessage(Mundo.formatMundoSKInfo("Description", description));
         }
     }
 
@@ -88,7 +117,20 @@ public abstract class DocumentationElement {
 
         @Override
         public void display(CommandSender sender) {
-
+            sender.sendMessage(Mundo.formatMundoSKInfo(category + " Event", name));
+            sender.sendMessage(Mundo.formatMundoSKInfo("Introduced", "MundoSK " + originVersion));
+            if (requiredPlugins.length > 0) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Required Plugins", String.join(" ", requiredPlugins)));
+            }
+            if (syntaxes.length == 1) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Syntax", syntaxes[0]));
+            } else {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Syntaxes");
+                for (String syntax : syntaxes) {
+                    sender.sendMessage(Mundo.ALT_CHAT_COLOR + syntax);
+                }
+            }
+            sender.sendMessage(Mundo.formatMundoSKInfo("Description", description));
         }
 
         public Event(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins) {
@@ -111,7 +153,21 @@ public abstract class DocumentationElement {
 
         @Override
         public void display(CommandSender sender) {
-
+            sender.sendMessage(Mundo.formatMundoSKInfo(category + " Type", name));
+            sender.sendMessage(Mundo.formatMundoSKInfo("Introduced", "MundoSK " + originVersion));
+            if (requiredPlugins.length > 0) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Required Plugins", String.join(" ", requiredPlugins)));
+            }
+            if (syntaxes.length == 1) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Syntax", syntaxes[0]));
+            } else {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Syntaxes");
+                for (String syntax : syntaxes) {
+                    sender.sendMessage(Mundo.ALT_CHAT_COLOR + syntax);
+                }
+            }
+            sender.sendMessage(Mundo.formatMundoSKInfo("Usages", syntaxes.length == 0 ? "Cannot be written in scripts" : String.join(", ", usages)));
+            sender.sendMessage(Mundo.formatMundoSKInfo("Description", description));
         }
     }
 }

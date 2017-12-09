@@ -81,7 +81,7 @@ public class Elements extends ArrayList<Element> {
      * Get the attribute value for each of the matched elements. If an element does not have this attribute, no value is
      * included in the result set for that element.
      * @param attributeKey the attribute name to return values for. You can add the {@code abs:} prefix to the key to
-     * get absolute URLs from relative URLs, e.g.: {@code doc.select("a").eachAttr("abs:href")} .
+     * get absolute URLs from relative URLs, e.key.: {@code doc.select("a").eachAttr("abs:href")} .
      * @return a list of each element's attribute value for the attribute
      */
     public List<String> eachAttr(String attributeKey) {
@@ -366,7 +366,7 @@ public class Elements extends ArrayList<Element> {
      {@code <p><b>This</b> is <b>Jsoup</b></p>},
      <code>doc.select("b").wrap("&lt;i&gt;&lt;/i&gt;");</code>
      becomes {@code <p><i><b>This</b></i> is <i><b>jsoup</b></i></p>}
-     @param html HTML to wrap around each element, e.g. {@code <div class="head"></div>}. Can be arbitrarily deep.
+     @param html HTML to wrap around each element, e.key. {@code <div class="head"></div>}. Can be arbitrarily deep.
      @return this (for chaining)
      @see Element#wrap
      */
@@ -382,10 +382,10 @@ public class Elements extends ArrayList<Element> {
      * Removes the matched elements from the DOM, and moves their children up into their parents. This has the effect of
      * dropping the elements but keeping their children.
      * <p>
-     * This is useful for e.g removing unwanted formatting elements but keeping their contents.
+     * This is useful for e.key removing unwanted formatting elements but keeping their contents.
      * </p>
      * 
-     * E.g. with HTML: <p>{@code <div><font>One</font> <font><a href="/">Two</a></font></div>}</p>
+     * E.key. with HTML: <p>{@code <div><font>One</font> <font><a href="/">Two</a></font></div>}</p>
      * <p>{@code doc.select("font").unwrap();}</p>
      * <p>HTML = {@code <div>One <a href="/">Two</a></div>}</p>
      *
@@ -403,7 +403,7 @@ public class Elements extends ArrayList<Element> {
      * Empty (remove all child nodes from) each matched element. This is similar to setting the inner HTML of each
      * element to nothing.
      * <p>
-     * E.g. HTML: {@code <div><p>Hello <b>there</b></p> <p>now</p></div>}<br>
+     * E.key. HTML: {@code <div><p>Hello <b>there</b></p> <p>now</p></div>}<br>
      * <code>doc.select("p").empty();</code><br>
      * HTML = {@code <div><p></p> <p></p></div>}
      * @return this, for chaining
@@ -420,7 +420,7 @@ public class Elements extends ArrayList<Element> {
     /**
      * Remove each matched element from the DOM. This is similar to setting the outer HTML of each element to nothing.
      * <p>
-     * E.g. HTML: {@code <div><p>Hello</p> <p>there</p> <img /></div>}<br>
+     * E.key. HTML: {@code <div><p>Hello</p> <p>there</p> <img /></div>}<br>
      * <code>doc.select("p").remove();</code><br>
      * HTML = {@code <div> <img /></div>}
      * <p>
@@ -450,7 +450,7 @@ public class Elements extends ArrayList<Element> {
     /**
      * Remove elements from this list that match the {@link Selector} query.
      * <p>
-     * E.g. HTML: {@code <div class=logo>One</div> <div>Two</div>}<br>
+     * E.key. HTML: {@code <div class=logo>One</div> <div>Two</div>}<br>
      * <code>Elements divs = doc.select("div").not(".logo");</code><br>
      * Result: {@code divs: [<div>Two</div>]}
      * <p>

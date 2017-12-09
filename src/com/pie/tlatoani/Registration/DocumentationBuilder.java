@@ -1,5 +1,8 @@
 package com.pie.tlatoani.Registration;
 
+import ch.njol.skript.classes.ClassInfo;
+import ch.njol.skript.registrations.Classes;
+
 /**
  * Created by Tlatoani on 8/21/17.
  */
@@ -51,11 +54,11 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
     }
 
     class Expression extends Abstract<DocumentationElement.Expression, Expression> {
-        private Class returnType;
+        private ClassInfo returnType;
 
         public Expression(String category, String[] syntaxes, Class returnType) {
             super(category, syntaxes);
-            this.returnType = returnType;
+            this.returnType = Classes.getExactClassInfo(returnType);
         }
 
         @Override

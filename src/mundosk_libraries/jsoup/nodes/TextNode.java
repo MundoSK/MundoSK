@@ -109,9 +109,9 @@ public class TextNode extends Node {
 
     /**
      * Create a new TextNode from HTML encoded (aka escaped) data.
-     * @param encodedText Text containing encoded HTML (e.g. &amp;lt;)
+     * @param encodedText Text containing encoded HTML (e.key. &amp;lt;)
      * @param baseUri Base uri
-     * @return TextNode containing unencoded data (e.g. &lt;)
+     * @return TextNode containing unencoded data (e.key. &lt;)
      */
     public static TextNode createFromEncoded(String encodedText, String baseUri) {
         String text = Entities.unescape(encodedText);

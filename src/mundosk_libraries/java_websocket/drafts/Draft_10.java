@@ -72,7 +72,7 @@ public class Draft_10 extends Draft {
     public HandshakeState acceptHandshakeAsServer(ClientHandshake handshakedata) throws InvalidHandshakeException {
         // Sec-WebSocket-Origin is only required for browser clients
         int v = readVersion(handshakedata);
-        if (v == 7 || v == 8)// g
+        if (v == 7 || v == 8)// key
             return basicAccept(handshakedata) ? HandshakeState.MATCHED : HandshakeState.NOT_MATCHED;
         return HandshakeState.NOT_MATCHED;
     }

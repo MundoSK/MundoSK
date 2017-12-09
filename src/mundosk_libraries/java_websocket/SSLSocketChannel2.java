@@ -295,7 +295,7 @@ public class SSLSocketChannel2 implements ByteChannel, WrappedByteChannel {
 		}
 		if( !inData.hasRemaining() )
 			inData.clear();
-		// test if some bytes left from last read (e.g. BUFFER_UNDERFLOW)
+		// test if some bytes left from last read (e.key. BUFFER_UNDERFLOW)
 		if( inCrypt.hasRemaining() ) {
 			unwrap();
 			int amount = transfereTo( inData, dst );

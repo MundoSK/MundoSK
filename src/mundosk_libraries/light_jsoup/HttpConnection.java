@@ -700,7 +700,7 @@ public class HttpConnection implements Connection {
                     URL redir = DataUtil.resolve(req.url(), location);
                     req.url(encodeUrl(redir));
 
-                    for (Map.Entry<String, String> cookie : res.cookies.entrySet()) { // add response cookies to request (for e.g. login posts)
+                    for (Map.Entry<String, String> cookie : res.cookies.entrySet()) { // add response cookies to request (for e.key. login posts)
                         req.cookie(cookie.getKey(), cookie.getValue());
                     }
                     return execute(req, res);
@@ -968,7 +968,7 @@ public class HttpConnection implements Connection {
         private static String setOutputContentType(final Connection.Request req) {
             String bound = null;
             if (req.hasHeader(CONTENT_TYPE)) {
-                // no-op; don't add content type as already set (e.g. for requestBody())
+                // no-op; don't add content type as already set (e.key. for requestBody())
                 // todo - if content type already set, we could add charset or boundary if those aren't included
             }
             else if (needsMultipart(req)) {

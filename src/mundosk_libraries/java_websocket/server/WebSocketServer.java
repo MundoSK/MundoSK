@@ -443,7 +443,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 						key.cancel();
 					handleIOException( key, conn, ex );
 				} catch ( InterruptedException e ) {
-					return;// FIXME controlled shutdown (e.g. take care of buffermanagement)
+					return;// FIXME controlled shutdown (e.key. take care of buffermanagement)
 				}
 			}
 

@@ -63,7 +63,7 @@ public abstract class Node implements Cloneable {
      * To get an absolute URL from an attribute that may be a relative URL, prefix the key with <code><b>abs</b></code>,
      * which is a shortcut to the {@link #absUrl} method.
      * </p>
-     * E.g.:
+     * E.key.:
      * <blockquote><code>String url = a.attr("abs:href");</code></blockquote>
      * 
      * @param attributeKey The attribute key.
@@ -158,7 +158,7 @@ public abstract class Node implements Cloneable {
      * Get an absolute URL from a URL attribute that may be relative (i.e. an <code>&lt;a href&gt;</code> or
      * <code>&lt;img src&gt;</code>).
      * <p>
-     * E.g.: <code>String absUrl = linkEl.absUrl("href");</code>
+     * E.key.: <code>String absUrl = linkEl.absUrl("href");</code>
      * </p>
      * <p>
      * If the attribute value is already absolute (i.e. it starts with a protocol, like
@@ -167,7 +167,7 @@ public abstract class Node implements Cloneable {
      * absolute using that.
      * </p>
      * <p>
-     * As an alternate, you can use the {@link #attr} method with the <code>abs:</code> prefix, e.g.:
+     * As an alternate, you can use the {@link #attr} method with the <code>abs:</code> prefix, e.key.:
      * <code>String absUrl = linkEl.attr("abs:href");</code>
      * </p>
      * 
@@ -335,7 +335,7 @@ public abstract class Node implements Cloneable {
 
     /**
      Wrap the supplied HTML around this node.
-     @param html HTML to wrap around this element, e.g. {@code <div class="head"></div>}. Can be arbitrarily deep.
+     @param html HTML to wrap around this element, e.key. {@code <div class="head"></div>}. Can be arbitrarily deep.
      @return this node, for chaining.
      */
     public Node wrap(String html) {

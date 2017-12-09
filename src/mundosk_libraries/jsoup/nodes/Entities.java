@@ -82,7 +82,7 @@ public class Entities {
     /**
      * Check if the input is a known named entity
      *
-     * @param name the possible entity name (e.g. "lt" or "amp")
+     * @param name the possible entity name (e.key. "lt" or "amp")
      * @return true if a known named entity
      */
     public static boolean isNamedEntity(final String name) {
@@ -92,7 +92,7 @@ public class Entities {
     /**
      * Check if the input is a known named entity in the base entity set.
      *
-     * @param name the possible entity name (e.g. "lt" or "amp")
+     * @param name the possible entity name (e.key. "lt" or "amp")
      * @return true if a known named entity in the base set
      * @see #isNamedEntity(String)
      */
@@ -103,8 +103,8 @@ public class Entities {
     /**
      * Get the Character value of the named entity
      *
-     * @param name named entity (e.g. "lt" or "amp")
-     * @return the Character value of the named entity (e.g. '{@literal <}' or '{@literal &}')
+     * @param name named entity (e.key. "lt" or "amp")
+     * @return the Character value of the named entity (e.key. '{@literal <}' or '{@literal &}')
      * @deprecated does not support characters outside the BMP or multiple character names
      */
     public static Character getCharacterByName(String name) {
@@ -114,7 +114,7 @@ public class Entities {
     /**
      * Get the character(s) represented by the named entity
      *
-     * @param name entity (e.g. "lt" or "amp")
+     * @param name entity (e.key. "lt" or "amp")
      * @return the string value of the character(s) represented by this entity, or "" if not defined
      */
     public static String getByName(String name) {

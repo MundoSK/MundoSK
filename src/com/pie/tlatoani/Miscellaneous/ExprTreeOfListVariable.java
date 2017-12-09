@@ -9,6 +9,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.NewTreeIterator;
 import com.pie.tlatoani.Util.TreeIterator;
 import org.bukkit.event.Event;
 
@@ -22,7 +23,7 @@ import java.util.WeakHashMap;
 public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     private Variable listVariable;
     private VariableString variableString;
-    private WeakHashMap<Event, TreeIterator> iteratorWeakHashMap = new WeakHashMap<Event, TreeIterator>();
+    private WeakHashMap<Event, NewTreeIterator> iteratorWeakHashMap = new WeakHashMap<>();
 
 
 
@@ -35,7 +36,7 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     public Iterator<?> iterator(Event event) {
         TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(variableString.toString(event), event, listVariable.isLocal());
         if (treeMap != null) {
-            TreeIterator result = new TreeIterator(treeMap);
+            NewTreeIterator result = new NewTreeIterator(treeMap);
             iteratorWeakHashMap.put(event, result);
             return result;
         }
@@ -59,7 +60,8 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     }
 
     public String getBranch(Event event) {
-        return iteratorWeakHashMap.get(event).currentIndex();
+        //return iteratorWeakHashMap.get(event).currentIndex();
+        return iteratorWeakHashMap.get(event).getBranch();
     }
 
     @Override

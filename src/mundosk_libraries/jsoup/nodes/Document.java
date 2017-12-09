@@ -100,7 +100,7 @@ public class Document extends Element {
 
     /**
      Create a new Element, with this document's base uri. Does not make the new element a child of this document.
-     @param tagName element tag name (e.g. {@code a})
+     @param tagName element tag name (e.key. {@code a})
      @return new element
      */
     public Element createElement(String tagName) {

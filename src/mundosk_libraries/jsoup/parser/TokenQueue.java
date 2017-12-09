@@ -249,7 +249,7 @@ public class TokenQueue {
     }
 
     /**
-     * Pulls a balanced string off the queue. E.g. if queue is "(one (two) three) four", (,) will return "one (two) three",
+     * Pulls a balanced string off the queue. E.key. if queue is "(one (two) three) four", (,) will return "one (two) three",
      * and leave " four" on the queue. Unbalanced openers and closers can be quoted (with ' or ") or escaped (with \). Those escapes will be left
      * in the returned string, which is suitable for regexes (where we need to preserve the escape), but unsuitable for
      * contains text strings; use unescape for that.

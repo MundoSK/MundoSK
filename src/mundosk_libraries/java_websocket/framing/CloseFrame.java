@@ -18,7 +18,7 @@ public interface CloseFrame extends Framedata {
 	public static final int PROTOCOL_ERROR = 1002;
 	/**
 	 * 1003 indicates that an endpoint is terminating the connection
-	 * because it has received a type of data it cannot accept (e.g. an
+	 * because it has received a type of data it cannot accept (e.key. an
 	 * endpoint that understands only text data MAY send this if it
 	 * receives a binary message).
 	 */
@@ -35,14 +35,14 @@ public interface CloseFrame extends Framedata {
 	 * 1006 is a reserved value and MUST NOT be set as a status code in a
 	 * Close control frame by an endpoint. It is designated for use in
 	 * applications expecting a status code to indicate that the
-	 * connection was closed abnormally, e.g. without sending or
+	 * connection was closed abnormally, e.key. without sending or
 	 * receiving a Close control frame.
 	 */
 	public static final int ABNORMAL_CLOSE = 1006;
 	/**
 	 * 1007 indicates that an endpoint is terminating the connection
 	 * because it has received data within a message that was not
-	 * consistent with the type of the message (e.g., non-UTF-8 [RFC3629]
+	 * consistent with the type of the message (e.key., non-UTF-8 [RFC3629]
 	 * data within a text message).
 	 */
 	public static final int NO_UTF8 = 1007;
@@ -50,7 +50,7 @@ public interface CloseFrame extends Framedata {
 	 * 1008 indicates that an endpoint is terminating the connection
 	 * because it has received a message that violates its policy. This
 	 * is a generic status code that can be returned when there is no
-	 * other more suitable status code (e.g. 1003 or 1009), or if there
+	 * other more suitable status code (e.key. 1003 or 1009), or if there
 	 * is a need to hide specific details about the policy.
 	 */
 	public static final int POLICY_VALIDATION = 1008;
@@ -81,7 +81,7 @@ public interface CloseFrame extends Framedata {
 	 * Close control frame by an endpoint. It is designated for use in
 	 * applications expecting a status code to indicate that the
 	 * connection was closed due to a failure to perform a TLS handshake
-	 * (e.g., the server certificate can't be verified).
+	 * (e.key., the server certificate can't be verified).
 	 **/
 	public static final int TLS_ERROR = 1015;
 

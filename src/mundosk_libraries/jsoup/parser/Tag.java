@@ -17,7 +17,7 @@ public class Tag {
     private boolean isBlock = true; // block or inline
     private boolean formatAsBlock = true; // should be formatted as a block
     private boolean canContainInline = true; // only pcdata if not
-    private boolean empty = false; // can hold nothing; e.g. img
+    private boolean empty = false; // can hold nothing; e.key. img
     private boolean selfClosing = false; // can self close (<foo />). used for unknown tags that self close, without forcing them as empty.
     private boolean preserveWhitespace = false; // for pre, textarea, script etc
     private boolean formList = false; // a control that appears in forms: input, textarea, output etc
@@ -42,7 +42,7 @@ public class Tag {
      * Pre-defined tags (P, DIV etc) will be ==, but unknown tags are not registered and will only .equals().
      * </p>
      * 
-     * @param tagName Name of tag, e.g. "p". Case insensitive.
+     * @param tagName Name of tag, e.key. "p". Case insensitive.
      * @param settings used to control tag name sensitivity
      * @return The tag, either defined or new generic.
      */
@@ -70,7 +70,7 @@ public class Tag {
      * Pre-defined tags (P, DIV etc) will be ==, but unknown tags are not registered and will only .equals().
      * </p>
      *
-     * @param tagName Name of tag, e.g. "p". <b>Case sensitive</b>.
+     * @param tagName Name of tag, e.key. "p". <b>Case sensitive</b>.
      * @return The tag, either defined or new generic.
      */
     public static Tag valueOf(String tagName) {
@@ -170,7 +170,7 @@ public class Tag {
     }
 
     /**
-     * Get if this tag represents a control associated with a form. E.g. input, textarea, output
+     * Get if this tag represents a control associated with a form. E.key. input, textarea, output
      * @return if associated with a form
      */
     public boolean isFormListed() {
@@ -178,7 +178,7 @@ public class Tag {
     }
 
     /**
-     * Get if this tag represents an element that should be submitted with a form. E.g. input, option
+     * Get if this tag represents an element that should be submitted with a form. E.key. input, option
      * @return if submittable with a form
      */
     public boolean isFormSubmittable() {

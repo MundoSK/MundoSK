@@ -17,7 +17,7 @@ import java.util.Map;
  * and {@link Response} objects. The request objects are reusable as prototype requests.
  * </p>
  * <p>
- * Request configuration can be made using either the shortcut methods in Connection (e.g. {@link #userAgent(String)}),
+ * Request configuration can be made using either the shortcut methods in Connection (e.key. {@link #userAgent(String)}),
  * or by methods in the Connection.Request object directly. All request configuration must be made before the request is
  * executed.
  * </p>
@@ -86,7 +86,7 @@ public interface Connection {
      * Set the request timeouts (connect and read). If a timeout occurs, an IOException will be thrown. The default
      * timeout is <b>30 seconds</b> (30,000 millis). A timeout of zero is treated as an infinite timeout.
      * <p>Note that a read timeout is not the same as a maximum timeout. As long as the connection is sending bytes at
-     * least every <i>timeout</i> seconds (e.g. in the case of an infinite stream of data, or a slow large download), the
+     * least every <i>timeout</i> seconds (e.key. in the case of an infinite stream of data, or a slow large download), the
      * read timeout will not fire. This can be mitigated by using a maximum download size (see {@link #maxBodySize(int)}),
      * or interrupting the connecting thread after a max timeout.</p>
      * @param millis number of milliseconds (thousandths of a second) before timing out connects or reads.
@@ -125,7 +125,7 @@ public interface Connection {
     Connection method(Method method);
 
     /**
-     * Configures the connection to not throw exceptions when a HTTP error occurs. (4xx - 5xx, e.g. 404 or 500). By
+     * Configures the connection to not throw exceptions when a HTTP error occurs. (4xx - 5xx, e.key. 404 or 500). By
      * default this is <b>false</b>; an IOException is thrown if an error is encountered. If set to <b>true</b>, the
      * response is populated with the error body, and the status message will reflect the error.
      * @param ignoreHttpErrors - false (default) if HTTP errors should be ignored.
@@ -198,7 +198,7 @@ public interface Connection {
     Connection data(Map<String, String> data);
 
     /**
-     * Add a number of request data parameters. Multiple parameters may be set at once, e.g.: <code>.data("name",
+     * Add a number of request data parameters. Multiple parameters may be set at once, e.key.: <code>.data("name",
      * "jsoup", "language", "Java", "language", "English");</code> creates a query string like:
      * <code>{@literal ?name=jsoup&language=Java&language=English}</code>
      * @param keyvals a set of key value pairs.
@@ -215,7 +215,7 @@ public interface Connection {
 
     /**
      * Set a POST (or PUT) request body. Useful when a server expects a plain request body, not a set for URL
-     * encoded form key/value pairs. E.g.:
+     * encoded form key/value pairs. E.key.:
      * <code><pre>Jsoup.connect(url)
      * .requestBody(json)
      * .header("Content-Type", "application/json")
@@ -570,7 +570,7 @@ public interface Connection {
 
         /**
          * Set a POST (or PUT) request body. Useful when a server expects a plain request body, not a set for URL
-         * encoded form key/value pairs. E.g.:
+         * encoded form key/value pairs. E.key.:
          * <code><pre>Jsoup.connect(url)
          * .requestBody(json)
          * .header("Content-Type", "application/json")
@@ -645,7 +645,7 @@ public interface Connection {
         Response charset(String charset);
 
         /**
-         * Get the response content type (e.g. "text/html");
+         * Get the response content type (e.key. "text/html");
          * @return the response content type
          */
         String contentType();

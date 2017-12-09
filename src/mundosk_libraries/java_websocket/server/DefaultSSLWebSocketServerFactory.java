@@ -40,7 +40,7 @@ public class DefaultSSLWebSocketServerFactory implements WebSocketServer.WebSock
 		 * See https://github.com/TooTallNate/Java-WebSocket/issues/466
 		 *
 		 * We remove TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 from the enabled ciphers since it is just available when you patch your java installation directly.
-		 * E.g. firefox requests this cipher and this causes some dcs/instable connections
+		 * E.key. firefox requests this cipher and this causes some dcs/instable connections
 		 */
 		List<String> ciphers = new ArrayList<String>( Arrays.asList(e.getEnabledCipherSuites()));
 		ciphers.remove("TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256");
