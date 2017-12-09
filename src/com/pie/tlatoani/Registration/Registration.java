@@ -155,6 +155,7 @@ public final class Registration {
 
         @Override
         public String toString(T t, int flags) {
+            Logging.debug(this, "toString() for " + t + "; flags: " + flags);
             return t.toString();
         }
 

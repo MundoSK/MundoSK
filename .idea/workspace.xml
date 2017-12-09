@@ -7,47 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/AsymmetricComparator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ImmutableGroupedList.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/NewTreeIterator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/NewTreeIterator.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ChangePermissiveTreeIterator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprTreeOfListVariable.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprTreeOfListVariable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/JSON/ExprListVariableAsJson.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/JSON/ExprListVariableAsJson.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationBuilder.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationElement.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationElement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Metrics.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Metrics.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoUtil.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/SSLSocketChannel2.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/SSLSocketChannel2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/WebSocketAdapter.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/WebSocketAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/drafts/Draft_10.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/drafts/Draft_10.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/framing/CloseFrame.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/framing/CloseFrame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/server/DefaultSSLWebSocketServerFactory.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/server/DefaultSSLWebSocketServerFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/server/WebSocketServer.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/java_websocket/server/WebSocketServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/Connection.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/Connection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/helper/DataUtil.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/helper/DataUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/helper/HttpConnection.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/helper/HttpConnection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/helper/StringUtil.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/helper/StringUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/Attribute.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/Attribute.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/Document.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/Document.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/Element.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/Element.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/Entities.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/Entities.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/Node.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/Node.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/TextNode.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/nodes/TextNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/parser/Tag.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/parser/Tag.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/parser/Token.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/parser/Token.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/parser/TokenQueue.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/parser/TokenQueue.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/safety/Whitelist.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/safety/Whitelist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/select/Elements.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/select/Elements.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/select/NodeVisitor.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/select/NodeVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/select/Selector.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/jsoup/select/Selector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/light_jsoup/Connection.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/light_jsoup/Connection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/light_jsoup/DataUtil.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/light_jsoup/DataUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/light_jsoup/HttpConnection.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/light_jsoup/HttpConnection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mundosk_libraries/light_jsoup/TokenQueue.java" afterPath="$PROJECT_DIR$/src/mundosk_libraries/light_jsoup/TokenQueue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -98,7 +62,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprTreeOfListVariable.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="630">
-              <caret line="63" column="58" lean-forward="false" selection-start-line="63" selection-start-column="58" selection-end-line="63" selection-end-column="58" />
+              <caret line="62" column="58" lean-forward="false" selection-start-line="62" selection-start-column="58" selection-end-line="62" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -120,22 +84,22 @@
       <file leaf-file-name="ExprBranch.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprBranch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+            <state relative-caret-position="525">
+              <caret line="50" column="1" lean-forward="true" selection-start-line="50" selection-start-column="1" selection-end-line="50" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NewTreeIterator.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/NewTreeIterator.java">
+      <file leaf-file-name="ChangePermissiveTreeIterator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ChangePermissiveTreeIterator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="21" column="4" lean-forward="false" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
+            <state relative-caret-position="420">
+              <caret line="28" column="47" lean-forward="true" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#503#504#0" expanded="true" />
-                <element signature="e#541#542#0" expanded="true" />
+                <element signature="e#542#543#0" expanded="true" />
+                <element signature="e#580#581#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -144,13 +108,11 @@
       <file leaf-file-name="Registration.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="677">
-              <caret line="161" column="47" lean-forward="true" selection-start-line="161" selection-start-column="47" selection-end-line="161" selection-end-column="47" />
+            <state relative-caret-position="422">
+              <caret line="148" column="59" lean-forward="true" selection-start-line="148" selection-start-column="59" selection-end-line="148" selection-end-column="59" />
               <folding>
-                <element signature="e#7203#7204#0" expanded="true" />
-                <element signature="e#7246#7247#0" expanded="true" />
-                <element signature="e#7315#7316#0" expanded="true" />
-                <element signature="e#7360#7361#0" expanded="true" />
+                <element signature="e#7393#7394#0" expanded="true" />
+                <element signature="e#7438#7439#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -200,7 +162,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
@@ -294,7 +256,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tab/PersonalizableTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tab/VisibleByDefaultTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tab/InvisibleByDefaultTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tab/Tab.java" />
@@ -316,7 +277,6 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/Thread/EffAsyncSetVar.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscMundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/ExprEnumValues.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/EnumClassInfo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/EvtPacketEvent.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprTypeOfPacket.java" />
@@ -341,9 +301,11 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ImmutableGroupedList.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/NewTreeIterator.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/TreeIterator.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprTreeOfListVariable.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/NewTreeIterator.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ChangePermissiveTreeIterator.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -1453,19 +1415,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="677">
-          <caret line="161" column="47" lean-forward="true" selection-start-line="161" selection-start-column="47" selection-end-line="161" selection-end-column="47" />
-          <folding>
-            <element signature="e#7203#7204#0" expanded="true" />
-            <element signature="e#7246#7247#0" expanded="true" />
-            <element signature="e#7315#7316#0" expanded="true" />
-            <element signature="e#7360#7361#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ImmutableGroupedList.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="602">
@@ -1496,14 +1445,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="102" column="43" lean-forward="false" selection-start-line="102" selection-start-column="43" selection-end-line="102" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -1528,14 +1469,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprBranch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/TreeIterator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="512">
@@ -1547,11 +1480,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ChangePermissiveTreeIterator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="47" lean-forward="true" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#542#543#0" expanded="true" />
+            <element signature="e#580#581#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprTreeOfListVariable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="630">
-          <caret line="63" column="58" lean-forward="false" selection-start-line="63" selection-start-column="58" selection-end-line="63" selection-end-column="58" />
+          <caret line="62" column="58" lean-forward="false" selection-start-line="62" selection-start-column="58" selection-end-line="62" selection-end-column="58" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="102" column="43" lean-forward="false" selection-start-line="102" selection-start-column="43" selection-end-line="102" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/ExprBranch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="50" column="1" lean-forward="true" selection-start-line="50" selection-start-column="1" selection-end-line="50" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Registration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="422">
+          <caret line="148" column="59" lean-forward="true" selection-start-line="148" selection-start-column="59" selection-end-line="148" selection-end-column="59" />
+          <folding>
+            <element signature="e#7393#7394#0" expanded="true" />
+            <element signature="e#7438#7439#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1560,18 +1532,6 @@
         <state relative-caret-position="60">
           <caret line="4" column="25" lean-forward="false" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/NewTreeIterator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="21" column="4" lean-forward="false" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#503#504#0" expanded="true" />
-            <element signature="e#541#542#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

@@ -8,14 +8,14 @@ import java.util.TreeMap;
 /**
  * Created by Tlatoani on 12/9/17.
  */
-public class NewTreeIterator<K, V> implements Iterator<V> {
+public class ChangePermissiveTreeIterator<K, V> implements Iterator<V> {
     private final TreeMap<K, V> treeMap;
     private K nextKey = null;
     private V nextValue = null;
-    private NewTreeIterator<K, V> subIterator = null;
+    private ChangePermissiveTreeIterator<K, V> subIterator = null;
     private boolean calledHasNext = false;
 
-    public NewTreeIterator(TreeMap<K, V> treeMap) {
+    public ChangePermissiveTreeIterator(TreeMap<K, V> treeMap) {
         this.treeMap = treeMap;
     }
 
@@ -37,7 +37,7 @@ public class NewTreeIterator<K, V> implements Iterator<V> {
             } else {
                 nextKey = nextEntry.getKey();
                 if (nextEntry.getValue() instanceof TreeMap) {
-                    subIterator = new NewTreeIterator((TreeMap<K, V>) nextEntry.getValue());
+                    subIterator = new ChangePermissiveTreeIterator((TreeMap<K, V>) nextEntry.getValue());
                     return hasNext();
                 } else {
                     nextValue = nextEntry.getValue();

@@ -9,8 +9,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.NewTreeIterator;
-import com.pie.tlatoani.Util.TreeIterator;
+import com.pie.tlatoani.Util.ChangePermissiveTreeIterator;
 import org.bukkit.event.Event;
 
 import java.util.Iterator;
@@ -23,7 +22,7 @@ import java.util.WeakHashMap;
 public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     private Variable listVariable;
     private VariableString variableString;
-    private WeakHashMap<Event, NewTreeIterator> iteratorWeakHashMap = new WeakHashMap<>();
+    private WeakHashMap<Event, ChangePermissiveTreeIterator> iteratorWeakHashMap = new WeakHashMap<>();
 
 
 
@@ -36,7 +35,7 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     public Iterator<?> iterator(Event event) {
         TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(variableString.toString(event), event, listVariable.isLocal());
         if (treeMap != null) {
-            NewTreeIterator result = new NewTreeIterator(treeMap);
+            ChangePermissiveTreeIterator result = new ChangePermissiveTreeIterator(treeMap);
             iteratorWeakHashMap.put(event, result);
             return result;
         }
