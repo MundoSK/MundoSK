@@ -17,9 +17,11 @@ public class EffAsyncSetVar extends Effect {
     @Override
     protected TriggerItem walk(Event event) {
         Scheduling.async(() -> {
-            Object[] array = value.getArray(event);
+            Object[] delta = value.getArray(event);
             Scheduling.sync(() -> {
-                variable.change(event, array, Changer.ChangeMode.SET);
+                if (delta == null || delta.length > 0) {
+                    variable.change(event, delta, Changer.ChangeMode.SET);
+                }
                 TriggerItem.walk(getNext(), event);
             });
         });
