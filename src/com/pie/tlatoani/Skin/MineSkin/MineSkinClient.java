@@ -22,15 +22,16 @@ public class MineSkinClient {
     public static final String UPLOAD_FORMAT = "https://api.mineskin.org/generate/upload?%s";
     private static final String USER_FORMAT   = "https://api.mineskin.org/generate/user/%s?%s";
     public static final String USER_AGENT = "MineSkin-JavaClient";
+    public static final int DEFAULT_TIMEOUT_MILLIS = 10000;
 
-    public static String rawStringFromURL(String url) {
+    public static String rawStringFromURL(String url, int timeoutMillis) {
         try {
             Connection connection = HttpConnection
                     .connect(String.format(URL_FORMAT, url, SKIN_OPTIONS))
                     .userAgent(USER_AGENT)
                     .method(Connection.Method.POST)
                     .ignoreContentType(true)
-                    .timeout(10000);
+                    .timeout(timeoutMillis);
             return connection.execute().body();
         } catch (Exception e) {
             Logging.debug(MineSkinClient.class, e);
@@ -38,7 +39,7 @@ public class MineSkinClient {
         }
     }
 
-    public static String rawStringFromFile(File file) {
+    public static String rawStringFromFile(File file, int timeoutMillis) {
         try {
             Connection connection = HttpConnection
                     .connect(String.format(UPLOAD_FORMAT, SKIN_OPTIONS))
@@ -46,7 +47,7 @@ public class MineSkinClient {
                     .method(Connection.Method.POST)
                     .data("file", file.getName(), new FileInputStream(file))
                     .ignoreContentType(true)
-                    .timeout(10000);
+                    .timeout(timeoutMillis);
             return connection.execute().body();
         } catch (Exception e) {
             Logging.debug(MineSkinClient.class, e);
@@ -54,7 +55,7 @@ public class MineSkinClient {
         }
     }
 
-    public static String rawStringFromUUID(UUID uuid) {
+    public static String rawStringFromUUID(UUID uuid, int timeoutMillis) {
         try {
             Connection connection = HttpConnection
                     .connect(String.format(USER_FORMAT, uuid.toString(), SKIN_OPTIONS))
@@ -62,7 +63,7 @@ public class MineSkinClient {
                     .method(Connection.Method.GET)
                     .ignoreContentType(true)
                     .ignoreHttpErrors(true)
-                    .timeout(10000);
+                    .timeout(timeoutMillis);
             return connection.execute().body();
         } catch (Exception e) {
             Logging.debug(MineSkinClient.class, e);

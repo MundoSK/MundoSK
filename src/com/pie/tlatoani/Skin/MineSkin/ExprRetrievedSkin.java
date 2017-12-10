@@ -3,6 +3,7 @@ package com.pie.tlatoani.Skin.MineSkin;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Skin.Skin;
 import org.bukkit.OfflinePlayer;
@@ -18,16 +19,18 @@ public class ExprRetrievedSkin extends SimpleExpression<Skin> {
     private Expression<String> stringExpr;
     private Expression<OfflinePlayer> offlinePlayerExpr;
     private RetrieveMode mode;
+    private Expression<Timespan> timeoutExpr;
 
     public enum RetrieveMode {
         FILE, URL, OFFLINE_PLAYER
     }
 
     private String getRawString(Event event) {
+        int timeoutMillis = timeoutExpr == null ? MineSkinClient.DEFAULT_TIMEOUT_MILLIS : new Long(timeoutExpr.getSingle(event).getMilliSeconds()).intValue();
         switch (mode) {
-            case FILE: return MineSkinClient.rawStringFromFile(new File(stringExpr.getSingle(event)));
-            case URL: return MineSkinClient.rawStringFromURL(stringExpr.getSingle(event));
-            case OFFLINE_PLAYER: return MineSkinClient.rawStringFromUUID(offlinePlayerExpr.getSingle(event).getUniqueId());
+            case FILE: return MineSkinClient.rawStringFromFile(new File(stringExpr.getSingle(event)), timeoutMillis);
+            case URL: return MineSkinClient.rawStringFromURL(stringExpr.getSingle(event), timeoutMillis);
+            case OFFLINE_PLAYER: return MineSkinClient.rawStringFromUUID(offlinePlayerExpr.getSingle(event).getUniqueId(), timeoutMillis);
         }
         throw new IllegalStateException("RetrieveMode = " + mode);
     }
@@ -63,6 +66,7 @@ public class ExprRetrievedSkin extends SimpleExpression<Skin> {
         mode = RetrieveMode.values()[parseResult.mark];
         stringExpr = (Expression<String>) expressions[0];
         offlinePlayerExpr = (Expression<OfflinePlayer>) expressions[1];
+        timeoutExpr = (Expression<Timespan>) expressions[2];
         return true;
     }
 }

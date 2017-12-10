@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Miscellaneous;
+package com.pie.tlatoani.Miscellaneous.Tree;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;

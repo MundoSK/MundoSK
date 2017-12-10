@@ -23,6 +23,8 @@ import com.pie.tlatoani.Miscellaneous.Random.*;
 import com.pie.tlatoani.Miscellaneous.ServerListPing.*;
 import com.pie.tlatoani.Miscellaneous.TabCompletion.*;
 import com.pie.tlatoani.Miscellaneous.Thread.*;
+import com.pie.tlatoani.Miscellaneous.Tree.ExprBranch;
+import com.pie.tlatoani.Miscellaneous.Tree.ExprTreeOfListVariable;
 import com.pie.tlatoani.Registration.EnumClassInfo;
 import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Util.*;
@@ -58,16 +60,15 @@ public class MiscMundo {
             Registration.registerCondition(CondBoolean.class, "%boolean%");
         }
 
+        Registration.registerEffect(EffWait.class, "[(2¦async)] wait (0¦until|1¦while) %boolean% [for %-timespan%] [by %*timespan%]");
         Registration.registerExpression(ExprReturnTypeOfFunction.class,ClassInfo.class,ExpressionType.PROPERTY,"return type of function %string%");
         Registration.registerExpression(ExprLoadedScripts.class,String.class,ExpressionType.SIMPLE, "loaded script[ name]s");
         Registration.registerExpression(ExprAllTypes.class, ClassInfo.class, ExpressionType.SIMPLE, "all types");
         Registration.registerExpression(ExprThatAre.class, Object.class, ExpressionType.COMBINED, "%objects% that are %object%");
         Registration.registerExpression(ExprNumber.class, Number.class, ExpressionType.PROPERTY, "%*number%[ ](0¦b|1¦d|2¦f|3¦s|4¦l)");
-        Registration.registerScope(ScopeWhen.class, "when %boolean%");
         Registration.registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% (0¦while|1¦until|2¦if|3¦unless) %boolean%");
-        Registration.registerExpression(ExprTreeOfListVariable.class, Object.class, ExpressionType.PROPERTY, "tree of %objects%");
         Registration.registerExpression(ExprIndexesOfListVariable.class, String.class, ExpressionType.PROPERTY, "[all [of]] [the] indexes (of|in) [value] %objects%");
-        Registration.registerExpression(ExprBranch.class, String.class, ExpressionType.PROPERTY, "branch");
+        Registration.registerScope(ScopeWhen.class, "when %boolean% [by %*timespan%]");
 
         loadArmorStand();
         loadHanging();
@@ -197,7 +198,6 @@ public class MiscMundo {
         Registration.registerEnum(Difficulty.class, "difficulty", Difficulty.values());
         Registration.registerEnum(PlayerLoginEvent.Result.class, "playerloginresult", PlayerLoginEvent.Result.values());
         Registration.registerEnum(HangingBreakEvent.RemoveCause.class, "hangingremovecause", HangingBreakEvent.RemoveCause.values());
-        Registration.registerEffect(EffWait.class, "[(2¦async)] wait (0¦until|1¦while) %boolean% [for %-timespan%]");
         if (Reflection.methodExists(Entity.class, "addPassenger", Entity.class)) {
             Registration.registerEffect(EffMountVehicle.class, "mount %entities% on %entity%");
         }
@@ -288,6 +288,11 @@ public class MiscMundo {
         Registration.registerEffect(EffAsyncSetVar.class, "async set %objects% to %objects%");
         Registration.registerScope(ScopeAsync.class, "async [in %-timespan%]");
         Registration.registerScope(ScopeSync.class, "(sync|in %-timespan%)");
+    }
+
+    private static void loadTree() {
+        Registration.registerExpression(ExprTreeOfListVariable.class, Object.class, ExpressionType.PROPERTY, "tree of %objects%");
+        Registration.registerExpression(ExprBranch.class, String.class, ExpressionType.PROPERTY, "branch");
     }
 
 }

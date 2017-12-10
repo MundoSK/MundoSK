@@ -1,9 +1,6 @@
 package com.pie.tlatoani.Miscellaneous;
 
-import ch.njol.skript.lang.Effect;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
-import ch.njol.skript.lang.TriggerItem;
+import ch.njol.skript.lang.*;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Util.Scheduling;
@@ -17,6 +14,7 @@ public class EffWait extends Effect {
     private Expression<Timespan> timeoutExpr;
     private boolean until;
     private boolean sync;
+    private int delayTicks;
 
     @Override
     protected TriggerItem walk(Event event) {
@@ -51,6 +49,7 @@ public class EffWait extends Effect {
         timeoutExpr = (Expression<Timespan>) expressions[1];
         until = (parseResult.mark & 0b01) == 0;
         sync = (parseResult.mark & 0b10 ) == 0;
+        delayTicks = expressions[2] == null ? 1 : new Long(((Literal<Timespan>) expressions[2]).getSingle().getTicks_i()).intValue();
         return true;
     }
 }
