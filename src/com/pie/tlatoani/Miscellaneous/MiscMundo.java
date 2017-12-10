@@ -80,6 +80,7 @@ public class MiscMundo {
         loadServerListPing();
         loadTabCompletion();
         loadThread();
+        loadTree();
     }
     
     private static void loadArmorStand() {

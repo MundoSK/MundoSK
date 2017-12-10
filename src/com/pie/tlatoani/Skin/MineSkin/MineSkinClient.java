@@ -17,8 +17,8 @@ import java.util.UUID;
  * Based on (and with portions of code copied from) the Mineskin Client created by inventivetalent (who also created the Mineskin API)
  */
 public class MineSkinClient {
-    public static final String DEFAULT_SKIN_OPTIONS = "visibility=1"; //"name=&model=DEFAULT&visibility=PUBLIC";
-    public static final String ALEX_SKIN_OPTIONS = "model=slim&visibility=1";
+    public static final String DEFAULT_SKIN_OPTIONS = "";
+    public static final String ALEX_SKIN_OPTIONS = "model=slim";
     public static final String URL_FORMAT = "https://api.mineskin.org/generate/url?url=%s&%s";
     public static final String UPLOAD_FORMAT = "https://api.mineskin.org/generate/upload?%s";
     private static final String USER_FORMAT   = "https://api.mineskin.org/generate/user/%s?%s";
