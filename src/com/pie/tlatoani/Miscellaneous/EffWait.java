@@ -41,7 +41,7 @@ public class EffWait extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "wait " + (until ? "until" : "while") + " " + condition + (timeoutExpr == null ? "" : " for " + timeoutExpr);
+        return (sync ? "" : "async ") + "wait " + (until ? "until" : "while") + " " + condition + (timeoutExpr == null ? "" : " for " + timeoutExpr);
     }
 
     @Override
