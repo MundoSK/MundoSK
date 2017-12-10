@@ -60,7 +60,7 @@ public class MiscMundo {
             Registration.registerCondition(CondBoolean.class, "%boolean%");
         }
 
-        Registration.registerEffect(EffWait.class, "[(2¦async)] wait (0¦until|1¦while) %boolean% [for %-timespan%] [by %*timespan%]");
+        Registration.registerEffect(EffWait.class, "[(2¦async)] wait (0¦until|1¦while) %boolean% [for %-timespan%] [by %-timespan%]");
         Registration.registerExpression(ExprReturnTypeOfFunction.class,ClassInfo.class,ExpressionType.PROPERTY,"return type of function %string%");
         Registration.registerExpression(ExprLoadedScripts.class,String.class,ExpressionType.SIMPLE, "loaded script[ name]s");
         Registration.registerExpression(ExprAllTypes.class, ClassInfo.class, ExpressionType.SIMPLE, "all types");
@@ -68,7 +68,7 @@ public class MiscMundo {
         Registration.registerExpression(ExprNumber.class, Number.class, ExpressionType.PROPERTY, "%*number%[ ](0¦b|1¦d|2¦f|3¦s|4¦l)");
         Registration.registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% (0¦while|1¦until|2¦if|3¦unless) %boolean%");
         Registration.registerExpression(ExprIndexesOfListVariable.class, String.class, ExpressionType.PROPERTY, "[all [of]] [the] indexes (of|in) [value] %objects%");
-        Registration.registerScope(ScopeWhen.class, "when %boolean% [by %*timespan%]");
+        Registration.registerScope(ScopeWhen.class, "when %boolean% [by %-timespan%]");
 
         loadArmorStand();
         loadHanging();

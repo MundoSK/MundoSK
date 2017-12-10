@@ -13,7 +13,7 @@ import org.bukkit.event.Event;
  */
 public class ScopeWhen extends CustomScope {
     private Expression<Boolean> condition;
-    private int delayTicks;
+    private Expression<Timespan> delayExpr;
 
     @Override
     public String getString() {
@@ -23,7 +23,7 @@ public class ScopeWhen extends CustomScope {
     @Override
     public boolean init() {
         condition = (Expression<Boolean>) exprs[0];
-        delayTicks = exprs[1] == null ? 1 : new Long(((Literal<Timespan>) exprs[1]).getSingle().getTicks_i()).intValue();
+        delayExpr = (Expression<Timespan>) exprs[1];
         return true;
     }
 
@@ -34,11 +34,16 @@ public class ScopeWhen extends CustomScope {
 
     @Override
     public boolean go(Event event) {
+        int delayTicks = exprs[1] == null ? 1 : new Long(delayExpr.getSingle(event).getTicks_i()).intValue();
+        go(event, delayTicks);
+        return false;
+    }
+
+    private void go(Event event, int delayTicks) {
         if (condition.getSingle(event)) {
             TriggerItem.walk(first, event);
         } else {
-            Scheduling.syncDelay(delayTicks, () -> go(event));
+            Scheduling.syncDelay(delayTicks, () -> go(event, delayTicks));
         }
-        return false;
     }
 }
