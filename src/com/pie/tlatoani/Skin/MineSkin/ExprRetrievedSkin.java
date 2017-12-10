@@ -18,8 +18,9 @@ import java.io.File;
 public class ExprRetrievedSkin extends SimpleExpression<Skin> {
     private Expression<String> stringExpr;
     private Expression<OfflinePlayer> offlinePlayerExpr;
-    private RetrieveMode mode;
     private Expression<Timespan> timeoutExpr;
+    private RetrieveMode mode;
+    private boolean def;
 
     public enum RetrieveMode {
         FILE, URL, OFFLINE_PLAYER
@@ -28,9 +29,9 @@ public class ExprRetrievedSkin extends SimpleExpression<Skin> {
     private String getRawString(Event event) {
         int timeoutMillis = timeoutExpr == null ? MineSkinClient.DEFAULT_TIMEOUT_MILLIS : new Long(timeoutExpr.getSingle(event).getMilliSeconds()).intValue();
         switch (mode) {
-            case FILE: return MineSkinClient.rawStringFromFile(new File(stringExpr.getSingle(event)), timeoutMillis);
-            case URL: return MineSkinClient.rawStringFromURL(stringExpr.getSingle(event), timeoutMillis);
-            case OFFLINE_PLAYER: return MineSkinClient.rawStringFromUUID(offlinePlayerExpr.getSingle(event).getUniqueId(), timeoutMillis);
+            case FILE: return MineSkinClient.rawStringFromFile(new File(stringExpr.getSingle(event)), timeoutMillis, def);
+            case URL: return MineSkinClient.rawStringFromURL(stringExpr.getSingle(event), timeoutMillis, def);
+            case OFFLINE_PLAYER: return MineSkinClient.rawStringFromUUID(offlinePlayerExpr.getSingle(event).getUniqueId(), timeoutMillis, def);
         }
         throw new IllegalStateException("RetrieveMode = " + mode);
     }
@@ -63,7 +64,8 @@ public class ExprRetrievedSkin extends SimpleExpression<Skin> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        mode = RetrieveMode.values()[parseResult.mark];
+        mode = RetrieveMode.values()[parseResult.mark & 0b11];
+        def = (parseResult.mark & 0b100) == 0;
         stringExpr = (Expression<String>) expressions[0];
         offlinePlayerExpr = (Expression<OfflinePlayer>) expressions[1];
         timeoutExpr = (Expression<Timespan>) expressions[2];
