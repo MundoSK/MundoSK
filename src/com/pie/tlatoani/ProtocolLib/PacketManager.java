@@ -63,7 +63,7 @@ public class PacketManager {
         registerPacketInfoExpression(ExprEntityOfPacket.class, Entity.class,
                 "%world% pentity %number% of %packet%",
                 "%world% pentity array %number% of %packet%");
-        registerPacketInfoExpression(ExprEnumOfPacket.class, String.class, "%string% penum %number% of %packet%");
+        registerPacketInfoExpression(ExprEnumOfPacket.class, String.class, "(arbitrary|%-string%) penum %number% of %packet%");
 
         ExprPacketInfoAlias.registerNecessaryElements();
     }

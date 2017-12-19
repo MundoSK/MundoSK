@@ -38,13 +38,10 @@ public class EffPutJsonInListVariable extends Effect {
     }
 
     private static void setToJSONObject(String variableName, JSONObject jsonObject, Boolean isLocal, Event event) {
-        jsonObject.forEach(new BiConsumer() {
-            @Override
-            public void accept(Object o, Object value) {
-                String key = (String) o;
-                String subVarName = variableName.substring(0, variableName.length() - 1) + key;
-                setFromJSONCompatibleObject(subVarName, value, isLocal, event);
-            }
+        jsonObject.forEach((o, value) -> {
+            String key = (String) o;
+            String subVarName = variableName.substring(0, variableName.length() - 1) + key;
+            setFromJSONCompatibleObject(subVarName, value, isLocal, event);
         });
     }
 

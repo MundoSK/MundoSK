@@ -1,9 +1,6 @@
 package com.pie.tlatoani.Util;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by Tlatoani on 12/9/17.
@@ -13,7 +10,7 @@ public class ChangePermissiveTreeIterator<K, V> implements Iterator<V> {
     private K nextKey = null;
     private V nextValue = null;
     private ChangePermissiveTreeIterator<K, V> subIterator = null;
-    private boolean calledHasNext = false;
+    private Optional<Boolean> hasNext = Optional.empty();
 
     public ChangePermissiveTreeIterator(TreeMap<K, V> treeMap) {
         this.treeMap = treeMap;
@@ -21,40 +18,48 @@ public class ChangePermissiveTreeIterator<K, V> implements Iterator<V> {
 
     @Override
     public boolean hasNext() {
-        if (calledHasNext) {
-            return nextKey != null;
+        Logging.debug(this, this + "hasNext() called, nextKey = " + nextKey + ", nextValue = " + nextValue + ", subIterator = " + subIterator + ", hasNext = " + hasNext);
+        if (hasNext.isPresent()) {
+            return hasNext.get();
         }
-        try {
-            if (subIterator != null && subIterator.hasNext() && subIterator.treeMap == treeMap.get(nextKey)) {
-                nextValue = subIterator.next();
+        if (subIterator != null && subIterator.hasNext() && subIterator.treeMap == treeMap.get(nextKey)) {
+            Logging.debug(this, this + "hasNext(): subIterator continues");
+            nextValue = subIterator.next();
+            hasNext = Optional.of(true);
+            return true;
+        } else {
+            Logging.debug(this, this + "hasNext(): subIterator ends");
+        }
+        Logging.debug(this, this + "hasNext(): getting next value");
+        Map.Entry<K, V> nextEntry = nextKey == null ? treeMap.firstEntry() : treeMap.higherEntry(nextKey);
+        if (nextEntry == null) {
+            nextKey = null;
+            nextValue = null;
+            Logging.debug(this, this + "hasNext(): returning false");
+            hasNext = Optional.of(false);
+            return false;
+        } else {
+            nextKey = nextEntry.getKey();
+            if (nextEntry.getValue() instanceof TreeMap) {
+                subIterator = new ChangePermissiveTreeIterator((TreeMap<K, V>) nextEntry.getValue());
+                Logging.debug(this, this + "hasNext(): testing new subIterator");
+                return hasNext();
+            } else {
+                nextValue = nextEntry.getValue();
+                Logging.debug(this, this + "hasNext(): returning true");
+                hasNext = Optional.of(true);
                 return true;
             }
-            Map.Entry<K, V> nextEntry = nextKey == null ? treeMap.firstEntry() : treeMap.higherEntry(nextKey);
-            if (nextEntry == null) {
-                nextKey = null;
-                nextValue = null;
-                return false;
-            } else {
-                nextKey = nextEntry.getKey();
-                if (nextEntry.getValue() instanceof TreeMap) {
-                    subIterator = new ChangePermissiveTreeIterator((TreeMap<K, V>) nextEntry.getValue());
-                    return hasNext();
-                } else {
-                    nextValue = nextEntry.getValue();
-                    return true;
-                }
-            }
-        } finally {
-            calledHasNext = true;
         }
     }
 
     @Override
     public V next() {
+        Logging.debug(this, this + "next() called, nextKey = " + nextKey + ", nextValue = " + nextValue + ", subIterator = " + subIterator + ", hasNext = " + hasNext);
         if (!hasNext()) {
             throw new NoSuchElementException("Called next() on a TreeIterator without a next element");
         }
-        calledHasNext = false;
+        hasNext = Optional.empty();
         return nextValue;
     }
 
