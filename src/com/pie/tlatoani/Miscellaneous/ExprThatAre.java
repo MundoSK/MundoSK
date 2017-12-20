@@ -63,7 +63,7 @@ public class ExprThatAre extends SimpleExpression<Object> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         objects = (Expression<Object>) expressions[0];
         compareTarget = (Expression<Object>) expressions[1];
-        negated = parseResult.mark == 0;
+        negated = parseResult.mark == 1;
         comparator = Comparators.getComparator(objects.getReturnType(), compareTarget.getReturnType());
         if (comparator == null && objects.getReturnType() != Object.class && compareTarget.getReturnType() != Object.class) {
             Skript.error("The elements of '" + objects + "' cannot be compared with '" + compareTarget + "'!");
