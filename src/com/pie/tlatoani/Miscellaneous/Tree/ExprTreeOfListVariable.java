@@ -48,7 +48,7 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
             if (value instanceof TreeMap) {
                 addBranches((TreeMap<String, Object>) value, pairs, prefix + key + Variable.SEPARATOR);
             } else {
-                pairs.add(new Pair<>(key, value));
+                pairs.add(new Pair<>(prefix + key, value));
             }
         });
         return pairs;
