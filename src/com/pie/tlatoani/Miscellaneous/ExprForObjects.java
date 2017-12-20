@@ -44,6 +44,11 @@ public class ExprForObjects extends SimpleExpression<Object> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         function = expressions[0];
+        if (i == 1) {
+            if (!(function instanceof ExprThatAre)) {
+                return false;
+            }
+        }
         list = expressions[2];
         if (!(expressions[1] instanceof Variable)) {
             return false;

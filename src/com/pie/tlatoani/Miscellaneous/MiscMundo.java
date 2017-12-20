@@ -69,7 +69,7 @@ public class MiscMundo {
         Registration.registerExpression(ExprNumber.class, Number.class, ExpressionType.PROPERTY, "%*number%[ ](0¦b|1¦d|2¦f|3¦s|4¦l)");
         Registration.registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% (0¦while|1¦until|2¦if|3¦unless) %boolean%");
         Registration.registerExpression(ExprIndexesOfListVariable.class, String.class, ExpressionType.PROPERTY, "[all [of]] [the] indexes (of|in) [value] %objects%");
-        Registration.registerExpression(ExprForObjects.class, Object.class, ExpressionType.COMBINED, "%objects% for %object% in %objects%");
+        Registration.registerExpression(ExprForObjects.class, Object.class, ExpressionType.COMBINED, "%objects% for %object% in %objects%", "%objects%, %object% in %objects%");
         Registration.registerScope(ScopeWhen.class, "when %boolean% [by %-timespan%]");
 
         loadArmorStand();
