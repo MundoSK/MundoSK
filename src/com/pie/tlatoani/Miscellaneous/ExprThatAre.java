@@ -25,7 +25,11 @@ public class ExprThatAre extends SimpleExpression<Object> {
     private List<Object> getList(Event event) {
         List<Object> list = new LinkedList<>(Arrays.asList(objects.getArray(event)));
         Object compareTarget = this.compareTarget.getSingle(event);
-        list.removeIf(object -> comparator.compare(object, compareTarget) != Comparator.Relation.EQUAL);
+        if (comparator == null) {
+            list.removeIf(object -> Comparators.compare(object, compareTarget) != Comparator.Relation.EQUAL);
+        } else {
+            list.removeIf(object -> comparator.compare(object, compareTarget) != Comparator.Relation.EQUAL);
+        }
         return list;
     }
 
@@ -59,7 +63,7 @@ public class ExprThatAre extends SimpleExpression<Object> {
         objects = (Expression<Object>) expressions[0];
         compareTarget = (Expression<Object>) expressions[1];
         comparator = Comparators.getComparator(objects.getReturnType(), compareTarget.getReturnType());
-        if (comparator == null) {
+        if (comparator == null && objects.getReturnType() != Object.class && compareTarget.getReturnType() != Object.class) {
             Skript.error("The elements of '" + objects + "' cannot be compared with '" + compareTarget + "'!");
             return false;
         }
