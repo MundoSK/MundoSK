@@ -9,9 +9,9 @@ import ch.njol.skript.registrations.Comparators;
 import ch.njol.util.Kleenean;
 import org.bukkit.event.Event;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,7 +23,7 @@ public class ExprThatAre extends SimpleExpression<Object> {
     private Comparator comparator;
 
     private List<Object> getList(Event event) {
-        ArrayList<Object> list = new ArrayList<>(Arrays.asList(objects.getArray(event)));
+        List<Object> list = new LinkedList<>(Arrays.asList(objects.getArray(event)));
         Object compareTarget = this.compareTarget.getSingle(event);
         list.removeIf(object -> comparator.compare(object, compareTarget) != Comparator.Relation.EQUAL);
         return list;

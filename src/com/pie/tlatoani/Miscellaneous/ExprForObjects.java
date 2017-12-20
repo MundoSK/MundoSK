@@ -3,21 +3,27 @@ package com.pie.tlatoani.Miscellaneous;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.lang.Variable;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import org.bukkit.event.Event;
+
+import java.util.Arrays;
 
 /**
  * Created by Tlatoani on 1/3/17.
  */
 public class ExprForObjects extends SimpleExpression<Object> {
     Expression function;
-    Expression container;
+    Variable container;
     Expression list;
 
     @Override
     protected Object[] get(Event event) {
-        return new Object[0];
+        return Arrays.stream(list.getArray(event)).flatMap(val -> {
+            container.change(event, new Object[]{val}, Changer.ChangeMode.SET);
+            return Arrays.stream(function.getArray(event));
+        }).toArray(Object[]::new);
     }
 
     @Override
@@ -27,23 +33,22 @@ public class ExprForObjects extends SimpleExpression<Object> {
 
     @Override
     public Class<?> getReturnType() {
-        return null;
+        return function.getReturnType();
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return null;
+        return function + " for " + container + " in " + list;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        if (i == 0) {
-            function = expressions[0];
-            container = expressions[1];
-            list = expressions[2];
-            Class[] posTypes = container.acceptChange(Changer.ChangeMode.SET);
-
+        function = expressions[0];
+        list = expressions[2];
+        if (!(expressions[1] instanceof Variable)) {
+            return false;
         }
-        return false;
+        container = (Variable) expressions[1];
+        return true;
     }
 }

@@ -9,12 +9,12 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.ChangePermissiveTreeIterator;
+import ch.njol.util.Pair;
+import ch.njol.util.coll.iterator.EmptyIterator;
+import com.pie.tlatoani.Util.PairIterator;
 import org.bukkit.event.Event;
 
-import java.util.Iterator;
-import java.util.TreeMap;
-import java.util.WeakHashMap;
+import java.util.*;
 
 /**
  * Created by Tlatoani on 5/7/16.
@@ -22,7 +22,7 @@ import java.util.WeakHashMap;
 public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     private Variable listVariable;
     private VariableString variableString;
-    private WeakHashMap<Event, ChangePermissiveTreeIterator> iteratorWeakHashMap = new WeakHashMap<>();
+    private WeakHashMap<Event, PairIterator<String, Object>> iteratorWeakHashMap = new WeakHashMap<>();
 
 
 
@@ -35,22 +35,23 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
     public Iterator<?> iterator(Event event) {
         TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(variableString.toString(event), event, listVariable.isLocal());
         if (treeMap != null) {
-            ChangePermissiveTreeIterator result = new ChangePermissiveTreeIterator(treeMap);
+            //ChangePermissiveTreeIterator result = new ChangePermissiveTreeIterator(treeMap);
+            PairIterator<String, Object> result = new PairIterator<>(addBranches(treeMap, new LinkedList<>(), "").iterator());
             iteratorWeakHashMap.put(event, result);
             return result;
         }
-        return new Iterator<Object>() {
+        return new EmptyIterator<>();
+    }
 
-            @Override
-            public boolean hasNext() {
-                return false;
+    public static <L extends List<Pair<String, Object>>> L addBranches(TreeMap<String, Object> treeMap, L pairs, String prefix) {
+        treeMap.forEach((key, value) -> {
+            if (value instanceof TreeMap) {
+                addBranches((TreeMap<String, Object>) value, pairs, prefix + key + Variable.SEPARATOR);
+            } else {
+                pairs.add(new Pair<>(key, value));
             }
-
-            @Override
-            public Object next() {
-                return null;
-            }
-        };
+        });
+        return pairs;
     }
 
     @Override
@@ -60,7 +61,7 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
 
     public String getBranch(Event event) {
         //return iteratorWeakHashMap.get(event).currentIndex();
-        return iteratorWeakHashMap.get(event).getBranch();
+        return iteratorWeakHashMap.get(event).key();
     }
 
     @Override
@@ -75,7 +76,7 @@ public class ExprTreeOfListVariable extends SimpleExpression<Object> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "tree of %objects%";
+        return "tree of " + listVariable;
     }
 
     @Override
