@@ -90,9 +90,11 @@ public final class Documentation {
         if (listDocumentation(sender, args)) {
             return;
         }
-        String docElemName = String.join(" ", args).substring(args[0].length() + 1);
+        String docElemName = String.join(" ", args).substring(args[0].length() + 1).toLowerCase();
+        Logging.debug(Documentation.class, "Searching for a DocElem named '" + docElemName + "'");
         for (List<DocumentationElement> docElems : allElements.getAllGroups()) {
-            Optional<DocumentationElement> docElemOptional = MundoUtil.binarySearchList(docElems, docElemName.toLowerCase(), (name, docElem) -> name.compareTo(docElem.name.toLowerCase()));
+            Logging.debug(Documentation.class, "Searching through " + docElems);
+            Optional<DocumentationElement> docElemOptional = MundoUtil.binarySearchList(docElems, docElemName, (name, docElem) -> name.compareTo(docElem.name.toLowerCase()));
             if (docElemOptional.isPresent()) {
                 docElemOptional.get().display(sender);
                 return;
@@ -126,12 +128,12 @@ public final class Documentation {
         }
         if (args[1].equalsIgnoreCase("all")) {
             if (args.length == 2) {
-                displayElems(sender, allElements, "All Syntax Elements", 1, true);
+                displayElems(sender, allElements, "All Syntax Elements", 1, true, true);
                 return true;
             } else if (args.length == 3) {
                 Optional<Integer> pageOptional = MundoUtil.parseIntOptional(args[2]);
                 if (pageOptional.isPresent()) {
-                    displayElems(sender, allElements, "All Syntax Elements", pageOptional.get(), true);
+                    displayElems(sender, allElements, "All Syntax Elements", pageOptional.get(), true, true);
                     return true;
                 } else {
                     return false;
@@ -144,12 +146,12 @@ public final class Documentation {
         if (docElemGroupedListOptional.isPresent()) {
             ImmutableGroupedList<? extends DocumentationElement, String> docElemGroupedList = docElemGroupedListOptional.get();
             if (args.length == 2) {
-                displayElems(sender, docElemGroupedList, "All " + MundoUtil.capitalize(args[1]), 1, false);
+                displayElems(sender, docElemGroupedList, "All " + MundoUtil.capitalize(args[1]), 1, true, false);
                 return true;
             } else if (args.length == 3) {
                 Optional<Integer> pageOptional = MundoUtil.parseIntOptional(args[2]);
                 if (pageOptional.isPresent()) {
-                    displayElems(sender, docElemGroupedList, "All " + MundoUtil.capitalize(args[1]), pageOptional.get(), false);
+                    displayElems(sender, docElemGroupedList, "All " + MundoUtil.capitalize(args[1]), pageOptional.get(), true, false);
                     return true;
                 } else {
                     return false;
@@ -162,12 +164,12 @@ public final class Documentation {
         if (categoryOptional.isPresent()) {
             String category = categoryOptional.get();
             if (args.length == 2) {
-                displayElems(sender, allElements.getGroup(category), category + " Syntax Elements", 1, true);
+                displayElems(sender, allElements.getGroup(category), category + " Syntax Elements", 1, false, true);
                 return true;
             } else if (args.length == 3) {
                 Optional<Integer> pageOptional = MundoUtil.parseIntOptional(args[2]);
                 if (pageOptional.isPresent()) {
-                    displayElems(sender, allElements.getGroup(category), category + " Syntax Elements", pageOptional.get(), true);
+                    displayElems(sender, allElements.getGroup(category), category + " Syntax Elements", pageOptional.get(), false, true);
                     return true;
                 }
             } else if (args.length > 4) {
@@ -185,7 +187,7 @@ public final class Documentation {
                 page = 1;
             }
             return MundoUtil.mapOptional(getDocElemGroupedList(args[2]), docElemMultimap -> {
-                displayElems(sender, docElemMultimap.getGroup(category), category + " " + MundoUtil.capitalize(args[2]) + "s", page, false);
+                displayElems(sender, docElemMultimap.getGroup(category), category + " " + MundoUtil.capitalize(args[2]) + "s", page, false, false);
                 return true;
             }, () -> false);
         }
@@ -209,16 +211,21 @@ public final class Documentation {
             List<? extends DocumentationElement> docElems,
             String header,
             int page,
+            boolean displayCategory,
             boolean displayType
     ) {
         int pages = 1 + ((docElems.size() - 1) / ELEMENTS_PER_PAGE);
+        if (page > pages || page < 1) {
+            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Invalid page number " + Mundo.ALT_CHAT_COLOR + page + ", there are " + Mundo.ALT_CHAT_COLOR + pages + " pages of " + header);
+            return;
+        }
         sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Page " + page + " of " + pages + " of " + header);
         int max = page * ELEMENTS_PER_PAGE;
         int min = max - ELEMENTS_PER_PAGE;
         max = Math.min(max, docElems.size());
         for (int i = min; i < max; i++) {
             DocumentationElement docElem = docElems.get(i);
-            sender.sendMessage((displayType ? Mundo.TRI_CHAT_COLOR + "" + docElem.getType() + " " : "") + Mundo.ALT_CHAT_COLOR + docElem.name);
+            sender.sendMessage(Mundo.TRI_CHAT_COLOR + (displayCategory ? docElem.category + " " : "") + (displayType ? docElem.getType() + " " : "") + Mundo.ALT_CHAT_COLOR + docElem.name);
         }
     }
 }
