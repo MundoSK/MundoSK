@@ -90,11 +90,11 @@ public final class Documentation {
         if (listDocumentation(sender, args)) {
             return;
         }
-        String docElemName = String.join(" ", args).substring(args[0].length() + 1).toLowerCase();
+        String docElemName = String.join(" ", args).substring(args[0].length() + 1);
         Logging.debug(Documentation.class, "Searching for a DocElem named '" + docElemName + "'");
         for (List<DocumentationElement> docElems : allElements.getAllGroups()) {
             Logging.debug(Documentation.class, "Searching through " + docElems);
-            Optional<DocumentationElement> docElemOptional = MundoUtil.binarySearchList(docElems, docElemName, (name, docElem) -> name.compareTo(docElem.name.toLowerCase()));
+            Optional<DocumentationElement> docElemOptional = MundoUtil.binarySearchCeiling(docElems, docElemName, (name, docElem) -> name.compareToIgnoreCase(docElem.name));
             if (docElemOptional.isPresent()) {
                 docElemOptional.get().display(sender);
                 return;
@@ -198,6 +198,9 @@ public final class Documentation {
     }
 
     private static Optional<ImmutableGroupedList<? extends DocumentationElement, String>> getDocElemGroupedList(String elemType) {
+        if (Character.toLowerCase(elemType.charAt(elemType.length() - 1)) == 's') {
+            elemType = elemType.substring(0, elemType.length() - 1);
+        }
         switch (elemType.toLowerCase()) {
             case "effect": return Optional.of(effects);
             case "condition": return Optional.of(conditions);

@@ -130,6 +130,22 @@ public class MundoUtil {
         return Optional.empty();
     }
 
+    public static <T, U> Optional<U> binarySearchCeiling(List<U> list, T value, AsymmetricComparator<T, U> comparator) {
+        int low = 0, high = list.size() - 1;
+        for (int mid = (low + high) / 2; low <= high; mid = (low + high) / 2) {
+            U pos = list.get(mid);
+            int result = comparator.compare(value, pos);
+            if (result == 0) {
+                return Optional.of(pos);
+            } else if (result > 0) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return high == list.size() - 1 ? Optional.empty() : Optional.of(list.get(high + 1));
+    }
+
     //Optional
 
     public static <T> void consumeOptional(Optional<T> optional, Consumer<T> tConsumer, Runnable runnable) {
