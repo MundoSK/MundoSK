@@ -104,18 +104,11 @@ public final class Documentation {
     }
 
     private static boolean listDocumentation(CommandSender sender, String[] args) {
-        if (args.length == 1) {
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Documentation Categories");
-            for (String category : categories) {
-                sender.sendMessage(Mundo.ALT_CHAT_COLOR + category);
-            }
-            return true;
-        }
-        if (args[1].equalsIgnoreCase("help")) {
+        if (args.length == 1 || args[1].equalsIgnoreCase("help")) {
             //if (args.length == 2) { //Currently help is given whether or not additional arguments (which are unnecessary and meaningless) are specified
                 sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "MundoSK Documentation Command Help");
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s]", "Prints a list of the documentation categories"));
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] help", "Prints this list of commands"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] [help]", "Prints this list of commands"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] cat[[egorie]s]", "Prints a list of the documentation categories"));
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] all [page]", "Lists a page of all syntax elements"));
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem type> [page]", "Lists a page of all syntax elements of a certain type"));
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] <category> [elem type] [page]", "Lists a page of syntax elements in that category, either all of them or of a specific type"));
@@ -125,6 +118,16 @@ public final class Documentation {
             //} else {
             //    return false;
             //}
+        }
+        if (args[1].equalsIgnoreCase("cat") || args[1].equalsIgnoreCase("cats") || args[1].equalsIgnoreCase("categories")) {
+            if (args.length > 2) {
+                return false;
+            }
+            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Documentation Categories");
+            for (String category : categories) {
+                sender.sendMessage(Mundo.ALT_CHAT_COLOR + category);
+            }
+            return true;
         }
         if (args[1].equalsIgnoreCase("all")) {
             if (args.length == 2) {

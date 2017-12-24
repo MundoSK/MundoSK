@@ -31,6 +31,7 @@ public class MundoClassInfo<T> extends ClassInfo<T> implements DocumentationBuil
         this.name = name;
         this.description = description;
         this.originVersion = originVersion;
+        this.requiredPlugins = new String[0];
         return this;
     }
 

@@ -36,6 +36,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             this.name = name;
             this.description = description;
             this.originVersion = originVersion;
+            this.requiredPlugins = new String[0];
             return (B) this;
         }
 
