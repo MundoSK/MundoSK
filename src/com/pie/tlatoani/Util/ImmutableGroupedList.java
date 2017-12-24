@@ -119,10 +119,12 @@ public class ImmutableGroupedList<E, G> extends AbstractList<E> {
         }
 
         public ImmutableGroupedList<E, G> build() {
+            Logging.debug(this, "Building an ImmutableGroupedList");
             ImmutableList.Builder<E> listBuilder = ImmutableList.builder();
             ImmutableList.Builder<GroupIdentifier<G>> groupIDsBuilder = ImmutableList.builder();
             int prevElems = 0;
             for (Map.Entry<G, Set<E>> entry : setMap.entrySet()) {
+                Logging.debug(this, "Adding an entry: " + entry);
                 listBuilder.addAll(entry.getValue());
                 groupIDsBuilder.add(new GroupIdentifier<G>(entry.getKey(), prevElems, prevElems += entry.getValue().size()));
             }

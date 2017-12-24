@@ -40,6 +40,11 @@ public abstract class DocumentationElement {
 
     public abstract void display(CommandSender sender);
 
+    @Override
+    public String toString() {
+        return "DocumentationElement(" + category + " " + getType() + ": " + name + ")";
+    }
+
     private DocumentationElement(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins) {
         this.name = name;
         this.category = category;
