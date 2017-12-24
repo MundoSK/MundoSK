@@ -10,7 +10,6 @@ import java.util.*;
 public class ImmutableGroupedList<E, G> extends AbstractList<E> {
     private final ImmutableList<E> list;
     private final ImmutableList<GroupIdentifier<G>> groupIDs;
-    private final int size;
 
     public final Comparator<G> keyComparator;
 
@@ -18,7 +17,6 @@ public class ImmutableGroupedList<E, G> extends AbstractList<E> {
         super();
         this.list = list;
         this.groupIDs = groupIDs;
-        this.size = list.size();
         this.keyComparator = keyComparator;
     }
 
@@ -29,7 +27,7 @@ public class ImmutableGroupedList<E, G> extends AbstractList<E> {
 
     @Override
     public int size() {
-        return size;
+        return list.size();
     }
 
     public List<E> getGroup(G g) {

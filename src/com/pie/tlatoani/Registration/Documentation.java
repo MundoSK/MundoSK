@@ -6,6 +6,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.ImmutableGroupedList;
+import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
@@ -82,6 +83,7 @@ public final class Documentation {
         Documentation.scopes = scopesBuilder.build();
         Documentation.categories = allElements.getGroupKeys();
         built = true;
+        Logging.debug(Documentation.class, "All DocElems: " + allElements);
     }
 
     public static void accessDocumentation(CommandSender sender, String[] args) {
@@ -116,7 +118,7 @@ public final class Documentation {
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem type> [page]", "Lists a page of all syntax elements of a certain type"));
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] <category> [elem type] [page]", "Lists a page of syntax elements in that category, either all of them or of a specific type"));
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem name>", "Lists the documentation for a specific syntax element"));
-                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Accepted Element Types: " + Mundo.ALT_CHAT_COLOR + "Effect Expression Event Type Scope");
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Accepted Element Types: " + Mundo.ALT_CHAT_COLOR + "Effect Condition Expression Event Type Scope");
                 return true;
             //} else {
             //    return false;
