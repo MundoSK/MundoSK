@@ -32,12 +32,16 @@ public final class Registration {
         return new DocumentationBuilder.Effect(currentCategory, patterns);
     }
 
-    public static <T> DocumentationBuilder.Expression registerExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, ExpressionType expressionType, String... patterns) {
+    public static <T> DocumentationBuilder registerExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, ExpressionType expressionType, String... patterns) {
         Skript.registerExpression(expressionClass, type, expressionType, patterns);
-        return new DocumentationBuilder.Expression(currentCategory, patterns, type);
+        if (type == Boolean.class) {
+            return new DocumentationBuilder.Condition(currentCategory, patterns);
+        } else {
+            return new DocumentationBuilder.Expression(currentCategory, patterns, type);
+        }
     }
 
-    public static <T> DocumentationBuilder.Expression registerPropertyExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, String possessorType, String... properties) {
+    public static <T> DocumentationBuilder registerPropertyExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, String possessorType, String... properties) {
         ArrayList<String> patternList = new ArrayList<>(properties.length);
         ArrayList<String> propertyList = new ArrayList<>(properties.length);
         for (int i = 0; i < properties.length; i++) {
@@ -57,13 +61,21 @@ public final class Registration {
         if (MundoPropertyExpression.class.isAssignableFrom(expressionClass)) {
             MundoPropertyExpression.registerPropertyExpressionInfo((Class<? extends MundoPropertyExpression>) expressionClass, type, propertyList);
         }
-        return new DocumentationBuilder.Expression(currentCategory, patterns, type);
+        if (type == Boolean.class) {
+            return new DocumentationBuilder.Condition(currentCategory, patterns);
+        } else {
+            return new DocumentationBuilder.Expression(currentCategory, patterns, type);
+        }
     }
 
-    public static <T, E extends Event> DocumentationBuilder.Expression registerEventSpecificExpression(Class<? extends EventSpecificExpression<T, E>> expressionClass, Class<T> type, Class<E> event, String invalidEventError, String... patterns) {
+    public static <T, E extends Event> DocumentationBuilder registerEventSpecificExpression(Class<? extends EventSpecificExpression<T, E>> expressionClass, Class<T> type, Class<E> event, String invalidEventError, String... patterns) {
         Skript.registerExpression(expressionClass, type, ExpressionType.SIMPLE, patterns);
         EventSpecificExpression.registerEventSpecificExpression(expressionClass, type, event, patterns[0], invalidEventError);
-        return new DocumentationBuilder.Expression(currentCategory, patterns, type);
+        if (type == Boolean.class) {
+            return new DocumentationBuilder.Condition(currentCategory, patterns);
+        } else {
+            return new DocumentationBuilder.Expression(currentCategory, patterns, type);
+        }
     }
 
     public static void registerCondition(Class<? extends Condition> conditionClass, String... patterns) {
@@ -72,14 +84,15 @@ public final class Registration {
 
     public static DocumentationBuilder.Event registerEvent(String name, Class<? extends SkriptEvent> eventClass, Class<? extends Event> eventType, String... patterns) {
         Skript.registerEvent(name, eventClass, eventType, patterns);
-        return new DocumentationBuilder.Event(currentCategory, patterns);
+        return new DocumentationBuilder.Event(currentCategory, patterns, eventType);
     }
 
-    public static void registerScope(Class<? extends CustomScope> conditionClass, String... patterns) {
+    public static DocumentationBuilder.Scope registerScope(Class<? extends CustomScope> conditionClass, String... patterns) {
         Skript.registerCondition(conditionClass, patterns);
+        return new DocumentationBuilder.Scope(currentCategory, patterns);
     }
 
-    public static <E extends Event, R> void registerEventValue(Class<E> tClass, Class<R> rClass, Function<E, R> function) {
+    public static <E extends Event, R> DocumentationBuilder.EventValue registerEventValue(Class<E> tClass, Class<R> rClass, Function<E, R> function) {
         EventValues.registerEventValue(tClass, rClass, new Getter<R, E>() {
             @Override
             public R get(E event) {
@@ -92,6 +105,7 @@ public final class Registration {
                 }
             }
         }, 0);
+        return new DocumentationBuilder.EventValue(tClass, rClass);
     }
 
     public static <A, B> void registerComparator(Class<A> aClass, Class<B> bClass, boolean supportsOrdering, BiFunction<A, B, Comparator.Relation> comparator) {

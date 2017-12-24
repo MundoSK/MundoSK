@@ -11,11 +11,9 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.Alias.ExprPacketInfoAlias;
-import com.pie.tlatoani.ProtocolLib.Alias.PacketInfoAlias;
-import com.pie.tlatoani.ProtocolLib.Alias.ScopePacketInfoAliases;
 import com.pie.tlatoani.Registration.DocumentationBuilder;
-import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Registration.Registration;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -68,7 +66,7 @@ public class PacketManager {
         ExprPacketInfoAlias.registerNecessaryElements();
     }
 
-    private static <E extends Expression<T>, T> DocumentationBuilder.Expression registerPacketInfoExpression(Class<E> exprClass, Class<T> returnType, String... patterns) {
+    private static <E extends Expression<T>, T> DocumentationBuilder registerPacketInfoExpression(Class<E> exprClass, Class<T> returnType, String... patterns) {
         packetInfoExpressionInfos.add(new ExpressionInfo<>(patterns, returnType, exprClass));
         return Registration.registerExpression(exprClass, returnType, ExpressionType.COMBINED, patterns);
     }

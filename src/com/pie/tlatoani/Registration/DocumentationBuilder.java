@@ -3,6 +3,10 @@ package com.pie.tlatoani.Registration;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by Tlatoani on 8/21/17.
  */
@@ -27,7 +31,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             this.syntaxes = syntaxes;
         }
 
-        public B document(String name, String description, String originVersion) {
+        public B document(String name, String originVersion, String description) {
             Documentation.addBuilder(this);
             this.name = name;
             this.description = description;
@@ -53,6 +57,18 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
         }
     }
 
+    class Condition extends Abstract<DocumentationElement.Condition, Condition> {
+
+        public Condition(String category, String[] syntaxes) {
+            super(category, syntaxes);
+        }
+
+        @Override
+        public DocumentationElement.Condition build() {
+            return new DocumentationElement.Condition(name, category, syntaxes, description, originVersion, requiredPlugins);
+        }
+    }
+
     class Expression extends Abstract<DocumentationElement.Expression, Expression> {
         private ClassInfo returnType;
 
@@ -68,14 +84,55 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
     }
 
     class Event extends Abstract<DocumentationElement.Event, Event> {
+        public final Class<? extends org.bukkit.event.Event> event;
+        private Collection<EventValue> eventValueBuilders;
 
-        public Event(String category, String[] syntaxes) {
+        public Event(String category, String[] syntaxes, Class<? extends org.bukkit.event.Event> event) {
             super(category, syntaxes);
+            this.event = event;
         }
 
         @Override
         public DocumentationElement.Event build() {
-            return new DocumentationElement.Event(name, category, syntaxes, description, originVersion, requiredPlugins);
+            return new DocumentationElement.Event(name, category, syntaxes, description, originVersion, requiredPlugins, eventValueBuilders);
+        }
+
+        public void eventValues(Collection<EventValue> builders) {
+            eventValueBuilders = builders;
+        }
+    }
+
+    class EventValue {
+        public final Class<? extends org.bukkit.event.Event> event;
+        private ClassInfo type;
+        private String description = null;
+        private String originVersion = null;
+
+        public EventValue(Class<? extends org.bukkit.event.Event> event, Class type) {
+            this.event = event;
+            this.type = Classes.getExactClassInfo(type);
+        }
+
+        public void document(String originVersion, String description) {
+            Documentation.addEventValueBuilder(this);
+            this.description = description;
+            this.originVersion = originVersion;
+        }
+
+        public DocumentationElement.EventValue build(DocumentationElement.Event parent) {
+            return new DocumentationElement.EventValue(parent, type, description, originVersion);
+        }
+    }
+
+    class Scope extends Abstract<DocumentationElement.Scope, Scope> {
+
+        public Scope(String category, String[] syntaxes) {
+            super(category, syntaxes);
+        }
+
+        @Override
+        public DocumentationElement.Scope build() {
+            return new DocumentationElement.Scope(name, category, syntaxes, description, originVersion, requiredPlugins);
         }
     }
 

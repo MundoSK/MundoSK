@@ -3,10 +3,12 @@ package com.pie.tlatoani.Registration;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.ImmutableGroupedList;
 import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.Event;
 
 import java.util.*;
 
@@ -17,19 +19,26 @@ public final class Documentation {
     public static final Comparator<DocumentationElement> DOCUMENTATION_ELEMENT_COMPARATOR = Comparator.comparing(docElem -> docElem.category);
     public static final int ELEMENTS_PER_PAGE = 8;
 
-    private static List<DocumentationBuilder> builders = new ArrayList<>();
+    private static List<DocumentationBuilder> builders = new LinkedList<>();
+    private static Multimap<Class<? extends Event>, DocumentationBuilder.EventValue> eventValueBuilders = ArrayListMultimap.create();
     private static boolean built = false;
 
     private static List<String> categories = null;
     private static ImmutableGroupedList<DocumentationElement, String> allElements = null;
 
     private static ImmutableGroupedList<DocumentationElement.Effect, String> effects = null;
+    private static ImmutableGroupedList<DocumentationElement.Condition, String> conditions = null;
     private static ImmutableGroupedList<DocumentationElement.Expression, String> expressions = null;
     private static ImmutableGroupedList<DocumentationElement.Event, String> events = null;
     private static ImmutableGroupedList<DocumentationElement.Type, String> types = null;
+    private static ImmutableGroupedList<DocumentationElement.Scope, String> scopes = null;
 
     static void addBuilder(DocumentationBuilder builder) {
         builders.add(builder);
+    }
+
+    static void addEventValueBuilder(DocumentationBuilder.EventValue builder) {
+        eventValueBuilders.put(builder.event, builder);
     }
 
     public static void buildDocumentation() {
@@ -39,26 +48,38 @@ public final class Documentation {
         ImmutableGroupedList.OrderedBuilder<DocumentationElement, String> allElementsBuilder = new ImmutableGroupedList.OrderedBuilder(DOCUMENTATION_ELEMENT_COMPARATOR, Comparator.<String>naturalOrder());
         ImmutableGroupedList.OrderedBuilder<DocumentationElement.Effect, String> effectsBuilder = new ImmutableGroupedList.OrderedBuilder(DOCUMENTATION_ELEMENT_COMPARATOR, Comparator.<String>naturalOrder());
         ImmutableGroupedList.OrderedBuilder<DocumentationElement.Expression, String> expressionsBuilder = new ImmutableGroupedList.OrderedBuilder(DOCUMENTATION_ELEMENT_COMPARATOR, Comparator.<String>naturalOrder());
+        ImmutableGroupedList.OrderedBuilder<DocumentationElement.Condition, String> conditionsBuilder = new ImmutableGroupedList.OrderedBuilder(DOCUMENTATION_ELEMENT_COMPARATOR, Comparator.<String>naturalOrder());
         ImmutableGroupedList.OrderedBuilder<DocumentationElement.Event, String> eventsBuilder = new ImmutableGroupedList.OrderedBuilder(DOCUMENTATION_ELEMENT_COMPARATOR, Comparator.<String>naturalOrder());
         ImmutableGroupedList.OrderedBuilder<DocumentationElement.Type, String> typesBuilder = new ImmutableGroupedList.OrderedBuilder(DOCUMENTATION_ELEMENT_COMPARATOR, Comparator.<String>naturalOrder());
+        ImmutableGroupedList.OrderedBuilder<DocumentationElement.Scope, String> scopesBuilder = new ImmutableGroupedList.OrderedBuilder(DOCUMENTATION_ELEMENT_COMPARATOR, Comparator.<String>naturalOrder());
         for (DocumentationBuilder builder : builders) {
+            if (builder instanceof DocumentationBuilder.Event) {
+                Collection<DocumentationBuilder.EventValue> eventValues = eventValueBuilders.removeAll(((DocumentationBuilder.Event) builder).event);
+                ((DocumentationBuilder.Event) builder).eventValues(eventValues);
+            }
             DocumentationElement docElem = builder.build();
             allElementsBuilder.add(docElem.category, docElem);
             if (docElem instanceof DocumentationElement.Effect) {
                 effectsBuilder.add(docElem.category, (DocumentationElement.Effect) docElem);
+            } else if (docElem instanceof DocumentationElement.Condition) {
+                conditionsBuilder.add(docElem.category, (DocumentationElement.Condition) docElem);
             } else if (docElem instanceof DocumentationElement.Expression) {
                 expressionsBuilder.add(docElem.category, (DocumentationElement.Expression) docElem);
             } else if (docElem instanceof DocumentationElement.Event) {
                 eventsBuilder.add(docElem.category, (DocumentationElement.Event) docElem);
             } else if (docElem instanceof DocumentationElement.Type) {
                 typesBuilder.add(docElem.category, (DocumentationElement.Type) docElem);
+            } else if (docElem instanceof DocumentationElement.Scope) {
+                scopesBuilder.add(docElem.category, (DocumentationElement.Scope) docElem);
             }
         }
         Documentation.allElements = allElementsBuilder.build();
         Documentation.effects = effectsBuilder.build();
+        Documentation.conditions = conditionsBuilder.build();
         Documentation.expressions = expressionsBuilder.build();
         Documentation.events = eventsBuilder.build();
         Documentation.types = typesBuilder.build();
+        Documentation.scopes = scopesBuilder.build();
         Documentation.categories = allElements.getGroupKeys();
         built = true;
     }
@@ -91,11 +112,11 @@ public final class Documentation {
                 sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "MundoSK Documentation Command Help");
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s]", "Prints a list of the documentation categories"));
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] help", "Prints this list of commands"));
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem type> [page]", "Lists a page of all syntax elements"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] all [page]", "Lists a page of all syntax elements"));
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem type> [page]", "Lists a page of all syntax elements of a certain type"));
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] <category> [elem type] [page]", "Lists a page of syntax elements in that category, either all of them or of a specific type"));
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem name>", "Lists the documentation for a specific syntax element"));
-                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Accepted Element Types: " + Mundo.ALT_CHAT_COLOR + "All Effect Expression Event Type");
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Accepted Element Types: " + Mundo.ALT_CHAT_COLOR + "Effect Expression Event Type Scope");
                 return true;
             //} else {
             //    return false;
@@ -172,9 +193,11 @@ public final class Documentation {
     private static Optional<ImmutableGroupedList<? extends DocumentationElement, String>> getDocElemGroupedList(String elemType) {
         switch (elemType.toLowerCase()) {
             case "effect": return Optional.of(effects);
+            case "condition": return Optional.of(conditions);
             case "expression": return Optional.of(expressions);
             case "event": return Optional.of(events);
             case "type": return Optional.of(types);
+            case "scope": return Optional.of(scopes);
             default: return Optional.empty();
         }
     }

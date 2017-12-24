@@ -35,9 +35,6 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Mundo extends JavaPlugin {
 	public static Mundo INSTANCE;
@@ -149,12 +146,11 @@ public class Mundo extends JavaPlugin {
                 }
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK Config");
                 Config.displayConfig(sender);
-            } /*else if (args[0].equalsIgnoreCase("doc") || args[0].equalsIgnoreCase("docs")) {
+            } else if (args[0].equalsIgnoreCase("doc") || args[0].equalsIgnoreCase("docs")) {
                 Documentation.accessDocumentation(sender, args);
-            }*/ else {
+            } else {
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK didn't understand this command argument: " + ALT_CHAT_COLOR + args[0]);
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "Do " + ALT_CHAT_COLOR + "/mundosk " + PRIMARY_CHAT_COLOR + "to show a list of MundoSK commands");
-
             }
             return true;
         }
