@@ -8,8 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationElement.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationElement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ImmutableGroupedList.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ImmutableGroupedList.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,18 +54,18 @@
       <file leaf-file-name="Documentation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="915">
-              <caret line="85" column="73" lean-forward="false" selection-start-line="85" selection-start-column="73" selection-end-line="85" selection-end-column="73" />
+            <state relative-caret-position="120">
+              <caret line="19" column="136" lean-forward="false" selection-start-line="19" selection-start-column="136" selection-end-line="19" selection-end-column="136" />
               <folding>
-                <element signature="e#1774#1775#0" expanded="true" />
-                <element signature="e#1811#1812#0" expanded="true" />
-                <element signature="e#2303#2311#0" expanded="true" />
-                <element signature="e#2511#2519#0" expanded="true" />
-                <element signature="e#2727#2735#0" expanded="true" />
-                <element signature="e#2941#2949#0" expanded="true" />
-                <element signature="e#3147#3155#0" expanded="true" />
-                <element signature="e#3351#3359#0" expanded="true" />
-                <element signature="e#3557#3565#0" expanded="true" />
+                <element signature="e#1770#1771#0" expanded="true" />
+                <element signature="e#1807#1808#0" expanded="true" />
+                <element signature="e#2299#2307#0" expanded="true" />
+                <element signature="e#2507#2515#0" expanded="true" />
+                <element signature="e#2723#2731#0" expanded="true" />
+                <element signature="e#2937#2945#0" expanded="true" />
+                <element signature="e#3143#3151#0" expanded="true" />
+                <element signature="e#3347#3355#0" expanded="true" />
+                <element signature="e#3553#3561#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -75,8 +74,8 @@
       <file leaf-file-name="ImmutableGroupedList.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ImmutableGroupedList.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="647">
-              <caret line="126" column="63" lean-forward="false" selection-start-line="126" selection-start-column="63" selection-end-line="126" selection-end-column="63" />
+            <state relative-caret-position="512">
+              <caret line="117" column="26" lean-forward="false" selection-start-line="117" selection-start-column="26" selection-end-line="117" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#740#741#0" expanded="true" />
@@ -297,9 +296,9 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Chunk/ChunkMundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Mundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketManager.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationElement.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/ImmutableGroupedList.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationElement.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -1531,36 +1530,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="85" column="73" lean-forward="false" selection-start-line="85" selection-start-column="73" selection-end-line="85" selection-end-column="73" />
-          <folding>
-            <element signature="e#1774#1775#0" expanded="true" />
-            <element signature="e#1811#1812#0" expanded="true" />
-            <element signature="e#2303#2311#0" expanded="true" />
-            <element signature="e#2511#2519#0" expanded="true" />
-            <element signature="e#2727#2735#0" expanded="true" />
-            <element signature="e#2941#2949#0" expanded="true" />
-            <element signature="e#3147#3155#0" expanded="true" />
-            <element signature="e#3351#3359#0" expanded="true" />
-            <element signature="e#3557#3565#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ImmutableGroupedList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="647">
-          <caret line="126" column="63" lean-forward="false" selection-start-line="126" selection-start-column="63" selection-end-line="126" selection-end-column="63" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#740#741#0" expanded="true" />
-            <element signature="e#774#775#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationElement.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -1576,6 +1545,36 @@
             <element signature="e#8779#8780#0" expanded="true" />
             <element signature="e#9967#9968#0" expanded="true" />
             <element signature="e#10016#10017#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="19" column="136" lean-forward="false" selection-start-line="19" selection-start-column="136" selection-end-line="19" selection-end-column="136" />
+          <folding>
+            <element signature="e#1770#1771#0" expanded="true" />
+            <element signature="e#1807#1808#0" expanded="true" />
+            <element signature="e#2299#2307#0" expanded="true" />
+            <element signature="e#2507#2515#0" expanded="true" />
+            <element signature="e#2723#2731#0" expanded="true" />
+            <element signature="e#2937#2945#0" expanded="true" />
+            <element signature="e#3143#3151#0" expanded="true" />
+            <element signature="e#3347#3355#0" expanded="true" />
+            <element signature="e#3553#3561#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/ImmutableGroupedList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="512">
+          <caret line="117" column="26" lean-forward="false" selection-start-line="117" selection-start-column="26" selection-end-line="117" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#740#741#0" expanded="true" />
+            <element signature="e#774#775#0" expanded="true" />
           </folding>
         </state>
       </provider>

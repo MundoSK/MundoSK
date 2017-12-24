@@ -17,7 +17,7 @@ import java.util.*;
  * Created by Tlatoani on 9/9/17.
  */
 public final class Documentation {
-    public static final Comparator<DocumentationElement> DOCUMENTATION_ELEMENT_COMPARATOR = Comparator.comparing(docElem -> docElem.category);
+    public static final Comparator<DocumentationElement> DOCUMENTATION_ELEMENT_COMPARATOR = Comparator.comparing(docElem -> docElem.name);
     public static final int ELEMENTS_PER_PAGE = 8;
 
     private static List<DocumentationBuilder> builders = new LinkedList<>();
