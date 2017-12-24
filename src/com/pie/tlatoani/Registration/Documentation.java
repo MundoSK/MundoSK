@@ -17,7 +17,7 @@ import java.util.*;
  * Created by Tlatoani on 9/9/17.
  */
 public final class Documentation {
-    public static final Comparator<DocumentationElement> DOCUMENTATION_ELEMENT_COMPARATOR = Comparator.comparing(docElem -> docElem.name);
+    public static final Comparator<DocumentationElement> DOCUMENTATION_ELEMENT_COMPARATOR = Comparator.comparing(docElem -> docElem.name.toLowerCase());
     public static final int ELEMENTS_PER_PAGE = 8;
 
     private static List<DocumentationBuilder> builders = new LinkedList<>();
@@ -90,12 +90,12 @@ public final class Documentation {
         if (listDocumentation(sender, args)) {
             return;
         }
-        String docElemName = String.join(" ", args).substring(args[0].length() + 1);
+        String docElemName = String.join(" ", args).substring(args[0].length() + 1).toLowerCase();
         Logging.debug(Documentation.class, "Searching for a DocElem named '" + docElemName + "'");
         for (List<DocumentationElement> docElems : allElements.getAllGroups()) {
             Logging.debug(Documentation.class, "Searching through " + docElems);
             Optional<DocumentationElement> docElemOptional = MundoUtil.binarySearchCeiling(docElems, docElemName, (name, docElem) -> name.compareToIgnoreCase(docElem.name));
-            if (docElemOptional.isPresent()) {
+            if (docElemOptional.filter(docElem -> docElem.name.toLowerCase().startsWith(docElemName)).isPresent()) {
                 docElemOptional.get().display(sender);
                 return;
             }
