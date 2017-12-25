@@ -67,7 +67,7 @@ public class Mundo extends JavaPlugin {
         Registration.register("Book", BookMundo::load);
         Registration.register("Chunk", ChunkMundo::load);
         Registration.register("CodeBlock", CodeBlockMundo::load);
-        Registration.register("Enchanted Book", EnchantedBookMundo::load);
+        Registration.register("EnchantedBook", EnchantedBookMundo::load);
         Registration.register("Generator", GeneratorManager::load);
         Registration.register("ListUtil", ListUtil::load);
         Registration.register("Miscellaneous", MiscMundo::load);
@@ -75,9 +75,9 @@ public class Mundo extends JavaPlugin {
         Registration.register("Socket", SocketMundo::load);
         Registration.register("Throwable", ThrowableMundo::load);
         Registration.register("WebSocket", WebSocketManager::load);
-        Registration.register("World Border", WorldBorderMundo::load);
+        Registration.register("WorldBorder", WorldBorderMundo::load);
         Registration.register("WorldCreator", WorldCreatorMundo::load);
-        Registration.register("World Management", WorldManagementMundo::load);
+        Registration.register("WorldManagement", WorldManagementMundo::load);
         if (MundoUtil.serverHasPlugin("ProtocolLib")) {
             Registration.register("Packet", PacketManager::load);
             if (Config.IMPLEMENT_PACKET_STUFF.getCurrentValue()) {
