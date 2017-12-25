@@ -92,7 +92,7 @@ public final class Registration {
         return new DocumentationBuilder.Scope(currentCategory, patterns);
     }
 
-    public static <E extends Event, R> DocumentationBuilder.EventValue registerEventValue(Class<E> tClass, Class<R> rClass, Function<E, R> function) {
+    public static <E extends Event, R> void registerEventValue(Class<E> tClass, Class<R> rClass, Function<E, R> function) {
         EventValues.registerEventValue(tClass, rClass, new Getter<R, E>() {
             @Override
             public R get(E event) {
@@ -105,7 +105,6 @@ public final class Registration {
                 }
             }
         }, 0);
-        return new DocumentationBuilder.EventValue(tClass, rClass);
     }
 
     public static <A, B> void registerComparator(Class<A> aClass, Class<B> bClass, boolean supportsOrdering, BiFunction<A, B, Comparator.Relation> comparator) {

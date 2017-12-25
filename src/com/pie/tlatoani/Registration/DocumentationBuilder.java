@@ -86,7 +86,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
     class Event extends Abstract<DocumentationElement.Event, Event> {
         public final Class<? extends org.bukkit.event.Event> event;
-        private Collection<EventValue> eventValueBuilders;
+        private Collection<EventValue> eventValueBuilders = new LinkedList<>();
 
         public Event(String category, String[] syntaxes, Class<? extends org.bukkit.event.Event> event) {
             super(category, syntaxes);
@@ -98,24 +98,19 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             return new DocumentationElement.Event(name, category, syntaxes, description, originVersion, requiredPlugins, eventValueBuilders);
         }
 
-        public void eventValues(Collection<EventValue> builders) {
-            eventValueBuilders = builders;
+        public DocumentationBuilder.Event eventValue(Class type, String originVersion, String description) {
+            eventValueBuilders.add(new EventValue(type, originVersion, description));
+            return this;
         }
     }
 
     class EventValue {
-        public final Class<? extends org.bukkit.event.Event> event;
         private ClassInfo type;
         private String description = null;
         private String originVersion = null;
 
-        public EventValue(Class<? extends org.bukkit.event.Event> event, Class type) {
-            this.event = event;
+        public EventValue(Class type, String originVersion, String description) {
             this.type = Classes.getExactClassInfo(type);
-        }
-
-        public void document(String originVersion, String description) {
-            Documentation.addEventValueBuilder(this);
             this.description = description;
             this.originVersion = originVersion;
         }

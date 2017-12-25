@@ -21,7 +21,6 @@ public final class Documentation {
     public static final int ELEMENTS_PER_PAGE = 8;
 
     private static List<DocumentationBuilder> builders = new LinkedList<>();
-    private static Multimap<Class<? extends Event>, DocumentationBuilder.EventValue> eventValueBuilders = ArrayListMultimap.create();
     private static boolean built = false;
 
     private static List<String> categories = null;
@@ -38,10 +37,6 @@ public final class Documentation {
         builders.add(builder);
     }
 
-    static void addEventValueBuilder(DocumentationBuilder.EventValue builder) {
-        eventValueBuilders.put(builder.event, builder);
-    }
-
     public static void buildDocumentation() {
         if (built) {
             throw new IllegalStateException("The documentation has already been built");
@@ -54,10 +49,6 @@ public final class Documentation {
         ImmutableGroupedList.OrderedBuilder<DocumentationElement.Type, String> typesBuilder = new ImmutableGroupedList.OrderedBuilder(DOCUMENTATION_ELEMENT_COMPARATOR, Comparator.<String>naturalOrder());
         ImmutableGroupedList.OrderedBuilder<DocumentationElement.Scope, String> scopesBuilder = new ImmutableGroupedList.OrderedBuilder(DOCUMENTATION_ELEMENT_COMPARATOR, Comparator.<String>naturalOrder());
         for (DocumentationBuilder builder : builders) {
-            if (builder instanceof DocumentationBuilder.Event) {
-                Collection<DocumentationBuilder.EventValue> eventValues = eventValueBuilders.removeAll(((DocumentationBuilder.Event) builder).event);
-                ((DocumentationBuilder.Event) builder).eventValues(eventValues);
-            }
             DocumentationElement docElem = builder.build();
             allElementsBuilder.add(docElem.category, docElem);
             if (docElem instanceof DocumentationElement.Effect) {

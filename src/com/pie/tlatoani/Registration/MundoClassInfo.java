@@ -26,7 +26,7 @@ public class MundoClassInfo<T> extends ClassInfo<T> implements DocumentationBuil
         return new DocumentationElement.Type(name, category, syntaxes, new String[0], description, originVersion, requiredPlugins);
     }
 
-    public MundoClassInfo<T> document(String name, String description, String originVersion) {
+    public MundoClassInfo<T> document(String name, String originVersion, String description) {
         Documentation.addBuilder(this);
         this.name = name;
         this.description = description;
