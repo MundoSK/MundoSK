@@ -18,7 +18,7 @@ import java.util.*;
  */
 public final class Documentation {
     public static final Comparator<DocumentationElement> DOCUMENTATION_ELEMENT_COMPARATOR = Comparator.comparing(docElem -> docElem.name.toLowerCase());
-    public static final int ELEMENTS_PER_PAGE = 8;
+    public static final int ELEMENTS_PER_PAGE = 12;
 
     private static List<DocumentationBuilder> builders = new LinkedList<>();
     private static boolean built = false;
@@ -213,7 +213,7 @@ public final class Documentation {
     ) {
         int pages = 1 + ((docElems.size() - 1) / ELEMENTS_PER_PAGE);
         if (page > pages || page < 1) {
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Invalid page number " + Mundo.ALT_CHAT_COLOR + page + ", there are " + Mundo.ALT_CHAT_COLOR + pages + " pages of " + header);
+            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Invalid page number " + Mundo.ALT_CHAT_COLOR + page + Mundo.PRIMARY_CHAT_COLOR + ", there are " + Mundo.ALT_CHAT_COLOR + pages + Mundo.PRIMARY_CHAT_COLOR + " pages of " + header);
             return;
         }
         sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Page " + page + " of " + pages + " of " + header);

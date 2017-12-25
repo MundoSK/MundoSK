@@ -58,7 +58,7 @@ public final class WebSocketManager {
                 .eventValue(Number.class, "1.8", "In 'on close', this is the code for the closing.")
                 .eventValue(Boolean.class, "1.8", "In 'on close', this is whether the closing was initiated remotely (true) or locally (false).");
         Registration.registerEvent("WebSocket Server", ScopeWebSocketServer.class, WebSocketEvent.class, "websocket server %string%")
-                .document("WebSocket Client Template", "1.8", "Not an actual event, but rather a template for a websocket server, with the specified ID. "
+                .document("WebSocket Server Template", "1.8", "Not an actual event, but rather a template for a websocket server, with the specified ID. "
                         + "Under the main \"event\" line you can have four different sub-scopes that handle websocket events:"
                         + "\non start: This is called when the websocket server is started."
                         + "\non stop: This is called when the websocket server is stopped."
