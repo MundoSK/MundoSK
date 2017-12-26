@@ -2,6 +2,7 @@ package com.pie.tlatoani.Socket;
 
 import javax.annotation.Nullable;
 
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import ch.njol.skript.lang.Expression;
@@ -40,7 +41,12 @@ public class ExprFunctionSocketIsOpen extends SimpleExpression<Boolean>{
 
 	@Override
 	protected Boolean[] get(Event event) {
-		return new Boolean[]{UtilFunctionSocket.getStatusOfFunctionSocket(port.getSingle(event).intValue())};
+		Logging.debug(this, "port = " + port);
+		Number number = port.getSingle(event);
+		Logging.debug(this, "number = " + number);
+		int i = number.intValue();
+		Logging.debug(this, "i = " + i);
+		return new Boolean[]{UtilFunctionSocket.getStatusOfFunctionSocket(i)};
 	}
 
 

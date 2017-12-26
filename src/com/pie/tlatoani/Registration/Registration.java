@@ -19,12 +19,16 @@ import java.util.function.Function;
 public final class Registration {
 
     private static String currentCategory = null;
+    private static String[] currentRequiredPlugins = new String[0];
 
-    public static void register(String category, Runnable registerer) {
+    public static void register(String category, Runnable registerer, String... requiredPlugins) {
         String prevCategory = currentCategory;
+        String[] prevPlugins = currentRequiredPlugins;
         currentCategory = category;
+        currentRequiredPlugins = requiredPlugins;
         registerer.run();
         currentCategory = prevCategory;
+        currentRequiredPlugins = prevPlugins;
     }
 
     public static DocumentationBuilder.Effect registerEffect(Class<? extends Effect> effectClass, String... patterns) {
@@ -35,9 +39,9 @@ public final class Registration {
     public static <T> DocumentationBuilder registerExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, ExpressionType expressionType, String... patterns) {
         Skript.registerExpression(expressionClass, type, expressionType, patterns);
         if (type == Boolean.class) {
-            return new DocumentationBuilder.Condition(currentCategory, patterns);
+            return new DocumentationBuilder.Condition(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
         } else {
-            return new DocumentationBuilder.Expression(currentCategory, patterns, type);
+            return new DocumentationBuilder.Expression(currentCategory, patterns, type).requiredPlugins(currentRequiredPlugins);
         }
     }
 
@@ -62,9 +66,9 @@ public final class Registration {
             MundoPropertyExpression.registerPropertyExpressionInfo((Class<? extends MundoPropertyExpression>) expressionClass, type, propertyList);
         }
         if (type == Boolean.class) {
-            return new DocumentationBuilder.Condition(currentCategory, patterns);
+            return new DocumentationBuilder.Condition(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
         } else {
-            return new DocumentationBuilder.Expression(currentCategory, patterns, type);
+            return new DocumentationBuilder.Expression(currentCategory, patterns, type).requiredPlugins(currentRequiredPlugins);
         }
     }
 
@@ -72,9 +76,9 @@ public final class Registration {
         Skript.registerExpression(expressionClass, type, ExpressionType.SIMPLE, patterns);
         EventSpecificExpression.registerEventSpecificExpression(expressionClass, type, event, patterns[0], invalidEventError);
         if (type == Boolean.class) {
-            return new DocumentationBuilder.Condition(currentCategory, patterns);
+            return new DocumentationBuilder.Condition(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
         } else {
-            return new DocumentationBuilder.Expression(currentCategory, patterns, type);
+            return new DocumentationBuilder.Expression(currentCategory, patterns, type).requiredPlugins(currentRequiredPlugins);
         }
     }
 
@@ -84,12 +88,12 @@ public final class Registration {
 
     public static DocumentationBuilder.Event registerEvent(String name, Class<? extends SkriptEvent> eventClass, Class<? extends Event> eventType, String... patterns) {
         Skript.registerEvent(name, eventClass, eventType, patterns);
-        return new DocumentationBuilder.Event(currentCategory, patterns, eventType);
+        return new DocumentationBuilder.Event(currentCategory, patterns, eventType).requiredPlugins(currentRequiredPlugins);
     }
 
     public static DocumentationBuilder.Scope registerScope(Class<? extends CustomScope> conditionClass, String... patterns) {
         Skript.registerCondition(conditionClass, patterns);
-        return new DocumentationBuilder.Scope(currentCategory, patterns);
+        return new DocumentationBuilder.Scope(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
     }
 
     public static <E extends Event, R> void registerEventValue(Class<E> tClass, Class<R> rClass, Function<E, R> function) {
@@ -142,7 +146,7 @@ public final class Registration {
         if (classInfoSafe(type, name)) {
             Classes.registerClass(result);
         }
-        return result;
+        return result.requiredPlugins(currentRequiredPlugins);
     }
 
     public static <E> EnumClassInfo<E> registerEnum(Class<E> enumClass, String name, E... values) {
@@ -151,7 +155,7 @@ public final class Registration {
             Classes.registerClass(enumClassInfo);
             ExprEnumValues.addEnumClassInfo(enumClassInfo);
         }
-        return enumClassInfo;
+        return enumClassInfo.requiredPlugins(currentRequiredPlugins);
     }
 
     //Keys should be UPPERCASE
@@ -161,7 +165,7 @@ public final class Registration {
             Classes.registerClass(enumClassInfo);
             ExprEnumValues.addEnumClassInfo(enumClassInfo);
         }
-        return enumClassInfo;
+        return enumClassInfo.requiredPlugins(currentRequiredPlugins);
     }
 
     public static abstract class SimpleParser<T> extends Parser<T> {

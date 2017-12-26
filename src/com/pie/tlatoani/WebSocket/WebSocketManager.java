@@ -79,7 +79,7 @@ public final class WebSocketManager {
         Registration.registerEventValue(WebSocketCloseEvent.class, String.class, event -> event.reason);
         Registration.registerEventValue(WebSocketCloseEvent.class, Boolean.class, event -> event.remote);
 
-        Registration.registerExpression(ExprWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "[new] websocket %string% connected to uri %string%")
+        Registration.registerExpression(ExprWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "[new] websocket %string% connected to uri %string% [with [http] headers (%-jsonobject%|%-objects%)]")
                 .document("New WebSocket", "1.8", "Creates a new websocket connection using the websocket client with the specified id, connecting to the specified URI.");
         Registration.registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket [server] port")
                 .document("WebSocket Server Port", "1.8", "For use under 'websocket server %string%': An expression for the port on which this websocket server is open.");
@@ -97,6 +97,7 @@ public final class WebSocketManager {
                 .document("Port of WebSocket", "1.8", "An expression for the port, local or external, of the specified websocket.");
         Registration.registerPropertyExpression(ExprWebSocketState.class, WebSocket.READYSTATE.class, "websocket", "websocket state")
                 .document("Connection State of WebSocket", "1.8", "An expression for the connection state of the specified websocket.");
+        Registration.registerExpression(ExprHandshakeField.class, String.class, ExpressionType.PROPERTY, "handshake field %string%");
     }
 
     public static WebSocketClientFunctionality getClientFunctionality(String id) {

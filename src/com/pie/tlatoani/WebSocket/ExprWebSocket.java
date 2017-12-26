@@ -1,15 +1,22 @@
 package com.pie.tlatoani.WebSocket;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.lang.Variable;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import ch.njol.util.Pair;
 import com.pie.tlatoani.Util.Logging;
 import mundosk_libraries.java_websocket.WebSocket;
 import org.bukkit.event.Event;
+import org.json.simple.JSONObject;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Tlatoani on 5/5/17.
@@ -17,6 +24,8 @@ import java.net.URISyntaxException;
 public class ExprWebSocket extends SimpleExpression<WebSocket> {
     private Expression<String> idExpr;
     private Expression<String> uriExpr;
+    private Expression<JSONObject> headersJSONExpr;
+    private Variable headersVarExpr;
 
     @Override
     protected WebSocket[] get(Event event) {
@@ -28,7 +37,28 @@ public class ExprWebSocket extends SimpleExpression<WebSocket> {
             Logging.reportException(this, e);
             return null;
         }
-        SkriptWebSocketClient webSocket = new SkriptWebSocketClient(functionality, uri);
+        SkriptWebSocketClient webSocket;
+        if (headersJSONExpr != null) {
+            JSONObject headersJSON = headersJSONExpr.getSingle(event);
+            Map<String, String> headers = new HashMap<>();
+            headersJSON.forEach((key, value) -> {
+                if (value instanceof String) {
+                    headers.put((String) key, (String) value);
+                }
+            });
+            webSocket = new SkriptWebSocketClient(functionality, uri, headers);
+        } else if (headersVarExpr != null) {
+            Iterator<Pair<String, Object>> headersVarIterator = headersVarExpr.variablesIterator(event);
+            Map<String, String> headers = new HashMap<>();
+            headersVarIterator.forEachRemaining(pair -> {
+                if (pair.getValue() instanceof String) {
+                    headers.put(pair.getKey(), (String) pair.getValue());
+                }
+            });
+            webSocket = new SkriptWebSocketClient(functionality, uri, headers);
+        } else {
+            webSocket = new SkriptWebSocketClient(functionality, uri);
+        }
         webSocket.connect();
         return new WebSocket[]{webSocket};
     }
@@ -45,13 +75,24 @@ public class ExprWebSocket extends SimpleExpression<WebSocket> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "websocket " + idExpr + " connected to uriExpr " + uriExpr;
+        return "websocket " + idExpr + " connected to uri " + uriExpr;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         idExpr = (Expression<String>) expressions[0];
         uriExpr = (Expression<String>) expressions[1];
+        headersJSONExpr = (Expression<JSONObject>) expressions[2];
+        if (expressions[3] != null) {
+            if (expressions[3] instanceof Variable) {
+                headersVarExpr = (Variable) expressions[3];
+            } else {
+                Skript.error("'" + expressions[3] + "' is not a list variable!");
+                return false;
+            }
+        } else {
+            expressions[3] = null;
+        }
         return true;
     }
 }

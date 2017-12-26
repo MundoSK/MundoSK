@@ -6,9 +6,11 @@ import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
 import mundosk_libraries.java_websocket.client.WebSocketClient;
+import mundosk_libraries.java_websocket.drafts.Draft_17;
 import mundosk_libraries.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.util.Map;
 
 /**
  * Created by Tlatoani on 5/5/17.
@@ -16,14 +18,19 @@ import java.net.URI;
 public class SkriptWebSocketClient extends WebSocketClient {
     public final WebSocketClientFunctionality functionality;
 
-    public SkriptWebSocketClient(WebSocketClientFunctionality functionality, URI serverUri) {
-        super(serverUri);
+    public SkriptWebSocketClient(WebSocketClientFunctionality functionality, URI serverURI) {
+        super(serverURI);
+        this.functionality = functionality;
+    }
+
+    public SkriptWebSocketClient(WebSocketClientFunctionality functionality, URI serverURI, Map<String, String> headers) {
+        super(serverURI, new Draft_17(), headers, 0);
         this.functionality = functionality;
     }
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        functionality.onOpen.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketOpenEvent(this)));
+        functionality.onOpen.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketOpenEvent(this, handshakedata)));
     }
 
     @Override

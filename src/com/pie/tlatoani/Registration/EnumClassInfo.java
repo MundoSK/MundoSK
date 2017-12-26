@@ -102,6 +102,12 @@ public class EnumClassInfo<E> extends MundoClassInfo<E> {
         return new DocumentationElement.Type(name, category, syntaxes, usages, description, originVersion, requiredPlugins);
     }
 
+    @Override
+    public EnumClassInfo<E> requiredPlugins(String... requiredPlugins) {
+        super.requiredPlugins(requiredPlugins);
+        return this;
+    }
+
     //
 
     public E parse(String s) {

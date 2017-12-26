@@ -79,14 +79,14 @@ public class Mundo extends JavaPlugin {
         Registration.register("WorldCreator", WorldCreatorMundo::load);
         Registration.register("WorldManagement", WorldManagementMundo::load);
         if (MundoUtil.serverHasPlugin("ProtocolLib")) {
-            Registration.register("Packet", PacketManager::load);
+            Registration.register("Packet", PacketManager::load, "ProtocolLib");
             if (Config.IMPLEMENT_PACKET_STUFF.getCurrentValue()) {
-                Registration.register("Skin", SkinMundo::load);
-                Registration.register("Tablist", TablistManager::load);
+                Registration.register("Skin", SkinMundo::load, "ProtocolLib");
+                Registration.register("Tablist", TablistManager::load, "ProtocolLib");
             }
         }
         if (MundoUtil.serverHasPlugin("TerrainControl")) {
-            Registration.register("TerrainControl", TerrainControlMundo::load);
+            Registration.register("TerrainControl", TerrainControlMundo::load, "TerrainControl");
         }
         if (Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11")) {
             Registration.register("Achievement", AchievementMundo::load);

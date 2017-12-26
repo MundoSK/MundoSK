@@ -49,7 +49,6 @@ public class TablistManager {
     }
 
     public static void load() {
-
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onJoin(PlayerJoinEvent event) {
@@ -63,8 +62,12 @@ public class TablistManager {
             }
         }, Mundo.INSTANCE);
 
-        Registration.registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores [are] enabled in tablist of %players%", "scores [are] enabled in %players%'s tablist");
-        Registration.registerExpression(ExprHeaderFooter.class, String.class, ExpressionType.PROPERTY, "tablist (0¦header|1¦footer) (for|of) %players%", "%players%'s tablist (0¦header|1¦footer)");
+        Registration.registerExpression(ExprScoresEnabled.class, Boolean.class, ExpressionType.PROPERTY, "scores [are] enabled in tablist of %players%", "scores [are] enabled in %players%'s tablist")
+                .document("Scores are Enabled", "1.8", "Checks whether the tablist(s) of the specified player(s) have scores enabled. "
+                        + "This only applies to enabling scores using MundoSK's tablist syntaxes.");
+        Registration.registerExpression(ExprHeaderFooter.class, String.class, ExpressionType.PROPERTY, "tablist (0¦header|1¦footer) (for|of) %players%", "%players%'s tablist (0¦header|1¦footer)")
+                .document("Tablist Header or Footer", "1.8", "An expression for the header or footer of the tablist(s) of the specified player(s). "
+                        + "This is a list expression as the header and footer can have multiple lines of text.");
         loadPlayer();
         loadSimple();
         loadArray();
@@ -72,12 +75,28 @@ public class TablistManager {
     }
 
     private static void loadPlayer() {
-        Registration.registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) [player] tab[s] of %players% for %players%", "(0¦show|1¦hide) %players%'s [player] tab[s] for %players%", "(0¦show|1¦hide) %players% for %players% in tablist", "(0¦show|1¦hide) %players% in %players%'s tablist");
-        Registration.registerEffect(EffClearPlayerModifications.class, "(clear|reset) [all] player tab modifications for %players%");
-        Registration.registerExpression(ExprPlayerIsVisible.class, Boolean.class, ExpressionType.COMBINED, "[player] tab of %player% is visible for %players%", "%player%'s [player] tab is visible for %players%", "%player% is visible in %players%'s tablist", "%player% is visible in tablist (of|for) %players%");
-        Registration.registerExpression(ExprPlayersAreVisible.class, Boolean.class, ExpressionType.PROPERTY, "player tabs are visible for %players%", "", "%players%'s tablist contains players", "tablist of %players% contains players", "players are visible in tablist (of|for) %players%", "players are visible in %players%'s tablist");
-        Registration.registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "[display] name of [player] tab of %player% for %players%", "[display] name of %player%'s [player] tab for %players%", "tablist name of %player% for %players%", "%player%'s tablist name for %players%");
-        Registration.registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "score of [player] tab of %player% for %players%", "score of %player%'s [player] tab for %players%", "tablist score of %player% for %players%", "%player%'s tablist score for %players%");
+        Registration.registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) [player] tab[s] of %players% for %players%", "(0¦show|1¦hide) %players%'s [player] tab[s] for %players%", "(0¦show|1¦hide) %players% for %players% in tablist", "(0¦show|1¦hide) %players% in %players%'s tablist")
+                .document("Show or Hide in Tablist", "1.8", "Shows or hides certain players for other certain players in their tablist(s). "
+                        + "Note: if the Players Are Visible condition/expression is set to false for a specific player and you show a player for them using this effect, "
+                        + "then the condition/expression will become true but only that player will become unhidden.");
+        Registration.registerEffect(EffClearPlayerModifications.class, "(clear|reset) [all] player tab modifications for %players%")
+                .document("Clear Player Tab Modifications", "1.8", "Resets all of the tabs representing players for the specified player(s) to normal. "
+                        + "This will make all players visible in the tablist and reset any display name, latency, and score changes.");
+        Registration.registerExpression(ExprPlayerIsVisible.class, Boolean.class, ExpressionType.COMBINED, "[player] tab of %player% is visible for %players%", "%player%'s [player] tab is visible for %players%", "%player% is visible in %players%'s tablist", "%player% is visible in tablist (of|for) %players%")
+                .document("Player Tab is Visible", "1.8", "Checks whether the first player's tab is visible for the second specified player(s).");
+        Registration.registerExpression(ExprPlayersAreVisible.class, Boolean.class, ExpressionType.PROPERTY, "player tabs are visible for %players%", "", "%players%'s tablist contains players", "tablist of %players% contains players", "players are visible in tablist (of|for) %players%", "players are visible in %players%'s tablist")
+                .document("Player Tabs Are Visible", "1.8", "Checks whether the tablist(s) of the specified player(s) allow player tabs to be visible. "
+                        + "Setting this to false prevents any player tabs from being seen in the tablist for the specified player(s) (players who join will be automatically hidden). "
+                        + "Setting this to true immediately makes all player tabs visible in the tablist for the specified player(s). "
+                        + "Use the Show or Hide in Tablist effect if you would like to set this condition to be true without immediately showing all players. "
+                        + "Note that it is possible for this condition/expression to be true yet no player tabs are visible if they are hidden manually using the Show or Hide in Tablist effect. "
+                        + "In this case, players who join will still be visible in the tablist unless manually hidden using the effect.");
+        Registration.registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "[display] name of [player] tab of %player% for %players%", "[display] name of %player%'s [player] tab for %players%", "tablist name of %player% for %players%", "%player%'s tablist name for %players%")
+                .document("Display Name of Player Tab", "1.8", "An expression for the display name of the specified player tab in the tablist of the specified player(s). "
+                        + "This will not be set if the player tab's display name has not been changed (or was reset), or the player tab is hidden.");
+        Registration.registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "score of [player] tab of %player% for %players%", "score of %player%'s [player] tab for %players%", "tablist score of %player% for %players%", "%player%'s tablist score for %players%")
+                .document("Score of Player Tab", "1.8", "An expression for the score of the specified player tab in the tablist of the specified player(s). "
+                        + "This will not be set if scores are disabled, the player tab's score has not been set (or was reset), or the player tab is hidden.");
     }
 
     private static void loadSimple() {

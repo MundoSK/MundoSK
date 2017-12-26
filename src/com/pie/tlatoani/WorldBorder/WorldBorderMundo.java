@@ -25,7 +25,7 @@ public class WorldBorderMundo {
     
     public static void load() {
         Registration.registerEffect(EffResetBorder.class, "reset %world%")
-                .document("Reset World Border", "1.8", "Resets the border properties of the specified world to their default values. "
+                .document("Reset World Border", "Before 1.2", "Resets the border properties of the specified world to their default values. "
                     + "These values can be found at https://minecraft.gamepedia.com/World_border#Commands");
         Registration.registerEffect(EffChangeBorderDiameter.class,
                 "set " + DIAMETER_SYNTAX + " of %world% to %number% over %timespan%",
@@ -48,9 +48,9 @@ public class WorldBorderMundo {
                         + "\nwarning distance: The distance a player has to be within the border to see the red warning effect"
                         + "\nwarning time: The amount of time the border should be within of reaching a player to show that player the red warning effect.");
         Registration.registerPropertyExpression(ExprCenterOfBorder.class, Location.class, "world", "center")
-                .document("Center of Border", "1.8", "The center of the specified world's border. This isn't necessarily the same as the spawn.");
+                .document("Center of Border", "Before 1.2", "The center of the specified world's border. This isn't necessarily the same as the spawn.");
         Registration.registerExpression(CondBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%locations% (is|are) (0¦within|1¦beyond) border")
-                .document("Is Beyond Border", "1.8", "Checks whether a location/entity is beyond or within the border in its world.");
+                .document("Is Beyond Border", "1.4.9", "Checks whether a location/entity is beyond or within the border in its world.");
 
         loadBorderEvent();
     }
@@ -65,7 +65,7 @@ public class WorldBorderMundo {
         }, Mundo.INSTANCE);
 
         Registration.registerEvent("Border Stabilize", EvtBorderStabilize.class, BorderStabilizeEvent.class, "border stabilize [in %-worlds%]")
-                .document("Border Stabilize", "1.8", "Called when a border (optionally only of the specified world(s)) stops moving.");
+                .document("Border Stabilize", "1.4.6", "Called when a border (optionally only of the specified world(s)) stops moving.");
         Registration.registerExpression(ExprBorderMovingValue.class, Number.class, ExpressionType.PROPERTY,
                 "(0¦original " + DIAMETER_SYNTAX + "|1¦(eventual|final) " + DIAMETER_SYNTAX + "|2¦remaining distance until [the] border stabilize[s]) of %world%",
                 "%world%'s (0¦original " + DIAMETER_SYNTAX + "|1¦(eventual|final) " + DIAMETER_SYNTAX + "|2¦remaining distance until [the] border stabilize[s])")
@@ -78,7 +78,7 @@ public class WorldBorderMundo {
         Registration.registerExpression(ExprTimeRemainingUntilBorderStabilize.class, Timespan.class, ExpressionType.PROPERTY,
                 "(time remaining|remaining time) until [the] border stabilize[s] (of|in) %world%",
                 "%world%'s (time remaining|remaining time) until [the] border stabilize[s]")
-                .document("Time Remaining Until Border Stabilize", "1.8", "An expression for the timespan remaining until the border of the specified world stops moving.");
+                .document("Time Remaining Until Border Stabilize", "1.4.6", "An expression for the timespan remaining until the border of the specified world stops moving.");
     }
 
     private static Function<World, WorldBorder> BORDER_REPLACER = null;
