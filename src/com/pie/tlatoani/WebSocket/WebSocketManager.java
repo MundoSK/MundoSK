@@ -98,6 +98,7 @@ public final class WebSocketManager {
         Registration.registerPropertyExpression(ExprWebSocketState.class, WebSocket.READYSTATE.class, "websocket", "websocket state")
                 .document("Connection State of WebSocket", "1.8", "An expression for the connection state of the specified websocket.");
         Registration.registerExpression(ExprHandshakeField.class, String.class, ExpressionType.PROPERTY, "handshake field %string%");
+        Registration.registerExpression(ExprAllHandshakeHeaders.class, String.class, ExpressionType.SIMPLE, "[all] handshake headers");
     }
 
     public static WebSocketClientFunctionality getClientFunctionality(String id) {

@@ -74,12 +74,16 @@ public class UtilWriterSocket implements Runnable{
 					debug("Writer Socket with host" + host + ", port" + port + " successfully found function " + redirect);
 				} else debug("Writer Socket with host" + host + ", port" + port + " didn't find function " + redirect);
 			}
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			Logging.debug(this, e);
+		}
 		finally {
 			try {
 				if (socket != null) socket.close();
 				debug("Writer Socket with host" + host + ", port" + port + " successfully closed connection");
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				Logging.debug(this, e);
+			}
 		}
 	}
 	
