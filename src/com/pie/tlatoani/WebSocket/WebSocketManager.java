@@ -102,7 +102,8 @@ public final class WebSocketManager {
                 .document("Connection State of WebSocket", "1.8", "An expression for the connection state of the specified websocket.");
         Registration.registerExpression(ExprHandshakeHeader.class, String.class, ExpressionType.PROPERTY, "handshake header %string%")
                 .document("Handshake Header", "1.8", "An expression, for use under the 'on open' section of a websocket client/server template, "
-                        + "for the value of the header with the specified name in the handshake of the connection.");
+                        + "for the value of the header with the specified name in the handshake of the connection. "
+                        + "If there is no header with the specified name, the expression will return an empty string.");
         Registration.registerExpression(ExprHandshakeHeaderNames.class, String.class, ExpressionType.SIMPLE, "[all] handshake header names")
                 .document("Handshake Header Names", "1.8", "An expression, for use under the 'on open' section of a websocket client/server template, "
                         + "for a list of the names of all of the headers in the handshake of the connection.");
