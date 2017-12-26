@@ -6,36 +6,27 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import ch.njol.util.coll.iterator.EmptyIterator;
 import com.pie.tlatoani.Util.MundoUtil;
 import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
 import org.bukkit.event.Event;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * Created by Tlatoani on 12/25/17.
  */
-public class ExprAllHandshakeHeaders extends SimpleExpression<String> {
+public class ExprHandshakeHeader extends SimpleExpression<String> {
+    private Expression<String> keyExpr;
 
     @Override
     protected String[] get(Event event) {
-        Iterator<String> iterator = iterator(event);
-        List<String> list = new LinkedList<>();
-        iterator.forEachRemaining(list::add);
-        return list.toArray(new String[0]);
-    }
-
-    @Override
-    public Iterator<String> iterator(Event event) {
-        return MundoUtil.cast(event, WebSocketOpenEvent.class).map(wsOpenEvent -> wsOpenEvent.handshake.iterateHttpFields()).orElse(new EmptyIterator<>());
+        String key = keyExpr.getSingle(event);
+        return MundoUtil.cast(event, WebSocketOpenEvent.class)
+                .map(wsOpenEvent -> new String[]{wsOpenEvent.handshake.getFieldValue(key)})
+                .orElse(new String[0]);
     }
 
     @Override
     public boolean isSingle() {
-        return false;
+        return true;
     }
 
     @Override
@@ -45,13 +36,14 @@ public class ExprAllHandshakeHeaders extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "all handshake headers";
+        return "handshake header " + keyExpr;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+        keyExpr = (Expression<String>) expressions[0];
         if (!MundoUtil.isAssignableFromCurrentEvent(WebSocketOpenEvent.class)) {
-            Skript.error("The 'all handshake headers' expression can only be used in the 'on open' section of a websocket client or server template!");
+            Skript.error("The 'value of handshake header' expression can only be used in the 'on open' section of a websocket client or server template!");
             return false;
         }
         return true;
