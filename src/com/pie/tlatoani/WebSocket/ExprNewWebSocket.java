@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by Tlatoani on 5/5/17.
  */
-public class ExprWebSocket extends SimpleExpression<WebSocket> {
+public class ExprNewWebSocket extends SimpleExpression<WebSocket> {
     private Expression<String> idExpr;
     private Expression<String> uriExpr;
     private Expression<JSONObject> headersJSONExpr;
@@ -82,16 +82,16 @@ public class ExprWebSocket extends SimpleExpression<WebSocket> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         idExpr = (Expression<String>) expressions[0];
         uriExpr = (Expression<String>) expressions[1];
-        headersJSONExpr = (Expression<JSONObject>) expressions[2];
-        if (expressions[3] != null) {
-            if (expressions[3] instanceof Variable) {
-                headersVarExpr = (Variable) expressions[3];
+        headersJSONExpr = (Expression<JSONObject>) expressions[3];
+        if (expressions[2] != null) {
+            if (expressions[2] instanceof Variable && !expressions[2].isSingle()) {
+                headersVarExpr = (Variable) expressions[2];
             } else {
-                Skript.error("'" + expressions[3] + "' is not a list variable!");
+                Skript.error("'" + expressions[2] + "' is not a list variable!");
                 return false;
             }
         } else {
-            expressions[3] = null;
+            expressions[2] = null;
         }
         return true;
     }
