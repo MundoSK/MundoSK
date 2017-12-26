@@ -42,7 +42,7 @@ public class ExprHandshakeField extends SimpleExpression<String> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         keyExpr = (Expression<String>) expressions[0];
-        if (!ScriptLoader.isCurrentEvent(WebSocketOpenEvent.class)) {
+        if (!MundoUtil.isAssignableFromCurrentEvent(WebSocketOpenEvent.class)) {
             Skript.error("The 'value of handshake field' expression can only be used in the 'on open' section of a websocket client or server template!");
             return false;
         }

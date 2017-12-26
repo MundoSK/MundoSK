@@ -33,7 +33,7 @@ public final class Registration {
 
     public static DocumentationBuilder.Effect registerEffect(Class<? extends Effect> effectClass, String... patterns) {
         Skript.registerEffect(effectClass, patterns);
-        return new DocumentationBuilder.Effect(currentCategory, patterns);
+        return new DocumentationBuilder.Effect(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
     }
 
     public static <T> DocumentationBuilder registerExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, ExpressionType expressionType, String... patterns) {

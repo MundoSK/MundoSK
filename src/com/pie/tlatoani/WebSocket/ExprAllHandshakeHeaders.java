@@ -50,7 +50,7 @@ public class ExprAllHandshakeHeaders extends SimpleExpression<String> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        if (!ScriptLoader.isCurrentEvent(WebSocketOpenEvent.class)) {
+        if (!MundoUtil.isAssignableFromCurrentEvent(WebSocketOpenEvent.class)) {
             Skript.error("The 'all handshake headers' expression can only be used in the 'on open' section of a websocket client or server template!");
             return false;
         }

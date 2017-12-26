@@ -95,6 +95,15 @@ public class MundoUtil {
         return false;
     }
 
+    public static boolean isAssignableFromCurrentEvent(Class<?> event) {
+        for (Class<? extends Event> eventClass : ScriptLoader.getCurrentEvents()) {
+            if (event.isAssignableFrom(eventClass)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static String getMundoCategory(Class<?> c) {
         return c.getName().split("\\.")[3];
     }
