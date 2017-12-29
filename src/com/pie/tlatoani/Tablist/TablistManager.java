@@ -75,7 +75,7 @@ public class TablistManager {
     }
 
     private static void loadPlayer() {
-        Registration.registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) [player] tab[s] of %players% for %players%", "(0¦show|1¦hide) %players%'s [player] tab[s] for %players%", "(0¦show|1¦hide) %players% for %players% in tablist", "(0¦show|1¦hide) %players% in %players%'s tablist")
+        Registration.registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) [player] tab[s] of %players% for %players%", "(0¦show|1¦hide) %players%'s [player] tab[s] for %players%", "(0¦show|1¦hide) %players% for %players% in tablist", "(0¦show|1¦hide) %players% in %players%'s tablist", "(0¦show|1¦hide) %players% in [the] tablist of %players%")
                 .document("Show or Hide in Tablist", "1.8", "Shows or hides certain players for other certain players in their tablist(s). "
                         + "Note: if the Players Are Visible condition/expression is set to false for a specific player and you show a player for them using this effect, "
                         + "then the condition/expression will become true but only that player will become unhidden.");
@@ -96,26 +96,59 @@ public class TablistManager {
                         + "This will not be set if the player tab's display name has not been changed (or was reset), or the player tab is hidden.");
         Registration.registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "score of [player] tab of %player% for %players%", "score of %player%'s [player] tab for %players%", "tablist score of %player% for %players%", "%player%'s tablist score for %players%")
                 .document("Score of Player Tab", "1.8", "An expression for the score of the specified player tab in the tablist of the specified player(s). "
-                        + "This will not be set if scores are disabled, the player tab's score has not been set (or was reset), or the player tab is hidden.");
+                        + "This will not be set if the player tab is hidden.");
     }
 
     private static void loadSimple() {
-        Registration.registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create ([simple] tab [with] id|simple tab) %string% for %players% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skin%] [score %-number%]");
-        Registration.registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete ([simple] tab [with] id|simple tab) %string% for %players%");
-        Registration.registerEffect(com.pie.tlatoani.Tablist.Simple.EffRemoveAllIDTabs.class, "delete all (id|simple) tabs for %players%");
-        Registration.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of ([simple] tab [with] id|simple tab) %string% for %players%");
-        Registration.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of ([simple] tab [with] id|simple tab) %string% for %players%");
-        Registration.registerExpression(ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of ([simple] tab [with] id|simple tab) %string% for %players%");
-        Registration.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprScoreOfTab.class, Number.class, ExpressionType.PROPERTY, "score of ([simple] tab [with] id|simple tab) %string% for %players%");
+        Registration.registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create ([simple] tab [with] id|simple tab) %string% for %players% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skin%] [score %-number%]")
+                .document("Create Simple Tab", "1.8", "Creates a simple tab for the specified player(s) with the specified id and properties. "
+                        + "If a specified player already has a simple tab with the specified id in their tablist, that tab will not be modified and no new tab will be created. "
+                        + "This effect will not work for a specified player if they have the array tablist enabled.");
+        Registration.registerEffect(com.pie.tlatoani.Tablist.Simple.EffDeleteTab.class, "delete ([simple] tab [with] id|simple tab) %string% for %players%")
+                .document("Delete Simple Tab", "1.8", "Removes the simple tab with the specified id from the tablist(s) of the specified player(s).");
+        Registration.registerEffect(com.pie.tlatoani.Tablist.Simple.EffRemoveAllIDTabs.class, "delete all (id|simple) tabs for %players%")
+                .document("Delete All Simple Tabs", "1.8", "Removes all simple tabs from the tablist(s) of the specified players(s).");
+        Registration.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of ([simple] tab [with] id|simple tab) %string% for %players%")
+                .document("Display Name of Simple Tab", "1.8", "An expression for the display name of the simple tab with the specified id in the tablist(s) of the specified player(s).");
+        Registration.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of ([simple] tab [with] id|simple tab) %string% for %players%")
+                .document("Latency of Simple Tab", "1.8", "An expression for the latency of the simple tab with the specified id in the tablist(s) of the specified player(s).");
+        Registration.registerExpression(ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of ([simple] tab [with] id|simple tab) %string% for %players%")
+                .document("Icon of Simple Tab", "1.8", "An expression for the icon of the simple tab with the specified id in the tablist(s) of the specified player(s).");
+        Registration.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprScoreOfTab.class, Number.class, ExpressionType.PROPERTY, "score of ([simple] tab [with] id|simple tab) %string% for %players%")
+                .document("Score of Simple Tab", "1.8", "An expression for the score of the simple tab with the specified id in the tablist(s) of the specified player(s).");
     }
 
     private static void loadArray() {
-        Registration.registerEffect(EffEnableArrayTablist.class, "(disable|deactivate) array tablist for %players%", "(enable|activate) array tablist for %players% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skin%]]");
-        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of [array] tab %number%, %number% for %players%");
-        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of [array] tab %number%, %number% for %players%");
-        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of [array] tab %number%, %number% for %players%", "initial icon of %players%'s [array] tablist");
-        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprScoreOfTab.class, Number.class, ExpressionType.PROPERTY, "score of [array] tab %number%, %number% for %players%");
-        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %players%'s [array] tablist");
+        Registration.registerEffect(EffEnableArrayTablist.class, "(disable|deactivate) array tablist for %players%", "(enable|activate) array tablist for %players% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skin%]]")
+                .document("Enable or Disable Array Tablist", "1.8", "Enables or disables the array tablist for the specified player(s). "
+                        + "The array tablist creates a grid of tabs that allows you to use grid coordinates to easily modify individual tabs. "
+                        + "When enabling, you can specify the amount of columns (defaults to 4), the amount of rows (defaults to 20), and the initial icon (defaults to a white texture). "
+                        + "See the Size of Array Tablist and Icon of Array Tabl expressions for more info. "
+                        + "If the array tablist is already enabled, it will be replaced with a blank one matching the new specifications. "
+                        + "Note that when enabling the array tablist, all simple tabs will be removed and all player tabs will be hidden. "
+                        + "When disabling the array tablist, initially either all player tabs will be hidden, or (if if the array tablist was 4x20) all player tabs will be visible. "
+                        + "There will be no simple tabs either way initially after disabling the array tablist.");
+        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of [array] tab %number%, %number% for %players%")
+                .document("Display Name of Array Tab", "1.8", "An expression for the display name of the specified array tab for the specified player(s).");
+        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of [array] tab %number%, %number% for %players%")
+                .document("Latency of Array Tab", "1.8", "An expression for the latency of the specified array tab for the specified player(s).");
+        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of [array] tab %number%, %number% for %players%", "initial icon of %players%'s [array] tablist")
+                .document("Icon of Array Tab", "1.8", "An expression for either the icon of the specified array tab for the specified player(s), "
+                        + "or the initial icon of the array tablist(s) of the specified player(s). "
+                        + "The initial icon is the default icon that array tabs will have when enabling an array tablist or when increasing its size. "
+                        + "By default this is a completely white texture.");
+        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprScoreOfTab.class, Number.class, ExpressionType.PROPERTY, "score of [array] tab %number%, %number% for %players%")
+                .document("Score of Array Tab", "1.8", "An expression for the score of the specified array tab for the specified player(s).");
+        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %players%'s [array] tablist")
+                .document("Size of Array Tablist", "1.8", "An expression for the amount of rows or columns in the array tablist. There can be 1 to 4 columns."
+                        + "For each amount of columns, there is a specified range for the amount of rows:"
+                        + "\n1 Column: 1 to 20 rows"
+                        + "\n2 Columns: 11 to 20 rows"
+                        + "\n3 Columns: 14 to 20 rows"
+                        + "\n4 Columns: 16 to 20 rows"
+                        + "\nThis is due to the fact that Minecraft allows 1 to 80 total tabs, and for each amount, there is only one way the tablist can appear. "
+                        + "\nMinecraft only allows a maximum of 20 tabs in one column, so the tabs will try to fill as few columns as possible will adhering to this rule. "
+                        + "\nFor example, if there are 40 tabs, this is satisfied by a 2x20 tablist, but for 41 and 42 you need 3x14.");
     }
 
     private static void loadPacketEventListeners() {

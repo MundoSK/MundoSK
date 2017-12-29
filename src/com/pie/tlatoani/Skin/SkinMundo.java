@@ -44,7 +44,9 @@ public class SkinMundo {
             }
         }, Mundo.INSTANCE);
 
-        Registration.registerType(Skin.class, "skin", "skintexture").parser(new Registration.SimpleParser<Skin>() {
+        Registration.registerType(Skin.class, "skin", "skintexture")
+                .document("Skin", "1.8", "Represents a skin, possibly of a player. Write 'steve' or 'alex' for these respective skins.")
+                .parser(new Registration.SimpleParser<Skin>() {
             @Override
             public Skin parse(String s, ParseContext parseContext) {
                 if (s.equalsIgnoreCase("STEVE")) {
@@ -105,12 +107,25 @@ public class SkinMundo {
                 return false;
             }
         });
-        Registration.registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%");
-        Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin");
-        Registration.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(for %-players%|excluding %-players%)]", "%player%'s displayed skin [(for %-players%|excluding %-players%)]");
-        Registration.registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%");
-        Registration.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY, "retrieved [(4¦slim)] skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%) [[with] timeout %-timespan%]");
-        Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] %player%'s name[]tag", "[mundo[sk]] name[]tag of %player%");
-        Registration.registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
+        Registration.registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%")
+                .document("Skin with Value", "1.8", "An expression for a skin with the specified value and signature.");
+        Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin")
+                .document("Skin of Player or Skull", "1.8", "An expression for the skin of the specified player (must be online) or skull item.");
+        Registration.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(for %-players%|excluding %-players%)]", "%player%'s displayed skin [(for %-players%|excluding %-players%)]")
+                .document("Displayed Skin of Player", "1.8", "An expression for the skin currently being displayed as the specified player's skin. "
+                        + "If target ('for') players are specified, the expression will return a skin for each target player specified. "
+                        + "Excluded players are meant to be specified only when setting the expression (for example, to prevent the original specified player from seeing a change). "
+                        + "If the expression is evaluated with excluded players specified, it will act the same as if no target or excluded players had been specified.");
+        Registration.registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%")
+                .document("Skull from Skin", "1.8", "An expression for a skull bearing the specified skin.");
+        Registration.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY, "retrieved [(4¦slim)] skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%) [[with] timeout %-timespan%]")
+                .document("Retrieved Skin", "1.8", "An expression for a skin retrieved using the Mineskin API:"
+                        + "\nA skin recreated from the specified image file,"
+                        + "\nA skin recreated from the specified URL of an image, or"
+                        + "\nThe skin of the specified offline player retrieved from Mojang");
+        Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] %player%'s name[]tag", "[mundo[sk]] name[]tag of %player%")
+                .document("Nametag of Player", "1.8", "An expression for the nametag (the name that appears above a player's head) of the specified player.");
+        Registration.registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%")
+                .document("Tablist Name of Player", "1.8", "An expression for the tablist name of the specified player.");
     }
 }

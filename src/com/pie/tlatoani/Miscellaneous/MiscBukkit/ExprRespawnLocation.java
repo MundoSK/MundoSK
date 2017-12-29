@@ -1,5 +1,7 @@
 package com.pie.tlatoani.Miscellaneous.MiscBukkit;
 
+import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -37,6 +39,10 @@ public class ExprRespawnLocation extends SimpleExpression<Location> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+        if (!ScriptLoader.isCurrentEvent(PlayerRespawnEvent.class)) {
+            Skript.error("The 'respawn location' expression can only be used in the 'on respawn' event");
+            return false;
+        }
         return true;
     }
 

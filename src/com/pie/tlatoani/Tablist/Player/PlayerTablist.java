@@ -140,7 +140,7 @@ public class PlayerTablist {
         private final Player objPlayer;
 
         public PlayerTab(Player target, Player player) {
-            super(target, player.getName(), player.getUniqueId(), null, null, null, null);
+            super(target, player.getName(), player.getUniqueId(), null, null, null, 0);
             objPlayer = player;
         }
 

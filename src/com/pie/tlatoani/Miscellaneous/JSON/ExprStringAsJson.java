@@ -21,11 +21,12 @@ public class ExprStringAsJson extends SimpleExpression<JSONObject> {
 
     @Override
     protected JSONObject[] get(Event event) {
-        JSONObject jsonObject = null;
+        /*JSONObject jsonObject = null;
         try {
             jsonObject = (JSONObject) (new JSONParser()).parse(stringExpression.getSingle(event));
         } catch (ParseException | ClassCastException e) {}
-        return new JSONObject[]{jsonObject};
+        return new JSONObject[]{jsonObject};*/
+        throw new UnsupportedOperationException("The 'json of string %string%' expression will be removed in a future version, please use '%string% parsed as a jsonobject' instead");
     }
 
     @Override
@@ -47,6 +48,6 @@ public class ExprStringAsJson extends SimpleExpression<JSONObject> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         stringExpression = (Expression<String>) expressions[0];
         Skript.error("The 'json of string %string%' expression will be removed in a future version, please use '%string% parsed as a jsonobject' instead");
-        return true;
+        return false;
     }
 }

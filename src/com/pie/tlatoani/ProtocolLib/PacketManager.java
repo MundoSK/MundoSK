@@ -39,29 +39,69 @@ public class PacketManager {
             Logging.info("If you are running at least version 4.1 of ProtocolLib, please post a message on MundoSK's thread on forums.skunity.com");
         }
         packetTypesByName = createNameToPacketTypeMap();
-        Registration.registerEnum(PacketType.class, "packettype", packetTypesByName);
-        Registration.registerType(PacketContainer.class, "packet");
-        Registration.registerEffect(EffSendPacket.class, "send packet[s] %packets% to %players%", "send %players% packet[s] %packets%");
-        Registration.registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet[s] %packets% from %players%"); //Included incorrect spelling to avoid wasted time
+        Registration.registerEnum(PacketType.class, "packettype", packetTypesByName)
+                .document("PacketType", "1.8", "A type of a packet. The ones that are available for you depend on your Minecraft version. "
+                        + "If you would like to see them, do '/mundosk doc packettype' in your console. "
+                        + "Alternatively, use the All Packettypes expression, loop through it, and print them.");
+        Registration.registerType(PacketContainer.class, "packet")
+                .document("Packet", "1.8", "A packet. Packets are used by the Minecraft client and server to transmit information, "
+                        + "and can be intercepted, read, and modified in order to gain information and modify the behavior of your server "
+                        + "in certain ways that are not possible through Bukkit.");
+        Registration.registerEffect(EffSendPacket.class, "send packet[s] %packets% to %players%", "send %players% packet[s] %packets%")
+                .document("Send Packet", "1.8", "Sends the specified packet(s) to the specified player(s).");
+        Registration.registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet[s] %packets% from %players%") //Included incorrect spelling to avoid wasted time
+                .document("Receive Packet", "1.8", "Makes the server simulate receiving the specified packet(s) from the specified player(s)");
         Registration.registerEffect(EffPacketInfo.class, "packet info %packet%");
-        Registration.registerEvent("Packet Event", EvtPacketEvent.class, MundoPacketEvent.class, "packet event %packettypes%");
+        Registration.registerEvent("Packet Event", EvtPacketEvent.class, MundoPacketEvent.class, "packet event %packettypes%")
+                .document("Packet Event", "1.8", "Called when a packet of one of the specified types is being sent or received.")
+                .eventValue(PacketContainer.class, "1.8", "The packet being sent or received.")
+                .eventValue(PacketType.class, "1.8", "The packettype of the packet being sent or received. Equivalent to 'event packet's packettype'.")
+                .eventValue(Player.class, "1.8", "The player sending or receiving the packet.");
         Registration.registerEventValue(MundoPacketEvent.class, PacketContainer.class, MundoPacketEvent::getPacket);
         Registration.registerEventValue(MundoPacketEvent.class, PacketType.class, MundoPacketEvent::getPacketType);
         Registration.registerEventValue(MundoPacketEvent.class, Player.class, MundoPacketEvent::getPlayer);
-        Registration.registerPropertyExpression(ExprTypeOfPacket.class, PacketType.class, "packet", "packettype");
-        registerPacketInfoExpression(ExprNewPacket.class, PacketContainer.class, "new %packettype% packet");
+        Registration.registerPropertyExpression(ExprTypeOfPacket.class, PacketType.class, "packet", "packettype")
+                .document("Type of Packet", "1.8", "An expression for the packettype of the specified packet.");
+        registerPacketInfoExpression(ExprNewPacket.class, PacketContainer.class, "new %packettype% packet")
+                .document("New Packet", "1.8", "An expression for a new packet of the specified type.");
         registerPacketInfoExpression(ExprJSONObjectOfPacket.class, JSONObject.class,
                 "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(true) + ") pjson %number% of %packet%",
-                "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(false) + ") array pjson %number% of %packet%");
+                "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(false) + ") array pjson %number% of %packet%")
+                .document("JSON Field of Packet", "1.8", "An expression for certain fields of packets (first see the Packet Info expression for a more general explanation) "
+                        + "that don't have equivalent types in Skript, and thus must be represented in the form of a jsonobject. "
+                        + "The names of the fields can be written as strings but don't have to be as of MundoSK 1.8. "
+                        + "Current accept JSON infos: 'chatcomponent', 'serverping', 'datawatcher', 'watchablecollection', 'gameprofile', 'nbt', "
+                        + "'chatcomponent' array, 'playerinfodata' array.");
         registerPacketInfoExpression(ExprObjectOfPacket.class, Object.class,
                 "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(true) + ") pinfo %number% of %packet%",
-                "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%");
-        registerPacketInfoExpression(ExprPrimitiveOfPacket.class, Number.class, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%");
-        registerPacketInfoExpression(ExprPrimitiveArrayOfPacket.class, Number.class, "(0¦int|1¦byte) array pnum %number% of %packet%");
+                "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%")
+                .document("Field of Packet", "1.8", "An expression for the packet field of either the specified type or referred to by the specified string, "
+                        + "with the specified index, of the specified packet. For example, 'string' can be used as the specified type to get a string field "
+                        + "in the specified packet. 'array' must be included in the syntax when the fields are plural (ex. 'string array'). "
+                        + "Use 'object' in order to access all fields of the packet. However, some fields will have objects in raw forms "
+                        + "that cannot be easily used in Skript without the use of addons such as skript-mirror. Many of these fields can be converted into Skript "
+                        + "types; most of these fields must be referred to by a certain string rather than a type: "
+                        + "\"uuid\", \"material\", \"blockdata\", \"collection\" array, \"bytebuffer\" array (The last two are plural and must have array included in the syntax.");
+        registerPacketInfoExpression(ExprPrimitiveOfPacket.class, Number.class, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%")
+                .document("Number Field of Packet", "1.8", "An expression for different kinds of number fields of packets. "
+                        + "First see the Packet Info expression for a more general explanation of packet fields.");
+        registerPacketInfoExpression(ExprPrimitiveArrayOfPacket.class, Number.class, "(0¦int|1¦byte) array pnum %number% of %packet%")
+                .document("Number Array Field of Packet", "1.8", "An expression for int array and byte array fields of packets. "
+                        + "First see the Packet Info expression for a more general explanation of packet fields.");
         registerPacketInfoExpression(ExprEntityOfPacket.class, Entity.class,
                 "%world% pentity %number% of %packet%",
-                "%world% pentity array %number% of %packet%");
-        registerPacketInfoExpression(ExprEnumOfPacket.class, String.class, "(arbitrary|%-string%) penum %number% of %packet%");
+                "%world% pentity array %number% of %packet%")
+                .document("Entity Field of Packet", "1.8", "An expression for an entity field of a packet "
+                        + "(first see the Packet Info expression for a more general explanation of packet fields). "
+                        + "The specified world is used to determine which world to get the entity from, and thus should be specified "
+                        + "as whichever world the player sending/receiving the packet is in.");
+        registerPacketInfoExpression(ExprEnumOfPacket.class, String.class, "(arbitrary|%-string%) penum %number% of %packet%")
+                .document("Enum Field of Packet", "1.8", "An expression for an enum field of a packet "
+                        + "(first see the Packet Info expression for a more general explanation of packet fields). "
+                        + "The specified string is the name of the enum you are getting/setting. "
+                        + "Using arbitrary gives you access to all enum fields, rather than just one particular type, "
+                        + "and allows you to access certain enums that are NMS types rather than ProtocolLib and thus "
+                        + "can't be accessed by their name.");
 
         ExprPacketInfoAlias.registerNecessaryElements();
     }

@@ -375,23 +375,17 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         });
 
-        Function<WrappedGameProfile, JSONObject> gameProfileToJSON = new Function<WrappedGameProfile, JSONObject>() {
-            @Override
-            public JSONObject apply(WrappedGameProfile gameProfile) {
-                JSONObject result = new JSONObject();
-                result.put("name", gameProfile.getName());
-                result.put("uuid", gameProfile.getUUID());
-                result.put("skin", Skin.fromGameProfile(gameProfile));
-                return result;
-            }
+        Function<WrappedGameProfile, JSONObject> gameProfileToJSON = gameProfile -> {
+            JSONObject result = new JSONObject();
+            result.put("name", gameProfile.getName());
+            result.put("uuid", gameProfile.getUUID().toString());
+            result.put("skin", Skin.fromGameProfile(gameProfile));
+            return result;
         };
-        Function<JSONObject, WrappedGameProfile> gameProfileFromJSON = new Function<JSONObject, WrappedGameProfile>() {
-            @Override
-            public WrappedGameProfile apply(JSONObject value) {
-                WrappedGameProfile gameProfile = new WrappedGameProfile(UUID.fromString((String) value.get("uuid")), (String) value.get("name"));
-                gameProfile.getProperties().put(Skin.MULTIMAP_KEY, ((Skin) value.get("skin")).toWrappedSignedProperty());
-                return gameProfile;
-            }
+        Function<JSONObject, WrappedGameProfile> gameProfileFromJSON = value -> {
+            WrappedGameProfile gameProfile = new WrappedGameProfile(UUID.fromString((String) value.get("uuid")), (String) value.get("name"));
+            gameProfile.getProperties().put(Skin.MULTIMAP_KEY, ((Skin) value.get("skin")).toWrappedSignedProperty());
+            return gameProfile;
         };
 
         registerSingleConverter("gameprofile", new PacketInfoConverter<JSONObject>(JSONObject.class) {
