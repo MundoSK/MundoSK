@@ -31,6 +31,14 @@ public final class Registration {
         currentRequiredPlugins = prevPlugins;
     }
 
+    public static String getCurrentCategory() {
+        return currentCategory;
+    }
+
+    public static String[] getCurrentRequiredPlugins() {
+        return currentRequiredPlugins;
+    }
+
     public static DocumentationBuilder.Effect registerEffect(Class<? extends Effect> effectClass, String... patterns) {
         Skript.registerEffect(effectClass, patterns);
         return new DocumentationBuilder.Effect(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);

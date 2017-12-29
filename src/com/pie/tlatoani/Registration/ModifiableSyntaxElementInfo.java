@@ -79,7 +79,7 @@ public abstract class ModifiableSyntaxElementInfo<I extends SyntaxElementInfo> {
         public final ExpressionType expressionType;
 
         public Expression(Class<E> expressionClass, Class<T> returnType, ExpressionType expressionType, String... patterns) {
-            super(new ExpressionInfo<E, T>(patterns, returnType, expressionClass));
+            super(new ExpressionInfo<>(patterns, returnType, expressionClass));
             this.expressionType = expressionType;
         }
 

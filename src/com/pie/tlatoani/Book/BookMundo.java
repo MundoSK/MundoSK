@@ -11,10 +11,14 @@ import org.bukkit.inventory.ItemStack;
 public class BookMundo {
 
     public static void load() {
-        ListUtil.registerTransformer(TransBookPages.class, "itemstack", "page");
-        Registration.registerExpression(ExprBook.class, ItemStack.class, ExpressionType.COMBINED,"[written] book titled %string%[,] [written] by %string%[,] [with] pages %strings%");
-        Registration.registerPropertyExpression(ExprTitleOfBook.class, String.class, "itemstacks", "title");
-        Registration.registerPropertyExpression(ExprAuthorOfBook.class, String.class, "itemstacks", "author");
-
+        ListUtil.registerTransformer(TransBookPages.class, String.class, "itemstack", "page")
+                .document("Page ListUtil", "1.6.8", "A ListUtil specifier (see the ListUtil expression for more info) that allows you to manipulate the pages of a book. "
+                        + "This is done by, in a ListUtil effect or expression, writing 'page' where '%listutil%' is, and inputting a book for '%objects%'.");
+        Registration.registerExpression(ExprBook.class, ItemStack.class, ExpressionType.COMBINED,"[written] book titled %string%[,] [written] by %string%[,] [with] pages %strings%")
+                .document("Book", "1.8", "An expression for a book with the specified title, author, and pages.");
+        Registration.registerPropertyExpression(ExprTitleOfBook.class, String.class, "itemstacks", "title")
+                .document("Title of Book", "1.4 or earlier", "An expression for the title of the specified book.");
+        Registration.registerPropertyExpression(ExprAuthorOfBook.class, String.class, "itemstacks", "author")
+                .document("Author of Book", "1.4 or earlier", "An expression for the author of the specified book.");
     }
 }

@@ -13,7 +13,7 @@ import java.lang.reflect.Array;
 /**
  * Created by Tlatoani on 6/15/16.
  */
-public class TransDefault implements Transformer {
+public class TransDefault implements Transformer<Object> {
     Expression expression;
     Boolean isSettable;
     Class returnType;

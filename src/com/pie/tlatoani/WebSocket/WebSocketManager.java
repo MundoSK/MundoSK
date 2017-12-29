@@ -79,11 +79,11 @@ public final class WebSocketManager {
         Registration.registerEventValue(WebSocketCloseEvent.class, String.class, event -> event.reason);
         Registration.registerEventValue(WebSocketCloseEvent.class, Boolean.class, event -> event.remote);
 
-        Registration.registerExpression(ExprNewWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "[new] websocket %string% connected to uri %string% [with [http] headers (%-objects%|%-jsonobject%)]")
-                .document("New WebSocket", "1.8", "Creates a new websocket connection using the websocket client with the specified id, connecting to the specified URI. "
-                        + "Optionally, you can specify additional HTTP headers, which you can use to add additional information in the initial connection (ex. a password). "
+        Registration.registerExpression(ExprNewWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "[new] websocket %string% connected to uri %string%")
+                .document("New WebSocket", "1.8", "Creates a new websocket connection using the websocket client with the specified id, connecting to the specified URI."
+                        /*+ "Optionally, you can specify additional HTTP headers, which you can use to add additional information in the initial connection (ex. a password). "
                         + "A header is a mapping from one string (referred to as the name in MundoSK syntax) to another (each header has a unique name). "
-                        + "You can specify headers using a jsonobject or using a list variable.");
+                        + "You can specify headers using a jsonobject or using a list variable."*/);
         Registration.registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket [server] port")
                 .document("WebSocket Server Port", "1.8", "For use under 'websocket server %string%': An expression for the port on which this websocket server is open.");
         Registration.registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all websockets [of server at port %-number%]")
@@ -100,13 +100,13 @@ public final class WebSocketManager {
                 .document("Port of WebSocket", "1.8", "An expression for the port, local or external, of the specified websocket.");
         Registration.registerPropertyExpression(ExprWebSocketState.class, WebSocket.READYSTATE.class, "websocket", "websocket state")
                 .document("Connection State of WebSocket", "1.8", "An expression for the connection state of the specified websocket.");
-        Registration.registerExpression(ExprHandshakeHeader.class, String.class, ExpressionType.PROPERTY, "handshake header %string%")
+        /*Registration.registerExpression(ExprHandshakeHeader.class, String.class, ExpressionType.PROPERTY, "handshake header %string%")
                 .document("Handshake Header", "1.8", "An expression, for use under the 'on open' section of a websocket client/server template, "
                         + "for the value of the header with the specified name in the handshake of the connection. "
                         + "If there is no header with the specified name, the expression will return an empty string.");
         Registration.registerExpression(ExprHandshakeHeaderNames.class, String.class, ExpressionType.SIMPLE, "[all] handshake header names")
                 .document("Handshake Header Names", "1.8", "An expression, for use under the 'on open' section of a websocket client/server template, "
-                        + "for a list of the names of all of the headers in the handshake of the connection.");
+                        + "for a list of the names of all of the headers in the handshake of the connection.");*/
     }
 
     public static WebSocketClientFunctionality getClientFunctionality(String id) {

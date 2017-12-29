@@ -6,6 +6,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import ch.njol.util.coll.iterator.EmptyIterator;
 import com.pie.tlatoani.Util.MundoUtil;
 import com.pie.tlatoani.WebSocket.Events.WebSocketServerEvent;
 import mundosk_libraries.java_websocket.WebSocket;
@@ -25,7 +26,7 @@ public class ExprAllWebSockets extends SimpleExpression<WebSocket> {
         WebSocketServer server = portExpr == null
                 ? ((WebSocketServerEvent) event).getWebSocketServer()
                 : WebSocketManager.getServer(portExpr.getSingle(event).intValue());
-        return server.connections().toArray(new WebSocket[0]);
+        return server == null ? new WebSocket[0] : server.connections().toArray(new WebSocket[0]);
     }
 
     @Override
@@ -33,7 +34,7 @@ public class ExprAllWebSockets extends SimpleExpression<WebSocket> {
         WebSocketServer server = portExpr == null
                 ? ((WebSocketServerEvent) event).getWebSocketServer()
                 : WebSocketManager.getServer(portExpr.getSingle(event).intValue());
-        return server.connections().iterator();
+        return server == null ? new EmptyIterator<>() : server.connections().iterator();
     }
 
     @Override

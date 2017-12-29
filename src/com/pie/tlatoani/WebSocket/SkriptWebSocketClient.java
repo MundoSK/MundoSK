@@ -5,8 +5,10 @@ import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
+import mundosk_libraries.java_websocket.WebSocket;
 import mundosk_libraries.java_websocket.client.WebSocketClient;
 import mundosk_libraries.java_websocket.drafts.Draft_17;
+import mundosk_libraries.java_websocket.handshake.ClientHandshake;
 import mundosk_libraries.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
@@ -27,6 +29,11 @@ public class SkriptWebSocketClient extends WebSocketClient {
         super(serverURI, new Draft_17(), headers, 0);
         this.functionality = functionality;
     }
+
+    /*@Override
+    public void onWebsocketHandshakeReceivedAsClient(WebSocket conn, ClientHandshake clientHandshake, ServerHandshake handshakedata) {
+
+    }*/
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {

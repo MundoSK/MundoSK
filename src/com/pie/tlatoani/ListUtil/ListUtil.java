@@ -2,6 +2,7 @@ package com.pie.tlatoani.ListUtil;
 
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
+import com.pie.tlatoani.Registration.DocumentationBuilder;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.MathUtil;
 import com.pie.tlatoani.Registration.Registration;
@@ -20,20 +21,39 @@ public final class ListUtil {
     private static final List<TransformerInfo> transformerInfos = new ArrayList<>();
 
     public static void load() {
-        Registration.registerEffect(EffMoveElements.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%");
+        Registration.registerEffect(EffMoveElements.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%")
+                .document("Move Elements of List", "1.6.8", "Uses either the Element of List or Some Elements of List expression (both are ListUtil expressions) "
+                        + "as the first specified expression, and moves them forward or backward the specified amount in their specified list.");
 
-        registerTransformer(TransDefault.class, "objects", "elem", "element");
+        registerTransformer(TransDefault.class, Object.class,"objects", "elem", "element")
+                .document("ListUtil", "1.6.8", "ListUtil is a general set of expressions and effects used for manipulating lists. "
+                        + "Each ListUtil effect/expression provides a certain functionality for lists in general, "
+                        + "and contains '%listutil%' somewhere in its syntax - listutil isn't an actual type, but instead allows you to input "
+                        + "a sort of \"specifier\" as to how you want to provide the list that is going to be manipulated. ListUtil effects/expressions "
+                        + "also have an '%objects%' in their syntax from which the list is going to be gotten. "
+                        + "The listutil specifier described by the above syntax is used for manipulating all lists, "
+                        + "meaning you can write 'elem' where '%listutil%' is and input any list in '%objects%' to manipulate it. "
+                        + "For example, using the Element of List expression, you could write 'elem 3 of {_list::*}' and that would be the third element of the list variable."
+                        + "See the Book ListUtil expression as another example");
 
         registerTransformerUser(new ModifiableSyntaxElementInfo.Effect(EffInsertElements.class),
-                "(add|insert) %objects% (1¦before|0¦after) (" + TRANSFORMER_PATTERN_ID + " %-number%|last " + TRANSFORMER_PATTERN_ID + ") (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
+                "(add|insert) %objects% (1¦before|0¦after) (" + TRANSFORMER_PATTERN_ID + " %-number%|last " + TRANSFORMER_PATTERN_ID + ") (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID)
+                .document("Add Elements to List", "1.6.8", "A ListUtil effect (see the ListUtil expression for more info). "
+                        + "Adds the specified elements before or after the specified index or the end of the specified list.");
         registerTransformerUser(new ModifiableSyntaxElementInfo.Expression(ExprElement.class, Object.class, ExpressionType.PROPERTY),
-                "(" + TRANSFORMER_PATTERN_ID + " %-number%|last " + TRANSFORMER_PATTERN_ID + ") (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
+                "(" + TRANSFORMER_PATTERN_ID + " %-number%|last " + TRANSFORMER_PATTERN_ID + ") (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID)
+                .document("Element of List", "1.6.8", "A ListUtil expression (see the ListUtil expression for more info) "
+                        + "for the element at the specified index or the last element in the specified list.");
         registerTransformerUser(new ModifiableSyntaxElementInfo.Expression(ExprElements.class, Object.class, ExpressionType.PROPERTY),
-                TRANSFORMER_PATTERN_ID + "s (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
+                TRANSFORMER_PATTERN_ID + "s (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID)
+                .document("All Elements of List", "1.6.8", "A ListUtil expression (see the ListUtil expression for more info) for all of the elements in the specified list.");
         registerTransformerUser(new ModifiableSyntaxElementInfo.Expression(ExprSomeElements.class, Object.class, ExpressionType.PROPERTY),
-                TRANSFORMER_PATTERN_ID + "s %number% to (%-number%|last) (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
+                TRANSFORMER_PATTERN_ID + "s %number% to (%-number%|last) (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID)
+                .document("Some Elements of List", "1.6.8", "A ListUtil expression (see the ListUtil expression for more info) "
+                        + "for the sublist of the specified list from the first specified index to the second specified index or the end of the list.");
         registerTransformerUser(new ModifiableSyntaxElementInfo.Expression(ExprElementCount.class, Object.class, ExpressionType.PROPERTY),
-                "(" + TRANSFORMER_PATTERN_ID + " count|amount of " + TRANSFORMER_PATTERN_ID + "s) (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID);
+                "(" + TRANSFORMER_PATTERN_ID + " count|amount of " + TRANSFORMER_PATTERN_ID + "s) (of|in) " + POSSESSOR_CLASS_CODE_NAME_ID)
+                .document("Amount of Elements in List", "1.6.8", "A ListUtil expression (see the ListUtil expression for more info) for the size of the specified list.");
     }
 
     public static class TransformerInfo {
@@ -92,7 +112,7 @@ public final class ListUtil {
         }
     }
 
-    public static void registerTransformer(Class<? extends Transformer> transformerClass, String possessorClassCodeName, String... patterns) {
+    public static <T> DocumentationBuilder.Expression registerTransformer(Class<? extends Transformer<T>> transformerClass, Class<T> type, String possessorClassCodeName, String... patterns) {
         if (patterns.length == 0) {
             throw new IllegalArgumentException("Every transformer must have at least one pattern!");
         }
@@ -102,9 +122,10 @@ public final class ListUtil {
             String formattedWrapperPattern = userInfo.formatPrototypePattern(transformerInfo);
             userInfo.syntaxElementInfo.addPattern(formattedWrapperPattern);
         }
+        return new DocumentationBuilder.Expression(Registration.getCurrentCategory(), patterns, type).requiredPlugins(Registration.getCurrentRequiredPlugins());
     }
 
-    public static void registerTransformerUser(ModifiableSyntaxElementInfo syntaxElementInfo, String prototypePattern) {
+    public static DocumentationBuilder registerTransformerUser(ModifiableSyntaxElementInfo syntaxElementInfo, String prototypePattern) {
         TransformerUserInfo userInfo = new TransformerUserInfo(syntaxElementInfo, prototypePattern);
         TRANSFORMER_USER_INFOS.add(userInfo);
         String[] patterns = new String[transformerInfos.size()];
@@ -114,6 +135,17 @@ public final class ListUtil {
         }
         userInfo.syntaxElementInfo.setPatterns(patterns);
         userInfo.syntaxElementInfo.register();
+        if (syntaxElementInfo instanceof ModifiableSyntaxElementInfo.Effect) {
+            return new DocumentationBuilder.Effect(Registration.getCurrentCategory(), new String[]{prototypePattern}).requiredPlugins(Registration.getCurrentRequiredPlugins());
+        } else if (syntaxElementInfo instanceof ModifiableSyntaxElementInfo.Expression) {
+            ModifiableSyntaxElementInfo.Expression<?, ?> exprInfo = (ModifiableSyntaxElementInfo.Expression) syntaxElementInfo;
+            if (exprInfo.syntaxElementInfo.returnType == Boolean.class) {
+                return new DocumentationBuilder.Condition(Registration.getCurrentCategory(), new String[]{prototypePattern}).requiredPlugins(Registration.getCurrentRequiredPlugins());
+            } else {
+                return new DocumentationBuilder.Expression(Registration.getCurrentCategory(), new String[]{prototypePattern}, exprInfo.syntaxElementInfo.returnType).requiredPlugins(Registration.getCurrentRequiredPlugins());
+            }
+        }
+        return null;
     }
 
 }

@@ -38,7 +38,7 @@ public class ExprNewWebSocket extends SimpleExpression<WebSocket> {
             return null;
         }
         SkriptWebSocketClient webSocket;
-        if (headersJSONExpr != null) {
+        /*if (headersJSONExpr != null) {
             JSONObject headersJSON = headersJSONExpr.getSingle(event);
             Map<String, String> headers = new HashMap<>();
             headersJSON.forEach((key, value) -> {
@@ -56,9 +56,9 @@ public class ExprNewWebSocket extends SimpleExpression<WebSocket> {
                 }
             });
             webSocket = new SkriptWebSocketClient(functionality, uri, headers);
-        } else {
+        } else {*/
             webSocket = new SkriptWebSocketClient(functionality, uri);
-        }
+        //}
         webSocket.connect();
         return new WebSocket[]{webSocket};
     }
@@ -82,7 +82,7 @@ public class ExprNewWebSocket extends SimpleExpression<WebSocket> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         idExpr = (Expression<String>) expressions[0];
         uriExpr = (Expression<String>) expressions[1];
-        headersJSONExpr = (Expression<JSONObject>) expressions[3];
+        /*headersJSONExpr = (Expression<JSONObject>) expressions[3];
         if (expressions[2] != null) {
             if (expressions[2] instanceof Variable && !expressions[2].isSingle()) {
                 headersVarExpr = (Variable) expressions[2];
@@ -92,7 +92,7 @@ public class ExprNewWebSocket extends SimpleExpression<WebSocket> {
             }
         } else {
             expressions[2] = null;
-        }
+        }*/
         return true;
     }
 }
