@@ -27,6 +27,7 @@ public final class WebSocketManager {
         Registration.registerType(WebSocket.class, "websocket")
                 .document("WebSocket", "1.8", "A websocket object representing one end of a WebSocket connection that can be used to transmit informations between multiple servers and other online services.")
                 .defaultExpression(new EventValueExpression<>(WebSocket.class));
+        Registration.registerType(Handshakedata.class, "handshake");
         Registration.registerEnum(WebSocket.READYSTATE.class, "websocketstate", WebSocket.READYSTATE.values())
                 .pair("NOT YET CONNECTED", WebSocket.READYSTATE.NOT_YET_CONNECTED)
                 .document("WebSocketState", "1.8", "A state that a websocket connection can be in.");
@@ -104,7 +105,6 @@ public final class WebSocketManager {
     }
 
     private static void loadHandshake() {
-        Registration.registerType(Handshakedata.class, "request");
         Registration.registerExpression(ExprHandshake.class, Handshakedata.class, ExpressionType.SIMPLE, "[websocket] [handshake] request", "[websocket] [handshake] response", "new [websocket] handshake");
         Registration.registerExpression(ExprRequestIsAllowed.class, Boolean.class, ExpressionType.SIMPLE, "[websocket] [handshake] request is (0¦allowed|1¦refused)");
         Registration.registerExpression(ExprHeader.class, String.class, ExpressionType.COMBINED, "[handshake] [http] header %string% of %handshake%");
