@@ -21,7 +21,7 @@ public interface WebSocketListener {
 
 	/**
 	 * Called on the server side when the socket connection is first established, and the WebSocket
-	 * handshake has been received. This method allows to deny connections based on the received handshake.<br>
+	 * request has been received. This method allows to deny connections based on the received request.<br>
 	 * By default this method only requires protocol compliance.
 	 * 
 	 * @param conn
@@ -30,35 +30,35 @@ public interface WebSocketListener {
 	 *            The protocol draft the client uses to connect
 	 * @param request
 	 *            The opening http message send by the client. Can be used to access additional fields like cookies.
-	 * @return Returns an incomplete handshake containing all optional fields
+	 * @return Returns an incomplete request containing all optional fields
 	 * @throws InvalidDataException
-	 *             Throwing this exception will cause this handshake to be rejected
+	 *             Throwing this exception will cause this request to be rejected
 	 */
 	public ServerHandshakeBuilder onWebsocketHandshakeReceivedAsServer(WebSocket conn, Draft draft, ClientHandshake request) throws InvalidDataException;
 
 	/**
 	 * Called on the client side when the socket connection is first established, and the WebSocketImpl
-	 * handshake response has been received.
+	 * request response has been received.
 	 * 
 	 * @param conn
 	 *            The WebSocket related to this event
 	 * @param request
-	 *            The handshake initially send out to the server by this websocket.
+	 *            The request initially send out to the server by this websocket.
 	 * @param response
-	 *            The handshake the server sent in response to the request.
+	 *            The request the server sent in response to the request.
 	 * @throws InvalidDataException
-	 *             Allows the client to reject the connection with the server in respect of its handshake response.
+	 *             Allows the client to reject the connection with the server in respect of its request response.
 	 */
 	public void onWebsocketHandshakeReceivedAsClient(WebSocket conn, ClientHandshake request, ServerHandshake response) throws InvalidDataException;
 
 	/**
 	 * Called on the client side when the socket connection is first established, and the WebSocketImpl
-	 * handshake has just been sent.
+	 * request has just been sent.
 	 * 
 	 * @param conn
 	 *            The WebSocket related to this event
 	 * @param request
-	 *            The handshake sent to the server by this websocket
+	 *            The request sent to the server by this websocket
 	 * @throws InvalidDataException
 	 *             Allows the client to stop the connection from progressing
 	 */
@@ -101,7 +101,7 @@ public interface WebSocketListener {
 	 * and we are ready to send/receive data.
 	 * 
 	 * @param conn The <tt>WebSocket</tt> instance this event is occuring on.
-	 * @param d The handshake of the websocket instance
+	 * @param d The request of the websocket instance
 	 */
 	public void onWebsocketOpen(WebSocket conn, Handshakedata d);
 
@@ -125,7 +125,7 @@ public interface WebSocketListener {
 	 */
 	public void onWebsocketClosing(WebSocket ws, int code, String reason, boolean remote);
 
-	/** send when this peer sends a close handshake
+	/** send when this peer sends a close request
 	 *
 	 * @param ws The <tt>WebSocket</tt> instance this event is occuring on.
 	 * @param code The codes can be looked up here: {@link CloseFrame}

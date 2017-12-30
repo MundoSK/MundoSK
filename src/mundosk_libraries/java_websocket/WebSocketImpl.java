@@ -30,7 +30,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Represents one end (client or server) of a single WebSocketImpl connection.
- * Takes care of the "handshake" phase, then allows for easy sending of
+ * Takes care of the "request" phase, then allows for easy sending of
  * text frames, and receiving frames through an event-based model.
  */
 public class WebSocketImpl implements WebSocket {
@@ -81,12 +81,12 @@ public class WebSocketImpl implements WebSocket {
 	private Framedata current_continuous_frame = null;
 
 	/**
-	 * the bytes of an incomplete received handshake
+	 * the bytes of an incomplete received request
 	 */
 	private ByteBuffer tmpHandshakeBytes = ByteBuffer.allocate( 0 );
 
 	/**
-	 * stores the handshake sent by this websocket ( Role.CLIENT only )
+	 * stores the request sent by this websocket ( Role.CLIENT only )
 	 */
 	private ClientHandshake handshakerequest = null;
 
@@ -169,8 +169,8 @@ public class WebSocketImpl implements WebSocket {
 	}
 
 	/**
-	 * Returns whether the handshake phase has is completed.
-	 * In case of a broken handshake this will be never the case.
+	 * Returns whether the request phase has is completed.
+	 * In case of a broken request this will be never the case.
 	 **/
 	private boolean decodeHandshake( ByteBuffer socketBufferNew ) {
 		ByteBuffer socketBuffer;
@@ -259,7 +259,7 @@ public class WebSocketImpl implements WebSocket {
 							open( handshake );
 							return true;
 						} else {
-							close( CloseFrame.PROTOCOL_ERROR, "the handshake did finaly not match" );
+							close( CloseFrame.PROTOCOL_ERROR, "the request did finaly not match" );
 						}
 						return false;
 					}
@@ -286,7 +286,7 @@ public class WebSocketImpl implements WebSocket {
 						open( handshake );
 						return true;
 					} else {
-						close( CloseFrame.PROTOCOL_ERROR, "draft " + draft + " refuses handshake" );
+						close( CloseFrame.PROTOCOL_ERROR, "draft " + draft + " refuses request" );
 					}
 				}
 			} catch ( InvalidHandshakeException e ) {
@@ -336,10 +336,10 @@ public class WebSocketImpl implements WebSocket {
 						reason = cf.getMessage();
 					}
 					if( readystate == READYSTATE.CLOSING ) {
-						// complete the close handshake by disconnecting
+						// complete the close request by disconnecting
 						closeConnection( code, reason, true );
 					} else {
-						// echo close handshake
+						// echo close request
 						if( draft.getCloseHandshakeType() == CloseHandshakeType.TWOWAY )
 							close( code, reason, true );
 						else
@@ -465,14 +465,14 @@ public class WebSocketImpl implements WebSocket {
 	}
 
 	/**
-	 * This will close the connection immediately without a proper close handshake.
+	 * This will close the connection immediately without a proper close request.
 	 * The code and the message therefore won't be transfered over the wire also they will be forwarded to generation/onWebsocketClose.
 	 * @param code the closing code
 	 * @param message the closing message
 	 * @param remote Indicates who "generated" <code>code</code>.<br>
 	 *               <code>true</code> means that this endpoint received the <code>code</code> from the other endpoint.<br>
 	 *               false means this endpoint decided to send the given code,<br>
-	 *               <code>remote</code> may also be true if this endpoint started the closing handshake since the other endpoint may not simply echo the <code>code</code> but close the connection the same time this endpoint does do but with an other <code>code</code>. <br>
+	 *               <code>remote</code> may also be true if this endpoint started the closing request since the other endpoint may not simply echo the <code>code</code> but close the connection the same time this endpoint does do but with an other <code>code</code>. <br>
 	 **/
 	protected synchronized void closeConnection( int code, String message, boolean remote ) {
 		if( readystate == READYSTATE.CLOSED ) {

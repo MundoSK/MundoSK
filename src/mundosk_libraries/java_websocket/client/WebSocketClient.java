@@ -173,7 +173,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 	}
 
 	/**
-	 * Initiates the websocket close handshake. This method does not block<br>
+	 * Initiates the websocket close request. This method does not block<br>
 	 * In oder to make sure the connection is closed use <code>closeBlocking</code>
 	 */
 	public void close() {
@@ -365,7 +365,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 	}
 
 	/**
-	 * Send when this peer sends a close handshake
+	 * Send when this peer sends a close request
 	 *
 	 * @param code The codes can be looked up here: {@link CloseFrame}
 	 * @param reason Additional information string

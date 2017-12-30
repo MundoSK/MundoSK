@@ -64,10 +64,10 @@ public interface CloseFrame extends Framedata {
 	 * 1010 indicates that an endpoint (client) is terminating the
 	 * connection because it has expected the server to negotiate one or
 	 * more extension, but the server didn't return them in the response
-	 * message of the WebSocket handshake. The list of extensions which
+	 * message of the WebSocket request. The list of extensions which
 	 * are needed SHOULD appear in the /reason/ part of the Close frame.
 	 * Note that this status code is not used by the server, because it
-	 * can fail the WebSocket handshake instead.
+	 * can fail the WebSocket request instead.
 	 */
 	public static final int EXTENSION = 1010;
 	/**
@@ -80,7 +80,7 @@ public interface CloseFrame extends Framedata {
 	 * 1015 is a reserved value and MUST NOT be set as a status code in a
 	 * Close control frame by an endpoint. It is designated for use in
 	 * applications expecting a status code to indicate that the
-	 * connection was closed due to a failure to perform a TLS handshake
+	 * connection was closed due to a failure to perform a TLS request
 	 * (e.key., the server certificate can't be verified).
 	 **/
 	public static final int TLS_ERROR = 1015;

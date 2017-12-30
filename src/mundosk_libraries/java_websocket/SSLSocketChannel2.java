@@ -32,7 +32,7 @@ import java.util.concurrent.Future;
  */
 public class SSLSocketChannel2 implements ByteChannel, WrappedByteChannel {
 	/**
-	 * This object is used to feed the {@link SSLEngine}'s wrap and unwrap methods during the handshake phase.
+	 * This object is used to feed the {@link SSLEngine}'s wrap and unwrap methods during the request phase.
 	 **/
 	protected static ByteBuffer emptybuffer = ByteBuffer.allocate( 0 );
 
@@ -78,7 +78,7 @@ public class SSLSocketChannel2 implements ByteChannel, WrappedByteChannel {
 			this.selectionKey = key;
 		}
 		createBuffers( sslEngine.getSession() );
-		// kick off handshake
+		// kick off request
 		socketChannel.write( wrap( emptybuffer ) );// initializes res
 		processHandshake();
 	}
@@ -102,7 +102,7 @@ public class SSLSocketChannel2 implements ByteChannel, WrappedByteChannel {
 	}
 
 	/**
-	 * This method will do whatever necessary to process the sslengine handshake.
+	 * This method will do whatever necessary to process the sslengine request.
 	 * Thats why it's called both from the {@link #read(ByteBuffer)} and {@link #write(ByteBuffer)}
 	 **/
 	private synchronized void processHandshake() throws IOException {

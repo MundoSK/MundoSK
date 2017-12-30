@@ -4,7 +4,11 @@ import ch.njol.skript.lang.TriggerItem;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.WebSocket.Events.*;
 import mundosk_libraries.java_websocket.WebSocket;
+import mundosk_libraries.java_websocket.drafts.Draft;
+import mundosk_libraries.java_websocket.exceptions.InvalidDataException;
+import mundosk_libraries.java_websocket.framing.CloseFrame;
 import mundosk_libraries.java_websocket.handshake.ClientHandshake;
+import mundosk_libraries.java_websocket.handshake.ServerHandshakeBuilder;
 import mundosk_libraries.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
@@ -24,6 +28,17 @@ public class SkriptWebSocketServer extends WebSocketServer {
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         functionality.onOpen.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketOpenEvent.Server(this, conn, handshake)));
+    }
+
+    @Override
+    public ServerHandshakeBuilder onWebsocketHandshakeReceivedAsServer(WebSocket conn, Draft draft, ClientHandshake request) throws InvalidDataException {
+        ServerHandshakeBuilder response = super.onWebsocketHandshakeReceivedAsServer(conn, draft, request);
+        WebSocketHandshakeEvent.Server event = new WebSocketHandshakeEvent.Server(this, conn, request, response);
+        functionality.onHandshake.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, event));
+        if (!event.allowed) {
+            throw new InvalidDataException(CloseFrame.REFUSE);
+        }
+        return response;
     }
 
     @Override

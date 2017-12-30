@@ -1,6 +1,5 @@
 package com.pie.tlatoani.WebSocket;
 
-import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -30,7 +29,8 @@ public class ExprHandshakeHeaderNames extends SimpleExpression<String> {
 
     @Override
     public Iterator<String> iterator(Event event) {
-        return MundoUtil.cast(event, WebSocketOpenEvent.class).map(wsOpenEvent -> wsOpenEvent.handshake.iterateHttpFields()).orElse(new EmptyIterator<>());
+        //return MundoUtil.cast(event, WebSocketOpenEvent.class).map(wsOpenEvent -> wsOpenEvent.handshake.iterateHttpFields()).orElse(new EmptyIterator<>());
+        return null;
     }
 
     @Override
@@ -45,13 +45,13 @@ public class ExprHandshakeHeaderNames extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "all handshake header names";
+        return "all request header names";
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         if (!MundoUtil.isAssignableFromCurrentEvent(WebSocketOpenEvent.class)) {
-            Skript.error("The 'all handshake headers' expression can only be used in the 'on open' section of a websocket client or server template!");
+            Skript.error("The 'all request headers' expression can only be used in the 'on open' section of a websocket client or server template!");
             return false;
         }
         return true;

@@ -5,10 +5,7 @@ import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.TriggerItem;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Util.ScopeUtil;
-import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
-import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
-import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
-import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
+import com.pie.tlatoani.WebSocket.Events.*;
 
 import java.util.Optional;
 
@@ -21,6 +18,7 @@ public class WebSocketClientFunctionality {
     private boolean loaded = false;
 
     public Optional<TriggerItem> onOpen = Optional.empty();
+    public Optional<TriggerItem> onHandshake = Optional.empty();
     public Optional<TriggerItem> onClose = Optional.empty();
     public Optional<TriggerItem> onMessage = Optional.empty();
     public Optional<TriggerItem> onError = Optional.empty();
@@ -35,6 +33,7 @@ public class WebSocketClientFunctionality {
 
     public static class Nebula {
         public Optional<SectionNode> onOpen = Optional.empty();
+        public Optional<SectionNode> onHandshake = Optional.empty();
         public Optional<SectionNode> onClose = Optional.empty();
         public Optional<SectionNode> onMessage = Optional.empty();
         public Optional<SectionNode> onError = Optional.empty();
@@ -47,7 +46,11 @@ public class WebSocketClientFunctionality {
     public void load(Nebula nebula) {
         loaded = true;
         onOpen = nebula.onOpen.flatMap(sectionNode -> {
-            ScriptLoader.setCurrentEvent("WebSocketClientOpen", WebSocketOpenEvent.class);
+            ScriptLoader.setCurrentEvent("WebSocketClientOpen", WebSocketOpenEvent.Client.class);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
+        });
+        onHandshake = nebula.onHandshake.flatMap(sectionNode -> {
+            ScriptLoader.setCurrentEvent("WebSocketClientHandshake", WebSocketHandshakeEvent.Client.class);
             return ScopeUtil.loadSectionNode(sectionNode, null);
         });
         onClose = nebula.onClose.flatMap(sectionNode -> {
@@ -67,16 +70,15 @@ public class WebSocketClientFunctionality {
     public void unload() {
         loaded = false;
         onOpen = Optional.empty();
+        onHandshake = Optional.empty();
         onClose = Optional.empty();
         onMessage = Optional.empty();
         onError = Optional.empty();
     }
 
     public String toString() {
-        return "WebSocketClientFunctionality(TriggerItems: " +
-                onOpen + "," +
-                onClose + "," +
-                onMessage + "," +
-                onError + ")";
+        return "WebSocketClientFunctionality(TriggerItems: "
+                + String.join(", ", onOpen.toString(), onHandshake.toString(), onClose.toString(), onMessage.toString(), onError.toString())
+                + ")";
     }
 }

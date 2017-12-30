@@ -26,12 +26,12 @@ import mundosk_libraries.java_websocket.handshake.ServerHandshake;
 import mundosk_libraries.java_websocket.handshake.ServerHandshakeBuilder;
 
 /**
- * Base class for everything of a websocket specification which is not common such as the way the handshake is read or frames are transfered.
+ * Base class for everything of a websocket specification which is not common such as the way the request is read or frames are transfered.
  **/
 public abstract class Draft {
 
 	/**
-	 * Enum which represents the states a handshake may be in
+	 * Enum which represents the states a request may be in
 	 */
 	public enum HandshakeState {
 		/** Handshake matched this Draft successfully */
@@ -40,7 +40,7 @@ public abstract class Draft {
 		NOT_MATCHED
 	}
 	/**
-	 * Enum which represents type of handshake is required for a close
+	 * Enum which represents type of request is required for a close
 	 */
 	public enum CloseHandshakeType {
 		NONE, ONEWAY, TWOWAY
@@ -51,7 +51,7 @@ public abstract class Draft {
 
 	public static final byte[] FLASH_POLICY_REQUEST = Charsetfunctions.utf8Bytes( "<policy-file-request/>\0" );
 
-	/** In some cases the handshake will be parsed different depending on whether */
+	/** In some cases the request will be parsed different depending on whether */
 	protected Role role = null;
 
 	protected Framedata.Opcode continuousFrameType = null;

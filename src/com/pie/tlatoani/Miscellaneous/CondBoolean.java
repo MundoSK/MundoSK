@@ -11,10 +11,11 @@ import org.bukkit.event.Event;
  */
 public class CondBoolean extends Condition{
     private Expression<Boolean> cond;
+    private boolean negated;
 
     @Override
     public boolean check(Event event) {
-        return cond.getSingle(event);
+        return cond.getSingle(event) != negated;
     }
 
     @Override
@@ -25,6 +26,7 @@ public class CondBoolean extends Condition{
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         cond = (Expression<Boolean>) expressions[0];
+        negated = i == 1;
         return true;
     }
 }

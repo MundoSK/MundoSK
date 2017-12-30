@@ -58,7 +58,7 @@ public class MiscMundo {
     public static void load() {
         //Allow MundoSK 'conditions' to work in absence of SkQuery, which provides a condition like the below
         if (!MundoUtil.serverHasPlugin("SkQuery")) {
-            Registration.registerCondition(CondBoolean.class, "%boolean%");
+            Registration.registerCondition(CondBoolean.class, "[(1¦not)] %boolean%");
         }
 
         Registration.registerEffect(EffWait.class, "[(2¦async)] wait (0¦until|1¦while) %boolean% [for %-timespan%] [by %-timespan%]")
@@ -359,7 +359,7 @@ public class MiscMundo {
                 .document("New Random", "1.7", "An expression for a new random from the specified seed, or an arbitrary seed.");
         Registration.registerExpression(ExprRandomValue.class, Object.class, ExpressionType.PROPERTY, "random (0¦int|1¦long|2¦float|3¦double|4¦gaussian|5¦int less than %-number%|6¦boolean) [from [random] %random%]")
                 .document("Random Value from Random", "1.7", "A random value of the specified type, either from a specified random, or from an arbitrary one. "
-                        + "In the case of the 'int less than' syntax, the random value will be an int greater than or equal to 0 but less than the specified number.");
+                        + "In the case of the 'int less than' fullSyntax, the random value will be an int greater than or equal to 0 but less than the specified number.");
     }
     
     private static void loadServerListPing() {

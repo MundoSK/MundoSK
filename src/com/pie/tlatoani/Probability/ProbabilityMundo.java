@@ -11,7 +11,7 @@ public class ProbabilityMundo {
     public static void load() {
         Registration.registerScope(ScopeProbability.class, "prob[ability]", "random chance")
                 .document("Probability", "1.5.3 or earlier", "The probability scope is used to perform different actions based on given probabilities. "
-                        + "Under the scope, you write different probability values using the syntax '%number% prob[ability]'. "
+                        + "Under the scope, you write different probability values using the fullSyntax '%number% prob[ability]'. "
                         + "These can be written as scopes or just simple lines of code. When the probability scope is run, all of these "
                         + "probabilities are added up and then, using their values, one is chosen at random and the code starts to proceed "
                         + "from there. First, if the chosen probability is a scope, its section of code is run. Then, the rest of the lines of code "

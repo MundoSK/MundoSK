@@ -95,10 +95,12 @@ public class MundoUtil {
         return false;
     }
 
-    public static boolean isAssignableFromCurrentEvent(Class<?> event) {
-        for (Class<? extends Event> eventClass : ScriptLoader.getCurrentEvents()) {
-            if (event.isAssignableFrom(eventClass)) {
-                return true;
+    public static boolean isAssignableFromCurrentEvent(Class<?>... events) {
+        for (Class<?> event : events) {
+            for (Class<? extends Event> eventClass : ScriptLoader.getCurrentEvents()) {
+                if (event.isAssignableFrom(eventClass)) {
+                    return true;
+                }
             }
         }
         return false;

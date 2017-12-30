@@ -43,7 +43,7 @@ import mundosk_libraries.java_websocket.WrappedByteChannel;
 
 /**
  * <tt>WebSocketServer</tt> is an abstract class that only takes care of the
- * HTTP handshake portion of WebSockets. It's up to a subclass to add
+ * HTTP request portion of WebSockets. It's up to a subclass to add
  * functionality/purpose to the server.
  * 
  */
@@ -53,7 +53,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 
 	/**
 	 * Holds the list of active WebSocket connections. "Active" means WebSocket
-	 * handshake is complete and socket can be written to, or read from.
+	 * request is complete and socket can be written to, or read from.
 	 */
 	private final Collection<WebSocket> connections;
 	/**
@@ -698,9 +698,9 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 		return (InetSocketAddress) getSocket( conn ).getRemoteSocketAddress();
 	}
 
-	/** Called after an opening handshake has been performed and the given websocket is ready to be written on.
+	/** Called after an opening request has been performed and the given websocket is ready to be written on.
 	 * @param conn The <tt>WebSocket</tt> instance this event is occuring on.
-	 * @param handshake The handshake of the websocket instance
+	 * @param handshake The request of the websocket instance
 	 */
 	public abstract void onOpen( WebSocket conn, ClientHandshake handshake );
 	/**

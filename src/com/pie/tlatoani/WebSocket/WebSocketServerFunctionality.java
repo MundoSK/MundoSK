@@ -19,6 +19,7 @@ public class WebSocketServerFunctionality {
     public Optional<TriggerItem> onStart = Optional.empty();
     public Optional<TriggerItem> onStop = Optional.empty();
     public Optional<TriggerItem> onOpen = Optional.empty();
+    public Optional<TriggerItem> onHandshake = Optional.empty();
     public Optional<TriggerItem> onClose = Optional.empty();
     public Optional<TriggerItem> onMessage = Optional.empty();
     public Optional<TriggerItem> onError = Optional.empty();
@@ -31,6 +32,7 @@ public class WebSocketServerFunctionality {
         public Optional<SectionNode> onStart = Optional.empty();
         public Optional<SectionNode> onStop = Optional.empty();
         public Optional<SectionNode> onOpen = Optional.empty();
+        public Optional<SectionNode> onHandshake = Optional.empty();
         public Optional<SectionNode> onClose = Optional.empty();
         public Optional<SectionNode> onMessage = Optional.empty();
         public Optional<SectionNode> onError = Optional.empty();
@@ -54,6 +56,10 @@ public class WebSocketServerFunctionality {
             ScriptLoader.setCurrentEvent("WebSocketServerOpen", WebSocketOpenEvent.Server.class);
             return ScopeUtil.loadSectionNode(sectionNode, null);
         });
+        onHandshake = nebula.onHandshake.flatMap(sectionNode -> {
+            ScriptLoader.setCurrentEvent("WebSocketServerHandshake", WebSocketHandshakeEvent.Server.class);
+            return ScopeUtil.loadSectionNode(sectionNode, null);
+        });
         onClose = nebula.onClose.flatMap(sectionNode -> {
             ScriptLoader.setCurrentEvent("WebSocketServerClose", WebSocketCloseEvent.Server.class);
             return ScopeUtil.loadSectionNode(sectionNode, null);
@@ -73,18 +79,15 @@ public class WebSocketServerFunctionality {
         onStart = Optional.empty();
         onStop = Optional.empty();
         onOpen = Optional.empty();
+        onHandshake = Optional.empty();
         onClose = Optional.empty();
         onMessage = Optional.empty();
         onError = Optional.empty();
     }
 
     public String toString() {
-        return "WebSocketServerFunctionality(TriggerItems: " +
-                onStart + "," +
-                onStop + "," +
-                onOpen + "," +
-                onClose + "," +
-                onMessage + "," +
-                onError + ")";
+        return "WebSocketServerFunctionality(TriggerItems: "
+                + String.join(", ", onStart.toString(), onStop.toString(), onOpen.toString(), onHandshake.toString(), onClose.toString(), onMessage.toString(), onError.toString())
+                + ")";
     }
 }

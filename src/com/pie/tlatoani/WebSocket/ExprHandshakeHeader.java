@@ -19,9 +19,10 @@ public class ExprHandshakeHeader extends SimpleExpression<String> {
     @Override
     protected String[] get(Event event) {
         String key = keyExpr.getSingle(event);
-        return MundoUtil.cast(event, WebSocketOpenEvent.class)
-                .map(wsOpenEvent -> new String[]{wsOpenEvent.handshake.getFieldValue(key)})
-                .orElse(new String[0]);
+        //return MundoUtil.cast(event, WebSocketOpenEvent.class)
+        //        .map(wsOpenEvent -> new String[]{wsOpenEvent.handshake.getFieldValue(key)})
+        //        .orElse(new String[0]);
+        return null;
     }
 
     @Override
@@ -36,14 +37,14 @@ public class ExprHandshakeHeader extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "handshake header " + keyExpr;
+        return "request header " + keyExpr;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         keyExpr = (Expression<String>) expressions[0];
         if (!MundoUtil.isAssignableFromCurrentEvent(WebSocketOpenEvent.class)) {
-            Skript.error("The 'value of handshake header' expression can only be used in the 'on open' section of a websocket client or server template!");
+            Skript.error("The 'value of request header' expression can only be used in the 'on open' section of a websocket client or server template!");
             return false;
         }
         return true;

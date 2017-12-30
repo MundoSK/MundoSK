@@ -65,6 +65,12 @@ public class ScopeWebSocketClient extends MundoEventScope {
                         return false;
                     }
                     nebula.onOpen = Optional.of(subNode);
+                } else if (subNode.getKey().equals("on handshake")) {
+                    if (nebula.onHandshake.isPresent()) {
+                        Skript.error("You cannot have two 'on handshake' sections here!");
+                        return false;
+                    }
+                    nebula.onHandshake = Optional.of(subNode);
                 } else if (subNode.getKey().equals("on close")) {
                     if (nebula.onClose.isPresent()) {
                         Skript.error("You cannot have two 'on close' sections here!");

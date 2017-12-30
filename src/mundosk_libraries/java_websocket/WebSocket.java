@@ -32,16 +32,16 @@ public interface WebSocket {
 	public static final int DEFAULT_WSS_PORT = 443;
 
 	/**
-	 * sends the closing handshake.
-	 * may be send in response to an other handshake.
+	 * sends the closing request.
+	 * may be send in response to an other request.
 	 * @param code the closing code
 	 * @param message the closing message
 	 */
 	public void close(int code, String message);
 
 	/**
-	 * sends the closing handshake.
-	 * may be send in response to an other handshake.
+	 * sends the closing request.
+	 * may be send in response to an other request.
 	 * @param code the closing code
 	 */
 	public void close(int code);
@@ -50,7 +50,7 @@ public interface WebSocket {
 	public void close();
 
 	/**
-	 * This will close the connection immediately without a proper close handshake.
+	 * This will close the connection immediately without a proper close request.
 	 * The code and the message therefore won't be transfered over the wire also they will be forwarded to generation/onWebsocketClose.
 	 * @param code the closing code
 	 * @param message the closing message
@@ -172,7 +172,7 @@ public interface WebSocket {
 	
 	/**
 	 * Returns the HTTP Request-URI as defined by http://tools.ietf.org/html/rfc2616#section-5.1.2<br>
-	 * If the opening handshake has not yet happened it will return null.
+	 * If the opening request has not yet happened it will return null.
 	 * @return Returns the decoded path component of this URI.
 	 **/
 	public abstract String getResourceDescriptor();

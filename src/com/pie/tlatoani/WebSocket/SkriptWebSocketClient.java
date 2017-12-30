@@ -1,10 +1,7 @@
 package com.pie.tlatoani.WebSocket;
 
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.WebSocket.Events.WebSocketCloseEvent;
-import com.pie.tlatoani.WebSocket.Events.WebSocketErrorEvent;
-import com.pie.tlatoani.WebSocket.Events.WebSocketMessageEvent;
-import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
+import com.pie.tlatoani.WebSocket.Events.*;
 import mundosk_libraries.java_websocket.WebSocket;
 import mundosk_libraries.java_websocket.client.WebSocketClient;
 import mundosk_libraries.java_websocket.drafts.Draft_17;
@@ -30,14 +27,14 @@ public class SkriptWebSocketClient extends WebSocketClient {
         this.functionality = functionality;
     }
 
-    /*@Override
-    public void onWebsocketHandshakeReceivedAsClient(WebSocket conn, ClientHandshake clientHandshake, ServerHandshake handshakedata) {
-
-    }*/
+    @Override
+    public void onWebsocketHandshakeReceivedAsClient(WebSocket conn, ClientHandshake request, ServerHandshake response) {
+        functionality.onHandshake.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketHandshakeEvent.Client(this, request, response)));
+    }
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        functionality.onOpen.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketOpenEvent(this, handshakedata)));
+        functionality.onOpen.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, new WebSocketOpenEvent.Client(this, handshakedata)));
     }
 
     @Override
