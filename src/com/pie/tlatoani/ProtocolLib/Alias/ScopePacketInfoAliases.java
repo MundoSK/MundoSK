@@ -50,14 +50,14 @@ public class ScopePacketInfoAliases extends MundoEventScope {
                 }
                 int colonIndex = node.getKey().indexOf('=');
                 if (colonIndex == -1) {
-                    Skript.error("Packet info aliases should be in the format '<new fullSyntax> = <old fullSyntax>'");
+                    Skript.error("Packet info aliases should be in the format '<new syntax> = <old syntax>'");
                     return false;
                 }
                 String syntax = node.getKey().substring(0, colonIndex).trim();
                 String original = node.getKey().substring(colonIndex + 1).trim();
                 Optional<PacketInfoAlias> aliasOptional = PacketInfoAlias.create(packetType, syntax, original);
                 if (!aliasOptional.isPresent()) {
-                    Skript.error("Invalid target fullSyntax in the packet info alias!");
+                    Skript.error("Invalid target syntax in the packet info alias!");
                     return false;
                 }
                 aliases.add(aliasOptional.get());

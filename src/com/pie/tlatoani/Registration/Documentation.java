@@ -100,10 +100,10 @@ public final class Documentation {
                 sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "MundoSK Documentation Command Help");
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] [help]", "Prints this list of commands"));
                 sender.sendMessage(Mundo.formatCommandDescription("doc[s] cat[[egorie]s]", "Prints a list of the documentation categories"));
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] all [page]", "Lists a page of all fullSyntax elements"));
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem type> [page]", "Lists a page of all fullSyntax elements of a certain type"));
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <category> [elem type] [page]", "Lists a page of fullSyntax elements in that category, either all of them or of a specific type"));
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem name>", "Lists the documentation for a specific fullSyntax element"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] all [page]", "Lists a page of all syntax elements"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem type> [page]", "Lists a page of all syntax elements of a certain type"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <category> [elem type] [page]", "Lists a page of syntax elements in that category, either all of them or of a specific type"));
+                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem name>", "Lists the documentation for a specific syntax element"));
                 sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Accepted Element Types: " + Mundo.ALT_CHAT_COLOR + "Effect Condition Expression Event Type Scope");
                 return true;
             //} else {

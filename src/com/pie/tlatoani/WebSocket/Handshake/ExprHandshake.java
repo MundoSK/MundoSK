@@ -20,8 +20,8 @@ public class ExprHandshake extends SimpleExpression<Handshakedata> {
     private Type type;
 
     public enum Type {
-        REQUEST("websocket request request"),
-        RESPONSE("websocket request response"),
+        REQUEST("websocket handshake request"),
+        RESPONSE("websocket handshake response"),
         NEW("new websocket request");
 
         public final String fullSyntax;
@@ -76,13 +76,13 @@ public class ExprHandshake extends SimpleExpression<Handshakedata> {
         type = Type.values()[i];
         if (type == Type.REQUEST) {
             if (!MundoUtil.isAssignableFromCurrentEvent(WebSocketOpenEvent.Server.class, WebSocketHandshakeEvent.class)) {
-                Skript.error("The 'websocket request request' expression can only be used in the 'on open' section of a 'websocket server' template "
+                Skript.error("The 'websocket handshake request' expression can only be used in the 'on open' section of a 'websocket server' template "
                             + "or the 'on request' section of a 'websocket client' or 'websocket server' template!");
                 return false;
             }
         } else if (type == Type.RESPONSE) {
             if (!MundoUtil.isAssignableFromCurrentEvent(WebSocketOpenEvent.Client.class, WebSocketHandshakeEvent.class)) {
-                Skript.error("The 'websocket request response' expression can only be used in the 'on open' section of a 'websocket client' template "
+                Skript.error("The 'websocket handshake response' expression can only be used in the 'on open' section of a 'websocket client' template "
                         + "or the 'on request' section of a 'websocket client' or 'websocket server' template!");
                 return false;
             }

@@ -77,11 +77,11 @@ public class PacketManager {
                 "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%")
                 .document("Field of Packet", "1.8", "An expression for the packet field of either the specified type or referred to by the specified string, "
                         + "with the specified index, of the specified packet. For example, 'string' can be used as the specified type to get a string field "
-                        + "in the specified packet. 'array' must be included in the fullSyntax when the fields are plural (ex. 'string array'). "
+                        + "in the specified packet. 'array' must be included in the syntax when the fields are plural (ex. 'string array'). "
                         + "Use 'object' in order to access all fields of the packet. However, some fields will have objects in raw forms "
                         + "that cannot be easily used in Skript without the use of addons such as skript-mirror. Many of these fields can be converted into Skript "
                         + "types; most of these fields must be referred to by a certain string rather than a type: "
-                        + "\"uuid\", \"material\", \"blockdata\", \"collection\" array, \"bytebuffer\" array (The last two are plural and must have array included in the fullSyntax.");
+                        + "\"uuid\", \"material\", \"blockdata\", \"collection\" array, \"bytebuffer\" array (The last two are plural and must have array included in the syntax.");
         registerPacketInfoExpression(ExprPrimitiveOfPacket.class, Number.class, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%")
                 .document("Number Field of Packet", "1.8", "An expression for different kinds of number fields of packets. "
                         + "First see the Packet Info expression for a more general explanation of packet fields.");

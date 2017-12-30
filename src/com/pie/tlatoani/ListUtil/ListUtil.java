@@ -28,10 +28,10 @@ public final class ListUtil {
         registerTransformer(TransDefault.class, Object.class,"objects", "elem", "element")
                 .document("ListUtil", "1.6.8", "ListUtil is a general set of expressions and effects used for manipulating lists. "
                         + "Each ListUtil effect/expression provides a certain functionality for lists in general, "
-                        + "and contains '%listutil%' somewhere in its fullSyntax - listutil isn't an actual type, but instead allows you to input "
+                        + "and contains '%listutil%' somewhere in its syntax - listutil isn't an actual type, but instead allows you to input "
                         + "a sort of \"specifier\" as to how you want to provide the list that is going to be manipulated. ListUtil effects/expressions "
-                        + "also have an '%objects%' in their fullSyntax from which the list is going to be gotten. "
-                        + "The listutil specifier described by the above fullSyntax is used for manipulating all lists, "
+                        + "also have an '%objects%' in their syntax from which the list is going to be gotten. "
+                        + "The listutil specifier described by the above syntax is used for manipulating all lists, "
                         + "meaning you can write 'elem' where '%listutil%' is and input any list in '%objects%' to manipulate it. "
                         + "For example, using the Element of List expression, you could write 'elem 3 of {_list::*}' and that would be the third element of the list variable."
                         + "See the Book ListUtil expression as another example");

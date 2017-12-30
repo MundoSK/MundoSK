@@ -6,6 +6,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.MundoUtil;
 import com.pie.tlatoani.WebSocket.Events.WebSocketEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketServerEvent;
 import mundosk_libraries.java_websocket.WebSocket;
@@ -44,7 +45,7 @@ public class EffWebSocketSendMessage extends Effect {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         messageExpr = (Expression<String>) expressions[0];
         webSocketExpr = (Expression<WebSocket>) expressions[1];
-        if (webSocketExpr == null && !ScriptLoader.isCurrentEvent(WebSocketEvent.class)) {
+        if (webSocketExpr == null && !MundoUtil.isAssignableFromCurrentEvent(WebSocketEvent.class)) {
             Skript.error("'websocket send %string%' can only be used under 'websocket server' and 'websocket client'!");
             return false;
         }

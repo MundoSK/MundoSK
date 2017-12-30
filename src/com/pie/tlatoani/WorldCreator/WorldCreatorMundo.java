@@ -23,7 +23,7 @@ public class WorldCreatorMundo {
     public static void load() {
         Registration.registerType(WorldCreatorData.class, "creator")
                 .document("WorldCreator", "1.4.4 or earlier", "A WorldCreator is a way to store data about the various properties of a world for creating it, "
-                        + "and can be used in the Create World effect and in Automatic Creator fullSyntax elements to load worlds automatically. "
+                        + "and can be used in the Create World effect and in Automatic Creator syntax elements to load worlds automatically. "
                         + "See the Property of Creator expressions for more information.")
                 .serializer(new Serializer<WorldCreatorData>() {
             @Override
