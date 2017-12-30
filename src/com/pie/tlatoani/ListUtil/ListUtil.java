@@ -26,7 +26,7 @@ public final class ListUtil {
                         + "as the first specified expression, and moves them forward or backward the specified amount in their specified list.");
 
         registerTransformer(TransDefault.class, Object.class,"objects", "elem", "element")
-                .document("ListUtil", "1.6.8", "ListUtil is a general set of expressions and effects used for manipulating lists. "
+                .document("ListUtil General", "1.6.8", "ListUtil is a general set of expressions and effects used for manipulating lists. "
                         + "Each ListUtil effect/expression provides a certain functionality for lists in general, "
                         + "and contains '%listutil%' somewhere in its syntax - listutil isn't an actual type, but instead allows you to input "
                         + "a sort of \"specifier\" as to how you want to provide the list that is going to be manipulated. ListUtil effects/expressions "

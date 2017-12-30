@@ -27,7 +27,10 @@ public final class WebSocketManager {
         Registration.registerType(WebSocket.class, "websocket")
                 .document("WebSocket", "1.8", "A websocket object representing one end of a WebSocket connection that can be used to transmit informations between multiple servers and other online services.")
                 .defaultExpression(new EventValueExpression<>(WebSocket.class));
-        Registration.registerType(Handshakedata.class, "handshake");
+        Registration.registerType(Handshakedata.class, "handshake")
+                .document("Handshake", "1.8", "A handshake, sent by two websockets to each other when they are initially connection. "
+                        + "Handshakes contain information necessary to initiate a websocket connection and you can add more information "
+                        + "(ex. a password) that you want to be sent on the initial connection.");
         Registration.registerEnum(WebSocket.READYSTATE.class, "websocketstate", WebSocket.READYSTATE.values())
                 .pair("NOT YET CONNECTED", WebSocket.READYSTATE.NOT_YET_CONNECTED)
                 .document("WebSocketState", "1.8", "A state that a websocket connection can be in.");
@@ -49,6 +52,8 @@ public final class WebSocketManager {
                 .document("WebSocket Client Template", "1.8", "Not an actual event, but rather a template for a websocket client, with the specified ID. "
                         + "Under the main \"event\" line you can have four different sub-scopes that handle websocket events:"
                         + "\non open: This is called when the websocket connection initially opens."
+                        + "\non handshake: This is called before 'on open', when the response handshake has been received from the server, "
+                        + "but before the websocket is technically open, meaning you can't yet send messages to the server."
                         + "\non message: This is called when the other end of the websocket connection sends a message."
                         + "\non error: This is called when an error occurs related to the websocket connection."
                         + "\non close: This is called when the websocket connection is closed.")
@@ -62,6 +67,9 @@ public final class WebSocketManager {
                         + "Under the main \"event\" line you can have four different sub-scopes that handle websocket events:"
                         + "\non start: This is called when the websocket server is started."
                         + "\non stop: This is called when the websocket server is stopped."
+                        + "\non handshake: This is called before 'on open', when a client has sent a request handshake, "
+                        + "allowing you to modify the response handshake to be sent as well as verify that the client's request is valid, "
+                        + "and refuse the request if you deem it to be invalid. Note that you can't send messages to the client at this point."
                         + "\non open: This is called when a client opens a websocket connection with this websocket server."
                         + "\non message: This is called when the other end of a websocket connection sends a message."
                         + "\non error: This is called when an error occurs related to a websocket connection."
@@ -81,9 +89,10 @@ public final class WebSocketManager {
 
         Registration.registerExpression(ExprNewWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "[new] websocket %string% connected to uri %string% [with (handshake|http) headers %-handshake%]")
                 .document("New WebSocket", "1.8", "Creates a new websocket connection using the websocket client with the specified id, connecting to the specified URI."
-                        /*+ "Optionally, you can specify additional HTTP headers, which you can use to add additional information in the initial connection (ex. a password). "
-                        + "A header is a mapping from one string (referred to as the name in MundoSK syntax) to another (each header has a unique name). "
-                        + "You can specify headers using a jsonobject or using a list variable."*/);
+                        + "Optionally, you can specify additional HTTP headers, which you can use to add additional information in the initial connection (ex. a password). "
+                        + "A header is a mapping from one string (the name) to another (the value). Each header has a unique name."
+                        + "You can specify headers by creating a new handshake, setting its headers, and then specifying it in the syntax here. "
+                        + "Keep in mind that any other information stored in the handshake will be ignored by this expression.");
         Registration.registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket [server] port")
                 .document("WebSocket Server Port", "1.8", "For use under 'websocket server %string%': An expression for the port on which this websocket server is open.");
         Registration.registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all websockets [of server at port %-number%]")
@@ -105,14 +114,31 @@ public final class WebSocketManager {
     }
 
     private static void loadHandshake() {
-        Registration.registerExpression(ExprHandshake.class, Handshakedata.class, ExpressionType.SIMPLE, "[websocket] [handshake] request", "[websocket] [handshake] response", "new [websocket] handshake");
-        Registration.registerExpression(ExprRequestIsAllowed.class, Boolean.class, ExpressionType.SIMPLE, "[websocket] [handshake] request is (0¦allowed|1¦refused)");
-        Registration.registerExpression(ExprHeader.class, String.class, ExpressionType.COMBINED, "[handshake] [http] header %string% of %handshake%");
-        Registration.registerExpression(ExprHeaderNames.class, String.class, ExpressionType.PROPERTY, "[all] [handshake] [http] header names of %handshake%");
-        Registration.registerExpression(ExprContent.class, Number.class, ExpressionType.PROPERTY, "handshake content of %handshake%");
-        Registration.registerPropertyExpression(ExprHTTPStatus.class, Number.class, "handshake", "http status", "handshake http status");
-        Registration.registerPropertyExpression(ExprHTTPStatusMessage.class, String.class, "handshake", "http status message", "handshake http status message");
-        Registration.registerPropertyExpression(ExprResourceDescriptor.class, String.class, "handshake", "resource descriptor", "handshake resource descriptor");
+        Registration.registerExpression(ExprHandshake.class, Handshakedata.class, ExpressionType.SIMPLE, "[websocket] request [handshake]", "[websocket] response [handshake]", "new [websocket] handshake")
+                .document("Handshake Request/Response/New", "1.8", "An expression for some handshake:"
+                        + "\nrequest: The handshake sent by a websocket client to a websocket server, "
+                        + "used in the 'on open' section of a websocket server template or the 'on handshake' section of a websocket client or server template"
+                        + "\nresponse: The handshake sent by a websocket server responding to a request by a websocket client, "
+                        + "used in the 'on open' section of a websocket client template or the 'on handshake' section of a websocket client or server template"
+                        + "\nnew: A new handshake object, currently only useful for specifying addition http headers in the New Websocket expression");
+        Registration.registerExpression(ExprRequestIsAccepted.class, Boolean.class, ExpressionType.SIMPLE, "[websocket] request [handshake] is (0¦accepted|1¦refused)")
+                .document("Request is Accepted", "1.8", "Used in the 'on handshake' section of a websocket server template. "
+                        + "Checks whether the client's request was accepted or refused. Can be set.");
+        Registration.registerExpression(ExprHeader.class, String.class, ExpressionType.COMBINED, "[handshake] [http] header %string% of %handshake%")
+                .document("HTTP Header of Handshake", "1.8", "An expression for the value of the HTTP header with the specified name of the specified handshake.");
+        Registration.registerExpression(ExprHeaderNames.class, String.class, ExpressionType.PROPERTY, "[all] [handshake] [http] header names of %handshake%")
+                .document("HTTP Header Names of Handshake", "1.8", "An expression for a list of the names of the HTTP headers of the specified handshake.");
+        Registration.registerExpression(ExprContent.class, Number.class, ExpressionType.PROPERTY, "handshake content of %handshake%")
+                .document("Content of Handshake", "1.8", "An expression for the content (a byte array) stored in the specified handshake.");
+        Registration.registerPropertyExpression(ExprHTTPStatus.class, Number.class, "handshake", "http status", "handshake http status")
+                .document("HTTP Status of Handshake", "1.8", "An expression for the HTTP status of the specified handshake. "
+                        + "This can only exist in handshakes sent by the server (ex. 'response' - see the Handshake Request/Response/New expression).");
+        Registration.registerPropertyExpression(ExprHTTPStatusMessage.class, String.class, "handshake", "http status message", "handshake http status message")
+                .document("HTTP Status Message of Handshake", "1.8", "An expression for the HTTP status message of the specified handshake. "
+                        + "This can only exist in handshakes sent by the server (ex. 'response' - see the Handshake Request/Response/New expression).");
+        Registration.registerPropertyExpression(ExprResourceDescriptor.class, String.class, "handshake", "resource descriptor", "handshake resource descriptor")
+                .document("Resource Descriptor of Handshake", "1.8", "An expression for the resource descriptor of the specified handshake. "
+                        + "This can only exist in handshakes sent by the client (ex. 'request' - see the Handshake Request/Response/New expression).");
     }
 
     public static WebSocketClientFunctionality getClientFunctionality(String id) {
