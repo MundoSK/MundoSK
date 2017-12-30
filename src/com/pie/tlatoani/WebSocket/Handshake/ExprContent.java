@@ -19,6 +19,9 @@ public class ExprContent extends SimpleExpression<Number> {
     @Override
     protected Number[] get(Event event) {
         Handshakedata handshake = handshakeExpr.getSingle(event);
+        if (handshake.getContent() == null) {
+            return new Number[0];
+        }
         Number[] result = new Number[handshake.getContent().length];
         for (int i = 0; i < result.length; i++) {
             result[i] = handshake.getContent()[i];

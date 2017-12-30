@@ -79,7 +79,7 @@ public final class WebSocketManager {
         Registration.registerEventValue(WebSocketCloseEvent.class, String.class, event -> event.reason);
         Registration.registerEventValue(WebSocketCloseEvent.class, Boolean.class, event -> event.remote);
 
-        Registration.registerExpression(ExprNewWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "[new] websocket %string% connected to uri %string% [with handshake %-handshake%]")
+        Registration.registerExpression(ExprNewWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "[new] websocket %string% connected to uri %string% [with (handshake|http) headers %-handshake%]")
                 .document("New WebSocket", "1.8", "Creates a new websocket connection using the websocket client with the specified id, connecting to the specified URI."
                         /*+ "Optionally, you can specify additional HTTP headers, which you can use to add additional information in the initial connection (ex. a password). "
                         + "A header is a mapping from one string (referred to as the name in MundoSK fullSyntax) to another (each header has a unique name). "
