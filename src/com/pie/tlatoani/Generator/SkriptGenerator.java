@@ -32,8 +32,6 @@ public class SkriptGenerator extends ChunkGenerator {
 
         @Override
         public void populate(World world, Random random, Chunk chunk) {
-            //SkriptGeneratorEvent event = new SkriptGeneratorEvent(world, chunk, random);
-            //TriggerItem.walk(population, event);
             GeneratorEvent.Population event = new GeneratorEvent.Population(world, random, chunk);
             functionality.population.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, event));
         }
@@ -43,8 +41,6 @@ public class SkriptGenerator extends ChunkGenerator {
     @Override
     public ChunkData generateChunkData(World world, Random random, int x, int z, ChunkGenerator.BiomeGrid biome) {
         ChunkData chunkData = createChunkData(world);
-        //SkriptGeneratorEvent event = new SkriptGeneratorEvent(x, z, world, chunkData, random, biome);
-        //TriggerItem.walk(generation, event);
         GeneratorEvent.Generation event = new GeneratorEvent.Generation(world, random, x, z, chunkData, biome);
         functionality.generation.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, event));
         return chunkData;
@@ -54,8 +50,6 @@ public class SkriptGenerator extends ChunkGenerator {
     public Location getFixedSpawnLocation(World world, Random random) {
         Logging.debug(this, "SPAWN LOCATION:: " + world.getSpawnLocation());
         world.setSpawnLocation(X_CODE, 0, Z_CODE);
-        //SkriptGeneratorEvent event = new SkriptGeneratorEvent(world, null, new Random(world.getSeed()));
-        //TriggerItem.walk(trigger, event);
         GeneratorEvent.Initiation event = new GeneratorEvent.Initiation(world, random);
         functionality.initiation.ifPresent(triggerItem -> TriggerItem.walk(triggerItem, event));
         return world.getSpawnLocation().getBlockX() == X_CODE && world.getSpawnLocation().getBlockZ() == Z_CODE ? null : world.getSpawnLocation();

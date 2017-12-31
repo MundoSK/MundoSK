@@ -50,7 +50,7 @@ public final class WebSocketManager {
 
         Registration.registerEvent("WebSocket Client", ScopeWebSocketClient.class, WebSocketEvent.class, "websocket client %string%")
                 .document("WebSocket Client Template", "1.8", "Not an actual event, but rather a template for a websocket client, with the specified ID. "
-                        + "Under the main \"event\" line you can have four different sub-scopes that handle websocket events:"
+                        + "Under the main \"event\" line you can have five different sub-scopes that handle websocket events:"
                         + "\non open: This is called when the websocket connection initially opens."
                         + "\non handshake: This is called before 'on open', when the response handshake has been received from the server, "
                         + "but before the websocket is technically open, meaning you can't yet send messages to the server."
@@ -64,7 +64,7 @@ public final class WebSocketManager {
                 .eventValue(Boolean.class, "1.8", "In 'on close', this is whether the closing was initiated remotely (true) or locally (false).");
         Registration.registerEvent("WebSocket Server", ScopeWebSocketServer.class, WebSocketEvent.class, "websocket server %string%")
                 .document("WebSocket Server Template", "1.8", "Not an actual event, but rather a template for a websocket server, with the specified ID. "
-                        + "Under the main \"event\" line you can have four different sub-scopes that handle websocket events:"
+                        + "Under the main \"event\" line you can have seven different sub-scopes that handle websocket events:"
                         + "\non start: This is called when the websocket server is started."
                         + "\non stop: This is called when the websocket server is stopped."
                         + "\non handshake: This is called before 'on open', when a client has sent a request handshake, "

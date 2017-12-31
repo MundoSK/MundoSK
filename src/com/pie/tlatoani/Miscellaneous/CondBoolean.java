@@ -26,7 +26,7 @@ public class CondBoolean extends Condition{
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         cond = (Expression<Boolean>) expressions[0];
-        negated = i == 1;
+        negated = parseResult.mark == 1;
         return true;
     }
 }

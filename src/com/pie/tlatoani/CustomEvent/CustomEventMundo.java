@@ -15,11 +15,28 @@ import java.util.List;
 public class CustomEventMundo {
     
     public static void load() {
-        Registration.registerEffect(EffCallCustomEvent.class, "(0¦call|1¦async call|1¦call async) custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]");
-        Registration.registerEvent("Custom Event", EvtCustomEvent.class, SkriptCustomEvent.class, "ev[en]t %strings%");
-        Registration.registerExpression(ExprIDOfCustomEvent.class,String.class, ExpressionType.PROPERTY,"id of custom event", "custom event's id");
-        Registration.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args");
-        Registration.registerExpression(ExprLastCustomEventCancelled.class, Boolean.class, ExpressionType.SIMPLE, "last [called] custom event (0¦was|1¦wasn't) cancelled");
+        Registration.registerEffect(EffCallCustomEvent.class, "(0¦call|1¦async call|1¦call async) custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]")
+                .document("Call Custom Event", "1.6.7", "Calls a custom event with the specified id and optionally the specified details and/or arguments. "
+                        + "Details are used in events as event-type. For example, if you had a detail 3426, event-number would equal 3426. "
+                        + "Details may be of any type that is in Skript by default (number, string, player, world, etc.) as well as of any type added in MundoSK (creator, achievement, difficulty, etc.), and possibly other addons, depending on what loads in what order. "
+                        + "You can't have two or more details of the same type. If you try to do this, only the detail that comes last of that type will be used. "
+                        + "Arguments are like details, except that you may have multiple arguments of the same type, and they can be of any type from any addon. "
+                        + "Arguments are accessed from within the event using the Args of Custom Event expression. "
+                        + "For both details and arguments, you have to put them in a list variable and then call the custom event using the list variable in the syntax, otherwise you'll get an internal error. "
+                        + "Optionally, you can specify that the custom event is being called asynchronously. When code running in async is calling a custom event, this should be specified in order to prevent errors and corruption. "
+                        + "Note that this option was introduced in MundoSK 1.8 and will not work in earlier versions.");
+        Registration.registerEvent("Custom Event", EvtCustomEvent.class, SkriptCustomEvent.class, "ev[en]t %strings%")
+                .document("Custom Event", "1.6.7", "Called when the Call Custom Event effect is used with the specified id or one of the specified ids. "
+                        + "This is used as a way for Skripters to create their own \"events\". See the Call Custom Event effect for more info.");
+        Registration.registerExpression(ExprIDOfCustomEvent.class,String.class, ExpressionType.PROPERTY,"id of custom event", "custom event's id")
+                .document("ID of Custom Event", "1.6.7", "An expression, used in the Custom Event event, for the id of the custom event that was called. "
+                        + "See the Call Custom Event effect for more info.");
+        Registration.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args")
+                .document("Args of Custom Event", "1.6.7", "An expression, used in the Custom Event event, for a list of the arguments, if any, "
+                        + "that were specified for this particular custom event call. See the Call Custom Event effect for more info.");
+        Registration.registerExpression(ExprLastCustomEventCancelled.class, Boolean.class, ExpressionType.SIMPLE, "last [called] custom event (0¦was|1¦wasn't) cancelled")
+                .document("Last Called Custom Event was Cancelled", "1.8", "Checks whether the last custom event that was called in this trigger was or wasn't cancelled. "
+                        + "This expression/condition is unaffected by whether another section of code calls a custom event. See the Call Custom Event effect for more info about custom events.");
 
         try {
             List<ClassInfo<?>> classes = (List<ClassInfo<?>>) Reflection.getStaticField(Classes.class, "tempClassInfos");
