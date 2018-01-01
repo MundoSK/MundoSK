@@ -3,13 +3,11 @@ package com.pie.tlatoani.Registration;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
+import ch.njol.util.Pair;
 import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Cancellable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Tlatoani on 8/21/17.
@@ -75,14 +73,13 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
     class Expression extends Abstract<DocumentationElement.Expression, Expression> {
         private ClassInfo returnType;
+        private Class<? extends ch.njol.skript.lang.Expression> exprClass;
         private List<Changer> changerBuilders = new ArrayList<>();
 
         public Expression(String category, String[] syntaxes, Class returnType, Class<? extends ch.njol.skript.lang.Expression> exprClass) {
             super(category, syntaxes);
             this.returnType = Classes.getExactClassInfo(returnType);
-            if (exprClass != null) {
-                addChangers(exprClass);
-            }
+            this.exprClass = exprClass;
         }
 
         private void addChangers(Class<? extends ch.njol.skript.lang.Expression> exprClass) {
@@ -91,7 +88,9 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
                 for (ch.njol.skript.classes.Changer.ChangeMode mode  : ch.njol.skript.classes.Changer.ChangeMode.values()) {
                     Class<?>[] changeTypes = expr.acceptChange(mode);
                     for (Class<?> changeType : changeTypes) {
-                        changerBuilders.add(new Changer(mode, changeType, originVersion, ""));
+                        if (!containsChanger(mode, changeType)) {
+                            changerBuilders.add(new Changer(mode, changeType, originVersion, ""));
+                        }
                     }
                 }
             } catch (Exception e) {
@@ -99,30 +98,23 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             }
         }
 
-        private int changerIndex(ch.njol.skript.classes.Changer.ChangeMode mode, Class type) {
-            int i = 0;
+        private boolean containsChanger(ch.njol.skript.classes.Changer.ChangeMode mode, Class type) {
             for (Changer changer : changerBuilders) {
                 if (changer.mode == mode && changer.type == type) {
-                    return i;
+                    return true;
                 }
-                i++;
             }
-            return -1;
+            return false;
         }
 
         @Override
         public DocumentationElement.Expression build() {
+            addChangers(exprClass);
             return new DocumentationElement.Expression(name, category, syntaxes, description, originVersion, returnType, requiredPlugins, changerBuilders);
         }
 
         public DocumentationBuilder.Expression changer(ch.njol.skript.classes.Changer.ChangeMode mode, Class type, String originVersion, String description) {
-            int index = changerIndex(mode, type);
-            Changer changer = new Changer(mode, type, originVersion, description);
-            if (index == -1) {
-                changerBuilders.add(changer);
-            } else {
-                changerBuilders.set(index, changer);
-            }
+            changerBuilders.add(new Changer(mode, type, originVersion, description));
             return this;
         }
     }
@@ -142,14 +134,18 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
         public DocumentationElement.Changer build(DocumentationElement.Expression parent) {
             ClassInfo classInfo;
             boolean single;
-            if (type.getComponentType() != null) {
+            if (type == null) {
+                classInfo = null;
+                single = false;
+            } else if (type.getComponentType() != null) {
                 classInfo = Classes.getExactClassInfo(type.getComponentType());
                 single = false;
             } else {
                 classInfo = Classes.getExactClassInfo(type);
                 single = true;
             }
-            return new DocumentationElement.Changer(parent, mode, classInfo, single, description, originVersion);
+            Optional<Pair<ClassInfo, Boolean>> typeDoc = classInfo == null ? Optional.empty() : Optional.of(new Pair<>(classInfo, single));
+            return new DocumentationElement.Changer(parent, mode, typeDoc, description, originVersion);
         }
     }
 

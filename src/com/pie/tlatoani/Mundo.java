@@ -97,7 +97,7 @@ public class Mundo extends JavaPlugin {
 
         Registration.register("Custom Event", CustomEventMundo::load);
 		Logging.info("Awesome syntaxes have been registered!");
-		Documentation.buildDocumentation();
+		Scheduling.sync(Documentation::buildDocumentation);
         Scheduling.sync(Metrics::enableMundoSKMetrics);
 	}
 

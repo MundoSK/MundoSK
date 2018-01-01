@@ -1,10 +1,12 @@
 package com.pie.tlatoani.Registration;
 
 import ch.njol.skript.classes.ClassInfo;
+import ch.njol.util.Pair;
 import com.pie.tlatoani.Mundo;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Created by Tlatoani on 8/17/17.
@@ -179,23 +181,22 @@ public abstract class DocumentationElement {
     public static class Changer {
         public final Expression parent;
         public final ch.njol.skript.classes.Changer.ChangeMode mode;
-        public final ClassInfo type;
-        public final boolean single;
+        public final Optional<Pair<ClassInfo, Boolean>> type;
         public final String description;
         public final String originVersion;
 
-        public Changer(Expression parent, ch.njol.skript.classes.Changer.ChangeMode mode, ClassInfo type, boolean single, String description, String originVersion) {
+        public Changer(Expression parent, ch.njol.skript.classes.Changer.ChangeMode mode, Optional<Pair<ClassInfo, Boolean>> type, String description, String originVersion) {
             this.parent = parent;
             this.mode = mode;
             this.type = type;
-            this.single = single;
             this.description = description;
             this.originVersion = originVersion;
         }
 
         public void display(CommandSender sender) {
             String modeSyntax = mode.name().toLowerCase().replace('_', ' ');
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + modeSyntax + " " + type.getCodeName() + (single ? "" : "s") + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
+            String typeSyntax = type.map(pair -> " " + pair.getFirst().getC() + (pair.getSecond() ? "" : "s")).orElse("");
+            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + modeSyntax + typeSyntax + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
         }
     }
 
