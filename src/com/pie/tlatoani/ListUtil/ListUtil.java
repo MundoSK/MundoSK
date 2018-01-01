@@ -122,7 +122,7 @@ public final class ListUtil {
             String formattedWrapperPattern = userInfo.formatPrototypePattern(transformerInfo);
             userInfo.syntaxElementInfo.addPattern(formattedWrapperPattern);
         }
-        return new DocumentationBuilder.Expression(Registration.getCurrentCategory(), patterns, type).requiredPlugins(Registration.getCurrentRequiredPlugins());
+        return new DocumentationBuilder.Expression(Registration.getCurrentCategory(), patterns, type, null).requiredPlugins(Registration.getCurrentRequiredPlugins());
     }
 
     public static DocumentationBuilder registerTransformerUser(ModifiableSyntaxElementInfo syntaxElementInfo, String prototypePattern) {
@@ -142,7 +142,7 @@ public final class ListUtil {
             if (exprInfo.syntaxElementInfo.returnType == Boolean.class) {
                 return new DocumentationBuilder.Condition(Registration.getCurrentCategory(), new String[]{prototypePattern}).requiredPlugins(Registration.getCurrentRequiredPlugins());
             } else {
-                return new DocumentationBuilder.Expression(Registration.getCurrentCategory(), new String[]{prototypePattern}, exprInfo.syntaxElementInfo.returnType).requiredPlugins(Registration.getCurrentRequiredPlugins());
+                return new DocumentationBuilder.Expression(Registration.getCurrentCategory(), new String[]{prototypePattern}, exprInfo.syntaxElementInfo.returnType, null).requiredPlugins(Registration.getCurrentRequiredPlugins());
             }
         }
         return null;

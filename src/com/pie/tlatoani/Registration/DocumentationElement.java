@@ -130,10 +130,12 @@ public abstract class DocumentationElement {
 
     public static class Expression extends DocumentationElement {
         public final ClassInfo type;
+        public final Changer[] changers;
 
-        public Expression(String name, String category, String[] syntaxes, String[] description, String originVersion, ClassInfo type, String[] requiredPlugins) {
+        public Expression(String name, String category, String[] syntaxes, String[] description, String originVersion, ClassInfo type, String[] requiredPlugins, Collection<DocumentationBuilder.Changer> changerBuilders) {
             super(name, category, syntaxes, description, originVersion, requiredPlugins);
             this.type = type;
+            this.changers = changerBuilders.stream().map(builder -> builder.build(this)).toArray(Changer[]::new);
         }
 
         @Override
@@ -165,11 +167,45 @@ public abstract class DocumentationElement {
                     sender.sendMessage(Mundo.ALT_CHAT_COLOR + descLine);
                 }
             }
+            if (changers.length > 0) {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Changers");
+                for (Changer changer : changers) {
+                    changer.display(sender);
+                }
+            }
+        }
+    }
+
+    public static class Changer {
+        public final Expression parent;
+        public final ch.njol.skript.classes.Changer.ChangeMode mode;
+        public final ClassInfo type;
+        public final String description;
+        public final String originVersion;
+
+        public Changer(Expression parent, ch.njol.skript.classes.Changer.ChangeMode mode, ClassInfo type, String description, String originVersion) {
+            this.parent = parent;
+            this.mode = mode;
+            this.type = type;
+            this.description = description;
+            this.originVersion = originVersion;
+        }
+
+        public void display(CommandSender sender) {
+            String modeSyntax = mode.name().toLowerCase().replace('_', ' ');
+            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + modeSyntax + " " + type.getCodeName() + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
         }
     }
 
     public static class Event extends DocumentationElement {
+        public final boolean cancellable;
         public final EventValue[] eventValues;
+
+        public Event(String name, String category, String[] syntaxes, String[] description, String originVersion, String[] requiredPlugins, boolean cancellable, Collection<DocumentationBuilder.EventValue> eventValueBuilders) {
+            super(name, category, syntaxes, description, originVersion, requiredPlugins);
+            this.cancellable = cancellable;
+            this.eventValues = eventValueBuilders.stream().map(builder -> builder.build(this)).toArray(EventValue[]::new);
+        }
 
         @Override
         public DocumentationElement.ElementType getType() {
@@ -183,6 +219,7 @@ public abstract class DocumentationElement {
             if (requiredPlugins.length > 0) {
                 sender.sendMessage(Mundo.formatMundoSKInfo("Required Plugins", String.join(" ", requiredPlugins)));
             }
+            sender.sendMessage(Mundo.formatMundoSKInfo("Cancellable", cancellable ? "Yes" : "No"));
             if (syntaxes.length == 1) {
                 sender.sendMessage(Mundo.formatMundoSKInfo("Syntax", syntaxes[0]));
             } else {
@@ -206,11 +243,6 @@ public abstract class DocumentationElement {
                 }
             }
         }
-
-        public Event(String name, String category, String[] syntaxes, String[] description, String originVersion, String[] requiredPlugins, Collection<DocumentationBuilder.EventValue> eventValueBuilders) {
-            super(name, category, syntaxes, description, originVersion, requiredPlugins);
-            this.eventValues = eventValueBuilders.stream().map(builder -> builder.build(this)).toArray(EventValue[]::new);
-        }
     }
 
     public static class EventValue {
@@ -227,7 +259,7 @@ public abstract class DocumentationElement {
         }
 
         public void display(CommandSender sender) {
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "event-" + type + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
+            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "event-" + type.getCodeName() + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
         }
     }
 

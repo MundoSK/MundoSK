@@ -73,7 +73,7 @@ public class MiscMundo {
         Registration.registerExpression(ExprAllTypes.class, ClassInfo.class, ExpressionType.SIMPLE, "all types")
                 .document("All Types", "1.8", "An expression for a list of all of the registered types.");
         Registration.registerExpression(ExprThatAre.class, Object.class, ExpressionType.COMBINED, "%objects% that are[(1¦n't|1¦ not)] %object%")
-                .document("Elements That Are", "1.8", "An expression for a list of the elements in the specified list "
+                .document("Elements that Are", "1.8", "An expression for a list of the elements in the specified list "
                         + "that are either equal or not equal to the latter specified object.");
         Registration.registerExpression(ExprNumber.class, Number.class, ExpressionType.PROPERTY, "%*number%[ ](0¦b|1¦d|2¦f|3¦s|4¦l)")
                 .document("Number as Java Type", "1.8", "An expression for getting the specified number as the specified Java primitive type:"
@@ -301,8 +301,6 @@ public class MiscMundo {
         Registration.registerExpression(ExprNewPortal.class, Location.class, ExpressionType.PROPERTY, "new nether portal within [[a] radius of] %number% (block|meter)s of %location%")
                 .document("New Nether Portal", "1.8", "An expression, used in the 'on [player] portal' event, that attempts to create a new nether portal within the specified radius of the specified location, "
                         + "and returns the location of the created portal if successful, and is not set otherwise.");
-        Registration.registerExpression(ExprFlying.class, Boolean.class, ExpressionType.PROPERTY, "[%player% is] flying")
-                .document("Player is Flying", "1.8", "Checks whether the specified player (or the player of the event if none is specified) is flying.");
     }
 
     private static void loadNoteBlock() {

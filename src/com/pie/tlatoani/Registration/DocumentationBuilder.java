@@ -1,8 +1,12 @@
 package com.pie.tlatoani.Registration;
 
+import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
+import com.pie.tlatoani.Util.Logging;
+import org.bukkit.event.Cancellable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -71,15 +75,79 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
     class Expression extends Abstract<DocumentationElement.Expression, Expression> {
         private ClassInfo returnType;
+        private List<Changer> changerBuilders = new ArrayList<>();
 
-        public Expression(String category, String[] syntaxes, Class returnType) {
+        public Expression(String category, String[] syntaxes, Class returnType, Class<? extends ch.njol.skript.lang.Expression> exprClass) {
             super(category, syntaxes);
             this.returnType = Classes.getExactClassInfo(returnType);
+            if (exprClass != null) {
+                addChangers(exprClass);
+            }
+        }
+
+        private void addChangers(Class<? extends ch.njol.skript.lang.Expression> exprClass) {
+            try {
+                ch.njol.skript.lang.Expression expr = exprClass.newInstance();
+                for (ch.njol.skript.classes.Changer.ChangeMode mode  : ch.njol.skript.classes.Changer.ChangeMode.values()) {
+                    Class<?>[] changeTypes = expr.acceptChange(mode);
+                    for (Class<?> changeType : changeTypes) {
+                        changerBuilders.add(new Changer(mode, changeType, originVersion, ""));
+                    }
+                }
+            } catch (Exception e) {
+                Logging.reportException(this, e);
+            }
+        }
+
+        private int changerIndex(ch.njol.skript.classes.Changer.ChangeMode mode, Class type) {
+            int i = 0;
+            for (Changer changer : changerBuilders) {
+                if (changer.mode == mode && changer.type.getC() == type) {
+                    return i;
+                }
+                i++;
+            }
+            return -1;
         }
 
         @Override
         public DocumentationElement.Expression build() {
-            return new DocumentationElement.Expression(name, category, syntaxes, description, originVersion, returnType, requiredPlugins);
+            return new DocumentationElement.Expression(name, category, syntaxes, description, originVersion, returnType, requiredPlugins, changerBuilders);
+        }
+
+        public DocumentationBuilder.Expression changer(ch.njol.skript.classes.Changer.ChangeMode mode, Class type, String originVersion, String description) {
+            int index = changerIndex(mode, type);
+            Changer changer = new Changer(mode, type, originVersion, description);
+            if (index == -1) {
+                changerBuilders.add(changer);
+            } else {
+                changerBuilders.set(index, changer);
+            }
+            return this;
+        }
+    }
+
+    class Changer {
+        private ch.njol.skript.classes.Changer.ChangeMode mode;
+        private ClassInfo type;
+        private boolean single;
+        private String description = null;
+        private String originVersion = null;
+
+        public Changer(ch.njol.skript.classes.Changer.ChangeMode mode, Class type, String originVersion, String description) {
+            if (type.getComponentType() != null) {
+                this.type = Classes.getExactClassInfo(type.getComponentType());
+                single = false;
+            } else {
+                this.type = Classes.getExactClassInfo(type);
+                single = true;
+            }
+            this.description = description;
+            this.originVersion = originVersion;
+        }
+
+        public DocumentationElement.Changer build(DocumentationElement.Expression parent) {
+            return new DocumentationElement.Changer(parent, mode, type, description, originVersion);
         }
     }
 
@@ -94,7 +162,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
         @Override
         public DocumentationElement.Event build() {
-            return new DocumentationElement.Event(name, category, syntaxes, description, originVersion, requiredPlugins, eventValueBuilders);
+            return new DocumentationElement.Event(name, category, syntaxes, description, originVersion, requiredPlugins, Cancellable.class.isAssignableFrom(event), eventValueBuilders);
         }
 
         public DocumentationBuilder.Event eventValue(Class type, String originVersion, String description) {

@@ -107,7 +107,7 @@ public class SkinManager {
             if (!event.isCancelled() && event.getPlayer() != null) {
                 Collection<String> playerNames = event.getPacket().getSpecificModifier(Collection.class).readSafely(0);
                 Logging.debug(SkinManager.class, "playerNames: " + playerNames);
-                List<String> addedNames = new ArrayList<String>();
+                List<String> addedNames = new ArrayList<>();
                 for (String s : playerNames) {
                     Player player = Bukkit.getPlayerExact(s);
                     if (player != null) {
@@ -239,12 +239,7 @@ public class SkinManager {
     }
 
     public static String getNameTag(Player player) {
-        String nameTag = nameTags.get(player);
-        if (nameTag == null) {
-            nameTag = player.getName();
-            nameTags.put(player, nameTag);
-        }
-        return nameTag;
+        return nameTags.computeIfAbsent(player, k -> player.getName());
     }
 
     //skinTexture = null will reset the player's nametag to their actual name
@@ -254,8 +249,9 @@ public class SkinManager {
         }
         Logging.debug(SkinManager.class, "Setting nametag of " + player.getName() + " to " + nameTag);
         String oldNameTag = getNameTag(player);
-        if (nameTag == null)
+        if (nameTag == null) {
             nameTag = player.getName();
+        }
         Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
         if (team != null) {
             team.removeEntry(player.getName());
@@ -275,17 +271,14 @@ public class SkinManager {
         if (objective != null) {
             score.setScore(actualScore);
         }
-        nameTags.forEach(new BiConsumer<Player, String>() {
-            @Override
-            public void accept(Player nameTagOwner, String s) {
-                if (s.equals(oldNameTag)) {
-                    Team team1 = nameTagOwner.getScoreboard() != null ? nameTagOwner.getScoreboard().getEntryTeam(nameTagOwner.getName()) : null;
-                    if (team1 != null) {
-                        team1.removeEntry(nameTagOwner.getName());
-                        Scheduling.syncDelay(1, () -> team1.addEntry(nameTagOwner.getName()));
-                    }
-
+        nameTags.forEach((nameTagOwner, s) -> {
+            if (s.equals(oldNameTag)) {
+                Team team1 = nameTagOwner.getScoreboard() != null ? nameTagOwner.getScoreboard().getEntryTeam(nameTagOwner.getName()) : null;
+                if (team1 != null) {
+                    team1.removeEntry(nameTagOwner.getName());
+                    Scheduling.syncDelay(1, () -> team1.addEntry(nameTagOwner.getName()));
                 }
+
             }
         });
     }
@@ -370,10 +363,11 @@ public class SkinManager {
 
     private static void updateTablistName(Player player) {
         Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
-        if (team == null)
+        if (team == null) {
             player.setPlayerListName(getTablistName(player));
-        else
+        } else {
             player.setPlayerListName(team.getPrefix() + getTablistName(player) + team.getSuffix());
+        }
     }
 
     private static int convertDimension(World.Environment dimension) {
