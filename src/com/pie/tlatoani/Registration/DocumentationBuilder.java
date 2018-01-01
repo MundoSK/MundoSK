@@ -137,6 +137,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
         private String originVersion = null;
 
         public Changer(ch.njol.skript.classes.Changer.ChangeMode mode, Class type, String originVersion, String description) {
+            this.mode = mode;
             this.type = type;
             this.description = description;
             this.originVersion = originVersion;
