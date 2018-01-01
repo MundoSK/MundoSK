@@ -97,7 +97,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
                         continue;
                     }
                     for (Class<?> changeType : changeTypes) {
-                        if (!containsChanger(mode, changeType)) {
+                        if (changeType != null && !containsChanger(mode, changeType)) {
                             changerBuilders.add(new Changer(mode, changeType, originVersion, ""));
                         }
                     }

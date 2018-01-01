@@ -16,8 +16,15 @@ import java.util.Map;
 public abstract class MundoPropertyExpression<F, T> extends SimplePropertyExpression<F, T> {
     private static final Map<Class<? extends MundoPropertyExpression>, Info> infoMap = new HashMap<>();
 
+    protected Info info;
     protected Class returnType;
     protected String property;
+
+    //Allows documentation of changers to work properly
+    public MundoPropertyExpression() {
+        info = infoMap.get(getClass());
+        returnType = info.returnType;
+    }
 
     public static void registerPropertyExpressionInfo(Class<? extends MundoPropertyExpression> exprClass, Class returnType, List<String> properties) {
         infoMap.put(exprClass, new Info(properties.toArray(new String[0]), returnType));
@@ -40,8 +47,6 @@ public abstract class MundoPropertyExpression<F, T> extends SimplePropertyExpres
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        Info info = infoMap.get(getClass());
-        returnType = info.returnType;
         property = info.properties[i];
         return super.init(expressions, i, kleenean, parseResult);
     }

@@ -195,7 +195,7 @@ public abstract class DocumentationElement {
 
         public void display(CommandSender sender) {
             String modeSyntax = mode.name().toLowerCase().replace('_', ' ');
-            String typeSyntax = type.map(pair -> " " + pair.getFirst().getC() + (pair.getSecond() ? "" : "s")).orElse("");
+            String typeSyntax = type.map(pair -> " " + pair.getFirst().getCodeName() + (pair.getSecond() ? "" : "s")).orElse("");
             sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + modeSyntax + typeSyntax + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
         }
     }
