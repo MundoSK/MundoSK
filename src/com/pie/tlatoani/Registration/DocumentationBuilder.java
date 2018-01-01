@@ -103,7 +103,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
                     }
                 }
             } catch (Exception e) {
-                Logging.reportException(this, e);
+                Logging.debug(this, e);
             }
         }
 
@@ -118,7 +118,9 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
         @Override
         public DocumentationElement.Expression build() {
-            addChangers(exprClass);
+            if (exprClass != null) {
+                addChangers(exprClass);
+            }
             return new DocumentationElement.Expression(name, category, syntaxes, description, originVersion, returnType, requiredPlugins, changerBuilders);
         }
 
