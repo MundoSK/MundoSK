@@ -51,12 +51,12 @@ public final class WebSocketManager {
         Registration.registerEvent("WebSocket Client", ScopeWebSocketClient.class, WebSocketEvent.class, "websocket client %string%")
                 .document("WebSocket Client Template", "1.8", "Not an actual event, but rather a template for a websocket client, with the specified ID. "
                         + "Under the main \"event\" line you can have five different sub-scopes that handle websocket events:"
-                        + "\non open: This is called when the websocket connection initially opens."
-                        + "\non handshake: This is called before 'on open', when the response handshake has been received from the server, "
+                        , "on open: This is called when the websocket connection initially opens."
+                        , "on handshake: This is called before 'on open', when the response handshake has been received from the server, "
                         + "but before the websocket is technically open, meaning you can't yet send messages to the server."
-                        + "\non message: This is called when the other end of the websocket connection sends a message."
-                        + "\non error: This is called when an error occurs related to the websocket connection."
-                        + "\non close: This is called when the websocket connection is closed.")
+                        , "on message: This is called when the other end of the websocket connection sends a message."
+                        , "on error: This is called when an error occurs related to the websocket connection."
+                        , "on close: This is called when the websocket connection is closed.")
                 .eventValue(WebSocket.class, "1.8", "The websocket object being controlled by this template.")
                 .eventValue(String.class, "1.8", "In 'on message', this is the received message. In 'on close', this is the reason for closing.")
                 .eventValue(ThrowableMundo.class, "1.8", "In 'on error', this is the error that occurred.")
@@ -65,15 +65,15 @@ public final class WebSocketManager {
         Registration.registerEvent("WebSocket Server", ScopeWebSocketServer.class, WebSocketEvent.class, "websocket server %string%")
                 .document("WebSocket Server Template", "1.8", "Not an actual event, but rather a template for a websocket server, with the specified ID. "
                         + "Under the main \"event\" line you can have seven different sub-scopes that handle websocket events:"
-                        + "\non start: This is called when the websocket server is started."
-                        + "\non stop: This is called when the websocket server is stopped."
-                        + "\non handshake: This is called before 'on open', when a client has sent a request handshake, "
+                        , "on start: This is called when the websocket server is started."
+                        , "on stop: This is called when the websocket server is stopped."
+                        , "on handshake: This is called before 'on open', when a client has sent a request handshake, "
                         + "allowing you to modify the response handshake to be sent as well as verify that the client's request is valid, "
                         + "and refuse the request if you deem it to be invalid. Note that you can't send messages to the client at this point."
-                        + "\non open: This is called when a client opens a websocket connection with this websocket server."
-                        + "\non message: This is called when the other end of a websocket connection sends a message."
-                        + "\non error: This is called when an error occurs related to a websocket connection."
-                        + "\non close: This is called when a websocket connection is closed.")
+                        , "on open: This is called when a client opens a websocket connection with this websocket server."
+                        , "on message: This is called when the other end of a websocket connection sends a message."
+                        , "on error: This is called when an error occurs related to a websocket connection."
+                        , "on close: This is called when a websocket connection is closed.")
                 .eventValue(WebSocket.class, "1.8", "The websocket object associated with this particular connection, in 'on open', 'on message', 'on error', and 'on close'.")
                 .eventValue(String.class, "1.8", "In 'on message', this is the received message. In 'on close', this is the reason for closing.")
                 .eventValue(ThrowableMundo.class, "1.8", "In 'on error', this is the error that occurred.")
@@ -116,11 +116,11 @@ public final class WebSocketManager {
     private static void loadHandshake() {
         Registration.registerExpression(ExprHandshake.class, Handshakedata.class, ExpressionType.SIMPLE, "[websocket] request [handshake]", "[websocket] response [handshake]", "new [websocket] handshake")
                 .document("Handshake Request/Response/New", "1.8", "An expression for some handshake:"
-                        + "\nrequest: The handshake sent by a websocket client to a websocket server, "
+                        , "request: The handshake sent by a websocket client to a websocket server, "
                         + "used in the 'on open' section of a websocket server template or the 'on handshake' section of a websocket client or server template"
-                        + "\nresponse: The handshake sent by a websocket server responding to a request by a websocket client, "
+                        , "response: The handshake sent by a websocket server responding to a request by a websocket client, "
                         + "used in the 'on open' section of a websocket client template or the 'on handshake' section of a websocket client or server template"
-                        + "\nnew: A new handshake object, currently only useful for specifying addition http headers in the New Websocket expression");
+                        , "new: A new handshake object, currently only useful for specifying addition http headers in the New Websocket expression");
         Registration.registerExpression(ExprRequestIsAccepted.class, Boolean.class, ExpressionType.SIMPLE, "[websocket] request [handshake] is (0¦accepted|1¦refused)")
                 .document("Request is Accepted", "1.8", "Used in the 'on handshake' section of a websocket server template. "
                         + "Checks whether the client's request was accepted or refused. Can be set.");

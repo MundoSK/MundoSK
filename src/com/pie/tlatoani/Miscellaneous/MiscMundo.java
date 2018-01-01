@@ -77,12 +77,12 @@ public class MiscMundo {
                         + "that are either equal or not equal to the latter specified object.");
         Registration.registerExpression(ExprNumber.class, Number.class, ExpressionType.PROPERTY, "%*number%[ ](0¦b|1¦d|2¦f|3¦s|4¦l)")
                 .document("Number as Java Type", "1.8", "An expression for getting the specified number as the specified Java primitive type:"
-                        + "\nb = byte"
-                        + "\nd = double"
-                        + "\nf = float"
-                        + "\ns = short"
-                        + "\nl = long"
-                        + "\nThis is useful for example when modifying certain fields of packets, as they frequently require certain Java number types "
+                        , "b = byte"
+                        , "d = double"
+                        , "f = float"
+                        , "s = short"
+                        , "l = long"
+                        , "This is useful for example when modifying certain fields of packets, as they frequently require certain Java number types "
                         + "and will cause errors when the wrong type is used.");
         Registration.registerExpression(ExprLoopWhile.class,Object.class,ExpressionType.PROPERTY,"%objects% (0¦while|1¦until|2¦if|3¦unless) %boolean%")
                 .document("Loop While", "1.6.4", "An expression used in loops in order to loop through a list of objects either while or until a certain boolean expression is true. "

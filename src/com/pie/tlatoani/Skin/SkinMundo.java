@@ -120,9 +120,9 @@ public class SkinMundo {
                 .document("Skull from Skin", "1.8", "An expression for a skull bearing the specified skin.");
         Registration.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY, "retrieved [(4¦slim)] skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%) [[with] timeout %-timespan%]")
                 .document("Retrieved Skin", "1.8", "An expression for a skin retrieved using the Mineskin API:"
-                        + "\nA skin recreated from the specified image file,"
-                        + "\nA skin recreated from the specified URL of an image, or"
-                        + "\nThe skin of the specified offline player retrieved from Mojang");
+                        , "A skin recreated from the specified image file,"
+                        , "A skin recreated from the specified URL of an image, or"
+                        , "The skin of the specified offline player retrieved from Mojang");
         Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] %player%'s name[]tag", "[mundo[sk]] name[]tag of %player%")
                 .document("Nametag of Player", "1.8", "An expression for the nametag (the name that appears above a player's head) of the specified player.");
         Registration.registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%")

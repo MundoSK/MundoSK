@@ -142,13 +142,13 @@ public class TablistManager {
         Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprSizeOfTabList.class, Number.class, ExpressionType.PROPERTY, "amount of (0¦column|1¦row)s in %players%'s [array] tablist")
                 .document("Size of Array Tablist", "1.8", "An expression for the amount of rows or columns in the array tablist. There can be 1 to 4 columns."
                         + "For each amount of columns, there is a specified range for the amount of rows:"
-                        + "\n1 Column: 1 to 20 rows"
-                        + "\n2 Columns: 11 to 20 rows"
-                        + "\n3 Columns: 14 to 20 rows"
-                        + "\n4 Columns: 16 to 20 rows"
-                        + "\nThis is due to the fact that Minecraft allows 1 to 80 total tabs, and for each amount, there is only one way the tablist can appear. "
-                        + "\nMinecraft only allows a maximum of 20 tabs in one column, so the tabs will try to fill as few columns as possible will adhering to this rule. "
-                        + "\nFor example, if there are 40 tabs, this is satisfied by a 2x20 tablist, but for 41 and 42 you need 3x14.");
+                        , "1 Column: 1 to 20 rows"
+                        , "2 Columns: 11 to 20 rows"
+                        , "3 Columns: 14 to 20 rows"
+                        , "4 Columns: 16 to 20 rows"
+                        , "This is due to the fact that Minecraft allows 1 to 80 total tabs, and for each amount, there is only one way the tablist can appear. "
+                        + "Minecraft only allows a maximum of 20 tabs in one column, so the tabs will try to fill as few columns as possible will adhering to this rule. "
+                        + "For example, if there are 40 tabs, this is satisfied by a 2x20 tablist, but for 41 and 42 you need 3x14.");
     }
 
     private static void loadPacketEventListeners() {

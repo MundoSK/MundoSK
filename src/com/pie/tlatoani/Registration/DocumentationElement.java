@@ -13,7 +13,7 @@ public abstract class DocumentationElement {
     public final String name;
     public final String category;
     public final String[] syntaxes;
-    public final String description;
+    public final String[] description;
     public final String originVersion;
     public final String[] requiredPlugins;
 
@@ -45,7 +45,7 @@ public abstract class DocumentationElement {
         return "DocumentationElement(" + category + " " + getType() + ": " + name + ")";
     }
 
-    private DocumentationElement(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins) {
+    private DocumentationElement(String name, String category, String[] syntaxes, String description[], String originVersion, String[] requiredPlugins) {
         this.name = name;
         this.category = category;
         this.syntaxes = syntaxes;
@@ -76,10 +76,17 @@ public abstract class DocumentationElement {
                     sender.sendMessage(Mundo.ALT_CHAT_COLOR + syntax);
                 }
             }
-            sender.sendMessage(Mundo.formatMundoSKInfo("Description", description));
+            if (description.length == 1) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Description", description[0]));
+            } else {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Description");
+                for (String descLine : description) {
+                    sender.sendMessage(Mundo.ALT_CHAT_COLOR + descLine);
+                }
+            }
         }
 
-        public Effect(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins) {
+        public Effect(String name, String category, String[] syntaxes, String description[], String originVersion, String[] requiredPlugins) {
             super(name, category, syntaxes, description, originVersion, requiredPlugins);
         }
     }
@@ -106,10 +113,17 @@ public abstract class DocumentationElement {
                     sender.sendMessage(Mundo.ALT_CHAT_COLOR + syntax);
                 }
             }
-            sender.sendMessage(Mundo.formatMundoSKInfo("Description", description));
+            if (description.length == 1) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Description", description[0]));
+            } else {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Description");
+                for (String descLine : description) {
+                    sender.sendMessage(Mundo.ALT_CHAT_COLOR + descLine);
+                }
+            }
         }
 
-        public Condition(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins) {
+        public Condition(String name, String category, String[] syntaxes, String[] description, String originVersion, String[] requiredPlugins) {
             super(name, category, syntaxes, description, originVersion, requiredPlugins);
         }
     }
@@ -117,7 +131,7 @@ public abstract class DocumentationElement {
     public static class Expression extends DocumentationElement {
         public final ClassInfo type;
 
-        public Expression(String name, String category, String[] syntaxes, String description, String originVersion, ClassInfo type, String[] requiredPlugins) {
+        public Expression(String name, String category, String[] syntaxes, String[] description, String originVersion, ClassInfo type, String[] requiredPlugins) {
             super(name, category, syntaxes, description, originVersion, requiredPlugins);
             this.type = type;
         }
@@ -143,7 +157,14 @@ public abstract class DocumentationElement {
                     sender.sendMessage(Mundo.ALT_CHAT_COLOR + syntax);
                 }
             }
-            sender.sendMessage(Mundo.formatMundoSKInfo("Description", description));
+            if (description.length == 1) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Description", description[0]));
+            } else {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Description");
+                for (String descLine : description) {
+                    sender.sendMessage(Mundo.ALT_CHAT_COLOR + descLine);
+                }
+            }
         }
     }
 
@@ -170,7 +191,14 @@ public abstract class DocumentationElement {
                     sender.sendMessage(Mundo.ALT_CHAT_COLOR + syntax);
                 }
             }
-            sender.sendMessage(Mundo.formatMundoSKInfo("Description", description));
+            if (description.length == 1) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Description", description[0]));
+            } else {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Description");
+                for (String descLine : description) {
+                    sender.sendMessage(Mundo.ALT_CHAT_COLOR + descLine);
+                }
+            }
             if (eventValues.length > 0) {
                 sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Event Values");
                 for (EventValue eventValue : eventValues) {
@@ -179,7 +207,7 @@ public abstract class DocumentationElement {
             }
         }
 
-        public Event(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins, Collection<DocumentationBuilder.EventValue> eventValueBuilders) {
+        public Event(String name, String category, String[] syntaxes, String[] description, String originVersion, String[] requiredPlugins, Collection<DocumentationBuilder.EventValue> eventValueBuilders) {
             super(name, category, syntaxes, description, originVersion, requiredPlugins);
             this.eventValues = eventValueBuilders.stream().map(builder -> builder.build(this)).toArray(EventValue[]::new);
         }
@@ -206,7 +234,7 @@ public abstract class DocumentationElement {
     public static class Type extends DocumentationElement {
         public final String[] usages;
 
-        public Type(String name, String category, String[] syntaxes, String[] usages, String description, String originVersion, String[] requiredPlugins) {
+        public Type(String name, String category, String[] syntaxes, String[] usages, String[] description, String originVersion, String[] requiredPlugins) {
             super(name, category, syntaxes, description, originVersion, requiredPlugins);
             this.usages = usages;
         }
@@ -232,7 +260,14 @@ public abstract class DocumentationElement {
                 }
             }
             sender.sendMessage(Mundo.formatMundoSKInfo("Usages", syntaxes.length == 0 ? "Cannot be written in scripts" : String.join(", ", usages)));
-            sender.sendMessage(Mundo.formatMundoSKInfo("Description", description));
+            if (description.length == 1) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Description", description[0]));
+            } else {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Description");
+                for (String descLine : description) {
+                    sender.sendMessage(Mundo.ALT_CHAT_COLOR + descLine);
+                }
+            }
         }
     }
 
@@ -258,10 +293,17 @@ public abstract class DocumentationElement {
                     sender.sendMessage(Mundo.ALT_CHAT_COLOR + syntax);
                 }
             }
-            sender.sendMessage(Mundo.formatMundoSKInfo("Description", description));
+            if (description.length == 1) {
+                sender.sendMessage(Mundo.formatMundoSKInfo("Description", description[0]));
+            } else {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Description");
+                for (String descLine : description) {
+                    sender.sendMessage(Mundo.ALT_CHAT_COLOR + descLine);
+                }
+            }
         }
 
-        public Scope(String name, String category, String[] syntaxes, String description, String originVersion, String[] requiredPlugins) {
+        public Scope(String name, String category, String[] syntaxes, String description[], String originVersion, String[] requiredPlugins) {
             super(name, category, syntaxes, description, originVersion, requiredPlugins);
         }
     }

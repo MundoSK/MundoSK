@@ -14,7 +14,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
     D build();
 
-    B document(String name, String description, String originVersion);
+    B document(String name, String originVersion, String... description);
 
     B requiredPlugins(String... plugins);
 
@@ -22,7 +22,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
         protected String name = null;
         protected String category = null;
         protected String[] syntaxes = null;
-        protected String description = null;
+        protected String[] description = null;
         protected String originVersion = null;
         protected String[] requiredPlugins = null;
 
@@ -31,7 +31,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             this.syntaxes = syntaxes;
         }
 
-        public B document(String name, String originVersion, String description) {
+        public B document(String name, String originVersion, String... description) {
             Documentation.addBuilder(this);
             this.name = name;
             this.description = description;

@@ -36,11 +36,11 @@ public final class GeneratorManager {
         Registration.registerEvent("Generator", ScopeGenerator.class, GeneratorEvent.class, "[custom] [(world|chunk)] generator %string%")
                 .document("Custom Generator", "1.7", "Not an actual event, but rather an event-level scope used to code a custom generator, with the specified ID. "
                         + "Under the main \"event\" line you can have three different sub-scopes that handle generation:"
-                        + "\ninitiation: This is called once at the beginning of a world's generation. "
+                        , "initiation: This is called once at the beginning of a world's generation. "
                         + "This is specifically intended for optionally setting the world's spawn, but can also be used for other things you need to do at the start of generation."
-                        + "\ngeneration: This is called whenever a chunk is being generated. All custom generators should use this to do their main generation of the world, "
+                        , "generation: This is called whenever a chunk is being generated. All custom generators should use this to do their main generation of the world, "
                         + "using the given chunkdata to set the materials of the blocks in the chunk."
-                        + "\npopulation: This is called after a chunk and all adjacent chunks (not including ones that are diagonal) have been generated, "
+                        , "population: This is called after a chunk and all adjacent chunks (not including ones that are diagonal) have been generated, "
                         + "to add certain blocks on top which may require (or be made easier) by being able to put blocks on more than one chunk (ex. adding flowers).")
                 .eventValue(World.class, "1.7", "The world that is being generated.")
                 .eventValue(Random.class, "1.7", "A pseudo-random number generator created from the seed that can be used to randomize generation.")

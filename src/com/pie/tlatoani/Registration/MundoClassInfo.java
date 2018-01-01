@@ -9,7 +9,7 @@ public class MundoClassInfo<T> extends ClassInfo<T> implements DocumentationBuil
     protected String name = null;
     protected String category = null;
     protected String[] syntaxes = null;
-    protected String description = null;
+    protected String[] description = null;
     protected String originVersion = null;
     protected String[] requiredPlugins = null;
 
@@ -26,7 +26,8 @@ public class MundoClassInfo<T> extends ClassInfo<T> implements DocumentationBuil
         return new DocumentationElement.Type(name, category, syntaxes, new String[0], description, originVersion, requiredPlugins);
     }
 
-    public MundoClassInfo<T> document(String name, String originVersion, String description) {
+    @Override
+    public MundoClassInfo<T> document(String name, String originVersion, String... description) {
         Documentation.addBuilder(this);
         this.name = name;
         this.description = description;

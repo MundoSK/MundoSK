@@ -42,11 +42,11 @@ public class WorldBorderMundo {
                 "(0¦" + DIAMETER_SYNTAX + "|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time) of %world%",
                 "%world%'s (0¦" + DIAMETER_SYNTAX + "|1¦damage amount|2¦damage buffer|3¦warning distance|4¦warning time)")
                 .document("Property of Border", "1.8", "An expression for a certain property of the specified world's border:"
-                        + "\ndiameter: The diameter/size/side length"
-                        + "\ndamage amount: The amount of damage a player will take per second if they are outside both the border and the damage buffer"
-                        + "\ndamage buffer: The distance (in blocks) outside of the border a player can be before taking damage"
-                        + "\nwarning distance: The distance a player has to be within the border to see the red warning effect"
-                        + "\nwarning time: The amount of time the border should be within of reaching a player to show that player the red warning effect.");
+                        , "diameter: The diameter/size/side length"
+                        , "damage amount: The amount of damage a player will take per second if they are outside both the border and the damage buffer"
+                        , "damage buffer: The distance (in blocks) outside of the border a player can be before taking damage"
+                        , "warning distance: The distance a player has to be within the border to see the red warning effect"
+                        , "warning time: The amount of time the border should be within of reaching a player to show that player the red warning effect.");
         Registration.registerPropertyExpression(ExprCenterOfBorder.class, Location.class, "world", "center")
                 .document("Center of Border", "Before 1.2", "The center of the specified world's border. This isn't necessarily the same as the spawn.");
         Registration.registerExpression(CondBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%locations% (is|are) (0¦within|1¦beyond) border")
