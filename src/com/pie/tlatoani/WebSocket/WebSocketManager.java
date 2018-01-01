@@ -59,7 +59,7 @@ public final class WebSocketManager {
                         , "on close: This is called when the websocket connection is closed.")
                 .eventValue(WebSocket.class, "1.8", "The websocket object being controlled by this template.")
                 .eventValue(String.class, "1.8", "In 'on message', this is the received message. In 'on close', this is the reason for closing.")
-                .eventValue(ThrowableMundo.class, "1.8", "In 'on error', this is the error that occurred.")
+                .eventValue(Throwable.class, "1.8", "In 'on error', this is the error that occurred.")
                 .eventValue(Number.class, "1.8", "In 'on close', this is the code for the closing.")
                 .eventValue(Boolean.class, "1.8", "In 'on close', this is whether the closing was initiated remotely (true) or locally (false).");
         Registration.registerEvent("WebSocket Server", ScopeWebSocketServer.class, WebSocketEvent.class, "websocket server %string%")
@@ -76,7 +76,7 @@ public final class WebSocketManager {
                         , "on close: This is called when a websocket connection is closed.")
                 .eventValue(WebSocket.class, "1.8", "The websocket object associated with this particular connection, in 'on open', 'on message', 'on error', and 'on close'.")
                 .eventValue(String.class, "1.8", "In 'on message', this is the received message. In 'on close', this is the reason for closing.")
-                .eventValue(ThrowableMundo.class, "1.8", "In 'on error', this is the error that occurred.")
+                .eventValue(Throwable.class, "1.8", "In 'on error', this is the error that occurred.")
                 .eventValue(Number.class, "1.8", "In 'on close', this is the code for the closing.")
                 .eventValue(Boolean.class, "1.8", "In 'on close', this is whether the closing was initiated remotely (true) or locally (false).");
 
