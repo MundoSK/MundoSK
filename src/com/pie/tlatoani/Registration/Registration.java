@@ -44,16 +44,16 @@ public final class Registration {
         return new DocumentationBuilder.Effect(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
     }
 
-    public static <T> DocumentationBuilder registerExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, ExpressionType expressionType, String... patterns) {
+    public static <T> DocumentationBuilder.Changeable registerExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, ExpressionType expressionType, String... patterns) {
         Skript.registerExpression(expressionClass, type, expressionType, patterns);
         if (type == Boolean.class) {
-            return new DocumentationBuilder.Condition(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
+            return new DocumentationBuilder.Condition(currentCategory, patterns, expressionClass).requiredPlugins(currentRequiredPlugins);
         } else {
             return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
         }
     }
 
-    public static <T> DocumentationBuilder registerPropertyExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, String possessorType, String... properties) {
+    public static <T> DocumentationBuilder.Changeable registerPropertyExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, String possessorType, String... properties) {
         ArrayList<String> patternList = new ArrayList<>(properties.length);
         ArrayList<String> propertyList = new ArrayList<>(properties.length);
         for (int i = 0; i < properties.length; i++) {
@@ -74,17 +74,17 @@ public final class Registration {
             MundoPropertyExpression.registerPropertyExpressionInfo((Class<? extends MundoPropertyExpression>) expressionClass, type, propertyList);
         }
         if (type == Boolean.class) {
-            return new DocumentationBuilder.Condition(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
+            return new DocumentationBuilder.Condition(currentCategory, patterns, expressionClass).requiredPlugins(currentRequiredPlugins);
         } else {
             return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
         }
     }
 
-    public static <T, E extends Event> DocumentationBuilder registerEventSpecificExpression(Class<? extends EventSpecificExpression<T, E>> expressionClass, Class<T> type, Class<E> event, String invalidEventError, String... patterns) {
+    public static <T, E extends Event> DocumentationBuilder.Changeable registerEventSpecificExpression(Class<? extends EventSpecificExpression<T, E>> expressionClass, Class<T> type, Class<E> event, String invalidEventError, String... patterns) {
         Skript.registerExpression(expressionClass, type, ExpressionType.SIMPLE, patterns);
         EventSpecificExpression.registerEventSpecificExpression(expressionClass, type, event, patterns[0], invalidEventError);
         if (type == Boolean.class) {
-            return new DocumentationBuilder.Condition(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
+            return new DocumentationBuilder.Condition(currentCategory, patterns, expressionClass).requiredPlugins(currentRequiredPlugins);
         } else {
             return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
         }

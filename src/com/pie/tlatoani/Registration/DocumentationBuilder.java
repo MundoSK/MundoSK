@@ -47,42 +47,16 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
         }
     }
 
-    class Effect extends Abstract<DocumentationElement.Effect, Effect> {
+    abstract class Changeable<D extends DocumentationElement, B extends Changeable<D, B>> extends Abstract<D, B> {
+        protected Class<? extends ch.njol.skript.lang.Expression> exprClass;
+        protected List<Changer> changerBuilders = new ArrayList<>();
 
-        public Effect(String category, String[] syntaxes) {
+        Changeable(String category, String[] syntaxes, Class<? extends ch.njol.skript.lang.Expression> exprClass) {
             super(category, syntaxes);
-        }
-
-        @Override
-        public DocumentationElement.Effect build() {
-            return new DocumentationElement.Effect(name, category, syntaxes, description, originVersion, requiredPlugins);
-        }
-    }
-
-    class Condition extends Abstract<DocumentationElement.Condition, Condition> {
-
-        public Condition(String category, String[] syntaxes) {
-            super(category, syntaxes);
-        }
-
-        @Override
-        public DocumentationElement.Condition build() {
-            return new DocumentationElement.Condition(name, category, syntaxes, description, originVersion, requiredPlugins);
-        }
-    }
-
-    class Expression extends Abstract<DocumentationElement.Expression, Expression> {
-        private ClassInfo returnType;
-        private Class<? extends ch.njol.skript.lang.Expression> exprClass;
-        private List<Changer> changerBuilders = new ArrayList<>();
-
-        public Expression(String category, String[] syntaxes, Class returnType, Class<? extends ch.njol.skript.lang.Expression> exprClass) {
-            super(category, syntaxes);
-            this.returnType = Classes.getExactClassInfo(returnType);
             this.exprClass = exprClass;
         }
 
-        private void addChangers(Class<? extends ch.njol.skript.lang.Expression> exprClass) {
+        protected void addChangers(Class<? extends ch.njol.skript.lang.Expression> exprClass) {
             try {
                 ch.njol.skript.lang.Expression expr = exprClass.newInstance();
                 for (ch.njol.skript.classes.Changer.ChangeMode mode  : ch.njol.skript.classes.Changer.ChangeMode.values()) {
@@ -107,7 +81,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             }
         }
 
-        private boolean containsChanger(ch.njol.skript.classes.Changer.ChangeMode mode, Class type) {
+        protected boolean containsChanger(ch.njol.skript.classes.Changer.ChangeMode mode, Class type) {
             for (Changer changer : changerBuilders) {
                 if (changer.mode == mode && changer.type == type) {
                     return true;
@@ -116,17 +90,69 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             return false;
         }
 
+        public B changer(ch.njol.skript.classes.Changer.ChangeMode mode, Class type, String originVersion, String description) {
+            if (mode == ch.njol.skript.classes.Changer.ChangeMode.RESET || mode == ch.njol.skript.classes.Changer.ChangeMode.DELETE) {
+                throw new IllegalArgumentException("Illegal ChangeMode: " + mode);
+            }
+            changerBuilders.add(new Changer(mode, type, originVersion, description));
+            return (B) this;
+        }
+
+        public B changer(ch.njol.skript.classes.Changer.ChangeMode mode, String originVersion, String description) {
+            if (mode != ch.njol.skript.classes.Changer.ChangeMode.RESET && mode != ch.njol.skript.classes.Changer.ChangeMode.DELETE) {
+                throw new IllegalArgumentException("Illegal ChangeMode: " + mode);
+            }
+            changerBuilders.add(new Changer(mode, null, originVersion, description));
+            return (B) this;
+        }
+
+        public B document(String name, String originVersion, String... description) {
+            super.document(name, originVersion, description);
+            return (B) this;
+        }
+    }
+
+    class Effect extends Abstract<DocumentationElement.Effect, Effect> {
+
+        public Effect(String category, String[] syntaxes) {
+            super(category, syntaxes);
+        }
+
+        @Override
+        public DocumentationElement.Effect build() {
+            return new DocumentationElement.Effect(name, category, syntaxes, description, originVersion, requiredPlugins);
+        }
+    }
+
+    class Condition extends Changeable<DocumentationElement.Condition, Condition> {
+
+        public Condition(String category, String[] syntaxes, Class<? extends ch.njol.skript.lang.Expression> exprClass) {
+            super(category, syntaxes, exprClass);
+        }
+
+        @Override
+        public DocumentationElement.Condition build() {
+            if (exprClass != null) {
+                addChangers(exprClass);
+            }
+            return new DocumentationElement.Condition(name, category, syntaxes, description, originVersion, requiredPlugins, changerBuilders);
+        }
+    }
+
+    class Expression extends Changeable<DocumentationElement.Expression, Expression> {
+        private ClassInfo returnType;
+
+        public Expression(String category, String[] syntaxes, Class returnType, Class<? extends ch.njol.skript.lang.Expression> exprClass) {
+            super(category, syntaxes, exprClass);
+            this.returnType = Classes.getExactClassInfo(returnType);
+        }
+
         @Override
         public DocumentationElement.Expression build() {
             if (exprClass != null) {
                 addChangers(exprClass);
             }
             return new DocumentationElement.Expression(name, category, syntaxes, description, originVersion, returnType, requiredPlugins, changerBuilders);
-        }
-
-        public DocumentationBuilder.Expression changer(ch.njol.skript.classes.Changer.ChangeMode mode, Class type, String originVersion, String description) {
-            changerBuilders.add(new Changer(mode, type, originVersion, description));
-            return this;
         }
     }
 
@@ -143,7 +169,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             this.originVersion = originVersion;
         }
 
-        public DocumentationElement.Changer build(DocumentationElement.Expression parent) {
+        public DocumentationElement.Changer build(DocumentationElement parent) {
             ClassInfo classInfo;
             boolean single;
             if (type == null) {

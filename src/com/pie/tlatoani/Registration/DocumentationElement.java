@@ -96,6 +96,12 @@ public abstract class DocumentationElement {
     }
 
     public static class Condition extends DocumentationElement {
+        public final Changer[] changers;
+
+        public Condition(String name, String category, String[] syntaxes, String[] description, String originVersion, String[] requiredPlugins, Collection<DocumentationBuilder.Changer> changerBuilders) {
+            super(name, category, syntaxes, description, originVersion, requiredPlugins);
+            this.changers = changerBuilders.stream().map(builder -> builder.build(this)).toArray(Changer[]::new);
+        }
 
         @Override
         public DocumentationElement.ElementType getType() {
@@ -125,10 +131,12 @@ public abstract class DocumentationElement {
                     sender.sendMessage(Mundo.ALT_CHAT_COLOR + descLine);
                 }
             }
-        }
-
-        public Condition(String name, String category, String[] syntaxes, String[] description, String originVersion, String[] requiredPlugins) {
-            super(name, category, syntaxes, description, originVersion, requiredPlugins);
+            if (changers.length > 0) {
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Changers");
+                for (Changer changer : changers) {
+                    changer.display(sender);
+                }
+            }
         }
     }
 
@@ -181,13 +189,13 @@ public abstract class DocumentationElement {
     }
 
     public static class Changer {
-        public final Expression parent;
+        public final DocumentationElement parent;
         public final ch.njol.skript.classes.Changer.ChangeMode mode;
         public final Optional<Pair<ClassInfo, Boolean>> type;
         public final String description;
         public final String originVersion;
 
-        public Changer(Expression parent, ch.njol.skript.classes.Changer.ChangeMode mode, Optional<Pair<ClassInfo, Boolean>> type, String description, String originVersion) {
+        public Changer(DocumentationElement parent, ch.njol.skript.classes.Changer.ChangeMode mode, Optional<Pair<ClassInfo, Boolean>> type, String description, String originVersion) {
             this.parent = parent;
             this.mode = mode;
             this.type = type;

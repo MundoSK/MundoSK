@@ -1,5 +1,6 @@
 package com.pie.tlatoani.WorldManagement;
 
+import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.Converter;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.registrations.Converters;
@@ -53,10 +54,14 @@ public class WorldManagementMundo {
                         + "This is useful for simple and straightforward world management without the need for a world management plugin. "
                         + "Don't run this effect with the main world, as Bukkit will already load that world automatically, and this effect can't be used to enable/disable that behavior.");
         Registration.registerExpression(ExprAllAutomaticCreators.class, WorldCreatorData.class, ExpressionType.SIMPLE, "[all] automatic creators")
-                .document("All Automatic Creators", "1.8", "An expression for all of the world creators that MundoSK is currently set to automatically run on server start. "
-                        + "This expression can be added to (world creators), removed from (world names or world creators), or cleared in order to specify that certain worlds should/shouldn't be loaded automatically.");
+                .document("All Automatic Creators", "1.8", "An expression for all of the world creators that MundoSK is currently set to automatically run on server start.")
+                .changer(Changer.ChangeMode.ADD, WorldCreatorData.class, "1.8", "Specifies that given creator should be used as an automatic creator.")
+                .changer(Changer.ChangeMode.REMOVE, WorldCreatorData.class, "1.8", "Specifies that the world with the worldname of the given creator should not be loaded automatically.")
+                .changer(Changer.ChangeMode.REMOVE, String.class, "1.8", "Specifies that the world with the given worldname should not be loaded automatically")
+                .changer(Changer.ChangeMode.DELETE, "1.8", "Specifies that no worlds should be loaded automatically.");
         Registration.registerPropertyExpression(ExprAutomaticCreator.class, WorldCreatorData.class, "string", "automatic creator %", "automatic creator for world %", "automatic creator for world named %")
-                .document("Automatic Creator", "1.8", "An expression for the automatic creator (if there is one) that MundoSK is currently set to run for the world with the specified name. "
-                        + "This expression can be set in order to specify an automatic creator for the world, or cleared/deleted in order to specify that the world should not be loaded automatically.");
+                .document("Automatic Creator", "1.8", "An expression for the automatic creator (if there is one) that MundoSK is currently set to run for the world with the specified name.")
+                .changer(Changer.ChangeMode.SET, WorldCreatorData.class, "1.8", "Specifies an automatic creator for the specified world.")
+                .changer(Changer.ChangeMode.DELETE, "1.8", "Specifies that the specified world should not be loaded automatically.");
     }
 }

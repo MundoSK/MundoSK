@@ -120,7 +120,7 @@ public final class WebSocketManager {
                         + "used in the 'on open' section of a websocket server template or the 'on handshake' section of a websocket client or server template"
                         , "response: The handshake sent by a websocket server responding to a request by a websocket client, "
                         + "used in the 'on open' section of a websocket client template or the 'on handshake' section of a websocket client or server template"
-                        , "new: A new handshake object, currently only useful for specifying addition http headers in the New Websocket expression");
+                        , "new: A new handshake object, currently only useful for specifying additional http headers in the New Websocket expression");
         Registration.registerExpression(ExprRequestIsAccepted.class, Boolean.class, ExpressionType.SIMPLE, "[websocket] request [handshake] is (0¦accepted|1¦refused)")
                 .document("Request is Accepted", "1.8", "Used in the 'on handshake' section of a websocket server template. "
                         + "Checks whether the client's request was accepted or refused. Can be set.");

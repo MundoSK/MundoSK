@@ -140,7 +140,7 @@ public final class ListUtil {
         } else if (syntaxElementInfo instanceof ModifiableSyntaxElementInfo.Expression) {
             ModifiableSyntaxElementInfo.Expression<?, ?> exprInfo = (ModifiableSyntaxElementInfo.Expression) syntaxElementInfo;
             if (exprInfo.syntaxElementInfo.returnType == Boolean.class) {
-                return new DocumentationBuilder.Condition(Registration.getCurrentCategory(), new String[]{prototypePattern}).requiredPlugins(Registration.getCurrentRequiredPlugins());
+                return new DocumentationBuilder.Condition(Registration.getCurrentCategory(), new String[]{prototypePattern}, null).requiredPlugins(Registration.getCurrentRequiredPlugins());
             } else {
                 return new DocumentationBuilder.Expression(Registration.getCurrentCategory(), new String[]{prototypePattern}, exprInfo.syntaxElementInfo.returnType, null).requiredPlugins(Registration.getCurrentRequiredPlugins());
             }
