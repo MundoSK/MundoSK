@@ -3,8 +3,10 @@ package com.pie.tlatoani.Registration;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.util.Pair;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.command.CommandSender;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -50,7 +52,7 @@ public abstract class DocumentationElement {
     private DocumentationElement(String name, String category, String[] syntaxes, String description[], String originVersion, String[] requiredPlugins) {
         this.name = name;
         this.category = category;
-        this.syntaxes = syntaxes;
+        this.syntaxes = Arrays.stream(syntaxes).map(syntax -> syntax.replaceAll("\\d+¦", "")).toArray(String[]::new); //Borrowed from Tuke_Nuke's TuSKe from the SsyntaxInfo class's fixPattern() method
         this.description = description;
         this.originVersion = originVersion;
         this.requiredPlugins = requiredPlugins;
