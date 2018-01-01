@@ -102,7 +102,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
         private int changerIndex(ch.njol.skript.classes.Changer.ChangeMode mode, Class type) {
             int i = 0;
             for (Changer changer : changerBuilders) {
-                if (changer.mode == mode && changer.type.getC() == type) {
+                if (changer.mode == mode && changer.type == type) {
                     return i;
                 }
                 i++;
@@ -129,25 +129,27 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
     class Changer {
         private ch.njol.skript.classes.Changer.ChangeMode mode;
-        private ClassInfo type;
-        private boolean single;
+        private Class type;
         private String description = null;
         private String originVersion = null;
 
         public Changer(ch.njol.skript.classes.Changer.ChangeMode mode, Class type, String originVersion, String description) {
-            if (type.getComponentType() != null) {
-                this.type = Classes.getExactClassInfo(type.getComponentType());
-                single = false;
-            } else {
-                this.type = Classes.getExactClassInfo(type);
-                single = true;
-            }
+            this.type = type;
             this.description = description;
             this.originVersion = originVersion;
         }
 
         public DocumentationElement.Changer build(DocumentationElement.Expression parent) {
-            return new DocumentationElement.Changer(parent, mode, type, description, originVersion);
+            ClassInfo classInfo;
+            boolean single;
+            if (type.getComponentType() != null) {
+                classInfo = Classes.getExactClassInfo(type.getComponentType());
+                single = false;
+            } else {
+                classInfo = Classes.getExactClassInfo(type);
+                single = true;
+            }
+            return new DocumentationElement.Changer(parent, mode, classInfo, single, description, originVersion);
         }
     }
 
@@ -172,18 +174,18 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
     }
 
     class EventValue {
-        private ClassInfo type;
+        private Class type;
         private String description = null;
         private String originVersion = null;
 
         public EventValue(Class type, String originVersion, String description) {
-            this.type = Classes.getExactClassInfo(type);
+            this.type = type;
             this.description = description;
             this.originVersion = originVersion;
         }
 
         public DocumentationElement.EventValue build(DocumentationElement.Event parent) {
-            return new DocumentationElement.EventValue(parent, type, description, originVersion);
+            return new DocumentationElement.EventValue(parent, Classes.getExactClassInfo(type), description, originVersion);
         }
     }
 

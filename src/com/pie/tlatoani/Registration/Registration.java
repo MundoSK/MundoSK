@@ -49,7 +49,7 @@ public final class Registration {
         if (type == Boolean.class) {
             return new DocumentationBuilder.Condition(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
         } else {
-            return new DocumentationBuilder.Expression(currentCategory, patterns, type, null).requiredPlugins(currentRequiredPlugins);
+            return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
         }
     }
 
@@ -76,7 +76,7 @@ public final class Registration {
         if (type == Boolean.class) {
             return new DocumentationBuilder.Condition(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
         } else {
-            return new DocumentationBuilder.Expression(currentCategory, patterns, type, null).requiredPlugins(currentRequiredPlugins);
+            return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
         }
     }
 
@@ -86,7 +86,7 @@ public final class Registration {
         if (type == Boolean.class) {
             return new DocumentationBuilder.Condition(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
         } else {
-            return new DocumentationBuilder.Expression(currentCategory, patterns, type, null).requiredPlugins(currentRequiredPlugins);
+            return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
         }
     }
 

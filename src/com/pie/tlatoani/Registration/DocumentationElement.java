@@ -180,20 +180,22 @@ public abstract class DocumentationElement {
         public final Expression parent;
         public final ch.njol.skript.classes.Changer.ChangeMode mode;
         public final ClassInfo type;
+        public final boolean single;
         public final String description;
         public final String originVersion;
 
-        public Changer(Expression parent, ch.njol.skript.classes.Changer.ChangeMode mode, ClassInfo type, String description, String originVersion) {
+        public Changer(Expression parent, ch.njol.skript.classes.Changer.ChangeMode mode, ClassInfo type, boolean single, String description, String originVersion) {
             this.parent = parent;
             this.mode = mode;
             this.type = type;
+            this.single = single;
             this.description = description;
             this.originVersion = originVersion;
         }
 
         public void display(CommandSender sender) {
             String modeSyntax = mode.name().toLowerCase().replace('_', ' ');
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + modeSyntax + " " + type.getCodeName() + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
+            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + modeSyntax + " " + type.getCodeName() + (single ? "" : "s") + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
         }
     }
 
