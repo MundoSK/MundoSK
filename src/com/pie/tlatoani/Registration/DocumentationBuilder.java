@@ -87,6 +87,15 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
                 ch.njol.skript.lang.Expression expr = exprClass.newInstance();
                 for (ch.njol.skript.classes.Changer.ChangeMode mode  : ch.njol.skript.classes.Changer.ChangeMode.values()) {
                     Class<?>[] changeTypes = expr.acceptChange(mode);
+                    if (changeTypes == null) {
+                        continue;
+                    }
+                    if (mode == ch.njol.skript.classes.Changer.ChangeMode.RESET || mode == ch.njol.skript.classes.Changer.ChangeMode.DELETE) {
+                        if (!containsChanger(mode, null)) {
+                            changerBuilders.add(new Changer(mode, null, originVersion, ""));
+                        }
+                        continue;
+                    }
                     for (Class<?> changeType : changeTypes) {
                         if (!containsChanger(mode, changeType)) {
                             changerBuilders.add(new Changer(mode, changeType, originVersion, ""));
