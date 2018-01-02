@@ -4,7 +4,6 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionList;
-import ch.njol.skript.lang.UnparsedLiteral;
 import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 

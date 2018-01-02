@@ -4,6 +4,7 @@ import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Conditional;
 import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.UnparsedLiteral;
 import ch.njol.skript.registrations.Comparators;
 import com.pie.tlatoani.Util.CustomScope;
 import com.pie.tlatoani.Util.Logging;
@@ -13,8 +14,8 @@ import org.bukkit.event.Event;
  * Created by Tlatoani on 8/20/16.
  */
 public class ScopeMatches extends CustomScope {
-    private Expression<Object> object1Expression;
-    private Expression<Object> object2Expression;
+    private Expression<?> object1Expression;
+    private Expression<?> object2Expression;
 
     @Override
     public boolean go(Event event) {
@@ -28,7 +29,14 @@ public class ScopeMatches extends CustomScope {
 
     @Override
     public boolean init() {
-        object1Expression = (Expression<Object>) exprs[0];
+        object1Expression = exprs[0];
+        if (object1Expression instanceof UnparsedLiteral) {
+            UnparsedLiteral unparsedLiteral = (UnparsedLiteral) object1Expression;
+            object1Expression = unparsedLiteral.getConvertedExpression(Object.class);
+            if (object1Expression == null) {
+                return false;
+            }
+        }
         return true;
     }
 
