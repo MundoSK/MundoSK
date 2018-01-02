@@ -45,12 +45,13 @@ public class DocumentationCommand {
             sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Accepted Element Types: " + Mundo.ALT_CHAT_COLOR + "Effect Condition Expression Event Type Scope");
             return true;
         }
-        if (args[1].equalsIgnoreCase("generator")) {
+        if (args[1].equalsIgnoreCase("generatefile")) {
             sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "The documentation file will now be generated. This command is not intended to be executed by people other than the developer. "
                     + "The file generated will probably not be suitable for use as documentation itself "
                     + "and is intended to be used to import documentation into online Skript documentation sites such as skUnity and Skript Hub. "
                     + "If you would like to view MundoSK's documentation, use the " + Mundo.ALT_CHAT_COLOR + "/mundosk doc" + Mundo.PRIMARY_CHAT_COLOR + " command or visit one of these websites.");
             DocumentationFileGenerator.generateDocumentationFile();
+            return true;
         }
         if (args[1].equalsIgnoreCase("cat") || args[1].equalsIgnoreCase("cats") || args[1].equalsIgnoreCase("categories")) {
             if (args.length > 2) {
