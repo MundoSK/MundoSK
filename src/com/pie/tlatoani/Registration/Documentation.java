@@ -18,7 +18,6 @@ import java.util.*;
  */
 public final class Documentation {
     public static final Comparator<DocumentationElement> DOCUMENTATION_ELEMENT_COMPARATOR = Comparator.comparing(docElem -> docElem.name.toLowerCase());
-    public static final int ELEMENTS_PER_PAGE = 12;
 
     private static List<DocumentationBuilder> builders = new LinkedList<>();
     private static boolean built = false;
@@ -77,152 +76,37 @@ public final class Documentation {
         Logging.debug(Documentation.class, "All DocElems: " + allElements);
     }
 
-    public static void accessDocumentation(CommandSender sender, String[] args) {
-        if (listDocumentation(sender, args)) {
-            return;
-        }
-        String docElemName = String.join(" ", args).substring(args[0].length() + 1).toLowerCase();
-        Logging.debug(Documentation.class, "Searching for a DocElem named '" + docElemName + "'");
-        for (List<DocumentationElement> docElems : allElements.getAllGroups()) {
-            Logging.debug(Documentation.class, "Searching through " + docElems);
-            Optional<DocumentationElement> docElemOptional = MundoUtil.binarySearchCeiling(docElems, docElemName, (name, docElem) -> name.compareToIgnoreCase(docElem.name));
-            if (docElemOptional.filter(docElem -> docElem.name.toLowerCase().startsWith(docElemName)).isPresent()) {
-                docElemOptional.get().display(sender);
-                return;
-            }
-        }
-        sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Invalid command. Do " + Mundo.ALT_CHAT_COLOR + "/mundosk doc help" + Mundo.PRIMARY_CHAT_COLOR + " for help");
+
+
+    public static List<String> getCategories() {
+        return categories;
     }
 
-    private static boolean listDocumentation(CommandSender sender, String[] args) {
-        if (args.length == 1 || args[1].equalsIgnoreCase("help")) {
-            //if (args.length == 2) { //Currently help is given whether or not additional arguments (which are unnecessary and meaningless) are specified
-                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "MundoSK Documentation Command Help");
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] [help]", "Prints this list of commands"));
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] cat[[egorie]s]", "Prints a list of the documentation categories"));
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] all [page]", "Lists a page of all syntax elements"));
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem type> [page]", "Lists a page of all syntax elements of a certain type"));
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <category> [elem type] [page]", "Lists a page of syntax elements in that category, either all of them or of a specific type"));
-                sender.sendMessage(Mundo.formatCommandDescription("doc[s] <elem name>", "Lists the documentation for a specific syntax element"));
-                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Accepted Element Types: " + Mundo.ALT_CHAT_COLOR + "Effect Condition Expression Event Type Scope");
-                return true;
-            //} else {
-            //    return false;
-            //}
-        }
-        if (args[1].equalsIgnoreCase("cat") || args[1].equalsIgnoreCase("cats") || args[1].equalsIgnoreCase("categories")) {
-            if (args.length > 2) {
-                return false;
-            }
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Documentation Categories");
-            for (String category : categories) {
-                sender.sendMessage(Mundo.ALT_CHAT_COLOR + category);
-            }
-            return true;
-        }
-        if (args[1].equalsIgnoreCase("all")) {
-            if (args.length == 2) {
-                displayElems(sender, allElements, "All Syntax Elements", 1, true, true);
-                return true;
-            } else if (args.length == 3) {
-                Optional<Integer> pageOptional = MundoUtil.parseIntOptional(args[2]);
-                if (pageOptional.isPresent()) {
-                    displayElems(sender, allElements, "All Syntax Elements", pageOptional.get(), true, true);
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
-        Optional<ImmutableGroupedList<? extends DocumentationElement, String>> docElemGroupedListOptional = getDocElemGroupedList(args[1]);
-        if (docElemGroupedListOptional.isPresent()) {
-            ImmutableGroupedList<? extends DocumentationElement, String> docElemGroupedList = docElemGroupedListOptional.get();
-            if (args.length == 2) {
-                displayElems(sender, docElemGroupedList, "All " + MundoUtil.capitalize(args[1]), 1, true, false);
-                return true;
-            } else if (args.length == 3) {
-                Optional<Integer> pageOptional = MundoUtil.parseIntOptional(args[2]);
-                if (pageOptional.isPresent()) {
-                    displayElems(sender, docElemGroupedList, "All " + MundoUtil.capitalize(args[1]), pageOptional.get(), true, false);
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
-        Optional<String> categoryOptional = MundoUtil.binarySearchList(categories, args[1].toLowerCase(), (s, s2) -> s.compareTo(s2.toLowerCase()));
-        if (categoryOptional.isPresent()) {
-            String category = categoryOptional.get();
-            if (args.length == 2) {
-                displayElems(sender, allElements.getGroup(category), category + " Syntax Elements", 1, false, true);
-                return true;
-            } else if (args.length == 3) {
-                Optional<Integer> pageOptional = MundoUtil.parseIntOptional(args[2]);
-                if (pageOptional.isPresent()) {
-                    displayElems(sender, allElements.getGroup(category), category + " Syntax Elements", pageOptional.get(), false, true);
-                    return true;
-                }
-            } else if (args.length > 4) {
-                return false;
-            }
-            int page;
-            if (args.length == 4) {
-                Optional<Integer> pageOptional = MundoUtil.parseIntOptional(args[3]);
-                if (pageOptional.isPresent()) {
-                    page = pageOptional.get();
-                } else {
-                    return false;
-                }
-            } else {
-                page = 1;
-            }
-            return MundoUtil.mapOptional(getDocElemGroupedList(args[2]), docElemMultimap -> {
-                displayElems(sender, docElemMultimap.getGroup(category), category + " " + MundoUtil.capitalize(args[2]) + "s", page, false, false);
-                return true;
-            }, () -> false);
-        }
-        return false;
+    public static ImmutableGroupedList<DocumentationElement, String> getAllElements() {
+        return allElements;
     }
 
-    private static Optional<ImmutableGroupedList<? extends DocumentationElement, String>> getDocElemGroupedList(String elemType) {
-        if (Character.toLowerCase(elemType.charAt(elemType.length() - 1)) == 's') {
-            elemType = elemType.substring(0, elemType.length() - 1);
-        }
-        switch (elemType.toLowerCase()) {
-            case "effect": return Optional.of(effects);
-            case "condition": return Optional.of(conditions);
-            case "expression": return Optional.of(expressions);
-            case "event": return Optional.of(events);
-            case "type": return Optional.of(types);
-            case "scope": return Optional.of(scopes);
-            default: return Optional.empty();
-        }
+    public static ImmutableGroupedList<DocumentationElement.Effect, String> getEffects() {
+        return effects;
     }
 
-    private static void displayElems(
-            CommandSender sender,
-            List<? extends DocumentationElement> docElems,
-            String header,
-            int page,
-            boolean displayCategory,
-            boolean displayType
-    ) {
-        int pages = 1 + ((docElems.size() - 1) / ELEMENTS_PER_PAGE);
-        if (page > pages || page < 1) {
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Invalid page number " + Mundo.ALT_CHAT_COLOR + page + Mundo.PRIMARY_CHAT_COLOR + ", there are " + Mundo.ALT_CHAT_COLOR + pages + Mundo.PRIMARY_CHAT_COLOR + " pages of " + header);
-            return;
-        }
-        sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Page " + page + " of " + pages + " of " + header);
-        int max = page * ELEMENTS_PER_PAGE;
-        int min = max - ELEMENTS_PER_PAGE;
-        max = Math.min(max, docElems.size());
-        for (int i = min; i < max; i++) {
-            DocumentationElement docElem = docElems.get(i);
-            sender.sendMessage(Mundo.TRI_CHAT_COLOR + (displayCategory ? docElem.category + " " : "") + (displayType ? docElem.getType() + " " : "") + Mundo.ALT_CHAT_COLOR + docElem.name);
-        }
+    public static ImmutableGroupedList<DocumentationElement.Condition, String> getConditions() {
+        return conditions;
+    }
+
+    public static ImmutableGroupedList<DocumentationElement.Expression, String> getExpressions() {
+        return expressions;
+    }
+
+    public static ImmutableGroupedList<DocumentationElement.Event, String> getEvents() {
+        return events;
+    }
+
+    public static ImmutableGroupedList<DocumentationElement.Type, String> getTypes() {
+        return types;
+    }
+
+    public static ImmutableGroupedList<DocumentationElement.Scope, String> getScopes() {
+        return scopes;
     }
 }

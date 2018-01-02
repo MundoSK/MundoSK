@@ -13,6 +13,7 @@ import com.pie.tlatoani.Miscellaneous.MiscMundo;
 import com.pie.tlatoani.Probability.ProbabilityMundo;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Registration.Documentation;
+import com.pie.tlatoani.Registration.DocumentationCommand;
 import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Skin.SkinMundo;
 import com.pie.tlatoani.Socket.SocketMundo;
@@ -147,7 +148,7 @@ public class Mundo extends JavaPlugin {
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK Config");
                 Config.displayConfig(sender);
             } else if (args[0].equalsIgnoreCase("doc") || args[0].equalsIgnoreCase("docs")) {
-                Documentation.accessDocumentation(sender, args);
+                DocumentationCommand.accessDocumentation(sender, args);
             } else {
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK didn't understand this command argument: " + ALT_CHAT_COLOR + args[0]);
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "Do " + ALT_CHAT_COLOR + "/mundosk " + PRIMARY_CHAT_COLOR + "to show a list of MundoSK commands");

@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Registration;
 
+import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.util.Pair;
 import com.pie.tlatoani.Mundo;
@@ -162,7 +163,7 @@ public abstract class DocumentationElement {
             if (requiredPlugins.length > 0) {
                 sender.sendMessage(Mundo.formatMundoSKInfo("Required Plugins", String.join(" ", requiredPlugins)));
             }
-            sender.sendMessage(Mundo.formatMundoSKInfo("Type", type.getCodeName()));
+            sender.sendMessage(Mundo.formatMundoSKInfo("Type", type.getDocName()));
             if (syntaxes.length == 1) {
                 sender.sendMessage(Mundo.formatMundoSKInfo("Syntax", syntaxes[0]));
             } else {
@@ -203,10 +204,25 @@ public abstract class DocumentationElement {
             this.originVersion = originVersion;
         }
 
+        public static String modeSyntax(ch.njol.skript.classes.Changer.ChangeMode mode) {
+            switch (mode) {
+                case ADD:
+                case REMOVE:
+                case RESET:
+                    return mode.name().toLowerCase();
+                case SET:
+                    return "set to";
+                case DELETE:
+                    return "clear/delete";
+                case REMOVE_ALL:
+                    return "remove all";
+            }
+            throw new IllegalArgumentException("Mode: " + mode);
+        }
+
         public void display(CommandSender sender) {
-            String modeSyntax = mode.name().toLowerCase().replace('_', ' ');
             String typeSyntax = type.map(pair -> " " + pair.getFirst().getCodeName() + (pair.getSecond() ? "" : "s")).orElse("");
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + modeSyntax + typeSyntax + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
+            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + modeSyntax(mode) + typeSyntax + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
         }
     }
 

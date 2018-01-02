@@ -39,4 +39,9 @@ public class MundoClassInfo<T> extends ClassInfo<T> implements DocumentationBuil
         requiredPlugins = plugins;
         return this;
     }
+
+    @Override
+    public String getDocName() {
+        return name;
+    }
 }
