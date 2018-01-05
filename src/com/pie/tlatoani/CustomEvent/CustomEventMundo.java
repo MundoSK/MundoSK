@@ -23,14 +23,16 @@ public class CustomEventMundo {
                         + "Arguments are like details, except that you may have multiple arguments of the same type, and they can be of any type from any addon. "
                         + "Arguments are accessed from within the event using the Args of Custom Event expression. "
                         + "For both details and arguments, you have to put them in a list variable and then call the custom event using the list variable in the syntax, otherwise you'll get an internal error. "
-                        + "Optionally, you can specify that the custom event is being called asynchronously. When code running in async is calling a custom event, this should be specified in order to prevent errors and corruption. "
-                        + "Note that this option was introduced in MundoSK 1.8 and will not work in earlier versions.");
+                        + "In MundoSK 1.8, two new features have been introduced (these will not work in previous versions):"
+                        + "First, you can specify that the custom event is being called asynchronously. When code running in async is calling a custom event, this should be specified in order to prevent errors and corruption. "
+                        + "Second, you can specify multiple custom event ids. This allows users of your custom events to choose from a variety of possible ids to list for custom events. "
+                        + "Note that you must specify at least one id, otherwise no event will be called.");
         Registration.registerEvent("Custom Event", EvtCustomEvent.class, SkriptCustomEvent.class, "ev[en]t %strings%")
                 .document("Custom Event", "1.6.7", "Called when the Call Custom Event effect is used with the specified id or one of the specified ids. "
                         + "This is used as a way for Skripters to create their own \"events\". See the Call Custom Event effect for more info.");
         Registration.registerExpression(ExprIDOfCustomEvent.class, String.class, ExpressionType.SIMPLE, "(0¦id|1¦ids) of custom event", "custom event's (0¦id|1¦ids)")
-                .document("ID of Custom Event", "1.6.7", "An expression, used in the Custom Event event, for the id of the custom event that was called. "
-                        + "See the Call Custom Event effect for more info.");
+                .document("ID of Custom Event", "1.6.7", "An expression, used in the Custom Event event, for either the primary id, or all ids (MundoSK 1.8+), of the custom event that was called. "
+                        + "The primary id means the one that was listed first when calling the custom event. See the Call Custom Event effect for more info.");
         Registration.registerExpression(ExprArgsOfCustomEvent.class, Object.class, ExpressionType.SIMPLE,"args of custom event", "custom event's args")
                 .document("Args of Custom Event", "1.6.7", "An expression, used in the Custom Event event, for a list of the arguments, if any, "
                         + "that were specified for this particular custom event call. See the Call Custom Event effect for more info.");
