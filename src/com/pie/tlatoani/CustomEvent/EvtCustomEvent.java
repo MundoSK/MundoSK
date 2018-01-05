@@ -22,10 +22,13 @@ public class EvtCustomEvent extends SkriptEvent {
 	@Override
 	public boolean check(Event event) {
 		if (event instanceof SkriptCustomEvent) {
-			if (ids.contains(((SkriptCustomEvent) event).getID().toLowerCase())) {
-				return true;
-			} return false;
-		} return false;
+			for (String id : ids) {
+			    if (((SkriptCustomEvent) event).matchesID(id)) {
+			        return true;
+                }
+            }
+		}
+		return false;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -21,7 +21,7 @@ public class ScopeCodeBlock implements CodeBlock {
     private String[] argumentNames;
     private String returnName;
 
-    public static final String constantVariableName = "constant";
+    public static final String CONSTANT_VARIABLE_NAME = "constant";
 
     static {
         try {
@@ -60,27 +60,27 @@ public class ScopeCodeBlock implements CodeBlock {
         if (hasConstant) {
             if (constantValue instanceof TreeMap) {
                 if (preserveOldValues) {
-                    preservation = Variables.getVariable(constantVariableName + "::*", event, true);
+                    preservation = Variables.getVariable(CONSTANT_VARIABLE_NAME + "::*", event, true);
                 }
-                MundoUtil.setListVariable(constantVariableName, (TreeMap<String, Object>) constantValue, event, true);
+                MundoUtil.setListVariable(CONSTANT_VARIABLE_NAME, (TreeMap<String, Object>) constantValue, event, true);
             } else {
                 if (preserveOldValues) {
-                    preservation = Variables.getVariable(constantVariableName, event, true);
+                    preservation = Variables.getVariable(CONSTANT_VARIABLE_NAME, event, true);
                 }
-                Variables.setVariable(constantVariableName, constantValue, event, true);
+                Variables.setVariable(CONSTANT_VARIABLE_NAME, constantValue, event, true);
             }
         }
         TriggerItem.walk(first, event);
         if (hasConstant) {
             if (constantValue instanceof TreeMap) {
-                constantValue = Variables.getVariable(constantVariableName + "::*", event, true);
+                constantValue = Variables.getVariable(CONSTANT_VARIABLE_NAME + "::*", event, true);
                 if (preserveOldValues) {
-                    MundoUtil.setListVariable(constantVariableName, (TreeMap<String, Object>) preservation, event, true);
+                    MundoUtil.setListVariable(CONSTANT_VARIABLE_NAME, (TreeMap<String, Object>) preservation, event, true);
                 }
             } else {
-                constantValue = Variables.getVariable(constantVariableName, event, true);
+                constantValue = Variables.getVariable(CONSTANT_VARIABLE_NAME, event, true);
                 if (preserveOldValues) {
-                    Variables.setVariable(constantVariableName, preservation, event, true);
+                    Variables.setVariable(CONSTANT_VARIABLE_NAME, preservation, event, true);
                 }
             }
         }

@@ -15,7 +15,7 @@ import java.util.List;
 public class CustomEventMundo {
     
     public static void load() {
-        Registration.registerEffect(EffCallCustomEvent.class, "(0¦call|1¦async call|1¦call async) custom event %string% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]")
+        Registration.registerEffect(EffCallCustomEvent.class, "(0¦call|1¦async call|1¦call async) custom event %strings% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]")
                 .document("Call Custom Event", "1.6.7", "Calls a custom event with the specified id and optionally the specified details and/or arguments. "
                         + "Details are used in events as event-type. For example, if you had a detail 3426, event-number would equal 3426. "
                         + "Details may be of any type that is in Skript by default (number, string, player, world, etc.) as well as of any type added in MundoSK (creator, achievement, difficulty, etc.), and possibly other addons, depending on what loads in what order. "
@@ -28,10 +28,10 @@ public class CustomEventMundo {
         Registration.registerEvent("Custom Event", EvtCustomEvent.class, SkriptCustomEvent.class, "ev[en]t %strings%")
                 .document("Custom Event", "1.6.7", "Called when the Call Custom Event effect is used with the specified id or one of the specified ids. "
                         + "This is used as a way for Skripters to create their own \"events\". See the Call Custom Event effect for more info.");
-        Registration.registerExpression(ExprIDOfCustomEvent.class,String.class, ExpressionType.PROPERTY,"id of custom event", "custom event's id")
+        Registration.registerExpression(ExprIDOfCustomEvent.class, String.class, ExpressionType.SIMPLE, "(0¦id|1¦ids) of custom event", "custom event's (0¦id|1¦ids)")
                 .document("ID of Custom Event", "1.6.7", "An expression, used in the Custom Event event, for the id of the custom event that was called. "
                         + "See the Call Custom Event effect for more info.");
-        Registration.registerExpression(ExprArgsOfCustomEvent.class,Object.class,ExpressionType.PROPERTY,"args of custom event", "custom event's args")
+        Registration.registerExpression(ExprArgsOfCustomEvent.class, Object.class, ExpressionType.SIMPLE,"args of custom event", "custom event's args")
                 .document("Args of Custom Event", "1.6.7", "An expression, used in the Custom Event event, for a list of the arguments, if any, "
                         + "that were specified for this particular custom event call. See the Call Custom Event effect for more info.");
         Registration.registerExpression(ExprLastCustomEventCancelled.class, Boolean.class, ExpressionType.SIMPLE, "last [called] custom event (0¦was|1¦wasn't) cancelled")

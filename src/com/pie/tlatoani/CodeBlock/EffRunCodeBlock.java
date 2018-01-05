@@ -21,18 +21,17 @@ public class EffRunCodeBlock extends Effect {
     private boolean isVariable = false;
 
     private Event getLocalEvent(Event event, int mark) {
-        Event localevent = null;
         if (mark == 0 || mark == 4) {
-            localevent = new BaseEvent();
+            return new BaseEvent();
         } else if (mark == 5) {
-            localevent = event;
+            return event;
         } else if (mark == 3 || mark == 7){
             final BaseEvent tempevent = new BaseEvent();
             TreeMap<String, Object> treeMap = (TreeMap) Variables.getVariable(variableString.toString(event), event, ((Variable) args).isLocal());
             treeMap.forEach(tempevent::setLocalVariable);
-            localevent = tempevent;
+            return tempevent;
         }
-        return localevent;
+        return null;
     }
 
     @Override
