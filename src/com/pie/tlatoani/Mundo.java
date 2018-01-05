@@ -96,7 +96,7 @@ public class Mundo extends JavaPlugin {
         //ZExperimental ~ The Z is for mystery (it's so that it appears last in the package list)
         Registration.register("ZExperimental", ZExperimentalMundo::load);
 
-        Registration.register("Custom Event", CustomEventMundo::load);
+        Registration.register("CustomEvent", CustomEventMundo::load);
 		Logging.info("Awesome syntaxes have been registered!");
 		Scheduling.sync(Documentation::buildDocumentation);
         Scheduling.sync(Metrics::enableMundoSKMetrics);

@@ -13,7 +13,7 @@ public class ThrowableMundo {
         Registration.registerType(Throwable.class, "throwable")
                 .document("Throwable", "1.5", "An exception or error.");
         Registration.registerType(StackTraceElement.class, "stacktraceelement")
-                .document("StackTraceElement", "1.5.1", "An element (line) of a stack trace. "
+                .document("Stack Trace Element", "1.5.1", "An element (line) of a stack trace. "
                         + "The stack trace is the huge blob of text you get in your console when an uncaught exception occurs on your server.");
         Registration.registerScope(ScopeTry.class, "try")
                 .document("Try", "1.5", "A scope used for running code that may throw a throwable (error/exception). "
@@ -30,9 +30,9 @@ public class ThrowableMundo {
         Registration.registerPropertyExpression(ExprDetails.class, String.class, "throwable", "details")
                 .document("Details of Throwable", "1.5", "An expression for the details of the specified throwable (error/exception).");
         Registration.registerPropertyExpression(ExprPropertyNameOfSTE.class, String.class, "stacktraceelement", "class name", "file name", "method name")
-                .document("Property Name of StackTraceElement", "1.5.1", "An expression for the name of the specified stacktraceelement's class, file, or method.");
+                .document("Property Name of Stack Trace Element", "1.5.1", "An expression for the name of the specified stacktraceelement's class, file, or method.");
         Registration.registerPropertyExpression(ExprLineNumberOfSTE.class, Number.class, "stacktraceelement", "line number")
-                .document("Line Number of StackTraceElement", "1.5.1", "An expression for the line number of the line of code described by the specified stacktraceelement.");
+                .document("Line Number of Stack Trace Element", "1.5.1", "An expression for the line number of the line of code described by the specified stacktraceelement.");
         Registration.registerExpression(ExprStackTrace.class,StackTraceElement.class,ExpressionType.PROPERTY,"stack trace of %throwable%", "%throwable%'s stack trace")
                 .document("Stack Trace of Throwable", "1.5.1", "An expression for the stack trace (as a list of stack trace elements) of the specified throwable (error/exception). "
                         + "The stack trace is the huge blob of text you get in your console when an uncaught exception occurs on your server.");

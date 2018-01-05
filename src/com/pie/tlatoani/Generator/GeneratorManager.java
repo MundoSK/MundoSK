@@ -20,10 +20,10 @@ public final class GeneratorManager {
 
     public static void load() {
         Registration.registerType(ChunkGenerator.ChunkData.class, "chunkdata")
-                .document("ChunkData", "1.7", "Represents a 3-dimensional grid of itemstacks. "
+                .document("Chunk Data", "1.7", "Represents a 3-dimensional grid of itemstacks. "
                         + "Used in world generators to manipulate the blocks in the chunk to be generated.");
         Registration.registerType(ChunkGenerator.BiomeGrid.class, "biomegrid")
-                .document("BiomeGrid", "1.7", "Represents a 2-dimensional grid of biomes. "
+                .document("Biome Grid", "1.7", "Represents a 2-dimensional grid of biomes. "
                         + "Used in world generators to manipulate the biome(s) in the chunk to be generated.");
         Registration.registerEffect(EffSetRegionInChunkData.class,
                 "fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%",
@@ -56,9 +56,9 @@ public final class GeneratorManager {
         Registration.registerExpression(ExprCurrentChunkCoordinate.class, Number.class, ExpressionType.SIMPLE, "current x", "current z")
                 .document("Current Chunk Coordinates", "1.7.2", "An expression, used in the 'generation' section of a custom generator, for a coordinate of the chunk currently being generated");
         Registration.registerExpression(ExprMaterialInChunkData.class, ItemStack.class, ExpressionType.PROPERTY, "material at %number%, %number%, %number% in %chunkdata%")
-                .document("Material in ChunkData", "1.7", "An expression for the material the specified coordinates in the specified chunkdata.");
+                .document("Material in Chunk Data", "1.7", "An expression for the material the specified coordinates in the specified chunkdata.");
         Registration.registerExpression(ExprBiomeInGrid.class, Biome.class, ExpressionType.PROPERTY, "biome at %number%, %number% in grid %biomegrid%")
-                .document("Biome in BiomeGrid", "1.7", "An expression for the biome at the specified x and z coordinates the specified biomegrid.");
+                .document("Biome in Biome Grid", "1.7", "An expression for the biome at the specified x and z coordinates the specified biomegrid.");
     }
 
     public static SkriptGenerator getSkriptGenerator(String id) {
