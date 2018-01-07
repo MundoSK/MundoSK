@@ -62,7 +62,7 @@ public class DocumentationFileGenerator {
         }
         JSONArray descJSON = fromStringArray(docElem.description);
         if (docElem instanceof Scope) {
-            descJSON.set(0, "Not an effect, but rather a scope (written with a colon at the end with a section of indented code under it, like an if statement or loop). ");
+            descJSON.add(0, "Not an effect, but rather a scope (written with a colon at the end with a section of indented code under it, like an if statement or loop). ");
         }
         result.put("description", descJSON);
         result.put("patterns", fromStringArray(docElem.syntaxes));
