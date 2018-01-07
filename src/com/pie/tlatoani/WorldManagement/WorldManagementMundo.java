@@ -30,9 +30,10 @@ public class WorldManagementMundo {
         Registration.registerEffect(EffCreateWorld.class, "create [new] world named %string%[( with|,)] [(dim[ension]|env[ironment]) %-dimension%][,] [seed %-string%][,] [type %-worldtype%][,] [gen[erator] %-string%][,] [gen[erator] settings %-string%][,] [struct[ures] %-boolean%]")
                 .document("Create World", "1.6.4", "Creates a world with the specified name, optionally with a few settings. "
                         + "See the environment type and worldtype type for valid environments and worldtypes respectively. "
-                        + "Generator settings can either be custom superflat codes or customized world codes (for customized world codes the worldtype needs to be 'customized').");
+                        + "Generator settings can either be custom superflat codes or customized world codes (for customized world codes the worldtype needs to be 'customized').")
+                .example("create world named \"Example\" with dimension nether, seed \"12345\", type flat, structures false");
         Registration.registerEffect(EffCreateWorldUsingCreator.class, "create [new] world [named %-string%] using %creator%")
-                .document("Create World Using Creator", "1.8", "Creates a world using the specified creator, optionally specifying the world's name (this is required if the creator doesn't specify a name)."
+                .document("Create World using Creator", "1.8", "Creates a world using the specified creator, optionally specifying the world's name (this is required if the creator doesn't specify a name)."
                         + "See the creator expressions for more information on how to specify the world's name and other settings. "
                         + "If a world with the name (specified or from the creator) already exists, this will just load that world instead of creating a new one.");
         Registration.registerEffect(EffUnloadWorld.class, "unload %world% [save %-boolean%]")

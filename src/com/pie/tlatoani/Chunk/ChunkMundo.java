@@ -17,11 +17,11 @@ public class ChunkMundo {
         Registration.registerExpression(ExprChunkCoordinate.class, Number.class, ExpressionType.PROPERTY,
                 "chunk( |-)(0¦x|1¦z)[( |-)coord] of %chunk%",
                 "%chunk%'s chunk( |-)(0¦x|1¦z)[( |-)coord]")
-                .document("Chunk Coordinate", "1.8", "The x or z-coordinate of the specified chunk");
+                .document("Coordinate of Chunk", "1.8", "The x or z-coordinate of the specified chunk");
         Registration.registerExpression(ExprChunkWorld.class, World.class, ExpressionType.PROPERTY,
                 "chunk world of %chunk%",
                 "%chunk%'s chunk world")
-                .document("Chunk World", "1.8", "The world in which the specified chunk is located");
+                .document("World of Chunk", "1.8", "The world in which the specified chunk is located");
         Registration.registerExpression(ExprChunk.class, Chunk.class, ExpressionType.COMBINED,
                 "chunk %number%, %number% [in %world%]",
                 "chunks [from] %number%, %number% to %number%, %number% [in %world%]",

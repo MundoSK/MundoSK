@@ -56,7 +56,7 @@ public class DocumentationFileGenerator {
         JSONObject result = new JSONObject();
         result.put("name", docElem.name);
         result.put("id", idFromName(docElem.name));
-        result.put("since", docElem.originVersion);
+        result.put("since", fromStringArray(docElem.originVersion));
         if (docElem instanceof Expression) {
             result.put("return type", ((Expression) docElem).type.getDocName());
         }
@@ -108,6 +108,21 @@ public class DocumentationFileGenerator {
             }
             result.put("cancellable", eventDocElem.cancellable);
         }
+        if (docElem.examples.length == 1) {
+            result.put("examples", fromStringArray(docElem.examples[0]));
+        } else if (docElem.examples.length > 1) {
+            JSONArray examples = new JSONArray();
+            for (int i = 1; i <= docElem.examples.length; i++) {
+                if (!examples.isEmpty()) {
+                    examples.add("");
+                }
+                examples.add("#Example " + i);
+                for (String line : docElem.examples[i - 1]) {
+                    examples.add(line);
+                }
+            }
+            result.put("examples", examples);
+        }
         return result;
     }
 
@@ -115,7 +130,7 @@ public class DocumentationFileGenerator {
         return name.toLowerCase().replace(' ', '_');
     }
 
-    public static JSONArray fromStringArray(String[] array) {
+    public static JSONArray fromStringArray(String... array) {
         JSONArray jsonArray = new JSONArray();
         for (String elem : array) {
             jsonArray.add(elem);

@@ -19,7 +19,12 @@ public class ThrowableMundo {
                 .document("Try", "1.5", "A scope used for running code that may throw a throwable (error/exception). "
                         + "If a throwable is thrown, the rest of the code under try is not run. "
                         + "If there is a 'catch in %object%' scope following the 'try' scope, the code under the catch scope is run with the thrown throwable being stored in the specified variable. "
-                        + "The rest of the code outside of the try and catch scopes proceeds as normal afterwards.");
+                        + "The rest of the code outside of the try and catch scopes proceeds as normal afterwards.")
+                .example("try:"
+                        , "\tbroadcast \"%page 3 of player's tool%\""
+                        , "catch in {_e}:"
+                        , "\tbroadcast \"An exception was caught\""
+                        , "\tbroadcast \"Details: %details of {_e}%\"");
         Registration.registerScope(ScopeCatch.class, "catch in %object%")
                 .document("Catch", "1.6", "A scope that is used following a 'try' scope to process a throwable (error/exception) if it is thrown. "
                         + "The thrown throwable is stored in the specified variable and then the code under the scope is run.");

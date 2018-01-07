@@ -127,7 +127,16 @@ public class TablistManager {
                         + "If the array tablist is already enabled, it will be replaced with a blank one matching the new specifications. "
                         + "Note that when enabling the array tablist, all simple tabs will be removed and all player tabs will be hidden. "
                         + "When disabling the array tablist, initially either all player tabs will be hidden, or (if if the array tablist was 4x20) all player tabs will be visible. "
-                        + "There will be no simple tabs either way initially after disabling the array tablist.");
+                        + "There will be no simple tabs either way initially after disabling the array tablist.")
+                .example("command /example_tablist:"
+                        , "\ttrigger:"
+                        , "\t\tenable array tablist for player #This creates a 4 x 20 grid of tabs in the player's tablist, there is further syntax for other amounts of rows/columns"
+                        , "\t\tset display name of tab 1, 1 for player to \"Hello!\" #This sets the first tab as \"Hello!\""
+                        , "\t\tset icon of tab 4, 20 for player to alex #This sets the icon of the last tab as the alex skin"
+                        , "\t\tset display name of tab 4, 20 for player to \"ALEX\" #This sets the last tab as \"ALEX!\""
+                        , "\t\tloop 20 times:"
+                        , "\t\t\tset display name of tab 2, loop-number for player to \"Column 2, Row %loop-number%\" #This sets all of the tabs in the second column to display their column and row"
+                        , "\t\t\tset icon of tab 2, loop-number for player to steve #This sets all of the tabs in the second column to have a steve skin as their icon");
         Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of [array] tab %number%, %number% for %players%")
                 .document("Display Name of Array Tab", "1.8", "An expression for the display name of the specified array tab for the specified player(s).");
         Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of [array] tab %number%, %number% for %players%")

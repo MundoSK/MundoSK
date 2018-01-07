@@ -99,7 +99,7 @@ public class EnumClassInfo<E> extends MundoClassInfo<E> {
         for (int i = 0; i < usages.length; i++) {
             usages[i] = pairings.get(i).getKey().toLowerCase();
         }
-        return new DocumentationElement.Type(name, category, syntaxes, usages, description, originVersion, requiredPlugins);
+        return new DocumentationElement.Type(name, category, syntaxes, usages, description, originVersion, requiredPlugins, examples.toArray(new String[0][]));
     }
 
     @Override

@@ -129,10 +129,10 @@ public class PlayerTablist {
 
     public PlayerInfoData onPlayerInfoPacket(PlayerInfoData oldPlayerInfoData, Player objPlayer) {
         return getTab(objPlayer).map(tab -> new PlayerInfoData(
-                oldPlayerInfoData.getProfile(),
-                tab.getLatency() == null ? oldPlayerInfoData.getLatency() : tab.getLatency(),
-                oldPlayerInfoData.getGameMode(),
-                tab.getDisplayName() == null ? oldPlayerInfoData.getDisplayName() : WrappedChatComponent.fromText(tab.getDisplayName()))
+                        oldPlayerInfoData.getProfile(),
+                        tab.getLatency() == null ? oldPlayerInfoData.getLatency() : tab.getLatency(),
+                        oldPlayerInfoData.getGameMode(),
+                        tab.getDisplayName() == null ? oldPlayerInfoData.getDisplayName() : WrappedChatComponent.fromText(tab.getDisplayName()))
         ).orElse(oldPlayerInfoData);
     }
 

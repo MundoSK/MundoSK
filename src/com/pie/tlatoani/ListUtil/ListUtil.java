@@ -23,7 +23,9 @@ public final class ListUtil {
     public static void load() {
         Registration.registerEffect(EffMoveElements.class, "move %objects% (-1¦front|-1¦forward[s]|1¦back[ward[s]]) %number%")
                 .document("Move Elements of List", "1.6.8", "Uses either the Element of List or Some Elements of List expression (both are ListUtil expressions) "
-                        + "as the first specified expression, and moves them forward or backward the specified amount in their specified list.");
+                        + "as the first specified expression, and moves them forward or backward the specified amount in their specified list.")
+                .example("move pages 3 to 6 of player's tool back 4")
+                .example("move last 5 pages of player's tool front 20");
 
         registerTransformer(TransDefault.class, Object.class,"objects", "elem", "element")
                 .document("ListUtil General", "1.6.8", "ListUtil is a general set of expressions and effects used for manipulating lists. "

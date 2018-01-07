@@ -20,6 +20,8 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
     B requiredPlugins(String... plugins);
 
+    B example(String... example);
+
     abstract class Abstract<D extends DocumentationElement, B extends Abstract<D, B>> implements DocumentationBuilder<D, B> {
         protected String name = null;
         protected String category = null;
@@ -27,6 +29,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
         protected String[] description = null;
         protected String originVersion = null;
         protected String[] requiredPlugins = null;
+        protected List<String[]> examples = new LinkedList<>();
 
         Abstract(String category, String[] syntaxes) {
             this.category = category;
@@ -43,6 +46,11 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
         public B requiredPlugins(String... plugins) {
             requiredPlugins = plugins;
+            return (B) this;
+        }
+
+        public B example(String... example) {
+            examples.add(example);
             return (B) this;
         }
     }
@@ -120,7 +128,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
         @Override
         public DocumentationElement.Effect build() {
-            return new DocumentationElement.Effect(name, category, syntaxes, description, originVersion, requiredPlugins);
+            return new DocumentationElement.Effect(name, category, syntaxes, description, originVersion, requiredPlugins, examples.toArray(new String[0][]));
         }
     }
 
@@ -135,7 +143,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             if (exprClass != null) {
                 addChangers(exprClass);
             }
-            return new DocumentationElement.Condition(name, category, syntaxes, description, originVersion, requiredPlugins, changerBuilders);
+            return new DocumentationElement.Condition(name, category, syntaxes, description, originVersion, requiredPlugins, examples.toArray(new String[0][]), changerBuilders);
         }
     }
 
@@ -152,7 +160,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             if (exprClass != null) {
                 addChangers(exprClass);
             }
-            return new DocumentationElement.Expression(name, category, syntaxes, description, originVersion, returnType, requiredPlugins, changerBuilders);
+            return new DocumentationElement.Expression(name, category, syntaxes, description, originVersion, returnType, requiredPlugins, examples.toArray(new String[0][]), changerBuilders);
         }
     }
 
@@ -198,7 +206,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
         @Override
         public DocumentationElement.Event build() {
-            return new DocumentationElement.Event(name, category, syntaxes, description, originVersion, requiredPlugins, Cancellable.class.isAssignableFrom(event), eventValueBuilders);
+            return new DocumentationElement.Event(name, category, syntaxes, description, originVersion, requiredPlugins, examples.toArray(new String[0][]), Cancellable.class.isAssignableFrom(event), eventValueBuilders);
         }
 
         public DocumentationBuilder.Event eventValue(Class type, String originVersion, String description) {
@@ -231,7 +239,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
         @Override
         public DocumentationElement.Scope build() {
-            return new DocumentationElement.Scope(name, category, syntaxes, description, originVersion, requiredPlugins);
+            return new DocumentationElement.Scope(name, category, syntaxes, description, originVersion, requiredPlugins, examples.toArray(new String[0][]));
         }
     }
 

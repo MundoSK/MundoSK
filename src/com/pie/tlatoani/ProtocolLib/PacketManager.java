@@ -42,7 +42,21 @@ public class PacketManager {
         Registration.registerEnum(PacketType.class, "packettype", packetTypesByName)
                 .document("PacketType", "1.8", "A type of a packet. The ones that are available for you depend on your Minecraft version. "
                         + "If you would like to see them, do '/mundosk doc packettype' in your console. "
-                        + "Alternatively, use the All Packettypes expression, loop through it, and print them.");
+                        + "Alternatively, use the All Packettypes expression, loop through it, and print them.")
+                .example("command /allpackettypes [<string>]:"
+                        , "\tpermission: admin"
+                        , "\tusage: /allpackettypes [filter]"
+                        , "\ttrigger:"
+                        , "\t\tif string-arg is set:"
+                        , "\t\t\tmessage \"&2Messaging all packettypes that contain &6%string-arg%&2!\""
+                        , "\t\telse:"
+                        , "\t\t\tmessage \"&2Messaging all packettypes!\""
+                        , "\t\tloop all packettypes:"
+                        , "\t\t\tif string-arg is set:"
+                        , "\t\t\t\tif \"%loop-value%\" contains string-arg:"
+                        , "\t\t\t\t\tmessage \"&a%loop-value%\""
+                        , "\t\t\telse:"
+                        , "\t\t\t\tmessage \"&a%loop-value%\"");
         Registration.registerType(PacketContainer.class, "packet")
                 .document("Packet", "1.8", "A packet. Packets are used by the Minecraft client and server to transmit information, "
                         + "and can be intercepted, read, and modified in order to gain information and modify the behavior of your server "
@@ -97,7 +111,7 @@ public class PacketManager {
                         + "as whichever world the player sending/receiving the packet is in.");
         registerPacketInfoExpression(ExprEnumOfPacket.class, String.class, "(arbitrary|%-string%) penum %number% of %packet%")
                 .document("Enum Field of Packet", "1.8", "An expression for an enum field of a packet "
-                        + "(first see the Packet Info expression for a more general explanation of packet fields). "
+                        + "(first see the Packet Info o expression for a more general explanation of packet fields). "
                         + "The specified string is the name of the enum you are getting/setting. "
                         + "Using arbitrary gives you access to all enum fields, rather than just one particular type, "
                         + "and allows you to access certain enums that are NMS types rather than ProtocolLib and thus "

@@ -255,7 +255,17 @@ public class MiscMundo {
         Registration.registerScope(ScopeMatcher.class, "(switch|match) %object%")
                 .document("Switch", "1.7.2", "The switch scope allows you to specify an object, then below the switch scope, insert case scopes, "
                         + "and when run, the switch scope will go through each case scope and check which one is equal to the switch scope's object, "
-                        + "then run that case scope's code block.");
+                        + "then run that case scope's code block.")
+                .example("match 3:"
+                        , "\tcase 1:"
+                        , "\t\tbroadcast \"ONE\""
+                        , "\tcase 2:"
+                        , "\t\tbroadcast \"TWO\""
+                        , "\tcase 3:"
+                        , "\t\tbroadcast \"THREE\""
+                        , "\ttrue:"
+                        , "\t\tbroadcast \"SOMETHING ELSE\""
+                        , "#\"THREE\" will be broadcasted");
         Registration.registerScope(ScopeMatches.class, "(case|matches) %object%")
                 .document("Case", "1.7.2", "The case scope is written underneath a switch scope, specifying an object which, if equal to the switch scope's specified object, "
                         + "will cause the case scope's underlying code block to be run.");
@@ -276,7 +286,9 @@ public class MiscMundo {
                 .document("Value of Gamerule", "1.4.4 or earlier", "An expression for the value of the specified gamerule in the specified world.");
         Registration.registerPropertyExpression(ExprRemainingAir.class, Timespan.class, "livingentity", "breath", "max breath")
                 .document("Breath of Living Entity", "1.6", "An expression for the amount of breath (the bubbles that appear on the hotbar when you go underwater) "
-                        + " of the specified underwater living entity, or its maximum possible breath.");
+                        + " of the specified underwater living entity, or its maximum possible breath.")
+                .example("if player's breath is less than 3 seconds:"
+                        , "\tmessage \"Running low on air!\"");
         Registration.registerExpression(ExprLoginResult.class, PlayerLoginEvent.Result.class, ExpressionType.SIMPLE, "(login|connect[ion]) result")
                 .document("Login Result", "1.7", "An expression, for use in the 'on connect' event, for the result of the connection attempt. "
                         + "See the PlayerLoginResult type for possible values.");
@@ -414,7 +426,17 @@ public class MiscMundo {
                         + "Optionally, you can specify a timespan to wait before running the block of code. "
                         + "The lines of code following the scope will run as normal without waiting for any of the block of code to start/finish. "
                         + "It is also possible to write this scope as a regular line of code, in which case instead of a block of code below a scope, "
-                        + "all following lines of code will be forced to run asynchronously, as well as wait a certain timespan if it is specified.");
+                        + "all following lines of code will be forced to run asynchronously, as well as wait a certain timespan if it is specified.")
+                .example("broadcast \"Retrieving text!\""
+                        , "async:"
+                        , "\tset {_var} to text from url \"mundosk.github.io\""
+                        , "wait until {_var} is set"
+                        , "broadcast \"Text retrieved: %{_var}%\"")
+                .example("broadcast \"Retrieving text!\""
+                        , "async"
+                        , "set {_var} to text from url \"mundosk.github.io\""
+                        , "sync"
+                        , "broadcast \"Text retrieved: %{_var}%\"");
         Registration.registerScope(ScopeSync.class, "(sync|in %-timespan%)")
                 .document("Sync in Timespan", "1.8", "A scope used to run a certain block of code synchronously. "
                         + "This means that the code will be run on the main server thread, "
