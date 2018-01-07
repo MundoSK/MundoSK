@@ -79,7 +79,7 @@ public abstract class DocumentationElement {
             String[] example = examples[i - 1];
             sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Example " + i);
             for (int line = 1; line <= example.length; line++) {
-                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "" + line + Mundo.ALT_CHAT_COLOR + example[line - 1]);
+                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "" + line + " " + Mundo.ALT_CHAT_COLOR + example[line - 1]);
             }
         }
     }
