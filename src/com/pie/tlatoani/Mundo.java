@@ -136,8 +136,9 @@ public class Mundo extends JavaPlugin {
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK is a Skript Addon that has features including Packets, World Borders, World Management, Custom World Generation, Tablist, Skin Modification, Sockets, and more!");
                 sender.sendMessage(formatMundoSKInfo("Your MundoSK Version", getVersion()));
                 sender.sendMessage(formatMundoSKInfo("skUnity Forums Page", "https://forums.skunity.com/resources/mundosk.69/"));
+                sender.sendMessage(formatMundoSKInfo("Skript Hub Documentation", "http://skripthub.net/docs/?addon=MundoSK"));
                 sender.sendMessage(formatMundoSKInfo("GitHub", "https://github.com/MundoSK/MundoSK"));
-                sender.sendMessage(formatMundoSKInfo("Skript Addon Discord Invite", "https://discord.gg/vb9dGbu"));
+                sender.sendMessage(formatMundoSKInfo("Skript Chat Discord Invite", "https://discord.gg/vb9dGbu"));
             } else if (args[0].equalsIgnoreCase("ver") || args[0].equalsIgnoreCase("version")) {
                 sender.sendMessage(formatMundoSKInfo("Your MundoSK Version", getVersion()));
             } else if (args[0].equalsIgnoreCase("config")) {
