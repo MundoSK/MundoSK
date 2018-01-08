@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.MathUtil;
 import org.bukkit.event.Event;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.inventory.ItemStack;
@@ -34,10 +34,10 @@ public class EffSetRegionInChunkData extends Effect {
         int z2 = 15;
         switch (matchedPattern) {
             case 0:
-                x1 = Mundo.intMod(x1Expression.getSingle(event).intValue(), 16);
-                z1 = Mundo.intMod(z1Expression.getSingle(event).intValue(), 16);
-                x2 = Mundo.intMod(x2Expression.getSingle(event).intValue(), 16);
-                z2 = Mundo.intMod(z2Expression.getSingle(event).intValue(), 16);
+                x1 = MathUtil.intMod(x1Expression.getSingle(event).intValue(), 16);
+                z1 = MathUtil.intMod(z1Expression.getSingle(event).intValue(), 16);
+                x2 = MathUtil.intMod(x2Expression.getSingle(event).intValue(), 16);
+                z2 = MathUtil.intMod(z2Expression.getSingle(event).intValue(), 16);
                 break;
             case 2:
                 y2 = y2Expression.getSingle(event).intValue();

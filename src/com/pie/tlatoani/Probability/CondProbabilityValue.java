@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Probability;
 
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import com.pie.tlatoani.Util.CustomScope;
@@ -32,7 +33,7 @@ public class CondProbabilityValue extends Condition {
 
 	@Override
 	public String toString(@Nullable Event e, boolean debug) {
-		return "%number% prob";
+		return num + " prob";
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class CondProbabilityValue extends Condition {
 		try {
 			this.first = (TriggerItem) CustomScope.firstitem.get(section);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logging.reportException(this, e);
 		}
 	}
 	
@@ -65,7 +66,7 @@ public class CondProbabilityValue extends Condition {
 			try {
 				return (TriggerItem) CustomScope.firstitem.get(section);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Logging.reportException(this, e);
 				return null;
 			}
 	}

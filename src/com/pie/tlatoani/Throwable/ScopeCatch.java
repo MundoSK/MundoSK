@@ -4,11 +4,10 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 /**
@@ -34,21 +33,24 @@ public class ScopeCatch extends CustomScope {
     }
 
     public void catchThrowable(Event event, Throwable caught) {
-        if (caught != null) {
-            container.change(event, new Throwable[]{caught}, Changer.ChangeMode.SET);
-            TriggerItem going = first;
-            TriggerItem end = scope.getNext();
-            Mundo.debug(this, "First: " + first);
-            Mundo.debug(this, "End: " + end);
-            while (going != null && going != end) {
-                try {
-                    going = (TriggerItem) walkmethod.invoke(going, event);
-                    Mundo.debug(this, "going: " + going);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                    going = null;
-                }
+        container.change(event, new Throwable[]{caught}, Changer.ChangeMode.SET);
+        if (scope == null) {
+            if (function != null) {
+                scopeParent = SCRIPT_FUNCTION_TRIGGER.get(function);
             }
+            if (scopeParent != null) {
+                retrieveScope();
+            } else {
+                getScopes();
+            }
+        }
+        TriggerItem going = first;
+        TriggerItem next = scope.getNext();
+        Logging.debug(this, "First: " + first);
+        Logging.debug(this, "Next: " + next);
+        while (going != null && going != next) {
+            going = (TriggerItem) TRIGGER_ITEM_WALK.invoke(going, event);
+            Logging.debug(this, "going: " + going);
         }
     }
 }

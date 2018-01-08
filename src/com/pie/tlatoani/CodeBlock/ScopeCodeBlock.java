@@ -2,14 +2,12 @@ package com.pie.tlatoani.CodeBlock;
 
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.variables.Variables;
-import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Util.CustomScope;
 import com.pie.tlatoani.Util.BaseEvent;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.event.Event;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.TreeMap;
 
 /**
@@ -23,14 +21,14 @@ public class ScopeCodeBlock implements CodeBlock {
     private String[] argumentNames;
     private String returnName;
 
-    public static final String constantVariableName = "constant";
+    public static final String CONSTANT_VARIABLE_NAME = "constant";
 
     static {
         try {
             run = TriggerItem.class.getDeclaredMethod("run", Event.class);
             run.setAccessible(true);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            Logging.reportException(ScopeCodeBlock.class, e);
         }
     }
 
@@ -62,27 +60,27 @@ public class ScopeCodeBlock implements CodeBlock {
         if (hasConstant) {
             if (constantValue instanceof TreeMap) {
                 if (preserveOldValues) {
-                    preservation = Variables.getVariable(constantVariableName + "::*", event, true);
+                    preservation = Variables.getVariable(CONSTANT_VARIABLE_NAME + "::*", event, true);
                 }
-                Mundo.setListVariable(constantVariableName, (TreeMap<String, Object>) constantValue, event, true);
+                MundoUtil.setListVariable(CONSTANT_VARIABLE_NAME, (TreeMap<String, Object>) constantValue, event, true);
             } else {
                 if (preserveOldValues) {
-                    preservation = Variables.getVariable(constantVariableName, event, true);
+                    preservation = Variables.getVariable(CONSTANT_VARIABLE_NAME, event, true);
                 }
-                Variables.setVariable(constantVariableName, constantValue, event, true);
+                Variables.setVariable(CONSTANT_VARIABLE_NAME, constantValue, event, true);
             }
         }
         TriggerItem.walk(first, event);
         if (hasConstant) {
             if (constantValue instanceof TreeMap) {
-                constantValue = Variables.getVariable(constantVariableName + "::*", event, true);
+                constantValue = Variables.getVariable(CONSTANT_VARIABLE_NAME + "::*", event, true);
                 if (preserveOldValues) {
-                    Mundo.setListVariable(constantVariableName, (TreeMap<String, Object>) preservation, event, true);
+                    MundoUtil.setListVariable(CONSTANT_VARIABLE_NAME, (TreeMap<String, Object>) preservation, event, true);
                 }
             } else {
-                constantValue = Variables.getVariable(constantVariableName, event, true);
+                constantValue = Variables.getVariable(CONSTANT_VARIABLE_NAME, event, true);
                 if (preserveOldValues) {
-                    Variables.setVariable(constantVariableName, preservation, event, true);
+                    Variables.setVariable(CONSTANT_VARIABLE_NAME, preservation, event, true);
                 }
             }
         }
@@ -99,9 +97,9 @@ public class ScopeCodeBlock implements CodeBlock {
         if (argumentNames != null) {
             for (int i = 0; i < Math.min(argumentNames.length, args.length); i++) {
                 if (args[i] instanceof Object[]) {
-                    Mundo.setListVariable(argumentNames[i], Mundo.listVariableFromArray((Object[]) args[i]), event, true);
+                    MundoUtil.setListVariable(argumentNames[i], MundoUtil.listVariableFromArray((Object[]) args[i]), event, true);
                 } else if (args[i] instanceof TreeMap) {
-                    Mundo.setListVariable(argumentNames[i], (TreeMap<String, Object>) args[i], event, true);
+                    MundoUtil.setListVariable(argumentNames[i], (TreeMap<String, Object>) args[i], event, true);
                 } else {
                     event.setLocalVariable(argumentNames[i], args[i]);
                 }

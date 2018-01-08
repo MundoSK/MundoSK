@@ -4,54 +4,62 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Generator.ChunkGeneratorWithID;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.WorldCreator.Dimension;
+import com.pie.tlatoani.WorldCreator.WorldCreatorData;
 import org.bukkit.WorldType;
 import org.bukkit.event.Event;
 
+import java.util.Optional;
+
 /**
- * Created by Tlatoani on 5/7/16.
+ * Created by Tlatoani on 8/25/17.
  */
 public class EffCreateWorld extends Effect {
-    private Expression<String> name;
-    private Expression<World.Environment> env;
-    private Expression<String> seed;
-    private Expression<WorldType> type;
-    private Expression<String> gen;
-    private Expression<String> genset;
-    private Expression<Boolean> struct;
+    private Expression<String> nameExpr;
+    private Expression<Dimension> dimensionExpr;
+    private Expression<String> seedExpr;
+    private Expression<WorldType> typeExpr;
+    private Expression<String> generatorExpr;
+    private Expression<String> generatorSettingsExpr;
+    private Expression<Boolean> structuresExpr;
 
     @Override
-    protected void execute(Event arg0) {
-        String z = name.getSingle(arg0);
-        WorldCreator x = new WorldCreator(z);
-        x.generateStructures(true);
-        if (seed != null && seed.getSingle(arg0).length() > 0) {
-            x.seed(Long.parseLong(seed.getSingle(arg0)));
-        }
-        if (gen != null) x.generator(ChunkGeneratorWithID.getGenerator(gen.getSingle(arg0)));
-        if (genset != null) x.generatorSettings(genset.getSingle(arg0));
-        if (struct != null) x.generateStructures(struct.getSingle(arg0));
-        if (env != null) x.environment(env.getSingle(arg0));
-        if (type != null) x.type(type.getSingle(arg0));
-        x.createWorld();
+    protected void execute(Event event) {
+        String name = nameExpr.getSingle(event);
+        Logging.debug(this, "World Creation Name: " + name);
+        Dimension dimension = Optional.ofNullable(dimensionExpr).map(expr -> expr.getSingle(event)).orElse(null);
+        Optional<Long> seed = Optional.ofNullable(seedExpr).map(expr -> Long.parseLong(expr.getSingle(event)));
+        WorldType type = Optional.ofNullable(typeExpr).map(expr -> expr.getSingle(event)).orElse(null);
+        String generator = Optional.ofNullable(generatorExpr).map(expr -> expr.getSingle(event)).orElse(null);
+        String generatorSettings = Optional.ofNullable(generatorSettingsExpr).map(expr -> expr.getSingle(event)).orElse(null);
+        Boolean structures = Optional.ofNullable(structuresExpr).map(expr -> expr.getSingle(event)).orElse(null);
+        WorldCreatorData.withGeneratorID(Optional.of(name), dimension, seed, type, generator, generatorSettings, structures).createWorld();
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "create world";
+        return "create new world named " + nameExpr +
+                ((dimensionExpr != null || typeExpr != null || seedExpr != null || generatorExpr != null || generatorSettingsExpr != null || structuresExpr != null)
+                        ? " with"
+                        + (dimensionExpr != null ? " dimension " + dimensionExpr : "")
+                        + (seedExpr != null ? " seed " + seedExpr : "")
+                        + (typeExpr != null ? " type " + typeExpr : "")
+                        + (generatorExpr != null ? " generator " + generatorExpr : "")
+                        + (generatorSettingsExpr != null ? " generator settings " + generatorSettingsExpr : "")
+                        + (structuresExpr != null ? " structures " + structuresExpr : "")
+                        : "");
     }
 
     @Override
-    public boolean init(Expression<?>[] expr, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        name = (Expression<String>) expr[0];
-        env = (Expression<World.Environment>) expr[1];
-        seed = (Expression<String>) expr[2];
-        type = (Expression<WorldType>) expr[3];
-        gen = (Expression<String>) expr[4];
-        genset = (Expression<String>) expr[5];
-        struct = (Expression<Boolean>) expr[6];
+    public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+        nameExpr = (Expression<String>) expressions[0];
+        dimensionExpr = (Expression<Dimension>) expressions[1];
+        seedExpr = (Expression<String>) expressions[2];
+        typeExpr = (Expression<WorldType>) expressions[3];
+        generatorExpr = (Expression<String>) expressions[4];
+        generatorSettingsExpr = (Expression<String>) expressions[5];
+        structuresExpr = (Expression<Boolean>) expressions[6];
         return true;
     }
 }

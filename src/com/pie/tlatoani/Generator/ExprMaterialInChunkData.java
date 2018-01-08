@@ -7,6 +7,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.MathUtil;
 import org.bukkit.event.Event;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.inventory.ItemStack;
@@ -23,9 +24,9 @@ public class ExprMaterialInChunkData extends SimpleExpression<ItemStack> {
 
     @Override
     protected ItemStack[] get(Event event) {
-        Integer x = Mundo.intMod(xExpression.getSingle(event).intValue(), 16);
+        Integer x = MathUtil.intMod(xExpression.getSingle(event).intValue(), 16);
         Integer y = yExpression.getSingle(event).intValue();
-        Integer z = Mundo.intMod(zExpression.getSingle(event).intValue(), 16);
+        Integer z = MathUtil.intMod(zExpression.getSingle(event).intValue(), 16);
         ChunkData chunkData = chunkDataExpression.getSingle(event);
         MaterialData materialData = chunkData.getTypeAndData(x, y, z);
         ItemStack result = new ItemStack(materialData.getItemType());
@@ -58,9 +59,9 @@ public class ExprMaterialInChunkData extends SimpleExpression<ItemStack> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
-        Integer x = Mundo.intMod(xExpression.getSingle(event).intValue(), 16);
+        Integer x = MathUtil.intMod(xExpression.getSingle(event).intValue(), 16);
         Integer y = yExpression.getSingle(event).intValue();
-        Integer z = Mundo.intMod(zExpression.getSingle(event).intValue(), 16);
+        Integer z = MathUtil.intMod(zExpression.getSingle(event).intValue(), 16);
         ChunkData chunkData = chunkDataExpression.getSingle(event);
         ItemStack itemStack = (ItemStack) delta[0];
         MaterialData materialData = itemStack.getData();

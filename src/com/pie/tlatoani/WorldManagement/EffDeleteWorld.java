@@ -1,47 +1,43 @@
 package com.pie.tlatoani.WorldManagement;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-
-import java.io.File;
-import java.io.IOException;
-
-import javax.annotation.Nullable;
-
-import org.bukkit.event.Event;
-
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.Logging;
+import org.apache.commons.io.FileUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.event.Event;
+
+import java.io.IOException;
 
 public class EffDeleteWorld extends Effect{
-	private Expression<World> world;
+	private Expression<World> worldExpression;
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public boolean init(Expression<?>[] expr, int matchedPattern,
-			Kleenean paramKleenean, ParseResult paramParseResult) {
-		// TODO Auto-generated method stub
-		world = (Expression<World>) expr[0];
+	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean paramKleenean, ParseResult paramParseResult) {
+		worldExpression = (Expression<World>) expr[0];
 		return true;
 	}
 
 	@Override
-	public String toString(@Nullable Event paramEvent, boolean paramBoolean) {
-		// TODO Auto-generated method stub
-		return " setSafely world border of world";
+	public String toString(Event paramEvent, boolean paramBoolean) {
+		return "delete " + worldExpression;
 	}
 
 	@Override
-	protected void execute(Event arg0) {
-		File f = world.getSingle(arg0).getWorldFolder();
-		Bukkit.getServer().unloadWorld(world.getSingle(arg0), true);
+	protected void execute(Event event) {
+	    World world = worldExpression.getSingle(event);
+		boolean successful = Bukkit.getServer().unloadWorld(world, true);
+		if (!successful) {
+		    Logging.info("Failed to delete world " + world.getName());
+		    return;
+        }
 		try {
-			org.apache.commons.io.FileUtils.deleteDirectory(f);
+			FileUtils.deleteDirectory(world.getWorldFolder());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logging.reportException(this, e);
 		}
 		
 		

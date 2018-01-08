@@ -32,6 +32,21 @@ public class ChunkGeneratorWithID extends ChunkGenerator {
         return wrappedGenerator.generateChunkData(world, random, x, z, biome);
     }
 
+    @Deprecated
+    public byte[] generate(World world, Random random, int x, int z) {
+        return wrappedGenerator.generate(world, random, x, z);
+    }
+
+    @Deprecated
+    public short[][] generateExtBlockSections(World world, Random random, int x, int z, ChunkGenerator.BiomeGrid biomes) {
+        return wrappedGenerator.generateExtBlockSections(world, random, x, z, biomes);
+    }
+
+    @Deprecated
+    public byte[][] generateBlockSections(World world, Random random, int x, int z, ChunkGenerator.BiomeGrid biomes) {
+        return wrappedGenerator.generateBlockSections(world, random, x, z, biomes);
+    }
+
     @Override
     public boolean canSpawn(World world, int x, int z) {
         return wrappedGenerator.canSpawn(world, x, z);

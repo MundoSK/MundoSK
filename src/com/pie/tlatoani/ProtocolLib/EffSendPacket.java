@@ -8,22 +8,17 @@ import com.comphenix.protocol.events.PacketContainer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * Created by Tlatoani on 4/30/16.
  */
 public class EffSendPacket extends Effect {
-    Expression<PacketContainer> packetContainerExpression;
-    Expression<Player> playerExpression;
+    private Expression<PacketContainer> packetExpression;
+    private Expression<Player> playerExpression;
 
     @Override
     protected void execute(Event event) {
-        PacketContainer packetContainer = packetContainerExpression.getSingle(event);
-        try {
-            UtilPacketEvent.protocolManager.sendServerPacket(playerExpression.getSingle(event), packetContainer);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException("Cannot send packet " + packetContainer, e);
+        for (PacketContainer packet : packetExpression.getArray(event)) {
+            PacketManager.sendPacket(packet, this, playerExpression.getArray(event));
         }
     }
 
@@ -34,7 +29,7 @@ public class EffSendPacket extends Effect {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        packetContainerExpression = (Expression<PacketContainer>) expressions[i];
+        packetExpression = (Expression<PacketContainer>) expressions[i];
         playerExpression = (Expression<Player>) expressions[(i + 1) % 2];
         return true;
     }

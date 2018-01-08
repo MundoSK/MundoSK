@@ -1,15 +1,14 @@
 package com.pie.tlatoani.Socket;
 
-import javax.annotation.Nullable;
-
-import org.bukkit.Bukkit;
-import org.bukkit.event.Event;
-
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.Scheduling;
+import org.bukkit.event.Event;
+
+import javax.annotation.Nullable;
 
 public class EffWriteToSocket extends Effect{
 	private Expression<String> msgs;
@@ -38,18 +37,18 @@ public class EffWriteToSocket extends Effect{
 	}
 
 	@Override
-	protected void execute(Event arg0) {
+	protected void execute(Event event) {
 		String redirectarg = null;
 		String reportarg = null;
 		Integer timeoutarg = null;
 		if (redirect != null) {
-			redirectarg = redirect.getSingle(arg0);
-			reportarg = report.getSingle(arg0);
+			redirectarg = redirect.getSingle(event);
+			reportarg = report.getSingle(event);
 		}
-		if (timeout != null && timeout.getSingle(arg0).getMilliSeconds() < Integer.MAX_VALUE) timeoutarg = (int) timeout.getSingle(arg0).getMilliSeconds();
-		UtilWriterSocket exec = new UtilWriterSocket(msgs.getArray(arg0), ip.getSingle(arg0), port.getSingle(arg0).intValue(), redirectarg, reportarg, timeoutarg);
-		Bukkit.getServer().getScheduler().runTaskAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("MundoSK"), exec);
-	}
+		if (timeout != null && timeout.getSingle(event).getMilliSeconds() < Integer.MAX_VALUE) timeoutarg = (int) timeout.getSingle(event).getMilliSeconds();
+		UtilWriterSocket exec = new UtilWriterSocket(msgs.getArray(event), ip.getSingle(event), port.getSingle(event).intValue(), redirectarg, reportarg, timeoutarg);
+        Scheduling.async(exec);
+    }
 	
 
 }

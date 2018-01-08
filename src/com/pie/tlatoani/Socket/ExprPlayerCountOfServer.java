@@ -1,21 +1,18 @@
 package com.pie.tlatoani.Socket;
 
+import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.SkriptParser.ParseResult;
+import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
-import com.pie.tlatoani.Mundo;
-
+import javax.annotation.Nullable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
-
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.util.Kleenean;
 
 public class ExprPlayerCountOfServer extends SimpleExpression<Number>{
 	private Expression<String> host;
@@ -48,9 +45,9 @@ public class ExprPlayerCountOfServer extends SimpleExpression<Number>{
 
 	@Override
 	@Nullable
-	protected Number[] get(Event e) {
-		String host = this.host.getSingle(e);
-		Integer port = (this.port != null ? this.port.getSingle(e) : 25565).intValue();
+	protected Number[] get(Event event) {
+		String host = this.host.getSingle(event);
+		Integer port = (this.port != null ? this.port.getSingle(event) : 25565).intValue();
 		Number playercount = 0;
 		try {
 			Socket sock = new Socket(host, port);
@@ -93,14 +90,14 @@ public class ExprPlayerCountOfServer extends SimpleExpression<Number>{
 			debug(rawcount);
 			playercount = Integer.parseInt(rawcount);
 			sock.close();
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			Logging.reportException(this, e);
 		}
 		return new Number[]{playercount};
 	}
 	
 	private static void debug(String msg) {
-		Mundo.debug(ExprPlayerCountOfServer.class, msg);
+		Logging.debug(ExprPlayerCountOfServer.class, msg);
 	}
 
 }

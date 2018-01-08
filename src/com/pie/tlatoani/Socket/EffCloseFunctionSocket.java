@@ -27,8 +27,8 @@ public class EffCloseFunctionSocket extends Effect{
 	}
 
 	@Override
-	protected void execute(Event arg0) {
-		UtilFunctionSocket.closeFunctionSocket(port.getSingle(arg0).intValue());
+	protected void execute(Event event) {
+		UtilFunctionSocket.closeFunctionSocket(port.getSingle(event).intValue());
 	}
 	
 

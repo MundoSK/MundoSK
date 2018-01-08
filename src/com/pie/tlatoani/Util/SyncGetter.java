@@ -24,11 +24,11 @@ public abstract class SyncGetter<T> implements Runnable {
 
     public T getSync() {
         countDownLatch = new CountDownLatch(1);
-        scheduler.runTask(Mundo.instance, this);
+        Scheduling.sync(this);
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
-            Mundo.debug(this, e);
+            Logging.debug(this, e);
         }
         return result;
     }

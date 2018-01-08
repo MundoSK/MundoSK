@@ -15,17 +15,20 @@ public class EvtCustomEvent extends SkriptEvent {
 	private List<String> ids = new ArrayList<String>();
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		return "custom event";
 	}
 
 	@Override
-	public boolean check(Event arg0) {
-		if (arg0 instanceof UtilCustomEvent) {
-			if (ids.contains(((UtilCustomEvent) arg0).getID().toLowerCase())) {
-				return true;
-			} return false;
-		} return false;
+	public boolean check(Event event) {
+		if (event instanceof SkriptCustomEvent) {
+			for (String id : ids) {
+			    if (((SkriptCustomEvent) event).matchesID(id)) {
+			        return true;
+                }
+            }
+		}
+		return false;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -2,6 +2,7 @@ package com.pie.tlatoani.Socket;
 
 import javax.annotation.Nullable;
 
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import ch.njol.skript.lang.Expression;
@@ -33,14 +34,19 @@ public class ExprFunctionSocketIsOpen extends SimpleExpression<Boolean>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
-	protected Boolean[] get(Event arg0) {
-		return new Boolean[]{UtilFunctionSocket.getStatusOfFunctionSocket(port.getSingle(arg0).intValue())};
+	protected Boolean[] get(Event event) {
+		Logging.debug(this, "port = " + port);
+		Number number = port.getSingle(event);
+		Logging.debug(this, "number = " + number);
+		int i = number.intValue();
+		Logging.debug(this, "i = " + i);
+		return new Boolean[]{UtilFunctionSocket.getStatusOfFunctionSocket(i)};
 	}
 
 

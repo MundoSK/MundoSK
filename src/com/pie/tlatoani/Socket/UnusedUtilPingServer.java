@@ -80,15 +80,15 @@ public class UnusedUtilPingServer {
 
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream handshake = new DataOutputStream(b);
-        handshake.writeByte(0x00); //packet id for handshake
+        handshake.writeByte(0x00); //packet id for request
         writeVarInt(handshake, 4); //protocol version
         writeVarInt(handshake, this.host.getHostString().length()); //host length
         handshake.writeBytes(this.host.getHostString()); //host string
         handshake.writeShort(host.getPort()); //port
-        writeVarInt(handshake, 1); //state (1 for handshake)
+        writeVarInt(handshake, 1); //state (1 for request)
 
         writeVarInt(dataOutputStream, b.size()); //prepend size
-        dataOutputStream.write(b.toByteArray()); //write handshake packet
+        dataOutputStream.write(b.toByteArray()); //write request packet
 
 
         dataOutputStream.writeByte(0x01); //size is only 1

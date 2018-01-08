@@ -38,14 +38,14 @@ public class ExprHasAch extends SimpleExpression<Boolean>{
 	}
 
 	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
+	public String toString(@Nullable Event event, boolean arg1) {
 		// TODO Auto-generated method stub
 		return "border length of world";
 	}
 
 	@Override
-	protected Boolean[] get(Event arg0) {
-		return new Boolean[]{player.getSingle(arg0).hasAchievement(ach.getSingle(arg0))};
+	protected Boolean[] get(Event event) {
+		return new Boolean[]{player.getSingle(event).hasAchievement(ach.getSingle(event))};
 	}
 
 

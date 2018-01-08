@@ -1,21 +1,18 @@
 package com.pie.tlatoani.Socket;
 
+import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.SkriptParser.ParseResult;
+import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.util.Kleenean;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
-import com.pie.tlatoani.Mundo;
-
+import javax.annotation.Nullable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
-
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.util.Kleenean;
 
 public class ExprMotdOfServer extends SimpleExpression<String>{
 	private Expression<String> host;
@@ -46,9 +43,9 @@ public class ExprMotdOfServer extends SimpleExpression<String>{
 
 	@Override
 	@Nullable
-	protected String[] get(Event e) {
-		String host = this.host.getSingle(e);
-		Integer port = (this.port != null ? this.port.getSingle(e) : 25565).intValue();
+	protected String[] get(Event event) {
+		String host = this.host.getSingle(event);
+		Integer port = (this.port != null ? this.port.getSingle(event) : 25565).intValue();
 		String motd = "";
 		try {
 			Socket sock = new Socket(host, port);
@@ -84,14 +81,14 @@ public class ExprMotdOfServer extends SimpleExpression<String>{
 			}
 			debug(motd);
 			sock.close();
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			Logging.reportException(this, e);
 		}
 		return new String[]{motd};
 	}
 	
 	private static void debug(String msg) {
-		Mundo.debug(ExprMotdOfServer.class, msg);
+		Logging.debug(ExprMotdOfServer.class, msg);
 	}
 
 }

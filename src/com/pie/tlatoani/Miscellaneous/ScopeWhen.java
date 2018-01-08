@@ -1,9 +1,11 @@
 package com.pie.tlatoani.Miscellaneous;
 
 import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Mundo;
+import ch.njol.skript.util.Timespan;
 import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Scheduling;
 import org.bukkit.event.Event;
 
 /**
@@ -11,6 +13,7 @@ import org.bukkit.event.Event;
  */
 public class ScopeWhen extends CustomScope {
     private Expression<Boolean> condition;
+    private Expression<Timespan> delayExpr;
 
     @Override
     public String getString() {
@@ -20,6 +23,7 @@ public class ScopeWhen extends CustomScope {
     @Override
     public boolean init() {
         condition = (Expression<Boolean>) exprs[0];
+        delayExpr = (Expression<Timespan>) exprs[1];
         return true;
     }
 
@@ -30,16 +34,16 @@ public class ScopeWhen extends CustomScope {
 
     @Override
     public boolean go(Event event) {
+        int delayTicks = exprs[1] == null ? 1 : new Long(delayExpr.getSingle(event).getTicks_i()).intValue();
+        go(event, delayTicks);
+        return false;
+    }
+
+    private void go(Event event, int delayTicks) {
         if (condition.getSingle(event)) {
             TriggerItem.walk(first, event);
         } else {
-            Mundo.scheduler.runTaskLater(Mundo.instance, new Runnable() {
-                @Override
-                public void run() {
-                    go(event);
-                }
-            }, 1);
+            Scheduling.syncDelay(delayTicks, () -> go(event, delayTicks));
         }
-        return false;
     }
 }

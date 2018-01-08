@@ -1,70 +1,29 @@
 package com.pie.tlatoani.WorldBorder;
 
+import ch.njol.skript.classes.Changer;
+import com.pie.tlatoani.Util.ChangeablePropertyExpression;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.WorldBorder;
 
-import javax.annotation.Nullable;
+/**
+ * Created by Tlatoani on 8/18/17.
+ */
+public class ExprCenterOfBorder extends ChangeablePropertyExpression<World, Location> {
 
-import org.bukkit.event.Event;
+    @Override
+    public void change(World world, Location location, Changer.ChangeMode changeMode) {
+        if (changeMode == Changer.ChangeMode.SET) {
+            world.getWorldBorder().setCenter(location);
+        }
+    }
 
-import ch.njol.skript.classes.Changer;
-import ch.njol.skript.classes.Changer.ChangeMode;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.skript.lang.util.SimpleExpression;
-import ch.njol.util.Kleenean;
-import ch.njol.util.coll.CollectionUtils;
+    @Override
+    public Changer.ChangeMode[] getChangeModes() {
+        return new Changer.ChangeMode[]{Changer.ChangeMode.SET};
+    }
 
-public class ExprCenterOfBorder extends SimpleExpression<Location>{
-	private Expression<World> border;
-
-	@Override
-	public Class<? extends Location> getReturnType() {
-		// TODO Auto-generated method stub
-		return Location.class;
-	}
-
-	@Override
-	public boolean isSingle() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
-		// TODO Auto-generated method stub
-		border = (Expression<World>) expr[0];
-		return true;
-	}
-
-	@Override
-	public String toString(@Nullable Event arg0, boolean arg1) {
-		// TODO Auto-generated method stub
-		return "border length of world";
-	}
-
-	@Override
-	@Nullable
-	protected Location[] get(Event arg0) {
-		// TODO Auto-generated method stub
-		WorldBorder b = border.getSingle(arg0).getWorldBorder();
-		return new Location[]{ b.getCenter()};
-	}
-	
-	public void change(Event arg0, Object[] delta, Changer.ChangeMode mode){
-		if (mode == ChangeMode.SET){
-			border.getSingle(arg0).getWorldBorder().setCenter((Location) delta[0]);
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-		if (mode == ChangeMode.SET) {
-			return CollectionUtils.array(Location.class);
-		}
-		return null;
-	}
-
+    @Override
+    public Location convert(World world) {
+        return world.getWorldBorder().getCenter();
+    }
 }
