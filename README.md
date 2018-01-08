@@ -2,4 +2,8 @@
 
 MundoSK is a Bukkit/Spigot plugin that adds functionality to Skript.
 
-https://forums.skunity.com/t/mundosk-v1-4-9-world-border-world-management-books-enchanted-books-sockets-terraincontrol-hook/2706/1
+skUnity Forums: https://forums.skunity.com/resources/mundosk.69/
+
+Skript Hub Documentation: http://skripthub.net/docs/?addon=MundoSK
+
+Metrics: http://mcstats.org/plugin/MundoSK
