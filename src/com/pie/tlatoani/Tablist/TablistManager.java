@@ -75,22 +75,44 @@ public class TablistManager {
     }
 
     private static void loadPlayer() {
-        Registration.registerEffect(EffChangePlayerVisibility.class, "(0¦show|1¦hide) [player] tab[s] of %players% for %players%", "(0¦show|1¦hide) %players%'s [player] tab[s] for %players%", "(0¦show|1¦hide) %players% for %players% in tablist", "(0¦show|1¦hide) %players% in %players%'s tablist", "(0¦show|1¦hide) %players% in [the] tablist of %players%")
+        Registration.registerEffect(EffChangePlayerVisibility.class,
+                "(0¦show|1¦hide) [player] tab[s] of %players% for %players%",
+                "(0¦show|1¦hide) %players%'s [player] tab[s] for %players%",
+                "(0¦show|1¦hide) %players% for %players% in tablist",
+                "(0¦show|1¦hide) %players% in %players%'s tablist",
+                "(0¦show|1¦hide) %players% in [the] tablist of %players%")
                 .document("Show or Hide in Tablist", "1.8", "Shows or hides certain players for other certain players in their tablist(s). "
                         + "Note: if the Players Are Visible condition/expression is set to false for a specific player and you show a player for them using this effect, "
                         + "then the condition/expression will become true but only that player will become unhidden.");
         Registration.registerEffect(EffClearPlayerModifications.class, "(clear|reset) [all] player tab modifications for %players%")
                 .document("Clear Player Tab Modifications", "1.8", "Resets all of the tabs representing players for the specified player(s) to normal. "
                         + "This will make all players visible in the tablist and reset any display name, latency, and score changes.");
-        Registration.registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY, "[display] name of [player] tab of %player% for %players%", "[display] name of %player%'s [player] tab for %players%", "tablist name of %player% for %players%", "%player%'s tablist name for %players%")
+        Registration.registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY,
+                "[display] name of [player] tab of %player% for %players%",
+                "[display] name of %player%'s [player] tab for %players%",
+                "tablist name of %player% for %players%",
+                "%player%'s tablist name for %players%")
                 .document("Display Name of Player Tab", "1.8", "An expression for the display name of the specified player tab in the tablist of the specified player(s). "
                         + "This will not be set if the player tab's display name has not been changed (or was reset), or the player tab is hidden.");
-        Registration.registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY, "score of [player] tab of %player% for %players%", "score of %player%'s [player] tab for %players%", "tablist score of %player% for %players%", "%player%'s tablist score for %players%")
+        Registration.registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY,
+                "score of [player] tab of %player% for %players%",
+                "score of %player%'s [player] tab for %players%",
+                "tablist score of %player% for %players%",
+                "%player%'s tablist score for %players%")
                 .document("Score of Player Tab", "1.8", "An expression for the score of the specified player tab in the tablist of the specified player(s). "
                         + "This will not be set if the player tab is hidden.");
-        Registration.registerExpressionCondition(CondPlayerIsVisible.class, ExpressionType.COMBINED, "[player] tab of %player% is (0¦visible|1¦hidden) for %players%", "%player%'s [player] tab is (0¦visible|1¦hidden) for %players%", "%player% is (0¦visible|1¦hidden) in %players%'s tablist", "%player% is (0¦visible|1¦hidden) in tablist (of|for) %players%")
+        Registration.registerExpressionCondition(CondPlayerIsVisible.class, ExpressionType.COMBINED,
+                "[player] tab of %player% is (0¦visible|1¦hidden) for %players%",
+                "%player%'s [player] tab is (0¦visible|1¦hidden) for %players%",
+                "%player% is (0¦visible|1¦hidden) in %players%'s tablist",
+                "%player% is (0¦visible|1¦hidden) in tablist (of|for) %players%")
                 .document("Player Tab is Visible", "1.8", "Checks whether the first player's tab is visible for the second specified player(s).");
-        Registration.registerExpressionCondition(CondPlayersAreVisible.class, ExpressionType.PROPERTY, "player tabs (0¦are|1¦aren't|1¦are not) visible for %players%", "", "%players%'s tablist (contains|(0¦does|1¦doesn't|1¦does not) contain) players", "tablist of %players% (contains|(0¦does|1¦doesn't|1¦does not) contain) players", "players (0¦are|1¦aren't|1¦are not) visible in tablist (of|for) %players%", "players (0¦are|1¦aren't|1¦are not) visible in %players%'s tablist")
+        Registration.registerExpressionCondition(CondPlayersAreVisible.class, ExpressionType.PROPERTY,
+                "player tabs (0¦are|1¦aren't|1¦are not) visible for %players%",
+                "%players%'s tablist (contains|(0¦does|0¦do|1¦doesn't|1¦does not|1¦don't|1¦do not) contain) players",
+                "tablist of %players% (contains|(0¦does|0¦do|1¦doesn't|1¦does not|1¦don't|1¦do not) contain) players",
+                "players are (0¦visible|1¦hidden) in [the] tablist (of|for) %players%",
+                "players are (0¦visible|1¦hidden) in %players%'s tablist")
                 .document("Player Tabs Are Visible", "1.8", "Checks whether the tablist(s) of the specified player(s) allow player tabs to be visible. "
                         + "Setting this to false prevents any player tabs from being seen in the tablist for the specified player(s) (players who join will be automatically hidden). "
                         + "Setting this to true immediately makes all player tabs visible in the tablist for the specified player(s). "
@@ -100,7 +122,8 @@ public class TablistManager {
     }
 
     private static void loadSimple() {
-        Registration.registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class, "create ([simple] tab [with] id|simple tab) %string% for %players% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skin%] [score %-number%]")
+        Registration.registerEffect(com.pie.tlatoani.Tablist.Simple.EffCreateNewTab.class,
+                "create ([simple] tab [with] id|simple tab) %string% for %players% with [display] name %string% [(ping|latency) %-number%] [(head|icon|skull) %-skin%] [score %-number%]")
                 .document("Create Simple Tab", "1.8", "Creates a simple tab for the specified player(s) with the specified id and properties. "
                         + "If a specified player already has a simple tab with the specified id in their tablist, that tab will not be modified and no new tab will be created. "
                         + "This effect will not work for a specified player if they have the array tablist enabled.");
@@ -119,7 +142,9 @@ public class TablistManager {
     }
 
     private static void loadArray() {
-        Registration.registerEffect(EffEnableArrayTablist.class, "(disable|deactivate) array tablist for %players%", "(enable|activate) array tablist for %players% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skin%]]")
+        Registration.registerEffect(EffEnableArrayTablist.class,
+                "(disable|deactivate) array tablist for %players%",
+                "(enable|activate) array tablist for %players% [with [%-number% columns] [%-number% rows] [initial (head|icon|skull) %-skin%]]")
                 .document("Enable or Disable Array Tablist", "1.8", "Enables or disables the array tablist for the specified player(s). "
                         + "The array tablist creates a grid of tabs that allows you to use grid coordinates to easily modify individual tabs. "
                         + "When enabling, you can specify the amount of columns (defaults to 4), the amount of rows (defaults to 20), and the initial icon (defaults to a white texture). "
@@ -141,7 +166,9 @@ public class TablistManager {
                 .document("Display Name of Array Tab", "1.8", "An expression for the display name of the specified array tab for the specified player(s).");
         Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of [array] tab %number%, %number% for %players%")
                 .document("Latency of Array Tab", "1.8", "An expression for the latency of the specified array tab for the specified player(s).");
-        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of [array] tab %number%, %number% for %players%", "initial icon of %players%'s [array] tablist")
+        Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY,
+                "(head|icon|skull) of [array] tab %number%, %number% for %players%",
+                "initial icon of %players%'s [array] tablist")
                 .document("Icon of Array Tab", "1.8", "An expression for either the icon of the specified array tab for the specified player(s), "
                         + "or the initial icon of the array tablist(s) of the specified player(s). "
                         + "The initial icon is the default icon that array tabs will have when enabling an array tablist or when increasing its size. "
