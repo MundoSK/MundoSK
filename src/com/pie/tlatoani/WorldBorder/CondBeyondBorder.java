@@ -41,9 +41,8 @@ public class CondBeyondBorder extends SimpleExpression<Boolean>{
 		    Location center = loc.getWorld().getWorldBorder().getCenter();
 		    Double radius = loc.getWorld().getWorldBorder().getSize() / 2;
 		    return (MathUtil.isInRange(center.getX() - radius, loc.getX(), center.getX() + radius) &&
-                    MathUtil.isInRange(center.getZ() - radius, loc.getZ(), center.getZ() + radius)) ==
-                    within;
-        })};
+                    MathUtil.isInRange(center.getZ() - radius, loc.getZ(), center.getZ() + radius));
+        }, within)};
 	}
 
 

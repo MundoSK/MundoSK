@@ -26,7 +26,7 @@ public class MundoUtil {
     }
 
     public static <T> boolean check(Expression<T> expression, Event event, Function<T, Boolean> function, boolean positive) {
-        return expression.check(event, function::apply, !positive);
+        return expression.check(event, t -> positive == function.apply(t));
     }
 
     //ListVariable Util
