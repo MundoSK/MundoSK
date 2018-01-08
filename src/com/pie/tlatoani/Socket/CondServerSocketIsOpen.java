@@ -13,7 +13,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
 
-public class ExprServerSocketIsOpen extends SimpleExpression<Boolean>{
+public class CondServerSocketIsOpen extends SimpleExpression<Boolean>{
 	private Expression<String> host;
 	private Expression<Number> port;
 	private Expression<Timespan> timeout;

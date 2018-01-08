@@ -15,6 +15,7 @@ import java.util.Random;
  */
 public class CondSlimey extends SimpleExpression<Boolean> {
     private Expression<Chunk> chunkExpression;
+    private boolean positive;
 
     @Override
     protected Boolean[] get(Event event) {
@@ -26,7 +27,7 @@ public class CondSlimey extends SimpleExpression<Boolean> {
                     (long) (chunk.getZ() * chunk.getZ()) * 0x4307a7L +
                     (long) (chunk.getZ() * 0x5f24f) ^ 0x3ad8025f);
             return random.nextInt(10) == 0;
-        })};
+        }, positive)};
     }
 
     @Override
@@ -41,12 +42,13 @@ public class CondSlimey extends SimpleExpression<Boolean> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return chunkExpression + " is slimey";
+        return chunkExpression + " " + (positive ? "is" : "isn't") + " slimey";
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         chunkExpression = (Expression<Chunk>) expressions[0];
+        positive = parseResult.mark == 0;
         return true;
     }
 }

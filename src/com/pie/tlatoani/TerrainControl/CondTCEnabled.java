@@ -9,7 +9,7 @@ import com.khorn.terraincontrol.TerrainControl;
 import org.bukkit.World;
 import org.bukkit.event.Event;
 
-public class ExprTCEnabled extends SimpleExpression<Boolean>{
+public class CondTCEnabled extends SimpleExpression<Boolean>{
 	private Expression<World> world;
 
 	@Override

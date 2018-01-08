@@ -44,16 +44,17 @@ public final class Registration {
         return new DocumentationBuilder.Effect(currentCategory, patterns).requiredPlugins(currentRequiredPlugins);
     }
 
-    public static <T> DocumentationBuilder.Changeable registerExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, ExpressionType expressionType, String... patterns) {
+    public static <T> DocumentationBuilder.Expression registerExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, ExpressionType expressionType, String... patterns) {
         Skript.registerExpression(expressionClass, type, expressionType, patterns);
-        if (type == Boolean.class) {
-            return new DocumentationBuilder.Condition(currentCategory, patterns, expressionClass).requiredPlugins(currentRequiredPlugins);
-        } else {
-            return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
-        }
+        return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
     }
 
-    public static <T> DocumentationBuilder.Changeable registerPropertyExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, String possessorType, String... properties) {
+    public static DocumentationBuilder.Condition registerExpressionCondition(Class<? extends Expression<Boolean>> expressionClass, ExpressionType expressionType, String... patterns) {
+        Skript.registerExpression(expressionClass, Boolean.class, expressionType, patterns);
+        return new DocumentationBuilder.Condition(currentCategory, patterns, expressionClass).requiredPlugins(currentRequiredPlugins);
+    }
+
+    public static <T> DocumentationBuilder.Expression registerPropertyExpression(Class<? extends Expression<T>> expressionClass, Class<T> type, String possessorType, String... properties) {
         ArrayList<String> patternList = new ArrayList<>(properties.length);
         ArrayList<String> propertyList = new ArrayList<>(properties.length);
         for (int i = 0; i < properties.length; i++) {
@@ -73,21 +74,42 @@ public final class Registration {
         if (MundoPropertyExpression.class.isAssignableFrom(expressionClass)) {
             MundoPropertyExpression.registerPropertyExpressionInfo((Class<? extends MundoPropertyExpression>) expressionClass, type, propertyList);
         }
-        if (type == Boolean.class) {
-            return new DocumentationBuilder.Condition(currentCategory, patterns, expressionClass).requiredPlugins(currentRequiredPlugins);
-        } else {
-            return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
-        }
+        return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
     }
 
-    public static <T, E extends Event> DocumentationBuilder.Changeable registerEventSpecificExpression(Class<? extends EventSpecificExpression<T, E>> expressionClass, Class<T> type, Class<E> event, String invalidEventError, String... patterns) {
+    public static DocumentationBuilder.Condition registerPropertyExpressionCondition(Class<? extends Expression<Boolean>> expressionClass, String possessorType, String... properties) {
+        ArrayList<String> patternList = new ArrayList<>(properties.length);
+        ArrayList<String> propertyList = new ArrayList<>(properties.length);
+        for (int i = 0; i < properties.length; i++) {
+            String property = properties[i];
+            if (property.contains("%")) {
+                patternList.add(property.replace("%", "%" + possessorType + "%"));
+                propertyList.add(property);
+            } else {
+                patternList.add("[the] " + property + " of %" + possessorType + "%");
+                patternList.add("%" + possessorType + "%'[s] " + property);
+                propertyList.add(property);
+                propertyList.add(property);
+            }
+        }
+        String[] patterns = patternList.toArray(new String[0]);
+        Skript.registerExpression(expressionClass, Boolean.class, ExpressionType.PROPERTY, patterns);
+        if (MundoPropertyExpression.class.isAssignableFrom(expressionClass)) {
+            MundoPropertyExpression.registerPropertyExpressionInfo((Class<? extends MundoPropertyExpression>) expressionClass, Boolean.class, propertyList);
+        }
+        return new DocumentationBuilder.Condition(currentCategory, patterns, expressionClass).requiredPlugins(currentRequiredPlugins);
+    }
+
+    public static <T, E extends Event> DocumentationBuilder.Expression registerEventSpecificExpression(Class<? extends EventSpecificExpression<T, E>> expressionClass, Class<T> type, Class<E> event, String invalidEventError, String... patterns) {
         Skript.registerExpression(expressionClass, type, ExpressionType.SIMPLE, patterns);
         EventSpecificExpression.registerEventSpecificExpression(expressionClass, type, event, patterns[0], invalidEventError);
-        if (type == Boolean.class) {
-            return new DocumentationBuilder.Condition(currentCategory, patterns, expressionClass).requiredPlugins(currentRequiredPlugins);
-        } else {
-            return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
-        }
+        return new DocumentationBuilder.Expression(currentCategory, patterns, type, expressionClass).requiredPlugins(currentRequiredPlugins);
+    }
+
+    public static <E extends Event> DocumentationBuilder.Condition registerEventSpecificExpressionCondition(Class<? extends EventSpecificExpression<Boolean, E>> expressionClass, Class<E> event, String invalidEventError, String... patterns) {
+        Skript.registerExpression(expressionClass, Boolean.class, ExpressionType.SIMPLE, patterns);
+        EventSpecificExpression.registerEventSpecificExpression(expressionClass, Boolean.class, event, patterns[0], invalidEventError);
+        return new DocumentationBuilder.Condition(currentCategory, patterns, expressionClass).requiredPlugins(currentRequiredPlugins);
     }
 
     public static void registerCondition(Class<? extends Condition> conditionClass, String... patterns) {

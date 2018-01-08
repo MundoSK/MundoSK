@@ -22,12 +22,11 @@ import java.util.stream.Stream;
 public class MundoUtil {
 
     public static <T> boolean check(Expression<T> expression, Event event, Function<T, Boolean> function) {
-        return expression.check(event, new Checker<T>() {
-            @Override
-            public boolean check(T t) {
-                return function.apply(t);
-            }
-        });
+        return expression.check(event, function::apply);
+    }
+
+    public static <T> boolean check(Expression<T> expression, Event event, Function<T, Boolean> function, boolean positive) {
+        return expression.check(event, function::apply, !positive);
     }
 
     //ListVariable Util

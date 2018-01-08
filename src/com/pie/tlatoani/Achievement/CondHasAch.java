@@ -1,8 +1,10 @@
-package com.pie.tlatoani.Socket;
+package com.pie.tlatoani.Achievement;
+
+import org.bukkit.Achievement;
+import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 
-import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import ch.njol.skript.lang.Expression;
@@ -10,8 +12,9 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 
-public class ExprFunctionSocketIsOpen extends SimpleExpression<Boolean>{
-	private Expression<Number> port;
+public class CondHasAch extends SimpleExpression<Boolean>{
+	private Expression<Player> player;
+	private Expression<Achievement> ach;
 
 	@Override
 	public Class<? extends Boolean> getReturnType() {
@@ -29,7 +32,8 @@ public class ExprFunctionSocketIsOpen extends SimpleExpression<Boolean>{
 	@Override
 	public boolean init(Expression<?>[] expr, int matchedPattern, Kleenean arg2, ParseResult arg3) {
 		// TODO Auto-generated method stub
-		port = (Expression<Number>) expr[0];
+		player = (Expression<Player>) expr[0];
+		ach = (Expression<Achievement>) expr[1];
 		return true;
 	}
 
@@ -41,12 +45,7 @@ public class ExprFunctionSocketIsOpen extends SimpleExpression<Boolean>{
 
 	@Override
 	protected Boolean[] get(Event event) {
-		Logging.debug(this, "port = " + port);
-		Number number = port.getSingle(event);
-		Logging.debug(this, "number = " + number);
-		int i = number.intValue();
-		Logging.debug(this, "i = " + i);
-		return new Boolean[]{UtilFunctionSocket.getStatusOfFunctionSocket(i)};
+		return new Boolean[]{player.getSingle(event).hasAchievement(ach.getSingle(event))};
 	}
 
 

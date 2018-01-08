@@ -49,7 +49,7 @@ public class WorldBorderMundo {
                         + "\nwarning time: The amount of time the border should be within of reaching a player to show that player the red warning effect.");
         Registration.registerPropertyExpression(ExprCenterOfBorder.class, Location.class, "world", "center")
                 .document("Center of Border", "Before 1.2", "The center of the specified world's border. This isn't necessarily the same as the spawn.");
-        Registration.registerExpression(CondBeyondBorder.class,Boolean.class,ExpressionType.PROPERTY,"%locations% (is|are) (0¦within|1¦beyond) border")
+        Registration.registerExpressionCondition(CondBeyondBorder.class, ExpressionType.PROPERTY,"%locations% (is|are) (0¦within|1¦beyond) border")
                 .document("Is Beyond Border", "1.4.9", "Checks whether a location/entity is beyond or within the border in its world.");
 
         loadBorderEvent();
@@ -73,12 +73,12 @@ public class WorldBorderMundo {
                         + "original diameter: The diameter of the border when it was last stable"
                         + "final diameter: The diameter that the border will be when it stabilizes"
                         + "remaining distance: The distance the border still has to go before it stabilizes");
-        Registration.registerExpression(CondBorderMoving.class, Boolean.class, ExpressionType.PROPERTY, "border of %world% is (0¦moving|1¦stable)", "%world%'s border is (0¦moving|1¦stable)")
-                .document("Border is Moving", "1.8", "Checks whether the border of the specified world is moving or stable (not moving).");
         Registration.registerExpression(ExprTimeRemainingUntilBorderStabilize.class, Timespan.class, ExpressionType.PROPERTY,
                 "(time remaining|remaining time) until [the] border stabilize[s] (of|in) %world%",
                 "%world%'s (time remaining|remaining time) until [the] border stabilize[s]")
                 .document("Time Remaining Until Border Stabilize", "1.4.6", "An expression for the timespan remaining until the border of the specified world stops moving.");
+        Registration.registerExpressionCondition(CondBorderMoving.class, ExpressionType.PROPERTY, "border of %world% is (0¦moving|1¦stable)", "%world%'s border is (0¦moving|1¦stable)")
+                .document("Border is Moving", "1.8", "Checks whether the border of the specified world is moving or stable (not moving).");
     }
 
     private static Function<World, WorldBorder> BORDER_REPLACER = null;

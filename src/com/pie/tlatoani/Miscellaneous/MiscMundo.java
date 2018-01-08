@@ -275,14 +275,14 @@ public class MiscMundo {
         Registration.registerEnum(Difficulty.class, "difficulty", Difficulty.values())
                 .document("Difficulty", "1.4.4 or earlier", "The difficulty of a world.");
         Registration.registerEnum(PlayerLoginEvent.Result.class, "playerloginresult", PlayerLoginEvent.Result.values())
-                .document("PlayerLoginResult", "1.7", "A result of a player login attempt.");
+                .document("Player Login Result", "1.7", "A result of a player login attempt.");
         Registration.registerPropertyExpression(ExprWorldByName.class, World.class, "string", "world %")
                 .document("World from Name", "1.1 or earlier", "An expression for the world with the specified name.");
-        Registration.registerExpression(ExprHighestSolidBlock.class,Block.class,ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%")
+        Registration.registerExpression(ExprHighestSolidBlock.class, Block.class, ExpressionType.PROPERTY,"highest [(solid|non-air)] block at %location%")
                 .document("Highest Solid Block", "1.4.4 or earlier", "An expression for the highest block that isn't air at a specific location. Useful for setting spawns.");
         Registration.registerPropertyExpression(ExprDifficulty.class, Difficulty.class, "world", "difficulty")
                 .document("Difficulty of World", "1.4.4 or earlier", "An expression for the difficulty of the specified world. See the Difficulty type for values.");
-        Registration.registerExpression(ExprGameRule.class,String.class,ExpressionType.PROPERTY,"value of [game]rule %string% in %world%")
+        Registration.registerExpression(ExprGameRule.class, String.class, ExpressionType.PROPERTY,"value of [game]rule %string% in %world%")
                 .document("Value of Gamerule", "1.4.4 or earlier", "An expression for the value of the specified gamerule in the specified world.");
         Registration.registerPropertyExpression(ExprRemainingAir.class, Timespan.class, "livingentity", "breath", "max breath")
                 .document("Breath of Living Entity", "1.6", "An expression for the amount of breath (the bubbles that appear on the hotbar when you go underwater) "
@@ -296,7 +296,7 @@ public class MiscMundo {
                 .document("IP of Server", "1.8", "An expression for the IP of your Minecraft server.");
         Registration.registerExpression(ExprServerPort.class, Number.class, ExpressionType.SIMPLE, "[mundo[sk]] [the] port of server", "[mundo[sk]] [the] server's port")
                 .document("Port of Server", "1.8", "An expression for the port of your Minecraft server.");
-        Registration.registerExpression(ExprEntityCanCollide.class, Boolean.class, ExpressionType.PROPERTY, "%livingentity% is collidable")
+        Registration.registerExpressionCondition(CondCollidable.class, ExpressionType.PROPERTY, "%livingentities% (0¦is|0¦are|1¦isn't|1¦is not|1¦aren't|1¦are not) collidable")
                 .document("Living Entity is Collidable", "1.8", "Checks whether the specified living entity is collidable. "
                         + "Note that it is possible that an entity is non-collidable due to circumstance (ex. the entity is dead) "
                         + "and this condition/expression still be true as the entity would normally be collidable. "

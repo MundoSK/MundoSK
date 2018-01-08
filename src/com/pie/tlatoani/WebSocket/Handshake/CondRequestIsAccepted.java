@@ -14,7 +14,7 @@ import org.bukkit.event.Event;
 /**
  * Created by Tlatoani on 12/30/17.
  */
-public class ExprRequestIsAccepted extends SimpleExpression<Boolean> {
+public class CondRequestIsAccepted extends SimpleExpression<Boolean> {
     private boolean accepted;
 
     @Override

@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
  * Created by Tlatoani on 7/15/17.
  */
-public class ExprLastCustomEventCancelled extends SimpleExpression<Boolean> {
+public class CondLastCustomEventCancelled extends SimpleExpression<Boolean> {
     private boolean negated;
 
     @Override

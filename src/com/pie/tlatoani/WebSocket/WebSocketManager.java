@@ -3,7 +3,6 @@ package com.pie.tlatoani.WebSocket;
 import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.expressions.base.EventValueExpression;
 import ch.njol.skript.lang.ExpressionType;
-import com.pie.tlatoani.Throwable.ThrowableMundo;
 import com.pie.tlatoani.Util.Logging;
 import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.WebSocket.Events.*;
@@ -33,7 +32,7 @@ public final class WebSocketManager {
                         + "(ex. a password) that you want to be sent on the initial connection.");
         Registration.registerEnum(WebSocket.READYSTATE.class, "websocketstate", WebSocket.READYSTATE.values())
                 .pair("NOT YET CONNECTED", WebSocket.READYSTATE.NOT_YET_CONNECTED)
-                .document("WebSocketState", "1.8", "A state that a websocket connection can be in.");
+                .document("WebSocket State", "1.8", "A state that a websocket connection can be in.");
 
         Registration.registerComparator(WebSocket.class, WebSocket.READYSTATE.class, false,
                 ((webSocket, readystate) -> Comparator.Relation.get(webSocket.getReadyState() == readystate)));
@@ -121,9 +120,6 @@ public final class WebSocketManager {
                         , "response: The handshake sent by a websocket server responding to a request by a websocket client, "
                         + "used in the 'on open' section of a websocket client template or the 'on handshake' section of a websocket client or server template"
                         , "new: A new handshake object, currently only useful for specifying additional http headers in the New Websocket expression");
-        Registration.registerExpression(ExprRequestIsAccepted.class, Boolean.class, ExpressionType.SIMPLE, "[websocket] request [handshake] is (0¦accepted|1¦refused)")
-                .document("Request is Accepted", "1.8", "Used in the 'on handshake' section of a websocket server template. "
-                        + "Checks whether the client's request was accepted or refused. Can be set.");
         Registration.registerExpression(ExprHeader.class, String.class, ExpressionType.COMBINED, "[handshake] [http] header %string% of %handshake%")
                 .document("HTTP Header of Handshake", "1.8", "An expression for the value of the HTTP header with the specified name of the specified handshake.");
         Registration.registerExpression(ExprHeaderNames.class, String.class, ExpressionType.PROPERTY, "[all] [handshake] [http] header names of %handshake%")
@@ -139,6 +135,9 @@ public final class WebSocketManager {
         Registration.registerPropertyExpression(ExprResourceDescriptor.class, String.class, "handshake", "resource descriptor", "handshake resource descriptor")
                 .document("Resource Descriptor of Handshake", "1.8", "An expression for the resource descriptor of the specified handshake. "
                         + "This can only exist in handshakes sent by the client (ex. 'request' - see the Handshake Request/Response/New expression).");
+        Registration.registerExpressionCondition(CondRequestIsAccepted.class, ExpressionType.SIMPLE, "[websocket] request [handshake] is (0¦accepted|1¦refused)")
+                .document("Request is Accepted", "1.8", "Used in the 'on handshake' section of a websocket server template. "
+                        + "Checks whether the client's request was accepted or refused. Can be set.");
     }
 
     public static WebSocketClientFunctionality getClientFunctionality(String id) {

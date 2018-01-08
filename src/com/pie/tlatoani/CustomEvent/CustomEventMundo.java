@@ -36,7 +36,7 @@ public class CustomEventMundo {
         Registration.registerExpression(ExprArgsOfCustomEvent.class, Object.class, ExpressionType.SIMPLE,"args of custom event", "custom event's args")
                 .document("Args of Custom Event", "1.6.7", "An expression, used in the Custom Event event, for a list of the arguments, if any, "
                         + "that were specified for this particular custom event call. See the Call Custom Event effect for more info.");
-        Registration.registerExpression(ExprLastCustomEventCancelled.class, Boolean.class, ExpressionType.SIMPLE, "last [called] custom event (0¦was|1¦wasn't) cancelled")
+        Registration.registerExpressionCondition(CondLastCustomEventCancelled.class, ExpressionType.SIMPLE, "last [called] custom event (0¦was|1¦wasn't) cancelled")
                 .document("Last Called Custom Event was Cancelled", "1.8", "Checks whether the last custom event that was called in this trigger was or wasn't cancelled. "
                         + "This expression/condition is unaffected by whether another section of code calls a custom event. See the Call Custom Event effect for more info about custom events.");
 

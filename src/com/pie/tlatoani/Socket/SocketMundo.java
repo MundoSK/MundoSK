@@ -27,15 +27,15 @@ public class SocketMundo {
                         + "**For clarification, this only gets the password from function sockets on your server, not other servers.");
         Registration.registerExpression(ExprHandlerOfFunctionSocket.class,String.class,ExpressionType.PROPERTY,"handler [function] of function socket at port %number%")
                 .document("Handler of Function Socket", "1.4.4 or earlier", "An expression for the handler function of the function socket.");
-        Registration.registerExpression(ExprFunctionSocketIsOpen.class,Boolean.class,ExpressionType.PROPERTY,"function socket is open at port %number%")
-                .document("FunctionSocket Is Open", "1.4.9", "Checks whether there is a function socket open at the specified port. ");
-        Registration.registerExpression(ExprServerSocketIsOpen.class,Boolean.class,ExpressionType.COMBINED,"server socket is open at host %string% port %number% [with timeout of %-timespan%]")
-                .document("Server Socket Is Open", "1.4.9", "Checks whether there is a server socket open at the specified host and port. Optionally, you can specify a timeout for how long to try checking before giving up.");
         Registration.registerExpression(ExprMotdOfServer.class,String.class,ExpressionType.COMBINED,"motd of server with host %string% [port %-number%]")
                 .document("MOTD of Server", "1.5.10", "An expression foro the MOTD of the server at the specified host and port. "
                         + "Make sure to evaluate this expression asynchronously (under 'async', for example), as otherwise your server may lag.");
         Registration.registerExpression(ExprPlayerCountOfServer.class,Number.class,ExpressionType.COMBINED,"(1¦player count|0¦max player count) of server with host %string% [port %-number%]")
                 .document("Player Count of Server", "1.5.10", "An expression for the player count or maximum allowed player count of the server at the specified host and port. "
                         + "Make sure to evaluate this expression asynchronously (under 'async', for example), as otherwise your server may lag.");
+        Registration.registerExpressionCondition(CondFunctionSocketIsOpen.class,ExpressionType.PROPERTY,"function socket is open at port %number%")
+                .document("FunctionSocket Is Open", "1.4.9", "Checks whether there is a function socket open at the specified port. ");
+        Registration.registerExpressionCondition(CondServerSocketIsOpen.class,ExpressionType.COMBINED,"server socket is open at host %string% port %number% [with timeout of %-timespan%]")
+                .document("Server Socket Is Open", "1.4.9", "Checks whether there is a server socket open at the specified host and port. Optionally, you can specify a timeout for how long to try checking before giving up.");
     }
 }

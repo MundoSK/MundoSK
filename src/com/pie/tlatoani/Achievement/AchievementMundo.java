@@ -30,7 +30,7 @@ public class AchievementMundo {
                         + "Note that achievements were removed in Minecraft 1.12 and thus this syntax will not work if you are running Bukkit/Spigot 1.12 and above.");
         Registration.registerExpression(ExprAllAch.class,Achievement.class,ExpressionType.PROPERTY,"achieve[ment]s of %player%", "%player%'s achieve[ment]s")
                 .document("Achievements of Player", "1.4.10", "An expression for a list of the achievements that the specified player has.");
-        Registration.registerExpression(ExprHasAch.class,Boolean.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %achievement%")
+        Registration.registerExpressionCondition(CondHasAch.class,ExpressionType.PROPERTY,"%player% has achieve[ment] %achievement%")
                 .document("Player has Achievement", "1.4.10", "Checks whether the specified player has the specified achievement.");
     }
 

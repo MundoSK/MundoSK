@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -14,21 +15,20 @@ import java.util.Arrays;
 /**
  * Created by Tlatoani on 11/25/16.
  */
-public class ExprScoresEnabled extends SimpleExpression<Boolean> {
+public class CondScoresEnabled extends SimpleExpression<Boolean> {
     private Expression<Player> playerExpression;
+    private boolean positive;
 
     @Override
     protected Boolean[] get(Event event) {
-        return Arrays
-                .stream(playerExpression.getArray(event))
-                .filter(Player::isOnline)
-                .map(player -> TablistManager.getTablistOfPlayer(player).areScoresEnabled())
-                .toArray(Boolean[]::new);
+        return new Boolean[]{MundoUtil.check(playerExpression, event, player ->
+                player.isOnline() && TablistManager.getTablistOfPlayer(player).areScoresEnabled()
+        , positive)};
     }
 
     @Override
     public boolean isSingle() {
-        return playerExpression.isSingle();
+        return true;
     }
 
     @Override
@@ -38,17 +38,18 @@ public class ExprScoresEnabled extends SimpleExpression<Boolean> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "scores are enabled in " + playerExpression + "'s tablist";
+        return "scores are " + (positive ? "enabled" : "disabled") + " in " + playerExpression + "'s tablist";
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         playerExpression = (Expression<Player>) expressions[0];
+        positive = parseResult.mark == 0;
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        boolean enabled = (boolean) delta[0];
+        boolean enabled = positive == (boolean) delta[0];
         for (Player player : playerExpression.getArray(event)) {
             if (!player.isOnline()) {
                 continue;

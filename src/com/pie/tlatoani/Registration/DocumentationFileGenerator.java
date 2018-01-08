@@ -25,7 +25,7 @@ public class DocumentationFileGenerator {
         docsJSON.put("events", jsonArrayOfDocElems(Documentation.getEvents()));
         docsJSON.put("conditions", jsonArrayOfDocElems(Documentation.getConditions()));
         docsJSON.put("effects", jsonArrayOfDocElems(Documentation.getEffects(), Documentation.getScopes()));
-        docsJSON.put("expression", jsonArrayOfDocElems(Documentation.getExpressions()));
+        docsJSON.put("expressions", jsonArrayOfDocElems(Documentation.getExpressions()));
         docsJSON.put("types", jsonArrayOfDocElems(Documentation.getTypes()));
         FileWriter fileWriter = new FileWriter(file);
         docsJSON.writeJSONString(fileWriter);

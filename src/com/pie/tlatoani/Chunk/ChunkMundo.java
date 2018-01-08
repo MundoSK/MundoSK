@@ -46,9 +46,9 @@ public class ChunkMundo {
                         , "The second is the blocks between two coordinates of the specified chunk."
                         , "The third is a layer, one of the three defaults or a specified number, of the specified chunk."
                         , "The fourth is the layers between two specified numbers of the specified chunk.");
-        Registration.registerExpression(CondSlimey.class, Boolean.class, ExpressionType.PROPERTY, "%chunks% (is|are) slimey")
+        Registration.registerExpressionCondition(CondSlimey.class, ExpressionType.PROPERTY, "%chunks% (0¦is|0¦are|1¦isn't|1¦is not|1¦aren't|1¦are not) slimey")
                 .document("Chunk is Slimey", "1.8", "Checks whether the specified chunk is slimey.");
-        Registration.registerExpression(CondChunkLoaded.class, Boolean.class, ExpressionType.PROPERTY, "[chunk[s]] %chunks% (is|are) loaded")
+        Registration.registerExpressionCondition(CondChunkLoaded.class, ExpressionType.PROPERTY, "[chunk[s]] %chunks% (0¦is|0¦are|1¦isn't|1¦is not|1¦aren't|1¦are not) loaded")
                 .document("Chunk is Loaded", "1.8", "Checks whether the specified chunk is loaded.");
     }
 
