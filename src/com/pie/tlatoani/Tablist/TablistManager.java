@@ -8,6 +8,7 @@ import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.Skin;
+import com.pie.tlatoani.Tablist.Array.CondArrayEnabled;
 import com.pie.tlatoani.Tablist.Array.EffEnableArrayTablist;
 import com.pie.tlatoani.Tablist.Player.*;
 import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
@@ -185,6 +186,7 @@ public class TablistManager {
                         , "This is due to the fact that Minecraft allows 1 to 80 total tabs, and for each amount, there is only one way the tablist can appear. "
                         + "Minecraft only allows a maximum of 20 tabs in one column, so the tabs will try to fill as few columns as possible will adhering to this rule. "
                         + "For example, if there are 40 tabs, this is satisfied by a 2x20 tablist, but for 41 and 42 you need 3x14.");
+        Registration.registerExpressionCondition(CondArrayEnabled.class, ExpressionType.PROPERTY, "[the] array tablist is (0¦enabled|1¦disabled) for %players%");
     }
 
     private static void loadPacketEventListeners() {

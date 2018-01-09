@@ -7,6 +7,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Util.BaseEvent;
+import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import java.util.Optional;
@@ -36,11 +37,13 @@ public class PacketInfoAlias {
     }
 
     public static Optional<PacketInfoAlias> create(PacketType packetType, String syntax, String original) {
-        String resultSyntax = original.replace("%packet%", "event-packet");
+        String resultSyntax = original.replace("%packet%", "{_packet}");
         String currentEventName = ScriptLoader.getCurrentEventName();
         Class<? extends Event>[] currentEvents = ScriptLoader.getCurrentEvents();
         ScriptLoader.setCurrentEvent("ExprPacketInfoAliasPacketEvent", ContainerEvent.class);
+        Logging.debug(PacketInfoAlias.class, "packetType = " + packetType + ", syntax = " + syntax + ", original = " + original + ", resultSyntax = " + resultSyntax);
         Expression<?> expression = SkriptParser.parseStatic(resultSyntax, PacketManager.packetInfoExpressionInfoIterator(), "'" + original + "' is not a valid packet info expression");
+        Logging.debug(PacketInfoAlias.class, "expr = " + expression);
         ScriptLoader.setCurrentEvent(currentEventName, currentEvents);
         if (expression == null) {
             return Optional.empty();

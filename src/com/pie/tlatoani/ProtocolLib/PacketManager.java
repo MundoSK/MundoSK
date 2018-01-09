@@ -126,6 +126,7 @@ public class PacketManager {
     }
 
     public static Iterator<ExpressionInfo<?, ?>> packetInfoExpressionInfoIterator() {
+        Logging.debug(PacketManager.class, "pIEI = " + packetInfoExpressionInfos);
         return packetInfoExpressionInfos.iterator();
     }
 
