@@ -1,6 +1,7 @@
 package com.pie.tlatoani.ProtocolLib.Alias;
 
 import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.log.ParseLogHandler;
@@ -83,11 +84,22 @@ public class PacketInfoAlias {
         return alias.replace("%packet%", packetExpression.toString(event, b));
     }
 
-    public Object[] evaluate(PacketContainer packet) {
+    public Object[] get(PacketContainer packet) {
         if (packet.getType() == packetType) {
-            return expression.getArray(new PacketInfoAlias.ContainerEvent(packet));
+            return expression.getArray(new ContainerEvent(packet));
         } else {
             return new Object[0];
         }
+    }
+
+    public void change(PacketContainer packet, Object[] delta, Changer.ChangeMode mode) {
+        if (packet.getType() == packetType) {
+            Event event = new ContainerEvent(packet);
+            expression.change(event, delta, mode);
+        }
+    }
+
+    public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+        return expression.acceptChange(mode);
     }
 }

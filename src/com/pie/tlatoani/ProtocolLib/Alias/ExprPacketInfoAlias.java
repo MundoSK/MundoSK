@@ -1,5 +1,6 @@
 package com.pie.tlatoani.ProtocolLib.Alias;
 
+import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
@@ -64,7 +65,7 @@ public class ExprPacketInfoAlias extends SimpleExpression<Object> {
 
     @Override
     protected Object[] get(Event event) {
-        return alias.evaluate(packetExpression.getSingle(event));
+        return alias.get(packetExpression.getSingle(event));
     }
 
     @Override
@@ -92,5 +93,15 @@ public class ExprPacketInfoAlias extends SimpleExpression<Object> {
         }
         alias = aliases.get(i);
         return true;
+    }
+
+    @Override
+    public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
+        alias.change(packetExpression.getSingle(event), delta, mode);
+    }
+
+    @Override
+    public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+        return alias.acceptChange(mode);
     }
 }

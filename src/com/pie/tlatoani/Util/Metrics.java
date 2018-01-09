@@ -272,7 +272,7 @@ public class Metrics {
 
                         // We use the inverse of firstPost because if it is the first time we are posting,
                         // it is not a interval ping, so it evaluates to FALSE
-                        // Each time thereafter it will evaluate to TRUE, i.e PING!
+                        // Each time thereafter it will get to TRUE, i.e PING!
                         postPlugin(!firstPost);
 
                         // After the first post we setSafely firstPost to false
