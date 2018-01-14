@@ -85,7 +85,7 @@ public class ScopePacketInfoAliases extends MundoEventScope {
             Skript.error("Invalid alias syntax in the packet info alias!");
             return Optional.empty();
         }
-        String spComptabile = syntax.replace("%packet%", "%" + SYNTAX_VAR_NAME + "=packet%");
+        String spComptabile = syntax.replace("%packet%", "%" + SYNTAX_VAR_NAME + "=-packet%");
         SyntaxPiece syntaxPiece;
         try {
             syntaxPiece = SyntaxParser.parse(spComptabile);
