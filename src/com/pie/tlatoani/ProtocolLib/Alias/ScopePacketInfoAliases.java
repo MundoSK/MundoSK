@@ -93,6 +93,10 @@ public class ScopePacketInfoAliases extends MundoEventScope {
             Logging.debug(ScopePacketInfoAliases.class, e);
             Skript.error("Invalid alias syntax in the packet info alias!");
             return Optional.empty();
+        } catch (Exception e) {
+            Logging.reportException(ScopePacketInfoAliases.class, e);
+            Skript.error("An error occurred while validating the alias syntax");
+            return Optional.empty();
         }
         VariableUsage usage = syntaxPiece.getVariableUsage(SYNTAX_VAR_NAME);
         if (usage == VariableUsage.NONE) {

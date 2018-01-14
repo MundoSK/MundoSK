@@ -147,8 +147,11 @@ public class SyntaxParser {
             boolean continu = true;
 
             public String extract() {
-                while (continu) {
+                while (parsingIterator.hasNext() && continu) {
                     parsingIterator.next(this);
+                }
+                if (continu) {
+                    throw new IllegalArgumentException("Expression never terminated");
                 }
                 return stringBuilder.toString();
             }
