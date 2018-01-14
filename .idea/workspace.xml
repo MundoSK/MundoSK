@@ -7,10 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ExprPacketInfoAlias.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ExprPacketInfoAlias.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxParser.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxParser.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -88,8 +85,8 @@
       <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="21" lean-forward="false" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
+            <state relative-caret-position="285">
+              <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -1378,8 +1375,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="21" lean-forward="false" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
+        <state relative-caret-position="285">
+          <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
           <folding />
         </state>
       </provider>
