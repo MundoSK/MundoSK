@@ -37,6 +37,26 @@ public class ExprPacketInfoAlias extends SimpleExpression<Object> {
             }
         }, 0);
         Registration.registerEvent("Packet Info Alias", ScopePacketInfoAliases.class, PacketInfoAlias.ContainerEvent.class, "packet info aliases for %packettype%");
+                /*.document("Packet Info Alias", "1.8.2", "Not an actual event, but rather a group of packet info aliases to be used with packets of the specified packettype. "
+                        + "Packet info aliases are aliases for specific usages of packet info expressions. "
+                        + "Under the main scope lines are written in the form '<new syntax> " + ScopePacketInfoAliases.SEPARATOR + " <old syntax>', "
+                        + "where the old syntax is how you would normally write an expression for the desired packet info, and the new syntax is how you want to be able to write it. "
+                        + "Note that the new syntax is essentially being registered as a Skript syntax, so you can write it with features of Skript syntax like optional parts enclosed in '[]', "
+                        + "and multiple usages of '%packet%' are allowed in your syntax, though only one of them should be possible to use at a time since only one packet is used to evaluate the alias. "
+                        + "In addition, when writing '%packet%' multiple times, make sure to write it as '%-packet%', or errors may be caused when using your alias.")
+                .example("packet info aliases for play_server_world_border:"
+                        , "\tborder action of %packet% = \"WorldBorderAction\" penum 0 of %packet%"
+                        , "\tborder portal teleport bounder of %packet% = int pnum 0 of %packet%"
+                        , "\tborder center x of %packet% = double pnum 0 of %packet%"
+                        , "\tborder center z of %packet% = double pnum 1 of %packet%"
+                        , "\tborder old radius of %packet% = double pnum 2 of %packet%"
+                        , "\tborder radius of %packet% = double pnum 3 of %packet%"
+                        , "\tborder speed of %packet% = long pnum 0 of %packet%"
+                        , "\tborder warning time of %packet% = int pnum 1 of %packet%"
+                        , "\tborder warning distance of %packet% = int pnum 2 of %packet%"
+                        , ""
+                        , "on packet event play_server_world_border:"
+                        , "\tbroadcast \"Border Action: %border action of event-packet%\"");*/
 
     }
 

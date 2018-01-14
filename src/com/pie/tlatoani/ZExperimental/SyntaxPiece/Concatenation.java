@@ -2,7 +2,6 @@ package com.pie.tlatoani.ZExperimental.SyntaxPiece;
 
 import com.google.common.collect.ImmutableList;
 
-import java.util.Set;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
@@ -27,23 +26,22 @@ public class Concatenation extends SyntaxPiece {
     }
 
     @Override
-    public void addVariableNames(Set<String> set) {
-        for (SyntaxPiece piece : pieces) {
-            piece.addVariableNames(set);
-        }
-    }
-
-    @Override
     public VariableUsage getVariableUsage(String variable) {
-        VariableUsage highestUsage = VariableUsage.NONE;
+        return pieces
+                .stream()
+                .map(syntaxPiece -> syntaxPiece.getVariableUsage(variable))
+                .reduce(VariableUsage.NONE, VariableUsage::and);
+        /*VariableUsage highestUsage = VariableUsage.NONE;
         for (SyntaxPiece piece : pieces) {
-            switch (piece.getVariableUsage(variable)) {
+            VariableUsage usage = piece.getVariableUsage(variable);
+            switch (usage) {
                 case NONE:
                     break;
+                case INCONISTENT:
                 case SPECIFIC:
                 case CONSISTENT:
                     if (highestUsage == VariableUsage.NONE) {
-                        highestUsage = VariableUsage.CONSISTENT;
+                        highestUsage = usage;
                         break;
                     } else {
                         return VariableUsage.CONFLICTING;
@@ -52,7 +50,7 @@ public class Concatenation extends SyntaxPiece {
                     return VariableUsage.CONFLICTING;
             }
         }
-        return highestUsage;
+        return highestUsage;*/
     }
 
     @Override
@@ -74,9 +72,9 @@ public class Concatenation extends SyntaxPiece {
     }
 
     @Override
-    public void setConstraints(ExpressionConstraints.Collective constraints) {
+    public void addVariables(VariableCollective collective) {
         for (SyntaxPiece piece : pieces) {
-            piece.setConstraints(constraints);
+            piece.addVariables(collective);
         }
     }
 

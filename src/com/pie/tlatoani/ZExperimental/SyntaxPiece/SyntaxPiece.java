@@ -11,15 +11,19 @@ public abstract class SyntaxPiece {
 
     public abstract boolean containsVariables();
 
-    public abstract void addVariableNames(Set<String> set);
-
     public abstract VariableUsage getVariableUsage(String variable);
 
     public abstract int markLength();
 
     public abstract int expressionAmount();
 
-    public abstract void setConstraints(ExpressionConstraints.Collective constraints);
+    public VariableCollective getVariables() {
+        VariableCollective collective = new VariableCollective();
+        addVariables(collective);
+        return collective;
+    }
+
+    public abstract void addVariables(VariableCollective collective);
 
     public abstract String readableSyntax();
 

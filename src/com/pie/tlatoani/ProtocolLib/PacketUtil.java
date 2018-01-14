@@ -43,7 +43,7 @@ public class PacketUtil {
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(
                 profile,
-                Optional.ofNullable(latency).orElse(5),
+                Optional.ofNullable(latency).map(PacketUtil::getPossibleLatency).orElse(0),
                 Optional.ofNullable(gameMode).map(EnumWrappers.NativeGameMode::fromBukkit).orElse(EnumWrappers.NativeGameMode.NOT_SET),
                 WrappedChatComponent.fromText(Optional.ofNullable(displayName).orElse(""))
         );
@@ -84,5 +84,17 @@ public class PacketUtil {
         }
         Logging.debug(PacketUtil.class, "Final JSON: " + joiner.toString());
         return WrappedChatComponent.fromJson(joiner.toString());
+    }
+
+    public static int getPossibleLatency(int bars) {
+        switch (bars) {
+            case 0: return -1;
+            case 1: return 1024;
+            case 2: return 768;
+            case 3: return 512;
+            case 4: return 256;
+            case 5: return 0;
+            default: throw new IllegalArgumentException("Illegal amount of bars: " + bars + ", required 0 <= bars <= 5");
+        }
     }
 }

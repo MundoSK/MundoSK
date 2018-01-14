@@ -1,13 +1,15 @@
 package com.pie.tlatoani.Registration;
 
-import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.util.Pair;
 import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Cancellable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Tlatoani on 8/21/17.
@@ -128,7 +130,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
         @Override
         public DocumentationElement.Effect build() {
-            return new DocumentationElement.Effect(name, category, syntaxes, description, originVersion, requiredPlugins, examples.toArray(new String[0][]));
+            return new DocumentationElement.Effect(name, category, syntaxes, description, originVersion, requiredPlugins, examples);
         }
     }
 
@@ -143,7 +145,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             if (exprClass != null) {
                 addChangers(exprClass);
             }
-            return new DocumentationElement.Condition(name, category, syntaxes, description, originVersion, requiredPlugins, examples.toArray(new String[0][]), changerBuilders);
+            return new DocumentationElement.Condition(name, category, syntaxes, description, originVersion, requiredPlugins, examples, changerBuilders);
         }
     }
 
@@ -160,7 +162,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             if (exprClass != null) {
                 addChangers(exprClass);
             }
-            return new DocumentationElement.Expression(name, category, syntaxes, description, originVersion, returnType, requiredPlugins, examples.toArray(new String[0][]), changerBuilders);
+            return new DocumentationElement.Expression(name, category, syntaxes, description, originVersion, returnType, requiredPlugins, examples, changerBuilders);
         }
     }
 
@@ -197,7 +199,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
     class Event extends Abstract<DocumentationElement.Event, Event> {
         public final Class<? extends org.bukkit.event.Event> event;
-        private Collection<EventValue> eventValueBuilders = new LinkedList<>();
+        private List<EventValue> eventValueBuilders = new LinkedList<>();
 
         public Event(String category, String[] syntaxes, Class<? extends org.bukkit.event.Event> event) {
             super(category, syntaxes);
@@ -206,7 +208,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
         @Override
         public DocumentationElement.Event build() {
-            return new DocumentationElement.Event(name, category, syntaxes, description, originVersion, requiredPlugins, examples.toArray(new String[0][]), Cancellable.class.isAssignableFrom(event), eventValueBuilders);
+            return new DocumentationElement.Event(name, category, syntaxes, description, originVersion, requiredPlugins, examples, Cancellable.class.isAssignableFrom(event), eventValueBuilders);
         }
 
         public DocumentationBuilder.Event eventValue(Class type, String originVersion, String description) {
@@ -239,7 +241,7 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
 
         @Override
         public DocumentationElement.Scope build() {
-            return new DocumentationElement.Scope(name, category, syntaxes, description, originVersion, requiredPlugins, examples.toArray(new String[0][]));
+            return new DocumentationElement.Scope(name, category, syntaxes, description, originVersion, requiredPlugins, examples);
         }
     }
 

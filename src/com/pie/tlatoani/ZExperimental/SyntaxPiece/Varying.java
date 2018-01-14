@@ -1,9 +1,7 @@
 package com.pie.tlatoani.ZExperimental.SyntaxPiece;
 
 import com.google.common.collect.ImmutableList;
-import com.pie.tlatoani.Util.MathUtil;
 
-import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
@@ -15,11 +13,12 @@ import java.util.stream.Collectors;
 public class Varying extends SyntaxPiece {
     public final ImmutableList<SyntaxPiece> options;
     public final Optional<String> variable;
-    public final boolean isOptional = isOptional();
+    public final boolean isOptional;
 
     public Varying(ImmutableList<SyntaxPiece> options, Optional<String> variable) {
         this.options = options;
         this.variable = variable;
+        isOptional = isOptional();
     }
 
     public boolean isOptional() {
@@ -40,25 +39,28 @@ public class Varying extends SyntaxPiece {
     }
 
     @Override
-    public void addVariableNames(Set<String> set) {
-        variable.ifPresent(set::add);
-        for (SyntaxPiece option : options) {
-            option.addVariableNames(set);
-        }
-    }
-
-    @Override
     public VariableUsage getVariableUsage(String variable) {
-        VariableUsage highestUsage = VariableUsage.NONE;
+        VariableUsage combinedUsage = options
+                .stream()
+                .map(syntaxPiece -> syntaxPiece.getVariableUsage(variable))
+                .reduce(VariableUsage::xor)
+                .orElse(VariableUsage.NONE);
+        if (this.variable.filter(variable::equals).isPresent()) {
+            combinedUsage = VariableUsage.and(combinedUsage, VariableUsage.SPECIFIC);
+        }
+        return combinedUsage;
+        /*VariableUsage highestUsage = VariableUsage.NONE;
+        boolean consistentlySpecific = true;
         for (SyntaxPiece option : options) {
             switch (option.getVariableUsage(variable)) {
                 case NONE:
+                    consistentlySpecific = false;
                     break;
                 case SPECIFIC:
                     if (highestUsage == VariableUsage.CONSISTENT) {
                         return VariableUsage.CONFLICTING;
                     } else {
-                        highestUsage = VariableUsage.SPECIFIC;
+                        highestUsage = consistentlySpecific ? VariableUsage.SPECIFIC : VariableUsage.INCONISTENT;
                         break;
                     }
                 case CONSISTENT:
@@ -72,7 +74,23 @@ public class Varying extends SyntaxPiece {
                     return VariableUsage.CONFLICTING;
             }
         }
-        return highestUsage;
+        if (this.variable.filter(variable::equals).isPresent()) {
+            if (highestUsage == VariableUsage.NONE) {
+                return VariableUsage.SPECIFIC;
+            } else {
+                return VariableUsage.CONFLICTING;
+            }
+        }
+        return highestUsage;*/
+    }
+
+    public static int digitsInBase(int num, int base) {
+        int result = 0;
+        while (num > 0) {
+            num /= base;
+            result++;
+        }
+        return result;
     }
 
     @Override
@@ -82,7 +100,7 @@ public class Varying extends SyntaxPiece {
             result = Math.max(result, syntaxPiece.markLength());
         }
         if (containsVariables()) {
-            result += MathUtil.digitsInBase(options.size() - 1, 2);
+            result += digitsInBase(options.size() - 1, 2);
         }
         return result;
     }
@@ -97,9 +115,10 @@ public class Varying extends SyntaxPiece {
     }
 
     @Override
-    public void setConstraints(ExpressionConstraints.Collective constraints) {
+    public void addVariables(VariableCollective constraints) {
+        variable.ifPresent(constraints::addVaryingOption);
         for (SyntaxPiece option : options) {
-            option.setConstraints(constraints);
+            option.addVariables(constraints);
         }
     }
 
@@ -120,11 +139,12 @@ public class Varying extends SyntaxPiece {
             return "[" + options.get(1).actualSyntax(prevMarkLength) + "]";
         }
         StringJoiner joiner = new StringJoiner("|", isOptional ? "[(" : "(", isOptional ? ")]" : ")");
-        int markLength = markLength();
+        //int markLength = markLength();
+        int varMarkLength = digitsInBase(options.size() - 1, 2);
         if (containsVariables()) {
-            String markSuffix = String.join("", Collections.nCopies(prevMarkLength, "0"));
+            //String markSuffix = String.join("", Collections.nCopies(prevMarkLength, "0"));
             for (int i = isOptional() ? 1 : 0; i < options.size(); i++) {
-                joiner.add(i + markSuffix + "¦" + options.get(i).actualSyntax(prevMarkLength + markLength));
+                joiner.add((i << prevMarkLength) + "¦" + options.get(i).actualSyntax(prevMarkLength + varMarkLength));
             }
         } else {
             for (SyntaxPiece syntaxPiece : options) {

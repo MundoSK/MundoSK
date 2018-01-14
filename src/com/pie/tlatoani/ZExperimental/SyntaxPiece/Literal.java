@@ -8,7 +8,7 @@ import java.util.Set;
 public class Literal extends SyntaxPiece {
     public final String text;
 
-    public static final com.pie.tlatoani.ZExperimental.SyntaxPiece.Literal EMPTY = new com.pie.tlatoani.ZExperimental.SyntaxPiece.Literal("");
+    public static final Literal EMPTY = new Literal("");
 
     public Literal(String text) {
         this.text = text;
@@ -16,17 +16,12 @@ public class Literal extends SyntaxPiece {
 
     @Override
     public boolean equals(Object object) {
-        return object instanceof com.pie.tlatoani.ZExperimental.SyntaxPiece.Literal && text.equals(((com.pie.tlatoani.ZExperimental.SyntaxPiece.Literal) object).text);
+        return object instanceof Literal && text.equals(((Literal) object).text);
     }
 
     @Override
     public boolean containsVariables() {
         return false;
-    }
-
-    @Override
-    public void addVariableNames(Set<String> set) {
-        //no variables to add
     }
 
     @Override
@@ -45,8 +40,7 @@ public class Literal extends SyntaxPiece {
     }
 
     @Override
-    public void setConstraints(ExpressionConstraints.Collective constraints) {
-    }
+    public void addVariables(VariableCollective collective) {}
 
     @Override
     public String readableSyntax() {

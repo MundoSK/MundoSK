@@ -604,7 +604,11 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET) {
-            return CollectionUtils.array(JSONObject.class);
+            if (isSingle) {
+                return CollectionUtils.array(JSONObject.class);
+            } else {
+                return CollectionUtils.array(JSONObject[].class);
+            }
         }
         return null;
     }

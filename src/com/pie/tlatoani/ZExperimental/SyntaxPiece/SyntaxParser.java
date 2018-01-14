@@ -2,7 +2,7 @@ package com.pie.tlatoani.ZExperimental.SyntaxPiece;
 
 import com.google.common.collect.ImmutableList;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,35 +37,36 @@ public class SyntaxParser {
     }
 
     public static class ParsingIterator {
-        private String string;
+        private final String string;
+        private int nextIndex = 0;
 
         public ParsingIterator(String string) {
             this.string = string;
         }
 
         public boolean hasNext() {
-            return !string.isEmpty();
+            return nextIndex < string.length();
         }
 
         public void next(ParsingConsumer consumer) {
-            if (string.charAt(0) == '\\') {
-                consumer.consumeChar(string.charAt(1));
-                string = string.substring(2);
+            if (string.charAt(nextIndex) == '\\') {
+                nextIndex += 2;
+                consumer.consumeChar(string.charAt(nextIndex - 1), nextIndex - 1);
             } else {
-                Optional<Symbol> symbolOptional = Symbol.fromChar(string.charAt(0));
+                nextIndex++;
+                Optional<Symbol> symbolOptional = Symbol.fromChar(string.charAt(nextIndex - 1));
                 if (symbolOptional.isPresent()) {
-                    consumer.consumeSymbol(symbolOptional.get());
+                    consumer.consumeSymbol(symbolOptional.get(), nextIndex - 1);
                 } else {
-                    consumer.consumeChar(string.charAt(0));
+                    consumer.consumeChar(string.charAt(nextIndex - 1), nextIndex - 1);
                 }
-                string = string.substring(1);
             }
         }
     }
 
     public interface ParsingConsumer {
-        void consumeChar(char chara);
-        void consumeSymbol(Symbol symbol);
+        void consumeChar(char chara, int index);
+        void consumeSymbol(Symbol symbol, int index);
     }
 
     public static SyntaxPiece concatenate(List<SyntaxPiece> pieces) {
@@ -77,7 +78,7 @@ public class SyntaxParser {
 
     public static SyntaxPiece parse(String string) {
         return new ParsingConsumer() {
-            ArrayList<SyntaxPiece> syntaxPieces = new ArrayList<>();
+            List<SyntaxPiece> syntaxPieces = new LinkedList<>();
             StringBuilder literalBuilder = new StringBuilder();
             ParsingIterator parsingIterator = new ParsingIterator(string);
 
@@ -89,12 +90,12 @@ public class SyntaxParser {
             }
 
             @Override
-            public void consumeChar(char chara) {
+            public void consumeChar(char chara, int index) {
                 literalBuilder.append(chara);
             }
 
             @Override
-            public void consumeSymbol(Symbol symbol) {
+            public void consumeSymbol(Symbol symbol, int index) {
                 if (literalBuilder.length() > 0) {
                     syntaxPieces.add(new Literal(literalBuilder.toString()));
                     literalBuilder = new StringBuilder();
@@ -105,10 +106,11 @@ public class SyntaxParser {
                         break;
                     case VARYING_OPENER:
                     case OPTIONAL_OPENER:
+                        //System.out.println("Transitioning to varying, index = " + index);
                         syntaxPieces.add(parseVarying(parsingIterator, symbol == Symbol.OPTIONAL_OPENER));
                         break;
                     default:
-                        throw new IllegalArgumentException("Illegal " + symbol + " found");
+                        throw new IllegalArgumentException("Illegal " + symbol + " found, index = " + index);
                 }
             }
         }.parse();
@@ -127,16 +129,16 @@ public class SyntaxParser {
             }
 
             @Override
-            public void consumeChar(char chara) {
+            public void consumeChar(char chara, int index) {
                 stringBuilder.append(chara);
             }
 
             @Override
-            public void consumeSymbol(Symbol symbol) {
+            public void consumeSymbol(Symbol symbol, int index) {
                 if (symbol == Symbol.VARIABLE_IDENTIFIER) {
                     continu = false;
                 } else {
-                    throw new IllegalArgumentException("Baaaad");
+                    throw new IllegalArgumentException("VARIABLE_IDENTIFIER expected, found: " + symbol + ", index = " + index);
                 }
             }
         }.extract();
@@ -152,16 +154,16 @@ public class SyntaxParser {
             }
 
             @Override
-            public void consumeChar(char chara) {
+            public void consumeChar(char chara, int index) {
                 stringBuilder.append(chara);
             }
 
             @Override
-            public void consumeSymbol(Symbol symbol) {
+            public void consumeSymbol(Symbol symbol, int index) {
                 if (symbol == Symbol.EXPRESSION_IDENTIFIER) {
                     continu = false;
                 } else {
-                    throw new IllegalArgumentException("Baaaad");
+                    throw new IllegalArgumentException("EXPRESSION_IDENTIFIER exptected, found: " + symbol + ", index = " + index);
                 }
             }
         }.extract();
@@ -170,32 +172,33 @@ public class SyntaxParser {
 
     public static Varying parseVarying(ParsingIterator parsingIterator, boolean optional) {
         return new ParsingConsumer() {
-            ArrayList<SyntaxPiece> options = new ArrayList<SyntaxPiece>();
-            ArrayList<SyntaxPiece> syntaxPieces = new ArrayList<>();
+            List<SyntaxPiece> options = new LinkedList<SyntaxPiece>();
+            List<SyntaxPiece> syntaxPieces = new LinkedList<>();
             StringBuilder literalBuilder = new StringBuilder();
             Optional<String> variable = Optional.empty();
-            boolean continu;
+            boolean continu = true;
 
             public Varying parse() {
-                if (optional) {
-                    options.add(Literal.EMPTY);
-                }
                 while (parsingIterator.hasNext() && continu) {
                     parsingIterator.next(this);
                 }
+                //System.out.println("Returning from varying, next Index = " + parsingIterator.nextIndex);
                 if (continu) {
                     throw new IllegalArgumentException("Varying never terminated");
+                }
+                if (optional) {
+                    options.add(0, Literal.EMPTY);
                 }
                 return new Varying(ImmutableList.copyOf(options), variable);
             }
 
             @Override
-            public void consumeChar(char chara) {
+            public void consumeChar(char chara, int index) {
                 literalBuilder.append(chara);
             }
 
             @Override
-            public void consumeSymbol(Symbol symbol) {
+            public void consumeSymbol(Symbol symbol, int index) {
                 if (literalBuilder.length() > 0 && symbol != Symbol.VARIABLE_IDENTIFIER) {
                     syntaxPieces.add(new Literal(literalBuilder.toString()));
                     literalBuilder = new StringBuilder();
@@ -210,7 +213,7 @@ public class SyntaxParser {
                         break;
                     case VARIABLE_IDENTIFIER:
                         if (variable.isPresent() || !syntaxPieces.isEmpty() || !options.isEmpty()) {
-                            throw new IllegalArgumentException("Illegal " + symbol + "found");
+                            throw new IllegalArgumentException("Illegal " + symbol + " found, index = " + index);
                         } else {
                             variable = Optional.of(literalBuilder.toString());
                             literalBuilder = new StringBuilder();
@@ -218,14 +221,14 @@ public class SyntaxParser {
                         break;
                     case VARYING_SEPARATOR:
                         options.add(concatenate(syntaxPieces));
-                        syntaxPieces = new ArrayList<>();
+                        syntaxPieces = new LinkedList<>();
                         break;
                     default:
                         options.add(concatenate(syntaxPieces));
                         if ((symbol == Symbol.OPTIONAL_CLOSER) == optional) {
                             continu = false;
                         } else {
-                            throw new IllegalArgumentException("Illegal closer: " + symbol);
+                            throw new IllegalArgumentException("Illegal closer: " + symbol + ", index = " + index);
                         }
                 }
             }

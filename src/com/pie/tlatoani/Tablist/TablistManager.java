@@ -135,7 +135,7 @@ public class TablistManager {
         Registration.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of ([simple] tab [with] id|simple tab) %string% for %players%")
                 .document("Display Name of Simple Tab", "1.8", "An expression for the display name of the simple tab with the specified id in the tablist(s) of the specified player(s).");
         Registration.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of ([simple] tab [with] id|simple tab) %string% for %players%")
-                .document("Latency of Simple Tab", "1.8", "An expression for the latency of the simple tab with the specified id in the tablist(s) of the specified player(s).");
+                .document("Latency of Simple Tab", "1.8", "An expression for the amount of latency bars of the simple tab with the specified id in the tablist(s) of the specified player(s). This is always between 0 and 5.");
         Registration.registerExpression(ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY, "(head|icon|skull) of ([simple] tab [with] id|simple tab) %string% for %players%")
                 .document("Icon of Simple Tab", "1.8", "An expression for the icon of the simple tab with the specified id in the tablist(s) of the specified player(s).");
         Registration.registerExpression(com.pie.tlatoani.Tablist.Simple.ExprScoreOfTab.class, Number.class, ExpressionType.PROPERTY, "score of ([simple] tab [with] id|simple tab) %string% for %players%")
@@ -166,7 +166,7 @@ public class TablistManager {
         Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprDisplayNameOfTab.class, String.class, ExpressionType.PROPERTY, "[display] name of [array] tab %number%, %number% for %players%")
                 .document("Display Name of Array Tab", "1.8", "An expression for the display name of the specified array tab for the specified player(s).");
         Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprLatencyOfTab.class, Number.class, ExpressionType.PROPERTY, "(latency|ping) of [array] tab %number%, %number% for %players%")
-                .document("Latency of Array Tab", "1.8", "An expression for the latency of the specified array tab for the specified player(s).");
+                .document("Latency of Array Tab", "1.8", "An expression for the amount of latency bars of the specified array tab for the specified player(s). This is always between 0 and 5.");
         Registration.registerExpression(com.pie.tlatoani.Tablist.Array.ExprIconOfTab.class, Skin.class, ExpressionType.PROPERTY,
                 "(head|icon|skull) of [array] tab %number%, %number% for %players%",
                 "initial icon of %players%'s [array] tablist")
@@ -186,7 +186,8 @@ public class TablistManager {
                         , "This is due to the fact that Minecraft allows 1 to 80 total tabs, and for each amount, there is only one way the tablist can appear. "
                         + "Minecraft only allows a maximum of 20 tabs in one column, so the tabs will try to fill as few columns as possible will adhering to this rule. "
                         + "For example, if there are 40 tabs, this is satisfied by a 2x20 tablist, but for 41 and 42 you need 3x14.");
-        Registration.registerExpressionCondition(CondArrayEnabled.class, ExpressionType.PROPERTY, "[the] array tablist is (0¦enabled|1¦disabled) for %players%");
+        Registration.registerExpressionCondition(CondArrayEnabled.class, ExpressionType.PROPERTY, "[the] array tablist is (0¦enabled|1¦disabled) for %players%")
+                .document("Array Tablist is Enabled", "1.8.2", "Checks whether the array tablist is enabled or disabled for the specified players. See the Enable or Disable Array Tablist effect for more info.");
     }
 
     private static void loadPacketEventListeners() {

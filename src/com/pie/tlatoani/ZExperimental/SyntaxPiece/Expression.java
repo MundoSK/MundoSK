@@ -7,13 +7,11 @@ import java.util.Set;
  */
 public class Expression extends SyntaxPiece {
     public final String variable;
-    public final String exprInfo;
     public final ExpressionConstraints constraints;
 
     public Expression(String variable, String exprInfo) {
         this.variable = variable;
-        this.exprInfo = exprInfo;
-        this.constraints = new ExpressionConstraints(exprInfo);
+        this.constraints = ExpressionConstraints.fromSyntax(exprInfo);
     }
 
     @Override
@@ -22,16 +20,11 @@ public class Expression extends SyntaxPiece {
     }
 
     @Override
-    public void addVariableNames(Set<String> set) {
-        set.add(variable);
-    }
-
-    @Override
     public VariableUsage getVariableUsage(String variable) {
         return this.variable.equals(variable)
                 ? (constraints.nullable
-                        ? VariableUsage.CONSISTENT
-                        : VariableUsage.SPECIFIC)
+                        ? VariableUsage.SPECIFIC
+                        : VariableUsage.CONSISTENT)
                 : VariableUsage.NONE;
     }
 
@@ -46,23 +39,23 @@ public class Expression extends SyntaxPiece {
     }
 
     @Override
-    public void setConstraints(ExpressionConstraints.Collective constraints) {
-        constraints.addConstraints(variable, this.constraints);
+    public void addVariables(VariableCollective collective) {
+        collective.addExpression(variable, constraints);
     }
 
     @Override
     public String readableSyntax() {
-        return "%" + exprInfo + "%"; //Might want to remove -, *, etc.
+        return "%" + constraints.getTypeOptions() + "%";
     }
 
     @Override
     public String actualSyntax(int prevMarkLength) {
-        return "%" + exprInfo + "%";
+        return "%" + constraints.getSyntax() + "%";
     }
 
     @Override
     public String originalSyntax() {
-        return "%" + variable + "=" + exprInfo + "%";
+        return "%" + variable + "=" + constraints.getSyntax() + "%";
     }
 
     @Override
@@ -77,6 +70,6 @@ public class Expression extends SyntaxPiece {
 
     @Override
     public String toString() {
-        return "Expression(\"" + variable + "\", \"" + exprInfo + "\")";
+        return "Expression(\"" + variable + "\", \"" + constraints + "\")";
     }
 }

@@ -8,6 +8,7 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.TablistManager;
+import com.pie.tlatoani.Util.MathUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -65,7 +66,7 @@ public class ExprLatencyOfTab extends SimpleExpression<Number> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         int column = this.column.getSingle(event).intValue();
         int row = this.row.getSingle(event).intValue();
-        Integer value = ((Number) delta[0]).intValue();
+        Integer value = MathUtil.limitToRange(0, ((Number) delta[0]).intValue(), 5);
         for (Player player : playerExpression.getArray(event)) {
             if (!player.isOnline()) {
                 continue;

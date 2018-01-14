@@ -2,11 +2,8 @@ package com.pie.tlatoani.ZExperimental.SyntaxPiece;
 
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
-import ch.njol.util.Kleenean;
 import com.google.common.collect.ImmutableSet;
-import com.pie.tlatoani.Util.MundoUtil;
 
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -14,18 +11,39 @@ import java.util.stream.Collectors;
  */
 public final class ExpressionConstraints {
     public final ImmutableSet<Type> types;
-    public final Kleenean isLiteral;
+    public final LiteralState isLiteral;
     public final int time;
     public final boolean nullable;
 
-    public final String syntax;
+    public enum LiteralState {
+        LITERAL("*"),
+        NONLITERAL("~"),
+        UNKNOWN("");
+
+        public final String prefix;
+
+        LiteralState(String prefix) {
+            this.prefix = prefix;
+        }
+
+        public LiteralState getByPrefix(String prefix) {
+            for (LiteralState literalState : values()) {
+                if (literalState.prefix.equals(prefix)) {
+                    return literalState;
+                }
+            }
+            throw new IllegalArgumentException();
+        }
+    }
 
     public static class Type {
         public final ClassInfo classInfo;
+        public final String codename;
         public final boolean isSingle;
 
-        public Type(ClassInfo classInfo, boolean isSingle) {
-            this.classInfo = classInfo;
+        public Type(String codename, boolean isSingle) {
+            this.codename = codename;
+            this.classInfo = Classes.getClassInfo(codename);
             this.isSingle = isSingle;
         }
 
@@ -37,37 +55,35 @@ public final class ExpressionConstraints {
             }
             return false;
         }
+
+        @Override
+        public String toString() {
+            return "Type(classInfo = " + codename + ", isSingle = " + isSingle + ")";
+        }
     }
 
-    public ExpressionConstraints(ImmutableSet<Type> types, Kleenean isLiteral, int time, boolean nullable) {
+    public ExpressionConstraints(ImmutableSet<Type> types, LiteralState isLiteral, int time, boolean nullable) {
         this.types = types;
         this.isLiteral = isLiteral;
         this.time = time;
         this.nullable = nullable;
-
-        String typeOptions = types.stream().map(type -> type.classInfo.getCodeName()).collect(Collectors.joining("/"));
-        String isLiteralPrefix = getLiteralityPrefix(isLiteral);
-        String timeSuffix = getTimeSuffix(time);
-        String nullablePrefix = nullable ? "-" : "";
-
-        this.syntax = isLiteralPrefix + nullablePrefix + typeOptions + timeSuffix;
     }
 
-    public ExpressionConstraints(String string) {
-        Kleenean isLiteral;
+    public static ExpressionConstraints fromSyntax(String string) {
+        LiteralState isLiteral;
         if (string.charAt(0) == '*') {
-            isLiteral = Kleenean.TRUE;
+            isLiteral = LiteralState.LITERAL;
             string = string.substring(1);
         } else if (string.charAt(0) == '~') {
-            isLiteral = Kleenean.FALSE;
+            isLiteral = LiteralState.NONLITERAL;
             string = string.substring(1);
         } else {
-            isLiteral = Kleenean.UNKNOWN;
+            isLiteral = LiteralState.UNKNOWN;
         }
         boolean nullable;
         if (string.charAt(0) == '-') {
             nullable = true;
-            string = string.substring(0);
+            string = string.substring(1);
         } else {
             nullable = false;
         }
@@ -90,63 +106,42 @@ public final class ExpressionConstraints {
             } else {
                 isSingle = true;
             }
-            ClassInfo classInfo = Classes.getClassInfo(typeStr);
-            builder.add(new Type(classInfo, isSingle));
+            builder.add(new Type(typeStr, isSingle));
         }
-
-        this.types = builder.build();
-        this.isLiteral = isLiteral;
-        this.time = time;
-        this.nullable = nullable;
-
-        this.syntax = string;
+        return new ExpressionConstraints(builder.build(), isLiteral, time, nullable);
     }
 
-    public Class getSuperClass() {
+    public String getTypeOptions() {
+        return types.stream().map(type -> type.codename).collect(Collectors.joining("/"));
+    }
+
+    public String getSyntax() {
+        String timeSuffix = getTimeSuffix(time);
+        String nullablePrefix = nullable ? "-" : "";
+        return isLiteral.prefix + nullablePrefix + getTypeOptions() + timeSuffix;
+    }
+    
+    public String toString() {
+        return "ExpressionConstraints(types = " + types + ", isLiteral = " + isLiteral + ", time = " + time + ", nullable = " + nullable + ")";
+    }
+
+    /*public Class getSuperClass() {
         Class[] classes = new Class[types.size()];
         int i = 0;
         for (Type type : types) {
-            classes[i] = type.classInfo.getC();
+            classes[i] = type.classInfo;
             i++;
         }
         return MundoUtil.commonSuperClass(classes);
-    }
-
-    public static String getLiteralityPrefix(Kleenean isLiteral) {
-        switch (isLiteral) {
-            case TRUE: return "*";
-            case FALSE: return "~";
-            case UNKNOWN: return "";
-        }
-        throw new IllegalArgumentException("Illegal Kleenean isLiteral value: " + isLiteral);
-    }
+    }*/
 
     public static String getTimeSuffix(int time) {
         switch (time) {
             case 1: return "@1";
             case -1: return "@-1";
-            case 0: return "0";
+            case 0: return "";
         }
         throw new IllegalArgumentException("Illegal int time value: " + time);
     }
 
-    public static class Collective {
-        private HashMap<String, ExpressionConstraints> constraintsMap = new HashMap<>();
-
-        public void addConstraints(String variable, ExpressionConstraints constraints) {
-            ExpressionConstraints prevConstraints = constraintsMap.get(variable);
-            if (prevConstraints != null) {
-                ImmutableSet.Builder builder = ImmutableSet.builder();
-                builder.addAll(prevConstraints.types);
-                builder.addAll(constraints.types);
-                Kleenean isLiteral = constraints.isLiteral == prevConstraints.isLiteral ? constraints.isLiteral : Kleenean.UNKNOWN;
-                int time = constraints.time == prevConstraints.time ? constraints.time : 0;
-                boolean nullable = constraints.nullable || prevConstraints.nullable;
-                ExpressionConstraints newConstraints = new ExpressionConstraints(builder.build(), isLiteral, time, nullable);
-                constraintsMap.put(variable, newConstraints);
-            } else {
-                constraintsMap.put(variable, constraints);
-            }
-        }
-    }
 }

@@ -2,6 +2,7 @@ package com.pie.tlatoani.Registration;
 
 import ch.njol.skript.classes.ClassInfo;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class MundoClassInfo<T> extends ClassInfo<T> implements DocumentationBuil
 
     @Override
     public DocumentationElement.Type build() {
-        return new DocumentationElement.Type(name, category, syntaxes, new String[0], description, originVersion, requiredPlugins, examples.toArray(new String[0][]));
+        return new DocumentationElement.Type(name, category, syntaxes, new String[0], description, originVersion, requiredPlugins, examples);
     }
 
     @Override

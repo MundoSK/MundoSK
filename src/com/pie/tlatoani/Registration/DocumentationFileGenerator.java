@@ -59,21 +59,21 @@ public class DocumentationFileGenerator {
         if (docElem instanceof Expression) {
             result.put("return type", ((Expression) docElem).type.getDocName());
         }
-        JSONArray descJSON = fromStringArray(docElem.description);
+        JSONArray descJSON = fromStringList(docElem.description);
         if (docElem instanceof Scope) {
             descJSON.add(0, "Not an effect, but rather a scope (written with a colon at the end with a section of indented code under it, like an if statement or loop). ");
         }
         result.put("description", descJSON);
-        result.put("patterns", fromStringArray(docElem.syntaxes));
+        result.put("patterns", fromStringList(docElem.syntaxes));
         if (docElem instanceof Type) {
             Type typeDocElem = (Type) docElem;
-            if (typeDocElem.usages.length > 0) {
-                result.put("usage", fromStringArray(typeDocElem.usages));
+            if (typeDocElem.usages.size() > 0) {
+                result.put("usage", fromStringList(typeDocElem.usages));
             }
         }
         if (docElem instanceof Expression) {
             Expression exprDocElem = (Expression) docElem;
-            if (exprDocElem.changers.length > 0) {
+            if (exprDocElem.changers.size() > 0) {
                 JSONArray changers = new JSONArray();
                 for (Changer changer : exprDocElem.changers) {
                     String mode = changer.mode.name().toLowerCase().replace('_', ' ');
@@ -85,7 +85,7 @@ public class DocumentationFileGenerator {
             }
         } else if (docElem instanceof Condition) {
             Condition condDocElem = (Condition) docElem;
-            if (condDocElem.changers.length > 0) {
+            if (condDocElem.changers.size() > 0) {
                 JSONArray changers = new JSONArray();
                 for (Changer changer : condDocElem.changers) {
                     String mode = changer.mode.name().toLowerCase().replace('_', ' ');
@@ -98,7 +98,7 @@ public class DocumentationFileGenerator {
         }
         if (docElem instanceof Event) {
             Event eventDocElem = (Event) docElem;
-            if (eventDocElem.eventValues.length > 0) {
+            if (eventDocElem.eventValues.size() > 0) {
                 JSONArray eventValues = new JSONArray();
                 for (EventValue eventValue : eventDocElem.eventValues) {
                     eventValues.add("event-" + eventValue.type.getCodeName());
@@ -107,16 +107,16 @@ public class DocumentationFileGenerator {
             }
             result.put("cancellable", eventDocElem.cancellable);
         }
-        if (docElem.examples.length == 1) {
-            result.put("examples", fromStringArray(docElem.examples[0]));
-        } else if (docElem.examples.length > 1) {
+        if (docElem.examples.size() == 1) {
+            result.put("examples", fromStringList(docElem.examples.get(0)));
+        } else if (docElem.examples.size() > 1) {
             JSONArray examples = new JSONArray();
-            for (int i = 1; i <= docElem.examples.length; i++) {
+            for (int i = 1; i <= docElem.examples.size(); i++) {
                 if (!examples.isEmpty()) {
                     examples.add("");
                 }
                 examples.add("#Example " + i);
-                for (String line : docElem.examples[i - 1]) {
+                for (String line : docElem.examples.get(i - 1)) {
                     examples.add(line);
                 }
             }
@@ -132,6 +132,15 @@ public class DocumentationFileGenerator {
     public static JSONArray fromStringArray(String... array) {
         JSONArray jsonArray = new JSONArray();
         for (String elem : array) {
+            jsonArray.add(elem);
+        }
+        return jsonArray;
+    }
+
+    public static JSONArray fromStringList(List<String> list) {
+
+        JSONArray jsonArray = new JSONArray();
+        for (String elem : list) {
             jsonArray.add(elem);
         }
         return jsonArray;

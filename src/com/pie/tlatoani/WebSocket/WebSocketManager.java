@@ -40,7 +40,8 @@ public final class WebSocketManager {
         Registration.registerEffect(EffCloseWebSocket.class, "close websocket %websocket% [with message %-string%]")
                 .document("Close WebSocket", "1.8", "Closes the specified websocket connection, optionally specifying a closing message to send.");
         Registration.registerEffect(EffWebSocketSendMessage.class, "websocket send %strings% [through %-websockets%]")
-                .document("WebSocket Send", "1.8", "Sends the specified messages through the specified websockets.");
+                .document("WebSocket Send", "1.8", "Sends the specified messages through the specified websockets. "
+                        + "If no websockets are specified, the messages are sent through the event-websocket.");
         Registration.registerEffect(EffStartWebSocketServer.class, "start websocket server %string% at port %number%")
                 .document("Start WebSocket Server", "1.8", "Starts a WebSocket server using the specified server template at the specified port. "
                         + "A WebSocket server allows other servers/online services to initiate websocket connections with the server.");
