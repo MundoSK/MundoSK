@@ -9,7 +9,7 @@
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ScopePacketInfoAliases.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ScopePacketInfoAliases.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ExprPacketInfoAlias.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ExprPacketInfoAlias.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxParser.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxParser.java" />
     </list>
     <ignored path="MundoSK.iws" />
@@ -31,18 +31,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="VariableCollective.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/VariableCollective.java">
+      <file leaf-file-name="ExprPacketInfoAlias.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ExprPacketInfoAlias.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="587">
-              <caret line="47" column="35" lean-forward="false" selection-start-line="47" selection-start-column="35" selection-end-line="47" selection-end-column="35" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1882#1883#0" expanded="true" />
-                <element signature="e#1924#1925#0" expanded="true" />
-                <element signature="e#2100#2101#0" expanded="true" />
-                <element signature="e#2144#2145#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="540">
+              <caret line="56" column="61" lean-forward="false" selection-start-line="56" selection-start-column="61" selection-end-line="56" selection-end-column="61" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -62,8 +56,8 @@
       <file leaf-file-name="SyntaxParser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2040">
-              <caret line="150" column="47" lean-forward="true" selection-start-line="150" selection-start-column="47" selection-end-line="150" selection-end-column="47" />
+            <state relative-caret-position="210">
+              <caret line="112" column="82" lean-forward="true" selection-start-line="112" selection-start-column="82" selection-end-line="112" selection-end-column="82" />
               <folding />
             </state>
           </provider>
@@ -94,8 +88,8 @@
       <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
+            <state relative-caret-position="60">
+              <caret line="4" column="21" lean-forward="false" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -243,14 +237,14 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprLatencyOfTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprLatencyOfTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ExprPacketInfoAlias.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationFileGenerator.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/EnumClassInfo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationElement.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/MundoClassInfo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxParser.java" />
-        <option value="$PROJECT_DIR$/plugin.yml" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ScopePacketInfoAliases.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxParser.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ExprPacketInfoAlias.java" />
+        <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
   </component>
@@ -1292,14 +1286,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ExprPacketInfoAlias.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="38" column="164" lean-forward="false" selection-start-line="38" selection-start-column="164" selection-end-line="38" selection-end-column="164" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/VariableCollective.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="587">
@@ -1364,14 +1350,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2040">
-          <caret line="150" column="47" lean-forward="true" selection-start-line="150" selection-start-column="47" selection-end-line="150" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ScopePacketInfoAliases.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1410">
@@ -1382,10 +1360,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="112" column="82" lean-forward="true" selection-start-line="112" selection-start-column="82" selection-end-line="112" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ExprPacketInfoAlias.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="56" column="61" lean-forward="false" selection-start-line="56" selection-start-column="61" selection-end-line="56" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
+        <state relative-caret-position="60">
+          <caret line="4" column="21" lean-forward="false" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
           <folding />
         </state>
       </provider>
