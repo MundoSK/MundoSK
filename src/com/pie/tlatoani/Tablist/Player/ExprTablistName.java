@@ -67,7 +67,7 @@ public class ExprTablistName extends SimpleExpression<String> {
         if (!object.isOnline()) {
             return;
         }
-        for (Player player : playerExpression.getArray(event)) {
+        for (Player player : playerExpression == null ? Bukkit.getOnlinePlayers() : Arrays.asList(playerExpression.getArray(event))) {
             if (!player.isOnline()) {
                 continue;
             }
