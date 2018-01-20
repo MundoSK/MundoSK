@@ -1,23 +1,20 @@
 package com.pie.tlatoani.Skin;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.google.common.base.Supplier;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Tablist.TablistManager;
-import com.pie.tlatoani.Util.*;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Reflection;
+import com.pie.tlatoani.Util.Scheduling;
+import com.pie.tlatoani.Util.WorldLockedLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -28,7 +25,6 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Team;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 
 /**
  * Created by Tlatoani on 9/18/16.
@@ -38,7 +34,6 @@ public class SkinManager {
     private static final HashMap<Player, Skin> displayedSkins = new HashMap<>();
     private static final Table<Player, Player, Skin> personalDisplayedSkins = Tables.newCustomTable(new HashMap<>(), HashMap::new);
     private static final HashMap<Player, String> nameTags = new HashMap<>();
-    private static final HashMap<Player, String> tabNames = new HashMap<>();
 
     private static final ArrayList<Player> spawnedPlayers = new ArrayList<>();
 
@@ -86,8 +81,7 @@ public class SkinManager {
                         //Team team = player.getScoreboard().getEntryTeam(player.getName());
                         //String nameTag = team == null ? getNameTag(player) : team.getPrefix() + getNameTag(player) + team.getSuffix();
                         String nameTag = getNameTag(player);
-                        String tabName = player.getPlayerListName();
-                        newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTag), playerInfoData.getLatency(), playerInfoData.getGameMode(), nameTag.equals(tabName) ? null : WrappedChatComponent.fromText(player.getPlayerListName()));
+                        newPlayerInfoData = new PlayerInfoData(playerInfoData.getProfile().withName(nameTag), playerInfoData.getLatency(), playerInfoData.getGameMode(), playerInfoData.getDisplayName());
                         Logging.debug(SkinManager.class, "Post Namtatg: " + newPlayerInfoData.getProfile().getName());
 
                         Skin skin = getPersonalDisplayedSkin(player, event.getPlayer());
@@ -123,7 +117,6 @@ public class SkinManager {
                 finalNames.addAll(addedNames);
                 Logging.debug(SkinManager.class, "finalNames: " + finalNames);
                 event.getPacket().getSpecificModifier(Collection.class).writeSafely(0, finalNames);
-                checkForTeamChanges();
             }
         });
 
@@ -146,7 +139,6 @@ public class SkinManager {
         nameTags.put(player, player.getName());
         getActualSkin(player);
         getNameTag(player);
-        getTablistName(player);
     }
 
     static void onQuit(Player player) {
@@ -267,7 +259,6 @@ public class SkinManager {
         }
         nameTags.put(player, nameTag);
         refreshPlayer(player);
-        updateTablistName(player);
         if (objective != null) {
             score.setScore(actualScore);
         }
@@ -281,23 +272,6 @@ public class SkinManager {
 
             }
         });
-    }
-
-
-    public static String getTablistName(Player player) {
-        String tablistName = tabNames.get(player);
-        if (tablistName == null) {
-            tablistName = player.getName();
-            tabNames.put(player, tablistName);
-        }
-        return tablistName;
-    }
-
-    public static void setTablistName(Player player, String tablistName) {
-        if (tablistName == null)
-            tablistName = player.getName();
-        tabNames.put(player, tablistName);
-        updateTablistName(player);
     }
 
     //Private Methods
@@ -348,25 +322,6 @@ public class SkinManager {
         } catch (Exception e) {
             Logging.debug(SkinManager.class, "Failed to make player see his skin change: " + player.getName());
             Logging.reportException(SkinManager.class, e);
-        }
-    }
-
-    private static void checkForTeamChanges() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
-            String fullTablistName = team == null ? getTablistName(player) : team.getPrefix() + getTablistName(player) + team.getSuffix();
-            if (!player.getPlayerListName().equals(fullTablistName)) {
-                updateTablistName(player);
-            }
-        }
-    }
-
-    private static void updateTablistName(Player player) {
-        Team team = player.getScoreboard() != null ? player.getScoreboard().getEntryTeam(player.getName()) : null;
-        if (team == null) {
-            player.setPlayerListName(getTablistName(player));
-        } else {
-            player.setPlayerListName(team.getPrefix() + getTablistName(player) + team.getSuffix());
         }
     }
 

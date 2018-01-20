@@ -93,9 +93,9 @@ public class TablistManager {
         Registration.registerExpression(ExprTablistName.class, String.class, ExpressionType.PROPERTY,
                 "[display] name of [player] tab of %player% for %players%",
                 "[display] name of %player%'s [player] tab for %players%",
-                "tablist name of %player% for %players%",
-                "%player%'s tablist name for %players%")
-                .document("Display Name of Player Tab", "1.8", "An expression for the display name of the specified player tab in the tablist of the specified player(s). "
+                "[mundo[sk]] tablist name of %player% [for %-players%]",
+                "%player%'s [mundo[sk]] tablist name [for %-players%]")
+                .document("Display Name of Player Tab", "1.8", "An expression for the display name of the specified player tab in the tablist of the specified player(s), or all players. "
                         + "This will not be set if the player tab's display name has not been changed (or was reset), or the player tab is hidden.");
         Registration.registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY,
                 "score of [player] tab of %player% for %players%",
