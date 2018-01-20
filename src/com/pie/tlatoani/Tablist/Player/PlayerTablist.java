@@ -19,9 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by Tlatoani on 4/14/17.
@@ -144,14 +142,32 @@ public class PlayerTablist {
                     .orElse(oldPlayerInfoData.getDisplayName());
             return new PlayerInfoData(
                     oldPlayerInfoData.getProfile(),
-                    Optional.ofNullable(tab.getLatency()).orElse(oldPlayerInfoData.getLatency()),
+                    Optional.ofNullable(tab.getLatency()).map(PacketUtil::getPossibleLatency).orElse(oldPlayerInfoData.getLatency()),
                     oldPlayerInfoData.getGameMode(),
                     displayName);
         }).orElse(oldPlayerInfoData);
     }
 
     public void onScoreboardTeamPacket(WrapperPlayServerScoreboardTeam packet) {
-        for (String playerName : packet.getPlayers()) {
+        Collection<String> modifiedNames;
+        switch (packet.getMode()) {
+            case WrapperPlayServerScoreboardTeam.Mode.TEAM_CREATED:
+            case WrapperPlayServerScoreboardTeam.Mode.PLAYERS_ADDED:
+            case WrapperPlayServerScoreboardTeam.Mode.PLAYERS_REMOVED:
+                modifiedNames = packet.getPlayers();
+                break;
+            case WrapperPlayServerScoreboardTeam.Mode.TEAM_REMOVED:
+            case WrapperPlayServerScoreboardTeam.Mode.TEAM_UPDATED:
+                modifiedNames = Optional
+                        .ofNullable(tablist.target.getScoreboard())
+                        .map(scoreboard -> scoreboard.getTeam(packet.getName()))
+                        .map(Team::getEntries)
+                        .orElse(Collections.emptySet());
+                break;
+            default:
+                return;
+        }
+        for (String playerName : modifiedNames) {
             Player objPlayer = Bukkit.getPlayerExact(playerName);
             if (objPlayer != null) {
                 getTab(objPlayer)

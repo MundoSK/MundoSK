@@ -97,6 +97,13 @@ public class TablistManager {
                 "%player%'s tablist name for %players%")
                 .document("Display Name of Player Tab", "1.8", "An expression for the display name of the specified player tab in the tablist of the specified player(s). "
                         + "This will not be set if the player tab's display name has not been changed (or was reset), or the player tab is hidden.");
+        Registration.registerExpression(ExprTablistLatency.class, Number.class, ExpressionType.PROPERTY,
+                "(latency|ping) of [player] tab of %player% for %players%",
+                "(latency|ping) of %player%'s [player] tab for %players%",
+                "tablist (latency|ping) of %player% for %players%",
+                "%player%'s tablist (latency|ping) for %players%")
+                .document("Latency of Player Tab", "1.8", "An expression for the amount of latency bars of the specified player tab in the tablist of the specified player(s). "
+                        + "When set, this is always between 0 and 5. This will not be set if the player tab is hidden.");
         Registration.registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY,
                 "score of [player] tab of %player% for %players%",
                 "score of %player%'s [player] tab for %players%",
