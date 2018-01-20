@@ -206,8 +206,8 @@ public class WrapperPlayServerScoreboardTeam extends AbstractPacket {
 	 * @return The current Players
 	 */
 	@SuppressWarnings("unchecked")
-	public List<String> getPlayers() {
-		return (List<String>) handle.getSpecificModifier(Collection.class)
+	public Collection<String> getPlayers() {
+		return handle.getSpecificModifier(Collection.class)
 				.read(0);
 	}
 
@@ -216,7 +216,7 @@ public class WrapperPlayServerScoreboardTeam extends AbstractPacket {
 	 * 
 	 * @param value - new value.
 	 */
-	public void setPlayers(List<String> value) {
+	public void setPlayers(Collection<String> value) {
 		handle.getSpecificModifier(Collection.class).write(0, value);
 	}
 
