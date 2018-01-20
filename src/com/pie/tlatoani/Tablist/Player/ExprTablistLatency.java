@@ -61,7 +61,7 @@ public class ExprTablistLatency extends SimpleExpression<Number> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        Integer value = mode == Changer.ChangeMode.SET ? ((Number) delta[0]).intValue() : 0;
+        Integer value = mode == Changer.ChangeMode.SET ? ((Number) delta[0]).intValue() : 5;
         Player object = objectExpression.getSingle(event);
         if (!object.isOnline()) {
             return;

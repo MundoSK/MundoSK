@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Tablist;
 
+import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.ExpressionType;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.wrappers.EnumWrappers;
@@ -103,7 +104,9 @@ public class TablistManager {
                 "tablist (latency|ping) of %player% for %players%",
                 "%player%'s tablist (latency|ping) for %players%")
                 .document("Latency of Player Tab", "1.8", "An expression for the amount of latency bars of the specified player tab in the tablist of the specified player(s). "
-                        + "When set, this is always between 0 and 5. This will not be set if the player tab is hidden.");
+                        + "When set, this is always between 0 and 5. This will not be set if the player tab is hidden.")
+                .changer(Changer.ChangeMode.RESET, "1.8.3", "Resets any modification of the latency bars to match the player's actual latency. "
+                        + "Initially, the latency bars will appear to be 5, but will change within 30 seconds if the player's actual latency requires a different amount of bars.");
         Registration.registerExpression(ExprTablistScore.class, Number.class, ExpressionType.PROPERTY,
                 "score of [player] tab of %player% for %players%",
                 "score of %player%'s [player] tab for %players%",
