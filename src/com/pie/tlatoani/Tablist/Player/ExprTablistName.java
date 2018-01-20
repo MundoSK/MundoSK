@@ -9,7 +9,6 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.TablistManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -28,7 +27,8 @@ public class ExprTablistName extends SimpleExpression<String> {
         if (!object.isOnline()) {
             return new String[0];
         }
-        return (playerExpression == null ? Bukkit.getOnlinePlayers().stream() : Arrays.stream(playerExpression.getArray(event)))
+        return Arrays
+                .stream(playerExpression.getArray(event))
                 .filter(Player::isOnline)
                 .map(player -> TablistManager
                         .getTablistOfPlayer(player)
@@ -51,7 +51,7 @@ public class ExprTablistName extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "tablist name of " + objectExpression + (playerExpression == null ? "" : " for " + playerExpression);
+        return "tablist name of " + objectExpression + " for " + playerExpression;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ExprTablistName extends SimpleExpression<String> {
         if (!object.isOnline()) {
             return;
         }
-        for (Player player : playerExpression == null ? Bukkit.getOnlinePlayers() : Arrays.asList(playerExpression.getArray(event))) {
+        for (Player player : playerExpression.getArray(event)) {
             if (!player.isOnline()) {
                 continue;
             }

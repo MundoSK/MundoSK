@@ -129,5 +129,7 @@ public class SkinMundo {
                         , "The skin of the specified offline player retrieved from Mojang");
         Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] %player%'s name[]tag", "[mundo[sk]] name[]tag of %player%")
                 .document("Nametag of Player", "1.8", "An expression for the nametag (the name that appears above a player's head) of the specified player.");
+        Registration.registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
+                //.document("Tablist Name of Player", "1.8", "An expression for the tablist name of the specified player.");
     }
 }
