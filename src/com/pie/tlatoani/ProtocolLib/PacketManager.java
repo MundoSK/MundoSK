@@ -33,12 +33,14 @@ public class PacketManager {
     public static void load() {
         Logging.info("You've discovered the amazing realm of ProtocolLib packet syntaxes!");
         String pLibVersion = Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion();
-        if (!pLibVersion.substring(0, 1).equals("4") || pLibVersion.substring(0, 3).equals("4.0")) {
+        if (!pLibVersion.startsWith("4") || pLibVersion.startsWith("4.0")) {
             Logging.info("Your version of ProtocolLib is " + pLibVersion);
             Logging.info("MundoSK requires that you run at least version 4.1 of ProtocolLib");
             Logging.info("If you are running at least version 4.1 of ProtocolLib, please post a message on MundoSK's thread on forums.skunity.com");
         }
         packetTypesByName = createNameToPacketTypeMap();
+        ExprObjectOfPacket.registerConverters();
+        ExprJSONObjectOfPacket.registerConverters();
         Registration.registerEnum(PacketType.class, "packettype", packetTypesByName)
                 .document("PacketType", "1.8", "A type of a packet. The ones that are available for you depend on your Minecraft version. "
                         + "If you would like to see them, do '/mundosk doc packettype' in your console. "

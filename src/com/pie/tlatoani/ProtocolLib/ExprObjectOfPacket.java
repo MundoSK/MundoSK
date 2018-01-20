@@ -45,7 +45,7 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
     private static Map<String, PacketInfoConverter> singleConverters = new LinkedHashMap<>();
     private static Map<String, PacketInfoConverter<Object[]>> pluralConverters = new LinkedHashMap<>();
 
-    static {
+    static void registerConverters() {
 
         //Single Converters
 

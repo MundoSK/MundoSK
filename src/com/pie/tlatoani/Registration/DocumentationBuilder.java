@@ -122,6 +122,10 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
         }
     }
 
+    static Effect effect(String category, String[] syntaxes) {
+        return new Effect(category, syntaxes);
+    }
+
     class Effect extends Abstract<DocumentationElement.Effect, Effect> {
 
         public Effect(String category, String[] syntaxes) {
@@ -132,6 +136,10 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
         public DocumentationElement.Effect build() {
             return new DocumentationElement.Effect(name, category, syntaxes, description, originVersion, requiredPlugins, examples);
         }
+    }
+
+    static Condition condition(String category, String[] syntaxes) {
+        return new Condition(category, syntaxes, null);
     }
 
     class Condition extends Changeable<DocumentationElement.Condition, Condition> {
@@ -147,6 +155,10 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
             }
             return new DocumentationElement.Condition(name, category, syntaxes, description, originVersion, requiredPlugins, examples, changerBuilders);
         }
+    }
+
+    static Expression expression(String category, String[] syntaxes, Class returnType) {
+        return new Expression(category, syntaxes, returnType, null);
     }
 
     class Expression extends Changeable<DocumentationElement.Expression, Expression> {
@@ -197,18 +209,26 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
         }
     }
 
+    static Event event(String category, String[] syntaxes, boolean cancellable) {
+        return new Event(category, syntaxes, cancellable);
+    }
+
     class Event extends Abstract<DocumentationElement.Event, Event> {
-        public final Class<? extends org.bukkit.event.Event> event;
+        private boolean cancellable;
         private List<EventValue> eventValueBuilders = new LinkedList<>();
 
-        public Event(String category, String[] syntaxes, Class<? extends org.bukkit.event.Event> event) {
+        public Event(String category, String[] syntaxes, boolean cancellable) {
             super(category, syntaxes);
-            this.event = event;
+            this.cancellable = cancellable;
+        }
+
+        public Event(String category, String[] syntaxes, Class<? extends org.bukkit.event.Event> event) {
+            this(category, syntaxes, Cancellable.class.isAssignableFrom(event));
         }
 
         @Override
         public DocumentationElement.Event build() {
-            return new DocumentationElement.Event(name, category, syntaxes, description, originVersion, requiredPlugins, examples, Cancellable.class.isAssignableFrom(event), eventValueBuilders);
+            return new DocumentationElement.Event(name, category, syntaxes, description, originVersion, requiredPlugins, examples, cancellable, eventValueBuilders);
         }
 
         public DocumentationBuilder.Event eventValue(Class type, String originVersion, String description) {
@@ -231,6 +251,10 @@ public interface DocumentationBuilder<D extends DocumentationElement, B extends 
         public DocumentationElement.EventValue build(DocumentationElement.Event parent) {
             return new DocumentationElement.EventValue(parent, Classes.getExactClassInfo(type), description, originVersion);
         }
+    }
+
+    static Scope scope(String category, String[] syntaxes) {
+        return new Scope(category, syntaxes);
     }
 
     class Scope extends Abstract<DocumentationElement.Scope, Scope> {

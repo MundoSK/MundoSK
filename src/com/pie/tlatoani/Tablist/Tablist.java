@@ -9,6 +9,7 @@ import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Player.PlayerTablist;
 import com.pie.tlatoani.Tablist.Simple.SimpleTablist;
+import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardTeam;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
@@ -56,6 +57,10 @@ public class Tablist {
 
     PlayerInfoData onPlayerInfoPacket(PlayerInfoData oldPlayerInfoData, Player objPlayer) {
         return playerTablist.onPlayerInfoPacket(oldPlayerInfoData, objPlayer);
+    }
+
+    void onScoreboardTeamPacket(WrapperPlayServerScoreboardTeam packet) {
+        playerTablist.onScoreboardTeamPacket(packet);
     }
 
     public boolean arePlayersVisible() {

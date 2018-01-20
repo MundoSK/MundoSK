@@ -15,6 +15,8 @@ import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
 import com.pie.tlatoani.Util.Config;
 import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Util.Scheduling;
+import mundosk_libraries.packetwrapper.WrapperPlayServerPlayerInfo;
+import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -240,6 +242,14 @@ public class TablistManager {
                     PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
                 });
             }
+        });
+
+        PacketManager.onPacketEvent(PacketType.Play.Server.SCOREBOARD_TEAM, event -> {
+            Player player = event.getPlayer();
+            if (event.isCancelled() || player == null || playersRespawning.contains(player)) {
+                return;
+            }
+            getTablistOfPlayer(player).onScoreboardTeamPacket(new WrapperPlayServerScoreboardTeam(event.getPacket()));
         });
     }
 

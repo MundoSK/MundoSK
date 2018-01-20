@@ -161,59 +161,6 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
         throw new IllegalArgumentException("Illegal NbtType: " + type);
     }
 
-    public static NbtBase toNBTBase(JSONObject value) {
-        try {
-            String name = (String) value.get("name");
-            String typeName = (String) value.get("type");
-            NbtType type = NbtType.valueOf("TAG_" + typeName.toUpperCase());
-            Object rawValue = value.get("value");
-            Number number = rawValue instanceof Number ? (Number) rawValue : null;
-            JSONArray jsonArray = rawValue instanceof JSONArray ? (JSONArray) rawValue : null;
-            switch (type) {
-                case TAG_BYTE:
-                    return NbtFactory.of(name, number.byteValue());
-                case TAG_SHORT:
-                    return NbtFactory.of(name, number.shortValue());
-                case TAG_INT:
-                    return NbtFactory.of(name, number.intValue());
-                case TAG_LONG:
-                    return NbtFactory.of(name, number.longValue());
-                case TAG_FLOAT:
-                    return NbtFactory.of(name, number.floatValue());
-                case TAG_DOUBLE:
-                    return NbtFactory.of(name, number.doubleValue());
-                case TAG_STRING:
-                    return NbtFactory.of(name, (String) rawValue);
-                case TAG_BYTE_ARRAY:
-                    byte[] bytes = new byte[jsonArray.size()];
-                    for (int i = 0; i < bytes.length; i++) {
-                        bytes[i] = ((Number) jsonArray.get(i)).byteValue();
-                    }
-                    return NbtFactory.of(name, bytes);
-                case TAG_INT_ARRAY:
-                    int[] ints = new int[jsonArray.size()];
-                    for (int i = 0; i < ints.length; i++) {
-                        ints[i] = ((Number) jsonArray.get(i)).intValue();
-                    }
-                    return NbtFactory.of(name, ints);
-                case TAG_LIST:
-                    NbtBase[] nbtBases = new NbtBase[jsonArray.size()];
-                    for (int i = 0; i < nbtBases.length; i++) {
-                        nbtBases[i] = toNBTBase((JSONObject) jsonArray.get(i));
-                    }
-                    return NbtFactory.ofList(name, nbtBases);
-                case TAG_COMPOUND:
-                    NbtCompound nbtCompound = NbtFactory.ofCompound(name);
-                    ((JSONObject) rawValue).forEach((__, value1) -> nbtCompound.put(toNBTBase((JSONObject) value1)));
-                    return nbtCompound;
-            }
-            throw new IllegalArgumentException("Illegal NbtType: " + type);
-        } catch (ClassCastException | NullPointerException | IllegalArgumentException e) {
-            Logging.debug(ExprJSONObjectOfPacket.class, e);
-            return null;
-        }
-    }
-
     public static WrappedDataWatcher.Serializer getSerializer(Class c) {
         try {
             WrappedDataWatcher.Serializer serializer = Registry.get(c);
@@ -237,7 +184,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
             return null;
         } catch (RuntimeException e) {
-            //Logging.debug(ExprJSONObjectOfPacket.class, e);
+            Logging.debug(ExprJSONObjectOfPacket.class, e);
         }
         return null;
     }
@@ -277,11 +224,23 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
         return dataWatcher;
     }
 
-    static {
+    public static JSONObject fromGameProfile(WrappedGameProfile gameProfile) {
+        JSONObject result = new JSONObject();
+        result.put("name", gameProfile.getName());
+        result.put("uuid", gameProfile.getUUID().toString());
+        result.put("skin", Skin.fromGameProfile(gameProfile));
+        return result;
+    }
 
-        //Converters
+    public static WrappedGameProfile toGameProfile(JSONObject value) {
+        WrappedGameProfile gameProfile = new WrappedGameProfile(UUID.fromString((String) value.get("uuid")), (String) value.get("name"));
+        gameProfile.getProperties().put(Skin.MULTIMAP_KEY, ((Skin) value.get("skin")).toWrappedSignedProperty());
+        return gameProfile;
+    }
 
-        //Single
+    static void registerConverters() {
+
+        //Single Converters
 
         registerSingleConverter("chatcomponent", new PacketInfoConverter<JSONObject>() {
             @Override
@@ -375,29 +334,16 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         });
 
-        Function<WrappedGameProfile, JSONObject> gameProfileToJSON = gameProfile -> {
-            JSONObject result = new JSONObject();
-            result.put("name", gameProfile.getName());
-            result.put("uuid", gameProfile.getUUID().toString());
-            result.put("skin", Skin.fromGameProfile(gameProfile));
-            return result;
-        };
-        Function<JSONObject, WrappedGameProfile> gameProfileFromJSON = value -> {
-            WrappedGameProfile gameProfile = new WrappedGameProfile(UUID.fromString((String) value.get("uuid")), (String) value.get("name"));
-            gameProfile.getProperties().put(Skin.MULTIMAP_KEY, ((Skin) value.get("skin")).toWrappedSignedProperty());
-            return gameProfile;
-        };
-
         registerSingleConverter("gameprofile", new PacketInfoConverter<JSONObject>(JSONObject.class) {
 
             @Override
             public JSONObject get(PacketContainer packet, Integer index) {
-                return gameProfileToJSON.apply(packet.getGameProfiles().readSafely(index));
+                return fromGameProfile(packet.getGameProfiles().readSafely(index));
             }
 
             @Override
             public void set(PacketContainer packet, Integer index, JSONObject value) {
-                packet.getGameProfiles().writeSafely(index, gameProfileFromJSON.apply(value));
+                packet.getGameProfiles().writeSafely(index, toGameProfile(value));
             }
         });
 
@@ -420,7 +366,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
             }
         });
 
-        //Plural
+        //Plural Converters
 
         registerPluralConverter("chatcomponent", new PacketInfoConverter<JSONObject[]>(JSONObject[].class) {
             @Override
@@ -474,7 +420,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                         }
                         result[i].put("gamemode", playerInfoData.getGameMode().toBukkit());
                         result[i].put("latency", playerInfoData.getLatency());
-                        result[i].put("gameprofile", gameProfileToJSON.apply(playerInfoData.getProfile()));
+                        result[i].put("gameprofile", fromGameProfile(playerInfoData.getProfile()));
                     }
                     return result;
                 } catch (ParseException e) {
@@ -489,7 +435,7 @@ public class ExprJSONObjectOfPacket extends SimpleExpression<JSONObject> {
                 for (JSONObject jsonObject : value) {
                     Object displayName = jsonObject.get("displayname");
                     playerInfoDatas.add(new PlayerInfoData(
-                            gameProfileFromJSON.apply((JSONObject) jsonObject.get("gameprofile")),
+                            toGameProfile((JSONObject) jsonObject.get("gameprofile")),
                             ((Number) jsonObject.get("latency")).intValue(),
                             EnumWrappers.NativeGameMode.fromBukkit((GameMode) jsonObject.get("gamemode")),
                             displayName == null ? null : WrappedChatComponent.fromJson(displayName.toString())

@@ -8,6 +8,10 @@ import org.bukkit.event.Cancellable;
 public class CancellableSkriptCustomEvent extends SkriptCustomEvent implements Cancellable {
     private boolean cancelled = false;
 
+    public CancellableSkriptCustomEvent(CustomEventInfo info) {
+        super(info);
+    }
+
     @Override
     public boolean isCancelled() {
         return cancelled;

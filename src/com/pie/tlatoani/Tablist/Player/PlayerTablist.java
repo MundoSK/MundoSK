@@ -13,8 +13,11 @@ import com.pie.tlatoani.Tablist.TablistManager;
 import com.pie.tlatoani.Util.Config;
 import com.pie.tlatoani.Util.MundoUtil;
 import com.pie.tlatoani.Util.Scheduling;
+import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -128,12 +131,36 @@ public class PlayerTablist {
     }
 
     public PlayerInfoData onPlayerInfoPacket(PlayerInfoData oldPlayerInfoData, Player objPlayer) {
-        return getTab(objPlayer).map(tab -> new PlayerInfoData(
-                        oldPlayerInfoData.getProfile(),
-                        tab.getLatency() == null ? oldPlayerInfoData.getLatency() : tab.getLatency(),
-                        oldPlayerInfoData.getGameMode(),
-                        tab.getDisplayName() == null ? oldPlayerInfoData.getDisplayName() : WrappedChatComponent.fromText(tab.getDisplayName()))
-        ).orElse(oldPlayerInfoData);
+        return getTab(objPlayer).map(tab -> {
+            WrappedChatComponent displayName = Optional
+                    .ofNullable(tab.getDisplayName())
+                    .map(rawDisplayName -> WrappedChatComponent.fromText(
+                            Optional
+                                    .ofNullable(tablist.target.getScoreboard())
+                                    .map(scoreboard -> scoreboard.getEntryTeam(objPlayer.getName()))
+                                    .map(team -> team.getPrefix() + rawDisplayName + team.getSuffix())
+                                    .orElse(rawDisplayName)
+                    ))
+                    .orElse(oldPlayerInfoData.getDisplayName());
+            return new PlayerInfoData(
+                    oldPlayerInfoData.getProfile(),
+                    Optional.ofNullable(tab.getLatency()).orElse(oldPlayerInfoData.getLatency()),
+                    oldPlayerInfoData.getGameMode(),
+                    displayName);
+        }).orElse(oldPlayerInfoData);
+    }
+
+    public void onScoreboardTeamPacket(WrapperPlayServerScoreboardTeam packet) {
+        for (String playerName : packet.getPlayers()) {
+            Player objPlayer = Bukkit.getPlayerExact(playerName);
+            if (objPlayer != null) {
+                getTab(objPlayer)
+                        .filter(tab -> tab.getDisplayName() != null)
+                        .ifPresent(tab -> {
+                            tab.sendPacket(tab.playerInfoPacket(EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME));
+                        });
+            }
+        }
     }
 
     public static class PlayerTab extends Tab {
