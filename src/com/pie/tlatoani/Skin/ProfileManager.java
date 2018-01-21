@@ -68,6 +68,7 @@ public class ProfileManager {
                     Logging.debug(ProfileManager.class, "Old nametag = " + oldPlayerInfoData.getProfile().getName());
                     Specific specificProfile = getProfile(player).getSpecificProfile(target);
                     WrappedChatComponent displayName = oldPlayerInfoData.getDisplayName();
+                    Logging.debug(ProfileManager.class, "Old displayName = " + displayName);
                     if (displayName == null) {
                         String rawDisplayName = Optional
                                 .ofNullable(target.getScoreboard())
@@ -75,12 +76,13 @@ public class ProfileManager {
                                 .map(team -> team.getPrefix() + player.getName() + team.getSuffix())
                                 .orElse(player.getName());
                         displayName = WrappedChatComponent.fromText(rawDisplayName);
+                        Logging.debug(ProfileManager.class, "New displayName = " + displayName);
                     }
                     PlayerInfoData newPlayerInfoData = new PlayerInfoData(
                             oldPlayerInfoData.getProfile().withName(specificProfile.getNametag()),
                             oldPlayerInfoData.getLatency(),
                             oldPlayerInfoData.getGameMode(),
-                            oldPlayerInfoData.getDisplayName()
+                            displayName
                     );
                     Logging.debug(ProfileManager.class, "New nametag = " + newPlayerInfoData.getProfile().getName());
                     Skin skin = specificProfile.getDisplayedSkin();
