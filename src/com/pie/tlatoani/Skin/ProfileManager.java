@@ -102,22 +102,40 @@ public class ProfileManager {
             }
             Player target = event.getPlayer();
             WrapperPlayServerScoreboardTeam packet = new WrapperPlayServerScoreboardTeam(event.getPacket());
-            Collection<String> oldNames = packet.getPlayers();
-            Collection<String> newNames = new HashSet<>(oldNames.size());
-            for (String name : oldNames) {
-                newNames.add(name);
-                Player player = Bukkit.getPlayerExact(name);
-                if (player != null) {
-                    String nameTag = getProfile(player).getSpecificProfile(target).getNametag();
-                    if (!name.equals(nameTag)) {
-                        newNames.add(nameTag);
+            Logging.debug(ProfileManager.class, "Scoreboard Team Packet");
+            if (packet.getMode() == WrapperPlayServerScoreboardTeam.Mode.TEAM_REMOVED || packet.getMode() == WrapperPlayServerScoreboardTeam.Mode.TEAM_UPDATED) {
+                Collection<String> modifiedNames = Optional
+                        .ofNullable(target.getScoreboard())
+                        .map(scoreboard -> scoreboard.getTeam(packet.getName()))
+                        .map(Team::getEntries)
+                        .orElse(Collections.emptySet());
+                for (String name : modifiedNames) {
+                    Player player = Bukkit.getPlayerExact(name);
+                    if (player != null) {
+                        PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME), ProfileManager.class, target);
+                        Logging.debug(ProfileManager.class, "Player " + name + ", updating");
                     }
-                    Logging.debug(ProfileManager.class, "Player " + name + ", nameTag = " + nameTag);
                 }
+            } else {
+                Collection<String> oldNames = packet.getPlayers();
+                Collection<String> newNames = new HashSet<>(oldNames.size());
+                for (String name : oldNames) {
+                    newNames.add(name);
+                    Player player = Bukkit.getPlayerExact(name);
+                    if (player != null) {
+                        Specific specificProfile = getProfile(player).getSpecificProfile(target);
+                        String nameTag = specificProfile.getNametag();
+                        if (!name.equals(nameTag)) {
+                            newNames.add(nameTag);
+                        }
+                        PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME), ProfileManager.class, target);
+                        Logging.debug(ProfileManager.class, "Player " + name + ", nameTag = " + nameTag);
+                    }
+                }
+                Logging.debug(ProfileManager.class, "oldNames = " + oldNames);
+                Logging.debug(ProfileManager.class, "newNames = " + newNames);
+                packet.setPlayers(newNames);
             }
-            Logging.debug(ProfileManager.class, "oldNames = " + oldNames);
-            Logging.debug(ProfileManager.class, "newNames = " + newNames);
-            packet.setPlayers(newNames);
         });
 
         PacketManager.onPacketEvent(PacketType.Play.Server.SCOREBOARD_SCORE, event -> {

@@ -9,6 +9,7 @@
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ProfileManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ProfileManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,8 +55,8 @@
       <file leaf-file-name="TablistManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1470">
-              <caret line="260" column="46" lean-forward="true" selection-start-line="260" selection-start-column="46" selection-end-line="260" selection-end-column="46" />
+            <state relative-caret-position="1202">
+              <caret line="265" column="13" lean-forward="false" selection-start-line="265" selection-start-column="13" selection-end-line="265" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -105,16 +106,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExprSkinOf.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="26" column="89" lean-forward="false" selection-start-line="26" selection-start-column="89" selection-end-line="26" selection-end-column="89" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SkinMundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinMundo.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -138,11 +129,21 @@
       <file leaf-file-name="ProfileManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ProfileManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="87" column="51" lean-forward="false" selection-start-line="87" selection-start-column="51" selection-end-line="87" selection-end-column="51" />
+            <state relative-caret-position="390">
+              <caret line="116" column="21" lean-forward="true" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlayerTablist.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/PlayerTablist.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="167">
+              <caret line="137" column="100" lean-forward="true" selection-start-line="137" selection-start-column="100" selection-end-line="137" selection-end-column="100" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -255,13 +256,13 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/PacketUtil.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Miscellaneous/MiscMundo.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprDisplayedSkinOfPlayer.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprNameTagOfPlayer.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinMundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ModifiableProfile.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ProfileManager.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -1447,14 +1448,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/PlayerTablist.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="109" column="21" lean-forward="true" selection-start-line="109" selection-start-column="21" selection-end-line="109" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mundosk_libraries/packetwrapper/WrapperPlayServerRespawn.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -1593,14 +1586,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1470">
-          <caret line="260" column="46" lean-forward="true" selection-start-line="260" selection-start-column="46" selection-end-line="260" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="482">
@@ -1613,11 +1598,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ProfileManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="87" column="51" lean-forward="false" selection-start-line="87" selection-start-column="51" selection-end-line="87" selection-end-column="51" />
+        <state relative-caret-position="390">
+          <caret line="116" column="21" lean-forward="true" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/PlayerTablist.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="137" column="100" lean-forward="true" selection-start-line="137" selection-start-column="100" selection-end-line="137" selection-end-column="100" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1202">
+          <caret line="265" column="13" lean-forward="false" selection-start-line="265" selection-start-column="13" selection-end-line="265" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
