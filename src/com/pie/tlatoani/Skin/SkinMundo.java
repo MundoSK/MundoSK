@@ -124,7 +124,7 @@ public class SkinMundo {
                         + "If target ('for') players are specified, the expression will return a skin for each target player specified. "
                         + "Excluded players are meant to be specified only when setting the expression (for example, to prevent the original specified player from seeing a change). "
                         + "If the expression is evaluated with excluded players specified, it will act the same as if no target or excluded players had been specified.")
-                .changer(Changer.ChangeMode.SET, "1.8", "Changes the displayed skin of the specified player. The behavior of the change differs depending on what is specified in the syntax. "
+                .changer(Changer.ChangeMode.SET, Skin.class, "1.8", "Changes the displayed skin of the specified player. The behavior of the change differs depending on what is specified in the syntax. "
                         + "Specifying 'by default' means that the specified player's default displayed skin will be changed, meaning all players who do not have a specific skin assigned for the specified player will see the new nametag. "
                         + "Specifying 'consistently' means that the default displayed skin will be changed, and all players will see the new skin (any specific skins assigned for the specified player will be cleared). "
                         + "Specifying target players means that the displayed skin will be changed for those target players, and will become their specific skin assigned for the specified player. "
@@ -151,7 +151,7 @@ public class SkinMundo {
         Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] %player%'s name[]tag [(1¦for %-players%|2¦consistently)]", "[mundo[sk]] name[]tag of %player% [(0¦by default|1¦for %-players%|2¦consistently)]")
                 .document("Nametag of Player", "1.8", "An expression for the nametag (the name that appears above a player's head) of the specified player. "
                         + "If target ('for') players are specified, the expression will return a nametag for each target player specified. ")
-                .changer(Changer.ChangeMode.SET, "1.8", "Changes the nametag of the specified player. The behavior of the change differs depending on what is specified in the syntax. "
+                .changer(Changer.ChangeMode.SET, String.class, "1.8", "Changes the nametag of the specified player. The behavior of the change differs depending on what is specified in the syntax. "
                         + "Specifying 'by default' means that the specified player's default nametag will be changed, meaning all players who do not have a specific nametag assigned for the specified player will see the new nametag. "
                         + "Specifying 'consistently' means that the default nametag will be changed, and all players will see the new nametag (any specific nametags assigned for the specified player will be cleared). "
                         + "Specifying target players means that the nametag will be changed for those target players, and will become their specific nametag assigned for the specified player. "
