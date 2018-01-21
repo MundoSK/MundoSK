@@ -9,6 +9,7 @@ import org.bukkit.scoreboard.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Tlatoani on 1/20/18.
@@ -190,6 +191,9 @@ public class ModifiableProfile {
 
         //Null means reverting to the general displayed skin
         public void setDisplayedSkin(Skin value) {
+            if (value == displayedSkin) {
+                return;
+            }
             this.displayedSkin = value;
             changeDisplayedSkin();
         }
@@ -201,6 +205,9 @@ public class ModifiableProfile {
             }
             if (value != null && value.length() > 16) {
                 value = value.substring(0, 16);
+            }
+            if (Objects.equals(value, nametag)) {
+                return;
             }
             String oldValue = this.nametag;
             this.nametag = value;
