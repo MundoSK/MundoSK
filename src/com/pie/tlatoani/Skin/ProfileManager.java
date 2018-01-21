@@ -114,8 +114,8 @@ public class ProfileManager {
                 for (String name : modifiedNames) {
                     Player player = Bukkit.getPlayerExact(name);
                     if (player != null && player.isOnline()) {
-                        PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME), ProfileManager.class, target);
                         Logging.debug(ProfileManager.class, "Player " + name + ", updating");
+                        PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME), ProfileManager.class, target);
                     }
                 }
             } else if (packet.getMode() == WrapperPlayServerScoreboardTeam.Mode.TEAM_REMOVED) {
@@ -135,8 +135,8 @@ public class ProfileManager {
                         if (!name.equals(nameTag)) {
                             newNames.add(nameTag);
                         }
-                        PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME), ProfileManager.class, target);
                         Logging.debug(ProfileManager.class, "Player " + name + ", nameTag = " + nameTag);
+                        PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME), ProfileManager.class, target);
                     }
                 }
                 Logging.debug(ProfileManager.class, "oldNames = " + oldNames);

@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Skin;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -17,7 +18,7 @@ import java.util.Arrays;
 public class ExprNameTagOfPlayer extends SimpleExpression<String> {
     private Expression<Player> playerExpression;
     private Expression<Player> targetExpression;
-    private boolean consistent;
+    private boolean deft;
 
     @Override
     protected String[] get(Event event) {
@@ -50,17 +51,18 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return playerExpression + "'s nametag" +
-                (targetExpression == null
-                        ? (consistent ? " consistently" : "")
-                        : " for " + targetExpression);
+        return playerExpression + "'s " + (deft ? "default " : "") + "nametag" + (targetExpression == null ? "" : " for " + targetExpression);
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         playerExpression = (Expression<Player>) expressions[0];
         targetExpression = (Expression<Player>) expressions[1];
-        consistent = parseResult.mark == 2;
+        deft = parseResult.mark == 1;
+        if (deft && targetExpression != null) {
+            Skript.error("You cannot specify both 'default' and target players!");
+            return false;
+        }
         return true;
     }
 
@@ -83,10 +85,10 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
                 }
                 profile.getSpecificProfile(target).setNametag(nameTag);
             }
-        } else if (consistent) {
-            profile.consistentlySetNametag(nameTag);
-        } else {
+        } else if (deft) {
             profile.setGeneralNametag(nameTag);
+        } else {
+            profile.consistentlySetNametag(nameTag);
         }
     }
 

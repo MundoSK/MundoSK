@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Skin;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -18,7 +19,7 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
     private Expression<Player> playerExpression;
     private Expression<Player> targetExpression;
     private Expression<Player> excludeExpression;
-    private boolean consistent;
+    private boolean deft;
 
     @Override
     protected Skin[] get(Event event) {
@@ -57,10 +58,10 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return playerExpression + "'s displayed skin" +
+        return (deft ? "default" : "") + playerExpression + "'s displayed skin" +
                 (targetExpression == null
                         ? (excludeExpression == null
-                                ? (consistent ? " consistently" : "")
+                                ? ""
                                 : " excluding " + excludeExpression)
                         : " for " + targetExpression);
     }
@@ -68,9 +69,13 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         playerExpression = (Expression<Player>) expressions[0];
+        deft = parseResult.mark == 1;
         targetExpression = (Expression<Player>) expressions[1];
         excludeExpression = (Expression<Player>) expressions[2];
-        consistent = parseResult.mark == 3;
+        if (deft && (targetExpression != null || excludeExpression != null)) {
+            Skript.error("You cannot specify both 'default' and target players or excluded players!");
+            return false;
+        }
         return true;
     }
 
@@ -112,10 +117,10 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
                     }
                 }
             }
-            if (consistent) {
-                profile.consistentlySetDisplayedSkin(skinDelta);
-            } else {
+            if (deft) {
                 profile.setGeneralDisplayedSkin(skinDelta);
+            } else {
+                profile.consistentlySetDisplayedSkin(skinDelta);
             }
         }
     }

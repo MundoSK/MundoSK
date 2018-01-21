@@ -119,28 +119,32 @@ public class SkinMundo {
                 .document("Skin with Value", "1.8", "An expression for a skin with the specified value and signature.");
         Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin")
                 .document("Skin of Player or Skull", "1.8", "An expression for the skin of the specified player (must be online) or skull item.");
-        Registration.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(0¦by default|1¦for %-players%|2¦excluding %-players%|3¦consistently)]", "%player%'s displayed skin [(1¦for %-players%|2¦excluding %-players%|3¦consistently)]")
+        Registration.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY,
+                "[(1¦default)] displayed skin of %player% [(for %-players%|excluding %-players%)]",
+                "[(1¦default)] %player%'s displayed skin [(for %-players%|excluding %-players%)]")
                 .document("Displayed Skin of Player", "1.8", "An expression for the skin currently being displayed as the specified player's skin. "
                         + "If target ('for') players are specified, the expression will return a skin for each target player specified. "
                         + "Excluded players are meant to be specified only when setting the expression (for example, to prevent the original specified player from seeing a change). "
                         + "If the expression is evaluated with excluded players specified, it will act the same as if no target or excluded players had been specified.")
                 .changer(Changer.ChangeMode.SET, Skin.class, "1.8", "Changes the displayed skin of the specified player. The behavior of the change differs depending on what is specified in the syntax. "
-                        + "Specifying 'by default' means that the specified player's default displayed skin will be changed, meaning all players who do not have a specific skin assigned for the specified player will see the new nametag. "
-                        + "Specifying 'consistently' means that the default displayed skin will be changed, and all players will see the new skin (any specific skins assigned for the specified player will be cleared). "
+                        + "If none of the extra syntax options are specified, the player's default nametag will be changed, and all players will see the new nametag (any specific skins assigned for the specified player will be removed). "
+                        + "Specifying 'default' means that only the specified player's default displayed skin will be changed, meaning that only the players who do not have a specific skin assigned for the specified player will see the new nametag. "
                         + "Specifying target players means that the displayed skin will be changed for those target players, and will become their specific skin assigned for the specified player. "
-                        + "Specifying excluded players means that excluded players who do not currently have a specific skin for the specified player will have the default displayed skin for that player set as the specific skin, and then after that the effect will be the same as changing the default displayed skin. "
-                        + "If none of these are specified, the behavior will be identical to 'by default'.")
-                .example("set player's displayed to alex #All players now see the skin as alex"
+                        + "Specifying excluded players means that excluded players who do not currently have a specific skin for the specified player "
+                        + "will have the default displayed skin for that player set as the specific skin, and then after that the effect will be the same as changing the default displayed skin. ")
+                .changer(Changer.ChangeMode.RESET, "1.8", "If target players or excluded players are specified, this will remove any specified skin of either the target players or all non-exluded players assigned for the specified player, and revert to the default skin for the specified player. "
+                        + "If no target players are specified, this will be identical to doing 'set <expression> to <specified player>'s skin', with that behavior depending on whether 'default' is specified.")
+                .example("set player's default displayed skin to alex #All players now see the skin as alex"
                         , "set player's displayed skin to steve for {_p1} #{_p1} now sees the skin as steve"
-                        , "set player's displayed skin to {_p2}'s skin #All players except for {_p1} now see the nametag as {_p2}'s skin"
-                        , "set player's displayed skin consistently to {_p3}'s skin #All players (including {_p1}) now see the skin as {_p3}'s skin")
-                .example("set player's displayed skin to steve #All players now see the skin as steve"
+                        , "set player's default displayed skin to {_p2}'s skin #All players except for {_p1} now see the nametag as {_p2}'s skin"
+                        , "set player's displayed skin to {_p3}'s skin #All players (including {_p1}) now see the skin as {_p3}'s skin")
+                .example("set player's default displayed skin to steve #All players now see the skin as steve"
                         , "set player's displayed skin excluding {_p1} to alex #All players except for {_p1} now see the skin as alex"
-                        , "reset player's displayed skin #All players except for {_p1} now see the skin as the player's actual skin"
-                        , "set player's displayed skin to {_p3}'s skin #All players except for {_p1} now see the skin as {_p3}'s skin"
+                        , "reset player's default displayed skin #All players except for {_p1} now see the skin as the player's actual skin"
+                        , "set player's default displayed skin to {_p3}'s skin #All players except for {_p1} now see the skin as {_p3}'s skin"
                         , "reset player's displayed skin for {_p1} #{_p1} now sees the skin as {_p3}'s skin"
                         , "set player's displayed skin to {_p4}'s skin for {_p1} #{_p1} now sees the skin as {_p4}'s skin"
-                        , "reset player's displayed skin consistently #All players (including {_p1}) now see the skin as the player's actual skin");
+                        , "reset player's displayed skin #All players (including {_p1}) now see the skin as the player's actual skin");
         Registration.registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%")
                 .document("Skull from Skin", "1.8", "An expression for a skull bearing the specified skin.");
         Registration.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY, "retrieved [(4¦slim)] skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%) [[with] timeout %-timespan%]")
@@ -148,27 +152,28 @@ public class SkinMundo {
                         , "A skin recreated from the specified image file,"
                         , "A skin recreated from the specified URL of an image, or"
                         , "The skin of the specified offline player retrieved from Mojang");
-        Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] %player%'s name[]tag [(1¦for %-players%|2¦consistently)]", "[mundo[sk]] name[]tag of %player% [(0¦by default|1¦for %-players%|2¦consistently)]")
-                .document("Nametag of Player", "1.8", "An expression for the nametag (the name that appears above a player's head) of the specified player. "
+        Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY,
+                "[mundo[sk]] %player%'s [(1¦default)] name[]tag [for %-players%]",
+                "[mundo[sk]] [(1¦default)] name[]tag of %player% [for %-players%]")
+                .document("Nametag of Player", "1.8.4", "An expression for the nametag (the name that appears above a player's head) of the specified player. "
                         + "If target ('for') players are specified, the expression will return a nametag for each target player specified. ")
-                .changer(Changer.ChangeMode.SET, String.class, "1.8", "Changes the nametag of the specified player. The behavior of the change differs depending on what is specified in the syntax. "
-                        + "Specifying 'by default' means that the specified player's default nametag will be changed, meaning all players who do not have a specific nametag assigned for the specified player will see the new nametag. "
-                        + "Specifying 'consistently' means that the default nametag will be changed, and all players will see the new nametag (any specific nametags assigned for the specified player will be cleared). "
-                        + "Specifying target players means that the nametag will be changed for those target players, and will become their specific nametag assigned for the specified player. "
-                        + "If none of these are specified, the behavior will be identical to 'by default'.")
-                .changer(Changer.ChangeMode.RESET, "1.8", "If target players are specified, this will remove any specified nametag assigned for the specified player, and revert to the default nametag for the specified player. "
-                        + "If no target players are specified, this will be identical to doing 'set <expression> to <specified player>'s skin', with that behavior depending on whether 'consistently' is specified.")
-                .example("set player's nametag to \"bob\" #All players now see the nametag as bob"
+                .changer(Changer.ChangeMode.SET, String.class, "1.8.4", "Changes the nametag of the specified player. The behavior of the change differs depending on what is specified in the syntax. "
+                        + "If none of the extra syntax options are specified, the player's default nametag will be changed, and all players will see the new nametag. "
+                        + "Specifying 'default' means that only the specified player's default nametag will be changed, meaning only the players who do not have a specific nametag assigned for the specified player will see the new nametag. "
+                        + "Specifying target players means that the nametag will be changed for those target players, and will become their specific nametag assigned for the specified player.")
+                .changer(Changer.ChangeMode.RESET, "1.8.4", "If target players are specified, this will remove any specified nametag assigned for the specified player, and revert to the default nametag for the specified player. "
+                        + "If no target players are specified, this will be identical to doing 'set <expression> to <specified player>'s name', with that behavior depending on whether 'default' is specified.")
+                .example("set player's default nametag to \"bob\" #All players now see the nametag as bob"
                         , "set player's nametag to \"potter\" for {_p1} #{_p1} now sees the nametag as potter"
-                        , "set player's nametag to \"weird\" #All players except for {_p1} now see the nametag as weird"
-                        , "set player's nametag consistently to \"nonweird\" #All players (including {_p1}) now see the nametag as nonweird")
-                .example("set player's nametag to \"diamond\" #All players now see the nametag as diamond"
+                        , "set player's default nametag to \"weird\" #All players except for {_p1} now see the nametag as weird"
+                        , "set player's nametag to \"nonweird\" #All players (including {_p1}) now see the nametag as nonweird")
+                .example("set player's default nametag to \"diamond\" #All players now see the nametag as diamond"
                         , "set player's nametag to \"emerald\" for {_p1} #{_p1} now sees the nametag as emerald"
-                        , "reset player's nametag #All players except for {_p1} now see the nametag as the player's actual name"
-                        , "set player's nametag to \"gold\" #All players except for {_p1} now see the nametag as gold"
+                        , "reset player's default nametag #All players except for {_p1} now see the nametag as the player's actual name"
+                        , "set player's default nametag to \"gold\" #All players except for {_p1} now see the nametag as gold"
                         , "reset player's nametag for {_p1} #{_p1} now sees the nametag as gold"
-                        , "set player's nametag to \"iron\" for {_p1} #{_p1} now sees the nametag as iron"
-                        , "reset player's nametag consistently #All players (including {_p1}) now see the nametag as the player's actual name");
+                        , "set player's default nametag to \"iron\" for {_p1} #{_p1} now sees the nametag as iron"
+                        , "reset player's nametag #All players (including {_p1}) now see the nametag as the player's actual name");
         Registration.registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
                 //.document("Tablist Name of Player", "1.8", "An expression for the tablist name of the specified player.");
     }
