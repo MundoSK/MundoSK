@@ -57,7 +57,7 @@ public class PacketUtil {
                 WrappedGameProfile.fromPlayer(player),
                 5,
                 EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()),
-                WrappedChatComponent.fromText(player.getPlayerListName())
+                null
         );
         packet.setData(Collections.singletonList(playerInfoData));
         packet.setAction(action);
