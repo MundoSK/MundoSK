@@ -105,7 +105,7 @@ public class ProfileManager {
             Player target = event.getPlayer();
             WrapperPlayServerScoreboardTeam packet = new WrapperPlayServerScoreboardTeam(event.getPacket());
             Logging.debug(ProfileManager.class, "Scoreboard Team Packet");
-            if (packet.getMode() == WrapperPlayServerScoreboardTeam.Mode.TEAM_REMOVED || packet.getMode() == WrapperPlayServerScoreboardTeam.Mode.TEAM_UPDATED) {
+            if (packet.getMode() == WrapperPlayServerScoreboardTeam.Mode.TEAM_UPDATED) {
                 Collection<String> modifiedNames = Optional
                         .ofNullable(target.getScoreboard())
                         .map(scoreboard -> scoreboard.getTeam(packet.getName()))
@@ -117,6 +117,11 @@ public class ProfileManager {
                         PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME), ProfileManager.class, target);
                         Logging.debug(ProfileManager.class, "Player " + name + ", updating");
                     }
+                }
+            } else if (packet.getMode() == WrapperPlayServerScoreboardTeam.Mode.TEAM_REMOVED) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME), ProfileManager.class, target);
+                    Logging.debug(ProfileManager.class, "Player " + player.getName() + ", updating");
                 }
             } else {
                 Collection<String> oldNames = packet.getPlayers();
