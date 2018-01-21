@@ -23,7 +23,6 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
     protected Skin[] get(Event event) {
         Object value = expression.getSingle(event);
         if (value instanceof Player) {
-            //return new Skin[]{SkinManager.getActualSkin((Player) value)};
             return new Skin[]{ProfileManager.getProfile((Player) value).getActualSkin()};
         } else if (value instanceof ItemStack) {
             ItemMeta meta = ((ItemStack) value).getItemMeta();

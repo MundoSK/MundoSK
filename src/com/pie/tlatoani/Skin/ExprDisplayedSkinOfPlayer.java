@@ -23,13 +23,6 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
 
     @Override
     protected Skin[] get(Event event) {
-        /*Player player = playerExpression.getSingle(event);
-        if (targetExpression == null) {
-            return new Skin[]{SkinManager.getGeneralDisplayedSkin(player)};
-        } else {
-            return Arrays.stream(targetExpression.getArray(event)).map(target -> SkinManager.getPersonalDisplayedSkin(player, target)).toArray(Skin[]::new);
-        }*/
-
         Player player = playerExpression.getSingle(event);
         if (!player.isOnline()) {
             return new Skin[0];
@@ -82,17 +75,9 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
     @Override
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         Skin skinDelta = null;
-        //Player player = playerExpression.getSingle(event);
         if (mode == Changer.ChangeMode.SET) {
             skinDelta = (Skin) delta[0];
         }
-        /*if (targetExpression != null) {
-            SkinManager.setPersonalDisplayedSkin(player, Arrays.asList(targetExpression.getArray(event)), skinDelta);
-        } else if (excludeExpression != null) {
-            SkinManager.setDisplayedSkinExcluding(player, Arrays.asList(excludeExpression.getArray(event)), skinDelta);
-        } else {
-            SkinManager.setGeneralDisplayedSkin(player, skinDelta);
-        }*/
         Player player = playerExpression.getSingle(event);
         if (!player.isOnline()) {
             return;

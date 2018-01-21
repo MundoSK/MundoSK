@@ -22,7 +22,6 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
 
     @Override
     protected String[] get(Event event) {
-        //return new String[]{SkinManager.getNameTag(playerExpression.getSingle(event))};
         Player player = playerExpression.getSingle(event);
         if (!player.isOnline()) {
             return new String[0];
@@ -73,7 +72,6 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
         if (mode == Changer.ChangeMode.SET) {
             nameTag = (String) delta[0];
         }
-        //SkinManager.setNameTag(player, nameTag);
         if (!player.isOnline()) {
             return;
         }
