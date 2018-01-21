@@ -121,7 +121,7 @@ public class SkinMundo {
                 .document("Skin of Player or Skull", "1.8", "An expression for the skin of the specified player (must be online) or skull item.");
         Registration.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY,
                 "[(1¦default)] displayed skin of %player% [(for %-players%|excluding %-players%)]",
-                "[(1¦default)] %player%'s displayed skin [(for %-players%|excluding %-players%)]")
+                "%player%'s [(1¦default)] displayed skin [(for %-players%|excluding %-players%)]")
                 .document("Displayed Skin of Player", "1.8", "An expression for the skin currently being displayed as the specified player's skin. "
                         + "If target ('for') players are specified, the expression will return a skin for each target player specified. "
                         + "Excluded players are meant to be specified only when setting the expression (for example, to prevent the original specified player from seeing a change). "
@@ -134,6 +134,7 @@ public class SkinMundo {
                         + "will have the default displayed skin for that player set as the specific skin, and then after that the effect will be the same as changing the default displayed skin. ")
                 .changer(Changer.ChangeMode.RESET, "1.8", "If target players or excluded players are specified, this will remove any specified skin of either the target players or all non-exluded players assigned for the specified player, and revert to the default skin for the specified player. "
                         + "If no target players are specified, this will be identical to doing 'set <expression> to <specified player>'s skin', with that behavior depending on whether 'default' is specified.")
+                .changer(Changer.ChangeMode.DELETE, "1.8", "Same as reset.")
                 .example("set player's default displayed skin to alex #All players now see the skin as alex"
                         , "set player's displayed skin to steve for {_p1} #{_p1} now sees the skin as steve"
                         , "set player's default displayed skin to {_p2}'s skin #All players except for {_p1} now see the nametag as {_p2}'s skin"
@@ -163,6 +164,7 @@ public class SkinMundo {
                         + "Specifying target players means that the nametag will be changed for those target players, and will become their specific nametag assigned for the specified player.")
                 .changer(Changer.ChangeMode.RESET, "1.8.4", "If target players are specified, this will remove any specified nametag assigned for the specified player, and revert to the default nametag for the specified player. "
                         + "If no target players are specified, this will be identical to doing 'set <expression> to <specified player>'s name', with that behavior depending on whether 'default' is specified.")
+                .changer(Changer.ChangeMode.DELETE, "1.8.4", "Same as reset.")
                 .example("set player's default nametag to \"bob\" #All players now see the nametag as bob"
                         , "set player's nametag to \"potter\" for {_p1} #{_p1} now sees the nametag as potter"
                         , "set player's default nametag to \"weird\" #All players except for {_p1} now see the nametag as weird"

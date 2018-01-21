@@ -117,7 +117,7 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
                     }
                 }
             }
-            if (deft) {
+            if (deft || excludeExpression != null) {
                 profile.setGeneralDisplayedSkin(skinDelta);
             } else {
                 profile.consistentlySetDisplayedSkin(skinDelta);
