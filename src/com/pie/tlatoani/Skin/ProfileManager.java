@@ -50,8 +50,8 @@ public class ProfileManager {
             }
             Player target = event.getPlayer();
             WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo(event.getPacket());
-            if (packet.getAction() == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
-                Logging.debug(ProfileManager.class, "target = " + target.getName());
+            if (packet.getAction() == EnumWrappers.PlayerInfoAction.ADD_PLAYER || packet.getAction() == EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME) {
+                Logging.debug(ProfileManager.class, "Player Info, target = " + target.getName() + ", action = " + packet.getAction());
                 List<PlayerInfoData> oldData = packet.getData();
                 List<PlayerInfoData> newData = new ArrayList<>(oldData.size());
                 for (PlayerInfoData oldPlayerInfoData : oldData) {
@@ -85,10 +85,12 @@ public class ProfileManager {
                             displayName
                     );
                     Logging.debug(ProfileManager.class, "New nametag = " + newPlayerInfoData.getProfile().getName());
-                    Skin skin = specificProfile.getDisplayedSkin();
-                    Logging.debug(ProfileManager.class, "Skin replacement (may not exist): " + skin);
-                    if (skin != null) {
-                        newPlayerInfoData.getProfile().getProperties().put(Skin.MULTIMAP_KEY, skin.toWrappedSignedProperty());
+                    if (packet.getAction() == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
+                        Skin skin = specificProfile.getDisplayedSkin();
+                        Logging.debug(ProfileManager.class, "Skin replacement (may not exist): " + skin);
+                        if (skin != null) {
+                            newPlayerInfoData.getProfile().getProperties().put(Skin.MULTIMAP_KEY, skin.toWrappedSignedProperty());
+                        }
                     }
                     newData.add(newPlayerInfoData);
                 }
