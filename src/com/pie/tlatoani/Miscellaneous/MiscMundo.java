@@ -30,6 +30,7 @@ import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Util.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.NotePlayEvent;
@@ -395,6 +396,7 @@ public class MiscMundo {
                     .document("Tab Complete", "1.8", "Called when a player uses tab to auto complete a message or a command. "
                             + "Only available in recent Bukkit versions. Also see the Completions and Last Token expressions.")
                     .eventValue(String.class, "1.8", "The full message so far typed by the player.");
+            Registration.registerEventValue(TabCompleteEvent.class, CommandSender.class, TabCompleteEvent::getSender);
             Registration.registerEventValue(TabCompleteEvent.class, String.class, TabCompleteEvent::getBuffer);
             Registration.registerExpression(ExprCompletions.class,String.class,ExpressionType.SIMPLE,"completions")
                     .document("Completions", "1.6.8", "An editable expression, used in the Tab Complete and Chat Tab Complete events, "

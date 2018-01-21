@@ -1,0 +1,192 @@
+package com.pie.tlatoani.Skin;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.comphenix.protocol.wrappers.PlayerInfoData;
+import com.pie.tlatoani.ProtocolLib.PacketManager;
+import com.pie.tlatoani.ProtocolLib.PacketUtil;
+import com.pie.tlatoani.Skin.ModifiableProfile.Specific;
+import com.pie.tlatoani.Tablist.TablistManager;
+import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Reflection;
+import com.pie.tlatoani.Util.Scheduling;
+import com.pie.tlatoani.Util.WorldLockedLocation;
+import mundosk_libraries.packetwrapper.WrapperPlayServerPlayerInfo;
+import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardScore;
+import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardTeam;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+
+import java.util.*;
+
+/**
+ * Created by Tlatoani on 1/20/18.
+ */
+public class ProfileManager {
+    static final Map<Player, ModifiableProfile> profileMap = new HashMap<>();
+
+    private static final ArrayList<Player> spawnedPlayers = new ArrayList<>();
+
+    private static Reflection.MethodInvoker CRAFT_PLAYER_GET_HANDLE = null;
+    private static Reflection.MethodInvoker DEDICATED_PLAYER_LIST_MOVE_TO_WORLD = null;
+
+    public static void loadReflectionStuff() {
+        try {
+            CRAFT_PLAYER_GET_HANDLE = Reflection.getTypedMethod(Reflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", Reflection.getMinecraftClass("EntityPlayer"));
+            DEDICATED_PLAYER_LIST_MOVE_TO_WORLD = Reflection.getMethod(Reflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld", Reflection.getMinecraftClass("EntityPlayer"), int.class, boolean.class, Location.class, boolean.class);
+        } catch (Exception e) {
+            Logging.reportException(ProfileManager.class, e);
+        }
+    }
+
+    public static void loadPacketEvents() {
+        PacketManager.onPacketEvent(PacketType.Play.Server.PLAYER_INFO, event -> {
+            if (event.isCancelled() || event.getPlayer() == null) {
+                return;
+            }
+            Player target = event.getPlayer();
+            WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo(event.getPacket());
+            if (packet.getAction() == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
+                Logging.debug(ProfileManager.class, "target = " + target.getName());
+                List<PlayerInfoData> oldData = packet.getData();
+                List<PlayerInfoData> newData = new ArrayList<>(oldData.size());
+                for (PlayerInfoData oldPlayerInfoData : oldData) {
+                    Player player = Bukkit.getPlayer(oldPlayerInfoData.getProfile().getUUID());
+                    if (player == null) {
+                        newData.add(oldPlayerInfoData);
+                        continue;
+                    }
+                    Logging.debug(ProfileManager.class, "Player Info Packet: " + player.getName());
+                    if (!spawnedPlayers.contains(player)) {
+                        Logging.debug(ProfileManager.class, "New player!");
+                        spawnedPlayers.add(player);
+                    }
+                    Logging.debug(ProfileManager.class, "Old nametag = " + oldPlayerInfoData.getProfile().getName());
+                    Specific specificProfile = getProfile(player).getSpecificProfile(target);
+                    PlayerInfoData newPlayerInfoData = new PlayerInfoData(
+                            oldPlayerInfoData.getProfile().withName(specificProfile.getNametag()),
+                            oldPlayerInfoData.getLatency(),
+                            oldPlayerInfoData.getGameMode(),
+                            oldPlayerInfoData.getDisplayName()
+                    );
+                    Logging.debug(ProfileManager.class, "New nametag = " + newPlayerInfoData.getProfile().getName());
+                    Skin skin = specificProfile.getDisplayedSkin();
+                    Logging.debug(ProfileManager.class, "Skin replacement (may not exist): " + skin);
+                    if (skin != null) {
+                        newPlayerInfoData.getProfile().getProperties().put(Skin.MULTIMAP_KEY, skin.toWrappedSignedProperty());
+                    }
+                    newData.add(newPlayerInfoData);
+                }
+                packet.setData(newData);
+            }
+        });
+
+        PacketManager.onPacketEvent(PacketType.Play.Server.SCOREBOARD_TEAM, event -> {
+            if (event.isCancelled() || event.getPlayer() == null) {
+                return;
+            }
+            Player target = event.getPlayer();
+            WrapperPlayServerScoreboardTeam packet = new WrapperPlayServerScoreboardTeam(event.getPacket());
+            Collection<String> oldNames = packet.getPlayers();
+            Collection<String> newNames = new HashSet<>(oldNames.size());
+            for (String name : oldNames) {
+                newNames.add(name);
+                Player player = Bukkit.getPlayerExact(name);
+                if (player != null) {
+                    String nameTag = getProfile(player).getSpecificProfile(target).getNametag();
+                    if (!name.equals(nameTag)) {
+                        newNames.add(nameTag);
+                    }
+                    Logging.debug(ProfileManager.class, "Player " + name + ", nameTag = " + nameTag);
+                }
+            }
+            Logging.debug(ProfileManager.class, "oldNames = " + oldNames);
+            Logging.debug(ProfileManager.class, "newNames = " + newNames);
+            packet.setPlayers(newNames);
+        });
+
+        PacketManager.onPacketEvent(PacketType.Play.Server.SCOREBOARD_SCORE, event -> {
+            if (event.isCancelled() || event.getPlayer() == null) {
+                return;
+            }
+            Player target = event.getPlayer();
+            WrapperPlayServerScoreboardScore packet = new WrapperPlayServerScoreboardScore(event.getPacket());
+            Optional
+                    .ofNullable(packet.getScoreName())
+                    .map(Bukkit::getPlayerExact)
+                    .ifPresent(player -> {
+                        packet.setScoreName(getProfile(player).getSpecificProfile(target).getNametag());
+                        Logging.debug(ProfileManager.class, "Replacing score for player = " + player);
+                    });
+        });
+    }
+
+    //Join/Leave Events
+
+    static void onQuit(Player player) {
+        profileMap.remove(player);
+        for (ModifiableProfile generalProfile : profileMap.values()) {
+            generalProfile.onQuit(player);
+        }
+        spawnedPlayers.remove(player);
+    }
+
+    //API Stuffs
+
+    public static ModifiableProfile getProfile(Player player) {
+        if (player == null || !player.isOnline()) {
+            throw new IllegalArgumentException("Player must be non-null and online: " + player);
+        }
+        return profileMap.computeIfAbsent(player, ModifiableProfile::new);
+    }
+
+    //Manipulations stuffs
+
+    static void refreshPlayer(Player player, Player target) {
+        if (!spawnedPlayers.contains(player)) {
+            return;
+        }
+        if (player.equals(target)) {
+            respawnPlayer(player);
+            return;
+        }
+        target.hidePlayer(player);
+        Scheduling.syncDelay(1, () -> target.showPlayer(player));
+        //DO NOT REMOVE THE FOLLOWING CODE
+        //It ensures that targets who are not currently tracking the player and thus will not receive a spawn packet
+        //still have the tab hidden for them if necessary
+        Scheduling.syncDelay(2, () -> {
+            if (!TablistManager.getTablistOfPlayer(target).isPlayerVisible(player)) {
+                PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), ProfileManager.class, target);
+            }
+        });
+    }
+
+    private static void respawnPlayer(Player player) {
+        PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), ProfileManager.class, player);
+        PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), ProfileManager.class, player);
+
+        Location playerLoc = new WorldLockedLocation(player.getLocation());
+        Logging.debug(ProfileManager.class, "playerLoc = " + playerLoc);
+        try {
+            Logging.debug(ProfileManager.class, "DEDICATED_PLAYER_LIST_MOVE_TO_WORLD: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
+            Logging.debug(ProfileManager.class, "NMS_SERVER: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
+            Logging.debug(ProfileManager.class, "DEDICATED_PLAYER_LIST_MOVE_TO_WORLD: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
+            DEDICATED_PLAYER_LIST_MOVE_TO_WORLD.invoke(Reflection.NMS_SERVER, CRAFT_PLAYER_GET_HANDLE.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, playerLoc, true);
+        } catch (Exception e) {
+            Logging.debug(ProfileManager.class, "Failed to make player see his skin change: " + player.getName());
+            Logging.reportException(ProfileManager.class, e);
+        }
+    }
+
+    private static int convertDimension(World.Environment dimension) {
+        switch (dimension) {
+            case NORMAL: return 0;
+            case NETHER: return -1;
+            case THE_END: return 1;
+            default: throw new IllegalArgumentException("Dimension: " + dimension);
+        }
+    }
+}

@@ -17,7 +17,18 @@ import java.util.*;
  * Created by Tlatoani on 9/9/17.
  */
 public final class Documentation {
-    public static final Comparator<DocumentationElement> DOCUMENTATION_ELEMENT_COMPARATOR = Comparator.comparing(docElem -> docElem.name.toLowerCase());
+    public static final Comparator<String> WORD_BY_WORD_COMPARATOR = (s1, s2) -> {
+        String[] words1 = s1.split(" ");
+        String[] words2 = s2.split(" ");
+        for (int i = 0; i < Math.min(words1.length, words2.length); i++) {
+            int compare = words1[i].compareToIgnoreCase(words2[i]);
+            if (compare != 0) {
+                return compare;
+            }
+        }
+        return words2.length - words1.length;
+    };
+    public static final Comparator<DocumentationElement> DOCUMENTATION_ELEMENT_COMPARATOR = Comparator.comparing(docElem -> docElem.name, WORD_BY_WORD_COMPARATOR);
 
     private static List<DocumentationBuilder> builders = new LinkedList<>();
     private static boolean built = false;

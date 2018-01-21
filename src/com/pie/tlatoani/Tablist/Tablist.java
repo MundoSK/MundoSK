@@ -1,15 +1,12 @@
 package com.pie.tlatoani.Tablist;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Player.PlayerTablist;
 import com.pie.tlatoani.Tablist.Simple.SimpleTablist;
-import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardTeam;
+import mundosk_libraries.packetwrapper.*;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
@@ -100,27 +97,29 @@ public class Tablist {
         if (!areScoresEnabled()) {
             scoresEnabled = true;
 
-            PacketContainer createPacket = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.SCOREBOARD_OBJECTIVE); //Used to get some defaults
-            createPacket.getStrings().writeSafely(0, OBJECTIVE_NAME);
-            createPacket.getStrings().writeSafely(1, OBJECTIVE_NAME);
-            createPacket.getIntegers().writeSafely(0, 0);
-            PacketManager.sendPacket(createPacket, this, target);
+            WrapperPlayServerScoreboardObjective createPacket = new WrapperPlayServerScoreboardObjective();
+            createPacket.setName(OBJECTIVE_NAME);
+            createPacket.setDisplayName(OBJECTIVE_NAME);
+            createPacket.setMode(WrapperPlayServerScoreboardObjective.Mode.ADD_OBJECTIVE);
+            createPacket.setHealthDisplay(WrapperPlayServerScoreboardObjective.HealthDisplay.INTEGER);
+            PacketManager.sendPacket(createPacket.getHandle(), this, target);
 
-            PacketContainer displayPacket = new PacketContainer(PacketType.Play.Server.SCOREBOARD_DISPLAY_OBJECTIVE);
-            displayPacket.getIntegers().writeSafely(0, 0);
-            displayPacket.getStrings().writeSafely(0, OBJECTIVE_NAME);
-            PacketManager.sendPacket(displayPacket, this, target);
+            WrapperPlayServerScoreboardDisplayObjective displayPacket = new WrapperPlayServerScoreboardDisplayObjective();
+            displayPacket.setPosition(0);
+            displayPacket.setScoreName(OBJECTIVE_NAME);
+            PacketManager.sendPacket(displayPacket.getHandle(), this, target);
         }
     }
 
     public void disableScores() {
         if (areScoresEnabled()) {
             scoresEnabled = false;
-            PacketContainer removePacket = new PacketContainer(PacketType.Play.Server.SCOREBOARD_OBJECTIVE);
-            removePacket.getStrings().writeSafely(0, OBJECTIVE_NAME);
-            removePacket.getStrings().writeSafely(1, OBJECTIVE_NAME);
-            removePacket.getIntegers().writeSafely(0, 1);
-            PacketManager.sendPacket(removePacket, this, target);
+            WrapperPlayServerScoreboardObjective removePacket = new WrapperPlayServerScoreboardObjective();
+            removePacket.setName(OBJECTIVE_NAME);
+            removePacket.setDisplayName(OBJECTIVE_NAME);
+            removePacket.setMode(WrapperPlayServerScoreboardObjective.Mode.REMOVE_OBJECTIVE);
+            removePacket.setHealthDisplay(WrapperPlayServerScoreboardObjective.HealthDisplay.INTEGER);
+            PacketManager.sendPacket(removePacket.getHandle(), this, target);
         }
     }
 
@@ -145,10 +144,10 @@ public class Tablist {
     }
 
     private void refreshHeaderAndFooter() {
-        PacketContainer packet = new PacketContainer(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
-        packet.getChatComponents().writeSafely(0, PacketUtil.stringsToChatComponent(header));
-        packet.getChatComponents().writeSafely(1, PacketUtil.stringsToChatComponent(footer));
-        PacketManager.sendPacket(packet, this, target);
+        WrapperPlayServerPlayerListHeaderFooter packet = new WrapperPlayServerPlayerListHeaderFooter();
+        packet.setHeader(PacketUtil.stringsToChatComponent(header));
+        packet.setFooter(PacketUtil.stringsToChatComponent(footer));
+        PacketManager.sendPacket(packet.getHandle(), this, target);
 
     }
 }

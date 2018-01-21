@@ -28,19 +28,22 @@ import java.io.StreamCorruptedException;
 public class SkinMundo {
     
     public static void load() {
-        SkinManager.loadReflectionStuff();
-        SkinManager.loadPacketEvents();
+        //SkinManager.loadReflectionStuff();
+        //SkinManager.loadPacketEvents();
+        ProfileManager.loadReflectionStuff();
+        ProfileManager.loadPacketEvents();
 
-        Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
+        /*Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onJoin(PlayerJoinEvent event) {
                 SkinManager.onJoin(event.getPlayer());
             }
-        }, Mundo.INSTANCE);
+        }, Mundo.INSTANCE);*/
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onQuit(PlayerQuitEvent event) {
-                SkinManager.onQuit(event.getPlayer());
+                //SkinManager.onQuit(event.getPlayer());
+                ProfileManager.onQuit(event.getPlayer());
             }
         }, Mundo.INSTANCE);
 
@@ -127,7 +130,7 @@ public class SkinMundo {
                         , "A skin recreated from the specified image file,"
                         , "A skin recreated from the specified URL of an image, or"
                         , "The skin of the specified offline player retrieved from Mojang");
-        Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] %player%'s name[]tag", "[mundo[sk]] name[]tag of %player%")
+        Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] %player%'s name[]tag [for %-players%]", "[mundo[sk]] name[]tag of %player% [for %-players%]")
                 .document("Nametag of Player", "1.8", "An expression for the nametag (the name that appears above a player's head) of the specified player.");
         Registration.registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
                 //.document("Tablist Name of Player", "1.8", "An expression for the tablist name of the specified player.");

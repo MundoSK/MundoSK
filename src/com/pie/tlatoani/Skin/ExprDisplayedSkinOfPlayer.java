@@ -21,11 +21,21 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
 
     @Override
     protected Skin[] get(Event event) {
-        Player player = playerExpression.getSingle(event);
+        /*Player player = playerExpression.getSingle(event);
         if (targetExpression == null) {
-            return new Skin[]{SkinManager.getDisplayedSkin(player)};
+            return new Skin[]{SkinManager.getGeneralDisplayedSkin(player)};
         } else {
             return Arrays.stream(targetExpression.getArray(event)).map(target -> SkinManager.getPersonalDisplayedSkin(player, target)).toArray(Skin[]::new);
+        }*/
+
+        ModifiableProfile profile = ProfileManager.getProfile(playerExpression.getSingle(event));
+        if (targetExpression == null) {
+            return new Skin[]{profile.getGeneralDisplayedSkin()};
+        } else {
+            return Arrays
+                    .stream(targetExpression.getArray(event))
+                    .map(target -> profile.getSpecificProfile(target).getDisplayedSkin())
+                    .toArray(Skin[]::new);
         }
     }
 
@@ -55,15 +65,32 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
     @Override
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         Skin skinDelta = null;
-        Player player = playerExpression.getSingle(event);
-        if (mode == Changer.ChangeMode.SET)
+        //Player player = playerExpression.getSingle(event);
+        if (mode == Changer.ChangeMode.SET) {
             skinDelta = (Skin) delta[0];
-        if (targetExpression != null) {
+        }
+        /*if (targetExpression != null) {
             SkinManager.setPersonalDisplayedSkin(player, Arrays.asList(targetExpression.getArray(event)), skinDelta);
         } else if (excludeExpression != null) {
             SkinManager.setDisplayedSkinExcluding(player, Arrays.asList(excludeExpression.getArray(event)), skinDelta);
         } else {
-            SkinManager.setDisplayedSkin(player, skinDelta);
+            SkinManager.setGeneralDisplayedSkin(player, skinDelta);
+        }*/
+        ModifiableProfile profile = ProfileManager.getProfile(playerExpression.getSingle(event));
+        if (targetExpression != null) {
+            for (Player target : targetExpression.getArray(event)) {
+                profile.getSpecificProfile(target).setDisplayedSkin(skinDelta);
+            }
+        } else {
+            if (excludeExpression != null) {
+                for (Player excludedTarget : excludeExpression.getArray(event)) {
+                    ModifiableProfile.Specific specificProfile = profile.getSpecificProfile(excludedTarget);
+                    if (specificProfile.displayedSkin == null) {
+                        specificProfile.displayedSkin = profile.getGeneralDisplayedSkin();
+                    }
+                }
+            }
+            profile.setGeneralDisplayedSkin(skinDelta);
         }
     }
 

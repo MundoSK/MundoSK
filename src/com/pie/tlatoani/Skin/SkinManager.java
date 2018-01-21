@@ -308,6 +308,26 @@ public class SkinManager {
         });
     }
 
+    public static void refreshPlayer(Player player, Player target) {
+        if (!spawnedPlayers.contains(player)) {
+            return;
+        }
+        if (player.equals(target)) {
+            respawnPlayer(player);
+            return;
+        }
+        target.hidePlayer(player);
+        Scheduling.syncDelay(1, () -> target.showPlayer(player));
+        //DO NOT REMOVE THE FOLLOWING CODE
+        //It ensures that targets who are not currently tracking the player and thus will not receive a spawn packet
+        //still have the tab hidden for them if necessary
+        Scheduling.syncDelay(2, () -> {
+            if (!TablistManager.getTablistOfPlayer(target).isPlayerVisible(player)) {
+                PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), SkinManager.class, target);
+            }
+        });
+    }
+
     private static void respawnPlayer(Player player) {
         PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), SkinManager.class, player);
         PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), SkinManager.class, player);
@@ -327,9 +347,10 @@ public class SkinManager {
 
     private static int convertDimension(World.Environment dimension) {
         switch (dimension) {
+            case NORMAL: return 0;
             case NETHER: return -1;
             case THE_END: return 1;
+            default: throw new IllegalArgumentException("Dimension: " + dimension);
         }
-        return 0;
     }
 }

@@ -156,6 +156,20 @@ public class MundoUtil {
         return high == list.size() - 1 ? Optional.empty() : Optional.of(list.get(high + 1));
     }
 
+    public static boolean wordsStartWith(String s1, String s2) {
+        String[] words1 = s1.split(" ");
+        String[] words2 = s2.split(" ");
+        if (words1.length < words2.length) {
+            return false;
+        }
+        for (int i = 0; i < words2.length; i++) {
+            if (!words1[i].startsWith(words2[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     //Optional
 
     public static <T> void consumeOptional(Optional<T> optional, Consumer<T> tConsumer, Runnable runnable) {

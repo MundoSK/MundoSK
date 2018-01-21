@@ -24,8 +24,8 @@ public class DocumentationCommand {
         Logging.debug(Documentation.class, "Searching for a DocElem named '" + docElemName + "'");
         for (List<DocumentationElement> docElems : Documentation.getAllElements().getAllGroups()) {
             Logging.debug(Documentation.class, "Searching through " + docElems);
-            Optional<DocumentationElement> docElemOptional = MundoUtil.binarySearchCeiling(docElems, docElemName, (name, docElem) -> name.compareToIgnoreCase(docElem.name));
-            if (docElemOptional.filter(docElem -> docElem.name.toLowerCase().startsWith(docElemName)).isPresent()) {
+            Optional<DocumentationElement> docElemOptional = MundoUtil.binarySearchCeiling(docElems, docElemName, (name, docElem) -> Documentation.WORD_BY_WORD_COMPARATOR.compare(name, docElem.name));
+            if (docElemOptional.filter(docElem -> MundoUtil.wordsStartWith(docElem.name.toLowerCase(), docElemName)).isPresent()) {
                 docElemOptional.get().display(sender);
                 return;
             }

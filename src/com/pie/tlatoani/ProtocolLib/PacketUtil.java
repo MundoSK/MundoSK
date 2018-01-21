@@ -1,6 +1,5 @@
 package com.pie.tlatoani.ProtocolLib;
 
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
@@ -9,6 +8,8 @@ import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Util.Logging;
+import mundosk_libraries.packetwrapper.WrapperPlayServerPlayerInfo;
+import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardScore;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -16,8 +17,6 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.UUID;
-
-import static com.comphenix.protocol.PacketType.Play.Server.PLAYER_INFO;
 
 /**
  * Created by Tlatoani on 8/14/17.
@@ -33,7 +32,7 @@ public class PacketUtil {
             Skin skin,
             EnumWrappers.PlayerInfoAction action
     ) {
-        PacketContainer result = new PacketContainer(PLAYER_INFO);
+        WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo();
         WrappedGameProfile profile = new WrappedGameProfile(uuid, name);
         if (action == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
             if (skin == null) {
@@ -47,31 +46,31 @@ public class PacketUtil {
                 Optional.ofNullable(gameMode).map(EnumWrappers.NativeGameMode::fromBukkit).orElse(EnumWrappers.NativeGameMode.NOT_SET),
                 WrappedChatComponent.fromText(Optional.ofNullable(displayName).orElse(""))
         );
-        result.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
-        result.getPlayerInfoAction().writeSafely(0, action);
-        return result;
+        packet.setData(Collections.singletonList(playerInfoData));
+        packet.setAction(action);
+        return packet.getHandle();
     }
 
     public static PacketContainer playerInfoPacket(Player player, EnumWrappers.PlayerInfoAction action) {
-        PacketContainer result = new PacketContainer(PLAYER_INFO);
+        WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo();
         PlayerInfoData playerInfoData = new PlayerInfoData(
                 WrappedGameProfile.fromPlayer(player),
                 5,
                 EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode()),
                 WrappedChatComponent.fromText(player.getPlayerListName())
         );
-        result.getPlayerInfoDataLists().writeSafely(0, Collections.singletonList(playerInfoData));
-        result.getPlayerInfoAction().writeSafely(0, action);
-        return result;
+        packet.setData(Collections.singletonList(playerInfoData));
+        packet.setAction(action);
+        return packet.getHandle();
     }
 
     public static PacketContainer scorePacket(String scoreName, String objectiveName, Integer score, EnumWrappers.ScoreboardAction action) {
-        PacketContainer packet = new PacketContainer(PacketType.Play.Server.SCOREBOARD_SCORE);
-        packet.getStrings().writeSafely(0, scoreName);
-        packet.getStrings().writeSafely(1, objectiveName);
-        packet.getIntegers().writeSafely(0, Optional.ofNullable(score).orElse(0));
-        packet.getScoreboardActions().writeSafely(0, action);
-        return packet;
+        WrapperPlayServerScoreboardScore packet = new WrapperPlayServerScoreboardScore();
+        packet.setScoreName(scoreName);
+        packet.setObjectiveName(objectiveName);
+        packet.setValue(Optional.ofNullable(score).orElse(0));
+        packet.setScoreboardAction(action);
+        return packet.getHandle();
     }
 
     public static WrappedChatComponent stringsToChatComponent(String[] strings) {

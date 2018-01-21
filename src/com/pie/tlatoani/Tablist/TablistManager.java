@@ -16,6 +16,7 @@ import com.pie.tlatoani.Tablist.Simple.ExprIconOfTab;
 import com.pie.tlatoani.Util.Config;
 import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Util.Scheduling;
+import mundosk_libraries.packetwrapper.WrapperPlayServerNamedEntitySpawn;
 import mundosk_libraries.packetwrapper.WrapperPlayServerPlayerInfo;
 import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardTeam;
 import org.bukkit.Bukkit;
@@ -208,24 +209,26 @@ public class TablistManager {
             if (event.isCancelled() || player == null) {
                 return;
             }
+            WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo(event.getPacket());
             Tablist tablist = getTablistOfPlayer(player);
-            List<PlayerInfoData> oldPIDs = event.getPacket().getPlayerInfoDataLists().readSafely(0);
-            List<PlayerInfoData> newPIDs = new ArrayList<>();
-            for (PlayerInfoData oldPlayerInfoData : oldPIDs) {
+            List<PlayerInfoData> oldData = packet.getData();
+            List<PlayerInfoData> newData = new ArrayList<>(oldData.size());
+            for (PlayerInfoData oldPlayerInfoData : oldData) {
                 Player objPlayer = Bukkit.getPlayer(oldPlayerInfoData.getProfile().getUUID());
                 if (objPlayer == null) {
-                    newPIDs.add(oldPlayerInfoData);
+                    newData.add(oldPlayerInfoData);
                 } else {
-                    newPIDs.add(tablist.onPlayerInfoPacket(oldPlayerInfoData, objPlayer));
+                    newData.add(tablist.onPlayerInfoPacket(oldPlayerInfoData, objPlayer));
                 }
             }
-            event.getPacket().getPlayerInfoDataLists().writeSafely(0, newPIDs);
+            packet.setData(newData);
 
         });
 
         PacketManager.onPacketEvent(PacketType.Play.Server.NAMED_ENTITY_SPAWN, event -> {
             Player player = event.getPlayer();
-            Player objPlayer = Bukkit.getPlayer(event.getPacket().getUUIDs().read(0));
+            WrapperPlayServerNamedEntitySpawn packet = new WrapperPlayServerNamedEntitySpawn(event.getPacket());
+            Player objPlayer = Bukkit.getPlayer(packet.getPlayerUUID());
             if (event.isCancelled() || player == null || objPlayer == null) {
                 return;
             }
