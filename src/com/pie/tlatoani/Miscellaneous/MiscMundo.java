@@ -389,16 +389,19 @@ public class MiscMundo {
         Registration.registerEvent("Chat Tab Complete Event", SimpleEvent.class, PlayerChatTabCompleteEvent.class, "chat tab complete")
                 .document("Chat Tab Complete", "1.8", "Called when a player uses tab to auto complete a message (not a command). "
                         + "Also see the Completions and Last Token expressions.")
-                .eventValue(String.class, "1.8", "The full message so far typed by the player.");
+                .eventValue(String.class, "1.8", "The full message so far typed by the player.")
+                .eventValue(Player.class, "1.8", "The player typing the message.");
         Registration.registerEventValue(PlayerChatTabCompleteEvent.class, String.class, PlayerChatTabCompleteEvent::getChatMessage);
         if (Reflection.classExists("org.bukkit.event.server.TabCompleteEvent")) {
             Registration.registerEvent("Tab Complete Event", SimpleEvent.class, TabCompleteEvent.class, "tab complete")
                     .document("Tab Complete", "1.8", "Called when a player uses tab to auto complete a message or a command. "
                             + "Only available in recent Bukkit versions. Also see the Completions and Last Token expressions.")
+                    .eventValue(CommandSender.class, "1.8.4", "The command sender typing the message or command.")
+                    .eventValue(Player.class, "1.8.4", "The player typing the message or command, if it is a player.")
                     .eventValue(String.class, "1.8", "The full message so far typed by the player.");
             Registration.registerEventValue(TabCompleteEvent.class, CommandSender.class, TabCompleteEvent::getSender);
             Registration.registerEventValue(TabCompleteEvent.class, String.class, TabCompleteEvent::getBuffer);
-            Registration.registerExpression(ExprCompletions.class,String.class,ExpressionType.SIMPLE,"completions")
+            Registration.registerExpression(ExprCompletions.class, String.class, ExpressionType.SIMPLE,"completions")
                     .document("Completions", "1.6.8", "An editable expression, used in the Tab Complete and Chat Tab Complete events, "
                             + "for a list of all completions available for this tab complete.");
             Registration.registerExpression(ExprLastToken.class, String.class, ExpressionType.SIMPLE, "last token")

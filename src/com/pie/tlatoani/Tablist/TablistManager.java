@@ -259,7 +259,7 @@ public class TablistManager {
 
         PacketManager.onPacketEvent(PacketType.Play.Server.SCOREBOARD_TEAM, event -> {
             Player player = event.getPlayer();
-            if (event.isCancelled() || player == null || playersRespawning.contains(player)) {
+            if (event.isCancelled() || player == null || !player.isOnline()) {
                 return;
             }
             getTablistOfPlayer(player).onScoreboardTeamPacket(new WrapperPlayServerScoreboardTeam(event.getPacket()));
