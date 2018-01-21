@@ -131,6 +131,9 @@ public class ModifiableProfile {
 
         private Specific(Player target) {
             this.target = target;
+            if (player.equals(target)) {
+                nametag = player.getName();
+            }
         }
 
         private void changeDisplayedSkin() {
@@ -138,6 +141,9 @@ public class ModifiableProfile {
         }
 
         private void changeNametag(String oldValue, String value) {
+            if (player.equals(target)) {
+                throw new UnsupportedOperationException("You can't change the nametag of a player for themselves!");
+            }
             Logging.debug(this, "Setting nametag of " + player.getName() + " to " + value + " for " + target.getName());
             Scoreboard scoreboard = target.getScoreboard();
             Objective objective = null;
