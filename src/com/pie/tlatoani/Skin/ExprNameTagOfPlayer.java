@@ -17,6 +17,7 @@ import java.util.Arrays;
 public class ExprNameTagOfPlayer extends SimpleExpression<String> {
     private Expression<Player> playerExpression;
     private Expression<Player> targetExpression;
+    private boolean consistent;
 
     @Override
     protected String[] get(Event event) {
@@ -44,13 +45,17 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return playerExpression + "'s nametag";
+        return playerExpression + "'s nametag" +
+                (targetExpression == null
+                        ? (consistent ? " consistently" : "")
+                        : " for " + targetExpression);
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         playerExpression = (Expression<Player>) expressions[0];
         targetExpression = (Expression<Player>) expressions[1];
+        consistent = parseResult.mark == 2;
         return true;
     }
 
@@ -67,6 +72,8 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
             for (Player target : targetExpression.getArray(event)) {
                 profile.getSpecificProfile(target).setNametag(nameTag);
             }
+        } else if (consistent) {
+            profile.consistentlySetNametag(nameTag);
         } else {
             profile.setGeneralNametag(nameTag);
         }

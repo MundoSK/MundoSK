@@ -89,6 +89,41 @@ public class ModifiableProfile {
                 .forEach(specific -> specific.changeNametag(oldValue, generalNametag));
     }
 
+    public void consistentlySetDisplayedSkin(Skin value) {
+        if (value == null) {
+            value = getActualSkin();
+        }
+        generalDisplayedSkin = value;
+        Bukkit
+                .getOnlinePlayers()
+                .stream()
+                .map(this::getSpecificProfile)
+                .forEach(specific -> {
+                    specific.displayedSkin = null;
+                    specific.changeDisplayedSkin();
+                });
+    }
+
+    public void consistentlySetNametag(String value) {
+        if (value == null) {
+            value = player.getName();
+        } else if (value.length() > 16) {
+            value = value.substring(0, 16);
+        }
+        String oldValue = generalNametag;
+        generalNametag = value;
+        Bukkit
+                .getOnlinePlayers()
+                .stream()
+                .map(this::getSpecificProfile)
+                .filter(specific -> !player.equals(specific.target))
+                .forEach(specific -> {
+                    String specificOldValue = specific.nametag == null ? oldValue : specific.nametag;
+                    specific.nametag = null;
+                    specific.changeNametag(specificOldValue, generalNametag);
+                });
+    }
+
     public class Specific {
         public final Player target;
         Skin displayedSkin = null;

@@ -18,6 +18,7 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
     private Expression<Player> playerExpression;
     private Expression<Player> targetExpression;
     private Expression<Player> excludeExpression;
+    private boolean consistent;
 
     @Override
     protected Skin[] get(Event event) {
@@ -51,7 +52,12 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return playerExpression + "'s displayed skin" + (targetExpression == null ? "" : " for " + targetExpression);
+        return playerExpression + "'s displayed skin" +
+                (targetExpression == null
+                        ? (excludeExpression == null
+                                ? (consistent ? " consistently" : "")
+                                : " excluding " + excludeExpression)
+                        : " for " + targetExpression);
     }
 
     @Override
@@ -59,6 +65,7 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
         playerExpression = (Expression<Player>) expressions[0];
         targetExpression = (Expression<Player>) expressions[1];
         excludeExpression = (Expression<Player>) expressions[2];
+        consistent = parseResult.mark == 3;
         return true;
     }
 
@@ -90,7 +97,11 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
                     }
                 }
             }
-            profile.setGeneralDisplayedSkin(skinDelta);
+            if (consistent) {
+                profile.consistentlySetDisplayedSkin(skinDelta);
+            } else {
+                profile.setGeneralDisplayedSkin(skinDelta);
+            }
         }
     }
 

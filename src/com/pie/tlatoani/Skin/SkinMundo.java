@@ -118,7 +118,7 @@ public class SkinMundo {
                 .document("Skin with Value", "1.8", "An expression for a skin with the specified value and signature.");
         Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin")
                 .document("Skin of Player or Skull", "1.8", "An expression for the skin of the specified player (must be online) or skull item.");
-        Registration.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(for %-players%|excluding %-players%)]", "%player%'s displayed skin [(for %-players%|excluding %-players%)]")
+        Registration.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY, "displayed skin of %player% [(0¦by default|1¦for %-players%|2¦excluding %-players%|3¦consistently)]", "%player%'s displayed skin [(1¦for %-players%|2¦excluding %-players%|3¦consistently)]")
                 .document("Displayed Skin of Player", "1.8", "An expression for the skin currently being displayed as the specified player's skin. "
                         + "If target ('for') players are specified, the expression will return a skin for each target player specified. "
                         + "Excluded players are meant to be specified only when setting the expression (for example, to prevent the original specified player from seeing a change). "
@@ -130,7 +130,7 @@ public class SkinMundo {
                         , "A skin recreated from the specified image file,"
                         , "A skin recreated from the specified URL of an image, or"
                         , "The skin of the specified offline player retrieved from Mojang");
-        Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] %player%'s name[]tag [for %-players%]", "[mundo[sk]] name[]tag of %player% [for %-players%]")
+        Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY, "[mundo[sk]] %player%'s name[]tag [(1¦for %-players%|2¦consistently)]", "[mundo[sk]] name[]tag of %player% [(0¦by default|1¦for %-players%|2¦consistently)]")
                 .document("Nametag of Player", "1.8", "An expression for the nametag (the name that appears above a player's head) of the specified player.");
         Registration.registerExpression(ExprTabName.class, String.class, ExpressionType.PROPERTY, "%player%'s [mundo[sk]] tab[list] name", "[mundo[sk]] tab[list] name of %player%");
                 //.document("Tablist Name of Player", "1.8", "An expression for the tablist name of the specified player.");
