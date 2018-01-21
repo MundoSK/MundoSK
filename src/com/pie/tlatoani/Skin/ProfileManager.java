@@ -3,6 +3,7 @@ package com.pie.tlatoani.Skin;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.ModifiableProfile.Specific;
@@ -18,6 +19,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 
@@ -65,6 +67,15 @@ public class ProfileManager {
                     }
                     Logging.debug(ProfileManager.class, "Old nametag = " + oldPlayerInfoData.getProfile().getName());
                     Specific specificProfile = getProfile(player).getSpecificProfile(target);
+                    WrappedChatComponent displayName = oldPlayerInfoData.getDisplayName();
+                    if (displayName == null) {
+                        String rawDisplayName = Optional
+                                .ofNullable(target.getScoreboard())
+                                .map(scoreboard -> scoreboard.getEntryTeam(player.getName()))
+                                .map(team -> team.getPrefix() + player.getName() + team.getSuffix())
+                                .orElse(player.getName());
+                        displayName = WrappedChatComponent.fromText(rawDisplayName);
+                    }
                     PlayerInfoData newPlayerInfoData = new PlayerInfoData(
                             oldPlayerInfoData.getProfile().withName(specificProfile.getNametag()),
                             oldPlayerInfoData.getLatency(),
