@@ -22,12 +22,17 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
     @Override
     protected String[] get(Event event) {
         //return new String[]{SkinManager.getNameTag(playerExpression.getSingle(event))};
-        ModifiableProfile profile = ProfileManager.getProfile(playerExpression.getSingle(event));
+        Player player = playerExpression.getSingle(event);
+        if (!player.isOnline()) {
+            return new String[0];
+        }
+        ModifiableProfile profile = ProfileManager.getProfile(player);
         if (targetExpression == null) {
             return new String[]{profile.getGeneralNametag()};
         } else {
             return Arrays
                     .stream(targetExpression.getArray(event))
+                    .filter(Player::isOnline)
                     .map(target -> profile.getSpecificProfile(target).getNametag())
                     .toArray(String[]::new);
         }
@@ -62,14 +67,20 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
     @Override
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         String nameTag = null;
-        //Player player = playerExpression.getSingle(event);
+        Player player = playerExpression.getSingle(event);
         if (mode == Changer.ChangeMode.SET) {
             nameTag = (String) delta[0];
         }
         //SkinManager.setNameTag(player, nameTag);
-        ModifiableProfile profile = ProfileManager.getProfile(playerExpression.getSingle(event));
+        if (!player.isOnline()) {
+            return;
+        }
+        ModifiableProfile profile = ProfileManager.getProfile(player);
         if (targetExpression != null) {
             for (Player target : targetExpression.getArray(event)) {
+                if (!target.isOnline()) {
+                    continue;
+                }
                 profile.getSpecificProfile(target).setNametag(nameTag);
             }
         } else if (consistent) {

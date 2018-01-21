@@ -29,12 +29,17 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
             return Arrays.stream(targetExpression.getArray(event)).map(target -> SkinManager.getPersonalDisplayedSkin(player, target)).toArray(Skin[]::new);
         }*/
 
+        Player player = playerExpression.getSingle(event);
+        if (!player.isOnline()) {
+            return new Skin[0];
+        }
         ModifiableProfile profile = ProfileManager.getProfile(playerExpression.getSingle(event));
         if (targetExpression == null) {
             return new Skin[]{profile.getGeneralDisplayedSkin()};
         } else {
             return Arrays
                     .stream(targetExpression.getArray(event))
+                    .filter(Player::isOnline)
                     .map(target -> profile.getSpecificProfile(target).getDisplayedSkin())
                     .toArray(Skin[]::new);
         }
@@ -83,14 +88,24 @@ public class ExprDisplayedSkinOfPlayer extends SimpleExpression<Skin> {
         } else {
             SkinManager.setGeneralDisplayedSkin(player, skinDelta);
         }*/
-        ModifiableProfile profile = ProfileManager.getProfile(playerExpression.getSingle(event));
+        Player player = playerExpression.getSingle(event);
+        if (!player.isOnline()) {
+            return;
+        }
+        ModifiableProfile profile = ProfileManager.getProfile(player);
         if (targetExpression != null) {
             for (Player target : targetExpression.getArray(event)) {
+                if (!target.isOnline()) {
+                    continue;
+                }
                 profile.getSpecificProfile(target).setDisplayedSkin(skinDelta);
             }
         } else {
             if (excludeExpression != null) {
                 for (Player excludedTarget : excludeExpression.getArray(event)) {
+                    if (!excludedTarget.isOnline()) {
+                        continue;
+                    }
                     ModifiableProfile.Specific specificProfile = profile.getSpecificProfile(excludedTarget);
                     if (specificProfile.displayedSkin == null) {
                         specificProfile.displayedSkin = profile.getGeneralDisplayedSkin();

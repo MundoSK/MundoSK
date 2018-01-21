@@ -45,7 +45,7 @@ public class ProfileManager {
 
     public static void loadPacketEvents() {
         PacketManager.onPacketEvent(PacketType.Play.Server.PLAYER_INFO, event -> {
-            if (event.isCancelled() || event.getPlayer() == null) {
+            if (event.isCancelled() || event.getPlayer() == null || !event.getPlayer().isOnline()) {
                 return;
             }
             Player target = event.getPlayer();
@@ -97,7 +97,7 @@ public class ProfileManager {
         });
 
         PacketManager.onPacketEvent(PacketType.Play.Server.SCOREBOARD_TEAM, event -> {
-            if (event.isCancelled() || event.getPlayer() == null) {
+            if (event.isCancelled() || event.getPlayer() == null || !event.getPlayer().isOnline()) {
                 return;
             }
             Player target = event.getPlayer();
@@ -111,7 +111,7 @@ public class ProfileManager {
                         .orElse(Collections.emptySet());
                 for (String name : modifiedNames) {
                     Player player = Bukkit.getPlayerExact(name);
-                    if (player != null) {
+                    if (player != null && player.isOnline()) {
                         PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.UPDATE_DISPLAY_NAME), ProfileManager.class, target);
                         Logging.debug(ProfileManager.class, "Player " + name + ", updating");
                     }
@@ -122,7 +122,7 @@ public class ProfileManager {
                 for (String name : oldNames) {
                     newNames.add(name);
                     Player player = Bukkit.getPlayerExact(name);
-                    if (player != null) {
+                    if (player != null && player.isOnline()) {
                         Specific specificProfile = getProfile(player).getSpecificProfile(target);
                         String nameTag = specificProfile.getNametag();
                         if (!name.equals(nameTag)) {
@@ -139,7 +139,7 @@ public class ProfileManager {
         });
 
         PacketManager.onPacketEvent(PacketType.Play.Server.SCOREBOARD_SCORE, event -> {
-            if (event.isCancelled() || event.getPlayer() == null) {
+            if (event.isCancelled() || event.getPlayer() == null || !event.getPlayer().isOnline()) {
                 return;
             }
             Player target = event.getPlayer();
