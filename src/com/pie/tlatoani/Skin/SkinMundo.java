@@ -126,7 +126,7 @@ public class SkinMundo {
                 .document("Skin with Value", "1.8", "An expression for a skin with the specified value and signature.");
         Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack/block%", "%player/itemstack/block%'s skin")
                 .document("Skin of Player or Skull", "1.8", "An expression for the skin of the specified player (must be online), skull item, or placed skull block (1.8.5+ only).")
-                .changer(Changer.ChangeMode.SET, "1.8", "Only allowed for setting the skin of a skull (item or block)");
+                .changer(Changer.ChangeMode.SET, Skin.class, "1.8", "Only allowed for setting the skin of a skull (item or block)");
         Registration.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY,
                 "[(1¦default)] displayed skin of %player% [(for %-players%|excluding %-players%)]",
                 "%player%'s [(1¦default)] displayed skin [(for %-players%|excluding %-players%)]")
