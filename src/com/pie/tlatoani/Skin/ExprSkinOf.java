@@ -7,6 +7,8 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Util.MundoUtil;
+import org.bukkit.block.Block;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
@@ -26,8 +28,13 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
             return new Skin[]{ProfileManager.getProfile((Player) value).getActualSkin()};
         } else if (value instanceof ItemStack) {
             ItemMeta meta = ((ItemStack) value).getItemMeta();
-            if (meta instanceof SkullMeta)
-                return new Skin[]{Skin.getSkinOfSkull((SkullMeta) meta)};
+            if (meta instanceof SkullMeta) {
+                return new Skin[]{Skin.getSkinOfSkullMeta((SkullMeta) meta)};
+            }
+        } else if (value instanceof Block) {
+            if (value instanceof Skull) {
+                return new Skin[]{Skin.getSkinOfSkull((Skull) value)};
+            }
         }
         return new Skin[]{null};
     }
@@ -56,18 +63,24 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
     @Override
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         Object value = expression.getSingle(event);
-        if (value != null && value instanceof ItemStack) {
-            Skin skinDelta = (Skin) delta[0];
+        Skin skinDelta = (Skin) delta[0];
+        if (value == null) {
+            return;
+        } else if (value instanceof ItemStack) {
             ItemMeta meta = ((ItemStack) value).getItemMeta();
-            if (meta instanceof SkullMeta)
-                Skin.setSkinOfSkull((SkullMeta) meta, skinDelta);
+            if (meta instanceof SkullMeta) {
+                Skin.setSkinOfSkullMeta((SkullMeta) meta, skinDelta);
+            }
             ((ItemStack) value).setItemMeta(meta);
+        } else if (value instanceof Block) {
+            if (value instanceof Skull) {
+                Skin.setSkinOfSkull((Skull) value, skinDelta);
+            }
         }
-
     }
 
     public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
-        if (mode == Changer.ChangeMode.SET && MundoUtil.classesCompatible(ItemStack.class, expression.getReturnType())) {
+        if (mode == Changer.ChangeMode.SET && MundoUtil.classesCompatible(ItemStack.class, expression.getReturnType()) || MundoUtil.classesCompatible(Block.class, expression.getReturnType())) {
             return CollectionUtils.array(Skin.class);
         }
         return null;

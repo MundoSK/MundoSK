@@ -5,6 +5,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import org.bukkit.Material;
+import org.bukkit.SkullType;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -19,8 +20,9 @@ public class ExprSkullFromSkin extends SimpleExpression<ItemStack> {
     protected ItemStack[] get(Event event) {
         ItemStack result = new ItemStack(Material.SKULL_ITEM);
         SkullMeta skullMeta = (SkullMeta) result.getItemMeta();
-        Skin.setSkinOfSkull(skullMeta, skinExpression.getSingle(event));
+        Skin.setSkinOfSkullMeta(skullMeta, skinExpression.getSingle(event));
         result.setItemMeta(skullMeta);
+        result.setDurability((short) SkullType.PLAYER.ordinal());
         return new ItemStack[]{result};
     }
 

@@ -117,8 +117,8 @@ public class SkinMundo {
         });
         Registration.registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%")
                 .document("Skin with Value", "1.8", "An expression for a skin with the specified value and signature.");
-        Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack%", "%player/itemstack%'s skin")
-                .document("Skin of Player or Skull", "1.8", "An expression for the skin of the specified player (must be online) or skull item.");
+        Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack/block%", "%player/itemstack/block%'s skin")
+                .document("Skin of Player or Skull", "1.8", "An expression for the skin of the specified player (must be online) or skull (either item or block).");
         Registration.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY,
                 "[(1¦default)] displayed skin of %player% [(for %-players%|excluding %-players%)]",
                 "%player%'s [(1¦default)] displayed skin [(for %-players%|excluding %-players%)]")

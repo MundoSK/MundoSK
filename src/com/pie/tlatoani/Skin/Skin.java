@@ -3,6 +3,7 @@ package com.pie.tlatoani.Skin;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
 import com.pie.tlatoani.Util.Reflection;
+import org.bukkit.block.Skull;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.json.simple.JSONObject;
 
@@ -28,11 +29,8 @@ public class Skin {
     );
 
     public static String MULTIMAP_KEY = "textures";
-    public static Reflection.FieldAccessor CRAFT_META_SKULL_PROFILE = null;
-
-    static {
-        CRAFT_META_SKULL_PROFILE = Reflection.getField(Reflection.getCraftBukkitClass("inventory.CraftMetaSkull"), "profile", Reflection.getClass("com.mojang.authlib.GameProfile"));
-    }
+    public static final Reflection.FieldAccessor CRAFT_META_SKULL_PROFILE = Reflection.getField(Reflection.getCraftBukkitClass("inventory.CraftMetaSkull"), "profile", Reflection.getClass("com.mojang.authlib.GameProfile"));
+    public static final Reflection.FieldAccessor CRAFT_SKULL_PROFILE = Reflection.getField(Reflection.getCraftBukkitClass("block.CraftSkull"), "profile", Reflection.getClass("com.mojang.authlib.GameProfile"));
 
     public final String value;
     public final String signature;
@@ -87,15 +85,26 @@ public class Skin {
         }
     }
 
-    public static Skin getSkinOfSkull(SkullMeta skullMeta) {
+    public static Skin getSkinOfSkullMeta(SkullMeta skullMeta) {
         WrappedGameProfile wrappedGameProfile = WrappedGameProfile.fromHandle(CRAFT_META_SKULL_PROFILE.get(skullMeta));
         return wrappedGameProfile == null ? EMPTY : fromGameProfile(wrappedGameProfile);
     }
 
-    public static void setSkinOfSkull(SkullMeta skullMeta, Skin skin) {
+    public static void setSkinOfSkullMeta(SkullMeta skullMeta, Skin skin) {
         WrappedGameProfile wrappedGameProfile = new WrappedGameProfile(UUID.fromString("10001000-1000-3000-8000-100010001000"), "MundoSK-Name");
         wrappedGameProfile.getProperties().put(MULTIMAP_KEY, skin.toWrappedSignedProperty());
         CRAFT_META_SKULL_PROFILE.set(skullMeta, wrappedGameProfile.getHandle());
+    }
+
+    public static Skin getSkinOfSkull(Skull skull) {
+        WrappedGameProfile wrappedGameProfile = WrappedGameProfile.fromHandle(CRAFT_SKULL_PROFILE.get(skull));
+        return wrappedGameProfile == null ? EMPTY : fromGameProfile(wrappedGameProfile);
+    }
+
+    public static void setSkinOfSkull(Skull skull, Skin skin) {
+        WrappedGameProfile wrappedGameProfile = new WrappedGameProfile(UUID.fromString("10001000-1000-3000-8000-100010001000"), "MundoSK-Name");
+        wrappedGameProfile.getProperties().put(MULTIMAP_KEY, skin.toWrappedSignedProperty());
+        CRAFT_SKULL_PROFILE.set(skull, wrappedGameProfile.getHandle());
     }
 
 }
