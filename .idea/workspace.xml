@@ -8,7 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationCommand.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationCommand.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,8 +32,8 @@
       <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
+            <state relative-caret-position="270">
+              <caret line="18" column="13" lean-forward="true" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -42,7 +42,7 @@
       <file leaf-file-name="Documentation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
+            <state relative-caret-position="345">
               <caret line="28" column="21" lean-forward="false" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
               <folding />
             </state>
@@ -52,8 +52,18 @@
       <file leaf-file-name="DocumentationCommand.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="25" column="80" lean-forward="true" selection-start-line="25" selection-start-column="80" selection-end-line="25" selection-end-column="80" />
+            <state relative-caret-position="225">
+              <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DocumentationElement.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationElement.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-435">
+              <caret line="15" column="22" lean-forward="false" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -127,16 +137,6 @@
                 <element signature="e#4603#4604#0" expanded="true" />
                 <element signature="e#4660#4661#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ArrayTablist.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ArrayTablist.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="20" column="63" lean-forward="true" selection-start-line="20" selection-start-column="63" selection-end-line="20" selection-end-column="63" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -234,7 +234,6 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprTablistName.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/PlayerTablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprTablistLatency.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationCommand.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoUtil.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Profile.java" />
         <option value="$PROJECT_DIR$/src/mundosk_libraries/packetwrapper/WrapperPlayServerRespawn.java" />
@@ -256,6 +255,7 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinMundo.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationCommand.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -850,16 +850,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/Alias/ScopePacketInfoAliases.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1410">
-          <caret line="98" column="36" lean-forward="false" selection-start-line="98" selection-start-column="36" selection-end-line="98" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ZExperimental/SyntaxPiece/SyntaxParser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -1207,7 +1197,7 @@
         <state relative-caret-position="480">
           <caret line="32" column="30" lean-forward="false" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1280,26 +1270,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="25" column="80" lean-forward="true" selection-start-line="25" selection-start-column="80" selection-end-line="25" selection-end-column="80" />
+        <state relative-caret-position="345">
+          <caret line="28" column="21" lean-forward="false" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java">
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationElement.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="28" column="21" lean-forward="false" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+        <state relative-caret-position="-435">
+          <caret line="15" column="22" lean-forward="false" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
+        <state relative-caret-position="270">
+          <caret line="18" column="13" lean-forward="true" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
           <folding />
         </state>
       </provider>
