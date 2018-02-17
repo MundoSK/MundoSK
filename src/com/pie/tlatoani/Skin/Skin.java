@@ -91,7 +91,7 @@ public class Skin {
     }
 
     public static void setSkinOfSkullMeta(SkullMeta skullMeta, Skin skin) {
-        WrappedGameProfile wrappedGameProfile = new WrappedGameProfile(UUID.fromString("10001000-1000-3000-8000-100010001000"), "MundoSK-Name");
+        WrappedGameProfile wrappedGameProfile = new WrappedGameProfile(/*UUID.fromString("10001000-1000-3000-8000-100010001000")*/ UUID.randomUUID(), "MundoSK-Name");
         wrappedGameProfile.getProperties().put(MULTIMAP_KEY, skin.toWrappedSignedProperty());
         CRAFT_META_SKULL_PROFILE.set(skullMeta, wrappedGameProfile.getHandle());
     }

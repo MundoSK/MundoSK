@@ -8,6 +8,7 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Util.MundoUtil;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -32,8 +33,9 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
                 return new Skin[]{Skin.getSkinOfSkullMeta((SkullMeta) meta)};
             }
         } else if (value instanceof Block) {
-            if (value instanceof Skull) {
-                return new Skin[]{Skin.getSkinOfSkull((Skull) value)};
+            BlockState state = ((Block) value).getState();
+            if (state instanceof Skull) {
+                return new Skin[]{Skin.getSkinOfSkull((Skull) state)};
             }
         }
         return new Skin[]{null};
@@ -73,8 +75,9 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
             }
             ((ItemStack) value).setItemMeta(meta);
         } else if (value instanceof Block) {
-            if (value instanceof Skull) {
-                Skin.setSkinOfSkull((Skull) value, skinDelta);
+            BlockState state = ((Block) value).getState();
+            if (state instanceof Skull) {
+                Skin.setSkinOfSkull((Skull) state, skinDelta);
             }
         }
     }
