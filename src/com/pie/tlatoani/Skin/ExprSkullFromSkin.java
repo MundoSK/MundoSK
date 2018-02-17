@@ -15,12 +15,17 @@ import org.bukkit.inventory.meta.SkullMeta;
  */
 public class ExprSkullFromSkin extends SimpleExpression<ItemStack> {
     private Expression<Skin> skinExpression;
+    private Expression<String> ownerExpression;
 
     @Override
     protected ItemStack[] get(Event event) {
         ItemStack result = new ItemStack(Material.SKULL_ITEM);
         SkullMeta skullMeta = (SkullMeta) result.getItemMeta();
-        Skin.setSkinOfSkullMeta(skullMeta, skinExpression.getSingle(event));
+        if (ownerExpression != null) {
+            Skin.setSkinOfSkullMeta(skullMeta, skinExpression.getSingle(event), ownerExpression.getSingle(event));
+        } else {
+            Skin.setSkinOfSkullMeta(skullMeta, skinExpression.getSingle(event));
+        }
         result.setItemMeta(skullMeta);
         result.setDurability((short) SkullType.PLAYER.ordinal());
         return new ItemStack[]{result};
@@ -38,12 +43,13 @@ public class ExprSkullFromSkin extends SimpleExpression<ItemStack> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "skull from " + skinExpression;
+        return "skull from " + skinExpression + (ownerExpression == null ? "" : " with owner " + ownerExpression);
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         skinExpression = (Expression<Skin>) expressions[0];
+        ownerExpression = (Expression<String>) expressions[1];
         return true;
     }
 }

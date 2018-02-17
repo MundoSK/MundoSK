@@ -96,6 +96,12 @@ public class Skin {
         CRAFT_META_SKULL_PROFILE.set(skullMeta, wrappedGameProfile.getHandle());
     }
 
+    public static void setSkinOfSkullMeta(SkullMeta skullMeta, Skin skin, String name) {
+        WrappedGameProfile wrappedGameProfile = new WrappedGameProfile(UUID.fromString("10001000-1000-3000-8000-100010001000"), name);
+        wrappedGameProfile.getProperties().put(MULTIMAP_KEY, skin.toWrappedSignedProperty());
+        CRAFT_META_SKULL_PROFILE.set(skullMeta, wrappedGameProfile.getHandle());
+    }
+
     public static Skin getSkinOfSkull(Skull skull) {
         WrappedGameProfile wrappedGameProfile = WrappedGameProfile.fromHandle(CRAFT_SKULL_PROFILE.get(skull));
         return wrappedGameProfile == null ? EMPTY : fromGameProfile(wrappedGameProfile);

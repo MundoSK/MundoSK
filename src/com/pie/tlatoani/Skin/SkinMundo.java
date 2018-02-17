@@ -146,7 +146,7 @@ public class SkinMundo {
                         , "reset player's displayed skin for {_p1} #{_p1} now sees the skin as {_p3}'s skin"
                         , "set player's displayed skin to {_p4}'s skin for {_p1} #{_p1} now sees the skin as {_p4}'s skin"
                         , "reset player's displayed skin #All players (including {_p1}) now see the skin as the player's actual skin");
-        Registration.registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin%")
+        Registration.registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin% [with owner %-string%]")
                 .document("Skull from Skin", "1.8", "An expression for a skull bearing the specified skin.");
         Registration.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY, "retrieved [(4¦slim)] skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%) [[with] timeout %-timespan%]")
                 .document("Retrieved Skin", "1.8", "An expression for a skin retrieved using the Mineskin API:"
