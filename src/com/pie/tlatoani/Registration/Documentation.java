@@ -39,7 +39,7 @@ public final class Documentation {
         }
         return words2.length - words1.length;
     };
-    public static final Comparator<DocumentationElement> DOCUMENTATION_ELEMENT_COMPARATOR = Comparator.comparing(docElem -> docElem.name, WORD_BY_WORD_COMPARATOR);
+    public static final Comparator<DocumentationElement> DOCUMENTATION_ELEMENT_COMPARATOR = Comparator.comparing(docElem -> docElem.name.toLowerCase(), WORD_BY_WORD_COMPARATOR);
 
     private static List<DocumentationBuilder> builders = new LinkedList<>();
     private static boolean built = false;
