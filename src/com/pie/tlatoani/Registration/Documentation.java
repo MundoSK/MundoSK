@@ -1,17 +1,11 @@
 package com.pie.tlatoani.Registration;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimap;
-import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Util.ImmutableGroupedList;
 import com.pie.tlatoani.Util.Logging;
-import com.pie.tlatoani.Util.MundoUtil;
-import org.bukkit.command.CommandSender;
-import org.bukkit.event.Event;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Tlatoani on 9/9/17.
@@ -20,10 +14,27 @@ public final class Documentation {
     public static final Comparator<String> WORD_BY_WORD_COMPARATOR = (s1, s2) -> {
         String[] words1 = s1.split(" ");
         String[] words2 = s2.split(" ");
-        for (int i = 0; i < Math.min(words1.length, words2.length); i++) {
-            int compare = words1[i].compareToIgnoreCase(words2[i]);
-            if (compare != 0) {
-                return compare;
+        for (int i = 0;; i++) {
+            boolean pastAllWords = true;
+            for (int j = 0; j < Math.min(words1.length, words2.length); j++) {
+                if (words1[j].length() > i) {
+                    if (words2[j].length() > i) {
+                        if (words1[j].charAt(i) == words2[j].charAt(i)) {
+                            pastAllWords = false;
+                        } else {
+                            return words1[j].charAt(i) - words2[j].charAt(i);
+                        }
+                    } else {
+                        return 1;
+                    }
+                } else {
+                    if (words2[j].length() > i) {
+                        return -1;
+                    }
+                }
+            }
+            if (pastAllWords) {
+                break;
             }
         }
         return words2.length - words1.length;

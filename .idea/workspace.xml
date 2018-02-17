@@ -7,9 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08e81ae8-19a1-413b-b2f1-a1db383cb11c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MundoSK.jar" afterPath="$PROJECT_DIR$/MundoSK.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.yml" afterPath="$PROJECT_DIR$/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinMundo.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinMundo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" />
     </list>
     <ignored path="MundoSK.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,24 +39,32 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Documentation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="317">
+              <caret line="28" column="21" lean-forward="false" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DocumentationCommand.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="25" column="80" lean-forward="true" selection-start-line="25" selection-start-column="80" selection-end-line="25" selection-end-column="80" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SkinMundo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinMundo.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="317">
               <caret line="140" column="69" lean-forward="true" selection-start-line="140" selection-start-column="69" selection-end-line="140" selection-end-column="69" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ModifiableProfile.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ModifiableProfile.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="32" column="30" lean-forward="false" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -129,16 +136,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
               <caret line="20" column="63" lean-forward="true" selection-start-line="20" selection-start-column="63" selection-end-line="20" selection-end-column="63" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExprJSONObjectOfPacket.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/ProtocolLib/ExprJSONObjectOfPacket.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="230" column="32" lean-forward="false" selection-start-line="230" selection-start-column="32" selection-end-line="230" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -237,7 +234,6 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprTablistName.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/PlayerTablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprTablistLatency.java" />
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationCommand.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoUtil.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Profile.java" />
@@ -259,6 +255,7 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/Skin.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/ExprSkinOf.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Skin/SkinMundo.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -1043,22 +1040,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="29" column="6" lean-forward="true" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="25" column="80" lean-forward="true" selection-start-line="25" selection-start-column="80" selection-end-line="25" selection-end-column="80" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/MundoUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -1295,6 +1276,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="317">
           <caret line="140" column="69" lean-forward="true" selection-start-line="140" selection-start-column="69" selection-end-line="140" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/DocumentationCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="25" column="80" lean-forward="true" selection-start-line="25" selection-start-column="80" selection-end-line="25" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Registration/Documentation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="28" column="21" lean-forward="false" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
           <folding />
         </state>
       </provider>
