@@ -73,12 +73,20 @@ public class MineSkinClient {
     }
 
     public static Skin fromRawString(String string) {
+        return fromRawString(string, null);
+    }
+
+    public static Skin fromRawString(String string, UUID uuid) {
         try {
             JSONObject jsonObject = (JSONObject) new JSONParser().parse(string);
             JSONObject subJSON = (JSONObject) (
                     (JSONObject) jsonObject.get("data")
             ).get("texture");
-            return Skin.fromJSON(subJSON);
+            if (uuid == null) {
+                return Skin.fromJSON(subJSON);
+            } else {
+                return Skin.fromJSON(subJSON, uuid);
+            }
         } catch (NullPointerException | ParseException | ClassCastException e) {
             Logging.debug(MineSkinClient.class, e);
             return null;

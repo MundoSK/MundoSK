@@ -34,10 +34,16 @@ public class Skin {
 
     public final String value;
     public final String signature;
+    public final UUID uuid; //Currently used to ensure uniqueness when creating a skull using a skin
 
     public Skin(String value, String signature) {
+        this(value, signature, UUID.randomUUID());
+    }
+
+    public Skin(String value, String signature, UUID uuid) {
         this.value = Optional.ofNullable(value).orElse("");
         this.signature = Optional.ofNullable(signature).orElse("");
+        this.uuid = uuid;
     }
 
     public JSONObject toJSON() {
@@ -49,6 +55,12 @@ public class Skin {
 
     public WrappedSignedProperty toWrappedSignedProperty() {
         return new WrappedSignedProperty("textures", value, signature);
+    }
+
+    public WrappedGameProfile toGameProfile(String name) {
+        WrappedGameProfile wrappedGameProfile = new WrappedGameProfile(uuid, name);
+        wrappedGameProfile.getProperties().put(MULTIMAP_KEY, toWrappedSignedProperty());
+        return wrappedGameProfile;
     }
 
     @Override
@@ -66,14 +78,18 @@ public class Skin {
         }
     }
 
-    //Static Methods
+    //Creation Methods
 
     public static Skin fromJSON(JSONObject jsonObject) {
         return new Skin((String) jsonObject.get("value"), (String) jsonObject.get("signature"));
     }
 
-    public static Skin fromWrappedSignedProperty(WrappedSignedProperty wrappedSignedProperty) {
-        return new Skin(wrappedSignedProperty.getValue(), wrappedSignedProperty.getSignature());
+    public static Skin fromJSON(JSONObject jsonObject, UUID uuid) {
+        return new Skin((String) jsonObject.get("value"), (String) jsonObject.get("signature"), uuid);
+    }
+
+    public static Skin fromWrappedSignedProperty(WrappedSignedProperty wrappedSignedProperty, UUID uuid) {
+        return new Skin(wrappedSignedProperty.getValue(), wrappedSignedProperty.getSignature(), uuid);
     }
 
     public static Skin fromGameProfile(WrappedGameProfile gameProfile) {
@@ -81,9 +97,11 @@ public class Skin {
         if (wrappedSignedProperties.length == 0) {
             return Skin.EMPTY;
         } else {
-            return fromWrappedSignedProperty(wrappedSignedProperties[0]);
+            return fromWrappedSignedProperty(wrappedSignedProperties[0], gameProfile.getUUID());
         }
     }
+
+    //Skull Methods
 
     public static Skin getSkinOfSkullMeta(SkullMeta skullMeta) {
         WrappedGameProfile wrappedGameProfile = WrappedGameProfile.fromHandle(CRAFT_META_SKULL_PROFILE.get(skullMeta));
@@ -91,15 +109,11 @@ public class Skin {
     }
 
     public static void setSkinOfSkullMeta(SkullMeta skullMeta, Skin skin) {
-        WrappedGameProfile wrappedGameProfile = new WrappedGameProfile(/*UUID.fromString("10001000-1000-3000-8000-100010001000")*/ UUID.randomUUID(), "MundoSK-Name");
-        wrappedGameProfile.getProperties().put(MULTIMAP_KEY, skin.toWrappedSignedProperty());
-        CRAFT_META_SKULL_PROFILE.set(skullMeta, wrappedGameProfile.getHandle());
+        setSkinOfSkullMeta(skullMeta, skin, skullMeta.getOwner() == null ? "MundoSK-Name" : skullMeta.getOwner());
     }
 
     public static void setSkinOfSkullMeta(SkullMeta skullMeta, Skin skin, String name) {
-        WrappedGameProfile wrappedGameProfile = new WrappedGameProfile(UUID.fromString("10001000-1000-3000-8000-100010001000"), name);
-        wrappedGameProfile.getProperties().put(MULTIMAP_KEY, skin.toWrappedSignedProperty());
-        CRAFT_META_SKULL_PROFILE.set(skullMeta, wrappedGameProfile.getHandle());
+        CRAFT_META_SKULL_PROFILE.set(skullMeta, skin.toGameProfile(name).getHandle());
     }
 
     public static Skin getSkinOfSkull(Skull skull) {
@@ -108,9 +122,11 @@ public class Skin {
     }
 
     public static void setSkinOfSkull(Skull skull, Skin skin) {
-        WrappedGameProfile wrappedGameProfile = new WrappedGameProfile(UUID.fromString("10001000-1000-3000-8000-100010001000"), "MundoSK-Name");
-        wrappedGameProfile.getProperties().put(MULTIMAP_KEY, skin.toWrappedSignedProperty());
-        CRAFT_SKULL_PROFILE.set(skull, wrappedGameProfile.getHandle());
+        setSkinOfSkull(skull, skin, skull.getOwner() == null ? "MundoSK-Name" : skull.getOwner());
+    }
+
+    public static void setSkinOfSkull(Skull skull, Skin skin, String name) {
+        CRAFT_SKULL_PROFILE.set(skull, skin.toGameProfile(name).getHandle());
     }
 
 }

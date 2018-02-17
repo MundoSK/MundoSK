@@ -10,6 +10,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Event;
 
 import java.io.File;
+import java.util.UUID;
 
 /**
  * Created by Tlatoani on 5/6/17.
@@ -26,20 +27,22 @@ public class ExprRetrievedSkin extends SimpleExpression<Skin> {
         FILE, URL, OFFLINE_PLAYER
     }
 
-    private String getRawString(Event event) {
+    private Skin getSkin(Event event) {
         int timeoutMillis = timeoutExpr == null ? MineSkinClient.DEFAULT_TIMEOUT_MILLIS : new Long(timeoutExpr.getSingle(event).getMilliSeconds()).intValue();
         switch (mode) {
-            case FILE: return MineSkinClient.rawStringFromFile(new File(stringExpr.getSingle(event)), timeoutMillis, def);
-            case URL: return MineSkinClient.rawStringFromURL(stringExpr.getSingle(event), timeoutMillis, def);
-            case OFFLINE_PLAYER: return MineSkinClient.rawStringFromUUID(offlinePlayerExpr.getSingle(event).getUniqueId(), timeoutMillis, def);
+            case FILE: return MineSkinClient.fromRawString(MineSkinClient.rawStringFromFile(new File(stringExpr.getSingle(event)), timeoutMillis, def));
+            case URL: return MineSkinClient.fromRawString(MineSkinClient.rawStringFromURL(stringExpr.getSingle(event), timeoutMillis, def));
+            case OFFLINE_PLAYER: {
+                UUID offlinePlayerUUID = offlinePlayerExpr.getSingle(event).getUniqueId();
+                return MineSkinClient.fromRawString(MineSkinClient.rawStringFromUUID(offlinePlayerUUID, timeoutMillis, def), offlinePlayerUUID);
+            }
         }
         throw new IllegalStateException("RetrieveMode = " + mode);
     }
 
     @Override
     protected Skin[] get(Event event) {
-        String raw = getRawString(event);
-        return new Skin[]{MineSkinClient.fromRawString(raw)};
+        return new Skin[]{getSkin(event)};
     }
 
     @Override

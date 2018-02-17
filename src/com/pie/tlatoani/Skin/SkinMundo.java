@@ -22,6 +22,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.NotSerializableException;
 import java.io.StreamCorruptedException;
+import java.util.UUID;
 
 /**
  * Created by Tlatoani on 8/8/17.
@@ -71,6 +72,7 @@ public class SkinMundo {
                 Fields fields = new Fields();
                 fields.putObject("value", skin.value);
                 fields.putObject("signature", skin.signature);
+                fields.putObject("uuid", skin.uuid.toString());
                 return fields;
             }
 
@@ -84,8 +86,13 @@ public class SkinMundo {
                 try {
                     String value = (String) fields.getObject("value");
                     String signature = (String) fields.getObject("signature");
-                    Logging.debug(SkinMundo.class, "value: " + value + ", signature: " + signature);
-                    return new Skin(value, signature);
+                    String uuid = fields.contains("uuid") ? (String) fields.getObject("uuid") : null;
+                    Logging.debug(SkinMundo.class, "value: " + value + ", signature: " + signature + ", uuid: " + uuid);
+                    if (uuid == null) {
+                        return new Skin(value, signature);
+                    } else {
+                        return new Skin(value, signature, UUID.fromString(uuid));
+                    }
                 } catch (StreamCorruptedException | ClassCastException e) {
                     try {
                         String value = (String) fields.getObject("value");
@@ -147,7 +154,7 @@ public class SkinMundo {
                         , "set player's displayed skin to {_p4}'s skin for {_p1} #{_p1} now sees the skin as {_p4}'s skin"
                         , "reset player's displayed skin #All players (including {_p1}) now see the skin as the player's actual skin");
         Registration.registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin% [with owner %-string%]")
-                .document("Skull from Skin", "1.8", "An expression for a skull bearing the specified skin.");
+                .document("Skull from Skin", "1.8", "An expression for a skull bearing the specified skin, optionally with the specified owner.");
         Registration.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY, "retrieved [(4¦slim)] skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%) [[with] timeout %-timespan%]")
                 .document("Retrieved Skin", "1.8", "An expression for a skin retrieved using the Mineskin API:"
                         , "A skin recreated from the specified image file,"
