@@ -3,6 +3,7 @@ package com.pie.tlatoani.Skin;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
 import com.pie.tlatoani.Util.Reflection;
+import org.bukkit.SkullType;
 import org.bukkit.block.Skull;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.json.simple.JSONObject;

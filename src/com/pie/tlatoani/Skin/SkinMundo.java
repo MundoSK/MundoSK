@@ -125,7 +125,8 @@ public class SkinMundo {
         Registration.registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%")
                 .document("Skin with Value", "1.8", "An expression for a skin with the specified value and signature.");
         Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack/block%", "%player/itemstack/block%'s skin")
-                .document("Skin of Player or Skull", "1.8", "An expression for the skin of the specified player (must be online) or skull (either item or block).");
+                .document("Skin of Player or Skull", "1.8", "An expression for the skin of the specified player (must be online), skull item, or placed skull block (1.8.5+ only).")
+                .changer(Changer.ChangeMode.SET, "1.8", "Only allowed for setting the skin of a skull (item or block)");
         Registration.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY,
                 "[(1¦default)] displayed skin of %player% [(for %-players%|excluding %-players%)]",
                 "%player%'s [(1¦default)] displayed skin [(for %-players%|excluding %-players%)]")
@@ -154,7 +155,9 @@ public class SkinMundo {
                         , "set player's displayed skin to {_p4}'s skin for {_p1} #{_p1} now sees the skin as {_p4}'s skin"
                         , "reset player's displayed skin #All players (including {_p1}) now see the skin as the player's actual skin");
         Registration.registerExpression(ExprSkullFromSkin.class, ItemStack.class, ExpressionType.PROPERTY, "skull from %skin% [with owner %-string%]")
-                .document("Skull from Skin", "1.8", "An expression for a skull bearing the specified skin, optionally with the specified owner.");
+                .document("Skull from Skin", "1.8", "An expression for a skull bearing the specified skin, optionally with the specified owner. "
+                        + "If you do not specify an owner, the owner will appear to be \"MundoSK-Name\". This really only matters if anybody is going to actually have the skull in their inventory "
+                        + "(i.e. if the skull is only going to be used as a block, the owner isn't important, though it may be useful as an identifier).");
         Registration.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY, "retrieved [(4¦slim)] skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%) [[with] timeout %-timespan%]")
                 .document("Retrieved Skin", "1.8", "An expression for a skin retrieved using the Mineskin API:"
                         , "A skin recreated from the specified image file,"

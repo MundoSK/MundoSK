@@ -78,6 +78,7 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
             BlockState state = ((Block) value).getState();
             if (state instanceof Skull) {
                 Skin.setSkinOfSkull((Skull) state, skinDelta);
+                state.update();
             }
         }
     }
