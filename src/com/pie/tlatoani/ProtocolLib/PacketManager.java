@@ -141,7 +141,7 @@ public class PacketManager {
     }
 
     public static void onPacketEvent(PacketType packetType, ListenerPriority priority, Consumer<PacketEvent> handler) {
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.INSTANCE, priority, packetType) {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.get(), priority, packetType) {
             @Override
             public void onPacketReceiving(PacketEvent event) {
                 handler.accept(event);
@@ -159,7 +159,7 @@ public class PacketManager {
     }
 
     public static void onPacketEvent(PacketType[] packetTypes, ListenerPriority priority, Consumer<PacketEvent> handler) {
-        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.INSTANCE, priority, packetTypes) {
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(Mundo.get(), priority, packetTypes) {
             @Override
             public void onPacketReceiving(PacketEvent event) {
                 handler.accept(event);

@@ -62,7 +62,7 @@ public class WorldBorderMundo {
             public void onWorldLoad(WorldLoadEvent event) {
                 replaceBorderForWorld(event.getWorld());
             }
-        }, Mundo.INSTANCE);
+        }, Mundo.get());
 
         Registration.registerEvent("Border Stabilize", EvtBorderStabilize.class, BorderStabilizeEvent.class, "border stabilize [in %-worlds%]")
                 .document("Border Stabilize", "1.4.6", "Called when a border (optionally only of the specified world(s)) stops moving.");

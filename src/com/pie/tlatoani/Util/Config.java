@@ -22,12 +22,12 @@ public final class Config {
     public static final Option<Boolean> DISABLE_SIZE_SYNTAX = new Option<>("border_disable_size_syntax", false, FileConfiguration::getBoolean);
 
     public static void reload() {
-        Mundo.INSTANCE.reloadConfig();
-        FileConfiguration config = Mundo.INSTANCE.getConfig();
+        Mundo.get().reloadConfig();
+        FileConfiguration config = Mundo.get().getConfig();
         options.forEach(option -> option.addDefault(config));
         config.options().copyDefaults(true);
         options.forEach(option -> option.loadValue(config));
-        Mundo.INSTANCE.saveConfig();
+        Mundo.get().saveConfig();
     }
 
     public static void displayConfig(CommandSender sender) {

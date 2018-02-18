@@ -49,7 +49,7 @@ public final class WorldLoader {
     }
 
     public static File getLoaderFile() throws IOException {
-        File result = new File(Mundo.INSTANCE.getDataFolder().getAbsolutePath() + File.separator + FILENAME);
+        File result = new File(Mundo.get().getDataFolder().getAbsolutePath() + File.separator + FILENAME);
         if (!result.exists()) {
             result.createNewFile();
             JSONObject emptyObject = new JSONObject();

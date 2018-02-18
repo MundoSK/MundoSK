@@ -2,10 +2,6 @@ package com.pie.tlatoani.Skin;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
-import com.pie.tlatoani.Util.Reflection;
-import org.bukkit.SkullType;
-import org.bukkit.block.Skull;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.json.simple.JSONObject;
 
 import java.util.Optional;
@@ -30,9 +26,6 @@ public class Skin {
     );
 
     public static String MULTIMAP_KEY = "textures";
-    public static final Reflection.FieldAccessor CRAFT_META_SKULL_PROFILE = Reflection.getField(Reflection.getCraftBukkitClass("inventory.CraftMetaSkull"), "profile", Reflection.getClass("com.mojang.authlib.GameProfile"));
-    public static final Reflection.FieldAccessor CRAFT_SKULL_PROFILE = Reflection.getField(Reflection.getCraftBukkitClass("block.CraftSkull"), "profile", Reflection.getClass("com.mojang.authlib.GameProfile"));
-
     public final String value;
     public final String signature;
     public final UUID uuid; //Currently used to ensure uniqueness when creating a skull using a skin
@@ -101,33 +94,4 @@ public class Skin {
             return fromWrappedSignedProperty(wrappedSignedProperties[0], gameProfile.getUUID());
         }
     }
-
-    //Skull Methods
-
-    public static Skin getSkinOfSkullMeta(SkullMeta skullMeta) {
-        WrappedGameProfile wrappedGameProfile = WrappedGameProfile.fromHandle(CRAFT_META_SKULL_PROFILE.get(skullMeta));
-        return wrappedGameProfile == null ? EMPTY : fromGameProfile(wrappedGameProfile);
-    }
-
-    public static void setSkinOfSkullMeta(SkullMeta skullMeta, Skin skin) {
-        setSkinOfSkullMeta(skullMeta, skin, skullMeta.getOwner() == null ? "MundoSK-Name" : skullMeta.getOwner());
-    }
-
-    public static void setSkinOfSkullMeta(SkullMeta skullMeta, Skin skin, String name) {
-        CRAFT_META_SKULL_PROFILE.set(skullMeta, skin.toGameProfile(name).getHandle());
-    }
-
-    public static Skin getSkinOfSkull(Skull skull) {
-        WrappedGameProfile wrappedGameProfile = WrappedGameProfile.fromHandle(CRAFT_SKULL_PROFILE.get(skull));
-        return wrappedGameProfile == null ? EMPTY : fromGameProfile(wrappedGameProfile);
-    }
-
-    public static void setSkinOfSkull(Skull skull, Skin skin) {
-        setSkinOfSkull(skull, skin, skull.getOwner() == null ? "MundoSK-Name" : skull.getOwner());
-    }
-
-    public static void setSkinOfSkull(Skull skull, Skin skin, String name) {
-        CRAFT_SKULL_PROFILE.set(skull, skin.toGameProfile(name).getHandle());
-    }
-
 }

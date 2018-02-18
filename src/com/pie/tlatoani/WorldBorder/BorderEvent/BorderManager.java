@@ -26,7 +26,7 @@ public final class BorderManager implements Listener, Runnable {
 			stablesizes.put(borderarg, sizearg);
 			stabletimes.put(borderarg, timearg);
 			origsizes.put(borderarg, borderarg.getWorldBorder().getSize());
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Mundo.INSTANCE, new BorderManager(borderarg), timearg.longValue()*20);
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Mundo.get(), new BorderManager(borderarg), timearg.longValue()*20);
 		}
 	}
 	

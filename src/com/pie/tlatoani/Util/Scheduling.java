@@ -16,18 +16,18 @@ public class Scheduling {
     }
 
     public static void sync(Runnable runnable) {
-        scheduler.runTask(Mundo.INSTANCE, runnable);
+        scheduler.runTask(Mundo.get(), runnable);
     }
 
     public static void async(Runnable runnable) {
-        scheduler.runTaskAsynchronously(Mundo.INSTANCE, runnable);
+        scheduler.runTaskAsynchronously(Mundo.get(), runnable);
     }
 
     public static void syncDelay(int ticks, Runnable runnable) {
-        scheduler.runTaskLater(Mundo.INSTANCE, runnable, ticks);
+        scheduler.runTaskLater(Mundo.get(), runnable, ticks);
     }
 
     public static void asyncDelay(int ticks, Runnable runnable) {
-        scheduler.runTaskLaterAsynchronously(Mundo.INSTANCE, runnable, ticks);
+        scheduler.runTaskLaterAsynchronously(Mundo.get(), runnable, ticks);
     }
 }

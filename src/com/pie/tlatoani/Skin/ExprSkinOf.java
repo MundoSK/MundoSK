@@ -28,15 +28,9 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
         if (value instanceof Player) {
             return new Skin[]{ProfileManager.getProfile((Player) value).getActualSkin()};
         } else if (value instanceof ItemStack) {
-            ItemMeta meta = ((ItemStack) value).getItemMeta();
-            if (meta instanceof SkullMeta) {
-                return new Skin[]{Skin.getSkinOfSkullMeta((SkullMeta) meta)};
-            }
+            return new Skin[]{SkullUtil.fromItemStack((ItemStack) value).map(SkullUtil::getSkin).orElse(null)};
         } else if (value instanceof Block) {
-            BlockState state = ((Block) value).getState();
-            if (state instanceof Skull) {
-                return new Skin[]{Skin.getSkinOfSkull((Skull) state)};
-            }
+            return new Skin[]{SkullUtil.fromBlock((Block) value).map(SkullUtil::getSkin).orElse(null)};
         }
         return new Skin[]{null};
     }
@@ -69,17 +63,9 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
         if (value == null) {
             return;
         } else if (value instanceof ItemStack) {
-            ItemMeta meta = ((ItemStack) value).getItemMeta();
-            if (meta instanceof SkullMeta) {
-                Skin.setSkinOfSkullMeta((SkullMeta) meta, skinDelta);
-            }
-            ((ItemStack) value).setItemMeta(meta);
+            SkullUtil.fromItemStack((ItemStack) value).ifPresent(held -> held.setSkin(skinDelta));
         } else if (value instanceof Block) {
-            BlockState state = ((Block) value).getState();
-            if (state instanceof Skull) {
-                Skin.setSkinOfSkull((Skull) state, skinDelta);
-                state.update();
-            }
+            SkullUtil.fromBlock((Block) value).ifPresent(placed -> placed.setSkin(skinDelta));
         }
     }
 

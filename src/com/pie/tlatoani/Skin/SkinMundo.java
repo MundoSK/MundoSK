@@ -6,13 +6,12 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.yggdrasil.Fields;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Skin.MineSkin.ExprRetrievedSkin;
 import com.pie.tlatoani.Util.Logging;
-import com.pie.tlatoani.Registration.Registration;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
@@ -30,24 +29,15 @@ import java.util.UUID;
 public class SkinMundo {
     
     public static void load() {
-        //SkinManager.loadReflectionStuff();
-        //SkinManager.loadPacketEvents();
         ProfileManager.loadReflectionStuff();
         ProfileManager.loadPacketEvents();
 
-        /*Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
-            @EventHandler
-            public void onJoin(PlayerJoinEvent event) {
-                SkinManager.onJoin(event.getPlayer());
-            }
-        }, Mundo.INSTANCE);*/
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onQuit(PlayerQuitEvent event) {
-                //SkinManager.onQuit(event.getPlayer());
                 ProfileManager.onQuit(event.getPlayer());
             }
-        }, Mundo.INSTANCE);
+        }, Mundo.get());
 
         Registration.registerType(Skin.class, "skin", "skintexture")
                 .document("Skin Texture", "1.8", "Represents a skin, possibly of a player. Write 'steve' or 'alex' for these respective skins.")
@@ -60,11 +50,11 @@ public class SkinMundo {
             public Skin parse(String s, ParseContext parseContext) {
                 if (s.equalsIgnoreCase("STEVE")) {
                     return Skin.STEVE;
-                }
-                if (s.equalsIgnoreCase("ALEX")) {
+                } else if (s.equalsIgnoreCase("ALEX")) {
                     return Skin.ALEX;
+                } else {
+                    return null;
                 }
-                return null;
             }
         }).serializer(new Serializer<Skin>() {
             @Override
@@ -163,6 +153,7 @@ public class SkinMundo {
                         , "A skin recreated from the specified image file,"
                         , "A skin recreated from the specified URL of an image, or"
                         , "The skin of the specified offline player retrieved from Mojang");
+        Registration.registerPropertyExpression(ExprOwnerOfSkull.class, String.class, "itemstack/block", "owner of skull %", "skull %'s owner");
         Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY,
                 "[mundo[sk]] %player%'s [(1¦default)] name[]tag [for %-players%]",
                 "[mundo[sk]] [(1¦default)] name[]tag of %player% [for %-players%]")

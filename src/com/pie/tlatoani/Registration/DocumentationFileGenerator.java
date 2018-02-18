@@ -34,7 +34,7 @@ public class DocumentationFileGenerator {
     }
 
     public static File getDocumentationFile() throws IOException {
-        File result = new File(Mundo.INSTANCE.getDataFolder().getAbsolutePath() + File.separator + FILENAME);
+        File result = new File(Mundo.get().getDataFolder().getAbsolutePath() + File.separator + FILENAME);
         if (!result.exists()) {
             result.createNewFile();
         }

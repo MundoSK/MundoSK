@@ -19,16 +19,9 @@ public class ExprSkullFromSkin extends SimpleExpression<ItemStack> {
 
     @Override
     protected ItemStack[] get(Event event) {
-        ItemStack result = new ItemStack(Material.SKULL_ITEM);
-        SkullMeta skullMeta = (SkullMeta) result.getItemMeta();
-        if (ownerExpression != null) {
-            Skin.setSkinOfSkullMeta(skullMeta, skinExpression.getSingle(event), ownerExpression.getSingle(event));
-        } else {
-            Skin.setSkinOfSkullMeta(skullMeta, skinExpression.getSingle(event));
-        }
-        result.setItemMeta(skullMeta);
-        result.setDurability((short) SkullType.PLAYER.ordinal());
-        return new ItemStack[]{result};
+        Skin skin = skinExpression.getSingle(event);
+        String owner = ownerExpression == null ? null : ownerExpression.getSingle(event);
+        return new ItemStack[]{owner == null ? SkullUtil.createSkullItem(skin) : SkullUtil.createSkullItem(skin, owner)};
     }
 
     @Override

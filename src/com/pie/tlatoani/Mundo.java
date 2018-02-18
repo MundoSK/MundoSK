@@ -38,14 +38,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.IOException;
 
 public class Mundo extends JavaPlugin {
-	public static Mundo INSTANCE;
+	private static Mundo instance;
 	public static final ChatColor PRIMARY_CHAT_COLOR = ChatColor.DARK_GREEN;
 	public static final ChatColor ALT_CHAT_COLOR = ChatColor.GREEN;
 	public static final ChatColor TRI_CHAT_COLOR = ChatColor.DARK_AQUA;
 
+	public static Mundo get() {
+	    if (instance == null) {
+	        throw new IllegalStateException("MundoSK has not been enabled yet!");
+        }
+	    return instance;
+    }
+
     @Override
 	public void onEnable() {
-        INSTANCE = this;
+        instance = this;
 
         Config.reload();
         Logging.load(getLogger());
@@ -168,7 +175,7 @@ public class Mundo extends JavaPlugin {
     }
 
     public static String getVersion() {
-        return INSTANCE.getDescription().getVersion();
+        return instance.getDescription().getVersion();
     }
 	
 }

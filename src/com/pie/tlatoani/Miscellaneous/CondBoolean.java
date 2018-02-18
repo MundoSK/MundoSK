@@ -15,7 +15,8 @@ public class CondBoolean extends Condition{
 
     @Override
     public boolean check(Event event) {
-        return cond.getSingle(event) != negated;
+        Boolean bool = cond.getSingle(event);
+        return bool != null && bool != negated;
     }
 
     @Override

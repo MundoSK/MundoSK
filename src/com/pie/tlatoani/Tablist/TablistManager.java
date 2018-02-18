@@ -59,13 +59,13 @@ public class TablistManager {
             public void onJoin(PlayerJoinEvent event) {
                 TablistManager.onJoin(event.getPlayer());
             }
-        }, Mundo.INSTANCE);
+        }, Mundo.get());
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onQuit(PlayerQuitEvent event) {
                 TablistManager.onQuit(event.getPlayer());
             }
-        }, Mundo.INSTANCE);
+        }, Mundo.get());
 
         Registration.registerExpression(ExprHeaderFooter.class, String.class, ExpressionType.PROPERTY, "tablist (0¦header|1¦footer) (for|of) %players%", "%players%'s tablist (0¦header|1¦footer)")
                 .document("Tablist Header or Footer", "1.8", "An expression for the header or footer of the tablist(s) of the specified player(s). "
