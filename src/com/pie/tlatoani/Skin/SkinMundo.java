@@ -153,7 +153,9 @@ public class SkinMundo {
                         , "A skin recreated from the specified image file,"
                         , "A skin recreated from the specified URL of an image, or"
                         , "The skin of the specified offline player retrieved from Mojang");
-        Registration.registerPropertyExpression(ExprOwnerOfSkull.class, String.class, "itemstack/block", "owner of skull %", "skull %'s owner");
+        Registration.registerPropertyExpression(ExprOwnerOfSkull.class, String.class, "itemstack/block", "owner of skull %", "skull %'s owner")
+                .document("Owner of Skull", "1.8.5", "An expression for the owner of the specified skull, as an item or placed. "
+                        + "The owner only means the name that is shown when held, like \"Tlatoani's Head\", and doesn't affect the actual skin that the skull has.");
         Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY,
                 "[mundo[sk]] %player%'s [(1¦default)] name[]tag [for %-players%]",
                 "[mundo[sk]] [(1¦default)] name[]tag of %player% [for %-players%]")
