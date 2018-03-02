@@ -60,7 +60,7 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
         Object value = expression.getSingle(event);
         Skin skinDelta = (Skin) delta[0];
-        if (value == null) {
+        if (value == null || skinDelta == null) {
             return;
         } else if (value instanceof ItemStack) {
             SkullUtil.fromItemStack((ItemStack) value).ifPresent(held -> held.setSkin(skinDelta));

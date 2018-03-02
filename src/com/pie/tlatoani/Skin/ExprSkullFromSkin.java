@@ -4,11 +4,8 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import org.bukkit.Material;
-import org.bukkit.SkullType;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 
 /**
  * Created by Tlatoani on 11/23/16.
@@ -20,6 +17,9 @@ public class ExprSkullFromSkin extends SimpleExpression<ItemStack> {
     @Override
     protected ItemStack[] get(Event event) {
         Skin skin = skinExpression.getSingle(event);
+        if (skin == null) {
+            return new ItemStack[]{null};
+        }
         String owner = ownerExpression == null ? null : ownerExpression.getSingle(event);
         return new ItemStack[]{owner == null ? SkullUtil.createSkullItem(skin) : SkullUtil.createSkullItem(skin, owner)};
     }

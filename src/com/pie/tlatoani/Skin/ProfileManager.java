@@ -78,8 +78,13 @@ public class ProfileManager {
                         displayName = WrappedChatComponent.fromText(rawDisplayName);
                         Logging.debug(ProfileManager.class, "New displayName = " + displayName);
                     }
+                    String nametag = specificProfile.getNametag();
+                    //Code change to allow NameTagEdit to work theoretically
+                    if (nametag.equals(player.getName())) {
+                        nametag = oldPlayerInfoData.getProfile().getName();
+                    }
                     PlayerInfoData newPlayerInfoData = new PlayerInfoData(
-                            oldPlayerInfoData.getProfile().withName(specificProfile.getNametag()),
+                            oldPlayerInfoData.getProfile().withName(nametag),
                             oldPlayerInfoData.getLatency(),
                             oldPlayerInfoData.getGameMode(),
                             displayName
