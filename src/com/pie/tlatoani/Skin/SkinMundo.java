@@ -6,11 +6,13 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.yggdrasil.Fields;
 import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Registration.EnumClassInfo;
 import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Skin.MineSkin.ExprRetrievedSkin;
 import com.pie.tlatoani.Skin.Skull.ExprOwnerOfSkull;
 import com.pie.tlatoani.Skin.Skull.ExprSkullFromSkin;
 import com.pie.tlatoani.Skin.Skull.ExprTypeOfSkull;
+import com.pie.tlatoani.Skin.Skull.SkullUtil;
 import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.Bukkit;
 import org.bukkit.SkullType;
@@ -116,7 +118,11 @@ public class SkinMundo {
                 return false;
             }
         });
-        Registration.registerEnum(SkullType.class, "skulltype", SkullType.values());
+        EnumClassInfo<SkullType> skullTypeEnumClassInfo = Registration.registerEnum(SkullType.class, "skulltype");
+        for (SkullType skullType : SkullType.values()) {
+            skullTypeEnumClassInfo.pair(skullType.toString().toLowerCase() + " skull", skullType);
+        }
+        Registration.registerConverter(SkullType.class, ItemStack.class, SkullUtil::skullItem);
         Registration.registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%")
                 .document("Skin with Value", "1.8", "An expression for a skin with the specified value and signature.");
         Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack/block%", "%player/itemstack/block%'s skin")

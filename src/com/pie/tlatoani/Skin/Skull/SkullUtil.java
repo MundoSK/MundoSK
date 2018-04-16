@@ -96,10 +96,21 @@ public abstract class SkullUtil {
     }
 
     /**
+     * Creates a skull of type {@code skullType}.
+     * @param skullType The type of skull to create
+     * @return The created skull
+     */
+    public static ItemStack skullItem(SkullType skullType) {
+        Held heldSkull = new Held();
+        heldSkull.setSkullType(skullType);
+        return heldSkull.item;
+    }
+
+    /**
      * Creates a player skull in the form of an {@link ItemStack} of type {@link Material#SKULL_ITEM},
      * skull type {@link SkullType#PLAYER}, skin {@code skin}, and owner {@link #DEFAULT_SKULL_OWNER}
      * @param skin The skin of the new player skull
-     * @return A new player skull
+     * @return The created player skull
      */
     public static ItemStack playerSkullItem(Skin skin) {
         return playerSkullItem(skin, DEFAULT_SKULL_OWNER);
@@ -110,7 +121,7 @@ public abstract class SkullUtil {
      * skull type {@link SkullType#PLAYER}, skin {@code skin}, and owner {@code owner}
      * @param skin The skin of the new player skull
      * @param owner The owner of the new player skull
-     * @return A new player skull
+     * @return The created player skull
      */
     public static ItemStack playerSkullItem(Skin skin, String owner) {
         Held heldSkull = new Held();

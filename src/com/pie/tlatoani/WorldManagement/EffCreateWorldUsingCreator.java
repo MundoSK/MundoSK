@@ -17,7 +17,7 @@ public class EffCreateWorldUsingCreator extends Effect{
 
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean paramKleenean, ParseResult paramParseResult) {
-        autoload = matchedPattern == 1;
+        autoload = paramParseResult.mark == 1;
         worldName = (Expression<String>) expressions[0];
         creator = (Expression<WorldCreatorData>) expressions[1];
         return true;

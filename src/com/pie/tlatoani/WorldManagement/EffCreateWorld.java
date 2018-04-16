@@ -59,7 +59,7 @@ public class EffCreateWorld extends Effect {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        autoload = i == 1;
+        autoload = parseResult.mark == 1;
         nameExpr = (Expression<String>) expressions[0];
         dimensionExpr = (Expression<Dimension>) expressions[1];
         seedExpr = (Expression<String>) expressions[2];
