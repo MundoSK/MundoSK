@@ -1,8 +1,6 @@
 package com.pie.tlatoani.Util.Skript;
 
 import ch.njol.skript.lang.Debuggable;
-import com.pie.tlatoani.Registration.Registration;
-import com.pie.tlatoani.Util.SlotNew;
 import com.pie.tlatoani.Util.Static.Reflection;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
@@ -15,37 +13,36 @@ import java.util.function.Function;
  * Created by Tlatoani on 4/7/18.
  */
 public abstract class SlotImpl implements InvocationHandler {
-    private static Class<? extends Debuggable> skriptSlotClass = null;
     public static final String OLD_CLASS_NAME = "ch.njol.skript.util.Slot";
     public static final String NEW_CLASS_NAME = "ch.njol.skript.util.slot.Slot";
+    private static Boolean legacy = null;
 
-    public static Class<? extends Debuggable> getSkriptSlotClass() {
-        if (skriptSlotClass == null) {
+    public static boolean isLegacy() {
+        if (legacy == null) {
             if (Reflection.classExists(OLD_CLASS_NAME)) {
-                skriptSlotClass = ch.njol.skript.util.Slot.class;
+                legacy = true;
             } else if (Reflection.classExists(NEW_CLASS_NAME)) {
-                skriptSlotClass = ch.njol.skript.util.slot.Slot.class;
+                legacy = false;
             } else {
                 throw new IllegalStateException("Either " + OLD_CLASS_NAME + " or " + NEW_CLASS_NAME + " should exist");
             }
         }
-        return skriptSlotClass;
+        return legacy;
     }
 
-    public static boolean isLegacy() {
-        if (getSkriptSlotClass().getName().equals(OLD_CLASS_NAME)) {
-            return true;
-        } else if (getSkriptSlotClass().getName().equals(NEW_CLASS_NAME)) {
-            return false;
+    public static Class<? extends Debuggable> getSkriptSlotClass() {
+        if (isLegacy()) {
+            return SlotLegacy.SUPERCLASS;
+        } else {
+            return SlotNew.SUPERCLASS;
         }
-        throw new IllegalStateException("Either " + OLD_CLASS_NAME + " or " + NEW_CLASS_NAME + " should exist");
     }
 
     public static <E extends Event> void registerEventValue(Class<E> event, Function<E, SlotImpl> getter) {
         if (isLegacy()) {
-            Registration.registerEventValue(event, ch.njol.skript.util.Slot.class, e -> new SlotLegacy(getter.apply(e)));
+            SlotLegacy.registerEventValue(event, getter);
         } else {
-            Registration.registerEventValue(event, ch.njol.skript.util.slot.Slot.class, e -> new SlotNew(getter.apply(e)));
+            SlotNew.registerEventValue(event, getter);
         }
     }
 
