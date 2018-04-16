@@ -110,6 +110,14 @@ public class EnumClassInfo<E> extends MundoClassInfo<E> {
 
     //
 
+    public String getPluralCodeName() {
+        if (getCodeName().endsWith("y")) {
+            return getCodeName().substring(0,getCodeName().length() - 1) + "ies";
+        } else {
+            return getCodeName() + "s";
+        }
+    }
+
     public E parse(String s) {
         s = s.toUpperCase();
         for (Map.Entry<String, E> pairing : pairings) {

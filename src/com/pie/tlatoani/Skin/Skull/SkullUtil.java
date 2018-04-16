@@ -239,6 +239,7 @@ public abstract class SkullUtil {
             if (skull.getSkullType() != skullType) {
                 skull.setSkullType(skullType);
             }
+            skull.update();
         }
     }
 }

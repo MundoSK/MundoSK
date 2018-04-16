@@ -23,7 +23,7 @@ public class ExprEnumValues extends SimpleExpression<Object> {
 
     static void addEnumClassInfo(EnumClassInfo enumClassInfo) {
         enumClassInfos.add(enumClassInfo);
-        expressionInfo.addPattern("[all [of the]] " + enumClassInfo.getCodeName() + "s");
+        expressionInfo.addPattern("[all [of the]] " + enumClassInfo.getPluralCodeName());
         if (!registered) {
             expressionInfo.register();
             registered = true;
@@ -47,7 +47,7 @@ public class ExprEnumValues extends SimpleExpression<Object> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "all " + enumClassInfo.getCodeName() + "s";
+        return "all " + enumClassInfo.getPluralCodeName();
     }
 
     @Override
