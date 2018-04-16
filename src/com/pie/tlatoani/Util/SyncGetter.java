@@ -1,6 +1,7 @@
 package com.pie.tlatoani.Util;
 
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Util.Static.Scheduling;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitScheduler;
 

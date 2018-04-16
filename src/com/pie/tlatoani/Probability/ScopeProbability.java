@@ -3,12 +3,11 @@ package com.pie.tlatoani.Probability;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.event.Event;
 
-import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Skript.CustomScope;
 
-import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Conditional;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.lang.TriggerSection;

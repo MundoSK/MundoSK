@@ -3,7 +3,7 @@ package com.pie.tlatoani.Miscellaneous;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.Scheduling;
+import com.pie.tlatoani.Util.Static.Scheduling;
 import org.bukkit.event.Event;
 
 /**

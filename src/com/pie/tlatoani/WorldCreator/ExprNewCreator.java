@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.WorldType;
 import org.bukkit.event.Event;
 
@@ -24,10 +24,10 @@ public class ExprNewCreator extends SimpleExpression<WorldCreatorData> {
     
     @Override
     protected WorldCreatorData[] get(Event event) {
-        Optional<String> name = Optional.ofNullable(nameExpr).map(expr -> expr.getSingle(event));
+        String name = Optional.ofNullable(nameExpr).map(expr -> expr.getSingle(event)).orElse(null);
         Logging.debug(this, "Creator Name: " + name);
         Dimension dimension = Optional.ofNullable(dimensionExpr).map(expr -> expr.getSingle(event)).orElse(null);
-        Optional<Long> seed = Optional.ofNullable(seedExpr).map(expr -> Long.parseLong(expr.getSingle(event)));
+        String seed = Optional.ofNullable(seedExpr).map(expr -> expr.getSingle(event)).orElse(null);
         WorldType type = Optional.ofNullable(typeExpr).map(expr -> expr.getSingle(event)).orElse(null);
         String generator = Optional.ofNullable(generatorExpr).map(expr -> expr.getSingle(event)).orElse(null);
         String generatorSettings = Optional.ofNullable(generatorSettingsExpr).map(expr -> expr.getSingle(event)).orElse(null);

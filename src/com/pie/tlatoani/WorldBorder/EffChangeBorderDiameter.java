@@ -7,7 +7,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.Config;
+import com.pie.tlatoani.Util.Static.Config;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.event.Event;

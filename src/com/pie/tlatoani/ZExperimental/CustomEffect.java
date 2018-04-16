@@ -5,7 +5,7 @@ import ch.njol.skript.SkriptAPIException;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.util.Pair;
-import com.pie.tlatoani.Util.MundoUtil;
+import com.pie.tlatoani.Util.Static.MundoUtil;
 import org.bukkit.event.Event;
 
 import java.util.ArrayList;

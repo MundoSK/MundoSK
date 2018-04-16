@@ -3,7 +3,7 @@ package com.pie.tlatoani.WorldBorder.BorderEvent;
 import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
-import com.pie.tlatoani.Util.MundoUtil;
+import com.pie.tlatoani.Util.Static.MundoUtil;
 import org.bukkit.World;
 import org.bukkit.event.Event;
 

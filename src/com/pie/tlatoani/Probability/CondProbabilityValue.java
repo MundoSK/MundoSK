@@ -1,9 +1,9 @@
 package com.pie.tlatoani.Probability;
 
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.event.Event;
 
-import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Skript.CustomScope;
 
 import javax.annotation.Nullable;
 

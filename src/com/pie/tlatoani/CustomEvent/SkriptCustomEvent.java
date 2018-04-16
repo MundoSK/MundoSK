@@ -2,9 +2,8 @@ package com.pie.tlatoani.CustomEvent;
 
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
-import ch.njol.util.coll.CollectionUtils;
 import com.google.common.collect.ImmutableList;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

@@ -1,11 +1,10 @@
 package com.pie.tlatoani.Miscellaneous;
 
 import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.util.Timespan;
-import com.pie.tlatoani.Util.CustomScope;
-import com.pie.tlatoani.Util.Scheduling;
+import com.pie.tlatoani.Util.Skript.CustomScope;
+import com.pie.tlatoani.Util.Static.Scheduling;
 import org.bukkit.event.Event;
 
 /**

@@ -5,23 +5,18 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Tablist.Tablist;
-import com.pie.tlatoani.Tablist.TablistManager;
-import org.bukkit.entity.Player;
+import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import org.bukkit.event.Event;
 
 /**
  * Created by Tlatoani on 8/3/16.
  */
 public class EffRemoveAllIDTabs extends Effect {
-    private Expression<Player> playerExpression;
+    private TablistProvider tablistProvider;
 
     @Override
     protected void execute(Event event) {
-        for (Player player : playerExpression.getArray(event)) {
-            if (!player.isOnline()) {
-                continue;
-            }
-            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+        for (Tablist tablist : tablistProvider.get(event)) {
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
                 simpleTablist.clear();
@@ -31,12 +26,12 @@ public class EffRemoveAllIDTabs extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "delete all simple tabs for " + playerExpression;
+        return "delete all simple tabs for " + tablistProvider;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        playerExpression = (Expression<Player>) expressions[0];
+        tablistProvider = TablistProvider.of(expressions, 0);
         return true;
     }
 }

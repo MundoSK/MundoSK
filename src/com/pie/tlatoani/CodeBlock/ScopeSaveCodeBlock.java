@@ -6,8 +6,8 @@ import ch.njol.skript.lang.Variable;
 import ch.njol.skript.lang.VariableString;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
-import com.pie.tlatoani.Util.CustomScope;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Skript.CustomScope;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.event.Event;
 
 import java.util.TreeMap;

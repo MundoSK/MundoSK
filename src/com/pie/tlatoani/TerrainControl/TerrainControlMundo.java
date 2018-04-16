@@ -1,7 +1,7 @@
 package com.pie.tlatoani.TerrainControl;
 
 import ch.njol.skript.lang.ExpressionType;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import com.pie.tlatoani.Registration.Registration;
 
 /**

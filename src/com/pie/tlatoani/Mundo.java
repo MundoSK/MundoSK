@@ -18,10 +18,10 @@ import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Skin.SkinMundo;
 import com.pie.tlatoani.Socket.SocketMundo;
 import com.pie.tlatoani.Socket.UtilFunctionSocket;
-import com.pie.tlatoani.Tablist.TablistManager;
+import com.pie.tlatoani.Tablist.TablistMundo;
 import com.pie.tlatoani.TerrainControl.TerrainControlMundo;
 import com.pie.tlatoani.Throwable.ThrowableMundo;
-import com.pie.tlatoani.Util.*;
+import com.pie.tlatoani.Util.Static.*;
 import com.pie.tlatoani.WebSocket.WebSocketManager;
 import com.pie.tlatoani.WorldBorder.WorldBorderMundo;
 import com.pie.tlatoani.WorldCreator.WorldCreatorMundo;
@@ -90,7 +90,7 @@ public class Mundo extends JavaPlugin {
             Registration.register("Packet", PacketManager::load, "ProtocolLib");
             if (Config.IMPLEMENT_PACKET_STUFF.getCurrentValue()) {
                 Registration.register("Skin", SkinMundo::load, "ProtocolLib");
-                Registration.register("Tablist", TablistManager::load, "ProtocolLib");
+                Registration.register("Tablist", TablistMundo::load, "ProtocolLib");
             }
         }
         if (MundoUtil.serverHasPlugin("TerrainControl")) {

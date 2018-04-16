@@ -6,8 +6,8 @@ import ch.njol.skript.lang.Conditional;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.UnparsedLiteral;
 import ch.njol.skript.registrations.Comparators;
-import com.pie.tlatoani.Util.CustomScope;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Skript.CustomScope;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.event.Event;
 
 /**

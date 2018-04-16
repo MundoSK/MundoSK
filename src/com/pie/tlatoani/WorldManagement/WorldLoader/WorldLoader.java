@@ -1,7 +1,7 @@
 package com.pie.tlatoani.WorldManagement.WorldLoader;
 
 import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import com.pie.tlatoani.WorldCreator.WorldCreatorData;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -25,7 +25,7 @@ public final class WorldLoader {
             readJSONObject(getLoaderFile()).forEach((key, value) -> {
                 String s = (String) key;
                 JSONObject jsonObject = (JSONObject) value;
-                WorldCreatorData creator = WorldCreatorData.fromJSON(Optional.of(s), jsonObject).get();
+                WorldCreatorData creator = WorldCreatorData.fromJSON(s, jsonObject).get();
                 setCreator(creator);
                 creator.createWorld();
             });

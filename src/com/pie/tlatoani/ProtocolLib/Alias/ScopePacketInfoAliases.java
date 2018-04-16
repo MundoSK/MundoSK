@@ -9,10 +9,10 @@ import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.log.SkriptLogger;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
-import com.pie.tlatoani.Util.GroupedList;
-import com.pie.tlatoani.Util.Logging;
-import com.pie.tlatoani.Util.MundoEventScope;
-import com.pie.tlatoani.Util.ScopeUtil;
+import com.pie.tlatoani.Util.Collections.GroupedList;
+import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Util.Skript.MundoEventScope;
+import com.pie.tlatoani.Util.Skript.ScopeUtil;
 import com.pie.tlatoani.ZExperimental.SyntaxPiece.*;
 import org.bukkit.event.Event;
 

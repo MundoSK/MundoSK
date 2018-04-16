@@ -4,10 +4,11 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionList;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Array;
+import java.util.function.Function;
 
 /**
  * Created by Tlatoani on 6/15/16.
@@ -18,7 +19,7 @@ public class TransDefault implements Transformer<Object> {
     Class returnType;
 
     @Override
-    public Boolean init(Expression expression) {
+    public boolean init(Expression expression) {
         Logging.debug(this, "Expression: " + expression);
         if (expression.isSingle()) {
             Skript.error("'" + expression + "' is not a list!");
@@ -59,7 +60,7 @@ public class TransDefault implements Transformer<Object> {
     }
 
     @Override
-    public void set(Event event, Object[] value) {
-        expression.change(event, value, Changer.ChangeMode.SET);
+    public void set(Event event, Function<Object[], Object[]> changer) {
+        expression.change(event, changer.apply(get(event)), Changer.ChangeMode.SET);
     }
 }

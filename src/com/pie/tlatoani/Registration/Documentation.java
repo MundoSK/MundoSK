@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Registration;
 
-import com.pie.tlatoani.Util.ImmutableGroupedList;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Collections.ImmutableGroupedList;
+import com.pie.tlatoani.Util.Static.Logging;
 
 import java.util.Comparator;
 import java.util.LinkedList;

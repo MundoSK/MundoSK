@@ -1,13 +1,12 @@
 package com.pie.tlatoani.WebSocket;
 
-import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.iterator.EmptyIterator;
-import com.pie.tlatoani.Util.MundoUtil;
+import com.pie.tlatoani.Util.Static.MundoUtil;
 import com.pie.tlatoani.WebSocket.Events.WebSocketServerEvent;
 import mundosk_libraries.java_websocket.WebSocket;
 import mundosk_libraries.java_websocket.server.WebSocketServer;

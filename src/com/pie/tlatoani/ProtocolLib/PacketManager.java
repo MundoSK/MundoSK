@@ -1,5 +1,6 @@
 package com.pie.tlatoani.ProtocolLib;
 
+import ch.njol.skript.expressions.base.EventValueExpression;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionInfo;
 import ch.njol.skript.lang.ExpressionType;
@@ -13,7 +14,7 @@ import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.Alias.ExprPacketInfoAlias;
 import com.pie.tlatoani.Registration.DocumentationBuilder;
 import com.pie.tlatoani.Registration.Registration;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -62,7 +63,8 @@ public class PacketManager {
         Registration.registerType(PacketContainer.class, "packet")
                 .document("Packet", "1.8", "A packet. Packets are used by the Minecraft client and server to transmit information, "
                         + "and can be intercepted, read, and modified in order to gain information and modify the behavior of your server "
-                        + "in certain ways that are not possible through Bukkit.");
+                        + "in certain ways that are not possible through Bukkit.")
+                .defaultExpression(new EventValueExpression<>(PacketContainer.class));
         Registration.registerEffect(EffSendPacket.class, "send packet[s] %packets% to %players%", "send %players% packet[s] %packets%")
                 .document("Send Packet", "1.8", "Sends the specified packet(s) to the specified player(s).");
         Registration.registerEffect(EffReceivePacket.class, "rec(ei|ie)ve packet[s] %packets% from %players%") //Included incorrect spelling to avoid wasted time
@@ -81,7 +83,7 @@ public class PacketManager {
         registerPacketInfoExpression(ExprNewPacket.class, PacketContainer.class, "new %packettype% packet")
                 .document("New Packet", "1.8", "An expression for a new packet of the specified type.");
         registerPacketInfoExpression(ExprJSONObjectOfPacket.class, JSONObject.class,
-                "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(true) + ") pjson %number% of %packet%",
+                "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(true) + ") pjson %number% [of %packet%]",
                 "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(false) + ") array pjson %number% of %packet%")
                 .document("JSON Field of Packet", "1.8", "An expression for certain fields of packets (first see the Packet Info expression for a more general explanation) "
                         + "that don't have equivalent types in Skript, and thus must be represented in the form of a jsonobject. "
@@ -89,8 +91,8 @@ public class PacketManager {
                         + "Current accept JSON infos: 'chatcomponent', 'serverping', 'datawatcher', 'watchablecollection', 'gameprofile', 'nbt', "
                         + "'chatcomponent' array, 'playerinfodata' array.");
         registerPacketInfoExpression(ExprObjectOfPacket.class, Object.class,
-                "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(true) + ") pinfo %number% of %packet%",
-                "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% of %packet%")
+                "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(true) + ") pinfo %number% [of %packet%]",
+                "(0¦%-classinfo/string%" + ExprObjectOfPacket.getConverterNamesPattern(false) + ") array pinfo %number% [of %packet%]")
                 .document("Field of Packet", "1.8", "An expression for the packet field of either the specified type or referred to by the specified string, "
                         + "with the specified index, of the specified packet. For example, 'string' can be used as the specified type to get a string field "
                         + "in the specified packet. 'array' must be included in the syntax when the fields are plural (ex. 'string array'). "
@@ -98,20 +100,20 @@ public class PacketManager {
                         + "that cannot be easily used in Skript without the use of addons such as skript-mirror. Many of these fields can be converted into Skript "
                         + "types; most of these fields must be referred to by a certain string rather than a type: "
                         + "\"uuid\", \"material\", \"blockdata\", \"collection\" array, \"bytebuffer\" array (The last two are plural and must have array included in the syntax.");
-        registerPacketInfoExpression(ExprPrimitiveOfPacket.class, Number.class, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% of %packet%")
+        registerPacketInfoExpression(ExprPrimitiveOfPacket.class, Number.class, "(0¦byte|1¦short|2¦int|3¦long|4¦float|5¦double) pnum %number% [of %packet%]")
                 .document("Number Field of Packet", "1.8", "An expression for different kinds of number fields of packets. "
                         + "First see the Packet Info expression for a more general explanation of packet fields.");
-        registerPacketInfoExpression(ExprPrimitiveArrayOfPacket.class, Number.class, "(0¦int|1¦byte) array pnum %number% of %packet%")
+        registerPacketInfoExpression(ExprPrimitiveArrayOfPacket.class, Number.class, "(0¦int|1¦byte) array pnum %number% [of %packet%]")
                 .document("Number Array Field of Packet", "1.8", "An expression for int array and byte array fields of packets. "
                         + "First see the Packet Info expression for a more general explanation of packet fields.");
         registerPacketInfoExpression(ExprEntityOfPacket.class, Entity.class,
-                "%world% pentity %number% of %packet%",
-                "%world% pentity array %number% of %packet%")
+                "%world% pentity %number% [of %packet%]",
+                "%world% pentity array %number% [of %packet%]")
                 .document("Entity Field of Packet", "1.8", "An expression for an entity field of a packet "
                         + "(first see the Packet Info expression for a more general explanation of packet fields). "
                         + "The specified world is used to determine which world to get the entity from, and thus should be specified "
                         + "as whichever world the player sending/receiving the packet is in.");
-        registerPacketInfoExpression(ExprEnumOfPacket.class, String.class, "(arbitrary|%-string%) penum %number% of %packet%")
+        registerPacketInfoExpression(ExprEnumOfPacket.class, String.class, "(arbitrary|%-string%) penum %number% [of %packet%]")
                 .document("Enum Field of Packet", "1.8", "An expression for an enum field of a packet "
                         + "(first see the Packet Info o expression for a more general explanation of packet fields). "
                         + "The specified string is the name of the enum you are getting/setting. "

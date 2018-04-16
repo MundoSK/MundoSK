@@ -6,8 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tablist;
-import com.pie.tlatoani.Tablist.TablistManager;
-import org.bukkit.entity.Player;
+import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import org.bukkit.event.Event;
 
 import java.util.Optional;
@@ -17,7 +16,7 @@ import java.util.Optional;
  */
 public class EffCreateNewTab extends Effect {
     private Expression<String> id;
-    private Expression<Player> playerExpression;
+    private TablistProvider tablistProvider;
     private Expression<String> displayName;
     private Optional<Expression<Number>> ping;
     private Optional<Expression<Skin>> iconExpression;
@@ -30,11 +29,7 @@ public class EffCreateNewTab extends Effect {
         Integer latency = ping.map(expression -> expression.getSingle(event).intValue()).orElse(5);
         Skin icon = iconExpression.map(expression -> expression.getSingle(event)).orElse(Tablist.DEFAULT_SKIN_TEXTURE);
         Integer score = this.score.map(expression -> expression.getSingle(event).intValue()).orElse(0);
-        for (Player player : playerExpression.getArray(event)) {
-            if (!player.isOnline()) {
-                continue;
-            }
-            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+        for (Tablist tablist : tablistProvider.get(event)) {
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
                 simpleTablist.createTab(id, displayName, latency, icon, score);
@@ -44,17 +39,17 @@ public class EffCreateNewTab extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "create simple tab " + id + " for " + playerExpression + " with display name " + displayName + (ping == null ? "" : " latency " + ping) + (iconExpression == null ? "" : " icon " + iconExpression);
+        return "create simple tab " + id + " for " + tablistProvider + " with display name " + displayName + (ping == null ? "" : " latency " + ping) + (iconExpression == null ? "" : " icon " + iconExpression);
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         id = (Expression<String>) expressions[0];
-        playerExpression = (Expression<Player>) expressions[1];
-        displayName = (Expression<String>) expressions[2];
-        ping = Optional.ofNullable((Expression<Number>) expressions[3]);
-        iconExpression = Optional.ofNullable((Expression<Skin>) expressions[4]);
-        score = Optional.ofNullable((Expression<Number>) expressions[5]);
+        tablistProvider = TablistProvider.of(expressions, 1);
+        displayName = (Expression<String>) expressions[3];
+        ping = Optional.ofNullable((Expression<Number>) expressions[4]);
+        iconExpression = Optional.ofNullable((Expression<Skin>) expressions[5]);
+        score = Optional.ofNullable((Expression<Number>) expressions[6]);
         return true;
     }
 }

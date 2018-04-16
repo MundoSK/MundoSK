@@ -7,7 +7,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tablist;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import mundosk_libraries.packetwrapper.WrapperPlayServerPlayerInfo;
 import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardScore;
 import org.bukkit.GameMode;

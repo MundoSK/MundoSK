@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Miscellaneous.Matcher;
 
 import ch.njol.skript.lang.Expression;
-import com.pie.tlatoani.Util.CustomScope;
+import com.pie.tlatoani.Util.Skript.CustomScope;
 import org.bukkit.event.Event;
 
 /**

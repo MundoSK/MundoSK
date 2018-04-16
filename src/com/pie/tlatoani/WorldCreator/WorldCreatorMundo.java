@@ -13,7 +13,6 @@ import org.json.simple.parser.ParseException;
 import java.io.NotSerializableException;
 import java.io.StreamCorruptedException;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 /**
  * Created by Tlatoani on 8/8/17.
@@ -41,11 +40,11 @@ public class WorldCreatorMundo {
 
             @Override
             public WorldCreatorData deserialize(Fields fields) throws StreamCorruptedException, NotSerializableException {
-                Optional<String> name;
+                String name;
                 try {
-                    name = Optional.of((String) fields.getObject("name"));
+                    name = (String) fields.getObject("name");
                 } catch (StreamCorruptedException e) {
-                    name = Optional.empty();
+                    name = null;
                 }
                 try {
                     JSONObject jsonObject = (JSONObject) new JSONParser().parse((String) fields.getObject("json"));

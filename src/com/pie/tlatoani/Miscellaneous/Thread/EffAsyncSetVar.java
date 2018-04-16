@@ -4,7 +4,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.*;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.Scheduling;
+import com.pie.tlatoani.Util.Static.Scheduling;
 import org.bukkit.event.Event;
 
 /**

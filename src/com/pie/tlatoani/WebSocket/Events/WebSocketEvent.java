@@ -1,6 +1,6 @@
 package com.pie.tlatoani.WebSocket.Events;
 
-import com.pie.tlatoani.Util.BaseEvent;
+import com.pie.tlatoani.Util.Skript.BaseEvent;
 import mundosk_libraries.java_websocket.WebSocket;
 
 /**

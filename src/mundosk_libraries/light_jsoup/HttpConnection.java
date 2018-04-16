@@ -1,6 +1,6 @@
 package mundosk_libraries.light_jsoup;
 
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 
 import javax.net.ssl.*;
 import java.io.*;

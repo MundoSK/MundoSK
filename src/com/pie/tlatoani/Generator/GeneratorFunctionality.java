@@ -3,7 +3,7 @@ package com.pie.tlatoani.Generator;
 import ch.njol.skript.ScriptLoader;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Util.ScopeUtil;
+import com.pie.tlatoani.Util.Skript.ScopeUtil;
 
 import java.util.Optional;
 

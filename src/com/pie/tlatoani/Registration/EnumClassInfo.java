@@ -5,7 +5,7 @@ import ch.njol.skript.classes.Serializer;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.util.Pair;
 import ch.njol.yggdrasil.Fields;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 
 import java.io.NotSerializableException;
 import java.io.StreamCorruptedException;

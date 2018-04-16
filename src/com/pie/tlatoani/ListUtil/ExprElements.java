@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class ExprElements extends SimpleExpression<Object> {
     private String pattern;
-    private Transformer transformer;
+    private Transformer<?> transformer;
     private Expression expression;
     private Class returnType;
     private Class typeToSetTo;
@@ -61,52 +61,53 @@ public class ExprElements extends SimpleExpression<Object> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode){
-        if (mode == Changer.ChangeMode.SET) {
-            Object[] result = transformer.createArray(delta.length);
-            System.arraycopy(delta, 0, result, 0, delta.length);
-            transformer.set(event, result);
-        } else if (mode == Changer.ChangeMode.ADD) {
-            Object[] original = transformer.get(event);
-            Object[] sum = transformer.createArray(original.length + delta.length);
-            System.arraycopy(original, 0, sum, 0, original.length);
-            System.arraycopy(delta, 0, sum, original.length, delta.length);
-            transformer.set(event, sum);
-        } else if (mode == Changer.ChangeMode.DELETE) {
-            transformer.set(event, transformer.createArray(0));
-        } else if (mode == Changer.ChangeMode.RESET) {
-            Object[] original = transformer.get(event);
-            Object[] finalArray  = transformer.createArray(original.length);
-            for (int i = 0; i < original.length; i++) {
-                finalArray[i] = ((Transformer.Resettable) transformer).reset();
-            }
-            transformer.set(event, finalArray);
-        } else if (mode == Changer.ChangeMode.REMOVE) {
-            List original = new ArrayList(Arrays.asList(transformer.get(event)));
-            for (int i = 0; i < delta.length; i++) {
-                original.remove(delta[i]);
-            }
-            transformer.set(event, original.toArray(transformer.createArray(0)));
-        } else if (mode == Changer.ChangeMode.REMOVE_ALL) {
-            Object[] original = transformer.get(event);
-            Object[] without = new Object[original.length];
-            Integer amountremoved = 0;
-            for (int i = 0; i < original.length; i++) {
-                Boolean removed = false;
-                for (int j = 0; j < delta.length; j++) {
-                    if (original[i].equals(delta[j])) {
-                        removed = true;
-                        amountremoved++;
-                        break;
+        transformer.set(event, original -> {
+            if (mode == Changer.ChangeMode.SET) {
+                Object[] result = transformer.createArray(delta.length);
+                System.arraycopy(delta, 0, result, 0, delta.length);
+                return result;
+            } else if (mode == Changer.ChangeMode.ADD) {
+                Object[] sum = transformer.createArray(original.length + delta.length);
+                System.arraycopy(original, 0, sum, 0, original.length);
+                System.arraycopy(delta, 0, sum, original.length, delta.length);
+                return sum;
+            } else if (mode == Changer.ChangeMode.DELETE) {
+                return transformer.createArray(0);
+            } else if (mode == Changer.ChangeMode.RESET) {
+                Object[] finalArray = transformer.createArray(original.length);
+                for (int i = 0; i < original.length; i++) {
+                    finalArray[i] = ((Transformer.Resettable) transformer).reset();
+                }
+                return finalArray;
+            } else if (mode == Changer.ChangeMode.REMOVE) {
+                List origList = new ArrayList(Arrays.asList(original));
+                for (int i = 0; i < delta.length; i++) {
+                    origList.remove(delta[i]);
+                }
+                return origList.toArray(transformer.createArray(0));
+            } else if (mode == Changer.ChangeMode.REMOVE_ALL) {
+                Object[] without = new Object[original.length];
+                Integer amountremoved = 0;
+                for (int i = 0; i < original.length; i++) {
+                    Boolean removed = false;
+                    for (int j = 0; j < delta.length; j++) {
+                        if (original[i].equals(delta[j])) {
+                            removed = true;
+                            amountremoved++;
+                            break;
+                        }
+                    }
+                    if (!removed) {
+                        without[i - amountremoved] = original[i];
                     }
                 }
-                if (!removed) {
-                    without[i - amountremoved] = original[i];
-                }
+                Object[] result = transformer.createArray(original.length - amountremoved);
+                System.arraycopy(without, 0, result, 0, original.length - amountremoved);
+                return result;
+            } else {
+                throw new IllegalArgumentException("Illegal ChangeMode: " + mode);
             }
-            Object[] result = transformer.createArray(original.length - amountremoved);
-            System.arraycopy(without, 0, result, 0, original.length - amountremoved);
-            transformer.set(event, result);
-        }
+        });
     }
 
     @SuppressWarnings("unchecked")

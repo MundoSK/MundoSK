@@ -1,9 +1,8 @@
 package com.pie.tlatoani.WebSocket.Handshake;
 
 import ch.njol.skript.classes.Changer;
-import com.pie.tlatoani.Util.ChangeablePropertyExpression;
-import com.pie.tlatoani.Util.MundoPropertyExpression;
-import com.pie.tlatoani.Util.MundoUtil;
+import com.pie.tlatoani.Util.Skript.ChangeablePropertyExpression;
+import com.pie.tlatoani.Util.Static.OptionalUtil;
 import mundosk_libraries.java_websocket.handshake.Handshakedata;
 import mundosk_libraries.java_websocket.handshake.ServerHandshake;
 import mundosk_libraries.java_websocket.handshake.ServerHandshakeBuilder;
@@ -27,6 +26,6 @@ public class ExprHTTPStatus extends ChangeablePropertyExpression<Handshakedata, 
 
     @Override
     public Number convert(Handshakedata handshakedata) {
-        return MundoUtil.cast(handshakedata, ServerHandshake.class).map(ServerHandshake::getHttpStatus).orElse(null);
+        return OptionalUtil.cast(handshakedata, ServerHandshake.class).map(ServerHandshake::getHttpStatus).orElse(null);
     }
 }

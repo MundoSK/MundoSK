@@ -2,7 +2,6 @@ package com.pie.tlatoani.Registration;
 
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Registration.DocumentationElement.*;
-import com.pie.tlatoani.Util.Logging;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 

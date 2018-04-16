@@ -5,7 +5,7 @@ import ch.njol.skript.lang.*;
 import ch.njol.skript.util.StringMode;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.BaseEvent;
+import com.pie.tlatoani.Util.Skript.BaseEvent;
 import org.bukkit.event.Event;
 
 import java.util.TreeMap;

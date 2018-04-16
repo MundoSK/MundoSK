@@ -1,22 +1,29 @@
 package com.pie.tlatoani.Miscellaneous.ArmorStand;
 
 import ch.njol.skript.registrations.Classes;
-import ch.njol.skript.util.Slot;
+import com.pie.tlatoani.Util.Skript.SlotImpl;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+
 import javax.annotation.Nullable;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 /**
  * Created by Tlatoani on 6/23/16.
  */
-public class ArmorStandEquipmentSlot extends Slot {
+public class ArmorStandEquipmentSlot extends SlotImpl {
     private final ArmorStand e;
     private final EquipSlot slot;
 
     public ArmorStandEquipmentSlot(ArmorStand e, EquipSlot slot) {
         this.e = e;
         this.slot = slot;
+    }
+
+    public ArmorStandEquipmentSlot(ArmorStand e, EquipmentSlot slot) {
+        this(e, EquipSlot.getByEquipmentSlot(slot));
     }
 
     @Nullable
@@ -28,66 +35,39 @@ public class ArmorStandEquipmentSlot extends Slot {
         slot.set(this.e, item);
     }
 
+    @Override
+    public boolean isSameSlot(SlotImpl slot) {
+        return slot instanceof ArmorStandEquipmentSlot && ((ArmorStandEquipmentSlot) slot).slot == this.slot;
+    }
+
     public String toString_i() {
         return "the " + slot.name().toLowerCase() + " of " + Classes.toString(e);
     }
 
     public enum EquipSlot {
-        TOOL {
-            @Nullable
-            public ItemStack get(ArmorStand e) {
-                return e.getItemInHand();
-            }
+        TOOL(ArmorStand::getItemInHand, ArmorStand::setItemInHand),
+        HELMET(ArmorStand::getHelmet, ArmorStand::setHelmet),
+        CHESTPLATE(ArmorStand::getChestplate, ArmorStand::setChestplate),
+        LEGGINGS(ArmorStand::getLeggings, ArmorStand::setLeggings),
+        BOOTS(ArmorStand::getBoots, ArmorStand::setBoots);
 
-            public void set(ArmorStand e, @Nullable ItemStack item) {
-                e.setItemInHand(item);
-            }
-        },
-        HELMET {
-            @Nullable
-            public ItemStack get(ArmorStand e) {
-                return e.getHelmet();
-            }
+        private final Function<ArmorStand, ItemStack> getter;
+        private final BiConsumer<ArmorStand, ItemStack> setter;
 
-            public void set(ArmorStand e, @Nullable ItemStack item) {
-                e.setHelmet(item);
-            }
-        },
-        CHESTPLATE {
-            @Nullable
-            public ItemStack get(ArmorStand e) {
-                return e.getChestplate();
-            }
+        EquipSlot(Function<ArmorStand, ItemStack> getter, BiConsumer<ArmorStand, ItemStack> setter) {
+            this.getter = getter;
+            this.setter = setter;
+        }
 
-            public void set(ArmorStand e, @Nullable ItemStack item) {
-                e.setChestplate(item);
-            }
-        },
-        LEGGINGS {
-            @Nullable
-            public ItemStack get(ArmorStand e) {
-                return e.getLeggings();
-            }
-
-            public void set(ArmorStand e, @Nullable ItemStack item) {
-                e.setLeggings(item);
-            }
-        },
-        BOOTS {
-            @Nullable
-            public ItemStack get(ArmorStand e) {
-                return e.getBoots();
-            }
-
-            public void set(ArmorStand e, @Nullable ItemStack item) {
-                e.setBoots(item);
-            }
-        };
 
         @Nullable
-        public abstract ItemStack get(ArmorStand e);
+        public ItemStack get(ArmorStand e) {
+            return getter.apply(e);
+        }
 
-        public abstract void set(ArmorStand e, @Nullable ItemStack item);
+        public void set(ArmorStand e, @Nullable ItemStack item) {
+            setter.accept(e, item);
+        }
 
         public static EquipSlot getByEquipmentSlot(EquipmentSlot equipmentSlot) {
             switch (equipmentSlot) {

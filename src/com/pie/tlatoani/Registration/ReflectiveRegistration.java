@@ -2,8 +2,8 @@ package com.pie.tlatoani.Registration;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.*;
-import com.pie.tlatoani.Util.Logging;
-import com.pie.tlatoani.Util.Reflection;
+import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Util.Static.Reflection;
 import com.pie.tlatoani.ZExperimental.EffCustom;
 import com.pie.tlatoani.ZExperimental.ExprExpr;
 

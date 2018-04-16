@@ -6,24 +6,19 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Util.MundoUtil;
-import org.bukkit.entity.Player;
+import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import org.bukkit.event.Event;
-
-import java.util.Arrays;
 
 /**
  * Created by Tlatoani on 11/25/16.
  */
 public class CondScoresEnabled extends SimpleExpression<Boolean> {
-    private Expression<Player> playerExpression;
+    private TablistProvider tablistProvider;
     private boolean positive;
 
     @Override
     protected Boolean[] get(Event event) {
-        return new Boolean[]{MundoUtil.check(playerExpression, event, player ->
-                player.isOnline() && TablistManager.getTablistOfPlayer(player).areScoresEnabled()
-        , positive)};
+        return new Boolean[]{tablistProvider.check(event, Tablist::areScoresEnabled, positive)};
     }
 
     @Override
@@ -38,23 +33,20 @@ public class CondScoresEnabled extends SimpleExpression<Boolean> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "scores are " + (positive ? "enabled" : "disabled") + " in " + playerExpression + "'s tablist";
+        return "scores are " + (positive ? "enabled" : "disabled") + " in tablist of " + tablistProvider;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        playerExpression = (Expression<Player>) expressions[0];
+        tablistProvider = TablistProvider.of(expressions, 0);
         positive = parseResult.mark == 0;
         return true;
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         boolean enabled = positive == (boolean) delta[0];
-        for (Player player : playerExpression.getArray(event)) {
-            if (!player.isOnline()) {
-                continue;
-            }
-            TablistManager.getTablistOfPlayer(player).setScoresEnabled(enabled);
+        for (Tablist tablist : tablistProvider.get(event)) {
+            tablist.setScoresEnabled(enabled);
         }
     }
 

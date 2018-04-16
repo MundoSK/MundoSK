@@ -2,7 +2,7 @@ package com.pie.tlatoani.ZExperimental;
 
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
-import com.pie.tlatoani.Util.BaseEvent;
+import com.pie.tlatoani.Util.Skript.BaseEvent;
 import org.bukkit.event.Event;
 
 import java.util.HashMap;

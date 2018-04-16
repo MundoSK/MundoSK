@@ -6,8 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Util.MundoUtil;
-import org.bukkit.entity.Entity;
+import com.pie.tlatoani.Util.Static.MundoUtil;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Event;
 

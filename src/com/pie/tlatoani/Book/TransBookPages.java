@@ -2,10 +2,12 @@ package com.pie.tlatoani.Book;
 
 import ch.njol.skript.lang.Expression;
 import com.pie.tlatoani.ListUtil.Transformer;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+
+import java.util.function.Function;
 
 /**
  * Created by Tlatoani on 6/15/16.
@@ -14,7 +16,7 @@ public class TransBookPages implements Transformer<String>, Transformer.Resettab
     private Expression<ItemStack> book;
 
     @Override
-    public Boolean init(Expression expression) {
+    public boolean init(Expression expression) {
         book = expression;
         return true;
     }
@@ -35,13 +37,11 @@ public class TransBookPages implements Transformer<String>, Transformer.Resettab
     }
 
     @Override
-    public void set(Event event, String[] value) {
+    public void set(Event event, Function<Object[], Object[]> changer) {
         ItemStack book = this.book.getSingle(event);
         BookMeta meta = (BookMeta) book.getItemMeta();
-        Logging.debug(this, "PAGES NEW VALUE: " + value + ", BOOK = " + book + ", META = " + meta + ", META.GETPAGES() = " + meta.getPages());
-        meta.setPages(value);
+        meta.setPages((String[]) changer.apply(meta.getPages().toArray()));
         book.setItemMeta(meta);
-        Logging.debug(this, "META.GETPAGES() = " + meta.getPages());
     }
 
     @Override

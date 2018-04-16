@@ -1,8 +1,8 @@
 package com.pie.tlatoani.Book;
 
 import ch.njol.skript.classes.Changer;
-import com.pie.tlatoani.Util.ChangeablePropertyExpression;
-import com.pie.tlatoani.Util.MundoUtil;
+import com.pie.tlatoani.Util.Skript.ChangeablePropertyExpression;
+import com.pie.tlatoani.Util.Static.OptionalUtil;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
@@ -13,7 +13,7 @@ public class ExprAuthorOfBook extends ChangeablePropertyExpression<ItemStack, St
 
     @Override
     public void change(ItemStack itemStack, String s, Changer.ChangeMode changeMode) {
-        MundoUtil.cast(itemStack.getItemMeta(), BookMeta.class).ifPresent(bookMeta -> {
+        OptionalUtil.cast(itemStack.getItemMeta(), BookMeta.class).ifPresent(bookMeta -> {
             if (changeMode == Changer.ChangeMode.SET) {
                 bookMeta.setAuthor(s);
             } else if (changeMode == Changer.ChangeMode.ADD) {
@@ -30,6 +30,6 @@ public class ExprAuthorOfBook extends ChangeablePropertyExpression<ItemStack, St
 
     @Override
     public String convert(ItemStack itemStack) {
-        return MundoUtil.cast(itemStack.getItemMeta(), BookMeta.class).map(BookMeta::getAuthor).orElse(null);
+        return OptionalUtil.cast(itemStack.getItemMeta(), BookMeta.class).map(BookMeta::getAuthor).orElse(null);
     }
 }

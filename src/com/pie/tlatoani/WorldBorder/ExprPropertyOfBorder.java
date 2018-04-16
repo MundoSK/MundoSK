@@ -7,10 +7,13 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Util.Config;
+import com.pie.tlatoani.Util.Static.Config;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.event.Event;
+
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 /**
  * Created by Tlatoani on 7/15/17.
@@ -20,56 +23,37 @@ public class ExprPropertyOfBorder extends SimpleExpression<Number> {
     private Expression<World> worldExpression;
 
     public enum BorderProperty {
-        DIAMETER("diameter"),
-        DAMAGE_AMOUNT("damage amount"),
-        DAMAGE_BUFFER("damage buffer"),
-        WARNING_DISTANCE("warning distance"),
-        WARNING_TIME("warning time");
+        DIAMETER("diameter", 60000000, WorldBorder::getSize, Number::doubleValue, WorldBorder::setSize),
+        DAMAGE_AMOUNT("damage amount", 0.2, WorldBorder::getDamageAmount, Number::doubleValue, WorldBorder::setDamageAmount),
+        DAMAGE_BUFFER("damage buffer", 5, WorldBorder::getDamageBuffer, Number::doubleValue, WorldBorder::setDamageBuffer),
+        WARNING_DISTANCE("warning distance", 5, WorldBorder::getWarningDistance, Number::intValue, WorldBorder::setWarningDistance),
+        WARNING_TIME("warning time", 15, WorldBorder::getWarningTime, Number::intValue, WorldBorder::setWarningTime);
 
         public final String syntaxName;
+        public final Double defaultValue;
+        private final Function<WorldBorder, Number> getter;
+        private final BiConsumer<WorldBorder, Number> setter;
 
-        BorderProperty(String syntaxName) {
+        <T> BorderProperty(String syntaxName, double defaultValue, Function<WorldBorder, Number> getter, Function<Number, T> numConverter, BiConsumer<WorldBorder, T> setter) {
             this.syntaxName = syntaxName;
+            this.defaultValue = defaultValue;
+            this.getter = getter;
+            this.setter = ((border, number) -> setter.accept(border, numConverter.apply(number)));
         }
-    }
 
-    public static Number getProperty(WorldBorder border, BorderProperty borderProperty) {
-        switch (borderProperty) {
-            case DIAMETER: return border.getSize();
-            case DAMAGE_AMOUNT: return border.getDamageAmount();
-            case DAMAGE_BUFFER: return border.getDamageBuffer();
-            case WARNING_DISTANCE: return border.getWarningDistance();
-            case WARNING_TIME: return border.getWarningTime();
+        public Number get(WorldBorder border) {
+            return getter.apply(border);
         }
-        throw new IllegalArgumentException("Illegal BorderProperty: " + borderProperty);
-    }
 
-    public static void setProperty(WorldBorder border, BorderProperty borderProperty, Number value) {
-        switch (borderProperty) {
-            case DIAMETER: border.setSize(value.doubleValue()); return;
-            case DAMAGE_AMOUNT: border.setDamageAmount(value.doubleValue()); return;
-            case DAMAGE_BUFFER: border.setDamageBuffer(value.doubleValue()); return;
-            case WARNING_DISTANCE: border.setWarningDistance(value.intValue()); return;
-            case WARNING_TIME: border.setWarningTime(value.intValue()); return;
+        public void set(WorldBorder border, Number value) {
+            setter.accept(border, value);
         }
-        throw new IllegalArgumentException("Illegal BorderProperty: " + borderProperty);
-    }
-
-    public static void resetProperty(WorldBorder border, BorderProperty borderProperty) {
-        switch (borderProperty) {
-            case DIAMETER: border.setSize(60000000); return;
-            case DAMAGE_AMOUNT: border.setDamageAmount(0.2); return;
-            case DAMAGE_BUFFER: border.setDamageBuffer(5); return;
-            case WARNING_DISTANCE: border.setWarningDistance(5); return;
-            case WARNING_TIME: border.setWarningTime(15); return;
-        }
-        throw new IllegalArgumentException("Illegal BorderProperty: " + borderProperty);
     }
 
     @Override
     protected Number[] get(Event event) {
         WorldBorder border = worldExpression.getSingle(event).getWorldBorder();
-        return new Number[]{getProperty(border, borderProperty)};
+        return new Number[]{borderProperty.get(border)};
     }
 
     @Override
@@ -94,7 +78,8 @@ public class ExprPropertyOfBorder extends SimpleExpression<Number> {
             if (Config.DISABLE_SIZE_SYNTAX.getCurrentValue()) {
                 return false;
             }
-            Skript.warning("The 'size' alias for border diameter will be removed in a future version. Please use 'diameter' instead. " +
+            Skript.warning("The 'size' alias for border diameter is not recommended as it is vague and may cause conflicts. " +
+                    "Please use 'diameter' instead. " +
                     "If you were not trying to use a border syntax here, go to MundoSK's config and set the 'border_disable_size_syntax' option to true. " +
                     "Make sure any uses of 'size' for border diameter are changed to 'diameter' before you do this.");
         }
@@ -108,23 +93,13 @@ public class ExprPropertyOfBorder extends SimpleExpression<Number> {
         if (changeMode == Changer.ChangeMode.SET || changeMode == Changer.ChangeMode.ADD || changeMode == Changer.ChangeMode.REMOVE) {
             Number value = (Number) delta[0];
             if (changeMode == Changer.ChangeMode.ADD) {
-                Number original = getProperty(border, borderProperty);
-                if (original instanceof Integer) {
-                    value = (Integer) original + value.intValue();
-                } else {
-                    value = (Double) original + value.doubleValue();
-                }
+                value = borderProperty.get(border).doubleValue() + value.doubleValue();
             } else if (changeMode == Changer.ChangeMode.REMOVE) {
-                Number original = getProperty(border, borderProperty);
-                if (original instanceof Integer) {
-                    value = (Integer) original - value.intValue();
-                } else {
-                    value = (Double) original - value.doubleValue();
-                }
+                value = borderProperty.get(border).doubleValue() + value.doubleValue();
             }
-            setProperty(border, borderProperty, value);
+            borderProperty.set(border, value);
         } else if (changeMode == Changer.ChangeMode.RESET) {
-            resetProperty(border, borderProperty);
+            borderProperty.set(border, borderProperty.defaultValue);
         } else {
             throw new IllegalArgumentException("Illegal ChangeMode: " + changeMode);
         }

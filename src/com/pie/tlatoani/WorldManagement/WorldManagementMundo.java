@@ -27,12 +27,13 @@ public class WorldManagementMundo {
                 return worldCreator;
             }
         });
-        Registration.registerEffect(EffCreateWorld.class, "create [new] world named %string%[( with|,)] [(dim[ension]|env[ironment]) %-dimension%][,] [seed %-string%][,] [type %-worldtype%][,] [gen[erator] %-string%][,] [gen[erator] settings %-string%][,] [struct[ures] %-boolean%]")
+        Registration.registerEffect(EffCreateWorld.class, "create [new] [(1¦auto[matically ]loaded)] world named %string%[( with|,)] "
+                + "[(dim[ension]|env[ironment]) %-dimension%][,] [seed %-string%][,] [type %-worldtype%][,] [gen[erator] %-string%][,] [gen[erator] settings %-string%][,] [struct[ures] %-boolean%]")
                 .document("Create World", "1.6.4", "Creates a world with the specified name, optionally with a few settings. "
                         + "See the environment type and worldtype type for valid environments and worldtypes respectively. "
                         + "Generator settings can either be custom superflat codes or customized world codes (for customized world codes the worldtype needs to be 'customized').")
                 .example("create world named \"Example\" with dimension nether, seed \"12345\", type flat, structures false");
-        Registration.registerEffect(EffCreateWorldUsingCreator.class, "create [new] world [named %-string%] using %creator%")
+        Registration.registerEffect(EffCreateWorldUsingCreator.class, "create [new] [(1¦auto[matically ]loaded)] world [named %-string%] using %creator%")
                 .document("Create World using Creator", "1.8", "Creates a world using the specified creator, optionally specifying the world's name (this is required if the creator doesn't specify a name)."
                         + "See the creator expressions for more information on how to specify the world's name and other settings. "
                         + "If a world with the name (specified or from the creator) already exists, this will just load that world instead of creating a new one.");
@@ -50,17 +51,17 @@ public class WorldManagementMundo {
     }
     
     private static void loadWorldLoader() {
-        Registration.registerEffect(EffLoadWorldAutomatically.class, "[(1¦don't|1¦do not)] load %world% automatically")
+        Registration.registerEffect(EffLoadWorldAutomatically.class, "[(1¦don't|1¦do not)] load %world% automatically", "[(1¦don't|1¦do not)] autoload %world%")
                 .document("Load World Automatically", "1.8", "Tells MundoSK whether it should load the specified world automatically on server start. "
                         + "This is useful for simple and straightforward world management without the need for a world management plugin. "
                         + "Don't run this effect with the main world, as Bukkit will already load that world automatically, and this effect can't be used to enable/disable that behavior.");
-        Registration.registerExpression(ExprAllAutomaticCreators.class, WorldCreatorData.class, ExpressionType.SIMPLE, "[all] automatic creators")
+        Registration.registerExpression(ExprAllAutomaticCreators.class, WorldCreatorData.class, ExpressionType.SIMPLE, "[all] auto[matic ]creators")
                 .document("All Automatic Creators", "1.8", "An expression for all of the world creators that MundoSK is currently set to automatically run on server start.")
                 .changer(Changer.ChangeMode.ADD, WorldCreatorData.class, "1.8", "Specifies that given creator should be used as an automatic creator.")
                 .changer(Changer.ChangeMode.REMOVE, WorldCreatorData.class, "1.8", "Specifies that the world with the worldname of the given creator should not be loaded automatically.")
                 .changer(Changer.ChangeMode.REMOVE, String.class, "1.8", "Specifies that the world with the given worldname should not be loaded automatically")
                 .changer(Changer.ChangeMode.DELETE, "1.8", "Specifies that no worlds should be loaded automatically.");
-        Registration.registerPropertyExpression(ExprAutomaticCreator.class, WorldCreatorData.class, "string", "automatic creator %", "automatic creator for world %", "automatic creator for world named %")
+        Registration.registerPropertyExpression(ExprAutomaticCreator.class, WorldCreatorData.class, "string", "auto[matic ]creator [for world [named]] %")
                 .document("Automatic Creator", "1.8", "An expression for the automatic creator (if there is one) that MundoSK is currently set to run for the world with the specified name.")
                 .changer(Changer.ChangeMode.SET, WorldCreatorData.class, "1.8", "Specifies an automatic creator for the specified world.")
                 .changer(Changer.ChangeMode.DELETE, "1.8", "Specifies that the specified world should not be loaded automatically.");

@@ -1,17 +1,17 @@
 package com.pie.tlatoani.ListUtil;
 
 import ch.njol.skript.lang.Expression;
-import com.pie.tlatoani.Util.Logging;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Array;
+import java.util.function.Function;
 
 /**
  * Created by Tlatoani on 6/15/16.
  */
 public interface Transformer<T> {
 
-    Boolean init(Expression expression);
+    boolean init(Expression expression);
 
     Class<? extends T> getType();
 
@@ -24,7 +24,7 @@ public interface Transformer<T> {
         return (T[]) Array.newInstance(getType(), length);
     }
 
-    void set(Event event, T[] value);
+    void set(Event event, Function<Object[], Object[]> changer);
 
     interface Addable<T, U> extends Transformer<T> {
 

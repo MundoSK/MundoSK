@@ -8,18 +8,17 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Tablist.Tab;
-import com.pie.tlatoani.Tablist.TablistManager;
+import com.pie.tlatoani.Tablist.Tablist;
+import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-
-import java.util.Arrays;
 
 /**
  * Created by Tlatoani on 11/25/16.
  */
 public class ExprTablistName extends SimpleExpression<String> {
     private Expression<Player> objectExpression;
-    private Expression<Player> playerExpression;
+    private TablistProvider tablistProvider;
 
     @Override
     protected String[] get(Event event) {
@@ -27,11 +26,9 @@ public class ExprTablistName extends SimpleExpression<String> {
         if (!object.isOnline()) {
             return new String[0];
         }
-        return Arrays
-                .stream(playerExpression.getArray(event))
-                .filter(Player::isOnline)
-                .map(player -> TablistManager
-                        .getTablistOfPlayer(player)
+        return tablistProvider
+                .view(event)
+                .map(tablist -> tablist
                         .getPlayerTablist()
                         .flatMap(playerTablist -> playerTablist.getTab(object))
                         .map(Tab::getDisplayName)
@@ -41,7 +38,7 @@ public class ExprTablistName extends SimpleExpression<String> {
 
     @Override
     public boolean isSingle() {
-        return playerExpression.isSingle();
+        return tablistProvider.isSingle();
     }
 
     @Override
@@ -51,13 +48,13 @@ public class ExprTablistName extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "tablist name of " + objectExpression + " for " + playerExpression;
+        return "tablist name of " + objectExpression + " for " + tablistProvider;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         objectExpression = (Expression<Player>) expressions[0];
-        playerExpression = (Expression<Player>) expressions[1];
+        tablistProvider = TablistProvider.of(expressions, 1);
         return true;
     }
 
@@ -67,12 +64,8 @@ public class ExprTablistName extends SimpleExpression<String> {
         if (!object.isOnline()) {
             return;
         }
-        for (Player player : playerExpression.getArray(event)) {
-            if (!player.isOnline()) {
-                continue;
-            }
-            TablistManager
-                    .getTablistOfPlayer(player)
+        for (Tablist tablist : tablistProvider.get(event)) {
+            tablist
                     .getPlayerTablist()
                     .flatMap(playerTablist -> playerTablist.forceTab(object))
                     .ifPresent(tab -> tab.setDisplayName(value));

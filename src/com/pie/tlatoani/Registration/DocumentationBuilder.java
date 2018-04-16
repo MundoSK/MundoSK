@@ -3,7 +3,7 @@ package com.pie.tlatoani.Registration;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.util.Pair;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.event.Cancellable;
 
 import java.util.ArrayList;

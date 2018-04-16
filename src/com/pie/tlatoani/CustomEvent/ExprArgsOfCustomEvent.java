@@ -14,7 +14,7 @@ import ch.njol.util.Kleenean;
 public class ExprArgsOfCustomEvent extends SimpleExpression<Object>{
 
 	@Override
-	public Class<? extends Object> getReturnType() {
+	public Class<?> getReturnType() {
 		return Object.class;
 	}
 

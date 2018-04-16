@@ -5,7 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Tablist.Tablist;
-import com.pie.tlatoani.Tablist.TablistManager;
+import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -14,18 +14,14 @@ import org.bukkit.event.Event;
  */
 public class EffChangePlayerVisibility extends Effect {
     private boolean visible;
-    private Expression<Player> playerExpression;
+    private TablistProvider tablistProvider;
     private Expression<Player> objectsExpression;
 
     @Override
     protected void execute(Event event) {
         Player[] objects = objectsExpression.getArray(event);
         if (visible) {
-            for (Player player : playerExpression.getArray(event)) {
-                if (!player.isOnline()) {
-                    continue;
-                }
-                Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            for (Tablist tablist : tablistProvider.get(event)) {
                 tablist.getPlayerTablist().ifPresent(playerTablist -> {
                     for (Player object : objects) {
                         playerTablist.showPlayer(object);
@@ -33,11 +29,7 @@ public class EffChangePlayerVisibility extends Effect {
                 });
             }
         } else {
-            for (Player player : playerExpression.getArray(event)) {
-                if (!player.isOnline()) {
-                    continue;
-                }
-                Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            for (Tablist tablist : tablistProvider.get(event)) {
                 tablist.getPlayerTablist().ifPresent(playerTablist -> {
                     for (Player object : objects) {
                         playerTablist.hidePlayer(object);
@@ -45,18 +37,17 @@ public class EffChangePlayerVisibility extends Effect {
                 });
             }
         }
-
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return (visible ? "show " : "hide ") + objectsExpression + " in " + playerExpression;
+        return (visible ? "show " : "hide ") + objectsExpression + " for " + tablistProvider + " in tablist";
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         visible = parseResult.mark == 0;
-        playerExpression = (Expression<Player>) expressions[1];
+        tablistProvider = TablistProvider.of(expressions, 1);
         objectsExpression = (Expression<Player>) expressions[0];
         return true;
     }

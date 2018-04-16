@@ -1,6 +1,6 @@
 package com.pie.tlatoani.Generator;
 
-import com.pie.tlatoani.Util.BaseEvent;
+import com.pie.tlatoani.Util.Skript.BaseEvent;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;

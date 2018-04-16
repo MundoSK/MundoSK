@@ -6,28 +6,41 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.Classes;
-import ch.njol.skript.util.Slot;
 import ch.njol.skript.util.Timespan;
 import ch.njol.skript.variables.SerializedVariable;
 import ch.njol.yggdrasil.Fields;
-import com.pie.tlatoani.Miscellaneous.ArmorStand.*;
-import com.pie.tlatoani.Miscellaneous.Hanging.*;
+import com.pie.tlatoani.Miscellaneous.ArmorStand.ArmorStandEquipmentSlot;
+import com.pie.tlatoani.Miscellaneous.ArmorStand.EvtArmorStandPlace;
+import com.pie.tlatoani.Miscellaneous.Hanging.EvtUnhang;
+import com.pie.tlatoani.Miscellaneous.Hanging.ExprHangedEntity;
 import com.pie.tlatoani.Miscellaneous.JSON.EffPutJsonInListVariable;
 import com.pie.tlatoani.Miscellaneous.JSON.ExprListVariableAsJson;
 import com.pie.tlatoani.Miscellaneous.JSON.ExprStringAsJson;
-import com.pie.tlatoani.Miscellaneous.Matcher.*;
+import com.pie.tlatoani.Miscellaneous.Matcher.ScopeMatcher;
+import com.pie.tlatoani.Miscellaneous.Matcher.ScopeMatches;
 import com.pie.tlatoani.Miscellaneous.MiscBukkit.*;
 import com.pie.tlatoani.Miscellaneous.NoteBlock.EffPlayNoteBlock;
 import com.pie.tlatoani.Miscellaneous.NoteBlock.ExprNoteOfBlock;
-import com.pie.tlatoani.Miscellaneous.Random.*;
-import com.pie.tlatoani.Miscellaneous.ServerListPing.*;
-import com.pie.tlatoani.Miscellaneous.TabCompletion.*;
-import com.pie.tlatoani.Miscellaneous.Thread.*;
+import com.pie.tlatoani.Miscellaneous.Random.ExprNewRandom;
+import com.pie.tlatoani.Miscellaneous.Random.ExprRandomValue;
+import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprAmountOfPlayers;
+import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprIP;
+import com.pie.tlatoani.Miscellaneous.ServerListPing.ExprMotd;
+import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprCompletions;
+import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprCompletionsOld;
+import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprLastToken;
+import com.pie.tlatoani.Miscellaneous.TabCompletion.ExprLastTokenOld;
+import com.pie.tlatoani.Miscellaneous.Thread.EffAsyncSetVar;
+import com.pie.tlatoani.Miscellaneous.Thread.EffWaitAsync;
+import com.pie.tlatoani.Miscellaneous.Thread.ScopeAsync;
+import com.pie.tlatoani.Miscellaneous.Thread.ScopeSync;
 import com.pie.tlatoani.Miscellaneous.Tree.ExprBranch;
 import com.pie.tlatoani.Miscellaneous.Tree.ExprTreeOfListVariable;
 import com.pie.tlatoani.Registration.EnumClassInfo;
 import com.pie.tlatoani.Registration.Registration;
-import com.pie.tlatoani.Util.*;
+import com.pie.tlatoani.Util.Skript.SlotImpl;
+import com.pie.tlatoani.Util.Static.MundoUtil;
+import com.pie.tlatoani.Util.Static.Reflection;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -35,8 +48,12 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.NotePlayEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.hanging.*;
-import org.bukkit.event.player.*;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
+import org.bukkit.event.hanging.HangingPlaceEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
+import org.bukkit.event.player.PlayerChatTabCompleteEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.ItemStack;
@@ -126,10 +143,10 @@ public class MiscMundo {
                 .eventValue(Player.class, "1.6.9", "The player.")
                 .eventValue(Entity.class, "1.6.9", "The armor stand.")
                 .eventValue(ItemStack.class, "1.6.9", "The item being taken off.")
-                .eventValue(Slot.class, "1.6.9", "The equipment slot, use this to set the item in that particular event.");
+                .eventValue(SlotImpl.getSkriptSlotClass(), "1.6.9", "The equipment slot, use this to set the item in that particular event.");
         Registration.registerEventValue(PlayerArmorStandManipulateEvent.class, ItemStack.class, PlayerArmorStandManipulateEvent::getArmorStandItem);
-        Registration.registerEventValue(PlayerArmorStandManipulateEvent.class, Slot.class, e ->
-                new ArmorStandEquipmentSlot(e.getRightClicked(), ArmorStandEquipmentSlot.EquipSlot.getByEquipmentSlot(e.getSlot())));
+        SlotImpl.registerEventValue(PlayerArmorStandManipulateEvent.class, e ->
+            new ArmorStandEquipmentSlot(e.getRightClicked(), e.getSlot()));
         Registration.registerEvent("Armor Stand Place Event", EvtArmorStandPlace.class, EntitySpawnEvent.class, "armor stand place")
                 .document("Armor Stand Place", "1.6.9", "Called when an armor stand is placed")
                 .eventValue(Entity.class, "1.6.9", "The armor stand that was placed");

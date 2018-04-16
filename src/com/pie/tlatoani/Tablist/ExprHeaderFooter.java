@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import org.bukkit.entity.Player;
+import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import org.bukkit.event.Event;
 
 import java.util.Arrays;
@@ -15,22 +15,20 @@ import java.util.Arrays;
  * Created by Tlatoani on 8/18/17.
  */
 public class ExprHeaderFooter extends SimpleExpression<String> {
-    private Expression<Player> playerExpression;
-    private boolean header;
+    TablistProvider tablistProvider;
+    boolean header;
 
     @Override
     protected String[] get(Event event) {
         if (header) {
-            return Arrays
-                    .stream(playerExpression.getArray(event))
-                    .filter(Player::isOnline)
-                    .flatMap(player -> Arrays.stream(TablistManager.getTablistOfPlayer(player).getHeader()))
+            return tablistProvider
+                    .view(event)
+                    .flatMap(tablist -> Arrays.stream(tablist.getHeader()))
                     .toArray(String[]::new);
         } else {
-            return Arrays
-                    .stream(playerExpression.getArray(event))
-                    .filter(Player::isOnline)
-                    .flatMap(player -> Arrays.stream(TablistManager.getTablistOfPlayer(player).getFooter()))
+            return tablistProvider
+                    .view(event)
+                    .flatMap(tablist -> Arrays.stream(tablist.getHeader()))
                     .toArray(String[]::new);
         }
     }
@@ -47,23 +45,19 @@ public class ExprHeaderFooter extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "tablist " + (header ? "header" : "footer") + " for " + playerExpression;
+        return "tablist " + (header ? "header" : "footer") + " for " + tablistProvider;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        playerExpression = (Expression<Player>) expressions[0];
+        tablistProvider = TablistProvider.of(expressions, 0);
         header = parseResult.mark == 0;
         return true;
     }
 
     @Override
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        for (Player player : playerExpression.getArray(event)) {
-            if (!player.isOnline()) {
-                continue;
-            }
-            Tablist tablist = TablistManager.getTablistOfPlayer(player);
+        for (Tablist tablist : tablistProvider.get(event)) {
             String[] result;
             if (mode == Changer.ChangeMode.SET) {
                 result = new String[delta.length];

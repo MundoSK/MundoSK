@@ -5,7 +5,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import com.google.common.collect.Iterators;
-import com.pie.tlatoani.Util.ConditionalIterator;
+import com.pie.tlatoani.Util.Collections.ConditionalIterator;
 import org.bukkit.event.Event;
 
 import java.util.Iterator;

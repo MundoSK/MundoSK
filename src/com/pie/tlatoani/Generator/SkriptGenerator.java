@@ -1,8 +1,7 @@
 package com.pie.tlatoani.Generator;
 
-import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;

@@ -4,11 +4,10 @@ import ch.njol.skript.classes.ClassInfo;
 import ch.njol.util.Pair;
 import com.google.common.collect.ImmutableList;
 import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Util.ImmutableListCollector;
+import com.pie.tlatoani.Util.Collections.ImmutableListCollector;
 import org.bukkit.command.CommandSender;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by Tlatoani on 8/17/17.

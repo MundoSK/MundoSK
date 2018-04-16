@@ -14,19 +14,17 @@ import com.comphenix.protocol.wrappers.*;
 import com.comphenix.protocol.wrappers.nbt.*;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher.Registry;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.*;
-import java.util.function.Function;
 
 /**
  * Created by Tlatoani on 5/4/16.

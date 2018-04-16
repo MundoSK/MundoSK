@@ -11,7 +11,7 @@ import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 import ch.njol.util.Pair;
 import ch.njol.util.coll.iterator.EmptyIterator;
-import com.pie.tlatoani.Util.PairIterator;
+import com.pie.tlatoani.Util.Collections.PairIterator;
 import org.bukkit.event.Event;
 
 import java.util.*;

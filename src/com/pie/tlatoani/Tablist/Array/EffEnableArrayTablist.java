@@ -7,8 +7,7 @@ import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Simple.SimpleTablist;
 import com.pie.tlatoani.Tablist.Tablist;
-import com.pie.tlatoani.Tablist.TablistManager;
-import org.bukkit.entity.Player;
+import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import org.bukkit.event.Event;
 
 import java.util.Optional;
@@ -17,7 +16,7 @@ import java.util.Optional;
  * Created by Tlatoani on 7/13/16.
  */
 public class EffEnableArrayTablist extends Effect {
-    private Expression<Player> playerExpression;
+    private TablistProvider tablistProvider;
     private boolean enabled;
     private Optional<Expression<Number>> columns;
     private Optional<Expression<Number>> rows;
@@ -28,19 +27,17 @@ public class EffEnableArrayTablist extends Effect {
         if (enabled) {
             int columns = this.columns.map(expression -> expression.getSingle(event).intValue()).orElse(4);
             int rows = this.rows.map(expression -> expression.getSingle(event).intValue()).orElse(20);
-            Skin initialIcon = this.iconExpression.map(expression -> expression.getSingle(event)).orElse(Tablist.DEFAULT_SKIN_TEXTURE);
-            for (Player player : playerExpression.getArray(event)) {
-                if (!player.isOnline()) {
-                    continue;
-                }
-                TablistManager.getTablistOfPlayer(player).setSupplementaryTablist(playerTablist -> new ArrayTablist(playerTablist, columns, rows, initialIcon));
+            Skin initialIcon = this.iconExpression.map(expression -> expression.getSingle(event)).orElse(null);
+            for (Tablist tablist : tablistProvider.get(event)) {
+                tablist.setSupplementaryTablist(playerTablist -> {
+                    if (initialIcon != null) {
+                        tablist.setDefaultIcon(initialIcon);
+                    }
+                    return new ArrayTablist(playerTablist, columns, rows);
+                });
             }
         } else {
-            for (Player player : playerExpression.getArray(event)) {
-                if (!player.isOnline()) {
-                    continue;
-                }
-                Tablist tablist = TablistManager.getTablistOfPlayer(player);
+            for (Tablist tablist : tablistProvider.get(event)) {
                 if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                     tablist.setSupplementaryTablist(SimpleTablist::new);
                 }
@@ -50,7 +47,7 @@ public class EffEnableArrayTablist extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return (enabled ? "enable" : "disable") + " array tablist for " + playerExpression +
+        return (enabled ? "enable" : "disable") + " array tablist for " + tablistProvider +
                 ((enabled && (columns.isPresent() || rows.isPresent() || iconExpression.isPresent())) ? " with"
                     + columns.map(expression -> " " + expression + " columns").orElse("")
                     + rows.map(expression -> " " + expression + " rows").orElse("")
@@ -60,12 +57,12 @@ public class EffEnableArrayTablist extends Effect {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        playerExpression = (Expression<Player>) expressions[0];
+        tablistProvider = TablistProvider.of(expressions, 0);
         enabled = i == 1;
         if (enabled) {
-            columns = Optional.ofNullable((Expression<Number>) expressions[1]);
-            rows = Optional.ofNullable((Expression<Number>) expressions[2]);
-            iconExpression = Optional.ofNullable((Expression<Skin>) expressions[3]);
+            columns = Optional.ofNullable((Expression<Number>) expressions[2]);
+            rows = Optional.ofNullable((Expression<Number>) expressions[3]);
+            iconExpression = Optional.ofNullable((Expression<Skin>) expressions[4]);
         }
         return true;
     }

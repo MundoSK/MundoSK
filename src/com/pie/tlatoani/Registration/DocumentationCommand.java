@@ -1,9 +1,10 @@
 package com.pie.tlatoani.Registration;
 
 import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Util.ImmutableGroupedList;
-import com.pie.tlatoani.Util.Logging;
-import com.pie.tlatoani.Util.MundoUtil;
+import com.pie.tlatoani.Util.Collections.ImmutableGroupedList;
+import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Util.Static.MundoUtil;
+import com.pie.tlatoani.Util.Static.OptionalUtil;
 import org.bukkit.command.CommandSender;
 
 import java.io.IOException;
@@ -131,10 +132,10 @@ public class DocumentationCommand {
             } else {
                 page = 1;
             }
-            return MundoUtil.mapOptional(getDocElemGroupedList(args[2]), docElemMultimap -> {
+            return OptionalUtil.map(getDocElemGroupedList(args[2]), () -> false, docElemMultimap -> {
                 displayElems(sender, docElemMultimap.getGroup(category), category + " " + MundoUtil.capitalize(args[2]) + "s", page, false, false);
                 return true;
-            }, () -> false);
+            });
         }
         return false;
     }

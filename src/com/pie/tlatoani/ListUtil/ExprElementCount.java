@@ -13,7 +13,7 @@ import org.bukkit.event.Event;
  */
 public class ExprElementCount extends SimpleExpression<Number> {
     private String pattern;
-    private Transformer transformer;
+    private Transformer<?> transformer;
     private Expression expression;
     private Boolean isSettable;
     private Boolean usedAsLast;
@@ -63,34 +63,36 @@ public class ExprElementCount extends SimpleExpression<Number> {
         return true;
     }
 
-    public void change(Event event, Object[] delta, Changer.ChangeMode mode){
-        Object[] original = transformer.get(event);
-        Integer newcount = 0;
-        if (mode == Changer.ChangeMode.SET) {
-            newcount = ((Number) delta[0]).intValue();
-        } else if (mode == Changer.ChangeMode.ADD) {
-            newcount = original.length + ((Number) delta[0]).intValue();
-        } else if (mode == Changer.ChangeMode.REMOVE) {
-            newcount = original.length - ((Number) delta[0]).intValue();
-        } if (newcount < 0) {
-            newcount = 0;
-        }
-        Object[] finalarray = transformer.createArray(newcount);
-        if (newcount <= original.length) {
-            System.arraycopy(original, 0, finalarray, 0, newcount);
-        } else {
-            System.arraycopy(original, 0, finalarray, 0, original.length);
-            if (transformer instanceof Transformer.Resettable) {
-                for (int i = original.length; i < newcount; i++) {
-                    finalarray[i] = ((Transformer.Resettable) transformer).reset();
-                }
+    public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
+        transformer.set(event, original -> {
+            Integer newcount = 0;
+            if (mode == Changer.ChangeMode.SET) {
+                newcount = ((Number) delta[0]).intValue();
+            } else if (mode == Changer.ChangeMode.ADD) {
+                newcount = original.length + ((Number) delta[0]).intValue();
+            } else if (mode == Changer.ChangeMode.REMOVE) {
+                newcount = original.length - ((Number) delta[0]).intValue();
+            }
+            if (newcount < 0) {
+                newcount = 0;
+            }
+            Object[] finalarray = transformer.createArray(newcount);
+            if (newcount <= original.length) {
+                System.arraycopy(original, 0, finalarray, 0, newcount);
             } else {
-                for (int i = original.length; i < newcount; i++) {
-                    finalarray[i] = null;
+                System.arraycopy(original, 0, finalarray, 0, original.length);
+                if (transformer instanceof Transformer.Resettable) {
+                    for (int i = original.length; i < newcount; i++) {
+                        finalarray[i] = ((Transformer.Resettable) transformer).reset();
+                    }
+                } else {
+                    for (int i = original.length; i < newcount; i++) {
+                        finalarray[i] = null;
+                    }
                 }
             }
-        }
-        transformer.set(event, finalarray);
+            return finalarray;
+        });
     }
 
     @SuppressWarnings("unchecked")

@@ -1,8 +1,8 @@
 package com.pie.tlatoani.Miscellaneous.NoteBlock;
 
 import ch.njol.skript.classes.Changer;
-import com.pie.tlatoani.Util.ChangeablePropertyExpression;
-import com.pie.tlatoani.Util.MundoUtil;
+import com.pie.tlatoani.Util.Skript.ChangeablePropertyExpression;
+import com.pie.tlatoani.Util.Static.OptionalUtil;
 import org.bukkit.Note;
 import org.bukkit.block.Block;
 import org.bukkit.block.NoteBlock;
@@ -14,7 +14,7 @@ public class ExprNoteOfBlock extends ChangeablePropertyExpression<Block, Note> {
 
     @Override
     public void change(Block block, Note note, Changer.ChangeMode changeMode) {
-        MundoUtil.cast(block.getState(), NoteBlock.class).ifPresent(noteBlock -> noteBlock.setNote(note));
+        OptionalUtil.cast(block.getState(), NoteBlock.class).ifPresent(noteBlock -> noteBlock.setNote(note));
     }
 
     @Override
@@ -24,6 +24,6 @@ public class ExprNoteOfBlock extends ChangeablePropertyExpression<Block, Note> {
 
     @Override
     public Note convert(Block block) {
-        return MundoUtil.cast(block.getState(), NoteBlock.class).map(NoteBlock::getNote).orElse(null);
+        return OptionalUtil.cast(block.getState(), NoteBlock.class).map(NoteBlock::getNote).orElse(null);
     }
 }

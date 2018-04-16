@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Skin.MineSkin;
 
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import mundosk_libraries.light_jsoup.Connection;
 import mundosk_libraries.light_jsoup.HttpConnection;
 import org.json.simple.JSONObject;

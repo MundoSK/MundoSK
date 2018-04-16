@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Miscellaneous.MiscBukkit;
 
 import ch.njol.skript.classes.Changer;
-import com.pie.tlatoani.Util.ChangeablePropertyExpression;
+import com.pie.tlatoani.Util.Skript.ChangeablePropertyExpression;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
 

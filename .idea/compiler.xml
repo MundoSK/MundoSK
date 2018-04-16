@@ -4,6 +4,12 @@
     <excludeFromCompile>
       <directory url="file://$PROJECT_DIR$/src/mundosk_libraries/jsoup" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/src/mundosk_libraries/mineskin" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/ch" includeSubdirectories="false" />
     </excludeFromCompile>
+  </component>
+  <component name="HaskellBuildOptions">
+    <ghcPath>/usr/local/bin/ghc</ghcPath>
+    <cabalPath>/usr/local/bin/cabal</cabalPath>
+    <stackPath>/usr/local/bin/stack</stackPath>
   </component>
 </project>

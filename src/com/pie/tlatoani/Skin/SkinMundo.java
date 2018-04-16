@@ -8,8 +8,12 @@ import ch.njol.yggdrasil.Fields;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.Skin.MineSkin.ExprRetrievedSkin;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Skin.Skull.ExprOwnerOfSkull;
+import com.pie.tlatoani.Skin.Skull.ExprSkullFromSkin;
+import com.pie.tlatoani.Skin.Skull.ExprTypeOfSkull;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.Bukkit;
+import org.bukkit.SkullType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -112,6 +116,7 @@ public class SkinMundo {
                 return false;
             }
         });
+        Registration.registerEnum(SkullType.class, "skulltype");
         Registration.registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%")
                 .document("Skin with Value", "1.8", "An expression for a skin with the specified value and signature.");
         Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack/block%", "%player/itemstack/block%'s skin")
@@ -156,6 +161,7 @@ public class SkinMundo {
         Registration.registerPropertyExpression(ExprOwnerOfSkull.class, String.class, "itemstack/block", "owner of skull %", "skull %'s owner")
                 .document("Owner of Skull", "1.8.5", "An expression for the owner of the specified skull, as an item or placed. "
                         + "The owner only means the name that is shown when held, like \"Tlatoani's Head\", and doesn't affect the actual skin that the skull has.");
+        Registration.registerPropertyExpression(ExprTypeOfSkull.class, SkullType.class, "itemstack/block", "skulltype");
         Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY,
                 "[mundo[sk]] %player%'s [(1¦default)] name[]tag [for %-players%]",
                 "[mundo[sk]] [(1¦default)] name[]tag of %player% [for %-players%]")

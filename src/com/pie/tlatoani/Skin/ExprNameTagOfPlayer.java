@@ -23,7 +23,7 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
     @Override
     protected String[] get(Event event) {
         Player player = playerExpression.getSingle(event);
-        if (!player.isOnline()) {
+        if (player == null || !player.isOnline()) {
             return new String[0];
         }
         ModifiableProfile profile = ProfileManager.getProfile(player);
@@ -72,7 +72,7 @@ public class ExprNameTagOfPlayer extends SimpleExpression<String> {
         if (mode == Changer.ChangeMode.SET) {
             nameTag = (String) delta[0];
         }
-        if (!player.isOnline()) {
+        if (player == null || !player.isOnline()) {
             return;
         }
         ModifiableProfile profile = ProfileManager.getProfile(player);

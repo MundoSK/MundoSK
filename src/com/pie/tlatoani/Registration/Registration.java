@@ -6,7 +6,10 @@ import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.lang.*;
 import ch.njol.skript.registrations.*;
 import ch.njol.skript.util.Getter;
-import com.pie.tlatoani.Util.*;
+import com.pie.tlatoani.Util.Skript.CustomScope;
+import com.pie.tlatoani.Util.Skript.EventSpecificExpression;
+import com.pie.tlatoani.Util.Skript.MundoPropertyExpression;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.event.Event;
 
 import java.util.*;

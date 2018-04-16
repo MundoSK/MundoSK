@@ -6,15 +6,12 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Util.MundoUtil;
+import com.pie.tlatoani.Skin.Skull.SkullUtil;
+import com.pie.tlatoani.Util.Static.MundoUtil;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 /**
  * Created by Tlatoani on 12/22/16.
@@ -28,9 +25,9 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
         if (value instanceof Player) {
             return new Skin[]{ProfileManager.getProfile((Player) value).getActualSkin()};
         } else if (value instanceof ItemStack) {
-            return new Skin[]{SkullUtil.fromItemStack((ItemStack) value).map(SkullUtil::getSkin).orElse(null)};
+            return new Skin[]{SkullUtil.from((ItemStack) value).map(SkullUtil::getSkin).orElse(null)};
         } else if (value instanceof Block) {
-            return new Skin[]{SkullUtil.fromBlock((Block) value).map(SkullUtil::getSkin).orElse(null)};
+            return new Skin[]{SkullUtil.from((Block) value).map(SkullUtil::getSkin).orElse(null)};
         }
         return new Skin[]{null};
     }
@@ -63,9 +60,9 @@ public class ExprSkinOf extends SimpleExpression<Skin> {
         if (value == null || skinDelta == null) {
             return;
         } else if (value instanceof ItemStack) {
-            SkullUtil.fromItemStack((ItemStack) value).ifPresent(held -> held.setSkin(skinDelta));
+            SkullUtil.make((ItemStack) value).setSkin(skinDelta);
         } else if (value instanceof Block) {
-            SkullUtil.fromBlock((Block) value).ifPresent(placed -> placed.setSkin(skinDelta));
+            SkullUtil.make((Block) value).setSkin(skinDelta);
         }
     }
 

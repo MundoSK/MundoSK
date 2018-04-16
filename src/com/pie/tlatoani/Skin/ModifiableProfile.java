@@ -1,8 +1,8 @@
 package com.pie.tlatoani.Skin;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.pie.tlatoani.Util.Logging;
-import com.pie.tlatoani.Util.Scheduling;
+import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Util.Static.Scheduling;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;

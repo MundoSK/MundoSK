@@ -3,7 +3,7 @@ package com.pie.tlatoani.WebSocket;
 import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.expressions.base.EventValueExpression;
 import ch.njol.skript.lang.ExpressionType;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Static.Logging;
 import com.pie.tlatoani.Registration.Registration;
 import com.pie.tlatoani.WebSocket.Events.*;
 import com.pie.tlatoani.WebSocket.Handshake.*;
@@ -39,7 +39,7 @@ public final class WebSocketManager {
 
         Registration.registerEffect(EffCloseWebSocket.class, "close websocket %websocket% [with message %-string%]")
                 .document("Close WebSocket", "1.8", "Closes the specified websocket connection, optionally specifying a closing message to send.");
-        Registration.registerEffect(EffWebSocketSendMessage.class, "websocket send %strings% [through %-websockets%]")
+        Registration.registerEffect(EffWebSocketSendMessage.class, "websocket send %strings% [through %websockets%]")
                 .document("WebSocket Send", "1.8", "Sends the specified messages through the specified websockets. "
                         + "If no websockets are specified, the messages are sent through the event-websocket.");
         Registration.registerEffect(EffStartWebSocketServer.class, "start websocket server %string% at port %number%")

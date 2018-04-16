@@ -4,8 +4,8 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Util.CustomScope;
-import com.pie.tlatoani.Util.Logging;
+import com.pie.tlatoani.Util.Skript.CustomScope;
+import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.event.Event;
 
 import java.util.Arrays;

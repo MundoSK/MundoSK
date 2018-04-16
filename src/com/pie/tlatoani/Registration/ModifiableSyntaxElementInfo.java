@@ -3,7 +3,7 @@ package com.pie.tlatoani.Registration;
 import ch.njol.skript.lang.ExpressionInfo;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SyntaxElementInfo;
-import com.pie.tlatoani.Util.Reflection;
+import com.pie.tlatoani.Util.Static.Reflection;
 
 /**
  * Created by Tlatoani on 8/12/17.

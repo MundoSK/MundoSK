@@ -1,6 +1,6 @@
 package com.pie.tlatoani.WorldCreator;
 
-import com.pie.tlatoani.Util.EvolvingPropertyExpression;
+import com.pie.tlatoani.Util.Skript.EvolvingPropertyExpression;
 import org.bukkit.WorldType;
 
 /**

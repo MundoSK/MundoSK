@@ -5,7 +5,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.ListExpression;
+import com.pie.tlatoani.Util.Skript.ListExpression;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.server.TabCompleteEvent;
