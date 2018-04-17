@@ -119,15 +119,22 @@ public class SkinMundo {
             }
         });
         EnumClassInfo<SkullType> skullTypeEnumClassInfo = Registration.registerEnum(SkullType.class, "skulltype");
+        skullTypeEnumClassInfo
+                .document("Skull Type", "1.8.6", "A type of skull. A skulltype can also be written to give an actual item.")
+                .example("if skulltype of player's tool is dragon skull:"
+                        , "\tbroadcast \"%player% is auctioning a dragon head!\"")
+                .example("give player wither skull");
         for (SkullType skullType : SkullType.values()) {
             skullTypeEnumClassInfo.pair(skullType.toString().toLowerCase() + " skull", skullType);
+            skullTypeEnumClassInfo.pair("a " + skullType.toString().toLowerCase() + " skull", skullType);
         }
         Registration.registerConverter(SkullType.class, ItemStack.class, SkullUtil::skullItem);
         Registration.registerExpression(ExprSkinWith.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] (with|of) value %string% signature %string%")
                 .document("Skin with Value", "1.8", "An expression for a skin with the specified value and signature.");
         Registration.registerExpression(ExprSkinOf.class, Skin.class, ExpressionType.PROPERTY, "skin [texture] of %player/itemstack/block%", "%player/itemstack/block%'s skin")
                 .document("Skin of Player or Skull", "1.8", "An expression for the skin of the specified player (must be online), skull item, or placed skull block (1.8.5+ only).")
-                .changer(Changer.ChangeMode.SET, Skin.class, "1.8", "Only allowed for setting the skin of a skull (item or block)");
+                .changer(Changer.ChangeMode.SET, Skin.class, "1.8", "Only allowed for setting the skin of a skull (item or block). "
+                        + "If the item or block wasn't already a player skull, this will also make it a player skull.");
         Registration.registerExpression(ExprDisplayedSkinOfPlayer.class, Skin.class, ExpressionType.PROPERTY,
                 "[(1¦default)] displayed skin of %player% [(for %-players%|excluding %-players%)]",
                 "%player%'s [(1¦default)] displayed skin [(for %-players%|excluding %-players%)]")
@@ -166,8 +173,12 @@ public class SkinMundo {
                         , "The skin of the specified offline player retrieved from Mojang");
         Registration.registerPropertyExpression(ExprOwnerOfSkull.class, String.class, "itemstack/block", "owner of skull %", "skull %'s owner")
                 .document("Owner of Skull", "1.8.5", "An expression for the owner of the specified skull, as an item or placed. "
-                        + "The owner only means the name that is shown when held, like \"Tlatoani's Head\", and doesn't affect the actual skin that the skull has.");
-        Registration.registerPropertyExpression(ExprTypeOfSkull.class, SkullType.class, "itemstack/block", "skulltype", "skull type");
+                        + "The owner only means the name that is shown when held, like \"Tlatoani's Head\", and doesn't affect the actual skin that the skull has.")
+                .changer(Changer.ChangeMode.SET, String.class, "1.8.6", "If the item or block isn't already a player skull, this will make it a player skull before setting its skin.");
+        Registration.registerPropertyExpression(ExprTypeOfSkull.class, SkullType.class, "itemstack/block", "skulltype", "skull type")
+                .document("Type of Skull", "1.8.6", "An expression for the type of skull that is the specified skull, as an item or placed.")
+                .changer(Changer.ChangeMode.SET, SkullType.class, "1.8.6", "Makes the specified item or block a skull of the specified type, "
+                        + "even if it wasn't previously a skull at all.");
         Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY,
                 "[mundo[sk]] %player%'s [(1¦default)] name[]tag [for %-players%]",
                 "[mundo[sk]] [(1¦default)] name[]tag of %player% [for %-players%]")

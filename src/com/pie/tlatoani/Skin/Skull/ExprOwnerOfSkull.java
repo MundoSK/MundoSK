@@ -22,9 +22,18 @@ public class ExprOwnerOfSkull extends ChangeablePropertyExpression<Object, Strin
         return Optional.empty();
     }
 
+    public static Optional<? extends SkullUtil> makeSkullUtil(Object value) {
+        if (value instanceof ItemStack) {
+            return Optional.of(SkullUtil.make((ItemStack) value));
+        } else if (value instanceof Block) {
+            return Optional.of(SkullUtil.make((Block) value));
+        }
+        return Optional.empty();
+    }
+
     @Override
     public void change(Object o, String s, Changer.ChangeMode changeMode) {
-        getSkullUtil(o).ifPresent(skullUtil -> skullUtil.setOwner(s));
+        makeSkullUtil(o).ifPresent(skullUtil -> skullUtil.setOwner(s));
     }
 
     @Override

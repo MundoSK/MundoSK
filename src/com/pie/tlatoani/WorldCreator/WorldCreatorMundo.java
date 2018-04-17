@@ -88,6 +88,7 @@ public class WorldCreatorMundo {
                 .document("WorldType of Creator", "1.4.10", "An expression for the worldtype of a creator. This is 'default' by default.");
         Registration.registerPropertyExpression(ExprSeedOfCreator.class, String.class, "creator", "seed")
                 .document("Seed of Creator", "1.4.4 or earlier", "An expression for the seed of a creator. "
+                        + "As of MundoSK 1.8.6, this can be any string at all instead of having to be a number. "
                         + "This isn't necessarily set, in which case a random seed will be used when creating a world using the creator.");
         Registration.registerPropertyExpression(ExprGeneratorOfCreator.class, String.class, "creator", "gen", "generator")
                 .document("Generator of Creator", "1.8", "An expression for the custom generator of a creator. "

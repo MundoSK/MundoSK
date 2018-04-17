@@ -10,7 +10,7 @@ import org.bukkit.SkullType;
 public class ExprTypeOfSkull extends ChangeablePropertyExpression<Object, SkullType> {
     @Override
     public void change(Object o, SkullType skullType, Changer.ChangeMode changeMode) {
-        ExprOwnerOfSkull.getSkullUtil(o).ifPresent(skull -> skull.setSkullType(skullType));
+        ExprOwnerOfSkull.makeSkullUtil(o).ifPresent(skull -> skull.setSkullType(skullType));
     }
 
     @Override
