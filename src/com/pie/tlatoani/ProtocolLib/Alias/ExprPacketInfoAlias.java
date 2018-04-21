@@ -1,6 +1,7 @@
 package com.pie.tlatoani.ProtocolLib.Alias;
 
 import ch.njol.skript.classes.Changer;
+import ch.njol.skript.lang.DefaultExpression;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
@@ -114,7 +115,12 @@ public class ExprPacketInfoAlias extends SimpleExpression<Object> {
             }
         }
         if (packetExpression == null) {
-            packetExpression = Classes.getExactClassInfo(PacketContainer.class).getDefaultExpression();
+            DefaultExpression<PacketContainer> defaultExpression = Classes.getExactClassInfo(PacketContainer.class).getDefaultExpression();
+            if (defaultExpression.init()) {
+                packetExpression = defaultExpression;
+            } else {
+                return false;
+            }
         }
         alias = aliases.get(i);
         return true;
