@@ -24,7 +24,9 @@ public class ScopeAsync extends CustomScope {
 
     @Override
     public void setScope() {
-        last.setNext(null);
+        if (last != null) {
+            last.setNext(null);
+        }
     }
 
     @Override

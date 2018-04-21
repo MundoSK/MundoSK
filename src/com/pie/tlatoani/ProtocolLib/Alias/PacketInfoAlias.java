@@ -44,7 +44,7 @@ public class PacketInfoAlias {
     }
 
     public static Optional<PacketInfoAlias> create(PacketType packetType, String syntax, String original) {
-        String resultSyntax = original.replace("%packet%", "event-packet");
+        String resultSyntax = original.replace("%packet%", "event-packet"); //note that
         String currentEventName = ScriptLoader.getCurrentEventName();
         Class<? extends Event>[] currentEvents = ScriptLoader.getCurrentEvents();
         ScriptLoader.setCurrentEvent("ExprPacketInfoAliasPacketEvent", ContainerEvent.class);

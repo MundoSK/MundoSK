@@ -116,7 +116,7 @@ public class SkinMundo {
             }
         });
         Registration.registerEnum(SkullType.class, "skulltype", SkullType.values())
-                .document("Skull Type", "1.8.6", "A type of skull. A skulltype can also be written to give an actual item.")
+                .document("Skull Type", "1.8.6", "A type of skull.")
                 .example("if skulltype of player's tool is dragon skull:"
                         , "\tbroadcast \"%player% is auctioning a dragon head!\"")
                 .example("give player wither skull");
@@ -170,7 +170,8 @@ public class SkinMundo {
                 .document("Type of Skull", "1.8.6", "An expression for the type of skull that is the specified skull, as an item or placed.")
                 .changer(Changer.ChangeMode.SET, SkullType.class, "1.8.6", "Makes the specified item or block a skull of the specified type, "
                         + "even if it wasn't previously a skull at all.");
-        Registration.registerPropertyExpression(ExprSkullOfType.class, ItemStack.class, "skulltype", "% skull");
+        Registration.registerPropertyExpression(ExprSkullOfType.class, ItemStack.class, "skulltype", "% skull", "a % skull")
+                .document("Skull of Type", "1.8.6", "An expression for a skull of the given skulltype.");
         Registration.registerExpression(ExprNameTagOfPlayer.class, String.class, ExpressionType.PROPERTY,
                 "[mundo[sk]] %player%'s [(1¦default)] name[]tag [for %-players%]",
                 "[mundo[sk]] [(1¦default)] name[]tag of %player% [for %-players%]")

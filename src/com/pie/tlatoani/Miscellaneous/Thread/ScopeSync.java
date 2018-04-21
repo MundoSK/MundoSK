@@ -23,8 +23,10 @@ public class ScopeSync extends CustomScope {
     }
 
     @Override
-    public void setScope() {
-        last.setNext(null);
+    public void setScope()   {
+        if (last != null) {
+            last.setNext(null);
+        }
     }
 
     @Override
