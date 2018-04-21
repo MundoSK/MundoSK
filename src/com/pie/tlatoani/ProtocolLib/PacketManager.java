@@ -84,7 +84,7 @@ public class PacketManager {
                 .document("New Packet", "1.8", "An expression for a new packet of the specified type.");
         registerPacketInfoExpression(ExprJSONObjectOfPacket.class, JSONObject.class,
                 "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(true) + ") pjson %number% [of %packet%]",
-                "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(false) + ") array pjson %number% of %packet%")
+                "(%-string%" + ExprJSONObjectOfPacket.getConverterNamesPattern(false) + ") array pjson %number% [of %packet%]")
                 .document("JSON Field of Packet", "1.8", "An expression for certain fields of packets (first see the Packet Info expression for a more general explanation) "
                         + "that don't have equivalent types in Skript, and thus must be represented in the form of a jsonobject. "
                         + "The names of the fields can be written as strings but don't have to be as of MundoSK 1.8. "

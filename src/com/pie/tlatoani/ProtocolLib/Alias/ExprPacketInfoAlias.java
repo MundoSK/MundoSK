@@ -5,6 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import ch.njol.util.Kleenean;
@@ -43,7 +44,7 @@ public class ExprPacketInfoAlias extends SimpleExpression<Object> {
                         + "where the old syntax is how you would normally write an expression for the desired packet info, and the new syntax is how you want to be able to write it. "
                         + "Note that the new syntax is essentially being registered as a Skript syntax, so you can write it with features of Skript syntax like optional parts enclosed in '[]', "
                         + "and multiple usages of '%packet%' are allowed in your syntax, though only one of them should be possible to use at a time since only one packet is used to evaluate the alias "
-                        + "(and your syntax must always require an instance of '%packet%' to be used). "
+                        + "As of MundoSK 1.8.6, your syntax does not have to require or even allow the usage of '%packet%'. In this case, 'event-packet' will be used as the packet. "
                         + "A small addition to normal Skript syntax is that now, if you would like to have a group of different options for syntax but also have the whole thing be optional, instead of writing '[(a|b|...)]' you can write '[a|b|...]'.")
                 .example("packet info aliases for play_server_world_border:"
                         , "\tborder action of %packet% = \"WorldBorderAction\" penum 0 of %packet%"
@@ -111,6 +112,9 @@ public class ExprPacketInfoAlias extends SimpleExpression<Object> {
                 packetExpression = (Expression<PacketContainer>) expression;
                 break;
             }
+        }
+        if (packetExpression == null) {
+            packetExpression = Classes.getExactClassInfo(PacketContainer.class).getDefaultExpression();
         }
         alias = aliases.get(i);
         return true;

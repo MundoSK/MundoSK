@@ -85,8 +85,7 @@ public class ScopePacketInfoAliases extends MundoEventScope {
             Skript.error("Invalid alias syntax in the packet info alias!");
             return Optional.empty();
         }
-        String spComptabile = syntax.replace("%packet%", "%" + SYNTAX_VAR_NAME + "=packet%").replace("%-packet%", "%" + SYNTAX_VAR_NAME + "=-packet%");
-
+        String spComptabile = syntax.replace("%packet%", "%" + SYNTAX_VAR_NAME + "=-packet%");
         SyntaxPiece syntaxPiece;
         try {
             syntaxPiece = SyntaxParser.parse(spComptabile);
@@ -100,26 +99,28 @@ public class ScopePacketInfoAliases extends MundoEventScope {
             return Optional.empty();
         }
         VariableUsage usage = syntaxPiece.getVariableUsage(SYNTAX_VAR_NAME);
-        if (usage == VariableUsage.NONE) {
+        /*if (usage == VariableUsage.NONE) {
             Skript.error("Alias syntax does not contain '%packet%'!");
             return Optional.empty();
         } else if (usage == VariableUsage.INCONISTENT) {
             Skript.error("Alias syntax does not require the use of '%packet%' in its syntax!");
             return Optional.empty();
-        } else if (usage == VariableUsage.CONFLICTING) {
+        } else*/ if (usage == VariableUsage.CONFLICTING) {
             Skript.error("Alias syntax allows conflicting usage of '%packet%'!");
             return Optional.empty();
         }
         VariableCollective variableCollective = syntaxPiece.getVariables();
-        if (variableCollective.size() > 1 || variableCollective.isVaryingOption(SYNTAX_VAR_NAME)) {
+        ExpressionConstraints constraints = variableCollective.getExpression(SYNTAX_VAR_NAME);
+        if (variableCollective.size() > (constraints == null ? 0 : 1) || variableCollective.isVaryingOption(SYNTAX_VAR_NAME)) {
             Skript.error("Invalid alias syntax in the packet info alias!");
             return Optional.empty();
         }
-        ExpressionConstraints constraints = variableCollective.getExpression(SYNTAX_VAR_NAME);
-        for (ExpressionConstraints.Type type : constraints.types) {
-            if (type.classInfo.getC() != PacketContainer.class || !type.isSingle) {
-                Skript.error("Invalid alias syntax in the packet info alias!");
-                return Optional.empty();
+        if (constraints != null) {
+            for (ExpressionConstraints.Type type : constraints.types) {
+                if (type.classInfo.getC() != PacketContainer.class || !type.isSingle) {
+                    Skript.error("Invalid alias syntax in the packet info alias!");
+                    return Optional.empty();
+                }
             }
         }
         return Optional.of(syntaxPiece.actualSyntax(0));
