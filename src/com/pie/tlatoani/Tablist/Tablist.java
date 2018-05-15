@@ -14,9 +14,9 @@ import com.pie.tlatoani.Util.Static.OptionalUtil;
 import mundosk_libraries.packetwrapper.WrapperPlayServerPlayerListHeaderFooter;
 import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardDisplayObjective;
 import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardObjective;
-import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.function.Function;
 

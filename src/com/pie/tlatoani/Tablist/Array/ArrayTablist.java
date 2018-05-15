@@ -149,7 +149,7 @@ public class ArrayTablist implements SupplementaryTablist<ArrayTablist> {
      * @return A new {@link Tab}
      */
     private Tab createTab(int column, int row) {
-        String identifier = ((column * 2) + (row / 10)) + "" + (row % 10);
+        String identifier = (((column - 1) * 2) + (row / 10)) + "" + (row % 10);
         String name = "MundoSK::" + identifier;
         UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + identifier);
         return new Tab(tablist, name, uuid);

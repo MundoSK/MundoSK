@@ -41,7 +41,10 @@ public class TablistMundo {
     }
 
     private static void loadGroup() {
+        Registration.registerEffect(EffAddToTablistGroup.class, "add %players% to tablist group %string%");
+        Registration.registerEffect(EffRemoveFromTablistGroup.class, "remove %players% from tablist group %string%");
         Registration.registerEffect(EffEmptyGroup.class, "empty tablist group %string%");
+        Registration.registerEffect(EffDeleteGroup.class, "delete tablist group %string%");
         Registration.registerExpression(ExprTablistGroup.class, Player.class, ExpressionType.PROPERTY,
                 "members of tablist group %string%", "tablist group %string%'s members");
     }

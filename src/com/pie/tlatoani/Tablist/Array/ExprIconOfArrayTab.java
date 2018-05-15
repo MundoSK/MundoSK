@@ -28,7 +28,7 @@ public class ExprIconOfArrayTab extends SimpleExpression<Skin> {
                 .map(tablist -> {
                     if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                         ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                        return arrayTablist.getTab(column, row).getIcon();
+                        return arrayTablist.getTab(column, row).getIcon().orElse(null);
                     }
                     return null;
                 })

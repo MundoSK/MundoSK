@@ -29,7 +29,7 @@ public class ExprLatencyOfArrayTab extends SimpleExpression<Number> {
                 .map(tablist -> {
                     if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                         ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                        return arrayTablist.getTab(column, row).getLatency();
+                        return arrayTablist.getTab(column, row).getLatency().orElse(null);
                     }
                     return null;
                 })

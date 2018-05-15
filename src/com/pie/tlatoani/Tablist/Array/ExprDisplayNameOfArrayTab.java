@@ -27,7 +27,7 @@ public class ExprDisplayNameOfArrayTab extends SimpleExpression<String> {
                 .map(tablist -> {
                     if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                         ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                        return arrayTablist.getTab(column, row).getDisplayName();
+                        return arrayTablist.getTab(column, row).getDisplayName().orElse(null);
                     }
                     return null;
                 })
