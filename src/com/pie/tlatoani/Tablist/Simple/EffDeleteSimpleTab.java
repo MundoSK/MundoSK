@@ -9,29 +9,32 @@ import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import org.bukkit.event.Event;
 
 /**
- * Created by Tlatoani on 8/3/16.
+ * Created by Tlatoani on 7/13/16.
  */
-public class EffRemoveAllIDTabs extends Effect {
+public class EffDeleteSimpleTab extends Effect {
+    private Expression<String> id;
     private TablistProvider tablistProvider;
 
     @Override
     protected void execute(Event event) {
+        String id = this.id.getSingle(event);
         for (Tablist tablist : tablistProvider.get(event)) {
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
-                simpleTablist.clear();
+                simpleTablist.deleteTab(id);
             }
         }
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "delete all simple tabs for " + tablistProvider;
+        return "delete simple tab " + id + " for " + tablistProvider;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        tablistProvider = TablistProvider.of(expressions, 0);
+        id = (Expression<String>) expressions[0];
+        tablistProvider = TablistProvider.of(expressions, 1);
         return true;
     }
 }

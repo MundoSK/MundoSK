@@ -1,6 +1,7 @@
 package com.pie.tlatoani.Tablist.Array;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Player.PlayerTablist;
 import com.pie.tlatoani.Tablist.SupplementaryTablist;
 import com.pie.tlatoani.Tablist.Tab;
@@ -8,6 +9,7 @@ import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Util.Static.Logging;
 import com.pie.tlatoani.Util.Static.MathUtil;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -49,7 +51,7 @@ public class ArrayTablist implements SupplementaryTablist<ArrayTablist> {
         this.playerTablist = playerTablist;
         this.columns = MathUtil.limitToRange(1, columns, 4);
         this.rows = getViableRowAmount(this.columns, rows);
-        addTabs(1, this.columns, 1, this.rows);
+        addTabs(1, this.columns, 1, this.rows, null);
         changeToIdealPlayerVisibility();
     }
 
@@ -107,13 +109,22 @@ public class ArrayTablist implements SupplementaryTablist<ArrayTablist> {
      * @param columns The new amount of columns in the tablist
      */
     public void setColumns(int columns) {
+        setColumns(columns, null);
+    }
+
+    /**
+     * Changes the amount of columns in the tablist to be {@code columns} limited between 1 and 4 inclusive
+     * @param columns The new amount of columns in the tablist
+     * @param icon The icon of the created tabs (or null for an empty icon) if tabs are created
+     */
+    public void setColumns(int columns, @Nullable Skin icon) {
         Logging.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", columns " + columns);
         columns = MathUtil.limitToRange(1, columns, 4);
         if (columns == this.columns) {
             return;
         } else if (columns > this.columns) {
-            setRows(getViableRowAmount(columns, this.rows));
-            addTabs(this.columns + 1, columns, 1, this.rows);
+            setRows(getViableRowAmount(columns, this.rows), icon);
+            addTabs(this.columns + 1, columns, 1, this.rows, icon);
         } else {
             removeTabs(columns + 1, this.columns, 1, this.rows);
         }
@@ -126,12 +137,21 @@ public class ArrayTablist implements SupplementaryTablist<ArrayTablist> {
      * @param rows The new amount of rows in the tablist
      */
     public void setRows(int rows) {
+        setRows(rows, null);
+    }
+
+    /**
+     * Changes the amount of columns in the tablist to be {@code rows} limited according to {@link #getViableRowAmount(int, int)}
+     * @param rows The new amount of rows in the tablist
+     * @param icon The icon of the created tabs (or null for an empty icon) if tabs are created
+     */
+    public void setRows(int rows, @Nullable Skin icon) {
         Logging.debug(this, "Got here, this.columns " + this.columns + ", this.rows " + this.rows + ", rows " + rows);
         rows = getViableRowAmount(columns, rows);
         if (rows == this.rows) {
             return;
         } else if (rows > this.rows) {
-            addTabs(1, this.columns, this.rows + 1, rows);
+            addTabs(1, this.columns, this.rows + 1, rows, icon);
         } else {
             removeTabs(1, this.columns, rows + 1, this.rows);
         }
@@ -148,11 +168,11 @@ public class ArrayTablist implements SupplementaryTablist<ArrayTablist> {
      * @param row The row at which the returned {@link Tab} will be located
      * @return A new {@link Tab}
      */
-    private Tab createTab(int column, int row) {
+    private Tab createTab(int column, int row, Skin icon) {
         String identifier = (((column - 1) * 2) + (row / 10)) + "" + (row % 10);
         String name = "MundoSK::" + identifier;
         UUID uuid = UUID.fromString(UUID_BEGINNING + "10" + identifier);
-        return new Tab(tablist, name, uuid);
+        return new Tab(tablist, name, uuid, null, null, icon, null);
     }
 
     /**
@@ -172,13 +192,14 @@ public class ArrayTablist implements SupplementaryTablist<ArrayTablist> {
      * @param columnMax The righmost column to add tabs to
      * @param rowMin The uppermost row to add tabs to
      * @param rowMax The lowermost row to add tabs to
+     * @param icon The icon to give the created tabs, or null for them to have an empty icon
      */
-    private void addTabs(int columnMin, int columnMax, int rowMin, int rowMax) {
+    private void addTabs(int columnMin, int columnMax, int rowMin, int rowMax, @Nullable Skin icon) {
         Logging.debug(this, "Adding Tabs, columnMin = " + columnMin + ", columnMax = " + columnMax + ", rowMin = " + rowMin + ", rowMax = " + rowMax);
         for (int column = columnMin; column <= columnMax; column++)
             for (int row = rowMin; row <= rowMax; row++) {
                 Logging.debug(this, "Adding Tab, column = " + column + ", row = " + row);
-                Tab tab = createTab(column, row);
+                Tab tab = createTab(column, row, icon);
                 tablist.sendPacket(tab.playerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER), this);
                 setTab(column, row, tab);
             }

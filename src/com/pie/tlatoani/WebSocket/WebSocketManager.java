@@ -42,10 +42,10 @@ public final class WebSocketManager {
         Registration.registerEffect(EffWebSocketSendMessage.class, "websocket send %strings% [through %websockets%]")
                 .document("WebSocket Send", "1.8", "Sends the specified messages through the specified websockets. "
                         + "If no websockets are specified, the messages are sent through the event-websocket.");
-        Registration.registerEffect(EffStartWebSocketServer.class, "start websocket server %string% at port %number%")
+        Registration.registerEffect(EffStartWebSocketServer.class, "start [a] websocket server %string% at port %number%")
                 .document("Start WebSocket Server", "1.8", "Starts a WebSocket server using the specified server template at the specified port. "
                         + "A WebSocket server allows other servers/online services to initiate websocket connections with the server.");
-        Registration.registerEffect(EffStopWebSocketServer.class, "stop websocket server at port %number% [with timeout %-number%]")
+        Registration.registerEffect(EffStopWebSocketServer.class, "stop [the] websocket server at port %number% [with timeout %-number%]")
                 .document("Stop WebSocket Server", "1.8", "Stops the WebSocket server at the specified port, optionally specifying a timeout in milliseconds.");
 
         Registration.registerEvent("WebSocket Client", ScopeWebSocketClient.class, WebSocketEvent.class, "websocket client %string%")
@@ -87,18 +87,18 @@ public final class WebSocketManager {
         Registration.registerEventValue(WebSocketCloseEvent.class, String.class, event -> event.reason);
         Registration.registerEventValue(WebSocketCloseEvent.class, Boolean.class, event -> event.remote);
 
-        Registration.registerExpression(ExprNewWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "[new] websocket %string% connected to uri %string% [with (handshake|http) headers %-handshake%]")
+        Registration.registerExpression(ExprNewWebSocket.class, WebSocket.class, ExpressionType.COMBINED, "[[a] new] websocket %string% connected to uri %string% [with (handshake|http) headers %-handshake%]")
                 .document("New WebSocket", "1.8", "Creates a new websocket connection using the websocket client with the specified id, connecting to the specified URI."
                         + "Optionally, you can specify additional HTTP headers, which you can use to add additional information in the initial connection (ex. a password). "
                         + "A header is a mapping from one string (the name) to another (the value). Each header has a unique name."
                         + "You can specify headers by creating a new handshake, setting its headers, and then specifying it in the syntax here. "
                         + "Keep in mind that any other information stored in the handshake will be ignored by this expression.");
-        Registration.registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "websocket [server] port")
+        Registration.registerExpression(ExprWebSocketServerPort.class, Number.class, ExpressionType.SIMPLE, "[the] websocket [server] port")
                 .document("WebSocket Server Port", "1.8", "For use under 'websocket server %string%': An expression for the port on which this websocket server is open.");
-        Registration.registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all websockets [of server at port %-number%]")
+        Registration.registerExpression(ExprAllWebSockets.class, WebSocket.class, ExpressionType.PROPERTY, "all [[of] the] websockets [of [the] server at port %-number%]")
                 .document("All WebSockets of Server", "1.8", "An expression for all of the websocket connections of the websocket server at the specified port. "
                         + "When used under 'websocket server %string%', the port is optional, in which case it will return the websockets for the websocket server being controlled.");
-        Registration.registerExpression(ExprWebSocketServerID.class, String.class, ExpressionType.PROPERTY, "id of websocket server at port %number%")
+        Registration.registerExpression(ExprWebSocketServerID.class, String.class, ExpressionType.PROPERTY, "[the] id of [the] websocket server at port %number%")
                 .document("ID of WebSocket Server", "1.8", "An expression for the ID of the websocket server template controlling the websocket server at the specified port.");
         Registration.registerPropertyExpression(ExprWebSocketID.class, String.class, "websocket", "websocket id")
                 .document("ID of WebSocket Client", "1.8", "An expression for the ID of the websocket client template controlling the specified websocket. "
@@ -114,7 +114,7 @@ public final class WebSocketManager {
     }
 
     private static void loadHandshake() {
-        Registration.registerExpression(ExprHandshake.class, Handshakedata.class, ExpressionType.SIMPLE, "[websocket] request [handshake]", "[websocket] response [handshake]", "new [websocket] handshake")
+        Registration.registerExpression(ExprHandshake.class, Handshakedata.class, ExpressionType.SIMPLE, "[the] [websocket] request [handshake]", "[the] [websocket] response [handshake]", "[a] new [websocket] handshake")
                 .document("Handshake Request/Response/New", "1.8", "An expression for some handshake:"
                         , "request: The handshake sent by a websocket client to a websocket server, "
                         + "used in the 'on open' section of a websocket server template or the 'on handshake' section of a websocket client or server template"
@@ -123,9 +123,9 @@ public final class WebSocketManager {
                         , "new: A new handshake object, currently only useful for specifying additional http headers in the New Websocket expression");
         Registration.registerExpression(ExprHeader.class, String.class, ExpressionType.COMBINED, "[handshake] [http] header %string% of %handshake%")
                 .document("HTTP Header of Handshake", "1.8", "An expression for the value of the HTTP header with the specified name of the specified handshake.");
-        Registration.registerExpression(ExprHeaderNames.class, String.class, ExpressionType.PROPERTY, "[all] [handshake] [http] header names of %handshake%")
+        Registration.registerExpression(ExprHeaderNames.class, String.class, ExpressionType.PROPERTY, "[all [[of] the]] [handshake] [http] header names of %handshake%")
                 .document("HTTP Header Names of Handshake", "1.8", "An expression for a list of the names of the HTTP headers of the specified handshake.");
-        Registration.registerExpression(ExprContent.class, Number.class, ExpressionType.PROPERTY, "handshake content of %handshake%")
+        Registration.registerExpression(ExprContent.class, Number.class, ExpressionType.PROPERTY, "[the] handshake content of %handshake%")
                 .document("Content of Handshake", "1.8", "An expression for the content (a byte array) stored in the specified handshake.");
         Registration.registerPropertyExpression(ExprHTTPStatus.class, Number.class, "handshake", "http status", "handshake http status")
                 .document("HTTP Status of Handshake", "1.8", "An expression for the HTTP status of the specified handshake. "
@@ -136,7 +136,7 @@ public final class WebSocketManager {
         Registration.registerPropertyExpression(ExprResourceDescriptor.class, String.class, "handshake", "resource descriptor", "handshake resource descriptor")
                 .document("Resource Descriptor of Handshake", "1.8", "An expression for the resource descriptor of the specified handshake. "
                         + "This can only exist in handshakes sent by the client (ex. 'request' - see the Handshake Request/Response/New expression).");
-        Registration.registerExpressionCondition(CondRequestIsAccepted.class, ExpressionType.SIMPLE, "[websocket] request [handshake] is (0¦accepted|1¦refused)")
+        Registration.registerExpressionCondition(CondRequestIsAccepted.class, ExpressionType.SIMPLE, "[the] [websocket] request [handshake] is (0¦accepted|1¦refused)")
                 .document("Request is Accepted", "1.8", "Used in the 'on handshake' section of a websocket server template. "
                         + "Checks whether the client's request was accepted or refused. Can be set.");
     }

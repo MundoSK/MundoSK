@@ -9,7 +9,10 @@ import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
+import com.pie.tlatoani.Util.Static.MathUtil;
 import org.bukkit.event.Event;
+
+import java.util.Optional;
 
 /**
  * Created by Tlatoani on 7/25/16.
@@ -21,14 +24,16 @@ public class ExprIconOfArrayTab extends SimpleExpression<Skin> {
 
     @Override
     protected Skin[] get(Event event) {
-        int column = this.column.getSingle(event).intValue();
-        int row = this.row.getSingle(event).intValue();
+        int column = Optional.ofNullable(this.column.getSingle(event)).map(Number::intValue).orElse(-1);
+        int row = Optional.ofNullable(this.row.getSingle(event)).map(Number::intValue).orElse(-1);
         return tablistProvider
                 .view(event)
                 .map(tablist -> {
                     if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                         ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                        return arrayTablist.getTab(column, row).getIcon().orElse(null);
+                        if (MathUtil.isInRange(1, column, arrayTablist.getColumns()) && MathUtil.isInRange(1, row, arrayTablist.getRows())) {
+                            return arrayTablist.getTab(column, row).getIcon().orElse(null);
+                        }
                     }
                     return null;
                 })
@@ -60,12 +65,14 @@ public class ExprIconOfArrayTab extends SimpleExpression<Skin> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         Skin value = mode == Changer.ChangeMode.SET ? (Skin) delta[0] : null;
-        int column = this.column.getSingle(event).intValue();
-        int row = this.row.getSingle(event).intValue();
+        int column = Optional.ofNullable(this.column.getSingle(event)).map(Number::intValue).orElse(-1);
+        int row = Optional.ofNullable(this.row.getSingle(event)).map(Number::intValue).orElse(-1);
         for (Tablist tablist : tablistProvider.get(event)) {
             if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                 ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                arrayTablist.getTab(column, row).setIcon(value);
+                if (MathUtil.isInRange(1, column, arrayTablist.getColumns()) && MathUtil.isInRange(1, row, arrayTablist.getRows())) {
+                    arrayTablist.getTab(column, row).setIcon(value);
+                }
             }
         }
     }

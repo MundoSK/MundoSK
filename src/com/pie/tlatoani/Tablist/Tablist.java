@@ -3,6 +3,7 @@ package com.pie.tlatoani.Tablist;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.google.common.collect.ImmutableList;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.Skin;
@@ -35,8 +36,8 @@ public class Tablist {
     private boolean scoresEnabled;
     private final Invalidatable.Creator scoreCreator = new Invalidatable.Creator();
 
-    private String[] header = new String[0];
-    private String[] footer = new String[0];
+    private ImmutableList<String> header = ImmutableList.of();
+    private ImmutableList<String> footer = ImmutableList.of();
 
     private Optional<Skin> defaultIcon = Optional.empty();
     private final PlayerTablist playerTablist = new PlayerTablist(this);
@@ -276,7 +277,7 @@ public class Tablist {
      * Returns the lines of the current header of the tablist (the text displayed above the actual tabs).
      * @return The lines of the current header
      */
-    public String[] getHeader() {
+    public ImmutableList<String> getHeader() {
         return header;
     }
 
@@ -284,38 +285,40 @@ public class Tablist {
      * Returns the lines of the current footer of the tablist (the text displayed below the actual tabs).
      * @return The lines of the current footer
      */
-    public String[] getFooter() {
+    public ImmutableList<String> getFooter() {
         return footer;
     }
 
     /**
-     * Sets the lines of the current header of the tablist, which involves calling {@link #refreshHeaderAndFooter()}.
+     * Sets the lines of the current header of the tablist by calling {@link #setHeaderAndFooter(ImmutableList, ImmutableList)}.
      * @param header The new lines of the header of the tablist
      */
-    public void setHeader(String[] header) {
-        this.header = header;
-        refreshHeaderAndFooter();
+    public void setHeader(ImmutableList<String> header) {
+        setHeaderAndFooter(header, footer);
     }
 
     /**
-     * Sets the lines of the current footer of the tablist, which involves calling {@link #refreshHeaderAndFooter()}.
+     * Sets the lines of the current footer of the tablist by calling {@link #setHeaderAndFooter(ImmutableList, ImmutableList)}.
      * @param footer The new lines of the footer of the tablist
      */
-    public void setFooter(String[] footer) {
-        this.footer = footer;
-        refreshHeaderAndFooter();
+    public void setFooter(ImmutableList<String> footer) {
+        setHeaderAndFooter(header, footer);
     }
 
     /**
-     * Sends a {@link com.comphenix.protocol.PacketType.Play.Server#PLAYER_LIST_HEADER_FOOTER} packet
-     * in order to make the displayed header and footer for the target what it is according to the data stored in this Tablist.
+     * Sets the lines of the current header and footer of the tablist,
+     * which involves sending a {@link com.comphenix.protocol.PacketType.Play.Server#PLAYER_LIST_HEADER_FOOTER} packet
+     * in order to make the displayed header and footer for the target what it is according to the arguments.
+     * @param header The new lines of the header of the tablist
+     * @param footer The new lines of the footer of the tablist
      */
-    private void refreshHeaderAndFooter() {
+    public void setHeaderAndFooter(ImmutableList<String> header, ImmutableList<String> footer) {
+        this.header = header;
+        this.footer = footer;
         WrapperPlayServerPlayerListHeaderFooter packet = new WrapperPlayServerPlayerListHeaderFooter();
         packet.setHeader(PacketUtil.stringsToChatComponent(header));
         packet.setFooter(PacketUtil.stringsToChatComponent(footer));
         sendPacket(packet.getHandle(), this);
-
     }
 
     //For use within tablist only
@@ -363,35 +366,33 @@ public class Tablist {
             });
             supplementaryTablist.applyChanges(tablist.getSupplementaryTablist());
         }
-        String[] oldHeader = tablist.getHeader();
-        String[] newHeader = new String[Math.max(header.length, oldHeader.length)];
-        for (int i = 0; i < newHeader.length; i++) {
-            if (i < header.length && !header[i].isEmpty()) {
-                newHeader[i] = header[i];
-            } else if (i < oldHeader.length) {
-                newHeader[i] = oldHeader[i];
+        ImmutableList<String> oldHeader = tablist.getHeader();
+        ImmutableList.Builder<String> headerBuilder = ImmutableList.builder();
+        for (int i = 0; i < Math.max(oldHeader.size(), header.size()); i++) {
+            if (i < header.size() && !header.get(i).isEmpty()) {
+                headerBuilder.add(header.get(i));
+            } else if (i < oldHeader.size()) {
+                headerBuilder.add(oldHeader.get(i));
             } else {
-                newHeader[i] = "";
+                headerBuilder.add("");
             }
         }
-        String[] oldFooter = tablist.getFooter();
-        String[] newFooter = new String[Math.max(footer.length, oldFooter.length)];
-        for (int i = 0; i < newFooter.length; i++) {
-            if (i < footer.length && !footer[i].isEmpty()) {
-                newFooter[i] = footer[i];
-            } else if (i < oldFooter.length) {
-                newFooter[i] = oldFooter[i];
+        ImmutableList<String> oldFooter = tablist.getHeader();
+        ImmutableList.Builder<String> footerBuilder = ImmutableList.builder();
+        for (int i = 0; i < Math.max(oldFooter.size(), footer.size()); i++) {
+            if (i < footer.size() && !footer.get(i).isEmpty()) {
+                footerBuilder.add(footer.get(i));
+            } else if (i < oldFooter.size()) {
+                footerBuilder.add(oldFooter.get(i));
             } else {
-                newFooter[i] = "";
+                footerBuilder.add("");
             }
         }
-        tablist.header = newHeader;
-        tablist.footer = newFooter;
-        tablist.refreshHeaderAndFooter();
+        tablist.setHeaderAndFooter(headerBuilder.build(), footerBuilder.build());
     }
 
     @Override
     public String toString() {
-        return OptionalUtil.map(target, super::toString, player -> "Tablist(" + player.getName() + ")");
+        return target.map(player -> "Tablist(" + player.getName() + ")").orElse(super.toString());
     }
 }

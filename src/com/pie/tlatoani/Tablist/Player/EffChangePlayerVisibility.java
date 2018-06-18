@@ -20,6 +20,9 @@ public class EffChangePlayerVisibility extends Effect {
     @Override
     protected void execute(Event event) {
         Player[] objects = objectsExpression.getArray(event);
+        if (objects == null) {
+            return;
+        }
         if (visible) {
             for (Tablist tablist : tablistProvider.get(event)) {
                 tablist.getPlayerTablist().ifPresent(playerTablist -> {

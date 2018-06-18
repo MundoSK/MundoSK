@@ -132,10 +132,10 @@ public class DocumentationCommand {
             } else {
                 page = 1;
             }
-            return OptionalUtil.map(getDocElemGroupedList(args[2]), () -> false, docElemMultimap -> {
+            return getDocElemGroupedList(args[2]).map(docElemMultimap -> {
                 displayElems(sender, docElemMultimap.getGroup(category), category + " " + MundoUtil.capitalize(args[2]) + "s", page, false, false);
                 return true;
-            });
+            }).orElse(false);
         }
         return false;
     }

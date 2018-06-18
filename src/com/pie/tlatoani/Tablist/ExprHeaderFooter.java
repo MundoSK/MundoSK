@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import com.google.common.collect.ImmutableList;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import org.bukkit.event.Event;
 
@@ -23,12 +24,12 @@ public class ExprHeaderFooter extends SimpleExpression<String> {
         if (header) {
             return tablistProvider
                     .view(event)
-                    .flatMap(tablist -> Arrays.stream(tablist.getHeader()))
+                    .flatMap(tablist -> tablist.getHeader().stream())
                     .toArray(String[]::new);
         } else {
             return tablistProvider
                     .view(event)
-                    .flatMap(tablist -> Arrays.stream(tablist.getHeader()))
+                    .flatMap(tablist -> tablist.getFooter().stream())
                     .toArray(String[]::new);
         }
     }
@@ -57,25 +58,32 @@ public class ExprHeaderFooter extends SimpleExpression<String> {
 
     @Override
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
+        for (int i = 0; i < delta.length; i++) {
+            if (delta[i] == null) {
+                delta[i] = "";
+            }
+        }
         for (Tablist tablist : tablistProvider.get(event)) {
-            String[] result;
+            ImmutableList.Builder<String> builder = ImmutableList.builder();
             if (mode == Changer.ChangeMode.SET) {
-                result = new String[delta.length];
-                System.arraycopy(delta, 0, result, 0, delta.length);
+                for (Object strO : delta) {
+                    builder.add((String) strO);
+                }
             } else if (mode == Changer.ChangeMode.ADD) {
-                String[] original = header ? tablist.getHeader() : tablist.getFooter();
-                result = new String[original.length + delta.length];
-                System.arraycopy(original, 0, result, 0, original.length);
-                System.arraycopy(delta, 0, result, original.length, delta.length);
+                ImmutableList<String> original = header ? tablist.getHeader() : tablist.getFooter();
+                builder.addAll(original);
+                for (Object strO : delta) {
+                    builder.add((String) strO);
+                }
             } else if (mode == Changer.ChangeMode.DELETE || mode == Changer.ChangeMode.RESET) {
-                result = new String[0];
+                //do nothing, builder is already empty
             } else {
                 throw new IllegalArgumentException("Illegal mode: " + mode);
             }
             if (header) {
-                tablist.setHeader(result);
+                tablist.setHeader(builder.build());
             } else {
-                tablist.setFooter(result);
+                tablist.setFooter(builder.build());
             }
         }
     }

@@ -2,4 +2,5 @@ debug: []
 enable_custom_skin_and_tablist: true
 tablist_remove_tab_delay_spawn: 5
 tablist_remove_tab_delay_respawn: 5
+tablist_add_to_default_group_delay: 5
 border_disable_size_syntax: false

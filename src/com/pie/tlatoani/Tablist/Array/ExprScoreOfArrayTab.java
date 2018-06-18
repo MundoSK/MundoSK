@@ -9,7 +9,10 @@ import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
+import com.pie.tlatoani.Util.Static.MathUtil;
 import org.bukkit.event.Event;
+
+import java.util.Optional;
 
 /**
  * Created by Tlatoani on 11/25/16.
@@ -21,14 +24,16 @@ public class ExprScoreOfArrayTab extends SimpleExpression<Number> {
 
     @Override
     protected Number[] get(Event event) {
-        int column = this.column.getSingle(event).intValue();
-        int row = this.row.getSingle(event).intValue();
+        int column = Optional.ofNullable(this.column.getSingle(event)).map(Number::intValue).orElse(-1);
+        int row = Optional.ofNullable(this.row.getSingle(event)).map(Number::intValue).orElse(-1);
         return tablistProvider
                 .view(event)
                 .map(tablist -> {
                     if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                         ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                        return arrayTablist.getTab(column, row).getScore().orElse(null);
+                        if (MathUtil.isInRange(1, column, arrayTablist.getColumns()) && MathUtil.isInRange(1, row, arrayTablist.getRows())) {
+                            return arrayTablist.getTab(column, row).getScore().orElse(null);
+                        }
                     }
                     return null;
                 })
@@ -59,17 +64,19 @@ public class ExprScoreOfArrayTab extends SimpleExpression<Number> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        int column = this.column.getSingle(event).intValue();
-        int row = this.row.getSingle(event).intValue();
+        int column = Optional.ofNullable(this.column.getSingle(event)).map(Number::intValue).orElse(-1);
+        int row = Optional.ofNullable(this.row.getSingle(event)).map(Number::intValue).orElse(-1);
         Integer value = mode == Changer.ChangeMode.RESET ? null : ((mode == Changer.ChangeMode.REMOVE ? -1 : 1) * ((Number) delta[0]).intValue());
         for (Tablist tablist : tablistProvider.get(event)) {
             if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                 ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                Tab tab = arrayTablist.getTab(column, row);
-                if (mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE) {
-                    tab.setScore(tab.getScore().orElse(0) + value);
-                } else {
-                    tab.setScore(value);
+                if (MathUtil.isInRange(1, column, arrayTablist.getColumns()) && MathUtil.isInRange(1, row, arrayTablist.getRows())) {
+                    Tab tab = arrayTablist.getTab(column, row);
+                    if (mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE) {
+                        tab.setScore(tab.getScore().orElse(0) + value);
+                    } else {
+                        tab.setScore(value);
+                    }
                 }
             }
         }

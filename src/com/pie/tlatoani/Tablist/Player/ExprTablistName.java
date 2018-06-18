@@ -23,7 +23,7 @@ public class ExprTablistName extends SimpleExpression<String> {
     @Override
     protected String[] get(Event event) {
         Player object = objectExpression.getSingle(event);
-        if (!object.isOnline()) {
+        if (object == null || !object.isOnline()) {
             return new String[0];
         }
         return tablistProvider
@@ -61,7 +61,7 @@ public class ExprTablistName extends SimpleExpression<String> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         String value = mode == Changer.ChangeMode.SET ? (String) delta[0] : null;
         Player object = objectExpression.getSingle(event);
-        if (!object.isOnline()) {
+        if (object == null || !object.isOnline()) {
             return;
         }
         for (Tablist tablist : tablistProvider.get(event)) {

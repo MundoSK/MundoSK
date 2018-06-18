@@ -6,6 +6,8 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import org.bukkit.event.Event;
 
+import java.util.Optional;
+
 /**
  * Created by Tlatoani on 5/5/17.
  */
@@ -15,7 +17,11 @@ public class EffStartWebSocketServer extends Effect {
 
     @Override
     protected void execute(Event event) {
-        WebSocketManager.startServer(portExpr.getSingle(event).intValue(), idExpr.getSingle(event));
+        String id = idExpr.getSingle(event);
+        Integer port = Optional.ofNullable(portExpr.getSingle(event)).map(Number::intValue).orElse(null);
+        if (id != null && port != null) {
+            WebSocketManager.startServer(portExpr.getSingle(event).intValue(), idExpr.getSingle(event));
+        }
     }
 
     @Override

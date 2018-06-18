@@ -186,6 +186,6 @@ public class WorldCreatorData {
     //
 
     public String toString() {
-        return OptionalUtil.map(name, () -> "", str -> str + ":") + toJSON();
+        return name.map(str -> str + ":").orElse("") + toJSON();
     }
 }

@@ -19,7 +19,7 @@ public class CondPlayerIsVisible extends SimpleExpression<Boolean> {
     @Override
     protected Boolean[] get(Event event) {
         Player object = objectExpression.getSingle(event);
-        if (!object.isOnline()) {
+        if (object == null || !object.isOnline()) {
             return new Boolean[]{false};
         }
         return new Boolean[]{tablistProvider.check(event, tablist -> tablist.isPlayerVisible(object), positive)};

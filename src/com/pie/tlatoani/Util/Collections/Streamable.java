@@ -2,9 +2,7 @@ package com.pie.tlatoani.Util.Collections;
 
 import com.google.common.collect.Streams;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -14,6 +12,10 @@ public interface Streamable<T> extends Iterable<T> {
 
     default Stream<T> stream() {
         return Streams.stream(this);
+    }
+
+    static <T> Streamable<T> empty() {
+        return of(Collections.<T>emptyList());
     }
 
     static <T> Streamable<T> of(T[] array) {

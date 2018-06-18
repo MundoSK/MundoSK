@@ -23,7 +23,7 @@ public class ExprTablistLatency extends SimpleExpression<Number> {
     @Override
     protected Number[] get(Event event) {
         Player object = objectExpression.getSingle(event);
-        if (!object.isOnline()) {
+        if (object == null || !object.isOnline()) {
             return new Number[0];
         }
         return tablistProvider
@@ -61,7 +61,7 @@ public class ExprTablistLatency extends SimpleExpression<Number> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         Integer value = mode == Changer.ChangeMode.RESET ? null : ((mode == Changer.ChangeMode.REMOVE ? -1 : 1) * ((Number) delta[0]).intValue());
         Player object = objectExpression.getSingle(event);
-        if (!object.isOnline()) {
+        if (object == null || !object.isOnline()) {
             return;
         }
         for (Tablist tablist : tablistProvider.get(event)) {

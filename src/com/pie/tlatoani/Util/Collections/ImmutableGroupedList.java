@@ -34,7 +34,10 @@ public class ImmutableGroupedList<E, G> extends AbstractList<E> {
     }
 
     public List<E> getGroup(G g) {
-        return OptionalUtil.map(MundoUtil.binarySearchList(groupIDs, g, (gVal, id) -> keyComparator.compare(gVal, id.key)), () -> null, Group::new);
+        return MundoUtil
+                .binarySearchList(groupIDs, g, (gVal, id) -> keyComparator.compare(gVal, id.key))
+                .map(Group::new)
+                .orElse(null);
     }
 
     public List<List<E>> getAllGroups() {

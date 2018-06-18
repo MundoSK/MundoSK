@@ -1,6 +1,7 @@
 package com.pie.tlatoani.Tablist;
 
 import ch.njol.skript.lang.Expression;
+import com.google.common.collect.ImmutableList;
 import com.pie.tlatoani.ListUtil.Transformer;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import org.bukkit.event.Event;
@@ -38,16 +39,21 @@ public class TransHeaderFooter implements Transformer<String>, Transformer.Reset
 
     @Override
     public String[] get(Event event) {
-        return tablistProvider.view(event).findFirst().map(header ? Tablist::getHeader : Tablist::getFooter).orElse(new String[0]);
+        return tablistProvider
+                .view(event)
+                .findFirst()
+                .map(header ? Tablist::getHeader : Tablist::getFooter)
+                .map(list -> list.toArray(new String[0]))
+                .orElse(new String[0]);
     }
 
     @Override
     public void set(Event event, Function<Object[], Object[]> changer) {
         for (Tablist tablist : tablistProvider.get(event)) {
             if (header) {
-                tablist.setHeader((String[]) changer.apply(tablist.getHeader()));
+                tablist.setHeader(ImmutableList.copyOf((String[]) changer.apply(tablist.getHeader().toArray(new String[0]))));
             } else {
-                tablist.setFooter((String[]) changer.apply(tablist.getFooter()));
+                tablist.setFooter(ImmutableList.copyOf((String[]) changer.apply(tablist.getFooter().toArray(new String[0]))));
             }
         }
     }

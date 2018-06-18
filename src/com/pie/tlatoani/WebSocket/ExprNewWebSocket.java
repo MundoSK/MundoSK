@@ -13,6 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by Tlatoani on 5/5/17.
@@ -20,24 +21,31 @@ import java.util.Map;
 public class ExprNewWebSocket extends SimpleExpression<WebSocket> {
     private Expression<String> idExpr;
     private Expression<String> uriExpr;
-    private Expression<Handshakedata> handshakeExpr;
+    private Optional<Expression<Handshakedata>> handshakeExpr;
 
     @Override
     protected WebSocket[] get(Event event) {
-        WebSocketClientFunctionality functionality = WebSocketManager.getClientFunctionality(idExpr.getSingle(event));
+        String id = idExpr.getSingle(event);
+        if (id == null) {
+            return new WebSocket[0];
+        }
+        WebSocketClientFunctionality functionality = WebSocketManager.getClientFunctionality(id);
         URI uri;
         try {
             uri = new URI(uriExpr.getSingle(event));
         } catch (URISyntaxException e) {
             Logging.reportException(this, e);
-            return null;
+            return new WebSocket[0];
+        } catch (NullPointerException e) {
+            Logging.debug(this, e);
+            return new WebSocket[0];
         }
+        Handshakedata handshake = handshakeExpr.map(expr -> expr.getSingle(event)).orElse(null);
         SkriptWebSocketClient webSocket;
-        if (handshakeExpr == null) {
+        if (handshake == null) {
             webSocket = new SkriptWebSocketClient(functionality, uri);
         } else {
             Map<String, String> headers = new HashMap<>();
-            Handshakedata handshake = handshakeExpr.getSingle(event);
             handshake.iterateHttpFields().forEachRemaining(name -> {
                 headers.put(name, handshake.getFieldValue(name));
             });
@@ -59,14 +67,14 @@ public class ExprNewWebSocket extends SimpleExpression<WebSocket> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "websocket " + idExpr + " connected to uri " + uriExpr + (handshakeExpr == null ? "" : " with request " + handshakeExpr);
+        return "websocket " + idExpr + " connected to uri " + uriExpr + handshakeExpr.map(expr -> " with request " + expr).orElse("");
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         idExpr = (Expression<String>) expressions[0];
         uriExpr = (Expression<String>) expressions[1];
-        handshakeExpr = (Expression<Handshakedata>) expressions[2];
+        handshakeExpr = Optional.ofNullable((Expression<Handshakedata>) expressions[2]);
         return true;
     }
 }

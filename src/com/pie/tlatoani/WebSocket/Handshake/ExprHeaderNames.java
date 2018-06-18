@@ -19,7 +19,11 @@ public class ExprHeaderNames extends SimpleExpression<String> {
 
     @Override
     protected String[] get(Event event) {
-        Iterator<String> headerNameIterator = handshakeExpr.getSingle(event).iterateHttpFields();
+        Handshakedata handshake = handshakeExpr.getSingle(event);
+        if (handshake == null) {
+            return new String[0];
+        }
+        Iterator<String> headerNameIterator = handshake.iterateHttpFields();
         List<String> headerNames = new LinkedList<>();
         headerNameIterator.forEachRemaining(headerNames::add);
         return headerNames.toArray(new String[0]);

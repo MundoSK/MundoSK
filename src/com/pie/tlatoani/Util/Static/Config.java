@@ -19,6 +19,7 @@ public final class Config {
     public static final Option<Boolean> IMPLEMENT_PACKET_STUFF = new Option<>("enable_custom_skin_and_tablist", true, FileConfiguration::getBoolean);
     public static final Option<Integer> TABLIST_SPAWN_REMOVE_TAB_DELAY = new Option<>("tablist_remove_tab_delay_spawn", 5, FileConfiguration::getInt);
     public static final Option<Integer> TABLIST_RESPAWN_REMOVE_TAB_DELAY = new Option<>("tablist_remove_tab_delay_respawn", 5, FileConfiguration::getInt);
+    public static final Option<Integer> TABLIST_ADD_TO_DEFAULT_GROUP_DELAY = new Option<>("tablist_add_to_default_group_delay", 5, FileConfiguration::getInt);
     public static final Option<Boolean> DISABLE_SIZE_SYNTAX = new Option<>("border_disable_size_syntax", false, FileConfiguration::getBoolean);
 
     public static void reload() {

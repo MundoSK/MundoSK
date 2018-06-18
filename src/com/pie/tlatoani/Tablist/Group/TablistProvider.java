@@ -5,11 +5,13 @@ import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.TablistManager;
 import com.pie.tlatoani.Util.Static.MundoUtil;
 import com.pie.tlatoani.Util.Collections.Streamable;
+import com.pie.tlatoani.Util.Static.OptionalUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -71,10 +73,12 @@ public abstract class TablistProvider {
      * @return
      */
     public static TablistProvider of(Expression<?>[] expressions, int playerExpressionIndex) {
-        if (expressions[playerExpressionIndex] != null) {
+        if (expressions.length > playerExpressionIndex && expressions[playerExpressionIndex] != null) {
             return new Players((Expression<Player>) expressions[playerExpressionIndex]);
-        } else {
+        } else if (expressions.length > playerExpressionIndex + 1 && expressions[playerExpressionIndex + 1] != null) {
             return new Group((Expression<String>) expressions[playerExpressionIndex + 1]);
+        } else {
+            return new Group();
         }
     }
 
@@ -143,30 +147,43 @@ public abstract class TablistProvider {
     }
 
     private static class Group extends TablistProvider {
-        private final Expression<String> expression;
+        //Optional signifies to use the default group
+        private final Optional<Expression<String>> expression;
+
+        private Group() {
+            this.expression = Optional.empty();
+        }
 
         private Group(Expression<String> expression) {
-            this.expression = expression;
+            this.expression = Optional.of(expression);
         }
 
         @Override
         public Stream<Tablist> view(Event event) {
-            return Stream.of(get(event).getDummy());
+            return OptionalUtil.stream(getGroup(event).map(TablistGroup::getDummy));
         }
 
         @Override
-        public TablistGroup get(Event event) {
-            return TablistManager.getTablistGroup(expression.getSingle(event));
+        public Streamable<Tablist> get(Event event) {
+            return getGroup(event).<Streamable<Tablist>>map(Function.identity()).orElse(Streamable.empty());
+        }
+
+        public Optional<TablistGroup> getGroup(Event event) {
+            return expression
+                    .map(expr -> Optional
+                            .ofNullable(expr.getSingle(event))
+                            .map(TablistManager::getTablistGroup))
+                    .orElse(Optional.of(TablistManager.GLOBAL_GROUP));
         }
 
         @Override
         public String toString() {
-            return "group " + expression;
+            return expression.map(expr -> "group" + expr).orElse("global group");
         }
 
         @Override
         public boolean check(Event event, Function<Tablist, Boolean> condition, boolean positive) {
-            return positive == condition.apply(get(event).getDummy());
+            return getGroup(event).map(group -> positive == condition.apply(group.getDummy())).orElse(false);
         }
 
         @Override

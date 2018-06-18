@@ -14,7 +14,7 @@ import java.util.Optional;
 /**
  * Created by Tlatoani on 7/13/16.
  */
-public class EffCreateNewTab extends Effect {
+public class EffCreateSimpleTab extends Effect {
     private Expression<String> id;
     private TablistProvider tablistProvider;
     private Expression<String> displayName;
@@ -26,6 +26,9 @@ public class EffCreateNewTab extends Effect {
     protected void execute(Event event) {
         String id = this.id.getSingle(event);
         String displayName = this.displayName.getSingle(event);
+        if (id == null || displayName == null || id.length() > 12) {
+            return;
+        }
         Integer latency = ping.map(expression -> expression.getSingle(event).intValue()).orElse(5);
         Skin icon = iconExpression.map(expression -> expression.getSingle(event)).orElse(Tablist.DEFAULT_SKIN_TEXTURE);
         Integer score = this.score.map(expression -> expression.getSingle(event).intValue()).orElse(0);

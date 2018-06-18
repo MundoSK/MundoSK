@@ -6,6 +6,8 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import org.bukkit.event.Event;
 
+import java.util.Optional;
+
 /**
  * Created by Tlatoani on 8/9/17.
  */
@@ -14,12 +16,12 @@ public class ExprWebSocketServerID extends SimpleExpression<String> {
 
     @Override
     protected String[] get(Event event) {
-        int port = portExpr.getSingle(event).intValue();
-        SkriptWebSocketServer server = WebSocketManager.getServer(port);
-        if (server == null) {
-            return new String[0];
-        }
-        return new String[] {server.functionality.id};
+        return Optional
+                .ofNullable(portExpr.getSingle(event))
+                .map(Number::intValue)
+                .map(WebSocketManager::getServer)
+                .map(server -> new String[]{server.functionality.id})
+                .orElse(new String[0]);
     }
 
     @Override

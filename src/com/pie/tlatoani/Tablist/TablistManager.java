@@ -35,6 +35,8 @@ public class TablistManager {
     private static final Map<String, TablistGroup> tablistGroupMap = new HashMap<>();
     private static final ArrayList<Player> playersRespawning = new ArrayList<>();
 
+    public static final TablistGroup GLOBAL_GROUP = new TablistGroup();
+
     /**
      * Gets the Tablist belonging to {@code player}, creating it if necessary
      * @param player The player whose tablist (as represented by a Tablist object) will be viewed or modified
@@ -103,6 +105,7 @@ public class TablistManager {
      */
     private static void onJoin(Player player) {
         tablistMap.forEach((__, tablist) -> tablist.onJoin(player));
+        Scheduling.syncDelay(Config.TABLIST_ADD_TO_DEFAULT_GROUP_DELAY.getCurrentValue(), () -> GLOBAL_GROUP.add(player));
     }
 
     /**
@@ -112,6 +115,7 @@ public class TablistManager {
     private static void onQuit(Player player) {
         tablistMap.remove(player);
         tablistMap.forEach((__, tablist) -> tablist.onQuit(player));
+        GLOBAL_GROUP.remove(player);
         tablistGroupMap.forEach((__, group) -> group.remove(player));
     }
 

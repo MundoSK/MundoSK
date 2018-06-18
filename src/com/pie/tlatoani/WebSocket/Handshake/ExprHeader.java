@@ -19,7 +19,13 @@ public class ExprHeader extends SimpleExpression<String> {
 
     @Override
     protected String[] get(Event event) {
-        return new String[]{handshakeExpr.getSingle(event).getFieldValue(nameExpr.getSingle(event))};
+        Handshakedata handshake = handshakeExpr.getSingle(event);
+        String name = nameExpr.getSingle(event);
+        if (handshake != null && name != null) {
+            return new String[]{handshake.getFieldValue(name)};
+        } else {
+            return new String[0];
+        }
     }
 
     @Override

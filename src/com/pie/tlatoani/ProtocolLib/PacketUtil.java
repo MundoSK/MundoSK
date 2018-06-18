@@ -13,10 +13,7 @@ import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardScore;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
-import java.util.Optional;
-import java.util.StringJoiner;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Tlatoani on 8/14/17.
@@ -73,8 +70,8 @@ public class PacketUtil {
         return packet.getHandle();
     }
 
-    public static WrappedChatComponent stringsToChatComponent(String[] strings) {
-        if (strings.length == 0) {
+    public static WrappedChatComponent stringsToChatComponent(List<String> strings) {
+        if (strings.isEmpty()) {
             return WrappedChatComponent.fromText("");
         }
         StringJoiner joiner = new StringJoiner(", {\"text\":\"\n\"}, ", "{\"extra\":[", "],\"text\":\"\"}");

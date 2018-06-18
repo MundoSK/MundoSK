@@ -11,6 +11,8 @@ import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import org.bukkit.event.Event;
 
+import java.util.Optional;
+
 /**
  * Created by Tlatoani on 7/23/16.
  */
@@ -55,7 +57,7 @@ public class ExprDimensionOfTablist extends SimpleExpression<Number> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        int value = ((Number) delta[0]).intValue() * (mode == Changer.ChangeMode.REMOVE ? -1 : 1);
+        int value = Optional.ofNullable((Number) delta[0]).map(Number::intValue).orElse(0) * (mode == Changer.ChangeMode.REMOVE ? -1 : 1);
         for (Tablist tablist : tablistProvider.get(event)) {
             if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                 ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();

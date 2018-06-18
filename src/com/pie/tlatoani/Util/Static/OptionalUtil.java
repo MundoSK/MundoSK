@@ -3,8 +3,7 @@ package com.pie.tlatoani.Util.Static;
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * Created by Tlatoani on 3/17/18.
@@ -19,13 +18,12 @@ public class OptionalUtil {
         }
     }
 
-    public static <T, R> R map(Optional<T> optional, Supplier<R> supplier, Function<T, R> function) {
-        if (optional.isPresent()) {
-            return function.apply(optional.get());
-        } else {
-            return supplier.get();
-        }
+    /*public static <T, R> R map(Optional<T> optional, Supplier<R> supplier, Function<T, R> function) {
+        return optional.map(function).orElseGet(supplier);
+    }*/
 
+    public static <T> Stream<T> stream(Optional<T> optional) {
+        return optional.map(Stream::of).orElseGet(Stream::empty);
     }
 
     public static <S, T extends S> Optional<T> cast(S obj, Class<T> tClass) {

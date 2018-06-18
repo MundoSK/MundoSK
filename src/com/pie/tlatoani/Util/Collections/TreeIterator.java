@@ -94,7 +94,7 @@ public class TreeIterator implements Iterator {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            Map.Entry<K, V> nextEntry = OptionalUtil.map(key, treeMap::firstEntry, treeMap::higherEntry);
+            Map.Entry<K, V> nextEntry = key.map(treeMap::higherEntry).orElse(treeMap.firstEntry());
             key = Optional.of(nextEntry.getKey());
             return nextEntry;
         }
