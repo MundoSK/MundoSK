@@ -8,6 +8,7 @@ import com.pie.tlatoani.Tablist.SupplementaryTablist;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Util.Static.OptionalUtil;
 
+import javax.annotation.Nullable;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -49,12 +50,12 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
      * If a simple tab already exists with ID {@code id}, that one is deleted before the creation of the new one.
      * @param id The ID by which to refer to the simple tab
      * @param displayName The display name of the simple tab (or null for empty)
-     * @param latency The latency (0 - 5) of the simple tab (or null for empty)
+     * @param latencyBars The latency bars (0 - 5) of the simple tab (or null for empty)
      * @param icon The icon of the simple tab (or null for empty)
      * @param score The score of the simple tab (or null for empty)
      * @return The newly created simple tab
      */
-    public Tab createTab(String id, String displayName, Integer latency, Skin icon, Integer score) {
+    public Tab createTab(String id, @Nullable String displayName, @Nullable Integer latencyBars, @Nullable Skin icon, @Nullable Integer score) {
         if (id == null || id.length() > 12) {
             throw new IllegalArgumentException("Invalid id = " + id);
         }
@@ -62,7 +63,15 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
             if (oldTab != null) {
                 tablist.sendPacket(oldTab.playerInfoPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), this);
             }
-            Tab newTab = new Tab(tablist, id + "-MSK", UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)), displayName, latency, icon, score);
+            Tab newTab = new Tab(
+                    tablist,
+                    id + "-MSK",
+                    UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)),
+                    displayName,
+                    latencyBars,
+                    icon,
+                    score
+            );
             tablist.sendPacket(newTab.playerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER), this);
             return newTab;
         });
@@ -114,7 +123,7 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
                     () -> simpleTablist.createTab(
                             id,
                             tab.getDisplayName().orElse(null),
-                            tab.getLatency().orElse(null),
+                            tab.getLatencyBars().orElse(null),
                             tab.getIcon().orElse(null),
                             tab.getScore().orElse(null)
                     ),

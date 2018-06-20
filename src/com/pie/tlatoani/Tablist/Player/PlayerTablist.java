@@ -4,7 +4,6 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Tablist.SupplementaryTablist;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.TablistManager;
@@ -146,9 +145,14 @@ public class PlayerTablist {
     public void clearModifications() {
         OptionalUtil.consume(tabs, this::showAllPlayers, map -> {
             map.forEach((player, tabOptional) -> {
-                OptionalUtil.consume(tabOptional, () -> tablist.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), this), tab -> {
+                OptionalUtil.consume(
+                        tabOptional,
+                        () -> tablist.sendPacket(
+                                PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER),
+                                this
+                        ), tab -> {
                     tab.setDisplayName(null);
-                    tab.setLatency(null);
+                    tab.setLatencyBars(null);
                     tab.setScore(null);
                 });
             });
@@ -171,7 +175,8 @@ public class PlayerTablist {
     /**
      * Called only by {@link TablistManager#onQuit(Player)}.
      * Removes all information relating to {@code player}
-     * (no packets need to be sent since Minecraft/Bukkit will remove the player from tablist on their own and no other modification is necessary).
+     * (no packets need to be sent since Minecraft/Bukkit will remove the player from tablist on their own
+     * and no other modification is necessary).
      * @param player The player who quit
      */
     public void onQuit(Player player) {

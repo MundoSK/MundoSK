@@ -45,7 +45,8 @@ public class TablistManager {
      */
     public static Tablist getTablistOfPlayer(Player player) {
         if (player == null || !player.isOnline()) {
-            throw new IllegalArgumentException("The player parameter in getTablistOfPlayer(Player player) must be non-null and online, player: " + player);
+            throw new IllegalArgumentException(
+                    "The player parameter in getTablistOfPlayer(Player player) must be non-null and online, player: " + player);
         }
         return tablistMap.computeIfAbsent(player, Tablist::new);
     }
@@ -58,20 +59,23 @@ public class TablistManager {
      */
     public static TablistGroup getTablistGroup(String name) {
         if (name == null) {
-            throw new IllegalArgumentException("The name parameter in getTablistGroup(Player player) must be non-null, name: " + name);
+            throw new IllegalArgumentException(
+                    "The name parameter in getTablistGroup(Player player) must be non-null, name: " + name);
         }
         return tablistGroupMap.computeIfAbsent(name, __ -> new TablistGroup());
     }
 
     /**
-     * Deletes (and resets, by calling {@link TablistGroup#reset()}) the {@link TablistGroup} identified by the specified name if it existed.
+     * Deletes (and resets,
+     * by calling {@link TablistGroup#reset()}) the {@link TablistGroup} identified by the specified name if it existed.
      * @param name The name identifying the {@link TablistGroup} to be deleted
      * @return {@code true} if there was such a {@link TablistGroup}, {@code false} otherwise
      * @throws IllegalArgumentException If {@code name} is null
      */
     public static boolean deleteTablistGroup(String name) {
         if (name == null) {
-            throw new IllegalArgumentException("The name parameter in getTablistGroup(Player player) must be non-null, name: " + name);
+            throw new IllegalArgumentException(
+                    "The name parameter in getTablistGroup(Player player) must be non-null, name: " + name);
         }
         TablistGroup group = tablistGroupMap.remove(name);
         if (group != null) {
@@ -121,17 +125,30 @@ public class TablistManager {
 
     /**
      * Loads the listeners for the packet events that need to be manipulated in order for tablist stuff to work.
-     * <p>For {@link PacketType.Play.Server#PLAYER_INFO}, the outgoing packet is modified, if necessary, to contain
-     * the desired tab attributes as specified in the corresponding {@link PlayerTablist}.</p>
-     * <p>For {@link PacketType.Play.Server#NAMED_ENTITY_SPAWN}, if the player being spawned is hidden in tablist for the player receiving the packet,
-     * the player receiving the packet is sent a {@link PacketType.Play.Server#PLAYER_INFO} packet with the {@link EnumWrappers.PlayerInfoAction#ADD_PLAYER} action
-     * and then another (delayed) packet of the same type with the {@link EnumWrappers.PlayerInfoAction#REMOVE_PLAYER} action, in order to ensure that
-     * the player receiving the packet properly sees the skin of the player being spawned.</p>
-     * <p>For {@link PacketType.Play.Server#RESPAWN}, if the player being respawned (note that this is the player receiving the packet) is hidden in tablist for themselves,
-     * and this procedure hadn't been done recently (see below), do the same process as was done for {@link PacketType.Play.Server#NAMED_ENTITY_SPAWN}.</p>
-     * <p>For {@link PacketType.Play.Server#NAMED_ENTITY_SPAWN} and {@link PacketType.Play.Server#RESPAWN}, the delays to wait between sending the first and second
+     * <p>
+     * For {@link PacketType.Play.Server#PLAYER_INFO}, the outgoing packet is modified, if necessary, to contain
+     * the desired tab attributes as specified in the corresponding {@link PlayerTablist}.
+     * </p>
+     * <p>
+     * For {@link PacketType.Play.Server#NAMED_ENTITY_SPAWN},
+     * if the player being spawned is hidden in tablist for the player receiving the packet,
+     * the player receiving the packet is sent a {@link PacketType.Play.Server#PLAYER_INFO} packet
+     * with the {@link EnumWrappers.PlayerInfoAction#ADD_PLAYER} action
+     * and then another (delayed) packet of the same type with the {@link EnumWrappers.PlayerInfoAction#REMOVE_PLAYER} action,
+     * in order to ensure that the player receiving the packet properly sees the skin of the player being spawned.
+     * </p>
+     * <p>
+     * For {@link PacketType.Play.Server#RESPAWN},
+     * if the player being respawned (note that this is the player receiving the packet) is hidden in tablist for themselves,
+     * and this procedure hadn't been done recently (see below),
+     * do the same process as was done for {@link PacketType.Play.Server#NAMED_ENTITY_SPAWN}.
+     * </p>
+     * <p>
+     * For {@link PacketType.Play.Server#NAMED_ENTITY_SPAWN} and {@link PacketType.Play.Server#RESPAWN},
+     * the delays to wait between sending the first and second
      * {@link PacketType.Play.Server#PLAYER_INFO} packets (as well as the time defining 'recently') are specified by
-     * {@link Config#TABLIST_SPAWN_REMOVE_TAB_DELAY} and {@link Config#TABLIST_RESPAWN_REMOVE_TAB_DELAY}.</p>
+     * {@link Config#TABLIST_SPAWN_REMOVE_TAB_DELAY} and {@link Config#TABLIST_RESPAWN_REMOVE_TAB_DELAY}.
+     * </p>
      */
     private static void loadPacketEventListeners() {
         PacketManager.onPacketEvent(PacketType.Play.Server.PLAYER_INFO, event -> {
@@ -164,9 +181,17 @@ public class TablistManager {
             }
             boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(objPlayer);
             if (!tabVisible) {
-                PacketManager.sendPacket(PacketUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
+                PacketManager.sendPacket(
+                        PacketUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.ADD_PLAYER),
+                        TablistManager.class,
+                        player
+                );
                 Scheduling.syncDelay(Config.TABLIST_SPAWN_REMOVE_TAB_DELAY.getCurrentValue(), () -> {
-                    PacketManager.sendPacket(PacketUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
+                    PacketManager.sendPacket(
+                            PacketUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER),
+                            TablistManager.class,
+                            player
+                    );
                 });
             }
         });
@@ -179,10 +204,18 @@ public class TablistManager {
             boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(player);
             if (!tabVisible) {
                 playersRespawning.add(player);
-                PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), TablistManager.class, player);
+                PacketManager.sendPacket(
+                        PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER),
+                        TablistManager.class,
+                        player
+                );
                 Scheduling.syncDelay(Config.TABLIST_RESPAWN_REMOVE_TAB_DELAY.getCurrentValue(), () -> {
                     playersRespawning.remove(player);
-                    PacketManager.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), TablistManager.class, player);
+                    PacketManager.sendPacket(
+                            PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER),
+                            TablistManager.class,
+                            player
+                    );
                 });
             }
         });

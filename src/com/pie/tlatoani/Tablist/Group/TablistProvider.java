@@ -107,7 +107,12 @@ public abstract class TablistProvider {
 
         @Override
         public boolean check(Event event, Function<Tablist, Boolean> condition, boolean positive) {
-            return MundoUtil.check(expression, event, player -> player.isOnline() && condition.apply(TablistManager.getTablistOfPlayer(player)), positive);
+            return MundoUtil.check(
+                    expression,
+                    event,
+                    player -> player.isOnline() && condition.apply(TablistManager.getTablistOfPlayer(player)),
+                    positive
+            );
         }
 
         @Override
@@ -147,7 +152,7 @@ public abstract class TablistProvider {
     }
 
     private static class Group extends TablistProvider {
-        //Optional signifies to use the default group
+        //Optional.empty() signifies to use the global group
         private final Optional<Expression<String>> expression;
 
         private Group() {
@@ -165,6 +170,7 @@ public abstract class TablistProvider {
 
         @Override
         public Streamable<Tablist> get(Event event) {
+            //map(Function.identity()) necessary to change parameter type of Optional
             return getGroup(event).<Streamable<Tablist>>map(Function.identity()).orElse(Streamable.empty());
         }
 

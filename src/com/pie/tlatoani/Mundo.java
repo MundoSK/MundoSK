@@ -139,6 +139,9 @@ public class Mundo extends JavaPlugin {
                 sender.sendMessage(formatCommandDescription("ver[sion]", "Prints the version of MundoSK running on this server"));
                 sender.sendMessage(formatCommandDescription("config", "Prints the current config options"));
                 sender.sendMessage(formatCommandDescription("config reload", "Reloads MundoSK's config"));
+                sender.sendMessage(formatCommandDescription("doc[s]", "Accesses MundoSK's documentation"));
+                sender.sendMessage(formatCommandDescription("update", "Prints the latest update information"));
+                sender.sendMessage(formatCommandDescription("update <version>", "Downloads the given MundoSK version to be installed on server restart"));
             } else if (args[0].equalsIgnoreCase("desc") || args[0].equalsIgnoreCase("description")) {
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK is a Skript Addon that has features including Packets, World Borders, World Management, Custom World Generation, Tablist, Skin Modification, Sockets, and more!");
                 sender.sendMessage(formatMundoSKInfo("Your MundoSK Version", getVersion()));
@@ -157,6 +160,10 @@ public class Mundo extends JavaPlugin {
                 Config.displayConfig(sender);
             } else if (args[0].equalsIgnoreCase("doc") || args[0].equalsIgnoreCase("docs")) {
                 DocumentationCommand.accessDocumentation(sender, args);
+            } else if (args[0].equalsIgnoreCase("update")) {
+                if (args.length == 1) {
+
+                }
             } else {
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK didn't understand this command argument: " + ALT_CHAT_COLOR + args[0]);
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "Do " + ALT_CHAT_COLOR + "/mundosk " + PRIMARY_CHAT_COLOR + "to show a list of MundoSK commands");

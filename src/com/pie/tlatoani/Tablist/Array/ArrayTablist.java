@@ -133,7 +133,8 @@ public class ArrayTablist implements SupplementaryTablist<ArrayTablist> {
     }
 
     /**
-     * Changes the amount of columns in the tablist to be {@code rows} limited according to {@link #getViableRowAmount(int, int)}
+     * Changes the amount of rows in the tablist to be
+     * {@code rows} limited according to {@link #getViableRowAmount(int, int)}
      * @param rows The new amount of rows in the tablist
      */
     public void setRows(int rows) {
@@ -162,7 +163,8 @@ public class ArrayTablist implements SupplementaryTablist<ArrayTablist> {
     //Utility Methods
 
     /**
-     * Creates a {@link Tab} with the name and {@link UUID} necessary in order to maintain the correct ordering of tabs in the tablist
+     * Creates a {@link Tab} with the name and {@link UUID} necessary
+     * in order to maintain the correct ordering of tabs in the tablist
      * according to {@code column} and {@code row} given that all other array tabs are created using this method.
      * @param column The column at which the returned {@link Tab} will be located
      * @param row The row at which the returned {@link Tab} will be located
@@ -226,11 +228,14 @@ public class ArrayTablist implements SupplementaryTablist<ArrayTablist> {
     }
 
     /**
-     * If there are 4 columns and 20 rows, this method will call {@link PlayerTablist#clearModifications()} on the {@link PlayerTablist}.
+     * If there are 4 columns and 20 rows,
+     * this method will call {@link PlayerTablist#clearModifications()} on the {@link PlayerTablist}.
      * Otherwise, it will call {@link PlayerTablist#hideAllPlayers()} on the {@link PlayerTablist}.
-     * This is because if there are not both 4 columns and 20 rows, having players be visible means that their tabs will show in addition
-     * to the array tab. However, if there are 4 columns and 20 rows, then all players should be visible and displayed as default
-     * in order to minimize packet sending/modification as well as prevent bugs that occur when players must be shown and removed repeatedly.
+     * This is because if there are not both 4 columns and 20 rows, =
+     * having players be visible means that their tabs will show in addition to the array tab.
+     * However, if there are 4 columns and 20 rows, then all players should be visible and displayed as default
+     * in order to minimize packet sending/modification as well as prevent bugs that occur
+     * when players must be shown and removed repeatedly.
      */
     private void changeToIdealPlayerVisibility() {
         if (columns == 4 && rows == 20) {

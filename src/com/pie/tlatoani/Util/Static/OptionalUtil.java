@@ -12,7 +12,7 @@ public class OptionalUtil {
 
     public static <T> void consume(Optional<T> optional, Runnable runnable, Consumer<T> tConsumer) {
         if (optional.isPresent()) {
-            tConsumer.accept(optional.get());
+            optional.ifPresent(tConsumer);
         } else {
             runnable.run();
         }

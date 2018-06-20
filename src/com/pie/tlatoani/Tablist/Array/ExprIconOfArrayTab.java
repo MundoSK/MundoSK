@@ -7,9 +7,11 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Skin.Skin;
+import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import com.pie.tlatoani.Util.Static.MathUtil;
+import com.pie.tlatoani.Util.Static.OptionalUtil;
 import org.bukkit.event.Event;
 
 import java.util.Optional;
@@ -28,15 +30,13 @@ public class ExprIconOfArrayTab extends SimpleExpression<Skin> {
         int row = Optional.ofNullable(this.row.getSingle(event)).map(Number::intValue).orElse(-1);
         return tablistProvider
                 .view(event)
-                .map(tablist -> {
-                    if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
-                        ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
-                        if (MathUtil.isInRange(1, column, arrayTablist.getColumns()) && MathUtil.isInRange(1, row, arrayTablist.getRows())) {
-                            return arrayTablist.getTab(column, row).getIcon().orElse(null);
-                        }
-                    }
-                    return null;
-                })
+                .map(tablist -> OptionalUtil
+                        .cast(tablist.getSupplementaryTablist(), ArrayTablist.class)
+                        .filter(arrayTablist -> MathUtil.isInRange(1, column, arrayTablist.getColumns()))
+                        .filter(arrayTablist -> MathUtil.isInRange(1, row, arrayTablist.getRows()))
+                        .map(arrayTablist -> arrayTablist.getTab(column, row))
+                        .flatMap(Tab::getIcon)
+                        .orElse(null))
                 .toArray(Skin[]::new);
     }
 

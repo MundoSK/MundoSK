@@ -22,7 +22,7 @@ public class PacketUtil {
 
     public static PacketContainer playerInfoPacket(
             String displayName,
-            Integer latency,
+            Integer latencyBars,
             GameMode gameMode,
             String name,
             UUID uuid,
@@ -39,7 +39,7 @@ public class PacketUtil {
         }
         PlayerInfoData playerInfoData = new PlayerInfoData(
                 profile,
-                Optional.ofNullable(latency).map(PacketUtil::getPossibleLatency).orElse(0),
+                Optional.ofNullable(latencyBars).map(PacketUtil::getPossibleLatency).orElse(0),
                 Optional.ofNullable(gameMode).map(EnumWrappers.NativeGameMode::fromBukkit).orElse(EnumWrappers.NativeGameMode.NOT_SET),
                 WrappedChatComponent.fromText(Optional.ofNullable(displayName).orElse(""))
         );
@@ -82,15 +82,15 @@ public class PacketUtil {
         return WrappedChatComponent.fromJson(joiner.toString());
     }
 
-    public static int getPossibleLatency(int bars) {
-        switch (bars) {
+    public static int getPossibleLatency(int latencyBars) {
+        switch (latencyBars) {
             case 0: return -1;
             case 1: return 1024;
             case 2: return 768;
             case 3: return 512;
             case 4: return 256;
             case 5: return 0;
-            default: throw new IllegalArgumentException("Illegal amount of bars: " + bars + ", required 0 <= bars <= 5");
+            default: throw new IllegalArgumentException("Illegal amount of latency bars: " + latencyBars + ", required 0 <= latency <= 5");
         }
     }
 }

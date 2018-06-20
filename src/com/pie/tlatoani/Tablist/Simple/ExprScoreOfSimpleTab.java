@@ -9,6 +9,7 @@ import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
+import com.pie.tlatoani.Util.Static.OptionalUtil;
 import org.bukkit.event.Event;
 
 /**
@@ -23,13 +24,11 @@ public class ExprScoreOfSimpleTab extends SimpleExpression<Number> {
         String id = this.id.getSingle(event);
         return tablistProvider
                 .view(event)
-                .map(tablist -> {
-                    if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
-                        SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
-                        return simpleTablist.getTab(id).map(Tab::getScore).orElse(null);
-                    }
-                    return null;
-                })
+                .map(tablist -> OptionalUtil
+                        .cast(tablist.getSupplementaryTablist(), SimpleTablist.class)
+                        .flatMap(simpleTablist -> simpleTablist.getTab(id))
+                        .flatMap(Tab::getScore)
+                        .orElse(null))
                 .toArray(Number[]::new);
     }
 

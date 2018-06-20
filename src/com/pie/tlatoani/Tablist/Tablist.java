@@ -67,9 +67,11 @@ public class Tablist {
 
     /**
      * Returns the {@link PlayerTablist} of this tablist.
-     * This will return {@link Optional#empty()} if the current {@link SupplementaryTablist} of this tablist returns false on {@link SupplementaryTablist#allowExternalPlayerTabModification()}
+     * This will return {@link Optional#empty()} if the current {@link SupplementaryTablist}
+     * of this tablist returns false on {@link SupplementaryTablist#allowExternalPlayerTabModification()}
      * @return An {@link Optional} containing this tablist's {@link PlayerTablist},
-     * or {@link Optional#empty()} if this tablist's {@link SupplementaryTablist} forbids external manipulation of the {@link PlayerTablist}
+     * or {@link Optional#empty()} if this tablist's {@link SupplementaryTablist}
+     * forbids external manipulation of the {@link PlayerTablist}
      */
     public Optional<PlayerTablist> getPlayerTablist() {
         if (supplementaryTablist.allowExternalPlayerTabModification()) {
@@ -80,7 +82,8 @@ public class Tablist {
     }
 
     /**
-     * Called by {@link TablistManager} when a player joins, in order to allow the {@link PlayerTablist} to send any necessary packets
+     * Called by {@link TablistManager} when a player joins,
+     * in order to allow the {@link PlayerTablist} to send any necessary packets
      * @param player The player that joined
      */
     void onJoin(Player player) {
@@ -96,11 +99,14 @@ public class Tablist {
     }
 
     /**
-     * Called by {@link TablistManager} when a {@link com.comphenix.protocol.PacketType.Play.Server#PLAYER_INFO} packet is being sent to the target of this tablist.
-     * This method (if necessary) modifies the {@link PlayerInfoData} contained in the packet to correspond to the attributes of the {@link Tab} representing {@code objPlayer}
+     * Called by {@link TablistManager} when a {@link com.comphenix.protocol.PacketType.Play.Server#PLAYER_INFO} packet
+     * is being sent to the target of this tablist.
+     * This method (if necessary) modifies the {@link PlayerInfoData} contained in the packet
+     * to correspond to the attributes of the {@link Tab} representing {@code objPlayer}
      * @param oldPlayerInfoData The {@link PlayerInfoData} previously contained by the packet for {@code objPlayer}
      * @param objPlayer The player whose tab is being modified in the target's tablist
-     * @return A {@link PlayerInfoData} with data modified as necessary from {@code oldPlayerInfoData} to correspond to the attributes of {@code objPlayer}'s tab
+     * @return A {@link PlayerInfoData} with data modified as necessary from {@code oldPlayerInfoData}
+     * to correspond to the attributes of {@code objPlayer}'s tab
      * @throws UnsupportedOperationException If this Tablist does not have a target
      */
     PlayerInfoData onPlayerInfoPacket(PlayerInfoData oldPlayerInfoData, Player objPlayer) {
@@ -111,17 +117,16 @@ public class Tablist {
         return playerTablist.getTab(objPlayer).map(tab -> {
             WrappedChatComponent displayName =
                     tab.getDisplayName()
-                    .map(rawDisplayName -> WrappedChatComponent.fromText(
-                            Optional
-                                    .ofNullable(target.getScoreboard())
-                                    .map(scoreboard -> scoreboard.getEntryTeam(objPlayer.getName()))
-                                    .map(team -> team.getPrefix() + rawDisplayName + team.getSuffix())
-                                    .orElse(rawDisplayName)
-                    ))
+                    .map(rawDisplayName -> Optional
+                            .ofNullable(target.getScoreboard())
+                            .map(scoreboard -> scoreboard.getEntryTeam(objPlayer.getName()))
+                            .map(team -> team.getPrefix() + rawDisplayName + team.getSuffix())
+                            .orElse(rawDisplayName))
+                    .map(WrappedChatComponent::fromText)
                     .orElse(oldPlayerInfoData.getDisplayName());
             return new PlayerInfoData(
                     oldPlayerInfoData.getProfile(),
-                    tab.getLatency().map(PacketUtil::getPossibleLatency).orElse(oldPlayerInfoData.getLatency()),
+                    tab.getLatencyBars().map(PacketUtil::getPossibleLatency).orElse(oldPlayerInfoData.getLatency()),
                     oldPlayerInfoData.getGameMode(),
                     displayName);
         }).orElse(oldPlayerInfoData);
@@ -137,7 +142,8 @@ public class Tablist {
     }
 
     /**
-     * Calls {@link PlayerTablist#isPlayerVisible(Player)} on this tablist's {@link PlayerTablist} for {@code player} and returns the result.
+     * Calls {@link PlayerTablist#isPlayerVisible(Player)} on this tablist's {@link PlayerTablist} for {@code player}
+     * and returns the result.
      * Useful if the {@link PlayerTablist} itself cannot be returned (see {@link #getPlayerTablist()}).
      * @return Whether the tab of {@code player} is visible in this tablist
      */
@@ -156,10 +162,12 @@ public class Tablist {
 
     /**
      * Changes the {@link SupplementaryTablist} managing this tablist's non-player-connected tabs by
-     * first disabling the previous one, then applying calling {@code supplementaryTablistProvider} on this tablist's {@link PlayerTablist}
-     * in order to get the new {@link SupplementaryTablist}. Note that the {@link PlayerTablist} is provided only to be given to the new {@link SupplementaryTablist}
+     * first disabling the previous one, then applying calling {@code supplementaryTablistProvider}
+     * on this tablist's {@link PlayerTablist} in order to get the new {@link SupplementaryTablist}.
+     * Note that the {@link PlayerTablist} is provided only to be given to the new {@link SupplementaryTablist}
      * and should not be stored outside of the new {@link SupplementaryTablist}.
-     * @param supplementaryTablistProvider A function that creates and returns a {@link SupplementaryTablist} given this tablist's {@link PlayerTablist}
+     * @param supplementaryTablistProvider
+     * A function that creates and returns a {@link SupplementaryTablist} given this tablist's {@link PlayerTablist}
      */
     public void setSupplementaryTablist(Function<PlayerTablist, ? extends SupplementaryTablist> supplementaryTablistProvider) {
         supplementaryTablist.disable();
@@ -180,7 +188,8 @@ public class Tablist {
 
     /**
      * This method sets the default icon to {@code icon}.
-     * This method can be called during an invocation of {@link #setSupplementaryTablist(Function)} when {@link #supplementaryTablist} is {@code null}.
+     * This method can be called during an invocation of {@link #setSupplementaryTablist(Function)}
+     * when {@link #supplementaryTablist} is {@code null}.
      * @param icon The new default icon, or null to make the default icon empty
      */
     public void setDefaultIcon(@Nullable Skin icon) {
@@ -196,7 +205,8 @@ public class Tablist {
 
     /**
      * Returns whether scores are visible on this tablist and can be manipulated through this Tablist.
-     * Note that scores can be added to the tablist through outside means, but that will not change the result of calling this method.
+     * Note that scores can be added to the tablist through outside means,
+     * but that will not change the result of calling this method.
      * @return {@code true} if scores are enabled for this tablist, {@code false} otherwise
      */
     public boolean areScoresEnabled() {
@@ -219,7 +229,8 @@ public class Tablist {
      * If scores are not currently enabled, this method enables them by sending a
      * {@link com.comphenix.protocol.PacketType.Play.Server#SCOREBOARD_OBJECTIVE} packet and a
      * {@link com.comphenix.protocol.PacketType.Play.Server#SCOREBOARD_DISPLAY_OBJECTIVE} packet
-     * in order to create an objective for scores to be displayed on the tablist and set that objective's display location to the tablist.
+     * in order to create an objective for scores to be displayed on the tablist
+     * and set that objective's display location to the tablist.
      */
     public void enableScores() {
         if (!areScoresEnabled()) {
@@ -247,6 +258,7 @@ public class Tablist {
     public void disableScores() {
         if (areScoresEnabled()) {
             scoresEnabled = false;
+
             WrapperPlayServerScoreboardObjective removePacket = new WrapperPlayServerScoreboardObjective();
             removePacket.setName(OBJECTIVE_NAME);
             removePacket.setDisplayName(OBJECTIVE_NAME);
@@ -258,8 +270,9 @@ public class Tablist {
 
     /**
      * Should only be called by a {@link Tab} contained in this tablist.
-     * If scores are enabled, this method creates and returns an {@link Invalidatable} that will contain the value {@code score} until invalidated,
-     * which will happen when scores are disabled. If scores are already disabled, this method will return {@link Invalidatable#invalid()}.
+     * If scores are enabled, this method creates and returns an {@link Invalidatable}
+     * that will contain the value {@code score} until invalidated, which will happen when scores are disabled.
+     * If scores are already disabled, this method will return {@link Invalidatable#invalid()}.
      * @param score The integer score to be contained in an {@link Invalidatable}
      * @return An {@link Invalidatable} that will contain {@code score} until scores are disabled
      */
@@ -353,7 +366,8 @@ public class Tablist {
             tablist.enableScores();
         }
         if (getSupplementaryTablist() instanceof SimpleTablist && ((SimpleTablist) getSupplementaryTablist()).isEmpty()) {
-            //don't change anything with the supplementary tablist
+            playerTablist.applyChanges(tablist.playerTablist);
+            defaultIcon.ifPresent(tablist::setDefaultIcon);
         } else if (tablist.getSupplementaryTablist().getClass() == supplementaryTablist.getClass()) {
             playerTablist.applyChanges(tablist.playerTablist);
             defaultIcon.ifPresent(tablist::setDefaultIcon);

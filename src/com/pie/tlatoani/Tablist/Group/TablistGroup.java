@@ -52,7 +52,8 @@ public class TablistGroup implements Streamable<Tablist> {
      */
     public void add(Player player) {
         if (player == null || !player.isOnline()) {
-            throw new IllegalArgumentException("The player parameter in add(Player player) must be non-null and online, player: " + player);
+            throw new IllegalArgumentException(
+                    "The player parameter in add(Player player) must be non-null and online, player: " + player);
         }
         tablists.computeIfAbsent(player, __ -> {
             Tablist tablist = TablistManager.getTablistOfPlayer(player);
@@ -69,7 +70,8 @@ public class TablistGroup implements Streamable<Tablist> {
      */
     public boolean remove(Player player) {
         if (player == null || !player.isOnline()) {
-            throw new IllegalArgumentException("The player parameter in remove(Player player) must be non-null and online, player: " + player);
+            throw new IllegalArgumentException(
+                    "The player parameter in remove(Player player) must be non-null and online, player: " + player);
         }
         return tablists.remove(player) != null;
     }

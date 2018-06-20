@@ -10,6 +10,9 @@ public class Invalidatable<T> {
     private final Creator.Validity validity;
 
     private Invalidatable(T value, Creator.Validity validity) {
+        if (value == null) {
+            throw new IllegalArgumentException("The value of an Invalidatable cannot be null!");
+        }
         this.value = value;
         this.validity = validity;
     }
