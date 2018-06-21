@@ -3,9 +3,9 @@ package com.pie.tlatoani.Tablist.Group;
 import ch.njol.skript.lang.Expression;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.TablistManager;
-import com.pie.tlatoani.Util.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.MundoUtil;
 import com.pie.tlatoani.Util.Collections.Streamable;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 

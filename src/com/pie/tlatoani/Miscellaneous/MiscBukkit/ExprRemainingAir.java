@@ -2,7 +2,7 @@ package com.pie.tlatoani.Miscellaneous.MiscBukkit;
 
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.util.Timespan;
-import com.pie.tlatoani.Util.Skript.ChangeablePropertyExpression;
+import com.pie.tlatoani.Core.Skript.ChangeablePropertyExpression;
 import org.bukkit.entity.LivingEntity;
 
 /**

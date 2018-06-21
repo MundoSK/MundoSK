@@ -1,7 +1,7 @@
 package com.pie.tlatoani.WorldCreator;
 
 import com.pie.tlatoani.Generator.ChunkGeneratorWithID;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;

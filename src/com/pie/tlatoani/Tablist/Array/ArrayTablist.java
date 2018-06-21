@@ -6,8 +6,8 @@ import com.pie.tlatoani.Tablist.Player.PlayerTablist;
 import com.pie.tlatoani.Tablist.SupplementaryTablist;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
-import com.pie.tlatoani.Util.Static.Logging;
-import com.pie.tlatoani.Util.Static.MathUtil;
+import com.pie.tlatoani.Core.Static.Logging;
+import com.pie.tlatoani.Core.Static.MathUtil;
 
 import javax.annotation.Nullable;
 import java.util.UUID;

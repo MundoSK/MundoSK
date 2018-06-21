@@ -9,7 +9,7 @@ import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 import org.bukkit.event.Event;
 
 /**

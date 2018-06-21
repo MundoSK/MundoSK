@@ -2,8 +2,8 @@ package com.pie.tlatoani.Socket;
 
 import ch.njol.skript.lang.function.Function;
 import ch.njol.skript.lang.function.Functions;
-import com.pie.tlatoani.Util.Static.Logging;
-import com.pie.tlatoani.Util.Static.Scheduling;
+import com.pie.tlatoani.Core.Static.Logging;
+import com.pie.tlatoani.Core.Static.Scheduling;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

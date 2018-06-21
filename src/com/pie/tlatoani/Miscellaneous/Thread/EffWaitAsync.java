@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.Static.Scheduling;
+import com.pie.tlatoani.Core.Static.Scheduling;
 import org.bukkit.event.Event;
 
 /**

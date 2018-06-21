@@ -3,9 +3,9 @@ package com.pie.tlatoani.CustomEvent;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.registrations.Classes;
-import com.pie.tlatoani.Util.Static.Logging;
-import com.pie.tlatoani.Util.Static.Reflection;
-import com.pie.tlatoani.Registration.Registration;
+import com.pie.tlatoani.Core.Static.Logging;
+import com.pie.tlatoani.Core.Static.Reflection;
+import com.pie.tlatoani.Core.Registration.Registration;
 
 import java.util.List;
 

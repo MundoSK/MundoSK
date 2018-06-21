@@ -1,6 +1,6 @@
 package com.pie.tlatoani.Miscellaneous.MiscBukkit;
 
-import com.pie.tlatoani.Util.Skript.MundoPropertyExpression;
+import com.pie.tlatoani.Core.Skript.MundoPropertyExpression;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 

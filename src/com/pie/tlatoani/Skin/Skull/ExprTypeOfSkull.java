@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Skin.Skull;
 
 import ch.njol.skript.classes.Changer;
-import com.pie.tlatoani.Util.Skript.ChangeablePropertyExpression;
+import com.pie.tlatoani.Core.Skript.ChangeablePropertyExpression;
 import org.bukkit.SkullType;
 
 /**

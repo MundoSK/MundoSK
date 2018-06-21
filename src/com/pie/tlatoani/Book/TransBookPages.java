@@ -2,7 +2,6 @@ package com.pie.tlatoani.Book;
 
 import ch.njol.skript.lang.Expression;
 import com.pie.tlatoani.ListUtil.Transformer;
-import com.pie.tlatoani.Util.Static.Logging;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;

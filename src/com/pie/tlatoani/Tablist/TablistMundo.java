@@ -3,7 +3,7 @@ package com.pie.tlatoani.Tablist;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.ExpressionType;
 import com.pie.tlatoani.ListUtil.ListUtil;
-import com.pie.tlatoani.Registration.Registration;
+import com.pie.tlatoani.Core.Registration.Registration;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Array.*;
 import com.pie.tlatoani.Tablist.General.*;

@@ -1,8 +1,8 @@
 package com.pie.tlatoani.Throwable;
 
 import ch.njol.skript.lang.ExpressionType;
-import com.pie.tlatoani.Util.Skript.MundoPropertyExpression;
-import com.pie.tlatoani.Registration.Registration;
+import com.pie.tlatoani.Core.Skript.MundoPropertyExpression;
+import com.pie.tlatoani.Core.Registration.Registration;
 
 /**
  * Created by Tlatoani on 8/8/17.

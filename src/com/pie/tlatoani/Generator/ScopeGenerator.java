@@ -7,7 +7,7 @@ import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.Trigger;
 import ch.njol.skript.log.SkriptLogger;
-import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Core.Static.Logging;
 import com.pie.tlatoani.Util.Skript.MundoEventScope;
 import com.pie.tlatoani.Util.Skript.ScopeUtil;
 import org.bukkit.event.Event;

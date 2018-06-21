@@ -5,7 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.Static.Scheduling;
+import com.pie.tlatoani.Core.Static.Scheduling;
 import org.bukkit.event.Event;
 
 import javax.annotation.Nullable;

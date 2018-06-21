@@ -7,7 +7,7 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Skin.Skull.SkullUtil;
-import com.pie.tlatoani.Util.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.MundoUtil;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

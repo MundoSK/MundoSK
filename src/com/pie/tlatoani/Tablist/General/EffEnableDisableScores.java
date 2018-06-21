@@ -28,6 +28,6 @@ public class EffEnableDisableScores extends Effect {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         tablistProvider = TablistProvider.of(expressions, 0);
         enable = parseResult.mark == 0;
-        return false;
+        return true;
     }
 }

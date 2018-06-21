@@ -7,9 +7,9 @@ import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.TablistManager;
-import com.pie.tlatoani.Util.Static.Config;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
-import com.pie.tlatoani.Util.Static.Scheduling;
+import com.pie.tlatoani.Core.Static.Config;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Static.Scheduling;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

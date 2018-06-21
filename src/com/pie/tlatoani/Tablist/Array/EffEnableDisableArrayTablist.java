@@ -17,14 +17,14 @@ import java.util.Optional;
  */
 public class EffEnableDisableArrayTablist extends Effect {
     private TablistProvider tablistProvider;
-    private boolean enabled;
+    private boolean enable;
     private Optional<Expression<Number>> columns;
     private Optional<Expression<Number>> rows;
     private Optional<Expression<Skin>> iconExpression;
 
     @Override
     protected void execute(Event event) {
-        if (enabled) {
+        if (enable) {
             int columns = this.columns.map(expression -> expression.getSingle(event).intValue()).orElse(4);
             int rows = this.rows.map(expression -> expression.getSingle(event).intValue()).orElse(20);
             Skin initialIcon = this.iconExpression.map(expression -> expression.getSingle(event)).orElse(null);
@@ -47,8 +47,8 @@ public class EffEnableDisableArrayTablist extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return (enabled ? "enable" : "disable") + " array tablist for " + tablistProvider +
-                ((enabled && (columns.isPresent() || rows.isPresent() || iconExpression.isPresent())) ? " with"
+        return (enable ? "enable" : "disable") + " array tablist for " + tablistProvider +
+                ((enable && (columns.isPresent() || rows.isPresent() || iconExpression.isPresent())) ? " with"
                     + columns.map(expression -> " " + expression + " columns").orElse("")
                     + rows.map(expression -> " " + expression + " rows").orElse("")
                     + iconExpression.map(expression -> " initial icon " + expression).orElse("")
@@ -58,8 +58,8 @@ public class EffEnableDisableArrayTablist extends Effect {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         tablistProvider = TablistProvider.of(expressions, 0);
-        enabled = i == 0;
-        if (enabled) {
+        enable = i == 0;
+        if (enable) {
             columns = Optional.ofNullable((Expression<Number>) expressions[2]);
             rows = Optional.ofNullable((Expression<Number>) expressions[3]);
             iconExpression = Optional.ofNullable((Expression<Skin>) expressions[4]);

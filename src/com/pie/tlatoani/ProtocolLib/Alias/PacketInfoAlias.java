@@ -10,8 +10,8 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.pie.tlatoani.ProtocolLib.PacketManager;
 import com.pie.tlatoani.Util.Skript.BaseEvent;
-import com.pie.tlatoani.Util.Static.Logging;
-import com.pie.tlatoani.Util.Static.Reflection;
+import com.pie.tlatoani.Core.Static.Logging;
+import com.pie.tlatoani.Core.Static.Reflection;
 import org.bukkit.event.Event;
 
 import java.util.Iterator;

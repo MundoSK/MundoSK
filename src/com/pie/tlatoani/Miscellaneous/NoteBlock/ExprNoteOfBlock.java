@@ -1,8 +1,8 @@
 package com.pie.tlatoani.Miscellaneous.NoteBlock;
 
 import ch.njol.skript.classes.Changer;
-import com.pie.tlatoani.Util.Skript.ChangeablePropertyExpression;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Skript.ChangeablePropertyExpression;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 import org.bukkit.Note;
 import org.bukkit.block.Block;
 import org.bukkit.block.NoteBlock;

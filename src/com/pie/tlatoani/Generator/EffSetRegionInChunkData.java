@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.Static.MathUtil;
+import com.pie.tlatoani.Core.Static.MathUtil;
 import org.bukkit.event.Event;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.inventory.ItemStack;

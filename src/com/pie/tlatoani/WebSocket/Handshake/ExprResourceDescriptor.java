@@ -1,8 +1,8 @@
 package com.pie.tlatoani.WebSocket.Handshake;
 
 import ch.njol.skript.classes.Changer;
-import com.pie.tlatoani.Util.Skript.ChangeablePropertyExpression;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Skript.ChangeablePropertyExpression;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 import mundosk_libraries.java_websocket.handshake.ClientHandshake;
 import mundosk_libraries.java_websocket.handshake.ClientHandshakeBuilder;
 import mundosk_libraries.java_websocket.handshake.Handshakedata;

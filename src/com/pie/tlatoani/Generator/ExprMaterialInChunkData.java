@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Util.Static.MathUtil;
+import com.pie.tlatoani.Core.Static.MathUtil;
 import org.bukkit.event.Event;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.inventory.ItemStack;

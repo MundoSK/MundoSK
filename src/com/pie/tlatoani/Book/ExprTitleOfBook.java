@@ -1,8 +1,8 @@
 package com.pie.tlatoani.Book;
 
 import ch.njol.skript.classes.Changer;
-import com.pie.tlatoani.Util.Skript.ChangeablePropertyExpression;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Skript.ChangeablePropertyExpression;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 

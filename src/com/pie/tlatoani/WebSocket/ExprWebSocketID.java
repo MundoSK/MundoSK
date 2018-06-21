@@ -1,7 +1,7 @@
 package com.pie.tlatoani.WebSocket;
 
-import com.pie.tlatoani.Util.Skript.MundoPropertyExpression;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Skript.MundoPropertyExpression;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 import mundosk_libraries.java_websocket.WebSocket;
 
 /**

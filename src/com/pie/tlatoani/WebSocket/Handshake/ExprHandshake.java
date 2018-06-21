@@ -5,7 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.MundoUtil;
 import com.pie.tlatoani.WebSocket.Events.WebSocketHandshakeEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
 import mundosk_libraries.java_websocket.handshake.Handshakedata;

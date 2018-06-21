@@ -1,6 +1,6 @@
 package com.pie.tlatoani.ZExperimental;
 
-import com.pie.tlatoani.Registration.Registration;
+import com.pie.tlatoani.Core.Registration.Registration;
 
 /**
  * Created by Tlatoani on 8/8/17.

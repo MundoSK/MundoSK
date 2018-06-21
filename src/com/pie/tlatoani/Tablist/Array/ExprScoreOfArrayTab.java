@@ -9,8 +9,8 @@ import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
-import com.pie.tlatoani.Util.Static.MathUtil;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Static.MathUtil;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 import org.bukkit.event.Event;
 
 import java.util.Optional;
@@ -65,7 +65,17 @@ public class ExprScoreOfArrayTab extends SimpleExpression<Number> {
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         int column = Optional.ofNullable(this.column.getSingle(event)).map(Number::intValue).orElse(-1);
         int row = Optional.ofNullable(this.row.getSingle(event)).map(Number::intValue).orElse(-1);
-        Integer value = mode == Changer.ChangeMode.RESET ? null : ((mode == Changer.ChangeMode.REMOVE ? -1 : 1) * ((Number) delta[0]).intValue());
+        Integer value;
+        if (mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE) {
+            if (delta[0] == null) {
+                return;
+            }
+            value = ((Number) delta[0]).intValue() * (mode == Changer.ChangeMode.ADD ? 1 : -1);
+        } else if (mode == Changer.ChangeMode.SET && delta[0] != null) {
+            value = ((Number) delta[0]).intValue();
+        } else {
+            value = null;
+        }
         for (Tablist tablist : tablistProvider.get(event)) {
             if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                 ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();

@@ -4,8 +4,8 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Conditional;
 import ch.njol.skript.lang.TriggerItem;
-import com.pie.tlatoani.Util.Skript.CustomScope;
-import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Core.Skript.CustomScope;
+import com.pie.tlatoani.Core.Static.Logging;
 import org.bukkit.event.Event;
 
 public class ScopeTry extends CustomScope {

@@ -14,7 +14,7 @@ import com.comphenix.protocol.wrappers.*;
 import com.comphenix.protocol.wrappers.nbt.*;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher.Registry;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Core.Static.Logging;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;

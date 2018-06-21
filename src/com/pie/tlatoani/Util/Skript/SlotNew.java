@@ -2,7 +2,7 @@ package com.pie.tlatoani.Util.Skript;
 
 import ch.njol.skript.lang.Debuggable;
 import ch.njol.skript.util.slot.Slot;
-import com.pie.tlatoani.Registration.Registration;
+import com.pie.tlatoani.Core.Registration.Registration;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 

@@ -4,7 +4,7 @@ import ch.njol.skript.lang.function.Function;
 import ch.njol.skript.lang.function.FunctionEvent;
 import ch.njol.skript.lang.function.Parameter;
 import ch.njol.skript.variables.Variables;
-import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Core.Static.Logging;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Field;

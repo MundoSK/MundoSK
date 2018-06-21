@@ -1,9 +1,8 @@
 package com.pie.tlatoani.Util.Collections;
 
 import com.google.common.collect.ImmutableList;
-import com.pie.tlatoani.Util.Static.Logging;
-import com.pie.tlatoani.Util.Static.MundoUtil;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Static.Logging;
+import com.pie.tlatoani.Core.Static.MundoUtil;
 
 import java.util.*;
 

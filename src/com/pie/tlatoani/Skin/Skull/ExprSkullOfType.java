@@ -1,6 +1,6 @@
 package com.pie.tlatoani.Skin.Skull;
 
-import com.pie.tlatoani.Util.Skript.MundoPropertyExpression;
+import com.pie.tlatoani.Core.Skript.MundoPropertyExpression;
 import org.bukkit.SkullType;
 import org.bukkit.inventory.ItemStack;
 

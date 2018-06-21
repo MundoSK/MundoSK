@@ -4,7 +4,7 @@ import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.Converter;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.registrations.Converters;
-import com.pie.tlatoani.Registration.Registration;
+import com.pie.tlatoani.Core.Registration.Registration;
 import com.pie.tlatoani.WorldCreator.WorldCreatorData;
 import com.pie.tlatoani.WorldManagement.WorldLoader.*;
 import org.bukkit.World;

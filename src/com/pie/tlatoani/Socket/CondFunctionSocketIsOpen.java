@@ -2,7 +2,7 @@ package com.pie.tlatoani.Socket;
 
 import javax.annotation.Nullable;
 
-import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Core.Static.Logging;
 import org.bukkit.event.Event;
 
 import ch.njol.skript.lang.Expression;

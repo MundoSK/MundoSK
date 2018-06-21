@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Core.Static.Logging;
 import com.pie.tlatoani.WorldCreator.Dimension;
 import com.pie.tlatoani.WorldCreator.WorldCreatorData;
 import com.pie.tlatoani.WorldManagement.WorldLoader.WorldLoader;

@@ -1,6 +1,6 @@
 package com.pie.tlatoani.WorldCreator;
 
-import com.pie.tlatoani.Util.Skript.EvolvingPropertyExpression;
+import com.pie.tlatoani.Core.Skript.EvolvingPropertyExpression;
 
 /**
  * Created by Tlatoani on 8/18/17.

@@ -11,8 +11,8 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import ch.njol.util.Kleenean;
 import com.comphenix.protocol.events.PacketContainer;
-import com.pie.tlatoani.Registration.ModifiableSyntaxElementInfo;
-import com.pie.tlatoani.Registration.Registration;
+import com.pie.tlatoani.Core.Registration.ModifiableSyntaxElementInfo;
+import com.pie.tlatoani.Core.Registration.Registration;
 import com.pie.tlatoani.Util.Collections.GroupedList;
 import org.bukkit.event.Event;
 

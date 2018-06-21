@@ -1,6 +1,6 @@
 package com.pie.tlatoani.Util.Collections;
 
-import com.pie.tlatoani.Util.Static.Logging;
+import com.pie.tlatoani.Core.Static.Logging;
 
 import java.util.*;
 

@@ -5,7 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Util.Static.Config;
+import com.pie.tlatoani.Core.Static.Config;
 import org.bukkit.World;
 import org.bukkit.event.Event;
 

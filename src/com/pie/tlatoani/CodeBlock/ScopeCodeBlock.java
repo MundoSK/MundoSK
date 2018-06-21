@@ -3,8 +3,8 @@ package com.pie.tlatoani.CodeBlock;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.variables.Variables;
 import com.pie.tlatoani.Util.Skript.BaseEvent;
-import com.pie.tlatoani.Util.Static.Logging;
-import com.pie.tlatoani.Util.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.Logging;
+import com.pie.tlatoani.Core.Static.MundoUtil;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Method;

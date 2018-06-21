@@ -2,7 +2,7 @@ package com.pie.tlatoani.Skin.Skull;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.pie.tlatoani.Skin.Skin;
-import com.pie.tlatoani.Util.Static.Reflection;
+import com.pie.tlatoani.Core.Static.Reflection;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.block.Block;

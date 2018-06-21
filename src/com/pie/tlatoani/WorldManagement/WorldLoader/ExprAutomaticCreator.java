@@ -1,7 +1,7 @@
 package com.pie.tlatoani.WorldManagement.WorldLoader;
 
 import ch.njol.skript.classes.Changer;
-import com.pie.tlatoani.Util.Skript.ChangeablePropertyExpression;
+import com.pie.tlatoani.Core.Skript.ChangeablePropertyExpression;
 import com.pie.tlatoani.WorldCreator.WorldCreatorData;
 
 /**

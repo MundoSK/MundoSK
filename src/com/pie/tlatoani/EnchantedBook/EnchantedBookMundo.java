@@ -2,7 +2,7 @@ package com.pie.tlatoani.EnchantedBook;
 
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.util.EnchantmentType;
-import com.pie.tlatoani.Registration.Registration;
+import com.pie.tlatoani.Core.Registration.Registration;
 import org.bukkit.inventory.ItemStack;
 
 /**

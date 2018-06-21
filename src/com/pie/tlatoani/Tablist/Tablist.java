@@ -11,7 +11,7 @@ import com.pie.tlatoani.Tablist.Group.TablistGroup;
 import com.pie.tlatoani.Tablist.Player.PlayerTablist;
 import com.pie.tlatoani.Tablist.Simple.SimpleTablist;
 import com.pie.tlatoani.Util.Invalidatable;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 import mundosk_libraries.packetwrapper.WrapperPlayServerPlayerListHeaderFooter;
 import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardDisplayObjective;
 import mundosk_libraries.packetwrapper.WrapperPlayServerScoreboardObjective;
@@ -258,6 +258,7 @@ public class Tablist {
     public void disableScores() {
         if (areScoresEnabled()) {
             scoresEnabled = false;
+            scoreCreator.invalidate();
 
             WrapperPlayServerScoreboardObjective removePacket = new WrapperPlayServerScoreboardObjective();
             removePacket.setName(OBJECTIVE_NAME);

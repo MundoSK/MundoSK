@@ -5,8 +5,8 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Util.Invalidatable;
-import com.pie.tlatoani.Util.Static.MathUtil;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Static.MathUtil;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 
 import javax.annotation.Nullable;
 import java.util.Optional;

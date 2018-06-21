@@ -3,7 +3,7 @@ package com.pie.tlatoani.WorldCreator;
 import ch.njol.skript.classes.Serializer;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.yggdrasil.Fields;
-import com.pie.tlatoani.Registration.Registration;
+import com.pie.tlatoani.Core.Registration.Registration;
 import org.bukkit.World;
 import org.bukkit.WorldType;
 import org.json.simple.JSONObject;

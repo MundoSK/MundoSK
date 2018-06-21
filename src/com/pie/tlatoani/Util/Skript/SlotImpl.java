@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Util.Skript;
 
 import ch.njol.skript.lang.Debuggable;
-import com.pie.tlatoani.Util.Static.Reflection;
+import com.pie.tlatoani.Core.Static.Reflection;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 

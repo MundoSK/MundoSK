@@ -1,6 +1,6 @@
 package com.pie.tlatoani.WorldBorder.BorderEvent;
 
-import com.pie.tlatoani.Util.Static.Scheduling;
+import com.pie.tlatoani.Core.Static.Scheduling;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.HandlerList;

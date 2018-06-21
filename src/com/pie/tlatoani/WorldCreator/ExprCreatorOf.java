@@ -1,6 +1,6 @@
 package com.pie.tlatoani.WorldCreator;
 
-import com.pie.tlatoani.Util.Skript.MundoPropertyExpression;
+import com.pie.tlatoani.Core.Skript.MundoPropertyExpression;
 import org.bukkit.World;
 
 /**

@@ -6,7 +6,7 @@ import com.pie.tlatoani.Tablist.Player.PlayerTablist;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.SupplementaryTablist;
 import com.pie.tlatoani.Tablist.Tablist;
-import com.pie.tlatoani.Util.Static.OptionalUtil;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 
 import javax.annotation.Nullable;
 import java.nio.charset.Charset;
