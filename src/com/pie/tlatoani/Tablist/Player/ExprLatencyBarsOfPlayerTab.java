@@ -30,7 +30,7 @@ public class ExprLatencyBarsOfPlayerTab extends SimpleExpression<Number> {
                 .view(event)
                 .map(tablist -> tablist
                         .getPlayerTablist()
-                        .flatMap(playerTablist -> playerTablist.getTab(object))
+                        .flatMap(playerTablist -> playerTablist.getTabIfModified(object))
                         .flatMap(Tab::getLatencyBars)
                         .orElse(null))
                 .toArray(Number[]::new);
@@ -67,7 +67,7 @@ public class ExprLatencyBarsOfPlayerTab extends SimpleExpression<Number> {
         for (Tablist tablist : tablistProvider.get(event)) {
             tablist
                     .getPlayerTablist()
-                    .flatMap(playerTablist -> playerTablist.forceTab(object))
+                    .flatMap(playerTablist -> playerTablist.getTab(object))
                     .ifPresent(tab -> {
                         if (mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE) {
                             tab.setLatencyBars(MathUtil.limitToRange(0, tab.getScore().orElse(0) + value, 5));

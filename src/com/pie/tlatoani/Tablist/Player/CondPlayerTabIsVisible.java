@@ -1,10 +1,14 @@
 package com.pie.tlatoani.Tablist.Player;
 
+import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import ch.njol.util.coll.CollectionUtils;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
+import com.pie.tlatoani.Tablist.Simple.SimpleTablist;
+import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -46,5 +50,29 @@ public class CondPlayerTabIsVisible extends SimpleExpression<Boolean> {
         objectExpression = (Expression<Player>) expressions[0];
         positive = parseResult.mark == 0;
         return true;
+    }
+
+    public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
+        Player object = objectExpression.getSingle(event);
+        if (object == null || delta[0] == null || !object.isOnline()) {
+            return;
+        }
+        Boolean visible = positive == (Boolean) delta[0];
+        for (Tablist tablist : tablistProvider.get(event)) {
+            tablist.getPlayerTablist().ifPresent(playerTablist -> {
+                if (visible) {
+                    playerTablist.showPlayer(object);
+                } else {
+                    playerTablist.hidePlayer(object);
+                }
+            });
+        }
+    }
+
+    public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
+        if (mode == Changer.ChangeMode.SET) {
+            return CollectionUtils.array(Boolean.class);
+        }
+        return null;
     }
 }

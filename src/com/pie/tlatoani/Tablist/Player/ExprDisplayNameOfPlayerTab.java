@@ -30,7 +30,7 @@ public class ExprDisplayNameOfPlayerTab extends SimpleExpression<String> {
                 .view(event)
                 .map(tablist -> tablist
                         .getPlayerTablist()
-                        .flatMap(playerTablist -> playerTablist.getTab(object))
+                        .flatMap(playerTablist -> playerTablist.getTabIfModified(object))
                         .flatMap(Tab::getDisplayName)
                         .orElse(null))
                 .toArray(String[]::new);
@@ -67,7 +67,7 @@ public class ExprDisplayNameOfPlayerTab extends SimpleExpression<String> {
         for (Tablist tablist : tablistProvider.get(event)) {
             tablist
                     .getPlayerTablist()
-                    .flatMap(playerTablist -> playerTablist.forceTab(object))
+                    .flatMap(playerTablist -> playerTablist.getTab(object))
                     .ifPresent(tab -> tab.setDisplayName(value));
         }
     }

@@ -23,22 +23,18 @@ public class EffShowHidePlayerTab extends Effect {
         if (objects == null) {
             return;
         }
-        if (visible) {
-            for (Tablist tablist : tablistProvider.get(event)) {
-                tablist.getPlayerTablist().ifPresent(playerTablist -> {
-                    for (Player object : objects) {
-                        playerTablist.showPlayer(object);
+        for (Tablist tablist : tablistProvider.get(event)) {
+            tablist.getPlayerTablist().ifPresent(playerTablist -> {
+                for (Player object : objects) {
+                    if (object.isOnline()) {
+                        if (visible) {
+                            playerTablist.showPlayer(object);
+                        } else {
+                            playerTablist.hidePlayer(object);
+                        }
                     }
-                });
-            }
-        } else {
-            for (Tablist tablist : tablistProvider.get(event)) {
-                tablist.getPlayerTablist().ifPresent(playerTablist -> {
-                    for (Player object : objects) {
-                        playerTablist.hidePlayer(object);
-                    }
-                });
-            }
+                }
+            });
         }
     }
 

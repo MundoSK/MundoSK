@@ -46,21 +46,15 @@ public class CondPlayerTabsAreVisible extends SimpleExpression<Boolean> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
+        if (delta[0] == null) {
+            return;
+        }
         Boolean visible = positive == (Boolean) delta[0];
-        if (visible) {
-            for (Tablist tablist : tablistProvider.get(event)) {
-                if (!tablist.arePlayersVisible() && !tablist.getPlayerTablist().isPresent()) {
-                    tablist.setSupplementaryTablist(SimpleTablist::new);
-                }
-                tablist.getPlayerTablist().ifPresent(PlayerTablist::showAllPlayers);
+        for (Tablist tablist : tablistProvider.get(event)) {
+            if ((tablist.arePlayersVisible() != visible) && !tablist.getPlayerTablist().isPresent()) {
+                tablist.setSupplementaryTablist(SimpleTablist::new);
             }
-        } else {
-            for (Tablist tablist : tablistProvider.get(event)) {
-                if (tablist.arePlayersVisible() && !tablist.getPlayerTablist().isPresent()) {
-                    tablist.setSupplementaryTablist(SimpleTablist::new);
-                }
-                tablist.getPlayerTablist().ifPresent(PlayerTablist::hideAllPlayers);
-            }
+            tablist.getPlayerTablist().ifPresent(visible ? PlayerTablist::showAllPlayers : PlayerTablist::hideAllPlayers);
         }
     }
 

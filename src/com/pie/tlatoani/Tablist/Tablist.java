@@ -114,7 +114,7 @@ public class Tablist {
             throw new UnsupportedOperationException("This Tablist does not have a target!");
         }
         Player target = this.target.get();
-        return playerTablist.getTab(objPlayer).map(tab -> {
+        return playerTablist.getTabIfModified(objPlayer).map(tab -> {
             WrappedChatComponent displayName =
                     tab.getDisplayName()
                     .map(rawDisplayName -> Optional

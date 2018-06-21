@@ -19,13 +19,18 @@ public class Invalidatable<T> {
 
     private static Creator.Validity invalid = null;
 
-    public static <T> Invalidatable<T> invalid() {
+    private Invalidatable() {
         if (invalid == null) {
             Creator creator = new Creator();
             invalid = creator.validity;
             creator.invalidate();
         }
-        return new Invalidatable<>(null, invalid);
+        this.value = null;
+        this.validity = invalid;
+    }
+
+    public static <T> Invalidatable<T> invalid() {
+        return new Invalidatable<>();
     }
 
     public Optional<T> get() {

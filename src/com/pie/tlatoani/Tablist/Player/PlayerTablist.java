@@ -39,7 +39,7 @@ public class PlayerTablist {
      * @param player The player whose tab is desired
      * @return An {@link Optional} containing the corresponding {@link Tab}, or {@link Optional#empty()} as specified above
      */
-    public Optional<Tab> getTab(Player player) {
+    public Optional<Tab> getTabIfModified(Player player) {
         return tabs.flatMap(map -> Optional.ofNullable(map.computeIfPresent(player, (__, tabOptional) -> {
             if (tabOptional.isPresent() && tabOptional.get().isDefault()) {
                 return null;
@@ -57,7 +57,7 @@ public class PlayerTablist {
      * @param player The player whose tab is desired
      * @return An {@link Optional} containing the corresponding {@link Tab}, or {@link Optional#empty()} as specified above
      */
-    public Optional<Tab> forceTab(Player player) {
+    public Optional<Tab> getTab(Player player) {
         return tabs.flatMap(map -> map.computeIfAbsent(player, __ -> Optional.of(new PlayerTab(player))));
     }
 
@@ -226,7 +226,7 @@ public class PlayerTablist {
                 tabMap.forEach((player, tabOptional) ->
                         OptionalUtil.consume(tabOptional, () -> playerTablist.hidePlayer(player), tab -> {
                             playerTablist.showPlayer(player);
-                            tab.applyChanges(playerTablist.forceTab(player).get());
+                            tab.applyChanges(playerTablist.getTab(player).get());
                         }))
         );
     }
