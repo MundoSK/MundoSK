@@ -392,7 +392,7 @@ public class Tablist {
                 headerBuilder.add("");
             }
         }
-        ImmutableList<String> oldFooter = tablist.getHeader();
+        ImmutableList<String> oldFooter = tablist.getFooter();
         ImmutableList.Builder<String> footerBuilder = ImmutableList.builder();
         for (int i = 0; i < Math.max(oldFooter.size(), footer.size()); i++) {
             if (i < footer.size() && !footer.get(i).isEmpty()) {
