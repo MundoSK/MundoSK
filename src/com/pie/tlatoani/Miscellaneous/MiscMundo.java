@@ -9,6 +9,7 @@ import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.util.Timespan;
 import ch.njol.skript.variables.SerializedVariable;
 import ch.njol.yggdrasil.Fields;
+import com.pie.tlatoani.Core.Static.Utilities;
 import com.pie.tlatoani.Miscellaneous.ArmorStand.ArmorStandEquipmentSlot;
 import com.pie.tlatoani.Miscellaneous.ArmorStand.EvtArmorStandPlace;
 import com.pie.tlatoani.Miscellaneous.Hanging.EvtUnhang;
@@ -39,7 +40,6 @@ import com.pie.tlatoani.Miscellaneous.Tree.ExprTreeOfListVariable;
 import com.pie.tlatoani.Core.Registration.EnumClassInfo;
 import com.pie.tlatoani.Core.Registration.Registration;
 import com.pie.tlatoani.Util.Skript.SlotImpl;
-import com.pie.tlatoani.Core.Static.MundoUtil;
 import com.pie.tlatoani.Core.Static.Reflection;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -75,7 +75,7 @@ public class MiscMundo {
     
     public static void load() {
         //Allow MundoSK 'conditions' to work in absence of SkQuery, which provides a condition like the below
-        if (!MundoUtil.serverHasPlugin("SkQuery")) {
+        if (!Utilities.serverHasPlugin("SkQuery")) {
             Registration.registerCondition(CondBoolean.class, "[(1¦not)] %boolean%");
         }
 
@@ -360,7 +360,7 @@ public class MiscMundo {
         noteMap.put("NF+2", fSharp2);
         noteMap.put("NG-2", fSharp2);
         EnumClassInfo<Note> noteEnumClassInfo = Registration.registerEnum(Note.class, "note", noteMap);
-        if (!MundoUtil.serverHasPlugin("RandomSK")) {
+        if (!Utilities.serverHasPlugin("RandomSK")) {
             noteMap.forEach((noteName, note) -> noteEnumClassInfo.pair(noteName.substring(1), note));
         }
         Registration.registerEnum(Instrument.class, "instrument", Instrument.values())

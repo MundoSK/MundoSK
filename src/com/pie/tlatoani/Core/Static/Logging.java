@@ -17,7 +17,7 @@ public final class Logging {
     }
 
     public static boolean classDebugs(Class c) {
-        return Config.DEBUG_PACKAGES.getCurrentValue().contains(MundoUtil.getMundoCategory(c));
+        return Config.DEBUG_PACKAGES.getCurrentValue().contains(Utilities.getMundoCategory(c));
     }
 
     public static void info(String s) {

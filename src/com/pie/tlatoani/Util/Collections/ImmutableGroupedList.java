@@ -2,7 +2,7 @@ package com.pie.tlatoani.Util.Collections;
 
 import com.google.common.collect.ImmutableList;
 import com.pie.tlatoani.Core.Static.Logging;
-import com.pie.tlatoani.Core.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.Utilities;
 
 import java.util.*;
 
@@ -33,7 +33,7 @@ public class ImmutableGroupedList<E, G> extends AbstractList<E> {
     }
 
     public List<E> getGroup(G g) {
-        return MundoUtil
+        return Utilities
                 .binarySearchList(groupIDs, g, (gVal, id) -> keyComparator.compare(gVal, id.key))
                 .map(Group::new)
                 .orElse(null);

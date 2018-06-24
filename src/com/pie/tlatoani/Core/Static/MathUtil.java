@@ -1,5 +1,7 @@
 package com.pie.tlatoani.Core.Static;
 
+import ch.njol.skript.classes.Changer;
+
 /**
  * Created by Tlatoani on 8/10/17.
  */
@@ -33,4 +35,13 @@ public class MathUtil {
         return result;
     }
 
+    public static int change(Changer.ChangeMode mode, int original, int value) {
+        switch (mode) {
+            case SET: return value;
+            case ADD: return original + value;
+            case REMOVE: return original - value;
+            default: throw new IllegalArgumentException(
+                    "The MathUtil.change() method can only be used with SET, ADD, REMOVE ChangeModes, mode = " + mode);
+        }
+    }
 }

@@ -5,7 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Core.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.Utilities;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Array;
@@ -97,7 +97,7 @@ public abstract class EventSpecificExpression<T, E extends Event> extends Simple
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         info = infos.get(getClass());
-        if (!MundoUtil.posCurrentEvent(info.eventClass)) {
+        if (!Utilities.posCurrentEvent(info.eventClass)) {
             Skript.error(info.invalidEventError);
             return false;
         }

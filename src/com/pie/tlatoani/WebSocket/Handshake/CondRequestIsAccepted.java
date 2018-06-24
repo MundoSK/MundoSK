@@ -7,7 +7,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Core.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.Utilities;
 import com.pie.tlatoani.WebSocket.Events.WebSocketHandshakeEvent;
 import org.bukkit.event.Event;
 
@@ -43,7 +43,7 @@ public class CondRequestIsAccepted extends SimpleExpression<Boolean> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         accepted = parseResult.mark == 0;
-        if (!MundoUtil.isAssignableFromCurrentEvent(WebSocketHandshakeEvent.Server.class)) {
+        if (!Utilities.isAssignableFromCurrentEvent(WebSocketHandshakeEvent.Server.class)) {
             Skript.error("The '" + toString(null, false) + "' expression can only be used in the 'on handshake' section of a 'websocket server' template");
             return false;
         }

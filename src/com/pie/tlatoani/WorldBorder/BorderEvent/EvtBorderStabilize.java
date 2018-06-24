@@ -3,7 +3,7 @@ package com.pie.tlatoani.WorldBorder.BorderEvent;
 import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
-import com.pie.tlatoani.Core.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.Utilities;
 import org.bukkit.World;
 import org.bukkit.event.Event;
 
@@ -20,7 +20,7 @@ public class EvtBorderStabilize extends SkriptEvent {
 		if (event instanceof BorderStabilizeEvent) {
 			if (worldLiteral != null) {
 			    World world = ((BorderStabilizeEvent) event).getWorld();
-			    return MundoUtil.check(worldLiteral, event, world::equals);
+			    return Utilities.check(worldLiteral, event, world::equals);
 			} else {
                 return true;
             }

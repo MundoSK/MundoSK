@@ -7,6 +7,7 @@ import ch.njol.skript.lang.ParseContext;
 import ch.njol.yggdrasil.Fields;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.Core.Registration.Registration;
+import com.pie.tlatoani.Skin.MineSkin.EffRetrieveSkin;
 import com.pie.tlatoani.Skin.MineSkin.ExprRetrievedSkin;
 import com.pie.tlatoani.Skin.Skull.*;
 import com.pie.tlatoani.Core.Static.Logging;
@@ -114,6 +115,7 @@ public class SkinMundo {
                 return false;
             }
         });
+        Registration.registerEffect(EffRetrieveSkin.class, "retrieve [(4¦slim)] skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%) [[with] timeout %-timespan%] into %object%");
         Registration.registerEnum(SkullType.class, "skulltype", SkullType.values())
                 .document("Skull Type", "1.8.6", "A type of skull.")
                 .example("if skulltype of player's tool is dragon skull:"

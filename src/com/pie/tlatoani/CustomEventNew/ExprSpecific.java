@@ -5,7 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Core.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.Utilities;
 import org.bukkit.event.Event;
 
 /**
@@ -47,7 +47,7 @@ public class ExprSpecific extends SimpleExpression<Object> {
         //info = something(i / 2);
         specificExprInfo = info.specificExpressions.get(parseResult.mark);
         eventExpr = (Expression<? extends SkriptCustomEvent>) expressions[0];
-        if (eventExpr == null && !MundoUtil.isAssignableFromCurrentEvent(info.eventClass)) {
+        if (eventExpr == null && !Utilities.isAssignableFromCurrentEvent(info.eventClass)) {
             Skript.error("The '" + specificExprInfo.name + "' expression must be used in a " + info.name + " event");
             return false;
         }

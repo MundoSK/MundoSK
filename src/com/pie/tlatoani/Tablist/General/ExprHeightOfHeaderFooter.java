@@ -7,42 +7,39 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.google.common.collect.ImmutableList;
+import com.pie.tlatoani.Core.Static.MathUtil;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
 import com.pie.tlatoani.Tablist.Tablist;
 import org.bukkit.event.Event;
 
-import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Tlatoani on 8/18/17.
- */
-public class ExprHeaderFooter extends SimpleExpression<String> {
+public class ExprHeightOfHeaderFooter extends SimpleExpression<Number> {
     TablistProvider tablistProvider;
     boolean header;
 
     @Override
-    protected String[] get(Event event) {
+    protected Number[] get(Event event) {
         return tablistProvider
                 .view(event)
                 .map(header ? Tablist::getHeader : Tablist::getFooter)
-                .flatMap(List::stream)
-                .toArray(String[]::new);
+                .map(List::size)
+                .toArray(Number[]::new);
     }
 
     @Override
     public boolean isSingle() {
-        return false;
+        return tablistProvider.isSingle();
     }
 
     @Override
-    public Class<? extends String> getReturnType() {
-        return String.class;
+    public Class<? extends Number> getReturnType() {
+        return Number.class;
     }
 
     @Override
     public String toString(Event event, boolean b) {
-        return "tablist " + (header ? "header" : "footer") + " for " + tablistProvider;
+        return "height of tablist " + (header ? "header" : "footer") + " for " + tablistProvider;
     }
 
     @Override
@@ -54,27 +51,16 @@ public class ExprHeaderFooter extends SimpleExpression<String> {
 
     @Override
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        for (int i = 0; i < delta.length; i++) {
-            if (delta[i] == null) {
-                delta[i] = "";
-            }
+        if (delta[0] == null) {
+            return;
         }
+        int value = ((Number) delta[0]).intValue();
         for (Tablist tablist : tablistProvider.get(event)) {
+            ImmutableList<String> original = header ? tablist.getHeader() : tablist.getFooter();
+            int newHeight = MathUtil.change(mode, original.size(), value);
             ImmutableList.Builder<String> builder = ImmutableList.builder();
-            if (mode == Changer.ChangeMode.SET) {
-                for (Object strO : delta) {
-                    builder.add((String) strO);
-                }
-            } else if (mode == Changer.ChangeMode.ADD) {
-                ImmutableList<String> original = header ? tablist.getHeader() : tablist.getFooter();
-                builder.addAll(original);
-                for (Object strO : delta) {
-                    builder.add((String) strO);
-                }
-            } else if (mode == Changer.ChangeMode.DELETE || mode == Changer.ChangeMode.RESET) {
-                //do nothing, builder is already empty
-            } else {
-                throw new IllegalArgumentException("Illegal mode: " + mode);
+            for (int i = 0; i < newHeight; i++) {
+                builder.add(i < original.size() ? original.get(i) : "");
             }
             if (header) {
                 tablist.setHeader(builder.build());
@@ -86,8 +72,8 @@ public class ExprHeaderFooter extends SimpleExpression<String> {
 
     @Override
     public Class<?>[] acceptChange(Changer.ChangeMode mode) {
-        if (mode == Changer.ChangeMode.SET || mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.DELETE || mode == Changer.ChangeMode.RESET) {
-            return CollectionUtils.array(String[].class);
+        if (mode == Changer.ChangeMode.SET || mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE) {
+            return CollectionUtils.array(Number.class);
         }
         return null;
     }

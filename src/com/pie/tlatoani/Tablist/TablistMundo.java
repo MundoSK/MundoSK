@@ -2,7 +2,6 @@ package com.pie.tlatoani.Tablist;
 
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.ExpressionType;
-import com.pie.tlatoani.ListUtil.ListUtil;
 import com.pie.tlatoani.Core.Registration.Registration;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Array.*;
@@ -41,13 +40,16 @@ public class TablistMundo {
                 .document("Tablist Header or Footer", "1.8",
                         "An expression for the header or footer of the tablist(s) of the specified player(s). "
                         + "This is a list expression as the header and footer can have multiple lines of text.");
+        Registration.registerExpression(ExprLineOfHeaderFooter.class, String.class, ExpressionType.COMBINED,
+                "(line %-number%|[the] last line) of [the] tablist (0¦header|1¦footer) " + FOR_OF_TABLIST_OWNER);
+        Registration.registerExpression(ExprHeightOfHeaderFooter.class, Number.class, ExpressionType.PROPERTY,
+                "[the] height of [the] tablist (0¦header|1¦footer) " + FOR_OF_TABLIST_OWNER);
         Registration.registerExpressionCondition(CondScoresEnabled.class, ExpressionType.PROPERTY,
                 "scores [are] (0¦enabled|1¦disabled) in [the] tablist[s] " + OF_TABLIST_OWNER,
                 "scores [are] (0¦enabled|1¦disabled) in " + TABLIST_OWNER_POSSESSIVE + " tablist[s]")
                 .document("Scores are Enabled", "1.8",
                         "Checks whether the tablist(s) of the specified player(s) have scores enabled. "
                         + "This only applies to enabling scores using MundoSK's tablist syntaxes.");
-        ListUtil.registerTransformer(TransHeaderFooter.class, String.class, "strings", "line");
         loadGroup();
         loadPlayer();
         loadSimple();

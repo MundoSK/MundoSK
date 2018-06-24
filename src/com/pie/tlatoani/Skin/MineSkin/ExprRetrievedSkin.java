@@ -27,7 +27,7 @@ public class ExprRetrievedSkin extends SimpleExpression<Skin> {
         FILE, URL, OFFLINE_PLAYER
     }
 
-    private Skin getSkin(Event event) {
+    Skin getSkin(Event event) {
         int timeoutMillis = timeoutExpr == null ? MineSkinClient.DEFAULT_TIMEOUT_MILLIS : new Long(timeoutExpr.getSingle(event).getMilliSeconds()).intValue();
         switch (mode) {
             case FILE: return MineSkinClient.fromRawString(MineSkinClient.rawStringFromFile(new File(stringExpr.getSingle(event)), timeoutMillis, def));

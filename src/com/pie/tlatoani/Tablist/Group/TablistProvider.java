@@ -1,9 +1,9 @@
 package com.pie.tlatoani.Tablist.Group;
 
 import ch.njol.skript.lang.Expression;
+import com.pie.tlatoani.Core.Static.Utilities;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.TablistManager;
-import com.pie.tlatoani.Core.Static.MundoUtil;
 import com.pie.tlatoani.Util.Collections.Streamable;
 import com.pie.tlatoani.Core.Static.OptionalUtil;
 import org.bukkit.entity.Player;
@@ -36,7 +36,7 @@ public abstract class TablistProvider {
 
     /**
      * Checks {@code condition} against the necessary tablists.
-     * For a list of players this will simply call {@link MundoUtil#check(Expression, Event, Function, boolean)},
+     * For a list of players this will simply call {@link Utilities#check(Expression, Event, Function, boolean)},
      * meaning the result is also dependent on whether the list is "and" or "or".
      * For a tablist group this will only check against the dummy tablist.
      * @param condition The condition to check against the tablists.
@@ -107,7 +107,7 @@ public abstract class TablistProvider {
 
         @Override
         public boolean check(Event event, Function<Tablist, Boolean> condition, boolean positive) {
-            return MundoUtil.check(
+            return Utilities.check(
                     expression,
                     event,
                     player -> player.isOnline() && condition.apply(TablistManager.getTablistOfPlayer(player)),

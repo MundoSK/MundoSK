@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import com.pie.tlatoani.Core.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.Utilities;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Event;
 
@@ -19,7 +19,7 @@ public class CondCollidable extends SimpleExpression<Boolean> {
 
     @Override
     protected Boolean[] get(Event event) {
-        return new Boolean[]{MundoUtil.check(livingEntityExpression, event, LivingEntity::isCollidable, positive)};
+        return new Boolean[]{Utilities.check(livingEntityExpression, event, LivingEntity::isCollidable, positive)};
     }
 
     @Override

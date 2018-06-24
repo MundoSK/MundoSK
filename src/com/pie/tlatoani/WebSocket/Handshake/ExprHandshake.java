@@ -5,7 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Core.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.Utilities;
 import com.pie.tlatoani.WebSocket.Events.WebSocketHandshakeEvent;
 import com.pie.tlatoani.WebSocket.Events.WebSocketOpenEvent;
 import mundosk_libraries.java_websocket.handshake.Handshakedata;
@@ -74,13 +74,13 @@ public class ExprHandshake extends SimpleExpression<Handshakedata> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         type = Type.values()[i];
         if (type == Type.REQUEST) {
-            if (!MundoUtil.isAssignableFromCurrentEvent(WebSocketOpenEvent.Server.class, WebSocketHandshakeEvent.class)) {
+            if (!Utilities.isAssignableFromCurrentEvent(WebSocketOpenEvent.Server.class, WebSocketHandshakeEvent.class)) {
                 Skript.error("The 'websocket request handshake' expression can only be used in the 'on open' section of a 'websocket server' template "
                             + "or the 'on request' section of a 'websocket client' or 'websocket server' template!");
                 return false;
             }
         } else if (type == Type.RESPONSE) {
-            if (!MundoUtil.isAssignableFromCurrentEvent(WebSocketOpenEvent.Client.class, WebSocketHandshakeEvent.class)) {
+            if (!Utilities.isAssignableFromCurrentEvent(WebSocketOpenEvent.Client.class, WebSocketHandshakeEvent.class)) {
                 Skript.error("The 'websocket response handshake' expression can only be used in the 'on open' section of a 'websocket client' template "
                         + "or the 'on request' section of a 'websocket client' or 'websocket server' template!");
                 return false;

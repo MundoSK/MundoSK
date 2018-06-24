@@ -5,7 +5,7 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Core.Static.MathUtil;
-import com.pie.tlatoani.Core.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.Utilities;
 import org.bukkit.Location;
 import org.bukkit.event.Event;
 
@@ -37,7 +37,7 @@ public class CondBeyondBorder extends SimpleExpression<Boolean>{
 
 	@Override
 	protected Boolean[] get(Event event) {
-		return new Boolean[]{MundoUtil.check(locationExpression, event, loc -> {
+		return new Boolean[]{Utilities.check(locationExpression, event, loc -> {
 		    Location center = loc.getWorld().getWorldBorder().getCenter();
 		    Double radius = loc.getWorld().getWorldBorder().getSize() / 2;
 		    return (MathUtil.isInRange(center.getX() - radius, loc.getX(), center.getX() + radius) &&

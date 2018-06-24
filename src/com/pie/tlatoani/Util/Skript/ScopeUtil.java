@@ -5,7 +5,6 @@ import ch.njol.skript.config.Node;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.lang.TriggerSection;
-import com.pie.tlatoani.Util.Skript.DummyTriggerItem;
 
 import java.util.ArrayList;
 import java.util.List;

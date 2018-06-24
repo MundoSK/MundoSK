@@ -4,7 +4,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import com.pie.tlatoani.Core.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.Utilities;
 import org.bukkit.Chunk;
 import org.bukkit.event.Event;
 
@@ -19,7 +19,7 @@ public class CondSlimey extends SimpleExpression<Boolean> {
 
     @Override
     protected Boolean[] get(Event event) {
-        return new Boolean[]{MundoUtil.check(chunkExpression, event, chunk -> {
+        return new Boolean[]{Utilities.check(chunkExpression, event, chunk -> {
             //Source for following formula is MinecraftWiki http://minecraft.gamepedia.com/Slime#.22Slime_chunks.22
             Random random = new Random(chunk.getWorld().getSeed() +
                     (long) (chunk.getX() * chunk.getX() * 0x4c1906) +

@@ -33,7 +33,7 @@ public final class Config {
 
     public static void displayConfig(CommandSender sender) {
         for (Option option : options) {
-            sender.sendMessage(Mundo.formatMundoSKInfo(option.path, option.getCurrentValue().toString()));
+            sender.sendMessage(MainCommand.formatMundoSKInfo(option.path, option.getCurrentValue().toString()));
         }
     }
 

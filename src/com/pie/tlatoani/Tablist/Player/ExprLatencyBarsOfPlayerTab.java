@@ -80,7 +80,9 @@ public class ExprLatencyBarsOfPlayerTab extends SimpleExpression<Number> {
                     .flatMap(playerTablist -> playerTablist.getTab(object))
                     .ifPresent(tab -> {
                         if (mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE) {
-                            tab.setLatencyBars(MathUtil.limitToRange(0, tab.getScore().orElse(0) + value, 5));
+                            tab.getLatencyBars().ifPresent(original ->
+                                    tab.setLatencyBars(MathUtil.limitToRange(0, original + value, 5))
+                            );
                         } else {
                             tab.setLatencyBars(value);
                         }

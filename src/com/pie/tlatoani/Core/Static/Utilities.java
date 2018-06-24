@@ -16,7 +16,7 @@ import java.util.stream.*;
 /**
  * Created by Tlatoani on 8/10/17.
  */
-public class MundoUtil {
+public class Utilities {
 
     public static <T> boolean check(Expression<T> expression, Event event, Function<T, Boolean> function) {
         return expression.check(event, function::apply);

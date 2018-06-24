@@ -82,7 +82,9 @@ public class ExprLatencyBarsOfArrayTab extends SimpleExpression<Number> {
                 if (MathUtil.isInRange(1, column, arrayTablist.getColumns()) && MathUtil.isInRange(1, row, arrayTablist.getRows())) {
                     Tab tab = arrayTablist.getTab(column, row);
                     if (mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE) {
-                        tab.setLatencyBars(MathUtil.limitToRange(0, tab.getScore().orElse(0) + value, 5));
+                        tab.getLatencyBars().ifPresent(original ->
+                                tab.setLatencyBars(MathUtil.limitToRange(0, original + value, 5))
+                        );
                     } else {
                         tab.setLatencyBars(value);
                     }

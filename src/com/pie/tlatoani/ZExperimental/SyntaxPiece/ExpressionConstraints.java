@@ -132,7 +132,7 @@ public final class ExpressionConstraints {
             classes[i] = type.classInfo;
             i++;
         }
-        return MundoUtil.commonSuperClass(classes);
+        return Utilities.commonSuperClass(classes);
     }*/
 
     public static String getTimeSuffix(int time) {

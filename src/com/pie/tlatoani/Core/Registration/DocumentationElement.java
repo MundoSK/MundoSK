@@ -3,7 +3,7 @@ package com.pie.tlatoani.Core.Registration;
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.util.Pair;
 import com.google.common.collect.ImmutableList;
-import com.pie.tlatoani.Mundo;
+import com.pie.tlatoani.Core.Static.MainCommand;
 import com.pie.tlatoani.Util.Collections.ImmutableListCollector;
 import org.bukkit.command.CommandSender;
 
@@ -45,31 +45,31 @@ public abstract class DocumentationElement {
     public abstract void display(CommandSender sender);
 
     protected void displayHeader(CommandSender sender) {
-        sender.sendMessage(Mundo.formatMundoSKInfo(category + " " + getType(), name));
-        sender.sendMessage(Mundo.formatMundoSKInfo("Since", "MundoSK " + originVersion));
+        sender.sendMessage(MainCommand.formatMundoSKInfo(category + " " + getType(), name));
+        sender.sendMessage(MainCommand.formatMundoSKInfo("Since", "MundoSK " + originVersion));
         if (requiredPlugins.size() > 0) {
-            sender.sendMessage(Mundo.formatMundoSKInfo("Required Plugins", String.join(" ", requiredPlugins)));
+            sender.sendMessage(MainCommand.formatMundoSKInfo("Required Plugins", String.join(" ", requiredPlugins)));
         }
     }
 
     protected void displaySyntax(CommandSender sender) {
         if (syntaxes.size() == 1) {
-            sender.sendMessage(Mundo.formatMundoSKInfo("Syntax", syntaxes.get(0)));
+            sender.sendMessage(MainCommand.formatMundoSKInfo("Syntax", syntaxes.get(0)));
         } else {
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Syntaxes");
+            sender.sendMessage(MainCommand.PRIMARY_CHAT_COLOR + "Syntaxes");
             for (String syntax : syntaxes) {
-                sender.sendMessage(Mundo.ALT_CHAT_COLOR + syntax);
+                sender.sendMessage(MainCommand.ALT_CHAT_COLOR + syntax);
             }
         }
     }
 
     protected void displayDesc(CommandSender sender) {
         if (description.size() == 1) {
-            sender.sendMessage(Mundo.formatMundoSKInfo("Description", description.get(0)));
+            sender.sendMessage(MainCommand.formatMundoSKInfo("Description", description.get(0)));
         } else {
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Description");
+            sender.sendMessage(MainCommand.PRIMARY_CHAT_COLOR + "Description");
             for (String descLine : description) {
-                sender.sendMessage(Mundo.ALT_CHAT_COLOR + descLine);
+                sender.sendMessage(MainCommand.ALT_CHAT_COLOR + descLine);
             }
         }
     }
@@ -77,9 +77,9 @@ public abstract class DocumentationElement {
     protected void displayExamples(CommandSender sender) {
         for (int i = 1; i <= examples.size(); i++) {
             ImmutableList<String> example = examples.get(i - 1);
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Example " + i);
+            sender.sendMessage(MainCommand.PRIMARY_CHAT_COLOR + "Example " + i);
             for (int line = 1; line <= example.size(); line++) {
-                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "" + String.format(Locale.US, "%02d", line) + " " + Mundo.ALT_CHAT_COLOR + example.get(line - 1));
+                sender.sendMessage(MainCommand.PRIMARY_CHAT_COLOR + "" + String.format(Locale.US, "%02d", line) + " " + MainCommand.ALT_CHAT_COLOR + example.get(line - 1));
             }
         }
     }
@@ -144,7 +144,7 @@ public abstract class DocumentationElement {
             displaySyntax(sender);
             displayDesc(sender);
             if (changers.size() > 0) {
-                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Changers");
+                sender.sendMessage(MainCommand.PRIMARY_CHAT_COLOR + "Changers");
                 for (Changer changer : changers) {
                     changer.display(sender);
                 }
@@ -171,11 +171,11 @@ public abstract class DocumentationElement {
         @Override
         public void display(CommandSender sender) {
             displayHeader(sender);
-            sender.sendMessage(Mundo.formatMundoSKInfo("Type", type.getDocName()));
+            sender.sendMessage(MainCommand.formatMundoSKInfo("Type", type.getDocName()));
             displaySyntax(sender);
             displayDesc(sender);
             if (changers.size() > 0) {
-                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Changers");
+                sender.sendMessage(MainCommand.PRIMARY_CHAT_COLOR + "Changers");
                 for (Changer changer : changers) {
                     changer.display(sender);
                 }
@@ -217,7 +217,7 @@ public abstract class DocumentationElement {
 
         public void display(CommandSender sender) {
             String typeSyntax = type.map(pair -> " " + pair.getFirst().getCodeName() + (pair.getSecond() ? "" : "s")).orElse("");
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + modeSyntax(mode) + typeSyntax + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
+            sender.sendMessage(MainCommand.PRIMARY_CHAT_COLOR + modeSyntax(mode) + typeSyntax + (originVersion.equals(parent.originVersion) ? "" : MainCommand.TRI_CHAT_COLOR + " Since " + originVersion) + MainCommand.ALT_CHAT_COLOR + " " + description);
         }
     }
 
@@ -239,11 +239,11 @@ public abstract class DocumentationElement {
         @Override
         public void display(CommandSender sender) {
             displayHeader(sender);
-            sender.sendMessage(Mundo.formatMundoSKInfo("Cancellable", cancellable ? "Yes" : "No"));
+            sender.sendMessage(MainCommand.formatMundoSKInfo("Cancellable", cancellable ? "Yes" : "No"));
             displaySyntax(sender);
             displayDesc(sender);
             if (eventValues.size() > 0) {
-                sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "Event Values");
+                sender.sendMessage(MainCommand.PRIMARY_CHAT_COLOR + "Event Values");
                 for (EventValue eventValue : eventValues) {
                     eventValue.display(sender);
                 }
@@ -266,7 +266,7 @@ public abstract class DocumentationElement {
         }
 
         public void display(CommandSender sender) {
-            sender.sendMessage(Mundo.PRIMARY_CHAT_COLOR + "event-" + type.getCodeName() + (originVersion.equals(parent.originVersion) ? "" : Mundo.TRI_CHAT_COLOR + " Since " + originVersion) + Mundo.ALT_CHAT_COLOR + " " + description);
+            sender.sendMessage(MainCommand.PRIMARY_CHAT_COLOR + "event-" + type.getCodeName() + (originVersion.equals(parent.originVersion) ? "" : MainCommand.TRI_CHAT_COLOR + " Since " + originVersion) + MainCommand.ALT_CHAT_COLOR + " " + description);
         }
     }
 
@@ -287,7 +287,7 @@ public abstract class DocumentationElement {
         public void display(CommandSender sender) {
             displayHeader(sender);
             displaySyntax(sender);
-            sender.sendMessage(Mundo.formatMundoSKInfo("Usages", usages.size() == 0 ? "Cannot be written in scripts" : String.join(", ", usages)));
+            sender.sendMessage(MainCommand.formatMundoSKInfo("Usages", usages.size() == 0 ? "Cannot be written in scripts" : String.join(", ", usages)));
             displayDesc(sender);
             displayExamples(sender);
         }

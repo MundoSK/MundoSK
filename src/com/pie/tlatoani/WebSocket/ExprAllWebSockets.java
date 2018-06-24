@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.iterator.EmptyIterator;
-import com.pie.tlatoani.Core.Static.MundoUtil;
+import com.pie.tlatoani.Core.Static.Utilities;
 import com.pie.tlatoani.WebSocket.Events.WebSocketServerEvent;
 import mundosk_libraries.java_websocket.WebSocket;
 import mundosk_libraries.java_websocket.server.WebSocketServer;
@@ -59,7 +59,7 @@ public class ExprAllWebSockets extends SimpleExpression<WebSocket> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         portExpr = Optional.ofNullable((Expression<Number>) expressions[0]);
         if (!portExpr.isPresent()) {
-            if (MundoUtil.isAssignableFromCurrentEvent(WebSocketServerEvent.class)) {
+            if (Utilities.isAssignableFromCurrentEvent(WebSocketServerEvent.class)) {
                 return true;
             }
             Skript.error("'all websockets' can only be used under 'websocket server'!");
