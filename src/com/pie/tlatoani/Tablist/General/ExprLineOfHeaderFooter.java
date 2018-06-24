@@ -31,7 +31,7 @@ public class ExprLineOfHeaderFooter extends SimpleExpression<String> {
         return tablistProvider
                 .view(event)
                 .map(header ? Tablist::getHeader : Tablist::getFooter)
-                .map(list -> list.get(lineNumber == -1 ? list.size() - 1 : lineNumber))
+                .map(list -> list.get((lineNumber == -1 ? list.size() : lineNumber) - 1))
                 .toArray(String[]::new);
     }
 
@@ -61,7 +61,7 @@ public class ExprLineOfHeaderFooter extends SimpleExpression<String> {
 
     @Override
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        String value = (delta.length == 0 || delta[0] == null) ? "" : (String) delta[0];
+        String value = (delta == null || delta.length == 0 || delta[0] == null) ? "" : (String) delta[0];
         Integer lineNumber = lineNumberExpression
                 .map(expr -> Optional.ofNullable(expr.getSingle(event)))
                 .orElse(Optional.of(-1))
