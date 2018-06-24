@@ -63,13 +63,19 @@ public class Skin {
     }
 
     @Override
-    public final boolean equals(Object other) {
+    public boolean equals(Object other) {
         if (other instanceof Skin) {
             Skin otherSkin = (Skin) other;
             return value.equals(otherSkin.value) && signature.equals(otherSkin.signature);
         } else {
             return false;
         }
+    }
+
+    //44701 is prime
+    @Override
+    public int hashCode() {
+        return 13 + value.hashCode() + (44701 * signature.hashCode());
     }
 
     //Creation Methods

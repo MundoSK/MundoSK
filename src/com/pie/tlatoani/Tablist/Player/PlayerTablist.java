@@ -86,7 +86,18 @@ public class PlayerTablist {
         }
         tabs.ifPresent(map -> map.computeIfPresent(player, (__, tabOptional) -> {
             if (!tabOptional.isPresent()) {
-                tablist.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), PlayerTablist.class);
+                tablist.sendPacket(PacketUtil.playerInfoPacket(player, EnumWrappers.PlayerInfoAction.ADD_PLAYER), this);
+                if (tablist.areScoresEnabled()) {
+                    tablist.sendPacket(
+                            PacketUtil.scorePacket(
+                                    Tablist.OBJECTIVE_NAME,
+                                    Tablist.OBJECTIVE_NAME,
+                                    0,
+                                    EnumWrappers.ScoreboardAction.CHANGE
+                            ),
+                            this
+                    );
+                }
                 return null;
             }
             return tabOptional;
