@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Tablist.Group;
 
+import com.google.common.collect.Iterators;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.TablistManager;
 import com.pie.tlatoani.Util.Collections.Streamable;
@@ -29,12 +30,12 @@ public class TablistGroup implements Streamable<Tablist> {
 
     @Override
     public Iterator<Tablist> iterator() {
-        return tablists.values().iterator();
+        return Iterators.concat(Collections.singleton(dummy).iterator(), tablists.values().iterator());
     }
 
     @Override
     public Stream<Tablist> stream() {
-        return tablists.values().stream();
+        return Stream.concat(Stream.of(dummy), tablists.values().stream());
     }
 
     /**

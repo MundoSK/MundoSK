@@ -7,40 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="576b82bb-6719-4474-8679-6476625f4156" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MundoSK.jar" beforeDir="false" afterPath="$PROJECT_DIR$/MundoSK.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/CondArrayTablistEnabled.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/CondArrayTablistEnabled.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/EffAddRemoveArrayTabs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/EffAddRemoveArrayTabs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/EffEnableDisableArrayTablist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/EffEnableDisableArrayTablist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDimensionOfArrayTablist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDimensionOfArrayTablist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDisplayNameOfArrayTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDisplayNameOfArrayTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfArrayTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfArrayTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprLatencyBarsOfArrayTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprLatencyBarsOfArrayTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprScoreOfArrayTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprScoreOfArrayTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/CondScoresEnabled.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/CondScoresEnabled.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/EffEnableDisableScores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/EffEnableDisableScores.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/ExprDefaultIcon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/ExprDefaultIcon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/ExprHeaderFooter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/ExprHeaderFooter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/ExprHeightOfHeaderFooter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/ExprHeightOfHeaderFooter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/ExprLineOfHeaderFooter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/General/ExprLineOfHeaderFooter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Group/TablistProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Group/TablistProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/CondPlayerTabIsVisible.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/CondPlayerTabIsVisible.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/CondPlayerTabsAreVisible.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/CondPlayerTabsAreVisible.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/EffClearPlayerModifications.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/EffClearPlayerModifications.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/EffShowHidePlayerTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/EffShowHidePlayerTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprDisplayNameOfPlayerTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprDisplayNameOfPlayerTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprLatencyBarsOfPlayerTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprLatencyBarsOfPlayerTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprScoreOfPlayerTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/ExprScoreOfPlayerTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateSimpleTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffCreateSimpleTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffDeleteAllSimpleTabs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffDeleteAllSimpleTabs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffDeleteSimpleTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/EffDeleteSimpleTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprDisplayNameOfSimpleTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprDisplayNameOfSimpleTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprIconOfSimpleTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprIconOfSimpleTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprLatencyBarsOfSimpleTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprLatencyBarsOfSimpleTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprScoreOfSimpleTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Simple/ExprScoreOfSimpleTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Collections/Streamable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Util/Collections/Streamable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldManagementMundo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/WorldManagement/WorldManagementMundo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Group/TablistGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Group/TablistGroup.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/src/ch/njol/skript/util/slot/" />
@@ -128,17 +96,22 @@
       <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" column="15" lean-forward="true" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
+            <state relative-caret-position="72">
+              <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CondArrayTablistEnabled.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/CondArrayTablistEnabled.java">
+      <file leaf-file-name="TablistGroup.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Group/TablistGroup.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="33" column="111" selection-start-line="33" selection-start-column="111" selection-end-line="33" selection-end-column="111" />
+            <state relative-caret-position="648">
+              <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1354#1355#0" expanded="true" />
+                <element signature="e#1435#1436#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -173,7 +146,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/TablistManager.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Tab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/SupplementaryTablist.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Player/PlayerTablist.java" />
@@ -223,6 +195,7 @@
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprIconOfArrayTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Array/ExprDisplayNameOfArrayTab.java" />
         <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Group/TablistProvider.java" />
+        <option value="$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Group/TablistGroup.java" />
         <option value="$PROJECT_DIR$/plugin.yml" />
       </list>
     </option>
@@ -465,12 +438,12 @@
       <workItem from="1529265756834" duration="23424000" />
       <workItem from="1529615380480" duration="812000" />
       <workItem from="1529631711451" duration="19256000" />
-      <workItem from="1529861571684" duration="6529000" />
+      <workItem from="1529861571684" duration="7159000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50021000" />
+    <option name="totallyTimeSpent" value="50651000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -512,13 +485,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Util/Skript/BaseEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/WebSocket/WebSocketManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="354">
@@ -890,10 +856,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/pie/tlatoani/Tablist/Group/TablistGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1354#1355#0" expanded="true" />
+            <element signature="e#1435#1436#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="15" lean-forward="true" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
+        <state relative-caret-position="72">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
         </state>
       </provider>
     </entry>
