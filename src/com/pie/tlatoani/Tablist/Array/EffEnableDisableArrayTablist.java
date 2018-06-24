@@ -5,6 +5,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Skin.Skin;
+import com.pie.tlatoani.Tablist.Player.PlayerTablist;
 import com.pie.tlatoani.Tablist.Simple.SimpleTablist;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Tablist.Group.TablistProvider;
@@ -40,6 +41,7 @@ public class EffEnableDisableArrayTablist extends Effect {
             for (Tablist tablist : tablistProvider.get(event)) {
                 if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                     tablist.setSupplementaryTablist(SimpleTablist::new);
+                    tablist.getPlayerTablist().ifPresent(PlayerTablist::showAllPlayers);
                 }
             }
         }

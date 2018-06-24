@@ -14,8 +14,9 @@ import java.util.Optional;
 /**
  * Created by Tlatoani on 6/16/18.
  */
-public class EffAddArrayTabs extends Effect {
+public class EffAddRemoveArrayTabs extends Effect {
     private TablistProvider tablistProvider;
+    private boolean add;
     private boolean isColumns;
     private Optional<Expression<Number>> addendExpression;
     private Optional<Expression<Skin>> iconExpression;
@@ -26,6 +27,7 @@ public class EffAddArrayTabs extends Effect {
                 .map(expr -> Optional.ofNullable(expr.getSingle(event)))
                 .orElse(Optional.ofNullable(1))
                 .map(Number::intValue)
+                .map(num -> num * (add ? 1 : -1))
                 .orElse(null);
         Skin icon = iconExpression.map(expr -> expr.getSingle(event)).orElse(null);
         if (addend != null) {
@@ -44,21 +46,22 @@ public class EffAddArrayTabs extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "add "
+        return (add ? "add " : "remove ")
                 + addendExpression.map(Object::toString).orElse("a")
                 + " "
                 + (isColumns ? "column" : "row")
                 + (addendExpression.isPresent() ? "s" : "")
                 + iconExpression.map(expr -> " with icon " + expr).orElse("")
-                + " to array tablist of " + tablistProvider;
+                + (add ? " to" : " from") + " array tablist of " + tablistProvider;
     }
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
+        add = i < 2;
         isColumns = parseResult.mark == 0;
         addendExpression = Optional.ofNullable((Expression<Number>) expressions[0]);
-        iconExpression = Optional.ofNullable((Expression<Skin>) expressions[1]);
-        tablistProvider = TablistProvider.of(expressions, 2);
+        iconExpression = add ? Optional.ofNullable((Expression<Skin>) expressions[1]) : Optional.empty();
+        tablistProvider = TablistProvider.of(expressions, add ? 2 : 1);
         return true;
     }
 }

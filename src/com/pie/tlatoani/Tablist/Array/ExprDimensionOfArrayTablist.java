@@ -57,19 +57,18 @@ public class ExprDimensionOfArrayTablist extends SimpleExpression<Number> {
     }
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
-        int value = Optional.ofNullable((Number) delta[0]).map(Number::intValue).orElse(0) * (mode == Changer.ChangeMode.REMOVE ? -1 : 1);
+        int value = Optional.ofNullable((Number) delta[0]).map(Number::intValue).orElse(0);
         for (Tablist tablist : tablistProvider.get(event)) {
             if (tablist.getSupplementaryTablist() instanceof ArrayTablist) {
                 ArrayTablist arrayTablist = (ArrayTablist) tablist.getSupplementaryTablist();
                 if (isColumns) {
-                    int finalValue = mode == Changer.ChangeMode.SET ? value : (arrayTablist.getColumns() + value);
-                    if (finalValue > 0) {
-                        arrayTablist.setColumns(finalValue);
+                    if (value > 0) {
+                        arrayTablist.setColumns(value);
                     } else {
                         tablist.setSupplementaryTablist(SimpleTablist::new);
                     }
                 } else {
-                    arrayTablist.setRows(mode == Changer.ChangeMode.SET ? value : (arrayTablist.getRows() + value));
+                    arrayTablist.setRows(value);
                 }
             } else if (isColumns && value > 0) {
                 tablist.setSupplementaryTablist(ArrayTablist.create(value, 20));

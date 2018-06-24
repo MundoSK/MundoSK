@@ -22,7 +22,7 @@ public class MainCommand {
                 sender.sendMessage(formatCommandDescription("config", "Prints the current config options"));
                 sender.sendMessage(formatCommandDescription("config reload", "Reloads MundoSK's config"));
                 sender.sendMessage(formatCommandDescription("doc[s]", "Accesses MundoSK's documentation"));
-                sender.sendMessage(formatCommandDescription("update", "Prints the latest update information"));
+                sender.sendMessage(formatCommandDescription("update", "Prints the latest update information (actually it doesn't do anything)"));
                 sender.sendMessage(formatCommandDescription("update <version>", "Downloads the given MundoSK version to be installed on server restart"));
             } else if (args[0].equalsIgnoreCase("desc") || args[0].equalsIgnoreCase("description")) {
                 sender.sendMessage(PRIMARY_CHAT_COLOR + "MundoSK is a Skript Addon that has features including Packets, World Borders, World Management, Custom World Generation, Tablist, Skin Modification, Sockets, and more!");

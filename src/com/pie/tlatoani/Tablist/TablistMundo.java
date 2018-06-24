@@ -205,9 +205,8 @@ public class TablistMundo {
                         + "See the Size of Array Tablist and Icon of Array Tab expressions for more info. "
                         + "If the array tablist is already enabled, it will be replaced with a blank one matching the new specifications. "
                         + "Note that when enabling the array tablist, all simple tabs will be removed and all player tabs will be hidden. "
-                        + "When disabling the array tablist, initially either all player tabs will be hidden, "
-                        + "or (if if the array tablist was 4x20) all player tabs will be visible. "
-                        + "There will be no simple tabs either way initially after disabling the array tablist.")
+                        + "When disabling the array tablist, all player tabs will be visible, "
+                        + "and there will be no simple tabs.")
                 .example("command /example_tablist:"
                         , "\ttrigger:"
                         , "\t\tenable array tablist for player "
@@ -220,9 +219,11 @@ public class TablistMundo {
                         + "#This sets all of the tabs in the second column to display their column and row"
                         , "\t\t\tset icon of tab 2, loop-number for player to steve "
                         + "#This sets all of the tabs in the second column to have a steve skin as their icon");
-        Registration.registerEffect(EffAddArrayTabs.class,
+        Registration.registerEffect(EffAddRemoveArrayTabs.class,
                 "add ([a] (0¦column|1¦row)|%-number% (0¦column|1¦row)s) [with icon %-skin%] to [the] [array] tablist[s] " + OF_TABLIST_OWNER,
-                "add ([a] (0¦column|1¦row)|%-number% (0¦column|1¦row)s) [with icon %-skin%] to " + TABLIST_OWNER_POSSESSIVE + " [the] [array] tablist[s]");
+                "add ([a] (0¦column|1¦row)|%-number% (0¦column|1¦row)s) [with icon %-skin%] to " + TABLIST_OWNER_POSSESSIVE + " [array] tablist[s]",
+                "remove ([a] (0¦column|1¦row)|%-number% (0¦column|1¦row)s) from [the] [array] tablist[s] " + OF_TABLIST_OWNER,
+                "remove ([a] (0¦column|1¦row)|%-number% (0¦column|1¦row)s) from " + TABLIST_OWNER_POSSESSIVE + " [array] tablist[s]");
         Registration.registerExpression(ExprDisplayNameOfArrayTab.class, String.class, ExpressionType.PROPERTY, 
                 "[the] [display] name of [the] [array] tab %number%, %number% " + FOR_TABLIST_OWNER)
                 .document("Display Name of Array Tab", "1.8",
