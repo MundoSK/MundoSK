@@ -90,7 +90,7 @@ public class PlayerTablist {
                 if (tablist.areScoresEnabled()) {
                     tablist.sendPacket(
                             PacketUtil.scorePacket(
-                                    Tablist.OBJECTIVE_NAME,
+                                    player.getName(),
                                     Tablist.OBJECTIVE_NAME,
                                     0,
                                     EnumWrappers.ScoreboardAction.CHANGE
