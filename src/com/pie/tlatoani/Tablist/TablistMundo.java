@@ -155,7 +155,7 @@ public class TablistMundo {
                 .document("Create Simple Tab", "1.8",
                         "Creates a simple tab for the specified player(s) with the specified id and properties. "
                         + "If a specified player already has a simple tab with the specified id in their tablist, "
-                        + "that tab will not be modified and no new tab will be created. "
+                        + "that tab will be deleted before creating the new tab. "
                         + "This effect will not work for a specified player if they have the array tablist enabled.");
         Registration.registerEffect(EffDeleteSimpleTab.class, 
                 "delete [the] " + SIMPLE_TAB + " " + FOR_TABLIST_OWNER)

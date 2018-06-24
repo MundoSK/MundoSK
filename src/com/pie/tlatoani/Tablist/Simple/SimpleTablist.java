@@ -73,6 +73,9 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
                     score
             );
             tablist.sendPacket(newTab.playerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER), this);
+            if (tablist.areScoresEnabled()) {
+                tablist.sendPacket(newTab.updateScorePacket(), this);
+            }
             return newTab;
         });
     }
