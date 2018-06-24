@@ -45,7 +45,7 @@ public class ExprLatencyBarsOfSimpleTab extends SimpleExpression<Number> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "latency bars of simple tab " + id + " for " + tablistProvider;
+        return tablistProvider.toString("latency bars of simple tab " + id + " [for %]");
     }
 
     @Override

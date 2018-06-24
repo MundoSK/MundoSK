@@ -37,7 +37,7 @@ public class ExprDefaultIcon extends SimpleExpression<Skin> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "default icon of " + tablistProvider + "'s tablist";
+        return tablistProvider.toString("default icon of [%'s] tablist");
     }
 
     @Override

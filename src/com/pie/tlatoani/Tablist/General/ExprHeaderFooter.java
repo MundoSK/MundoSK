@@ -42,7 +42,7 @@ public class ExprHeaderFooter extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "tablist " + (header ? "header" : "footer") + " for " + tablistProvider;
+        return tablistProvider.toString("tablist " + (header ? "header" : "footer") + " [of %]");
     }
 
     @Override

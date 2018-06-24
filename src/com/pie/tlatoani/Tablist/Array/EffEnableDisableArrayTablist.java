@@ -49,12 +49,12 @@ public class EffEnableDisableArrayTablist extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return (enable ? "enable" : "disable") + " array tablist for " + tablistProvider +
+        return tablistProvider.toString((enable ? "enable" : "disable") + " array tablist [for %]" +
                 ((enable && (columns.isPresent() || rows.isPresent() || iconExpression.isPresent())) ? " with"
                     + columns.map(expression -> " " + expression + " columns").orElse("")
                     + rows.map(expression -> " " + expression + " rows").orElse("")
                     + iconExpression.map(expression -> " initial icon " + expression).orElse("")
-                : "");
+                : ""));
     }
 
     @Override

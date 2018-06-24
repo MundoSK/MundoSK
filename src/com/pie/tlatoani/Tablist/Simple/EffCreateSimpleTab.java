@@ -48,12 +48,11 @@ public class EffCreateSimpleTab extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "create simple tab " + idExpression
-                + " for " + tablistProvider
-                + " with display name " + displayNameExpression
+        return tablistProvider.toString("create simple tab " + idExpression
+                + " [for %] with display name " + displayNameExpression
                 + latencyBarsExpression.map(expr -> " latency bars " + expr).orElse("")
                 + iconExpression.map(expr -> " icon " + expr).orElse("")
-                + scoreExpression.map(expr -> " score " + expr).orElse("");
+                + scoreExpression.map(expr -> " score " + expr).orElse(""));
     }
 
     @Override

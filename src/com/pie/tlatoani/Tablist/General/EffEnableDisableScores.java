@@ -21,7 +21,7 @@ public class EffEnableDisableScores extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return (enable ? "enable" : "disable") + " scores in tablist of " + tablistProvider;
+        return tablistProvider.toString((enable ? "enable" : "disable") + " scores in tablist [of %]");
     }
 
     @Override

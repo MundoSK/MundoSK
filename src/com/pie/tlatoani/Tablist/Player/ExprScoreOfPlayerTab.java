@@ -47,7 +47,7 @@ public class ExprScoreOfPlayerTab extends SimpleExpression<Number> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "score of " + objectExpression + "'s player tab for " + tablistProvider;
+        return tablistProvider.toString("score of " + objectExpression + "'s player tab [for %]");
     }
 
     @Override

@@ -31,7 +31,7 @@ public class CondArrayTablistEnabled extends SimpleExpression<Boolean> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "array tablist is " + (positive ? "enabled" : "disabled") + " for " + tablistProvider;
+        return tablistProvider.toString("array tablist is " + (positive ? "enabled" : "disabled") + " [for %]");
     }
 
     @Override

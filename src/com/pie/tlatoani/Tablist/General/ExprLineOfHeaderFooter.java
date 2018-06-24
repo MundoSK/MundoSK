@@ -47,8 +47,8 @@ public class ExprLineOfHeaderFooter extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return lineNumberExpression.map(expr -> "line " + expr).orElse("last line")
-                + " of tablist " + (header ? "header" : "footer") + " for " + tablistProvider;
+        return tablistProvider.toString(lineNumberExpression.map(expr -> "line " + expr).orElse("last line")
+                + " of tablist " + (header ? "header" : "footer") + " [of %]");
     }
 
     @Override

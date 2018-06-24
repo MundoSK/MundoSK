@@ -48,7 +48,7 @@ public class ExprDisplayNameOfPlayerTab extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "display name of " + objectExpression + "'s player tab for " + tablistProvider;
+        return tablistProvider.toString("display name of " + objectExpression + "'s player tab [for %]");
     }
 
     @Override

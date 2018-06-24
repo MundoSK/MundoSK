@@ -27,7 +27,7 @@ public class EffClearPlayerModifications extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "clear player tab modifications for " + tablistProvider;
+        return tablistProvider.toString("clear player tab modifications [for %]");
     }
 
     @Override

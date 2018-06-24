@@ -34,7 +34,7 @@ public class CondScoresEnabled extends SimpleExpression<Boolean> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "scores are " + (positive ? "enabled" : "disabled") + " in tablist of " + tablistProvider;
+        return tablistProvider.toString("scores are " + (positive ? "enabled" : "disabled") + " in tablist [of %]");
     }
 
     @Override

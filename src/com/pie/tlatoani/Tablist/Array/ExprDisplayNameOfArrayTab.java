@@ -51,7 +51,7 @@ public class ExprDisplayNameOfArrayTab extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "display name of tab " + column + ", " + row + " for " + tablistProvider;
+        return tablistProvider.toString("display name of array tab " + column + ", " + row + " [for %]");
     }
 
     @Override

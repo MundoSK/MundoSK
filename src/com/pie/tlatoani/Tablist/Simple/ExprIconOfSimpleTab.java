@@ -45,7 +45,7 @@ public class ExprIconOfSimpleTab extends SimpleExpression<Skin> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "icon of simple tab " + id + " for " + tablistProvider;
+        return tablistProvider.toString("icon of simple tab " + id + " [for %]");
     }
 
     @Override

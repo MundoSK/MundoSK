@@ -26,7 +26,7 @@ public class EffDeleteAllSimpleTabs extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "delete all simple tabs for " + tablistProvider;
+        return tablistProvider.toString("delete all simple tabs [for %]");
     }
 
     @Override

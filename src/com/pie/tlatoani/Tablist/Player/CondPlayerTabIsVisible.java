@@ -41,7 +41,7 @@ public class CondPlayerTabIsVisible extends SimpleExpression<Boolean> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return objectExpression + "'s player tab is " + (positive ? "visible" : "hidden") + " for " + tablistProvider;
+        return tablistProvider.toString(objectExpression + "'s player tab is " + (positive ? "visible" : "hidden") + " [for %]");
     }
 
     @Override

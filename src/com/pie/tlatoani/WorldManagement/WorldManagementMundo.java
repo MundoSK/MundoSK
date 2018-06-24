@@ -32,7 +32,8 @@ public class WorldManagementMundo {
                 .document("Create World", "1.6.4", "Creates a world with the specified name, optionally with a few settings. "
                         + "Optionally you can specify that the world should be automatically loaded on server start (MundoSK 1.8.6+). "
                         + "See the environment type and worldtype type for valid environments and worldtypes respectively. "
-                        + "Generator settings can either be custom superflat codes or customized world codes (for customized world codes the worldtype needs to be 'customized').")
+                        + "Generator settings can either be custom superflat codes or customized world codes (for customized world codes the worldtype needs to be 'customized')."
+                        + "If a world with the specified name already exists, this will just load that world instead of creating a new one.")
                 .example("create world named \"Example\" with dimension nether, seed \"12345\", type flat, structures false");
         Registration.registerEffect(EffCreateWorldUsingCreator.class, "create [new] [(1¦auto[matically ]loaded)] world [named %-string%] using %creator%")
                 .document("Create World using Creator", "1.8", "Creates a world using the specified creator, optionally specifying the world's name (this is required if the creator doesn't specify a name)."

@@ -46,7 +46,7 @@ public class ExprDimensionOfArrayTablist extends SimpleExpression<Number> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "amount of " + (isColumns ? "column" : "row") + "s in " + tablistProvider + "'s array tablist";
+        return tablistProvider.toString("amount of " + (isColumns ? "column" : "row") + "s in [%'s] array tablist");
     }
 
     @Override

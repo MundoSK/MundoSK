@@ -46,13 +46,13 @@ public class EffAddRemoveArrayTabs extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return (add ? "add " : "remove ")
+        return tablistProvider.toString((add ? "add " : "remove ")
                 + addendExpression.map(Object::toString).orElse("a")
                 + " "
                 + (isColumns ? "column" : "row")
                 + (addendExpression.isPresent() ? "s" : "")
                 + iconExpression.map(expr -> " with icon " + expr).orElse("")
-                + (add ? " to" : " from") + " array tablist of " + tablistProvider;
+                + (add ? " to" : " from") + " array tablist [of %]");
     }
 
     @Override

@@ -51,7 +51,7 @@ public class ExprScoreOfArrayTab extends SimpleExpression<Number> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "score of tab " + column + ", " + row + " for " + tablistProvider;
+        return tablistProvider.toString("score of array tab " + column + ", " + row + " [for %]");
     }
 
     @Override

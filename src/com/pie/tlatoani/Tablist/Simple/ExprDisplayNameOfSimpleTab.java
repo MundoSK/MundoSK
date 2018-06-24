@@ -44,7 +44,7 @@ public class ExprDisplayNameOfSimpleTab extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "display name of simple tab " + id + " for " + tablistProvider;
+        return tablistProvider.toString("display name of simple tab " + id + " [for %]");
     }
 
     @Override

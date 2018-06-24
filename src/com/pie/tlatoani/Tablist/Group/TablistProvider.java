@@ -59,15 +59,25 @@ public abstract class TablistProvider {
     public abstract String toString();
 
     /**
+     * Returns a syntax representation of the overall syntax element
+     * with this TablistProvider's specific syntax representation inputted.
+     * The section in {@code syntax} to contain the TablistProvider's representation should be delineated by '[... % ...]',
+     * with '%' to be replaced by the TablistProvider's representation.
+     * If this TablistProvider is for the global group, then the whole section delineated by '[...]'
+     * as well as an adjacent space will be removed.
+     */
+    public abstract String toString(String syntax);
+
+    /**
      * This method simplifies the operation of selecting the present expression out of
      * what could be a player expression and what could be a string expression (for a tablist group name).
      * If {@code expressions[playerExpressionIndex] != null}, that is assumed to be a present player expression
      * and a corresponding TablistProvider is constructed based off of that.
-     * Otherwise, {@code expressions[playerExpressionIndex + 1]} is assumed to be a present string expression
+     * Otherwise, if {@code expressions[playerExpressionIndex + 1] != null}, that is assumed to be a present string expression
      * and a corresponding TablistProvider is constructed based off of that.
+     * If both are null, then a TablistProvider is contructed to represent the global tablist group.
      * Note that the length of {@code expressions} may be equal to {@code playerExpressionIndex}
-     * (meaning that the desired string expression can not be present)
-     * as long as {@code }
+     * (meaning that the desired string expression can not be present).
      * @param expressions
      * @param playerExpressionIndex
      * @return
@@ -89,7 +99,6 @@ public abstract class TablistProvider {
             this.expression = expression;
         }
 
-
         @Override
         public Stream<Tablist> view(Event event) {
             return get(event).stream();
@@ -97,12 +106,29 @@ public abstract class TablistProvider {
 
         @Override
         public Streamable<Tablist> get(Event event) {
-            return () -> new TablistOfPlayerIterator(expression.iterator(event));
+            if (expression.isSingle()) {
+                Player player = expression.getSingle(event);
+                if (player == null || !player.isOnline()) {
+                    return Streamable.empty();
+                } else {
+                    return Streamable.singleton(TablistManager.getTablistOfPlayer(player));
+                }
+            } else {
+                return () -> new TablistOfPlayerIterator(expression.iterator(event));
+            }
         }
 
         @Override
         public String toString() {
             return expression.toString();
+        }
+
+        @Override
+        public String toString(String syntax) {
+            return syntax
+                    .replace("[", "")
+                    .replace("%", toString())
+                    .replace("]", "");
         }
 
         @Override
@@ -185,6 +211,25 @@ public abstract class TablistProvider {
         @Override
         public String toString() {
             return expression.map(expr -> "group" + expr).orElse("global group");
+        }
+
+        @Override
+        public String toString(String syntax) {
+            return expression
+                    .map(expr -> syntax
+                            .replace("[", "")
+                            .replace("%", toString())
+                            .replace("]", ""))
+                    .orElseGet(() -> {
+                        int sectionOpenIx = syntax.indexOf('[');
+                        int sectionCloseIx = syntax.indexOf(']');
+                        if (sectionCloseIx > 0) {
+                            sectionCloseIx--;
+                        } else {
+                            sectionCloseIx++;
+                        }
+                        return syntax.substring(0, sectionOpenIx) + syntax.substring(sectionCloseIx + 1);
+                    });
         }
 
         @Override

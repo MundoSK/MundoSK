@@ -52,7 +52,7 @@ public class ExprIconOfArrayTab extends SimpleExpression<Skin> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "icon of tab " + column + ", " + row + " for " + tablistProvider;
+        return tablistProvider.toString("icon of array tab " + column + ", " + row + " [for %]");
     }
 
     @Override

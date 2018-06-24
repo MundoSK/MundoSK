@@ -39,7 +39,7 @@ public class ExprHeightOfHeaderFooter extends SimpleExpression<Number> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "height of tablist " + (header ? "header" : "footer") + " for " + tablistProvider;
+        return tablistProvider.toString("height of tablist " + (header ? "header" : "footer") + " [of %]");
     }
 
     @Override

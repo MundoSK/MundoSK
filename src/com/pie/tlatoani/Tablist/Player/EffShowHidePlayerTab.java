@@ -40,8 +40,8 @@ public class EffShowHidePlayerTab extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return (visible ? "show " : "hide ") + objectsExpression
-                + "'s player tab" + (objectsExpression.isSingle() ? "" : "s") + " for " + tablistProvider;
+        return tablistProvider.toString((visible ? "show " : "hide ") + objectsExpression
+                + "'s player tab" + (objectsExpression.isSingle() ? "" : "s") + " [for %]");
     }
 
     @Override

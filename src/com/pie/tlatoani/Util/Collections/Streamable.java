@@ -18,6 +18,10 @@ public interface Streamable<T> extends Iterable<T> {
         return of(Collections.<T>emptyList());
     }
 
+    static <T> Streamable<T> singleton(T element) {
+        return of(Collections.singleton(element));
+    }
+
     static <T> Streamable<T> of(T[] array) {
         return of(Arrays.asList(array));
     }
