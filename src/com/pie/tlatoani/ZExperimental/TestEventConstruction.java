@@ -49,7 +49,9 @@ public class TestEventConstruction {
                 Class<?>[] paramTypes = constructor.getParameterTypes();
                 for (int i = 0; i < parameters.length; i++) {
                     Class<?> paramType = paramTypes[i];
-                    if (paramType == int.class || paramType == Integer.class || paramType == Number.class) {
+                    if (paramType == boolean.class || paramType == Boolean.class) {
+                        parameters[i] = true;
+                    } else if (paramType == int.class || paramType == Integer.class || paramType == Number.class) {
                         parameters[i] = (int) 0;
                     } else if (paramType == long.class || paramType == Integer.class) {
                         parameters[i] = (long) 0;
