@@ -4,6 +4,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.lang.SkriptEventInfo;
 import com.pie.tlatoani.Core.Static.Logging;
 import com.pie.tlatoani.Core.Static.Reflection;
+import org.bukkit.ChatColor;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Constructor;
@@ -47,7 +48,7 @@ public class TestEventConstruction {
                 Object creation = constructor.newInstance(parameters);
                 StringJoiner logBuilder = new StringJoiner(
                         ", ",
-                        "Success, creation: " + creation + ", constructor: " + eventClass.getName() + "(",
+                        ChatColor.DARK_GREEN + "Success, creation: " + creation + ", constructor: " + eventClass.getName() + "(",
                         ")"
                 );
                 for (Class<?> paramType : constructor.getParameterTypes()) {
@@ -55,9 +56,20 @@ public class TestEventConstruction {
                 }
                 Logging.info(logBuilder.toString());
                 return true;
-            } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {}
+            } catch (Exception e) {
+                StringJoiner logBuilder = new StringJoiner(
+                        ", ",
+                        "Exception, constructor: " + eventClass.getName() + "(",
+                        ")"
+                );
+                for (Class<?> paramType : constructor.getParameterTypes()) {
+                    logBuilder.add(paramType.getName());
+                }
+                Logging.info(logBuilder.toString());
+                Logging.debug(TestEventConstruction.class, e);
+            }
         }
-        Logging.info("Failure for class " + eventClass.getName());
+        Logging.info(ChatColor.RED + "Failure for class " + eventClass.getName());
         return false;
     }
 }
