@@ -34,9 +34,9 @@ public class TestEventConstruction {
                     }
                 }
             }
-            Logging.info("Out of " + (successfulEventClasses.size() + failedEventClasses.size()) + " event classes,");
-            Logging.info(successfulEventClasses.size() + " succeeded and " + failedEventClasses.size() + " failed.");
-            Logging.info("The failures were " + failedEventClasses);
+            Logging.debug(TestEventConstruction.class, "Out of " + (successfulEventClasses.size() + failedEventClasses.size()) + " event classes,");
+            Logging.debug(TestEventConstruction.class, successfulEventClasses.size() + " succeeded and " + failedEventClasses.size() + " failed.");
+            Logging.debug(TestEventConstruction.class, "The failures were " + failedEventClasses);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             Logging.reportException(TestEventConstruction.class, e);
         }
@@ -67,6 +67,8 @@ public class TestEventConstruction {
                         parameters[i] = "abcd";
                     } else if (paramType.isArray()) {
                         parameters[i] = Array.newInstance(paramType.getComponentType(), 1);
+                    } else if (paramType.isEnum()) {
+                        parameters[i] = paramType.getEnumConstants()[0];
                     }
                 }
                 Object creation = constructor.newInstance(parameters);
@@ -78,7 +80,7 @@ public class TestEventConstruction {
                 for (Class<?> paramType : paramTypes) {
                     logBuilder.add(paramType.getName());
                 }
-                Logging.info(logBuilder.toString());
+                Logging.debug(TestEventConstruction.class, logBuilder.toString());
                 return true;
             } catch (Exception e) {
                 StringJoiner logBuilder = new StringJoiner(
@@ -89,7 +91,7 @@ public class TestEventConstruction {
                 for (Class<?> paramType : constructor.getParameterTypes()) {
                     logBuilder.add(paramType.getName());
                 }
-                Logging.info(logBuilder.toString());
+                Logging.debug(TestEventConstruction.class, logBuilder.toString());
                 Logging.debug(TestEventConstruction.class, e);
             }
         }
