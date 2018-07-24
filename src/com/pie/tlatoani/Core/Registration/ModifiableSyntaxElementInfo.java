@@ -9,13 +9,30 @@ import com.pie.tlatoani.Core.Static.Reflection;
  * Created by Tlatoani on 8/12/17.
  */
 public abstract class ModifiableSyntaxElementInfo<I extends SyntaxElementInfo> {
-    public static Reflection.FieldAccessor<String[]> PATTERNS_FIELD;
-
-    public final I syntaxElementInfo;
+    public static final Reflection.FieldAccessor<String[]> PATTERNS_FIELD
+            = Reflection.getField(SyntaxElementInfo.class, "patterns", String[].class);
+    public static final Reflection.ConstructorInvoker SYNTAX_ELEMENT_INFO_INIT;
+    public static final Reflection.ConstructorInvoker EXPRESSION_INFO_INIT;
+    public static final boolean usesNewConstructor;
 
     static {
-        PATTERNS_FIELD = Reflection.getField(SyntaxElementInfo.class, "patterns", String[].class);
+        Reflection.ConstructorInvoker syntaxElementInfoInit = null;
+        try {
+            syntaxElementInfoInit = Reflection.getConstructor(SyntaxElementInfo.class, String[].class, Class.class);
+        } catch (IllegalStateException e) {}
+        if (syntaxElementInfoInit == null) {
+            SYNTAX_ELEMENT_INFO_INIT = Reflection.getConstructor(SyntaxElementInfo.class, String[].class, Class.class, String.class);
+            EXPRESSION_INFO_INIT = Reflection.getConstructor(ExpressionInfo.class, String[].class, Class.class, Class.class, String.class);
+            usesNewConstructor = true;
+        } else {
+            SYNTAX_ELEMENT_INFO_INIT = syntaxElementInfoInit;
+            EXPRESSION_INFO_INIT = Reflection.getConstructor(ExpressionInfo.class, String[].class, Class.class, Class.class);
+            usesNewConstructor = false;
+        }
     }
+
+
+    public final I syntaxElementInfo;
 
     private ModifiableSyntaxElementInfo(I syntaxElementInfo) {
         this.syntaxElementInfo = syntaxElementInfo;
@@ -32,6 +49,22 @@ public abstract class ModifiableSyntaxElementInfo<I extends SyntaxElementInfo> {
             }
         } else {
             PATTERNS_FIELD.set(syntaxElementInfo, patterns);
+        }
+    }
+
+    public static SyntaxElementInfo createSyntaxElementInfo(String[] patterns, Class c) {
+        if (usesNewConstructor) {
+            return (SyntaxElementInfo) SYNTAX_ELEMENT_INFO_INIT.invoke(patterns, c, "MUNDOSK_MODIFIABLE_SYNTAX_ELEMENT_INFO");
+        } else {
+            return (SyntaxElementInfo) SYNTAX_ELEMENT_INFO_INIT.invoke(patterns, c);
+        }
+    }
+
+    public static ExpressionInfo createExpressionInfo(String[] patterns, Class returnType, Class expressionClass) {
+        if (usesNewConstructor) {
+            return (ExpressionInfo) EXPRESSION_INFO_INIT.invoke(patterns, returnType, expressionClass, "MUNDOSK_MODIFIABLE_EXPRESSION_INFO");
+        } else {
+            return (ExpressionInfo) EXPRESSION_INFO_INIT.invoke(patterns, returnType, expressionClass);
         }
     }
 
@@ -54,7 +87,7 @@ public abstract class ModifiableSyntaxElementInfo<I extends SyntaxElementInfo> {
     public static class Effect<E extends ch.njol.skript.lang.Effect> extends ModifiableSyntaxElementInfo<SyntaxElementInfo<E>> {
 
         public Effect(Class<E> effectClass, String... patterns) {
-            super(new SyntaxElementInfo<>(patterns, effectClass));
+            super(createSyntaxElementInfo(patterns, effectClass));
         }
 
         @Override
@@ -66,7 +99,7 @@ public abstract class ModifiableSyntaxElementInfo<I extends SyntaxElementInfo> {
     public static class Condition<C extends ch.njol.skript.lang.Condition> extends ModifiableSyntaxElementInfo<SyntaxElementInfo<C>> {
 
         public Condition(Class<C> conditionClass, String... patterns) {
-            super(new SyntaxElementInfo<C>(patterns, conditionClass));
+            super(createSyntaxElementInfo(patterns, conditionClass));
         }
 
         @Override
@@ -79,7 +112,7 @@ public abstract class ModifiableSyntaxElementInfo<I extends SyntaxElementInfo> {
         public final ExpressionType expressionType;
 
         public Expression(Class<E> expressionClass, Class<T> returnType, ExpressionType expressionType, String... patterns) {
-            super(new ExpressionInfo<>(patterns, returnType, expressionClass));
+            super(createExpressionInfo(patterns, returnType, expressionClass));
             this.expressionType = expressionType;
         }
 

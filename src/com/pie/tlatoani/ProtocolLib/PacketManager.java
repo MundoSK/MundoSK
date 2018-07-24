@@ -10,6 +10,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.pie.tlatoani.Core.Registration.ModifiableSyntaxElementInfo;
 import com.pie.tlatoani.Mundo;
 import com.pie.tlatoani.ProtocolLib.Alias.ExprPacketInfoAlias;
 import com.pie.tlatoani.Core.Registration.DocumentationBuilder;
@@ -125,7 +126,7 @@ public class PacketManager {
     }
 
     private static <E extends Expression<T>, T> DocumentationBuilder registerPacketInfoExpression(Class<E> exprClass, Class<T> returnType, String... patterns) {
-        packetInfoExpressionInfos.add(new ExpressionInfo<>(patterns, returnType, exprClass));
+        packetInfoExpressionInfos.add(ModifiableSyntaxElementInfo.createExpressionInfo(patterns, returnType, exprClass));
         return Registration.registerExpression(exprClass, returnType, ExpressionType.COMBINED, patterns);
     }
 

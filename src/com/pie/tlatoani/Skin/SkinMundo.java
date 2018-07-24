@@ -115,7 +115,9 @@ public class SkinMundo {
                 return false;
             }
         });
-        Registration.registerEffect(EffRetrieveSkin.class, "retrieve [(4¦slim)] skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%) [[with] timeout %-timespan%] into %object%");
+        Registration.registerEffect(EffRetrieveSkin.class,
+                "retrieve [(4¦slim)] skin from (0¦file|1¦url) %-string% [[with] timeout %-timespan%] into %object%",
+                "retrieve skin of %-offlineplayer% [[with] timeout %-timespan%] into %object%");
         Registration.registerEnum(SkullType.class, "skulltype", SkullType.values())
                 .document("Skull Type", "1.8.6", "A type of skull.")
                 .example("if skulltype of player's tool is dragon skull:"
@@ -158,10 +160,13 @@ public class SkinMundo {
                 .document("Skull from Skin", "1.8", "An expression for a skull bearing the specified skin, optionally with the specified owner. "
                         + "If you do not specify an owner, the owner will appear to be \"MundoSK-Name\". This really only matters if anybody is going to actually have the skull in their inventory "
                         + "(i.e. if the skull is only going to be used as a block, the owner isn't important, though it may be useful as an identifier).");
-        Registration.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY, "retrieved [(4¦slim)] skin (from (0¦file|1¦url) %-string%|2¦of %-offlineplayer%) [[with] timeout %-timespan%]")
-                .document("Retrieved Skin", "1.8", "An expression for a skin retrieved using the Mineskin API:"
-                        , "A skin recreated from the specified image file,"
-                        , "A skin recreated from the specified URL of an image, or"
+        Registration.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY,
+                "retrieved [(4¦slim)] skin from (0¦file|1¦url) %string% [[with] timeout %-timespan%]",
+                "retrieved skin (2¦of %offlineplayer%) [[with] timeout %-timespan%]")
+                .document("Retrieved Skin", "1.8",
+                        "An expression for a skin retrieved using the Mineskin API or the Mojang API:"
+                        , "A skin recreated from the specified image file (Mineskin),"
+                        , "A skin recreated from the specified URL of an image (Mineskin), or"
                         , "The skin of the specified offline player retrieved from Mojang");
         Registration.registerPropertyExpression(ExprOwnerOfSkull.class, String.class, "itemstack/block", "owner of skull %", "skull %'s owner")
                 .document("Owner of Skull", "1.8.5", "An expression for the owner of the specified skull, as an item or placed. "

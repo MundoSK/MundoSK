@@ -1,6 +1,7 @@
 package com.pie.tlatoani.Miscellaneous;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Comparator;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -26,6 +27,10 @@ public class ExprThatAre extends SimpleExpression<Object> {
     private List<Object> getList(Event event) {
         List<Object> list = new LinkedList<>(Arrays.asList(objects.getArray(event)));
         Object compareTarget = this.compareTarget.getSingle(event);
+        if (compareTarget instanceof ClassInfo) {
+            ClassInfo type = (ClassInfo) compareTarget;
+            list.removeIf(object -> type.getC().isInstance(compareTarget) == negated);
+        }
         if (comparator == null) {
             list.removeIf(object -> (Comparators.compare(object, compareTarget) == Comparator.Relation.EQUAL) == negated);
         } else {

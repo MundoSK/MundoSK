@@ -17,25 +17,24 @@ import java.util.UUID;
  * This expression should always be evaluated in async
  */
 public class ExprRetrievedSkin extends SimpleExpression<Skin> {
-    private Expression<String> stringExpr;
-    private Expression<OfflinePlayer> offlinePlayerExpr;
-    private Expression<Timespan> timeoutExpr;
-    private RetrieveMode mode;
-    private boolean def;
+    Expression<String> stringExpr;
+    Expression<OfflinePlayer> offlinePlayerExpr;
+    Expression<Timespan> timeoutExpr;
+    RetrieveMode mode;
+    boolean def;
+
+    public static final int DEFAULT_TIMEOUT_MILLIS = 10000;
 
     public enum RetrieveMode {
         FILE, URL, OFFLINE_PLAYER
     }
 
     Skin getSkin(Event event) {
-        int timeoutMillis = timeoutExpr == null ? MineSkinClient.DEFAULT_TIMEOUT_MILLIS : new Long(timeoutExpr.getSingle(event).getMilliSeconds()).intValue();
+        int timeoutMillis = timeoutExpr == null ? DEFAULT_TIMEOUT_MILLIS : new Long(timeoutExpr.getSingle(event).getMilliSeconds()).intValue();
         switch (mode) {
-            case FILE: return MineSkinClient.fromRawString(MineSkinClient.rawStringFromFile(new File(stringExpr.getSingle(event)), timeoutMillis, def));
-            case URL: return MineSkinClient.fromRawString(MineSkinClient.rawStringFromURL(stringExpr.getSingle(event), timeoutMillis, def));
-            case OFFLINE_PLAYER: {
-                UUID offlinePlayerUUID = offlinePlayerExpr.getSingle(event).getUniqueId();
-                return MineSkinClient.fromRawString(MineSkinClient.rawStringFromUUID(offlinePlayerUUID, timeoutMillis, def), offlinePlayerUUID);
-            }
+            case FILE: return MineSkinClient.fromMineSkinString(MineSkinClient.mineSkinFromFile(new File(stringExpr.getSingle(event)), timeoutMillis, def));
+            case URL: return MineSkinClient.fromMineSkinString(MineSkinClient.mineSkinFromUrl(stringExpr.getSingle(event), timeoutMillis, def));
+            case OFFLINE_PLAYER: return PlayerSkinRetrieval.retrieveSkin(offlinePlayerExpr.getSingle(event), timeoutMillis);
         }
         throw new IllegalStateException("RetrieveMode = " + mode);
     }
@@ -58,8 +57,8 @@ public class ExprRetrievedSkin extends SimpleExpression<Skin> {
     @Override
     public String toString(Event event, boolean b) {
         switch (mode) {
-            case FILE: return "retrieved skin from file " + stringExpr;
-            case URL: return "retrieved skin from url " + stringExpr;
+            case FILE: return "retrieved " + (def ? "" : "slim ") + "skin from file " + stringExpr;
+            case URL: return "retrieved " + (def ? "" : "slim ") + "skin from url " + stringExpr;
             case OFFLINE_PLAYER: return "retrieved skin of " + offlinePlayerExpr;
         }
         throw new IllegalStateException("RetrieveMode = " + mode);
@@ -67,11 +66,16 @@ public class ExprRetrievedSkin extends SimpleExpression<Skin> {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        mode = RetrieveMode.values()[parseResult.mark & 0b11];
+        mode = RetrieveMode.values()[(parseResult.mark & 0b11) + (i << 1)];
         def = (parseResult.mark & 0b100) == 0;
-        stringExpr = (Expression<String>) expressions[0];
-        offlinePlayerExpr = (Expression<OfflinePlayer>) expressions[1];
-        timeoutExpr = (Expression<Timespan>) expressions[2];
+        if (mode == RetrieveMode.OFFLINE_PLAYER) {
+            stringExpr = null;
+            offlinePlayerExpr = (Expression<OfflinePlayer>) expressions[0];
+        } else {
+            stringExpr = (Expression<String>) expressions[0];
+            offlinePlayerExpr = null;
+        }
+        timeoutExpr = (Expression<Timespan>) expressions[1];
         return true;
     }
 }

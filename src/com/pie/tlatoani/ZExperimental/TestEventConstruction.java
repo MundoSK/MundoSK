@@ -95,7 +95,7 @@ public class TestEventConstruction {
                 Logging.debug(TestEventConstruction.class, e);
             }
         }
-        Logging.info(ChatColor.RED + "Failure for class " + eventClass.getName());
+        Logging.debug(TestEventConstruction.class, ChatColor.RED + "Failure for class " + eventClass.getName());
         return false;
     }
 }

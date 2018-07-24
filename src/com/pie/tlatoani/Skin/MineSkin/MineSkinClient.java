@@ -19,16 +19,14 @@ import java.util.UUID;
 public class MineSkinClient {
     public static final String DEFAULT_SKIN_OPTIONS = "";
     public static final String ALEX_SKIN_OPTIONS = "model=slim";
-    public static final String URL_FORMAT = "https://api.mineskin.org/generate/url?url=%s&%s";
-    public static final String UPLOAD_FORMAT = "https://api.mineskin.org/generate/upload?%s";
-    private static final String USER_FORMAT   = "https://api.mineskin.org/generate/user/%s?%s";
-    public static final String USER_AGENT = "MineSkin-JavaClient";
-    public static final int DEFAULT_TIMEOUT_MILLIS = 10000;
+    public static final String MINESKIN_FROM_URL = "https://api.mineskin.org/generate/url?url=%s&%s";
+    public static final String MINESKIN_FROM_UPLOAD = "https://api.mineskin.org/generate/upload?%s";
+    public static final String USER_AGENT = "MundoSK-MineSkin-JavaClient";
 
-    public static String rawStringFromURL(String url, int timeoutMillis, boolean def) {
+    public static String mineSkinFromUrl(String url, int timeoutMillis, boolean def) {
         try {
             Connection connection = HttpConnection
-                    .connect(String.format(URL_FORMAT, url, def ? DEFAULT_SKIN_OPTIONS : ALEX_SKIN_OPTIONS))
+                    .connect(String.format(MINESKIN_FROM_URL, url, def ? DEFAULT_SKIN_OPTIONS : ALEX_SKIN_OPTIONS))
                     .userAgent(USER_AGENT)
                     .method(Connection.Method.POST)
                     .ignoreContentType(true)
@@ -40,10 +38,10 @@ public class MineSkinClient {
         }
     }
 
-    public static String rawStringFromFile(File file, int timeoutMillis, boolean def) {
+    public static String mineSkinFromFile(File file, int timeoutMillis, boolean def) {
         try {
             Connection connection = HttpConnection
-                    .connect(String.format(UPLOAD_FORMAT, def ? DEFAULT_SKIN_OPTIONS : ALEX_SKIN_OPTIONS))
+                    .connect(String.format(MINESKIN_FROM_UPLOAD, def ? DEFAULT_SKIN_OPTIONS : ALEX_SKIN_OPTIONS))
                     .userAgent(USER_AGENT)
                     .method(Connection.Method.POST)
                     .data("file", file.getName(), new FileInputStream(file))
@@ -56,36 +54,21 @@ public class MineSkinClient {
         }
     }
 
-    public static String rawStringFromUUID(UUID uuid, int timeoutMillis, boolean def) {
-        try {
-            Connection connection = HttpConnection
-                    .connect(String.format(USER_FORMAT, uuid.toString(), def ? DEFAULT_SKIN_OPTIONS : ALEX_SKIN_OPTIONS))
-                    .userAgent(USER_AGENT)
-                    .method(Connection.Method.GET)
-                    .ignoreContentType(true)
-                    .ignoreHttpErrors(true)
-                    .timeout(timeoutMillis);
-            return connection.execute().body();
-        } catch (Exception e) {
-            Logging.debug(MineSkinClient.class, e);
+    public static Skin fromMineSkinString(String string) {
+        Logging.debug(MineSkinClient.class, "fromMineSkinString(string = " + string + ")");
+        if (string == null) {
             return null;
         }
-    }
-
-    public static Skin fromRawString(String string) {
-        return fromRawString(string, null);
-    }
-
-    public static Skin fromRawString(String string, UUID uuid) {
         try {
             JSONObject jsonObject = (JSONObject) new JSONParser().parse(string);
-            JSONObject subJSON = (JSONObject) (
-                    (JSONObject) jsonObject.get("data")
-            ).get("texture");
-            if (uuid == null) {
-                return Skin.fromJSON(subJSON);
+            if (jsonObject.containsKey("error")) {
+                Logging.debug(MineSkinClient.class, "fromMineSkinString() error: " + jsonObject.get("error") + ", code: " + jsonObject.get("err"));
+                return null;
             } else {
-                return Skin.fromJSON(subJSON, uuid);
+                JSONObject subJSON = (JSONObject) (
+                        (JSONObject) jsonObject.get("data")
+                ).get("texture");
+                return Skin.fromJSON(subJSON);
             }
         } catch (NullPointerException | ParseException | ClassCastException e) {
             Logging.debug(MineSkinClient.class, e);
