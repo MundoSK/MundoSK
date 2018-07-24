@@ -8,10 +8,12 @@ import ch.njol.util.Kleenean;
 import com.pie.tlatoani.Core.Static.Scheduling;
 import com.pie.tlatoani.Skin.ProfileManager;
 import com.pie.tlatoani.Skin.Skin;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Event;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class EffRetrieveSkin extends Effect {
     private Variable<?> variable;
@@ -19,8 +21,13 @@ public class EffRetrieveSkin extends Effect {
 
     @Override
     protected TriggerItem walk(Event event) {
-        if (expression.mode == ExprRetrievedSkin.RetrieveMode.OFFLINE_PLAYER) {
-            OfflinePlayer offlinePlayer = expression.offlinePlayerExpr.getSingle(event);
+        if (expression.mode == ExprRetrievedSkin.RetrieveMode.OFFLINE_PLAYER || expression.mode == ExprRetrievedSkin.RetrieveMode.UUID) {
+            OfflinePlayer offlinePlayer;
+            if (expression.mode == ExprRetrievedSkin.RetrieveMode.OFFLINE_PLAYER) {
+                offlinePlayer = expression.offlinePlayerExpr.getSingle(event);
+            } else {
+                offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(expression.stringExpr.getSingle(event)));
+            }
             if (offlinePlayer.isOnline()) {
                 Skin delta = ProfileManager.getProfile(offlinePlayer.getPlayer()).getActualSkin();
                 variable.change(event, new Skin[]{delta}, Changer.ChangeMode.SET);

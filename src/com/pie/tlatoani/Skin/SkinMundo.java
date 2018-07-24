@@ -117,7 +117,7 @@ public class SkinMundo {
         });
         Registration.registerEffect(EffRetrieveSkin.class,
                 "retrieve [(4¦slim)] skin from (0¦file|1¦url) %-string% [[with] timeout %-timespan%] into %object%",
-                "retrieve skin of %-offlineplayer% [[with] timeout %-timespan%] into %object%");
+                "retrieve skin (2¦of %-offlineplayer%|3¦from uuid %-string%) [[with] timeout %-timespan%] into %object%");
         Registration.registerEnum(SkullType.class, "skulltype", SkullType.values())
                 .document("Skull Type", "1.8.6", "A type of skull.")
                 .example("if skulltype of player's tool is dragon skull:"
@@ -162,7 +162,7 @@ public class SkinMundo {
                         + "(i.e. if the skull is only going to be used as a block, the owner isn't important, though it may be useful as an identifier).");
         Registration.registerExpression(ExprRetrievedSkin.class, Skin.class, ExpressionType.PROPERTY,
                 "retrieved [(4¦slim)] skin from (0¦file|1¦url) %string% [[with] timeout %-timespan%]",
-                "retrieved skin (2¦of %offlineplayer%) [[with] timeout %-timespan%]")
+                "retrieved skin (2¦of %-offlineplayer%|3¦from uuid %-string%) [[with] timeout %-timespan%]")
                 .document("Retrieved Skin", "1.8",
                         "An expression for a skin retrieved using the Mineskin API or the Mojang API:"
                         , "A skin recreated from the specified image file (Mineskin),"
