@@ -13,6 +13,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Event;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
 
 public class EffRetrieveSkin extends Effect {
@@ -33,8 +34,11 @@ public class EffRetrieveSkin extends Effect {
                 variable.change(event, new Skin[]{delta}, Changer.ChangeMode.SET);
                 return getNext();
             } else {
-                Timespan timeout = expression.timeoutExpr.getSingle(event);
-                long timeoutMillis = timeout == null ? 0 : timeout.getMilliSeconds();
+                long timeoutMillis = Optional
+                        .ofNullable(expression.timeoutExpr)
+                        .flatMap(expr -> Optional.ofNullable(expr.getSingle(event)))
+                        .map(Timespan::getMilliSeconds)
+                        .orElse((long) ExprRetrievedSkin.DEFAULT_TIMEOUT_MILLIS);
                 Scheduling.async(() -> {
                     Skin delta = PlayerSkinRetrieval.retrieveOfflineSkin(offlinePlayer, (int) timeoutMillis);
                     Scheduling.sync(() -> {
