@@ -66,7 +66,7 @@ public class EffRetrieveSkin extends Effect {
 
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        if (!(expressions[0] instanceof Variable)) {
+        if (!(expressions[expressions.length - 1] instanceof Variable)) {
             Skript.error("The 'retrieve skin' effect can only retrieve into variables!");
             return false;
         }
