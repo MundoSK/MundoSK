@@ -153,8 +153,8 @@ public class TablistMundo {
                 "[the] priority of [the] " + SIMPLE_TAB + " " + FOR_TABLIST_OWNER);
 
         Registration.registerEffect(EffCreateSimpleTab.class,
-                "create [a] " + SIMPLE_TAB + " " + FOR_TABLIST_OWNER + " with [priority %-string%] "
-                        + "[display] name %string% [(ping|latency) [bars] %-number%] [(head|icon|skull) %-skin%] [score %-number%]")
+                "create [a] " + SIMPLE_TAB + " " + FOR_TABLIST_OWNER + " [with [priority %-string%] "
+                        + "[[display] name %-string%] [(ping|latency) [bars] %-number%] [(head|icon|skull) %-skin%] [score %-number%]]")
                 .document("Create Simple Tab", "1.8",
                         "Creates a simple tab for the specified player(s) with the specified id and properties. "
                         + "If a specified player already has a simple tab with the specified id in their tablist, "

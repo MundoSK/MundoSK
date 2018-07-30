@@ -18,7 +18,7 @@ public class EffCreateSimpleTab extends Effect {
     private Expression<String> idExpression;
     private TablistProvider tablistProvider;
     private Optional<Expression<String>> priorityExpression;
-    private Expression<String> displayNameExpression;
+    private Optional<Expression<String>> displayNameExpression;
     private Optional<Expression<Number>> latencyBarsExpression;
     private Optional<Expression<Skin>> iconExpression;
     private Optional<Expression<Number>> scoreExpression;
@@ -26,14 +26,14 @@ public class EffCreateSimpleTab extends Effect {
     @Override
     protected void execute(Event event) {
         String id = idExpression.getSingle(event);
-        String displayName = this.displayNameExpression.getSingle(event);
-        if (id == null || displayName == null) {
+        if (id == null) {
             return;
         }
-        String priority = priorityExpression.flatMap(expr -> Optional.ofNullable(expr.getSingle(event))).orElse(null);
+        String priority = priorityExpression.map(expression -> expression.getSingle(event)).orElse(null);
         if (priority != null && priority.length() > 12) {
             priority = priority.substring(0, 12);
         }
+        String displayName = displayNameExpression.map(expression -> expression.getSingle(event)).orElse(null);
         Integer latencyBars = latencyBarsExpression.map(expression -> expression.getSingle(event)).map(Number::intValue).orElse(null);
         Skin icon = iconExpression.map(expression -> expression.getSingle(event)).orElse(null);
         Integer score = scoreExpression.map(expression -> expression.getSingle(event)).map(Number::intValue).orElse(null);
@@ -47,9 +47,9 @@ public class EffCreateSimpleTab extends Effect {
 
     @Override
     public String toString(Event event, boolean b) {
-        return tablistProvider.toString("create simple tab " + idExpression + " [for %]"
-                + " with" + priorityExpression.map(expr -> " priority " + priorityExpression).orElse("")
-                + " display name " + displayNameExpression
+        return tablistProvider.toString("create simple tab " + idExpression + " [for %]" + " with"
+                + priorityExpression.map(expr -> " priority " + priorityExpression).orElse("")
+                + displayNameExpression.map(expr -> " display name " + expr).orElse("")
                 + latencyBarsExpression.map(expr -> " latency bars " + expr).orElse("")
                 + iconExpression.map(expr -> " icon " + expr).orElse("")
                 + scoreExpression.map(expr -> " score " + expr).orElse(""));
@@ -60,7 +60,7 @@ public class EffCreateSimpleTab extends Effect {
         idExpression = (Expression<String>) expressions[0];
         tablistProvider = TablistProvider.of(expressions, 1);
         priorityExpression = Optional.ofNullable((Expression<String>) expressions[3]);
-        displayNameExpression = (Expression<String>) expressions[4];
+        displayNameExpression = Optional.ofNullable((Expression<String>) expressions[4]);
         latencyBarsExpression = Optional.ofNullable((Expression<Number>) expressions[5]);
         iconExpression = Optional.ofNullable((Expression<Skin>) expressions[6]);
         scoreExpression = Optional.ofNullable((Expression<Number>) expressions[7]);
