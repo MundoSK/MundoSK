@@ -149,7 +149,7 @@ public class TablistMundo {
      * Registers the tablist syntaxes related to {@link SimpleTablist}
      */
     private static void loadSimple() {
-        Registration.registerEnum(SimpleTab.Location.class, "simpletablocation");
+        Registration.registerEnum(SimpleTab.Location.class, "simpletablocation", SimpleTab.Location.values());
         Registration.registerExpression(ExprLocationOfSimpleTab.class, SimpleTab.Location.class, ExpressionType.PROPERTY,
                 "[the] location of [the] " + SIMPLE_TAB + " " + FOR_TABLIST_OWNER);
         Registration.registerExpression(ExprPriorityOfSimpleTab.class, String.class, ExpressionType.PROPERTY,

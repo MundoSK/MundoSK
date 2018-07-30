@@ -31,9 +31,9 @@ public class EffCreateSimpleTab extends Effect {
         if (id == null || displayName == null) {
             return;
         }
-        SimpleTab.Location location = locationExpression.flatMap(expr -> Optional.ofNullable(expr.getSingle(event))).orElse(SimpleTab.Location.WITHIN_PLAYERS);
-        String priority = priorityExpression.flatMap(expr -> Optional.ofNullable(expr.getSingle(event))).orElse(id);
-        if (priority.length() > 12) {
+        SimpleTab.Location location = locationExpression.flatMap(expr -> Optional.ofNullable(expr.getSingle(event))).orElse(null);
+        String priority = priorityExpression.flatMap(expr -> Optional.ofNullable(expr.getSingle(event))).orElse(null);
+        if (priority != null && priority.length() > 12) {
             priority = priority.substring(0, 12);
         }
         Integer latencyBars = latencyBarsExpression.map(expression -> expression.getSingle(event)).map(Number::intValue).orElse(null);

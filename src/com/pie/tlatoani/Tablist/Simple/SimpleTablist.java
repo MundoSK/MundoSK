@@ -59,7 +59,15 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
      * @param score The score of the simple tab (or null for empty)
      * @return The newly created simple tab
      */
-    public SimpleTab createTab(String id, SimpleTab.Location location, String priority, @Nullable String displayName, @Nullable Integer latencyBars, @Nullable Skin icon, @Nullable Integer score) {
+    public SimpleTab createTab(
+            String id,
+            @Nullable SimpleTab.Location location,
+            @Nullable String priority,
+            @Nullable String displayName,
+            @Nullable Integer latencyBars,
+            @Nullable Skin icon,
+            @Nullable Integer score
+    ) {
         if (id == null || priority == null || location == null) {
             throw new IllegalArgumentException("The id, priority, and location cannot be null: id = " + id + ", priority = " + priority + ", location = " + location);
         }
