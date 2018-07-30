@@ -28,6 +28,8 @@ public class SimpleTab extends Tab {
         super(simpleTablist.tablist, "SimpleTab-" + uuidEnding, UUID.fromString(SimpleTablist.UUID_BEGINNING + "10" + uuidEnding), displayName, latencyBars, icon, score);
         this.id = id;
         this.uuidEnding = uuidEnding;
+        this.location = Optional.ofNullable(location);
+        this.priority = Optional.ofNullable(priority);
     }
 
     public String getName() {
