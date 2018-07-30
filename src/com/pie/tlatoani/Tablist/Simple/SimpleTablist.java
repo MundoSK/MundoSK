@@ -61,7 +61,6 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
      */
     public SimpleTab createTab(
             String id,
-            @Nullable SimpleTab.Location location,
             @Nullable String priority,
             @Nullable String displayName,
             @Nullable Integer latencyBars,
@@ -82,7 +81,6 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
             String uuidEnding = MathUtil.toHexDigit(num / 16) + "" + MathUtil.toHexDigit(num % 16);
             SimpleTab newTab = new SimpleTab(this,
                     id,
-                    location,
                     priority,
                     uuidEnding,
                     displayName,
@@ -143,7 +141,6 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
                     simpleTablist.getTab(id),
                     () -> simpleTablist.createTab(
                             id,
-                            tab.getLocation().orElse(null),
                             tab.getPriority().orElse(null),
                             tab.getDisplayName().orElse(null),
                             tab.getLatencyBars().orElse(null),

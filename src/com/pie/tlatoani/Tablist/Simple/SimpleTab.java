@@ -15,31 +15,18 @@ import java.util.UUID;
 public class SimpleTab extends Tab {
     private final String id;
     private final String uuidEnding;
-    private Optional<Location> location;
     private Optional<String> priority;
 
-    public enum Location {
-        BEFORE_PLAYERS,
-        WITHIN_PLAYERS,
-        AFTER_PLAYERS
-    }
-
-    public SimpleTab(SimpleTablist simpleTablist, String id, @Nullable Location location, @Nullable String priority, String uuidEnding, @Nullable String displayName, @Nullable Integer latencyBars, @Nullable Skin icon, @Nullable Integer score) {
+    public SimpleTab(SimpleTablist simpleTablist, String id, @Nullable String priority, String uuidEnding, @Nullable String displayName, @Nullable Integer latencyBars, @Nullable Skin icon, @Nullable Integer score) {
         super(simpleTablist.tablist, "SimpleTab-" + uuidEnding, UUID.fromString(SimpleTablist.UUID_BEGINNING + "10" + uuidEnding), displayName, latencyBars, icon, score);
         this.id = id;
         this.uuidEnding = uuidEnding;
-        this.location = Optional.ofNullable(location);
         this.priority = Optional.ofNullable(priority);
     }
 
     public String getName() {
         String priority = this.priority.orElse(id.length() < 12 ? id : id.substring(0, 12));
-        switch (location.orElse(Location.WITHIN_PLAYERS)) {
-            case WITHIN_PLAYERS: return priority + "#M" + uuidEnding;
-            case BEFORE_PLAYERS: return "#M" + priority + uuidEnding;
-            case AFTER_PLAYERS:  return "~M" + priority + uuidEnding;
-        }
-        throw new IllegalStateException("location = " + location);
+        return priority + "#M" + uuidEnding;
     }
 
     @Override
@@ -68,21 +55,8 @@ public class SimpleTab extends Tab {
         );
     }
 
-    public Optional<Location> getLocation() {
-        return location;
-    }
-
     public Optional<String> getPriority() {
         return priority;
-    }
-
-    public void setLocation(@Nullable Location location) {
-        if (OptionalUtil.equal(location, this.location)) {
-            return;
-        }
-        tablist.sendPacket(playerInfoPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), this);
-        this.location = Optional.ofNullable(location);
-        tablist.sendPacket(playerInfoPacket(EnumWrappers.PlayerInfoAction.ADD_PLAYER), this);
     }
 
     public void setPriority(@Nullable String priority) {
@@ -103,12 +77,10 @@ public class SimpleTab extends Tab {
         }
         getScore().ifPresent(otherTab::setScore);
         boolean needsRefresh = (icon.isPresent() && !OptionalUtil.referencesEqual(icon.get(), otherTab.getIcon()))
-                || (location.isPresent() && OptionalUtil.equal(location.get(), otherTab.getLocation()))
                 || (priority.isPresent() && OptionalUtil.equal(priority.get(), otherTab.getPriority()));
         if (needsRefresh) {
             displayName.ifPresent(val -> otherTab.displayName = Optional.of(val));
             latencyBars.ifPresent(val -> otherTab.latencyBars = Optional.of(val));
-            location.ifPresent(val -> otherTab.location = Optional.of(val));
             priority.ifPresent(val -> otherTab.priority = Optional.of(val));
             icon.ifPresent(val -> otherTab.icon = Optional.of(val));
             otherTab.refresh();
