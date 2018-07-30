@@ -1,7 +1,7 @@
 package com.pie.tlatoani.Core.Static;
 
 import com.pie.tlatoani.Mundo;
-import com.pie.tlatoani.Skin.MineSkin.PlayerSkinRetrieval;
+import com.pie.tlatoani.Skin.Retrieval.PlayerSkinRetrieval;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 

@@ -1,12 +1,14 @@
 package com.pie.tlatoani.Tablist.Simple;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.pie.tlatoani.Core.Static.MathUtil;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Player.PlayerTablist;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.SupplementaryTablist;
 import com.pie.tlatoani.Tablist.Tablist;
 import com.pie.tlatoani.Core.Static.OptionalUtil;
+import com.pie.tlatoani.Util.IntUsage;
 
 import javax.annotation.Nullable;
 import java.nio.charset.Charset;
@@ -23,9 +25,11 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
     public final Tablist tablist;
     private final PlayerTablist playerTablist;
 
-    private final HashMap<String, Tab> tabs = new HashMap<>();
+    private final HashMap<String, SimpleTab> tabs = new HashMap<>();
+    private final IntUsage intUsage = new IntUsage(256);
 
     public static final Charset UTF_8 = Charset.forName("UTF-8");
+    public static final String UUID_BEGINNING = "10001000-1000-3000-8000-20002000";
 
     /**
      * Initializes a SimpleTablist to be owned by the {@link Tablist} owning {@code playerTablist}.
@@ -55,18 +59,24 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
      * @param score The score of the simple tab (or null for empty)
      * @return The newly created simple tab
      */
-    public Tab createTab(String id, @Nullable String displayName, @Nullable Integer latencyBars, @Nullable Skin icon, @Nullable Integer score) {
-        if (id == null || id.length() > 12) {
-            throw new IllegalArgumentException("Invalid id = " + id);
+    public SimpleTab createTab(String id, SimpleTab.Location location, String priority, @Nullable String displayName, @Nullable Integer latencyBars, @Nullable Skin icon, @Nullable Integer score) {
+        if (id == null || priority == null || location == null) {
+            throw new IllegalArgumentException("The id, priority, and location cannot be null: id = " + id + ", priority = " + priority + ", location = " + location);
+        }
+        if (priority.length() > 12) {
+            throw new IllegalArgumentException("The priority must be at most 12 characters in length, priority = " + priority);
         }
         return tabs.compute(id, (__, oldTab) -> {
             if (oldTab != null) {
                 tablist.sendPacket(oldTab.playerInfoPacket(EnumWrappers.PlayerInfoAction.REMOVE_PLAYER), this);
             }
-            Tab newTab = new Tab(
-                    tablist,
-                    id + "-MSK",
-                    UUID.nameUUIDFromBytes(("MundoSKTablist::" + id).getBytes(UTF_8)),
+            int num = intUsage.useFirstUnused() - 1;
+            String uuidEnding = MathUtil.toHexDigit(num / 16) + "" + MathUtil.toHexDigit(num % 16);
+            SimpleTab newTab = new SimpleTab(this,
+                    id,
+                    location,
+                    priority,
+                    uuidEnding,
                     displayName,
                     latencyBars,
                     icon,
@@ -85,7 +95,7 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
      * @return An {@link Optional} containing the simple tab with ID {@code id},
      * or {@link Optional#empty()} if no such simple tab exists.
      */
-    public Optional<Tab> getTab(String id) {
+    public Optional<SimpleTab> getTab(String id) {
         return Optional.ofNullable(tabs.get(id));
     }
 
@@ -125,6 +135,8 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
                     simpleTablist.getTab(id),
                     () -> simpleTablist.createTab(
                             id,
+                            tab.getLocation().orElse(null),
+                            tab.getPriority().orElse(null),
                             tab.getDisplayName().orElse(null),
                             tab.getLatencyBars().orElse(null),
                             tab.getIcon().orElse(null),
@@ -143,4 +155,5 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
             }
         }
     }
+
 }

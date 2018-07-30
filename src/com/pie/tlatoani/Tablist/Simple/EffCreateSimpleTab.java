@@ -1,6 +1,5 @@
 package com.pie.tlatoani.Tablist.Simple;
 
-import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -18,6 +17,8 @@ import java.util.Optional;
 public class EffCreateSimpleTab extends Effect {
     private Expression<String> idExpression;
     private TablistProvider tablistProvider;
+    private Optional<Expression<SimpleTab.Location>> locationExpression;
+    private Optional<Expression<String>> priorityExpression;
     private Expression<String> displayNameExpression;
     private Optional<Expression<Number>> latencyBarsExpression;
     private Optional<Expression<Skin>> iconExpression;
@@ -30,10 +31,10 @@ public class EffCreateSimpleTab extends Effect {
         if (id == null || displayName == null) {
             return;
         }
-        if (id.length() > 12) {
-            Skript.warning("A script attempted to create a simple tab with the id \"" + id + "\", "
-                        +  "but simple tab ids can't be longer than 12 characters so no tab was created.");
-            return;
+        SimpleTab.Location location = locationExpression.flatMap(expr -> Optional.ofNullable(expr.getSingle(event))).orElse(SimpleTab.Location.WITHIN_PLAYERS);
+        String priority = priorityExpression.flatMap(expr -> Optional.ofNullable(expr.getSingle(event))).orElse(id);
+        if (priority.length() > 12) {
+            priority = priority.substring(0, 12);
         }
         Integer latencyBars = latencyBarsExpression.map(expression -> expression.getSingle(event)).map(Number::intValue).orElse(null);
         Skin icon = iconExpression.map(expression -> expression.getSingle(event)).orElse(null);
@@ -41,7 +42,7 @@ public class EffCreateSimpleTab extends Effect {
         for (Tablist tablist : tablistProvider.get(event)) {
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
-                simpleTablist.createTab(id, displayName, latencyBars, icon, score);
+                simpleTablist.createTab(id, location, priority, displayName, latencyBars, icon, score);
             }
         }
     }
@@ -49,7 +50,9 @@ public class EffCreateSimpleTab extends Effect {
     @Override
     public String toString(Event event, boolean b) {
         return tablistProvider.toString("create simple tab " + idExpression
-                + " [for %] with display name " + displayNameExpression
+                + " [for %]" + locationExpression.map(expr -> " located " + expr).orElse("")
+                + " with" + priorityExpression.map(expr -> " priority " + priorityExpression).orElse("")
+                + " display name " + displayNameExpression
                 + latencyBarsExpression.map(expr -> " latency bars " + expr).orElse("")
                 + iconExpression.map(expr -> " icon " + expr).orElse("")
                 + scoreExpression.map(expr -> " score " + expr).orElse(""));
@@ -59,10 +62,12 @@ public class EffCreateSimpleTab extends Effect {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         idExpression = (Expression<String>) expressions[0];
         tablistProvider = TablistProvider.of(expressions, 1);
-        displayNameExpression = (Expression<String>) expressions[3];
-        latencyBarsExpression = Optional.ofNullable((Expression<Number>) expressions[4]);
-        iconExpression = Optional.ofNullable((Expression<Skin>) expressions[5]);
-        scoreExpression = Optional.ofNullable((Expression<Number>) expressions[6]);
+        locationExpression = Optional.ofNullable((Expression<SimpleTab.Location>) expressions[3]);
+        priorityExpression = Optional.ofNullable((Expression<String>) expressions[4]);
+        displayNameExpression = (Expression<String>) expressions[5];
+        latencyBarsExpression = Optional.ofNullable((Expression<Number>) expressions[6]);
+        iconExpression = Optional.ofNullable((Expression<Skin>) expressions[7]);
+        scoreExpression = Optional.ofNullable((Expression<Number>) expressions[8]);
         return true;
     }
 }

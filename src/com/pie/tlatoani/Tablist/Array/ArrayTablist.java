@@ -24,7 +24,7 @@ public class ArrayTablist implements SupplementaryTablist<ArrayTablist> {
     public final Tablist tablist;
     private final PlayerTablist playerTablist;
 
-    public final static String UUID_BEGINNING = "10001000-1000-3000-8000-10001000";
+    public static final String UUID_BEGINNING = "10001000-1000-3000-8000-10001000";
     private int columns;
     private int rows;
 

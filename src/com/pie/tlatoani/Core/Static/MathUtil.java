@@ -8,6 +8,13 @@ import ch.njol.skript.classes.Changer;
 public class MathUtil {
     public static final String HEX_DIGITS = "0123456789abcdef";
 
+    public static int binaryLog(int n) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("You can only take the logarithm of a positive number, n = " + n);
+        }
+        return 31 - Integer.numberOfLeadingZeros(n);
+    }
+
     public static int intMod(int number, int mod) {
         return (number % mod) + (number >= 0 ? 0 : mod);
     }

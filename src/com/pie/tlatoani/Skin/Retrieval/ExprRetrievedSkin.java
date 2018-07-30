@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Skin.MineSkin;
+package com.pie.tlatoani.Skin.Retrieval;
 
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;

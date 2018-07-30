@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Skin.MineSkin;
+package com.pie.tlatoani.Skin.Retrieval;
 
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Core.Static.Logging;
@@ -10,7 +10,6 @@ import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.UUID;
 
 /**
  * Created by Tlatoani on 5/7/17.

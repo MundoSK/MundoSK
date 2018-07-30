@@ -1,4 +1,4 @@
-package com.pie.tlatoani.Skin.MineSkin;
+package com.pie.tlatoani.Skin.Retrieval;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -93,7 +93,7 @@ public class PlayerSkinRetrieval {
         Logging.debug(MineSkinClient.class, "fromMojangString(uuid = " + uuid + ", string = " + string + ")");
         JSONObject jsonObject = (JSONObject) new JSONParser().parse(string);
         if (jsonObject.containsKey("error")) {
-            Logging.debug(MineSkinClient.class, "fromMojangString() error: " + jsonObject.get("error" + ", message: " + jsonObject.get("errorMessage")));
+            Logging.debug(MineSkinClient.class, "fromMojangString() error: " + jsonObject.get("error") + ", message: " + jsonObject.get("errorMessage"));
             return null;
         } else {
             JSONObject subJSON = (JSONObject) jsonObject.get("properties");
