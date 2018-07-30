@@ -68,10 +68,10 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
             @Nullable Skin icon,
             @Nullable Integer score
     ) {
-        if (id == null || priority == null || location == null) {
-            throw new IllegalArgumentException("The id, priority, and location cannot be null: id = " + id + ", priority = " + priority + ", location = " + location);
+        if (id == null) {
+            throw new IllegalArgumentException("The id cannot be null!");
         }
-        if (priority.length() > 12) {
+        if (priority != null && priority.length() > 12) {
             throw new IllegalArgumentException("The priority must be at most 12 characters in length, priority = " + priority);
         }
         return tabs.compute(id, (__, oldTab) -> {
