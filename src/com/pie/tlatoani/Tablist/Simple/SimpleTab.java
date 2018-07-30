@@ -77,7 +77,7 @@ public class SimpleTab extends Tab {
         }
         getScore().ifPresent(otherTab::setScore);
         boolean needsRefresh = (icon.isPresent() && !OptionalUtil.referencesEqual(icon.get(), otherTab.getIcon()))
-                || (priority.isPresent() && OptionalUtil.equal(priority.get(), otherTab.getPriority()));
+                || (priority.isPresent() && !OptionalUtil.equal(priority.get(), otherTab.getPriority()));
         if (needsRefresh) {
             displayName.ifPresent(val -> otherTab.displayName = Optional.of(val));
             latencyBars.ifPresent(val -> otherTab.latencyBars = Optional.of(val));
