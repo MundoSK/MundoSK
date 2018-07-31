@@ -2,23 +2,23 @@ package com.pie.tlatoani.Tablist.Simple;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.pie.tlatoani.Core.Static.MathUtil;
+import com.pie.tlatoani.Core.Static.OptionalUtil;
 import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Player.PlayerTablist;
-import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.SupplementaryTablist;
+import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
-import com.pie.tlatoani.Core.Static.OptionalUtil;
 import com.pie.tlatoani.Util.IntUsage;
 
 import javax.annotation.Nullable;
-import java.nio.charset.Charset;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * Created by Tlatoani on 7/15/16.
  * Used as the default {@link SupplementaryTablist}.
  * Allows creation and manipulation of individual tabs by {@link String} IDs.
- * These tabs are referred to here as simple tabs.
+ * These tabs are referred to here as simple tabs, and are represented by the {@link SimpleTab} class.
  * Could theoretically be used to simulate any {@link SupplementaryTablist}.
  */
 public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
@@ -27,9 +27,6 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
 
     private final HashMap<String, SimpleTab> tabs = new HashMap<>();
     private final IntUsage intUsage = new IntUsage(256);
-
-    public static final Charset UTF_8 = Charset.forName("UTF-8");
-    public static final String UUID_BEGINNING = "10001000-1000-3000-8000-20002000";
 
     /**
      * Initializes a SimpleTablist to be owned by the {@link Tablist} owning {@code playerTablist}.
@@ -53,6 +50,7 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
      * Creates a simple tab according to the specified parameters.
      * If a simple tab already exists with ID {@code id}, that one is deleted before the creation of the new one.
      * @param id The ID by which to refer to the simple tab
+     * @param priority The priority of the simple tab (or null for empty)
      * @param displayName The display name of the simple tab (or null for empty)
      * @param latencyBars The latency bars (0 - 5) of the simple tab (or null for empty)
      * @param icon The icon of the simple tab (or null for empty)

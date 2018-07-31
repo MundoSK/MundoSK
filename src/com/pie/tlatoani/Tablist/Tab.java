@@ -65,6 +65,16 @@ public class Tab {
     }
 
     /**
+     * Returns the name that is currently being used for this tab.
+     * By default this just returns {@code this.name},
+     * but it can be overridden to change what name is being used throughout the lifespan of this tab.
+     * @return The name that is currently being used for this tab
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Generates a packet of type {@link com.comphenix.protocol.PacketType.Play.Server#PLAYER_INFO}
      * with the attributes of this Tab and {@code action}
      * @param action
@@ -78,7 +88,7 @@ public class Tab {
                 displayName.orElse(""),
                 latencyBars.orElse(5),
                 null,
-                name,
+                getName(),
                 uuid,
                 icon.orElse(tablist.getDefaultIcon().orElse(Tablist.DEFAULT_SKIN_TEXTURE)),
                 action
@@ -92,7 +102,7 @@ public class Tab {
      */
     public PacketContainer updateScorePacket() {
         return PacketUtil.scorePacket(
-                name,
+                getName(),
                 Tablist.OBJECTIVE_NAME,
                 getScore().orElse(0),
                 EnumWrappers.ScoreboardAction.CHANGE
@@ -125,7 +135,7 @@ public class Tab {
     /**
      * See {@link #getDisplayName()}
      * @param displayName The display name which you would like this tab to have,
-     *                    or null if you want the display name to be empty.
+     *                    or null if you want the display name to be empty
      */
     public void setDisplayName(@Nullable String displayName) {
         if (OptionalUtil.equal(displayName, this.displayName)) {
@@ -149,7 +159,7 @@ public class Tab {
     /**
      * See {@link #getLatencyBars()}
      * @param latencyBars The latency bars which you would like this tab to have,
-     *                    or null if you want the latency bars to be empty.
+     *                    or null if you want the latency bars to be empty
      * @throws IllegalArgumentException If the latencyBars parameter is non-null and outside of the range 0 to 5 inclusive
      */
     public void setLatencyBars(@Nullable Integer latencyBars) {
@@ -177,7 +187,7 @@ public class Tab {
 
     /**
      * See {@link #getIcon()}
-     * @param icon The icon which you would like this tab to have, or null if you want the icon to be empty.
+     * @param icon The icon which you would like this tab to have, or null if you want the icon to be empty
      */
     public void setIcon(@Nullable Skin icon) {
         if (OptionalUtil.referencesEqual(icon, this.icon)) {
@@ -201,7 +211,7 @@ public class Tab {
     /**
      * See {@link #getScore()}
      * This method will do nothing if scores are not enabled.
-     * @param score The score which you would like this tab to have, or null if you want the score to be empty.
+     * @param score The score which you would like this tab to have, or null if you want the score to be empty
      */
     public void setScore(@Nullable Integer score) {
         if (!tablist.areScoresEnabled() || OptionalUtil.equal(score, getScore())) {
@@ -213,12 +223,12 @@ public class Tab {
 
     /**
      * For every nonempty attribute of this Tab object,
-     * sets the value of that attribute for otherTab to be equal to that of this tab.
+     * sets the value of that attribute for {@code otherTab} to be equal to that of this tab.
      * @param otherTab
      */
     public void applyChanges(Tab otherTab) {
         if (otherTab == null) {
-            throw new IllegalArgumentException("The otherTab = " + otherTab + " should not be null");
+            throw new IllegalArgumentException("The otherTab should not be null");
         }
         if (icon.isPresent() && !OptionalUtil.referencesEqual(icon.get(), otherTab.getIcon())) {
             displayName.ifPresent(val -> otherTab.displayName = Optional.of(val));

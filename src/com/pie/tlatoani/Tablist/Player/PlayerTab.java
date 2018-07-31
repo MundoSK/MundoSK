@@ -7,6 +7,8 @@ import com.pie.tlatoani.Skin.Skin;
 import com.pie.tlatoani.Tablist.Tab;
 import org.bukkit.entity.Player;
 
+import java.util.Optional;
+
 /**
  * Used to simplify creation of {@link Tab}s corresponding to players,
  * catch bugs related to players who are not online,
@@ -32,6 +34,11 @@ public class PlayerTab extends Tab {
     @Override
     public PacketContainer playerInfoPacket(EnumWrappers.PlayerInfoAction action) {
         return PacketUtil.playerInfoPacket(objPlayer, action);
+    }
+
+    @Override
+    public Optional<Skin> getIcon() {
+        throw new UnsupportedOperationException("You can't get the icon of a PlayerTab!");
     }
 
     @Override

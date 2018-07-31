@@ -52,18 +52,22 @@ public class ExprPriorityOfSimpleTab extends SimpleExpression<String> {
 
     public void change(Event event, Object[] delta, Changer.ChangeMode mode) {
         String id = this.id.getSingle(event);
-        String value;
-        if (mode == Changer.ChangeMode.RESET) {
-            value = null;
-        } else if (((String) delta[0]).length() <= 12) {
-            value = (String) delta[0];
-        } else {
-            value = ((String) delta[0]).substring(0, 12);
+        String value = mode == Changer.ChangeMode.RESET ? null : (String) delta[0];
+        if (value != null) {
+            if (value.length() > 12) {
+                value = value.substring(0, 12);
+            }
+            if (value.endsWith(" ")) {
+                int i;
+                for (i = value.length(); value.charAt(i - 1) == ' '; i--);
+                value = value.substring(0, i);
+            }
         }
+        String preparedValue = value;
         for (Tablist tablist : tablistProvider.get(event)) {
             if (tablist.getSupplementaryTablist() instanceof SimpleTablist) {
                 SimpleTablist simpleTablist = (SimpleTablist) tablist.getSupplementaryTablist();
-                simpleTablist.getTab(id).ifPresent(tab -> tab.setPriority(value));
+                simpleTablist.getTab(id).ifPresent(tab -> tab.setPriority(preparedValue));
             }
         }
     }
