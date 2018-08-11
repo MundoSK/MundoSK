@@ -158,5 +158,4 @@ public class SimpleTablist implements SupplementaryTablist<SimpleTablist> {
             }
         }
     }
-
 }
