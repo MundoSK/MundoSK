@@ -1,6 +1,7 @@
 package com.pie.tlatoani.Tablist.Player;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.pie.tlatoani.Core.Static.Logging;
 import com.pie.tlatoani.ProtocolLib.PacketUtil;
 import com.pie.tlatoani.Tablist.Tab;
 import com.pie.tlatoani.Tablist.Tablist;
@@ -153,7 +154,9 @@ public class PlayerTablist {
      */
     public void clearModifications() {
         OptionalUtil.consume(tabs, this::showAllPlayers, map -> {
+            Logging.debug(PlayerTablist.class, "#clearModifications(): map = " + map);
             map.forEach((player, tabOptional) -> {
+                Logging.debug(PlayerTablist.class, "#clearModifications(): player = " + player + ", tabOpt = " + tabOptional);
                 OptionalUtil.consume(
                         tabOptional,
                         () -> tablist.sendPacket(
@@ -164,8 +167,11 @@ public class PlayerTablist {
                     tab.setLatencyBars(null);
                     tab.setScore(null);
                 });
+                Logging.debug(PlayerTablist.class, "#clearModifications(): through player = " + player);
             });
+            Logging.debug(PlayerTablist.class, "#clearModifications(): clearing map");
             map.clear();
+            Logging.debug(PlayerTablist.class, "#clearModifications(): map cleared");
         });
     }
 

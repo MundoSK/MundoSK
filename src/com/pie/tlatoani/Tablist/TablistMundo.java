@@ -197,9 +197,9 @@ public class TablistMundo {
      */
     private static void loadArray() {
         Registration.registerEffect(EffEnableDisableArrayTablist.class,
-                "(enable|activate) [the] array tablist [for " + TABLIST_OWNER + "] "
-                        + "[with [%-number% columns] [%-number% rows] [(default|initial) (head|icon|skull) %-skin%]]",
-                "(disable|deactivate) [the] array tablist for " + TABLIST_OWNER)
+                "(enable|activate) [the] array tablist " + FOR_TABLIST_OWNER
+                        + " [with [%-number% columns] [%-number% rows] [(default|initial) (head|icon|skull) %-skin%]]",
+                "(disable|deactivate) [the] array tablist " + FOR_TABLIST_OWNER)
                 .document("Enable or Disable Array Tablist", "1.8",
                         "Enables or disables the array tablist for the specified player(s). "
                         + "The array tablist creates a grid of tabs that allows you to use grid coordinates to easily modify individual tabs. "
