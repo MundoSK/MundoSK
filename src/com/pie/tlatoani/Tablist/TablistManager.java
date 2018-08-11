@@ -19,7 +19,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Tlatoani on 4/16/17.
@@ -46,20 +49,6 @@ public class TablistManager {
                     "The player parameter in getTablistOfPlayer(Player player) must be non-null and online, player: " + player);
         }
         return tablistMap.computeIfAbsent(player, Tablist::new);
-    }
-
-    /**
-     * Gets the Tablist belonging to {@code player} if it has been created
-     * @param player The player whose tablist (as represented by a Tablist object) will be viewed or modified
-     * @return An {@link Optional} containing the desired Tablist if it has been created, otherwise {@link Optional#empty()}
-     * @throws IllegalArgumentException If {@code player} is null or offline
-     */
-    public static Optional<Tablist> getTablistOfPlayerIfCreated(Player player) {
-        if (player == null || !player.isOnline()) {
-            throw new IllegalArgumentException(
-                    "The player parameter in getTablistOfPlayerIfCreated(Player player) must be non-null and online, player: " + player);
-        }
-        return Optional.ofNullable(tablistMap.get(player));
     }
 
     /**
@@ -167,20 +156,19 @@ public class TablistManager {
             if (event.isCancelled() || player == null) {
                 return;
             }
-            getTablistOfPlayerIfCreated(player).ifPresent(tablist -> {
-                WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo(event.getPacket());
-                List<PlayerInfoData> oldData = packet.getData();
-                List<PlayerInfoData> newData = new ArrayList<>(oldData.size());
-                for (PlayerInfoData oldPlayerInfoData : oldData) {
-                    Player objPlayer = Bukkit.getPlayer(oldPlayerInfoData.getProfile().getUUID());
-                    if (objPlayer == null) {
-                        newData.add(oldPlayerInfoData);
-                    } else {
-                        newData.add(tablist.onPlayerInfoPacket(oldPlayerInfoData, objPlayer));
-                    }
+            WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo(event.getPacket());
+            Tablist tablist = getTablistOfPlayer(player);
+            List<PlayerInfoData> oldData = packet.getData();
+            List<PlayerInfoData> newData = new ArrayList<>(oldData.size());
+            for (PlayerInfoData oldPlayerInfoData : oldData) {
+                Player objPlayer = Bukkit.getPlayer(oldPlayerInfoData.getProfile().getUUID());
+                if (objPlayer == null) {
+                    newData.add(oldPlayerInfoData);
+                } else {
+                    newData.add(tablist.onPlayerInfoPacket(oldPlayerInfoData, objPlayer));
                 }
-                packet.setData(newData);
-            });
+            }
+            packet.setData(newData);
 
         });
 
@@ -191,7 +179,7 @@ public class TablistManager {
             if (event.isCancelled() || player == null || objPlayer == null) {
                 return;
             }
-            boolean tabVisible = getTablistOfPlayerIfCreated(player).map(tablist -> tablist.isPlayerVisible(objPlayer)).orElse(true);
+            boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(objPlayer);
             if (!tabVisible) {
                 PacketManager.sendPacket(
                         PacketUtil.playerInfoPacket(objPlayer, EnumWrappers.PlayerInfoAction.ADD_PLAYER),
@@ -213,7 +201,7 @@ public class TablistManager {
             if (event.isCancelled() || player == null || playersRespawning.contains(player)) {
                 return;
             }
-            boolean tabVisible = getTablistOfPlayerIfCreated(player).map(tablist -> tablist.isPlayerVisible(player)).orElse(true);
+            boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(player);
             if (!tabVisible) {
                 playersRespawning.add(player);
                 PacketManager.sendPacket(
