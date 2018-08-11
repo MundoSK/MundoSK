@@ -154,6 +154,7 @@ public class PlayerTablist {
      */
     public void clearModifications() {
         OptionalUtil.consume(tabs, this::showAllPlayers, map -> {
+            tabs = Optional.of(new HashMap<>());
             Logging.debug(PlayerTablist.class, "#clearModifications(): map = " + map);
             map.forEach((player, tabOptional) -> {
                 Logging.debug(PlayerTablist.class, "#clearModifications(): player = " + player + ", tabOpt = " + tabOptional);
