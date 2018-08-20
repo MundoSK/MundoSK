@@ -23,7 +23,7 @@ public class EvtCustomEvent extends SkriptEvent {
 	public boolean check(Event event) {
 		if (event instanceof SkriptCustomEvent) {
 			for (String id : ids) {
-			    if (((SkriptCustomEvent) event).matchesID(id)) {
+			    if (((SkriptCustomEvent) event).matchesID(id.toLowerCase())) {
 			        return true;
                 }
             }

@@ -33,6 +33,9 @@ public class EffCallCustomEvent extends Effect{
 		if (ids.length == 0) {
 			return;
 		}
+		for (int i = 0; i < ids.length; i++) {
+		    ids[i] = ids[i].toLowerCase();
+        }
 		Object[] details = this.details != null ? this.details.getArray(event) : new Object[0];
 		Object[] args = this.args != null ? this.args.getArray(event) : new Object[0];
 		SkriptCustomEvent customEvent = new SkriptCustomEvent(ids, details, args, sync);
