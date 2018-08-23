@@ -152,10 +152,10 @@ public class TablistManager {
      */
     private static void loadPacketEventListeners() {
         PacketManager.onPacketEvent(PacketType.Play.Server.PLAYER_INFO, event -> {
-            Player player = event.getPlayer();
-            if (event.isCancelled() || player == null) {
+            if (event.isCancelled() || event.getPlayer() == null || event.isPlayerTemporary() || !event.getPlayer().isOnline()) {
                 return;
             }
+            Player player = event.getPlayer();
             WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo(event.getPacket());
             Tablist tablist = getTablistOfPlayer(player);
             List<PlayerInfoData> oldData = packet.getData();
@@ -176,7 +176,7 @@ public class TablistManager {
             Player player = event.getPlayer();
             WrapperPlayServerNamedEntitySpawn packet = new WrapperPlayServerNamedEntitySpawn(event.getPacket());
             Player objPlayer = Bukkit.getPlayer(packet.getPlayerUUID());
-            if (event.isCancelled() || player == null || objPlayer == null) {
+            if (event.isCancelled() || player == null || event.isPlayerTemporary() || !player.isOnline() || objPlayer == null) {
                 return;
             }
             boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(objPlayer);
@@ -198,7 +198,7 @@ public class TablistManager {
 
         PacketManager.onPacketEvent(PacketType.Play.Server.RESPAWN, event -> {
             Player player = event.getPlayer();
-            if (event.isCancelled() || player == null || playersRespawning.contains(player)) {
+            if (event.isCancelled() || player == null || event.isPlayerTemporary() || !player.isOnline() || playersRespawning.contains(player)) {
                 return;
             }
             boolean tabVisible = getTablistOfPlayer(player).isPlayerVisible(player);

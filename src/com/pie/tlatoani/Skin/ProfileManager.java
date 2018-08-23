@@ -45,7 +45,7 @@ public class ProfileManager {
 
     public static void loadPacketEvents() {
         PacketManager.onPacketEvent(PacketType.Play.Server.PLAYER_INFO, event -> {
-            if (event.isCancelled() || event.getPlayer() == null || !event.getPlayer().isOnline()) {
+            if (event.isCancelled() || event.getPlayer() == null || event.isPlayerTemporary() || !event.getPlayer().isOnline()) {
                 return;
             }
             Player target = event.getPlayer();
@@ -104,7 +104,7 @@ public class ProfileManager {
         });
 
         PacketManager.onPacketEvent(PacketType.Play.Server.SCOREBOARD_TEAM, event -> {
-            if (event.isCancelled() || event.getPlayer() == null || !event.getPlayer().isOnline()) {
+            if (event.isCancelled() || event.getPlayer() == null || event.isPlayerTemporary() || !event.getPlayer().isOnline()) {
                 return;
             }
             Player target = event.getPlayer();
@@ -151,7 +151,7 @@ public class ProfileManager {
         });
 
         PacketManager.onPacketEvent(PacketType.Play.Server.SCOREBOARD_SCORE, event -> {
-            if (event.isCancelled() || event.getPlayer() == null || !event.getPlayer().isOnline()) {
+            if (event.isCancelled() || event.getPlayer() == null || event.isPlayerTemporary() || !event.getPlayer().isOnline()) {
                 return;
             }
             Player target = event.getPlayer();

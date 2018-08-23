@@ -11,7 +11,6 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.reflect.EquivalentConverter;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.pie.tlatoani.Core.Static.Logging;
 import org.bukkit.event.Event;
@@ -28,12 +27,17 @@ public class ExprEnumOfPacket extends SimpleExpression<String> {
     private Method getStructureModifier = null;
     private Class<? extends Enum> enumClass = null;
 
-    //Adapted from ProtocolLib's EnumConverter class
+    /*//Adapted from ProtocolLib's EnumConverter class
     public static class EnumStringConverter implements EquivalentConverter<String> {
         public final Class<?> enumClass;
 
         public EnumStringConverter(Class<?> enumClass) {
             this.enumClass = enumClass;
+        }
+
+        @Override
+        public Object getGeneric(String s) {
+            return null;
         }
 
         @Override
@@ -50,7 +54,7 @@ public class ExprEnumOfPacket extends SimpleExpression<String> {
         public Class<String> getSpecificType() {
             return String.class;
         }
-    }
+    }*/
 
     @Override
     protected String[] get(Event event) {

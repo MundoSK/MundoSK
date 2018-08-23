@@ -42,7 +42,7 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../Dependencies/ProtocolLib-4.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../Dependencies/Slot.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -51,7 +51,7 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../Dependencies/Slot.jar!/" />
+          <root url="jar://$MODULE_DIR$/../Dependencies/ProtocolLib-4.4.0-b403.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

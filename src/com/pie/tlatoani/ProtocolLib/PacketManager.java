@@ -35,10 +35,10 @@ public class PacketManager {
     public static void load() {
         Logging.info("You've discovered the amazing realm of ProtocolLib packet syntaxes!");
         String pLibVersion = Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion();
-        if (!pLibVersion.startsWith("4") || pLibVersion.startsWith("4.0")) {
+        if (!pLibVersion.startsWith("4") || pLibVersion.startsWith("4.0") || pLibVersion.startsWith("4.1") || pLibVersion.startsWith("4.2") || pLibVersion.startsWith("4.3")) {
             Logging.info("Your version of ProtocolLib is " + pLibVersion);
-            Logging.info("MundoSK requires that you run at least version 4.1 of ProtocolLib");
-            Logging.info("If you are running at least version 4.1 of ProtocolLib, please post a message on MundoSK's thread on forums.skunity.com");
+            Logging.info("MundoSK requires that you run at least version 4.4.0 of ProtocolLib");
+            Logging.info("If you are running at least version 4.4.0 of ProtocolLib, please post a message on MundoSK's thread on forums.skunity.com");
         }
         packetTypesByName = createNameToPacketTypeMap();
         ExprObjectOfPacket.registerConverters();

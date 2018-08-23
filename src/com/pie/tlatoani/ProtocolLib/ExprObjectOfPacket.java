@@ -127,11 +127,15 @@ public class ExprObjectOfPacket extends SimpleExpression<Object> {
             );
             EquivalentConverter<ItemStack> itemConvert = new EquivalentConverter<ItemStack>() {
                 @Override
+                public Object getGeneric(ItemStack itemStack) {
+                    return null;
+                }
+
+                @Override
                 public ItemStack getSpecific(Object o) {
                     return (ItemStack) asNewCraftStack.invoke(null, o);
                 }
 
-                @Override
                 public Object getGeneric(Class<?> aClass, ItemStack itemStack) {
                     return getNMSItem.invoke(asNMSCopy.invoke(null, itemStack));
                 }
