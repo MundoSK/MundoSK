@@ -10,6 +10,6 @@ public class ZExperimentalMundo {
 
     public static void load() {
         Registration.registerEvent("Custom Element Event", CustomEffect.class, CustomElementEvent.class, "[light_jsoup] [new] [custom] effect %string%");
-        Scheduling.syncDelay(1, TestEventConstruction::test);
+        //Scheduling.syncDelay(1, TestEventConstruction::test);
     }
 }
