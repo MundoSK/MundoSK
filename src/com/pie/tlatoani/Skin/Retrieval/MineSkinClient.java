@@ -18,14 +18,14 @@ import java.io.FileInputStream;
 public class MineSkinClient {
     public static final String DEFAULT_SKIN_OPTIONS = "";
     public static final String ALEX_SKIN_OPTIONS = "model=slim";
-    public static final String MINESKIN_FROM_URL = "https://api.mineskin.org/generate/url?url=%s&%s";
-    public static final String MINESKIN_FROM_UPLOAD = "https://api.mineskin.org/generate/upload?%s";
+    public static final String MINESKIN_URL_FORMAT = "https://api.mineskin.org/generate/url?url=%s&%s";
+    public static final String MINESKIN_UPLOAD_FORMAT = "https://api.mineskin.org/generate/upload?%s";
     public static final String USER_AGENT = "MundoSK-MineSkin-JavaClient";
 
     public static String mineSkinFromUrl(String url, int timeoutMillis, boolean def) {
         try {
             Connection connection = HttpConnection
-                    .connect(String.format(MINESKIN_FROM_URL, url, def ? DEFAULT_SKIN_OPTIONS : ALEX_SKIN_OPTIONS))
+                    .connect(String.format(MINESKIN_URL_FORMAT, url, def ? DEFAULT_SKIN_OPTIONS : ALEX_SKIN_OPTIONS))
                     .userAgent(USER_AGENT)
                     .method(Connection.Method.POST)
                     .ignoreContentType(true)
@@ -40,7 +40,7 @@ public class MineSkinClient {
     public static String mineSkinFromFile(File file, int timeoutMillis, boolean def) {
         try {
             Connection connection = HttpConnection
-                    .connect(String.format(MINESKIN_FROM_UPLOAD, def ? DEFAULT_SKIN_OPTIONS : ALEX_SKIN_OPTIONS))
+                    .connect(String.format(MINESKIN_UPLOAD_FORMAT, def ? DEFAULT_SKIN_OPTIONS : ALEX_SKIN_OPTIONS))
                     .userAgent(USER_AGENT)
                     .method(Connection.Method.POST)
                     .data("file", file.getName(), new FileInputStream(file))

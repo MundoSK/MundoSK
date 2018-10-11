@@ -33,11 +33,40 @@ public class ProfileManager {
 
     private static Reflection.MethodInvoker CRAFT_PLAYER_GET_HANDLE = null;
     private static Reflection.MethodInvoker DEDICATED_PLAYER_LIST_MOVE_TO_WORLD = null;
+    private static Reflection.MethodInvoker CRAFT_WORLD_GET_HANDLE = null;
+    private static Reflection.FieldAccessor WORLD_SERVER_DIMENSION = null;
 
     public static void loadReflectionStuff() {
         try {
-            CRAFT_PLAYER_GET_HANDLE = Reflection.getTypedMethod(Reflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", Reflection.getMinecraftClass("EntityPlayer"));
-            DEDICATED_PLAYER_LIST_MOVE_TO_WORLD = Reflection.getMethod(Reflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld", Reflection.getMinecraftClass("EntityPlayer"), int.class, boolean.class, Location.class, boolean.class);
+            CRAFT_PLAYER_GET_HANDLE = Reflection.getTypedMethod(
+                    Reflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle",
+                    Reflection.getMinecraftClass("EntityPlayer"));
+            if (Bukkit.getVersion().startsWith("1.13")) {
+                DEDICATED_PLAYER_LIST_MOVE_TO_WORLD = Reflection.getMethod(
+                        Reflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld",
+                        Reflection.getMinecraftClass("EntityPlayer"),
+                        Reflection.getMinecraftClass("DimensionManager"),
+                        boolean.class,
+                        Location.class,
+                        boolean.class
+                );
+                CRAFT_WORLD_GET_HANDLE = Reflection.getTypedMethod(
+                        Reflection.getCraftBukkitClass("CraftWorld"), "getHandle",
+                        Reflection.getMinecraftClass("WorldServer"));
+                WORLD_SERVER_DIMENSION = Reflection.getField(
+                        Reflection.getMinecraftClass("WorldServer"), "dimension",
+                        Reflection.getMinecraftClass("DimensionManager")
+                );
+            } else {
+                DEDICATED_PLAYER_LIST_MOVE_TO_WORLD = Reflection.getMethod(
+                        Reflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld",
+                        Reflection.getMinecraftClass("EntityPlayer"),
+                        int.class,
+                        boolean.class,
+                        Location.class,
+                        boolean.class
+                );
+            }
         } catch (Exception e) {
             Logging.reportException(ProfileManager.class, e);
         }
@@ -217,19 +246,28 @@ public class ProfileManager {
             Logging.debug(ProfileManager.class, "DEDICATED_PLAYER_LIST_MOVE_TO_WORLD: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
             Logging.debug(ProfileManager.class, "NMS_SERVER: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
             Logging.debug(ProfileManager.class, "DEDICATED_PLAYER_LIST_MOVE_TO_WORLD: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
-            DEDICATED_PLAYER_LIST_MOVE_TO_WORLD.invoke(Reflection.NMS_SERVER, CRAFT_PLAYER_GET_HANDLE.invoke(player), convertDimension(player.getWorld().getEnvironment()), true, playerLoc, true);
+            DEDICATED_PLAYER_LIST_MOVE_TO_WORLD.invoke(Reflection.NMS_SERVER, CRAFT_PLAYER_GET_HANDLE.invoke(player), convertDimension(player.getWorld()), true, playerLoc, true);
         } catch (Exception e) {
             Logging.debug(ProfileManager.class, "Failed to make player see his skin change: " + player.getName());
             Logging.reportException(ProfileManager.class, e);
         }
     }
 
-    private static int convertDimension(World.Environment dimension) {
-        switch (dimension) {
-            case NORMAL: return 0;
-            case NETHER: return -1;
-            case THE_END: return 1;
-            default: throw new IllegalArgumentException("Dimension: " + dimension);
+    private static Object convertDimension(World world) {
+        if (Bukkit.getVersion().startsWith("1.13")) {
+            Object worldHandle = CRAFT_WORLD_GET_HANDLE.invoke(world);
+            return WORLD_SERVER_DIMENSION.get(worldHandle);
+        } else {
+            switch (world.getEnvironment()) {
+                case NORMAL:
+                    return 0;
+                case NETHER:
+                    return -1;
+                case THE_END:
+                    return 1;
+                default:
+                    throw new IllegalArgumentException("Dimension: " + world.getEnvironment());
+            }
         }
     }
 }
