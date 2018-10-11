@@ -41,7 +41,7 @@ public class ProfileManager {
             CRAFT_PLAYER_GET_HANDLE = Reflection.getTypedMethod(
                     Reflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle",
                     Reflection.getMinecraftClass("EntityPlayer"));
-            if (Bukkit.getVersion().startsWith("1.13")) {
+            if (Bukkit.getVersion().contains("1.13")) {
                 DEDICATED_PLAYER_LIST_MOVE_TO_WORLD = Reflection.getMethod(
                         Reflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld",
                         Reflection.getMinecraftClass("EntityPlayer"),
@@ -254,7 +254,7 @@ public class ProfileManager {
     }
 
     private static Object convertDimension(World world) {
-        if (Bukkit.getVersion().startsWith("1.13")) {
+        if (Bukkit.getVersion().contains("1.13")) {
             Object worldHandle = CRAFT_WORLD_GET_HANDLE.invoke(world);
             return WORLD_SERVER_DIMENSION.get(worldHandle);
         } else {
