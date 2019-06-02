@@ -1,5 +1,6 @@
 package com.pie.tlatoani.Miscellaneous;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
@@ -63,6 +64,10 @@ public class ExprLoopWhile extends SimpleExpression<Object> {
     @Override
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         objects = expressions[0];
+        if (objects.isSingle()) {
+            Skript.error("You can't loop through a single object!");
+            return false;
+        }
         booleanExpression = (Expression<Boolean>) expressions[1];
         negate = i % 2 == 1;
         indefinitely = i < 2;

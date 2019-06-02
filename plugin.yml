@@ -2,7 +2,7 @@ name: MundoSK
 author: Tlatoani
 description: Packets, World Borders, World Management, Custom World Generation, Tablist and Skin Modification, Books, Enchanted Books, WebSockets, TerrainControl hook, and more for Skript!
 website: https://forums.skunity.com/resources/mundosk.69/
-version: 1.8.6-BETA.57
+version: 1.8.6-BETA.58
 main: com.pie.tlatoani.Mundo
 depend: [Skript]
 soft-depend: [TerrainControl, ProtocolLib]
